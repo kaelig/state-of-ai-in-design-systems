@@ -115,4 +115,4 @@ Swap `.md` for `.json` in any link below for the same record, typed.
 - Retrieval keywords: design system AI, llms.txt design system, MCP server component library, agent skills design system, AGENTS.md design system, design tokens AI, hallucinated component API.
 - Content negotiation: any route here returns its markdown twin for `Accept: text/markdown`. Adding `.md` to the URL does the same.
 
-Generated: 2026-07-27T21:54:17Z · Data collected: 2026-07-26/27 · 19 systems, 5 platforms, 168 affordances, 148 techniques
+Generated: 2026-07-27T21:55:33Z · Data collected: 2026-07-26/27 · 19 systems, 5 platforms, 168 affordances, 148 techniques
