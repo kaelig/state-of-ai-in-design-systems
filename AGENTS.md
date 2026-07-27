@@ -60,10 +60,17 @@ scaffolding is in `dashboard/template.html`.
 ## Constraints that will fail review
 
 **Every claim carries a `source_url`.** A page that loads and shows the thing.
-This is the basis on which the report is trustworthy, and there are no
-exceptions. Before changing a fact, fetch the existing `source_url` and read it —
-a correction from a model's recollection rather than from a fetched page is worse
-than no correction, and reviewers can tell.
+This is the basis on which the report is trustworthy. Before changing a fact,
+fetch the existing `source_url` and read it — a correction from a model's
+recollection rather than from a fetched page is worse than no correction, and
+reviewers can tell.
+
+A record that documents an *absence* is the one case with nothing to link, and
+it is correct that way. `patternfly`'s "llms.txt / llms-full.txt" affordance
+exists to record that both files return 404; there is no page to point at, and a
+sweep that "fixes" the missing link by supplying a URL makes the report say the
+opposite of what it found. If a record has no link, read its description before
+adding one.
 
 **Counts are computed, never typed.** 19, 5, 168, 148, and every other number
 on the site is derived from the records at build time. If you are about to type a
