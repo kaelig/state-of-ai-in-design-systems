@@ -20,11 +20,8 @@ db/
 # further use, and build_dashboard.py already drops these fields at build time.
 scripts/sanitize_data.py
 
-# Internal working notes. README.md and AGENTS.md carry what a contributor needs;
-# these are planning and audit documents for work in progress.
+# Staging note for work that isn't public yet.
 docs/feedback-integration.md
-docs/ai-readiness-plan.md
-docs/design-audit.md
 
 # Screenshot and browser-automation artifacts
 .playwright-mcp/

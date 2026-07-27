@@ -150,13 +150,17 @@ Both run unchanged against
 
 ## How it was made
 
-A multi-agent research pipeline — Claude Fable 5 planning, Claude Opus 5
-executing — with one deep-dive researcher per system working to a fixed schema
-and quoting files verbatim. Every claim was checked against its primary source
-before publication, and the published record carries that source URL so you can
-check it too. The
+Every record was catalogued against a fixed schema, quoting files verbatim, with
+each claim linked to the page it was taken from. Open the link and you can check
+the claim yourself. The
 [methodology page](https://state-of-ai-in-design-systems.netlify.app/methodology)
-has the inclusion criteria, the maturity rubric and the caveats.
+covers how the set was picked, what counted as an affordance or a technique, the
+maturity rubric, and the caveats.
+
+Two engineering notes live in this repository:
+[`docs/architecture.md`](docs/architecture.md) for why the site is built the way
+it is, and [`docs/design-audit.md`](docs/design-audit.md) for the open design
+work against the rendered pages.
 
 ## Licensing
 

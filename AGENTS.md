@@ -201,6 +201,12 @@ deploys from those files, so a data change without them reaches nobody. The diff
 will be large; that is the pipeline fanning one record out across the HTML, the
 mirrors, the twins, the SQLite export and `llms.txt`.
 
+[`docs/architecture.md`](docs/architecture.md) explains why the site is built
+this way: no framework, prerendered routes, the compiled markdown layer, the MCP
+transport constraints. Read it before proposing a structural change.
+[`docs/design-audit.md`](docs/design-audit.md) is the open design worklist, with
+a status column at the top.
+
 Code is MIT ([LICENSE](LICENSE)); data and report text are CC BY 4.0
 ([LICENSE-DATA](LICENSE-DATA)). [CONTRIBUTING.md](CONTRIBUTING.md) covers the
 same ground for human contributors.
