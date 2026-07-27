@@ -1,0 +1,59 @@
+name: Site bug
+description: A page, link, file, or endpoint that doesn't work.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For the site itself: broken pages, dead links, layout that falls apart,
+        keyboard traps, a `.md` mirror that doesn't match its page, an MCP tool
+        that errors.
+
+        If the page loads fine but says something untrue, that's a data
+        correction instead.
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: The page, file, or endpoint. Paste the exact one.
+      placeholder: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: >-
+        Console errors, a non-200 status, a screenshot, the response body — paste
+        whatever you have.
+    validations:
+      required: true
+
+  - type: input
+    id: client
+    attributes:
+      label: Browser, or the tool you were using
+      description: >-
+        Safari 26, Chrome 141, VoiceOver, curl, Claude Code via MCP, a crawler.
+        Include the version if you know it.
+      placeholder: Safari 26.0 on macOS 27
+    validations:
+      required: false
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Only if it isn't obvious from the URL.
+    validations:
+      required: false

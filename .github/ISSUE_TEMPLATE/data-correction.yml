@@ -1,0 +1,111 @@
+name: Data correction
+description: Something in the report is wrong, out of date, or missing a detail.
+title: "[data] "
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The report is a snapshot of 26–27 July 2026. Design systems move, so some
+        of it is wrong by now. Corrections are the most useful thing you can send.
+
+        One rule: every correction needs a source URL. Not because we doubt you —
+        because every claim on the site links to where it came from, and a
+        correction without a link can't replace one that has a link.
+
+        If you maintain the system in question, say so. It doesn't skip the source
+        requirement, but it does tell us how to weigh a judgement call.
+
+  - type: dropdown
+    id: subject
+    attributes:
+      label: What does this correct?
+      description: Pick the record. The id in parentheses is the one used in the data files and URLs.
+      options:
+        - "Ant Design (ant-design)"
+        - "Atlassian Design System (ADS / Atlaskit) (atlassian-design-system)"
+        - "Carbon Design System (carbon-design-system)"
+        - "Chakra UI (chakra-ui)"
+        - "Cloudscape Design System (cloudscape-design-system)"
+        - "daisyUI (daisyui)"
+        - "Fluent UI (Fluent 2) (fluent-ui-microsoft)"
+        - "HeroUI (heroui)"
+        - "Lightning Design System (SLDS) (salesforce-slds)"
+        - "Mantine (mantine)"
+        - "Material UI (MUI) (material-ui)"
+        - "Nord Design System (nord-design-system)"
+        - "Nuxt UI (nuxt-ui)"
+        - "PatternFly (patternfly)"
+        - "Polaris (Shopify) (shopify-polaris)"
+        - "Primer (primer-github)"
+        - "React Spectrum / Spectrum 2 (S2) (react-spectrum-s2)"
+        - "shadcn/ui (shadcn-ui)"
+        - "U.S. Web Design System (USWDS) (uswds)"
+        - "Figma (figma) — platform"
+        - "Storybook (storybook) — platform"
+        - "Supernova.io (supernova) — platform"
+        - "Knapsack.cloud (knapsack) — platform"
+        - "zeroheight (zeroheight) — platform"
+        - "A finding, count, or claim on a report page"
+        - "Something else, or not sure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: What the report says now
+      description: >-
+        Quote it, or paste the URL of the page or record. `/systems/<id>.md` and
+        `/systems/<id>.json` are the machine-readable copies if those are easier
+        to quote from.
+      placeholder: |
+        On https://state-of-ai-in-design-systems.netlify.app/systems/primer-github,
+        the affordance "…" says "…"
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What it should say
+      description: >-
+        The corrected version. If a whole record should be removed, say that and
+        say why.
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+      description: >-
+        A page that shows the corrected version is true — docs, a repo file, a
+        release note, a changelog. Link the specific page, not the site root. If
+        it's a file in a repo, a permalink pinned to a commit or tag is ideal.
+      placeholder: https://primer.style/…
+    validations:
+      required: true
+
+  - type: dropdown
+    id: found-via
+    attributes:
+      label: How did you find this?
+      description: Optional. It helps to know which surfaces people and agents actually read.
+      options:
+        - "Reading the site"
+        - "The markdown layer (/llms.txt, *.md)"
+        - "The MCP server"
+        - "The JSON or SQLite data"
+        - "I maintain this design system"
+        - "Other"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: The source URL above loads and shows what I said it shows.
+          required: true

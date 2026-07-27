@@ -1,0 +1,39 @@
+# Build intermediates. scripts/build.sh regenerates these; dashboard/ is the
+# committed output, build/ is the scaffolding that produced it.
+build/
+
+# Dependencies and local tooling state
+node_modules/
+.netlify/
+deno.lock
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Working files behind the dataset, not part of it. What gets published is
+# data/*.json, and every claim in it carries the source URL it came from.
+data/critic-review.json
+data/raw/
+data/verified/
+db/
+
+# One-time migration tool, kept local. Once the records are clean it has no
+# further use, and build_dashboard.py already drops these fields at build time.
+scripts/sanitize_data.py
+
+# Internal working notes. README.md and AGENTS.md carry what a contributor needs;
+# these are planning and audit documents for work in progress.
+docs/feedback-integration.md
+docs/ai-readiness-plan.md
+docs/design-audit.md
+
+# Screenshot and browser-automation artifacts
+.playwright-mcp/
+ov.png
+*.log
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store

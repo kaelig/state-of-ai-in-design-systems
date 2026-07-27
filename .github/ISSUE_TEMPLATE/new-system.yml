@@ -1,0 +1,84 @@
+name: Suggest a design system
+description: A system that should be in the study and isn't.
+title: "[system] "
+labels: ["new-system"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The study covers 19 design systems and 5 platforms. It isn't meant to be
+        every system that exists — it's meant to be a defensible sample of the
+        ones doing something about AI.
+
+        Three things get a system in: it's open source, it's been active in the
+        last six months, and there's enough public surface to study. That last one
+        is the usual blocker. A system with a private monorepo can still qualify
+        on published packages and docs, but somebody has to be able to read
+        something.
+
+        Adding a system means researching it against the schema
+        (`schema/design-system.schema.json`), so the more evidence you bring, the
+        faster it happens.
+
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: Spectrum Web Components
+    validations:
+      required: true
+
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL
+      placeholder: https://github.com/org/repo
+    validations:
+      required: true
+
+  - type: input
+    id: docs
+    attributes:
+      label: Documentation URL
+      placeholder: https://example.design
+    validations:
+      required: false
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What does it ship for AI?
+      description: >-
+        Links, not descriptions. Anything that an agent consuming the system would
+        use, or that the team uses to build it: an MCP server, agent skills, an
+        llms.txt, an AGENTS.md or CLAUDE.md, a component registry, AI docs pages,
+        Cursor or Copilot rules, Figma Code Connect, a codemod. Rules the system
+        imposes on agents count too — lint gates, banned patterns, required
+        tokens, validation loops.
+      placeholder: |
+        - MCP server: https://github.com/org/repo/tree/main/packages/mcp
+        - llms.txt: https://example.design/llms.txt
+        - AGENTS.md: https://github.com/org/repo/blob/main/AGENTS.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: maintained
+    attributes:
+      label: Evidence it's actively maintained
+      description: >-
+        A release in the last six months, recent commits on the default branch, a
+        changelog entry. A link is enough.
+      placeholder: "Latest release 2026-07-01: https://github.com/org/repo/releases"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this one
+      description: >-
+        Optional, but it's the part that decides it. What does this system do that
+        the 19 already in the study don't?
+    validations:
+      required: false
