@@ -152,21 +152,22 @@ gh issue create --repo kaelig/state-of-ai-in-design-systems \
 **Found via:** MCP server"
 ```
 
-Or drive the issue form directly. Prefill any field by its `id`, so a human can
-review before submitting:
+Or drive the issue form directly. Prefill the text fields by their `id`, so a
+human can review before submitting:
 
 ```
 https://github.com/kaelig/state-of-ai-in-design-systems/issues/new
   ?template=data-correction.yml
+  &labels=data
   &title=[data]+Primer
-  &subject=Primer+(primer-github)
   &claim=...
   &correction=...
   &source=https://...
 ```
 
-Field ids are in `.github/ISSUE_TEMPLATE/data-correction.yml`. The `subject`
-dropdown wants the exact option string, id included.
+Field ids are in `.github/ISSUE_TEMPLATE/data-correction.yml`. The `title` and
+the textareas prefill; the `subject` dropdown does not, so name the record in
+`claim` and leave the dropdown for whoever submits.
 
 Read the data rather than scraping the site. Every route has a `.md` twin and
 every record has a `.json` twin, `/llms.txt` indexes all of them with measured

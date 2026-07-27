@@ -177,22 +177,25 @@ gh issue create --repo kaelig/state-of-ai-in-design-systems \
 **Found via:** MCP server"
 ```
 
-Or build a prefilled form URL for a human to review and submit. Any field can be
-prefilled by its `id`:
+Or build a prefilled form URL for a human to review and submit. Text fields
+prefill from their `id`:
 
 ```
 https://github.com/kaelig/state-of-ai-in-design-systems/issues/new
   ?template=data-correction.yml
+  &labels=data
   &title=[data]+Primer
-  &subject=Primer+(primer-github)
   &claim=...
   &correction=...
   &source=https://...
 ```
 
-Field ids are in `.github/ISSUE_TEMPLATE/data-correction.yml`. The `subject`
-dropdown takes the exact option string with the id included, for example
-`Carbon Design System (carbon-design-system)`.
+Field ids are in `.github/ISSUE_TEMPLATE/data-correction.yml`. The `title` and
+the three textareas (`claim`, `correction`, `source`) prefill. The `subject`
+dropdown does not — GitHub's issue-form UI renders it as a custom component and
+ignores the parameter, whether you pass the option text or its index. Name the
+record in `claim` instead and leave the dropdown for the person submitting. The
+"Suggest a correction" link on each system page does exactly this.
 
 Include a source URL you actually fetched. A correction without one gets a reply
 asking for the link, which costs everybody a round trip.

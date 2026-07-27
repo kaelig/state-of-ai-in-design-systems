@@ -871,20 +871,23 @@ function extArrow(url, label) {
 }
 const REPO_URL = 'https://github.com/kaelig/state-of-ai-in-design-systems';
 const SITE_URL = 'https://state-of-ai-in-design-systems.netlify.app';
-/* A prefilled data-correction issue for one record. GitHub matches `subject`
-   against the dropdown options in .github/ISSUE_TEMPLATE/data-correction.yml,
-   which are written as "<name> (<id>)" — the two lists have to stay in step, so
-   renaming a system means editing that file too. encodeURIComponent rather than
-   URLSearchParams: the prerender sandbox is a bare vm context and has the
-   ECMAScript intrinsics only. The canonical origin is hardcoded so the link is
-   still right from the artifact variant, which is served from another host. */
+/* A prefilled data-correction issue for one record.
+
+   Only `title` and the textarea fields prefill. GitHub's issue-form UI renders
+   the dropdown as a custom component and ignores the query parameter for it,
+   by option text and by index alike — so the record is named in the body
+   instead, where it survives, and the reporter picks the dropdown themselves.
+
+   encodeURIComponent rather than URLSearchParams: the prerender sandbox is a
+   bare vm context with the ECMAScript intrinsics only. The canonical origin is
+   hardcoded so the link is right from the artifact variant too, which is served
+   from another host. */
 const query = o => Object.keys(o).map(k => `${k}=${encodeURIComponent(o[k])}`).join('&');
 const correctionURL = s => `${REPO_URL}/issues/new?` + query({
   template: 'data-correction.yml',
   labels: 'data',
   title: `[data] ${s.name}`,
-  subject: `${s.name} (${s.id})`,
-  claim: `${SITE_URL}/systems/${s.id}`,
+  claim: `Record: ${s.name} (${s.id})\n${SITE_URL}/systems/${s.id}\n\n`,
 });
 /* What a source link should call itself. GitHub URLs are only distinguishable by
    owner/repo — 62 of 257 snippet paths end in SKILL.md — so the repo is the name;
