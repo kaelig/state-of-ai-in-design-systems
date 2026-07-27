@@ -37,6 +37,7 @@ SCHEMA_SRC = ROOT / "schema" / "design-system.schema.json"
 
 ORIGIN = "https://state-of-ai-in-design-systems.netlify.app"
 MCP_URL = f"{ORIGIN}/mcp"
+REPO_URL = "https://github.com/kaelig/state-of-ai-in-design-systems"
 DATA_COLLECTED = "2026-07-26/27"
 SNAPSHOT_DATE = "2026-07-27"
 LASTMOD = "2026-07-27"
@@ -895,6 +896,40 @@ def ai_content():
              {"type": "list", "items": borrowed},
              {"type": "prose", "text": not_borrowed},
          ]},
+        {"id": "feedback", "heading": "Corrections",
+         "blocks": [
+             {"type": "prose", "text":
+              f"This is a snapshot of {SNAPSHOT_DATE}, and the systems in it ship weekly, so "
+              f"parts of it are wrong by now. Corrections go to the issue tracker. The one "
+              f"requirement is a source URL: every claim here links to the page it came from, "
+              f"and a correction without a link cannot replace one that has a link."},
+             {"type": "links", "items": [
+                 {"label": "Correct a record",
+                  "url": f"{REPO_URL}/issues/new?template=data-correction.yml",
+                  "note": "A fact that is wrong, stale, or missing."},
+                 {"label": "Suggest a design system",
+                  "url": f"{REPO_URL}/issues/new?template=new-system.yml",
+                  "note": "Open source, active in the last six months, enough public surface "
+                          "to study."},
+                 {"label": "Report a broken page",
+                  "url": f"{REPO_URL}/issues/new?template=site-bug.yml",
+                  "note": "A route, file, or endpoint that does not work."},
+             ]},
+             {"type": "prose", "text":
+              "From a shell, with no browser. Every system detail page also carries a "
+              "“Suggest a correction” link that opens the form with the record "
+              "filled in."},
+             {"type": "code", "lang": "sh", "text":
+              'gh issue create --repo kaelig/state-of-ai-in-design-systems \\\n'
+              '  --title "[data] <system> — <what changed>" \\\n'
+              '  --label data \\\n'
+              '  --body "Report says: …\n'
+              'Should say: …\n'
+              'Source: https://…"'},
+             {"type": "prose", "text":
+              f"The source is at {REPO_URL}. AGENTS.md there has the field ids, so an agent can "
+              f"build a prefilled form URL for a person to review before submitting."},
+         ]},
     ]
     return {
         "title": VIEW_META["/ai.md"][0],
@@ -1406,6 +1441,14 @@ def llms_txt(sizes):
       "hallucinated component API.")
     A("- Content negotiation: any route here returns its markdown twin for "
       "`Accept: text/markdown`. Adding `.md` to the URL does the same.\n")
+
+    A("## Feedback\n")
+    A(f"- Found something wrong? {REPO_URL}/issues/new?template=data-correction.yml — a "
+      f"correction needs a source URL that loads and shows the corrected fact.")
+    A(f"- Missing system: {REPO_URL}/issues/new?template=new-system.yml — open source, active "
+      f"in the last six months, enough public surface to study.")
+    A(f"- Broken page or endpoint: {REPO_URL}/issues/new?template=site-bug.yml")
+    A(f"- Field ids for prefilling those forms from a URL: {REPO_URL}/blob/main/AGENTS.md\n")
 
     A(f"Generated: {GENERATED} · Data collected: {DATA_COLLECTED} · {N_SYS} systems, "
       f"{N_PLAT} platforms, {N_AFF} affordances, {N_TECH} techniques")

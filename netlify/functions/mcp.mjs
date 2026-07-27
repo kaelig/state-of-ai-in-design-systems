@@ -511,7 +511,9 @@ function buildServer() {
                 'Start with get_stats to learn the filter vocabulary, then search or list_*, then get_system for one ' +
                 'record. Snippet bodies are opt-in through get_snippet so responses stay small. ' +
                 'Every record carries the source_url it was taken from — quote that when you cite a claim, and read ' +
-                'get_report({section:"methodology"}) for how the data was gathered and what it does not cover.'
+                'get_report({section:"methodology"}) for how the data was gathered and what it does not cover. ' +
+                'Source and corrections: https://github.com/kaelig/state-of-ai-in-design-systems — ' +
+                'if a record here is wrong, open an issue with the URL that shows what it should say.'
         }
     );
 

@@ -6,15 +6,14 @@ files it touches, and what it risks.
 
 ## Status
 
-As of 2026-07-27, verified against `dashboard/template.html`, `data/`, and
-`netlify.toml`. Re-check before picking work up; this column goes stale fast.
+**All 32 shipped**, plus the eight "Considered" decisions held. Verified
+2026-07-27 against `dashboard/template.html`, `scripts/build_dashboard.py`,
+`data/`, and `netlify.toml` — not assumed from the worklist.
 
-| Shipped | Open |
-|---|---|
-| 1, 2, 3, 4, 5, 6, 11, 12 | 7, 8, 9, 10, 13–23, 25–32 |
-
-24 is partial: the `@media print` block exists, but `color-scheme: light only` and
-the snippet `pre-wrap` are not in it yet.
+Kept here as the record of what was decided and why. The reasoning outlasts the
+work: it is the argument for why the matrix groups by cohort, why blue is
+reserved, why there is one measure system and not five. Read it before undoing
+any of it.
 
 ## Binding constraints for executors
 

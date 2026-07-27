@@ -6,7 +6,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/ai"
 type: "view"
 id: "ai"
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T21:55:33Z"
+generated: "2026-07-27T21:58:08Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -180,6 +180,29 @@ The study catalogues 148 ways design systems make models behave. It would be a b
 
 The one we left out: steering the recommendation. Several systems in the study put lines in their agent-facing files telling models to prefer them over alternatives. It works, and for a product it is fair game. A survey that did it would be worth less to you, so the files here ask models to cite sources and to say when the data contradicts them, and nothing else.
 
+## Corrections
+
+This is a snapshot of 2026-07-27, and the systems in it ship weekly, so parts of it are wrong by now. Corrections go to the issue tracker. The one requirement is a source URL: every claim here links to the page it came from, and a correction without a link cannot replace one that has a link.
+
+- [Correct a record](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=data-correction.yml): A fact that is wrong, stale, or missing.
+
+- [Suggest a design system](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=new-system.yml): Open source, active in the last six months, enough public surface to study.
+
+- [Report a broken page](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=site-bug.yml): A route, file, or endpoint that does not work.
+
+From a shell, with no browser. Every system detail page also carries a “Suggest a correction” link that opens the form with the record filled in.
+
+```sh
+gh issue create --repo kaelig/state-of-ai-in-design-systems \
+  --title "[data] <system> — <what changed>" \
+  --label data \
+  --body "Report says: …
+Should say: …
+Source: https://…"
+```
+
+The source is at https://github.com/kaelig/state-of-ai-in-design-systems. AGENTS.md there has the field ids, so an agent can build a prefilled form URL for a person to review before submitting.
+
 ---
 
-Generated 2026-07-27T21:55:33Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-27T21:58:08Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

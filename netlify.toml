@@ -1,6 +1,12 @@
 # Static deploy of the State of AI in Design Systems report.
 # Deploy with: netlify deploy --prod  (or connect the repo and let Netlify pick this up)
+# The build runs the pipeline because netlify/functions/mcp.mjs imports two
+# files from build/, which is generated and not committed. Without this, a
+# deploy from a fresh clone bundles the function against files that do not
+# exist. It also means every deploy proves the committed dashboard/ is
+# reproducible from data/.
 [build]
+  command = "./scripts/build.sh"
   publish = "dashboard"
 
 # netlify/functions/mcp.mjs is the MCP server, served at /mcp by its exported
