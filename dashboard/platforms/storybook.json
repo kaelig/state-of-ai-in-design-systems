@@ -1,0 +1,105 @@
+{
+  "id": "storybook",
+  "name": "Storybook (addon-mcp, manifests, AI docs)",
+  "summary": "Storybook 10 turned the component workshop into an agent-readable API. The pieces: (1) MANIFESTS — `/manifests/components.json` and `/manifests/docs.json`, auto-generated from static analysis of CSF files plus react-docgen prop extraction, containing per-component name, description, path, import statement, props with JSDoc descriptions, and per-story rendered snippets. Manifests evaluate the *final rendered story* with args/decorators applied, so an agent sees real usage, not abstractions. (2) MCP SERVER — `npx storybook add @storybook/addon-mcp` serves an MCP endpoint at http://localhost:6006/mcp with three toolsets: `docs` (list-all-documentation, get-documentation, get-documentation-for-story), `dev` (get-changed-stories, get-storybook-story-instructions, preview-stories — the last renders story previews inline via MCP Apps), and `test` (run-story-tests, which returns a11y results and ‘instructs the agent to interpret the results and resolve any issues found’, creating an explicit ‘self-healing loop’). Toolsets are individually togglable in .storybook/main.ts. (3) COMPOSITION — a composed Storybook’s manifests are automatically merged into MCP responses, so one endpoint can front a multi-repo design system. (4) SHARING — Chromatic auto-publishes the docs toolset at `https://main--<appid>.chromatic.com/mcp` (private if the Storybook is private); or self-host with the `@storybook/mcp` tmcp-based library (Node 20+, needs components.json). (5) DOCS-AS-CONTEXT — storybook.js.org serves llms.txt and llms-full.txt, and any docs URL accepts a `.md` suffix with `?renderer=`, `?language=`, `?codeOnly=true`, and `?version=` query params. CONSTRAINTS: the addon/manifests are in ‘preview’ and ‘the API may change’; the docs toolset is React-only today (Vue, Angular, Web Components, Svelte planned) because manifest generation is React-only; the manifest schema is explicitly ‘not yet stable and should not be considered a public API’. Chromatic publishing requires Storybook 10.3+. Dev and test toolsets only work against a locally running Storybook — they cannot be published.",
+  "capabilities": [
+    {
+      "title": "@storybook/addon-mcp — install, wire to agent, and the recommended anti-hallucination AGENTS.md",
+      "description": "OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components — it forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.",
+      "audience": "consumers",
+      "url": "https://storybook.js.org/docs/ai/mcp/overview",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://storybook.js.org/docs/ai/mcp/overview.md",
+        "content": "npx storybook add @storybook/addon-mcp\nnpx mcp-add --type http --url \"http://localhost:6006/mcp\" --scope project\n\n```md title=\"AGENTS.md\"\nWhen working on UI components, always use the `your-project-sb-mcp` MCP tools to access Storybook's component and documentation knowledge before answering or taking any action.\n\n- **CRITICAL: Never hallucinate component properties!** Before using ANY property on a component from a design system (including common-sounding ones like `shadow`, etc.), you MUST use the MCP tools to check if the property is actually documented for that component.\n- Query `list-all-documentation` to get a list of all components\n- Query `get-documentation` for that component to see all available properties and examples\n- Only use properties that are explicitly documented or shown in example stories\n- If a property isn't documented, do not assume properties based on naming conventions or common patterns from other libraries. Check back with the user in these cases.\n- Use the `get-storybook-story-instructions` tool to fetch the latest instructions for creating or updating stories. This will ensure you follow current conventions and recommendations.\n- Check your work by running `run-story-tests`.\n\nRemember: A story name might not reflect the property name correctly, so always verify properties through documentation or example stories before using them.\n```"
+      }
+    },
+    {
+      "title": "Toolset configuration in .storybook/main.ts",
+      "description": "OFFICIAL. The DS team decides what the agent is allowed to do. `toolsets: { dev, docs, test }`, all `true` by default. Common pattern for a published/library Storybook is to disable `dev` (story authoring) and keep `docs`. Khan Academy’s Wonder Blocks, for example, enables `dev: true, docs: true` and omits `test`.",
+      "audience": "builders",
+      "url": "https://storybook.js.org/docs/ai/mcp/api",
+      "snippet": {
+        "language": "ts",
+        "source_url": "https://storybook.js.org/docs/ai/mcp/api.md",
+        "content": "// .storybook/main.ts — CSF 3\n// Replace your-framework with the framework you are using (e.g., react-vite, vue3-vite, angular, etc.)\n\nconst config: StorybookConfig = {\n  framework: '@storybook/your-framework',\n  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],\n  addons: [\n    // ... your existing addons\n    {\n      name: '@storybook/addon-mcp',\n      options: {\n        toolsets: {\n          dev: false,\n        },\n      },\n    },\n  ],\n};\n\nexport default config;"
+      }
+    },
+    {
+      "title": "Manifests — /manifests/components.json as a machine-readable component registry",
+      "description": "OFFICIAL. The context substrate under the MCP server. Generated from CSF static analysis + react-docgen (react-docgen-typescript recommended for richer props). Each entry carries the exact `import` line, a description, JSDoc tags, per-story rendered `snippet`s, and full prop types with descriptions — i.e. a curated few-shot exemplar set per component. Raw JSON is fetchable at http://localhost:6006/manifests/components.json or /manifests/components.json in a built Storybook, and `subcomponents` are included when a story file declares them. Schema is explicitly not a stable public API while in preview.",
+      "audience": "both",
+      "url": "https://storybook.js.org/docs/ai/manifests",
+      "snippet": {
+        "language": "json",
+        "source_url": "https://storybook.js.org/docs/ai/manifests.md",
+        "content": "{\n  \"components\": {\n    \"components-button\": {\n      \"id\": \"components-button\",\n      \"name\": \"Button\",\n      \"path\": \"./src/components/Button/Button.stories.tsx\",\n      \"stories\": [\n        {\n          \"id\": \"components-button--default\",\n          \"name\": \"Default\",\n          \"snippet\": \"const Default = () => <Button>Button</Button>;\"\n        },\n        {\n          \"id\": \"components-button--disabled\",\n          \"name\": \"Disabled\",\n          \"snippet\": \"const Disabled = () => <Button disabled>Button</Button>;\"\n        }\n      ],\n      \"import\": \"import { Button } from \\\"@mealdrop/ui\\\";\",\n      \"jsDocTags\": {},\n      \"description\": \"Primary UI component for user interaction\",\n      \"reactDocgen\": {\n        \"props\": {\n          \"large\": {\n            \"required\": false,\n            \"tsType\": { \"name\": \"boolean\" },\n            \"description\": \"Is the button large?\",\n            \"defaultValue\": { \"value\": \"false\", \"computed\": false }\n          }\n        }\n      }\n    }\n  }\n}"
+      }
+    },
+    {
+      "title": "Docs toolset — list-all-documentation / get-documentation / get-documentation-for-story",
+      "description": "OFFICIAL. The consumption path that keeps an agent on-system. `list-all-documentation` returns the component index; `get-documentation` returns props, the first three stories, an index of the rest, and any extra docs; `get-documentation-for-story` is the escalation when the summary isn’t enough. This is the only toolset that can be published remotely. Storybook’s stated goal: 'Agents will be equipped to reuse your existing components and follow your documented usage guidelines when generating UI, helping ensure the generated UI is consistent with your existing design system.'",
+      "audience": "consumers",
+      "url": "https://storybook.js.org/docs/ai/mcp/overview"
+    },
+    {
+      "title": "Test toolset — run-story-tests as a linter loop the agent must run",
+      "description": "OFFICIAL. `run-story-tests` runs component and interaction tests plus axe accessibility checks and, per the docs, ‘Also instructs the agent to interpret the results and resolve any issues found.’ Storybook documents the resulting workflow explicitly as a self-healing loop: the agent finds the submit button fails color contrast, uses the docs toolset to look up documented theme colors, fixes it, and re-runs — ‘without requiring you to intervene.’ This is the closest thing in the ecosystem to a design-system conformance gate an agent is obliged to pass.",
+      "audience": "consumers",
+      "url": "https://storybook.js.org/docs/ai/mcp/overview",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://storybook.js.org/docs/ai/mcp/overview.md",
+        "content": "If you have Storybook Test set up in your Storybook, the testing toolset provides tools that allow the agent to run component tests (including accessibility checks, if set up) and interpret their results. It also includes instructions to resolve issues. As the agent develops, it can choose to run tests to validate its work. If it finds issues, it can fix them and re-run the tests to confirm they are resolved. This creates a _self-healing_ loop that helps ensure the quality of the generated UI, without requiring you to intervene.\n\n#### `run-story-tests`\nRuns tests for specific stories and returns results, including any accessibility issues (if configured). Also instructs the agent to interpret the results and resolve any issues found."
+      }
+    },
+    {
+      "title": "Sharing: Chromatic auto-publish or self-host with @storybook/mcp",
+      "description": "OFFICIAL. Two distribution models for a design-system team that wants product teams’ agents to consume the system remotely. Chromatic publishes the MCP server alongside every build at the `/mcp` route (recommended permalink `https://main--<appid>.chromatic.com/mcp`); private Storybook → private MCP server, gated to invited collaborators. Requires Storybook 10.3+ and React. Self-hosting uses the `@storybook/mcp` package (a tmcp-based library, Node 20+, needs components.json and optionally docs.json); reference implementations for a Node process and a Netlify Function live in storybookjs/mcp/apps/self-host-mcp. Only the docs toolset is publishable — dev and test are local-only.",
+      "audience": "builders",
+      "url": "https://storybook.js.org/docs/ai/mcp/sharing",
+      "snippet": {
+        "language": "ts",
+        "source_url": "https://storybook.js.org/docs/ai/mcp/sharing.md",
+        "content": "We provide a package, `@storybook/mcp`, which is a library that creates a `tmcp`-based MCP server exposing Storybook component/docs knowledge from manifests.\n\n### Prerequisites\n- Node.js 20+\n- A manifest source containing:\n  - `components.json` (required)\n  - `docs.json` (optional)\n\nThis is the minimal implementation of a server using `@storybook/mcp`:\n\n```ts title=\"server.ts\"\nconst storybookMcpHandler = await createStorybookMcpHandler();\n\nexport async function handleRequest(request: Request): Promise<Response> {\n  if (new URL(request.url).pathname === '/mcp') {\n    return storybookMcpHandler(request);\n  }\n\n  return new Response('Not found', { status: 404 });\n}\n```"
+      }
+    },
+    {
+      "title": "Best practices: writing stories and JSDoc *for the agent*",
+      "description": "OFFICIAL. Storybook reframes documentation hygiene as context engineering. Stories should demonstrate one concept each — the docs mark a combined ‘SizesAndVariants’ story as ‘❌ Bad - demonstrates too many concepts at once, making it less clear and less useful as a reference for agents’. Component-level JSDoc with an `@summary` tag feeds the manifest description the agent sees, and the recommended pattern includes redirecting the agent to a sibling component for the wrong use case.",
+      "audience": "builders",
+      "url": "https://storybook.js.org/docs/ai/best-practices",
+      "snippet": {
+        "language": "ts",
+        "source_url": "https://storybook.js.org/docs/ai/best-practices.md",
+        "content": "/**\n * Button is used for user interactions that do not navigate to another route.\n * For navigation, use [Link](?path=/docs/link--default) instead.\n *\n * @summary for user interactions that do not navigate to another route\n */\nexport const Button = // ...\n\n// ✅ Good to demonstrate a specific use case\nexport const Primary: Story = {\n  args: { primary: true },\n};\n\n// ❌ Bad - demonstrates too many concepts at once, making\n// it less clear and less useful as a reference for agents\nexport const SizesAndVariants: Story = {\n  render: () => (\n    <>\n      Small Button\n      Medium Button\n      Large Button\n      Outline Button\n      Text Button\n    </>\n  ),\n};"
+      }
+    },
+    {
+      "title": "llms.txt, llms-full.txt and .md docs endpoints with renderer/language filters",
+      "description": "OFFICIAL. Storybook’s own docs site is a model for AI-consumable design-system documentation, and worth copying: an index at /llms.txt, a full dump at /llms-full.txt, and `.md` appended to any docs URL for clean markdown. Query params let an agent request exactly the dialect it needs — `?renderer=vue&language=ts`, `?codeOnly=true` to strip prose, and `?version=9` for older majors. Verified live: /llms.txt returns 200 (8.7 KB).",
+      "audience": "both",
+      "url": "https://storybook.js.org/llms.txt",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://storybook.js.org/llms.txt",
+        "content": "# Storybook\n> Storybook is a frontend workshop for building UI components and pages in isolation.\nCurrent version: Version 10.5 (10.5)\n\n## Documentation\n- [Storybook Docs](https://storybook.js.org/docs): Main documentation\n- [Full Documentation (Markdown)](https://storybook.js.org/llms-full.txt): Complete documentation in plain text for LLM consumption\n\n## Markdown Access\nAppend `.md` to any docs URL to get clean markdown with code examples:\n- `https://storybook.js.org/docs/writing-stories/decorators.md`\n\n### Query Parameters\nAll markdown endpoints (`.md` URLs and `llms-full.txt`) support these query parameters:\n- `renderer` - Framework filter for code snippets (default: `react`). Options: `react`, `vue`, `angular`, `svelte`, `web-components`, `solid`, `preact`, `html`, `ember`, `qwik`\n- `language` - Language filter for code snippets (default: `ts`). Options: `ts`, `js`\n- `codeOnly` - When `true`, returns only the code snippets without prose\n\nExamples:\n- `GET /docs/writing-stories/decorators.md?renderer=vue&language=ts`\n- `GET /llms-full.txt?renderer=angular&language=js`"
+      }
+    }
+  ],
+  "adoption_by_design_systems": "A GitHub code search for `\"@storybook/addon-mcp\" filename:main.ts` returns 589 public hits (gh api search/code, 2026-07-27). Verified design-system and component-library repos with the addon registered in `.storybook/main.ts`: Khan/wonder-blocks (Khan Academy Wonder Blocks — configured with `toolsets: { dev: true, docs: true }`, i.e. testing deliberately omitted), marigold-ui/marigold (Reservix Marigold), zenkigen/zenkigen-component, reshaped-ui/reshaped, LuccaSA/lucca-front, tetrascience/ts-lib-ui-kit, Wai-Technologies/raaghu-react, Frontify/fondue. Broader product adopters in the same result set include backstage/backstage (Spotify Backstage), coder/coder, NangoHQ/nango, mastra-ai/mastra, OneKeyHQ/app-monorepo, and storybookjs/storybook itself. Note the React-only limitation shapes this list — Angular-based lucca-front appears in search but the docs toolset would not generate manifests for it. Chromatic-published MCP servers are the recommended distribution path but public example URLs are not indexed, so remote-consumption adoption could not be verified from public sources.",
+  "sources": [
+    "https://storybook.js.org/docs/ai/mcp",
+    "https://storybook.js.org/docs/ai/mcp/overview",
+    "https://storybook.js.org/docs/ai/mcp/api",
+    "https://storybook.js.org/docs/ai/mcp/sharing",
+    "https://storybook.js.org/docs/ai/manifests",
+    "https://storybook.js.org/docs/ai/best-practices",
+    "https://storybook.js.org/llms.txt",
+    "https://www.chromatic.com/docs/mcp/",
+    "https://github.com/storybookjs/mcp",
+    "https://raw.githubusercontent.com/Khan/wonder-blocks/main/.storybook/main.ts",
+    "https://raw.githubusercontent.com/marigold-ui/marigold/main/.storybook/main.ts",
+    "https://raw.githubusercontent.com/storybookjs/storybook/next/AGENTS.md"
+  ]
+}

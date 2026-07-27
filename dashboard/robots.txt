@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /artifact.html
+
+Sitemap: https://state-of-ai-in-design-systems.netlify.app/sitemap.xml
+
+# llms.txt: https://state-of-ai-in-design-systems.netlify.app/llms.txt

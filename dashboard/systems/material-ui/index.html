@@ -1,0 +1,1861 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material UI (MUI) · State of AI in Design Systems</title>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official @mui/mcp…">
+<meta name="author" content="Kaelig Deloumeau-Prigent">
+<!-- netlify-head:start -->
+<link rel="canonical" href="https://state-of-ai-in-design-systems.netlify.app/systems/material-ui">
+<link rel="alternate" type="text/markdown" href="/systems/material-ui.md">
+<meta property="og:site_name" content="State of AI in Design Systems">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Material UI (MUI) · State of AI in Design Systems">
+<meta property="og:description" content="Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official @mui/mcp…">
+<meta property="og:url" content="https://state-of-ai-in-design-systems.netlify.app/systems/material-ui">
+<meta property="og:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="State of AI in Design Systems — a field study by Kaelig Deloumeau-Prigent">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Material UI (MUI) · State of AI in Design Systems">
+<meta name="twitter:description" content="Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official @mui/mcp…">
+<meta name="twitter:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
+<meta name="twitter:creator" content="@kaelig">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Only the axes the site actually sets: display 550–700, body 400–700, and no
+     italic anywhere. Same families, same source, a fraction of the bytes. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@550..700&family=Source+Sans+3:wght@400..700&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Material UI (MUI) · State of AI in Design Systems",
+  "description": "Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official @mui/mcp…",
+  "author": {
+    "@type": "Person",
+    "name": "Kaelig Deloumeau-Prigent",
+    "url": "https://www.kaelig.fr",
+    "jobTitle": "Design engineering leader"
+  },
+  "datePublished": "2026-07-27",
+  "url": "https://state-of-ai-in-design-systems.netlify.app/systems/material-ui"
+}
+</script>
+<!-- netlify-head:end -->
+<style>
+@font-face { font-family: 'Hanken Grotesk Fallback'; src: local('Arial'); size-adjust: 100%; ascent-override: 95%; }
+@font-face { font-family: 'Source Sans Fallback'; src: local('system-ui'); size-adjust: 105%; ascent-override: 90%; }
+
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#FFFFFF, #111111);
+  --bg-raise: light-dark(#FFFFFF, #191919);
+  --bg-sunk: light-dark(#F5F5F5, #0A0A0A);
+  --ink: light-dark(#111111, #E8E8E8);
+  --ink-2: light-dark(#555555, #A6A6A6);
+  --ink-3: light-dark(#6E6E6E, #919191);
+  --line: light-dark(#E0E0E0, #2A2A2A);
+  --line-strong: light-dark(#C9C9C9, #3D3D3D);
+  /* Controls only. The hairlines around tiles, chips and table rows are decoration
+     and stay on --line; a control's edge is what tells a low-vision reader where
+     the filter box is, so it clears 3:1 against all three grounds — including
+     --bg-sunk, which is the snippet copy button's ground (scripts/check_contrast.js). */
+  --control-line: light-dark(#8A8A8A, #6B6B6B);
+  --accent: light-dark(#2563EB, #5B9AFF);
+  --accent-ink: light-dark(#1D4ED8, #7FB3FF);
+  --accent-wash: light-dark(#EFF4FF, #17233D);
+  /* Data tokens — deliberately unsaturated so they never read as calls to action.
+     Intensity, not hue, carries importance. All pairs verified AA 4.5:1 (scripts/check_contrast.js). */
+  --mat-0: light-dark(#F4F4F5, #1E1E20); --mat-0-ink: light-dark(#52525B, #A1A1AA);
+  --mat-1: light-dark(#E2EAF2, #1F2C39); --mat-1-ink: light-dark(#3F5C77, #9FB9D0);
+  --mat-2: light-dark(#CBDCEB, #27394C); --mat-2-ink: light-dark(#29465F, #BBD2E6);
+  --mat-3: light-dark(#AECCE5, #32485E); --mat-3-ink: light-dark(#122C42, #D8E7F5);
+  --data-strong: light-dark(#3D6491, #8FB4D9);
+  --font-display: 'Hanken Grotesk', 'Hanken Grotesk Fallback', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Fallback', system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 3px;
+  /* Two measures, no more: one for ledes, one for body prose. Tabular blocks
+     (lists, matrix, metagrid) are not prose and stay full-width. */
+  --measure-lede: 62ch;
+  --measure-body: 74ch;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+* { margin: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--ink);
+  /* No theme transition: only body could animate, so every hairline, wash and
+     snippet ground flipped instantly around it. Instant everywhere is the only
+     version that cannot look half-done. */
+}
+/* Kill the 300ms tap delay and the grey flash, on controls only. */
+a, button, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: text-decoration-color .2s ease;
+}
+a:hover { text-decoration-color: currentColor; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+#main:focus { outline: none; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.main a, .main p, .main li, .main summary { overflow-wrap: anywhere; }
+code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); border: 1px solid var(--line); border-radius: 2px; padding: 0 4px; overflow-wrap: anywhere; }
+.snip pre code { background: none; border: none; padding: 0; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-display); font-size: 13px; font-weight: 600;
+  padding: 8px 16px; border-radius: var(--radius); text-decoration: none; z-index: 20;
+}
+.skip:focus { left: 12px; top: 12px; }
+
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 10;
+  width: 44px; height: 44px; border-radius: 50%;
+  /* Opaque: it is fixed, and on narrow screens the column scrolls right underneath it. */
+  border: 1px solid var(--control-line); background: var(--bg);
+  color: var(--ink-2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s ease, border-color .2s ease;
+}
+.theme-toggle:hover { color: var(--accent-ink); border-color: var(--accent); }
+.theme-toggle svg { width: 14px; height: 14px; display: block; }
+.theme-toggle .i-sun { display: none; }
+@media (prefers-color-scheme: dark) {
+  .theme-toggle .i-moon { display: none; }
+  .theme-toggle .i-sun { display: block; }
+}
+:root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .i-moon { display: block; }
+:root[data-theme="light"] .theme-toggle .i-sun { display: none; }
+
+.app { display: grid; grid-template-columns: 224px minmax(0, 1fr); min-height: 100vh; }
+/* Flex column so the foot can sit at the bottom of the rail instead of wherever
+   the nav happens to stop. */
+.rail { border-right: 1px solid var(--line); padding: 24px 0 24px 20px; position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.rail-brand { padding-right: 16px; }
+.rail-brand .k {
+  display: block; font-family: var(--font-display); font-weight: 550; font-size: 10px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
+}
+.rail-brand strong {
+  display: block; margin-top: 5px; font-family: var(--font-display); font-weight: 700;
+  font-size: 15px; line-height: 1.25; letter-spacing: -.02em; color: var(--ink);
+}
+.navwrap { position: relative; }
+.rail nav { display: flex; flex-direction: column; gap: 2px; margin-top: 26px; }
+.rail nav a {
+  font-family: var(--font-display); font-weight: 550; font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2);
+  text-decoration: none; display: flex; align-items: center;
+  min-height: 44px; padding: 0 12px 0 10px; border-right: 2px solid transparent;
+}
+.rail nav a:hover { color: var(--ink); background: var(--bg-sunk); }
+.rail nav a.on, .rail nav a[aria-current="page"] { color: var(--accent-ink); border-right-color: var(--accent); background: var(--accent-wash); }
+.rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 12.5px; color: var(--ink-3); }
+
+.main { padding: 34px 40px 40px; max-width: 1120px; min-width: 0; }
+.view { display: none; }
+.view.on { display: block; }
+
+.accent-rule { border: none; height: 3px; width: 4rem; background: var(--accent); margin: 20px 0 24px; }
+
+.eyebrow, .label, .syslist-head, .metagrid .k, .twocol .col .t, table.mx thead th {
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
+}
+.eyebrow { color: var(--accent-ink); }
+h1 { font-family: var(--font-display); font-size: clamp(28px, calc(24px + 1.4vw), 38px); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
+.lede { font-size: 16.5px; color: var(--ink-2); max-width: var(--measure-lede); }
+.byline { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
+h2 { font-family: var(--font-display); font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin: 38px 0 6px; }
+/* Scoped to a view's own genuinely-first heading. Unscoped, this fired on every
+   h2 that opens a <section> wrapper — on /ai each section's h2 is a first child,
+   so every one of them lost its 38px and sat on the block above it. Card headings
+   (.tech-cat, .plat) set their own margin and are unaffected either way. */
+.view > h2:first-child { margin-top: 0; }
+.h2-sub { color: var(--ink-2); font-size: 13.5px; margin-bottom: 14px; max-width: var(--measure-body); }
+/* Primary content that happens to sit under an h2, as opposed to a subtitle for
+   it. .h2-sub is chrome; this is prose. */
+.body-block { font-size: 14px; color: var(--ink); max-width: var(--measure-body); margin: 0 0 8px; text-wrap: pretty; }
+.body-block.gaps { color: var(--ink); }
+/* Per-platform verdicts on a system page: a heading in the outline, but sized to
+   the paragraph it opens rather than to the section h3s above it. */
+.pi { font-size: 14px; margin: 14px 0 2px; }
+h3 { font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
+/* One count treatment, everywhere a number sits beside a heading or a label:
+   body sans, tabular, --ink-3. Same family as the systems-list numbers and the
+   spectrum band counts. */
+.hcount { font-family: var(--font-body); font-weight: 400; font-size: 14px; letter-spacing: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 26px 0; list-style: none; padding: 0; }
+/* Column + margin-top:auto: the third line sits on one baseline across all five
+   tiles however many lines the label above it takes. */
+.tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; }
+.tile .n { font-family: var(--font-display); font-size: 27px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
+.tile .l { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; line-height: 1.4; }
+/* Prose stopped wearing mono here: only the tile that quotes an actual command
+   keeps a monospace run, and it does it with <code>. */
+.tile .d { font-size: 11.5px; color: var(--ink-3); margin-top: auto; padding-top: 6px; font-variant-numeric: tabular-nums; }
+/* The detail line is a standalone chip, not a run inside a sentence, so it can
+   afford the vertical padding that inline <code> in prose cannot. */
+.tile .d code { padding: 2px 7px; }
+
+/* Pill tags. Rounded on purpose: pills read as metadata, squares stay for buttons and inputs. */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-display); font-weight: 600; font-size: 10px;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--line);
+  background: transparent; color: var(--ink-3); white-space: nowrap;
+}
+.chip.mat-none { background: var(--mat-0); color: var(--mat-0-ink); border-color: transparent; }
+.chip.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); border-color: transparent; }
+.chip.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); border-color: transparent; }
+.chip.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); border-color: transparent; }
+.chip.official { background: var(--mat-1); color: var(--mat-1-ink); border-color: transparent; }
+
+/* Stacked full-width bands: band length is the chart, so the geometry says what
+   the counts say. One layout at every width. */
+.spectrum { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 8px; }
+.spec-band { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-raise); }
+.spec-band .bhead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  padding: 8px 12px; white-space: normal; line-height: 1.5; margin: 0;
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  background: var(--mat-0); color: var(--mat-0-ink);
+}
+.spec-band .bhead .bn {
+  font-family: var(--font-body); font-weight: 600; font-size: 12.5px;
+  letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
+}
+.spec-band .bdef { padding: 10px 12px 0; font-size: 12px; color: var(--ink-3); max-width: var(--measure-body); }
+.spec-band .bempty { padding: 8px 12px 12px; font-size: 12px; color: var(--ink-3); }
+.spec-band .bhead.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
+.spec-band .bhead.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
+.spec-band .bhead.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
+.spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
+.spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+/* One treatment, two users: the spectrum bands and the platforms jump row. */
+.spec-band li a, .jump li a { font-size: 12.5px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
+.spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
+.jump { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* font-size here only so `ch` resolves against the body text it caps: the
+   hairline then ends exactly where the paragraph does, past the 48px numeral
+   gutter. Title and numeral set their own sizes. */
+.findings { counter-reset: f; list-style: none; padding: 0; margin: 14px 0 0; font-size: 13.5px; max-width: calc(var(--measure-body) + 48px); }
+.findings li { counter-increment: f; position: relative; border-top: 1px solid var(--line); padding: 14px 0 14px 48px; }
+.findings li:last-child { border-bottom: 1px solid var(--line); }
+.findings li::before { content: counter(f, decimal-leading-zero) / ""; position: absolute; left: 0; top: 15px; font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
+.findings h3 { display: block; margin: 0 0 3px; font-family: var(--font-display); font-weight: 650; font-size: 15px; letter-spacing: -.01em; }
+.findings p { color: var(--ink); font-size: 13.5px; max-width: var(--measure-body); }
+
+.scroller { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); }
+.scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+table.mx { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+table.mx th, table.mx td { padding: 7px 6px; text-align: center; border-bottom: 1px solid var(--line); }
+/* nowrap belongs to the data cells only: on the header row it was forcing
+   "Repo agent files" onto one line and pushing the table past its column. */
+table.mx td { white-space: nowrap; }
+table.mx thead th { font-size: 10px; letter-spacing: .12em; background: var(--bg-sunk); position: sticky; top: 0; white-space: normal; line-height: 1.15; vertical-align: bottom; }
+table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg-raise); border-right: 1px solid var(--line); min-width: 130px; }
+table.mx tbody th.sys { font-family: var(--font-body); font-size: 12.5px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
+table.mx thead th.sys { background: var(--bg-sunk); z-index: 2; }
+table.mx tbody tr:hover td, table.mx tbody tr:hover th.sys { background: var(--bg-sunk); }
+table.mx td .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
+table.mx td .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
+/* "None found" is one of three states in the grid, so it has to be visible: at
+   --ink-3 an empty cell and a "no" cell finally look different. Same value on the
+   legend glyph, so cell and key stay identical. */
+table.mx td .none { color: var(--ink-3); }
+table.mx td .none::before { content: "·"; }
+/* Maturity cohort strip, same device as the systems list. Not interactive. */
+table.mx tr.mx-group th {
+  position: static; text-align: left; padding: 6px 10px;
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  background: var(--mat-0); color: var(--mat-0-ink);
+}
+table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+table.mx tr.mx-group.mat-none th { background: var(--mat-0); color: var(--mat-0-ink); }
+table.mx tr.mx-group.mat-emerging th { background: var(--mat-1); color: var(--mat-1-ink); }
+table.mx tr.mx-group.mat-invested th { background: var(--mat-2); color: var(--mat-2-ink); }
+table.mx tr.mx-group.mat-ai-native th { background: var(--mat-3); color: var(--mat-3-ink); }
+/* Edge fades belong to the wrapper, not the scroller: inside it they would
+   scroll away with the content. They only exist while the table can scroll. */
+.mxwrap { position: relative; }
+.mxwrap .fade { position: absolute; top: 0; bottom: 0; width: 28px; pointer-events: none; opacity: 0; }
+.mxwrap .fade-l { left: 1px; background: linear-gradient(to right, var(--bg-raise), transparent); }
+.mxwrap .fade-r { right: 1px; background: linear-gradient(to left, var(--bg-raise), transparent); }
+.mxwrap[data-at-start="false"] .fade-l { opacity: 1; }
+.mxwrap[data-at-end="false"] .fade-r { opacity: 1; }
+/* The table fits the content column here, so the scroller stops being a scroll
+   context and the sticky header finally resolves against the viewport. */
+@media (min-width: 1060px) {
+  .scroller { overflow: visible; }
+  .mxwrap .fade { display: none; }
+}
+.mx-legend { display: flex; gap: 18px; align-items: center; font-size: 12.5px; color: var(--ink-2); margin: 10px 2px 22px; flex-wrap: wrap; }
+.mx-legend .dot, .mx-legend .ring { margin-right: 5px; }
+.mx-legend .none-key { color: var(--ink-3); }
+.mx-legend .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
+.mx-legend .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
+
+/* One shared width per number column, used by both the header labels and the
+   row numbers, so "Affordances" sits exactly over the affordance counts.
+   min-width:2ch alone cannot align a two-digit number under an 11-character
+   label; the fixed track does, and 8 and 13 still line up down the list. */
+.syslist-head { margin-top: 18px; }
+.syslist { margin-top: 8px; }
+.syslist-head, .syslist { --ct-col: 92px; }
+.syslist-head, .sysrow {
+  display: grid; grid-template-columns: minmax(190px, 240px) 1fr auto;
+  gap: 14px; align-items: center;
+}
+.syslist-head { padding: 0 4px 8px; color: var(--ink-2); }
+/* One cohort = one list. The rows are items, not a flat run of anonymous divs. */
+ul.cohort { list-style: none; margin: 0; padding: 0; }
+.sysrow {
+  padding: 13px 4px; color: var(--ink);
+  border-top: 1px solid var(--line); position: relative;
+}
+/* The name is the only link, so its accessible name is the system name — and its
+   stretched ::after keeps the whole row clickable exactly as when the row itself
+   was the anchor. The ring traces the row, not the four words inside it. */
+.sysrow a.nm { color: inherit; text-decoration: none; }
+.sysrow > .who > a.nm::after { content: ""; position: absolute; inset: 0; }
+.sysrow:has(a.nm:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+.sysrow a.nm:focus-visible { outline: none; }
+.cohort > .sysrow:last-child { border-bottom: 1px solid var(--line); }
+.cohort > .sysrow:first-child { border-top: none; }
+.sysrow:hover { background: var(--bg-sunk); }
+.sysrow:hover .nm { color: var(--accent-ink); }
+.sysrow .nm { font-family: var(--font-display); font-weight: 650; font-size: 15px; letter-spacing: -.015em; }
+.sysrow .org { font-size: 12px; color: var(--ink-3); display: block; }
+.sysrow .sum { font-size: 12.5px; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+.sysrow:active, .spec-band li a:active, .jump li a:active { background: var(--bg-sunk); }
+.cts { display: flex; gap: 14px; justify-content: flex-end; }
+.cts .ct { width: var(--ct-col); text-align: right; white-space: nowrap; }
+.sysrow .cts .ct { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+/* The header row is the visible definition; the word rides with each number for
+   screen readers, and becomes visible copy on narrow screens. */
+.sysrow .cw {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.sysrow .csep { display: none; }
+/* Maturity cohort strip. Metadata, not a control: no hover, no pointer. */
+.sysgroup {
+  padding: 6px 10px; margin: 18px 0 0;
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  background: var(--mat-0); color: var(--mat-0-ink);
+}
+.syslist > .sysgroup:first-child { margin-top: 0; }
+.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+.sysgroup.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
+.sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
+.sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
+.sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
+.searchbar { display: flex; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
+.searchbar input, .searchbar select { font: inherit; font-size: 13.5px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
+.searchbar input { flex: 1; min-width: 0; width: 100%; }
+.searchbar input, .searchbar select { min-height: 40px; }
+/* The native caret sits hard against the border and reads off-centre next to the
+   12px text inset. Ours is the site's icon language (1.5px round-cap stroke) at a
+   matching 12px inset, so the field is symmetrical. It is drawn as a mask filled
+   with currentColor rather than a coloured data URI: one glyph, both themes, and
+   forced-colors keeps it (a background-image would be dropped there, leaving a
+   field with no affordance). Chrome and Safari render no pseudo-elements on a
+   <select>, hence the wrapper. */
+.searchbar select {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 32px;
+  background-color: var(--bg-raise);
+}
+.selwrap { position: relative; display: inline-flex; color: var(--ink-2); }
+.selwrap select { width: 100%; }
+.selwrap::after {
+  content: ""; position: absolute; right: 12px; top: 50%;
+  width: 12px; height: 12px; margin-top: -6px; pointer-events: none;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / 12px no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+@media (forced-colors: active) {
+  .selwrap::after { background: CanvasText; }
+}
+/* The "/" hint rides inside the field. Decoration for people who use it, and
+   nothing at all for anyone reading with a screen reader or on a phone. */
+.qwrap { position: relative; display: flex; flex: 1; min-width: 180px; }
+.qwrap .qhint {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; font-family: var(--mono); font-size: 11px; line-height: 1;
+  color: var(--ink-3); background: var(--bg-sunk);
+  border: 1px solid var(--line); border-radius: 2px; padding: 3px 6px;
+}
+.qwrap input { padding-right: 34px; }
+.count { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; }
+/* A control that is a link in everything but element type. Never .chip, never
+   the square button chrome. */
+.linkbtn {
+  font: inherit; font-size: inherit; background: none; border: 0; padding: 0;
+  color: var(--accent-ink); cursor: pointer; text-decoration: underline;
+  text-decoration-color: transparent; text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px; transition: text-decoration-color .2s ease;
+}
+.linkbtn:hover { text-decoration-color: currentColor; }
+.empty { font-size: 13.5px; color: var(--ink-2); max-width: var(--measure-body); padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; }
+
+.backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-block; margin-bottom: 6px; }
+/* A record summary runs to a paragraph or more. That is body copy, not a lede. */
+.detail-sum { font-size: 15.5px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
+.backlink:hover { color: var(--accent); }
+.dhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+.dhead h1 { margin: 0; }
+/* Same record, machine-readable. Quiet on purpose: this is a footnote for the
+   few readers who want the file, not a call to action. Path-routed builds only —
+   the artifact has no mirrors to point at. */
+.links.dlinks { margin: 6px 0 10px; font-size: 11px; gap: 14px; }
+.links.dlinks a { color: var(--ink-3); text-decoration: underline; text-decoration-color: transparent; }
+.links.dlinks a:hover { color: var(--accent-ink); text-decoration-color: currentColor; }
+/* Separators are drawn on the cells, not by a background showing through a 1px
+   gap: with auto-fit columns an unfilled last row turned that background into a
+   solid gray slab at every width where the grid didn't divide evenly. */
+.metagrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 18px 0; }
+.metagrid > div { background: var(--bg-raise); padding: 11px 14px; outline: 1px solid var(--line); outline-offset: -0.5px; }
+.metagrid > .wide { grid-column: 1 / -1; }
+.metagrid .k { font-size: 10px; letter-spacing: .12em; color: var(--ink-3); }
+/* The UA stylesheet indents dd by 40px; the grid cell is the layout. */
+.metagrid dd { margin: 0; }
+.metagrid .v { font-size: 13px; margin-top: 2px; overflow-wrap: anywhere; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.twocol .col { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+/* Non-interactive section label: stays neutral so blue keeps meaning "you can act on this".
+   It is an h2 in the outline, so the margin has to be reset here — the global h2's
+   38px top margin would otherwise open a gap inside the card, above its own title. */
+.twocol .col .t { font-size: 10.5px; letter-spacing: .12em; color: var(--ink-2); margin: 0 0 6px; }
+.twocol .col p { font-size: 13.5px; color: var(--ink); }
+
+/* A run of disclosures is a list: ten of them announce as ten items, not as ten
+   unrelated widgets. The count in the h2 says the total once; this says where you are. */
+.afflist, .exlist { list-style: none; padding: 0; margin: 0; }
+.aff { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); margin-bottom: 10px; overflow: hidden; }
+.aff > summary { list-style: none; cursor: pointer; padding: 12px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.aff > summary::-webkit-details-marker { display: none; }
+.aff > summary::before { content: "+" / ""; font-family: var(--mono); color: var(--ink-3); width: 14px; }
+.aff[open] > summary::before { content: "–" / ""; }
+.aff > summary:hover { background: var(--bg-sunk); }
+.aff > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.aff .nm { font-family: var(--font-display); font-weight: 650; font-size: 14px; letter-spacing: -.01em; }
+.aff-body { padding: 2px 16px 16px 40px; }
+.aff-body p.desc { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); }
+.links { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0 0; font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
+.aff-body .note { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; max-width: var(--measure-body); }
+.snip { margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-sunk); }
+.snip-bar { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; padding: 5px 10px 5px 12px; border-bottom: 1px solid var(--line); font-family: var(--mono); }
+.snip-bar .sbleft { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; flex: 1 1 auto; min-width: 0; }
+.snip-bar .lang { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+/* Where the quoted file actually lives when the source URL can only name the
+   package (npm tarballs). Wraps instead of squeezing the actions. */
+.snip-bar .snote { font-size: 10px; color: var(--ink-2); overflow-wrap: anywhere; }
+/* Never let the note or a long language name crush the source link. */
+.snip-bar .acts { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+.snip-bar a { font-size: 10.5px; text-decoration: none; position: relative; }
+.snip-bar a:hover { color: var(--accent); }
+/* Same trick as the copy button: the link draws at 10.5px and takes taps across
+   the full height of the bar. Vertical only, so the button beside it keeps its own. */
+.snip-bar a::after { content: ""; position: absolute; inset: -12px 0; }
+.snip-bar button { font: inherit; font-family: var(--mono); font-size: 10.5px; color: var(--ink); background: none; border: 1px solid var(--control-line); border-radius: var(--radius); padding: 5px 9px; cursor: pointer; position: relative; }
+/* Invisible hit area, not visible height: the button draws at ~29px and takes
+   taps across ~43px, at every viewport. Vertical only — the width is the button's,
+   so the source link beside it can never lose a tap to it. Measured, not assumed:
+   at -6px the real hit span came out ~38px, under the 40px floor. */
+.snip-bar button::after { content: ""; position: absolute; inset: -8px 0; }
+.snip-bar button:hover { color: var(--accent-ink); border-color: var(--accent); }
+.snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
+.snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.tech-cat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 18px; margin-bottom: 12px; scroll-margin-top: 16px; }
+.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+/* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
+.tech-cat > .th h2 { margin: 0; }
+.tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; }
+.tech-cat > .th .n { font-family: var(--font-body); font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px 0 10px; max-width: var(--measure-body); }
+.tech-ex { border-top: 1px solid var(--line); }
+.tech-ex > summary { list-style: none; cursor: pointer; padding: 11px 2px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
+.tech-ex > summary::-webkit-details-marker { display: none; }
+/* Same affordance cue as .aff: one marker, and background as the only hover
+   signal. The old text recolour used the interactive blue on something that is
+   not a link, and doubled a signal the background already carries. */
+.tech-ex > summary::before { content: "+" / ""; font-family: var(--mono); color: var(--ink-3); width: 14px; flex: none; }
+.tech-ex[open] > summary::before { content: "–" / ""; }
+.tech-ex > summary:hover { background: var(--bg-sunk); }
+.tech-ex > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tech-ex .sysref { font-family: var(--font-display); font-weight: 600; font-size: 12px; /* Data attribution, not a link: the steel data colour, never the interactive blue. */
+  letter-spacing: .02em; color: var(--data-strong); min-width: 110px; }
+/* 2px summary padding + 14px marker + 10px gap: the body starts under the title. */
+.tech-ex .tb { padding: 0 2px 14px 26px; }
+.tech-ex .tb p { font-size: 13px; color: var(--ink); max-width: var(--measure-body); }
+
+.bars { margin: 14px 0 6px; display: grid; gap: 6px; list-style: none; padding: 0; }
+.bar-row, .bar-link { display: grid; grid-template-columns: 170px 1fr 46px; gap: 10px; align-items: center; font-size: 12.5px; }
+/* On /techniques the row is the link to its own section below. The grid moves to
+   the <a>, so the li is only a container. */
+.bar-row:has(> .bar-link) { display: block; }
+/* No resting affordance: the row looks exactly as it does when it is not a link.
+   Hover is the site's row language — the sunk ground, and the label steps up to
+   full ink. The global focus-visible ring does the keyboard half. */
+.bar-link { color: inherit; text-decoration: none; border-radius: 2px; }
+.bar-link:hover { background: var(--bg-sunk); }
+.bar-link:hover .bl { color: var(--ink); }
+.bar-row .bl { color: var(--ink-2); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-row .btrack { height: 16px; border-radius: 2px; background: var(--bg-sunk); position: relative; }
+.bar-row .bfill { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--data-strong); min-width: 2px; }
+.bar-row .bv { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+
+.plat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 20px; margin-bottom: 14px; scroll-margin-top: 16px; }
+.plat h2 { margin: 0 0 6px; }
+/* A card-internal section label that is still a heading in the outline. */
+.plat h3.caps {
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
+  margin: 18px 0 4px;
+}
+.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
+.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
+
+/* Sources as a hairline list, the .findings device without the numerals. Host
+   recedes, path carries the meaning, nothing is truncated. */
+.srclist { list-style: none; padding: 0; margin: 14px 0 0; max-width: var(--measure-body); }
+.srclist li { border-top: 1px solid var(--line); padding: 10px 0; }
+.srclist li:last-child { border-bottom: 1px solid var(--line); }
+.srclist a { font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
+.srclist .h { color: var(--ink-3); }
+.srclist .p { color: var(--ink); }
+.srclist a:hover .h, .srclist a:hover .p { color: var(--accent-ink); }
+/* Sits under the sources, after the reader has seen what the record claims and
+   what it claims it from. The srclist already closes on a hairline, so no rule. */
+.correct { margin-top: 18px; font-size: 13px; color: var(--ink-3); max-width: var(--measure-body); }
+.ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
+.ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
+.ai-links li:last-child { border-bottom: 1px solid var(--line); }
+.ai-links a { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.ai-links .note { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+.prose { max-width: var(--measure-body); }
+.prose p { margin: 10px 0; color: var(--ink); font-size: 14.5px; }
+.prose strong { color: var(--ink); }
+.prose ul { margin: 10px 0 10px 20px; color: var(--ink); font-size: 14.5px; }
+.prose li { margin: 5px 0; }
+kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk); border: 1px solid var(--line-strong); border-radius: 2px; padding: 1px 6px; }
+
+.foot { border-top: 1px solid var(--line); margin-top: 56px; padding: 20px 0; font-size: 13px; color: var(--ink-3); }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 68px 16px 14px; }
+  /* Park the toggle in the header space reserved for it instead of letting it
+     float over the article column for the whole scroll. */
+  .theme-toggle { position: absolute; }
+  .rail-brand { padding-right: 0; }
+  /* One scrollable row of section links, not a wrapping block of pills. */
+  .navwrap { margin-top: 10px; margin-right: -16px; }
+  .rail nav {
+    flex-direction: row; flex-wrap: nowrap; gap: 4px; margin-top: 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* room for the 2px focus ring at 3px offset — overflow-x:auto also clips vertically */
+    padding: 6px 32px 6px 0;
+  }
+  .rail nav::-webkit-scrollbar { display: none; }
+  .rail nav a { flex-shrink: 0; border-right: none; padding: 0 10px; min-height: 44px; }
+  .navwrap::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 32px;
+    background: linear-gradient(to right, transparent, var(--bg));
+    pointer-events: none;
+  }
+  .main { padding: 24px 16px 32px; }
+  .twocol { grid-template-columns: 1fr; }
+  .spec-band li a, .jump li a { padding: 9px 10px; }
+  /* No keyboard, no hint. */
+  .qwrap .qhint { display: none; }
+  .qwrap input { padding-right: 12px; }
+  /* One source per row, so the link can own the whole row as its tap target. */
+  .srclist li { padding: 0; }
+  .srclist a { display: block; padding: 13px 0; }
+  /* The header row is the desktop definition; on mobile the words move into the
+     row itself, placed under the name instead of orphaning to the right. */
+  .syslist-head { display: none; }
+  .sysrow {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "who" "cts";
+    row-gap: 3px; align-items: start;
+  }
+  .sysrow .who { grid-area: who; }
+  .sysrow .cts { grid-area: cts; justify-content: flex-start; gap: 6px; }
+  .sysrow .sum { display: none; }
+  .cts .ct { width: auto; }
+  .sysrow .cts .ct { color: var(--ink-3); }
+  .sysrow .cw {
+    position: static; width: auto; height: auto; margin: 0;
+    overflow: visible; clip-path: none;
+  }
+  .sysrow .csep { display: inline; color: var(--ink-3); font-size: 12px; }
+  .bar-row, .bar-link { grid-template-columns: 110px 1fr 40px; }
+  .searchbar input, .searchbar select { font-size: 16px; }
+  /* Finger-sized hit areas for the small mono links and the copy button.
+     Real padding, not an overlay, so wrapped rows can never steal each other's taps. */
+  .backlink { display: inline-block; padding: 13px 0; }
+  /* Class-based: the sources list carries .links on the .aff-body element itself. */
+  .links { gap: 0 16px; margin-top: 4px; }
+  .links a { display: inline-block; padding: 12px 0; }
+  /* Repo / docs links sit alone in their grid cell, so padding cannot steal a neighbour's tap. */
+  .metagrid .v a { display: inline-block; padding: 11px 0; }
+  /* The snippet bar is the one place that keeps its desktop metrics at every
+     width: the copy button and the source link both draw at desktop size, and
+     both take taps through an ::after overlay instead of real padding. The bar
+     is a single non-wrapping row of controls, so vertical-only overlays sit side
+     by side and cannot steal each other's taps — the reason the .links lists
+     above use real padding does not apply here. Inflating either control's
+     padding made the bar taller on a phone than on a desktop; zeroing the bar's
+     own padding to absorb that then made the barless-link variant shorter. */
+}
+@media (max-width: 540px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile .n { font-size: 23px; }
+  .bar-row, .bar-link { grid-template-columns: 96px 1fr 40px; }
+  .snip pre { font-size: 11.5px; }
+  /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
+  .aff-body { padding-left: 16px; }
+}
+@media print {
+  /* Beats both theme overrides, so a reader in dark mode does not print a black
+     page. Every light-dark() token resolves to its light value from here. */
+  :root, :root[data-theme="dark"], :root[data-theme="light"] { color-scheme: light only; }
+  .rail, .theme-toggle, .skip, .qwrap .qhint, .searchbar { display: none; }
+  .app { display: block; }
+  .main { padding: 0; max-width: none; }
+  .scroller { overflow: visible; }
+  .mxwrap .fade { display: none; }
+  a { color: inherit; }
+  /* Snippets were guillotined at the paper edge. */
+  .snip pre { white-space: pre-wrap; overflow: visible; }
+  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li { break-inside: avoid; }
+  /* URLs only where the content is; the rail is gone and the footer repeats. */
+  #view-root a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9px; color: var(--ink-3); }
+  /* The snippet-bar link's ::after is a tap overlay on screen. On paper the same
+     pseudo-element carries the expanded URL, so it has to become ordinary text
+     again or it prints absolutely positioned over the row. */
+  #view-root .snip-bar a[href^="http"]::after { font-size: 8px; position: static; inset: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .view.on { animation: vin .18s ease; }
+  .rail-brand { animation: vin .3s ease; }
+  @keyframes vin { from { opacity: 0; transform: translateY(3px); } }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- One status region for the whole document. The copy buttons write here, so
+     the confirmation is announced without any button changing its own name. -->
+<span role="status" class="sr-only" id="copy-status"></span>
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+  <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+<div class="app">
+  <aside class="rail">
+    <div class="rail-brand"><span class="k">Field study · July 2026</span><strong>State of AI in Design&nbsp;Systems</strong></div>
+    <div class="navwrap"><nav id="nav" aria-label="Sections"><a href="/" data-r="overview">Overview</a><a href="/matrix" data-r="matrix">Matrix</a><a class="on" aria-current="page" href="/systems" data-r="systems">Systems</a><a href="/techniques" data-r="techniques">Techniques</a><a href="/platforms" data-r="platforms">Platforms</a><a href="/insights" data-r="insights">Insights</a><a href="/methodology" data-r="methodology">Methodology</a><a href="/ai" data-r="ai">For agents</a></nav></div>
+    <!-- Authorship appears once per surface: the overview byline and the site
+         footer carry it, so the rail states the scope and stops. -->
+    <div class="rail-foot">19 systems · 5 platforms · every snippet linked to its source</div>
+  </aside>
+  <main class="main" id="main" tabindex="-1">
+    <div id="view-root"><div class="view on"><a class="backlink" href="/systems">← all systems</a>
+      <p class="eyebrow">Component library</p>
+      <div class="dhead"><h1>Material UI (MUI)</h1><span class="chip mat-invested" title="Official MCP / skills / rules with real engineering behind them">Invested</span></div>
+      <p class="links dlinks">
+    <a href="/systems/material-ui.md">markdown<span class="sr-only"> record for Material UI (MUI)</span></a>
+    <a href="/systems/material-ui.json">json<span class="sr-only"> record for Material UI (MUI)</span></a></p>
+      <p class="detail-sum">Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official <code>@mui/mcp</code> stdio server (three tools: <code>useMuiDocs</code>, <code>fetchDocs</code>, and a paid <code>generateReactCode</code> backed by the MUI Recipes service, optionally grounded in a Figma frame), a curated per-package <code>llms.txt</code> at https://mui.com/material-ui/llms.txt whose every entry is a <code>.md</code> twin of a docs page, and — newest and most interesting — four versioned Agent Skills checked into the repo under <code>skills/</code> (styling, theming, Next.js, Tailwind) with SKILL.md/AGENTS.md/metadata.json layout and an explicit <code>muiVersion: &quot;&gt;=9.0.0 &lt;10.0.0&quot;</code> compatibility range. For builders, <code>mui/material-ui</code> carries a 241-line AGENTS.md (CLAUDE.md is a three-line pointer to it) with a hard pre-PR validation checklist, and the org keeps shared Claude Code skills in <code>mui/mui-public/.claude/skills</code> (a very elaborate <code>pr-review</code> skill with effort tiers and a verbatim subagent scope contract) that other MUI repos re-use. The notable gaps: no Figma Code Connect, no shadcn-style machine-readable component registry, and no llms-full.txt.</p>
+      <hr class="accent-rule">
+      <dl class="metagrid">
+        <div><dt class="k">Org</dt><dd class="v">MUI</dd></div>
+        <div><dt class="k">Repo</dt><dd class="v"><a href="https://github.com/mui/material-ui" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></dd></div>
+        <div><dt class="k">Docs</dt><dd class="v"><a href="https://mui.com/material-ui/" target="_blank" rel="noopener">mui.com/material-ui/ <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></dd></div>
+        <div><dt class="k">License</dt><dd class="v">MIT</dd></div>
+        <div><dt class="k">Last release</dt><dd class="v">v9.2.0 (2026-07-03); @mui/mcp 0.1.3 published 2026-07-23</dd></div>
+        <div class="wide"><dt class="k">Activity</dt><dd class="v">Extremely active: most recent commit to mui/material-ui at time of research was 2026-07-27T10:44Z. ~98.6k GitHub stars, ~1,495 open issues, MIT. Material UI is on v9 (the agent skills explicitly target v9). @mui/mcp is young but shipping fast (0.1.0 -&gt; 0.1.3) with ~44,290 npm downloads in the last month (2026-06-25 to 2026-07-24).</dd></div>
+      </dl>
+      <div class="twocol">
+        <div class="col"><h2 class="t">For consumers — building with it</h2><p>Very well served, and improving fast. Three stacked layers: (1) retrieval — a curated per-package llms.txt plus a .md twin for every docs page, consumable directly or through the official @mui/mcp server whose tool descriptions mandate their own use and whose fetcher is host-allowlisted to mui.com; (2) judgement — four versioned Agent Skills that encode the decisions models get wrong (sx vs styled vs theme vs global, CSS-variable theming, Next.js Emotion cache/SSR, Tailwind v4 cascade layers with enableCssLayer), each with a compatibility semver range pinning them to v9; (3) generation — the commercial Recipes backend behind generateReactCode, with Figma-frame grounding and a muiPairing version target. The install docs even anticipate the agent ignoring the MCP and hand you a rule file to fix it. What is missing is anything shadcn-registry-shaped: no machine-readable component registry JSON, no CLI that pulls component source into a project, and no distributed .cursorrules templates or ‘add to Cursor’ buttons.</p></div>
+        <div class="col"><h2 class="t">For builders — maintaining it</h2><p>Mature and unusually well-factored for a project this size. mui/material-ui has a 241-line root AGENTS.md as the single source (CLAUDE.md is a deliberate three-line pointer, no .cursorrules, no copilot-instructions.md, no committed .mcp.json), covering pnpm-only enforcement, monorepo layout, an error-message contract with a babel minify marker and an error-code registry, testing conventions, an axe-core a11y enrollment system whose generated JSON files CI checks for staleness, and a 7-step pre-PR gauntlet ending in the Vale prose linter. Reusable Claude Code skills live one level up in mui/mui-public (.claude/skills + .agents/skills, dual-namespaced): a heavyweight effort-tiered pr-review skill and circleci-why-flaky; mui/base-ui mirrors the layout with base-ui-review. No evidence of AI-authored codemods, AI triage bots, or AI-disclosure language in CONTRIBUTING.md.</p></div>
+      </div>
+      <h2>Affordances <span class="hcount">· 8</span></h2>
+      <p class="h2-sub">Concrete AI-facing artifacts this system ships. Expand for snippets and links.</p>
+      <ul class="afflist"><li><details class="aff">
+    <summary><span class="chip">MCP server</span><span class="nm">@mui/mcp — official MUI MCP server</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">stdio MCP server published to npm as @mui/mcp, now developed in mui/mui-x under packages/mcp and backed by the shared @mui/x-agent-tools package. Exposes three tools: useMuiDocs(sources) returns the docs catalog (llms.txt URLs + summaries) for one or more MUI packages; fetchDocs(urls) fetches full docs page content, hard-restricted to MUI origins; generateReactCode({prompt, threadId?, designContext?, muiPairing?, model?}) generates React + Material UI code from natural language, optionally grounded in a Figma frame, and requires a MUI_RECIPES_API_KEY from console.mui.com. Docs tools are free; codegen is the commercial hook. Install docs cover VS Code, Cursor, Windsurf, JetBrains, Zed (there is a first-party ‘MUI MCP’ Zed extension) and Claude Code.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">typescript</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/tools.ts" target="_blank" rel="noopener">mui/mui-x <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-a0"><span class="btxt">copy</span><span class="sr-only"> typescript snippet</span></button></span></div>
+    <pre id="sn-material-ui-a0" tabindex="0" role="group" aria-label="typescript snippet"><code>    description: `
+      You must use this tool to answer any questions related to MUI components or documentation.
+
+      The description of the tool contains links to llms.txt files that the user has made available.
+
+      ${availablePackagesText}
+
+      1. Pick the most suitable entry from the above list and use it as the &quot;sources&quot; argument. You can pass either the llms.txt URL or just the package name (e.g. &quot;@mui/x-data-grid&quot;); both resolve to the same docs. If it&#39;s just one, let it be an array with one entry.
+      2. Analyze the URLs listed in the llms.txt file. They are returned as absolute URLs, ready to pass to the next tool call.
+      3. Then fetch specific documentation pages relevant to the user&#39;s question with the subsequent tool call.
+    `,</code></pre></div>
+      <div class="links">
+        <a href="https://mui.com/material-ui/getting-started/mcp/" target="_blank" rel="noopener">docs <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+        <a href="https://github.com/mui/mui-x/tree/HEAD/packages/mcp" target="_blank" rel="noopener">code <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      <p class="note">~44,290 npm downloads/month. The Zed extension supports optional <code>preferred_theme</code> and <code>component_filter</code> fields.</p>
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">Agent skill</span><span class="nm">skills/ — four official Material UI Agent Skills</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">Checked into the mui/material-ui repo root as <code>skills/</code>: material-ui-styling, material-ui-theming, material-ui-nextjs, material-ui-tailwind. Each is a self-contained directory with SKILL.md (Anthropic-style YAML frontmatter: name, description, license, metadata.author/version), AGENTS.md (the canonical full guide), README.md (human), metadata.json (machine-readable: version, muiVersion semver range, abstract, canonical reference URLs), and reference.md (cheat sheet). Discovery is deliberately layered: the root AGENTS.md carries a table linking to each skills/&lt;name&gt;/AGENTS.md so ‘any agent that reads AGENTS.md files will find the skills from there’.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/SKILL.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-a1"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-a1" tabindex="0" role="group" aria-label="markdown snippet"><code>---
+name: material-ui-styling
+description: Chooses the right Material UI styling approach (sx, styled, theme overrides, global CSS) from official MUI guidance. Use when styling @mui/material components, customizing themes, overriding slots, or comparing sx vs styled.
+license: MIT
+metadata:
+  author: mui
+  version: &#39;1.0.0&#39;
+---
+
+# Material UI styling
+
+Agent skill for picking the correct styling layer in Material UI (narrowest scope first). SKILL.md is the entry and index; AGENTS.md is the full guide.
+
+## When to apply
+
+- Choosing among `sx`, `styled()`, theme `components`, or global CSS for a change
+- Overriding component slots or state safely
+- Comparing `sx` vs `styled()` semantics (spacing, theme shortcuts)</code></pre></div>
+      <div class="links">
+        
+        <a href="https://github.com/mui/material-ui/tree/HEAD/skills" target="_blank" rel="noopener">code <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      <p class="note">Version-pinned to Material UI v9. metadata.json declares muiVersion “&gt;=9.0.0 &lt;10.0.0” and every AGENTS.md opens with a version notice telling the agent to verify API details on a different major.</p>
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">llms.txt</span><span class="nm">Per-package llms.txt + .md twin for every docs page</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">https://mui.com/material-ui/llms.txt is a 156-line curated index: one bullet per docs page, each linking to a <code>.md</code> variant (e.g. https://mui.com/material-ui/react-button.md, ~33 KB of raw markdown) with a one-line description. Grouped under ## Components and further sections. MUI X has its own at https://mui.com/x/llms.txt (~66 KB). This per-package split is exactly what useMuiDocs consumes as its ‘sources’ argument. Notably there is NO root https://mui.com/llms.txt, no llms-full.txt, and no llms.txt for Joy UI, MUI System, Base UI, or Toolpad — all 404.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://mui.com/material-ui/llms.txt" target="_blank" rel="noopener">mui.com <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-a2"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-a2" tabindex="0" role="group" aria-label="markdown snippet"><code># Material UI
+
+This is the documentation for the Material UI package.
+It contains comprehensive guides, components, and utilities for building user interfaces.
+
+## Components
+
+- [App Bar React component](https://mui.com/material-ui/react-app-bar.md): The App Bar displays information and actions relating to the current screen.
+- [Backdrop React Component](https://mui.com/material-ui/react-backdrop.md): The Backdrop component narrows the user&#39;s focus to a particular element on the screen.
+- [How to customize](https://mui.com/material-ui/customization/how-to-customize.md): Learn how to customize Material UI components by taking advantage of different strategies for specific use cases.
+- [React Autocomplete component](https://mui.com/material-ui/react-autocomplete.md): The autocomplete is a normal text input enhanced by a panel of suggested options.</code></pre></div>
+      <div class="links">
+        <a href="https://mui.com/material-ui/llms.txt" target="_blank" rel="noopener">docs <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+        
+      </div>
+      
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">AI docs page</span><span class="nm">Getting started &gt; Model Context Protocol (MCP) for MUI</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">The only AI-specific page in the Material UI docs nav (alongside installation, usage, templates...). Frames MCP as an anti-hallucination measure — ‘Quoting real, direct sources in answers’, ‘Linking to actual documentation—no imaginary links that lead to 404s’, ‘Using component code from officially published registries’. Includes per-editor install JSON, an MCP Inspector debugging recipe, and — critically — a copy-paste rule file for when the agent ignores the MCP.</p>
+      
+      <div class="links">
+        <a href="https://mui.com/material-ui/getting-started/mcp/" target="_blank" rel="noopener">docs <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+        
+      </div>
+      <p class="note">The page’s own markdown twin is fetchable at https://mui.com/material-ui/getting-started/mcp.md. No /getting-started/ai/ or /getting-started/agents/ page exists (both 404).</p>
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">AGENTS.md</span><span class="nm">Root AGENTS.md (with CLAUDE.md pointer)</span><span class="chip official">official</span><span class="chip">builders</span></summary>
+    <div class="aff-body">
+      <p class="desc">241 lines at the repo root: pnpm-only enforcement (‘Only pnpm is supported (yarn/npm will fail)’; &#39;Never use <code>cd</code> to navigate into package directories for commands’), command cheat sheet, monorepo architecture, TypeScript conventions, a strict three-part error-message contract with a <code>/<em> minify-error </em>/</code> babel marker, component file layout, testing conventions (createRenderer, Chai BDD, ‘Avoid fireEvent and setProps if possible’), an axe-core/visual-regression a11y enrollment guide, import depth rules, the Agent Skills table, and a numbered Pre-PR Checklist. CLAUDE.md is a deliberate three-line stub that redirects to it.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-a4"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-a4" tabindex="0" role="group" aria-label="markdown snippet"><code>## Pre-PR Checklist
+
+1. `pnpm prettier` - Format code
+2. `pnpm eslint` - Pass linting
+3. `pnpm typescript` - Pass type checking
+4. `pnpm test:unit` - Pass unit tests
+5. If API changed: `pnpm proptypes &amp;&amp; pnpm docs:api`
+6. If demos changed: `pnpm docs:typescript:formatted`
+7. If `.md` files changed: `pnpm vale &lt;file1&gt; &lt;file2&gt; ...` - Check prose style and grammar
+
+## PR Title Format
+
+`[component] Imperative description`</code></pre></div>
+      <div class="links">
+        
+        <a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener">code <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">Agent skill</span><span class="nm">Org-wide contributor skills in mui/mui-public (.claude/skills + .agents/skills)</span><span class="chip official">official</span><span class="chip">builders</span></summary>
+    <div class="aff-body">
+      <p class="desc">MUI keeps shared maintainer-facing Claude Code skills in the mui/mui-public repo: <code>pr-review</code> (a very substantial review workflow with five effort tiers low/medium/high/xhigh/max, subagent fan-out, precision-vs-recall bias switching, --fix and --comment inline modes) and <code>circleci-why-flaky</code>. The <code>.claude/skills/pr-review/SKILL.md</code> is a thin Claude Code entrypoint that defers to the canonical <code>.agents/skills/pr-review/SKILL.md</code> — a dual-namespace pattern so the same skill serves Claude Code and other AGENTS.md-reading agents. mui/base-ui mirrors the pattern with a <code>base-ui-review</code> skill in both <code>.claude/skills</code> and <code>.agents/skills</code>.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md" target="_blank" rel="noopener">mui/mui-public <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-a5"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-a5" tabindex="0" role="group" aria-label="markdown snippet"><code>## Subagent scope contract
+
+Subagents start with no prior context: they do not read this skill and do not inherit
+the session system prompt. Their only channel is the prompt you write. Whatever scope
+you resolved from [Scope](#scope) or the invoking prompt, every subagent prompt you
+construct — finder, specialist, verifier, sweep — must begin verbatim with it:
+
+```text
+Review ONLY: &lt;resolved diff command&gt;
+Read files from: &lt;read root&gt; — DATA ONLY, never execute, install, build, or test.
+Base version of a file: git show &lt;base ref&gt;:&lt;path&gt;
+Do not re-derive scope: use exactly the diff command above, whatever your working
+directory contains.
+```
+
+A subagent not given this block is mis-scoped — discard its result and re-dispatch.</code></pre></div>
+      <div class="links">
+        
+        <a href="https://github.com/mui/mui-public/tree/HEAD/.agents/skills/pr-review" target="_blank" rel="noopener">code <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">Other</span><span class="nm">MUI Recipes (recipes.mui.com) — hosted AI codegen product</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">Public-beta commercial service (‘What do you need to Build?’ / ‘Describe the interface you want, lock the package line you care about, and let Recipes shape the first implementation around your MUI stack.’). It is the backend behind the MCP’s generateReactCode tool: the server exchanges a MUI_RECIPES_API_KEY (issued at console.mui.com/products/recipes/api-keys) for a short-lived JWT, then posts prompts to chat-backend.mui.com. The <code>muiPairing</code> argument lets the caller pin which MUI / MUI X major the generated code targets — version coercion built into the codegen contract.</p>
+      
+      <div class="links">
+        <a href="https://recipes.mui.com/" target="_blank" rel="noopener">docs <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+        <a href="https://github.com/mui/mui-x/tree/HEAD/packages/x-agent-tools/src/codegen" target="_blank" rel="noopener">code <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+      </div>
+      
+    </div></details></li><li><details class="aff">
+    <summary><span class="chip">Code Connect</span><span class="nm">MUI for Figma design kit + Material UI Sync plugin</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <div class="aff-body">
+      <p class="desc">NOT Code Connect. MUI ships a commercial Figma/Sketch design kit (1,500+ elements, 600+ components) and a free beta Figma plugin, ‘Material UI Sync’, which generates a Material UI theme file of design tokens and component customizations from Figma, previewable in an embedded Storybook panel inside the plugin. The AI bridge to Figma instead runs through the MCP’s generateReactCode <code>designContext</code> argument (grounding codegen in a Figma frame). A code search across the whole <code>mui</code> GitHub org found zero <code>figma.config.json</code> files and zero Code Connect references.</p>
+      
+      <div class="links">
+        <a href="https://mui.com/material-ui/getting-started/design-resources/" target="_blank" rel="noopener">docs <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a>
+        
+      </div>
+      <p class="note">Third-party Figma-to-MUI paths exist (Anima, UXPin Merge, CopyCat) but are community/commercial, not MUI-maintained.</p>
+    </div></details></li></ul>
+      <h2>Coercion techniques <span class="hcount">· 8</span></h2>
+      <p class="h2-sub">How this system keeps models on-system instead of inventing components.</p>
+      <div class="tech-cat"><ul class="exlist"><li><details class="tech-ex">
+    <summary><span class="chip">Tool-gating</span><span class="nm">&quot;You must use this tool to answer any questions&quot; — hard tool mandate in the tool description</span></summary>
+    <div class="tb">
+      <p>The useMuiDocs tool description opens with an unconditional imperative rather than a neutral capability statement, then prescribes a fixed three-step retrieval order (pick source -&gt; analyze returned URLs -&gt; fetch specific pages). This is the primary lever MUI uses to stop models answering MUI questions from stale weights.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">typescript</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/tools.ts" target="_blank" rel="noopener">mui/mui-x <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t0"><span class="btxt">copy</span><span class="sr-only"> typescript snippet</span></button></span></div>
+    <pre id="sn-material-ui-t0" tabindex="0" role="group" aria-label="typescript snippet"><code>      You must use this tool to answer any questions related to MUI components or documentation.
+
+      The description of the tool contains links to llms.txt files that the user has made available.</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Prohibition</span><span class="nm">&quot;using ONLY the URLs present in the returned content&quot; — closed-world retrieval rule</span></summary>
+    <div class="tb">
+      <p>The docs page hands users a copy-paste rule file (suggested location <code>.github/instructions/mui.md</code>, explicitly reusable in any IDE) that forces a loop: call useMuiDocs, then fetchDocs restricted to URLs the previous tool returned, repeat until saturated, and only then answer. The capitalised ONLY is the coercive core — it forbids the agent from inventing or guessing doc URLs, which is the exact hallucination mode the page complains about.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">text</span></span>
+      <span class="acts"><a href="https://mui.com/material-ui/getting-started/mcp.md" target="_blank" rel="noopener">mui.com <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t1"><span class="btxt">copy</span><span class="sr-only"> text snippet</span></button></span></div>
+    <pre id="sn-material-ui-t1" tabindex="0" role="group" aria-label="text snippet"><code>## Use the mui-mcp server to answer any MUI questions --
+
+- 1. call the &quot;useMuiDocs&quot; tool to fetch the docs of the package relevant in the question
+- 2. call the &quot;fetchDocs&quot; tool to fetch any additional docs if needed using ONLY the URLs present in the returned content.
+- 3. repeat steps 1-2 until you have fetched all relevant docs for the given question
+- 4. use the fetched content to answer the question</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Tool-gating</span><span class="nm">Host allowlist enforced in code (agent physically cannot fetch off-system)</span></summary>
+    <div class="tb">
+      <p>Rather than trusting the prompt to keep the agent on mui.com, fetchDocs is wrapped in an SSRF-style URL guard: only mui.com, *.mui.com, and Netlify docs previews are fetchable, and the outputSchema even tells the model that a blocked URL returns an error string. Prompt-level ‘only use MUI docs’ becomes a runtime invariant. The comment is candid about the residual prompt-injection surface.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">typescript</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/url-guard.ts" target="_blank" rel="noopener">mui/mui-x <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t2"><span class="btxt">copy</span><span class="sr-only"> typescript snippet</span></button></span></div>
+    <pre id="sn-material-ui-t2" tabindex="0" role="group" aria-label="typescript snippet"><code>/**
+ * Hosts MUI serves docs / `llms.txt` from. Allowlist only: nothing else is fetchable, no matter how
+ * an attacker host is spelled or resolves (private IPs, IPv4-mapped, redirects, DNS rebinding).
+ *
+ * Known boundary: this trusts any `*.mui.com` subdomain, any port on `mui.com`, and any Netlify site
+ * matching `*--material-ui-docs.netlify.app`. Docs fetches carry no credentials, so the worst case is
+ * prompt injection from attacker-controlled content, not a key leak.
+ */
+function isMuiDocsHost(host: string): boolean {
+  return (
+    host === &#39;mui.com&#39; ||
+    host.endsWith(&#39;.mui.com&#39;) ||
+    // Netlify deploy previews: `&lt;context&gt;--material-ui-docs.netlify.app` (plus the base host).
+    host === &#39;material-ui-docs.netlify.app&#39; ||
+    host.endsWith(&#39;--material-ui-docs.netlify.app&#39;)
+  );
+}</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Curated context</span><span class="nm">Narrowest-scope-first decision ladder for styling</span></summary>
+    <div class="tb">
+      <p>The styling skill’s whole job is to stop agents reaching for the biggest hammer. It encodes a four-rung ordered ladder (sx -&gt; styled() -&gt; theme.components -&gt; GlobalStyles/CssBaseline) with an explicit two-sided prohibition at the bottom, plus slot/state-class rules that ban bare global selectors and hashed class names (&#39;Do not rely on the full hashed class string. Use only the stable <code>Mui*</code> fragment.&#39;). It is paired with a bad/good CSS exemplar.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t3"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-t3" tabindex="0" role="group" aria-label="markdown snippet"><code>## Quick decision (use in order)
+
+1. Single instance or local layout? → [`sx`](https://mui.com/system/getting-started/the-sx-prop/)
+2. Same override in many places? → [`styled()`](https://mui.com/system/styled/) around the MUI component (or a thin wrapper component)
+3. All instances of a component should look different by default? → [`theme.components`](https://mui.com/material-ui/customization/theme-components.md) (`styleOverrides`, `variants`, `defaultProps`)
+4. Global element baselines (for example all `h1`) or non-component CSS? → [`GlobalStyles`](https://mui.com/material-ui/api/global-styles.md) or [`CssBaseline`](https://mui.com/material-ui/react-css-baseline.md) overrides
+
+Do not jump to global theme overrides for a one-off screen; do not use `sx` for large repeated systems if a themed variant or `styled()` wrapper is clearer.</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Registry metadata</span><span class="nm">Version-fencing the skill so the agent self-invalidates on the wrong major</span></summary>
+    <div class="tb">
+      <p>Every skill carries a machine-readable semver range in metadata.json AND a prose version notice at the top of AGENTS.md instructing the agent to verify API details if the project is on a different major. Combined with the MCP’s <code>muiPairing</code> codegen argument, this is MUI’s answer to the biggest failure mode for a 10-year-old library: models confidently emitting v4/v5-era APIs into a v9 codebase.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t4"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-t4" tabindex="0" role="group" aria-label="markdown snippet"><code># Material UI styling
+
+Version 1.0.0 (Material UI v9)
+
+&gt; **Version notice:** This skill targets Material UI v9 (`&gt;=9.0.0 &lt;10.0.0`). If you are using a different major version, verify the API details before following this guidance.
+
+&gt; Note: This document is for agents and LLMs maintaining or generating Material UI code. It follows [How to customize](https://mui.com/material-ui/customization/how-to-customize.md) and related sources in this repository (`docs/data/material/customization/`, `docs/data/system/`).</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Curated context</span><span class="nm">Two-tier skill layout: SKILL.md as router, AGENTS.md as payload</span></summary>
+    <div class="tb">
+      <p>Deliberate progressive disclosure. SKILL.md is frontmatter + a ‘When to apply’ trigger list + a numbered priority index of the sections in AGENTS.md; the model only pulls the full guide when a trigger matches. metadata.json duplicates the canonical .md doc URLs so an agent (or the MCP) can jump straight to source. The README explicitly designates AGENTS.md as ‘the canonical source of truth for all agents and tools’.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/README.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t5"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-t5" tabindex="0" role="group" aria-label="markdown snippet"><code>## Files in each skill
+
+| File            | Purpose                                                             |
+| :-------------- | :------------------------------------------------------------------ |
+| `AGENTS.md`     | Full guide — the canonical source of truth for all agents and tools |
+| `SKILL.md`      | Entry point and index (frontmatter + section summary)               |
+| `README.md`     | Human-readable overview                                             |
+| `metadata.json` | Machine-readable metadata (version, references)                     |
+| `reference.md`  | Quick-reference cheat sheet (imports, API shapes)                   |
+
+## Discovery
+
+The root `AGENTS.md` lists each skill and links directly to `skills/&lt;name&gt;/AGENTS.md`. Any agent that reads `AGENTS.md` files will find the skills from there.</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Validation loop</span><span class="nm">Mandatory contributor validation loop (7-step pre-PR checklist incl. a prose linter)</span></summary>
+    <div class="tb">
+      <p>Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps — <code>pnpm proptypes &amp;&amp; pnpm docs:api</code> if the API changed, <code>pnpm docs:typescript:formatted</code> if demos changed (demos must be authored in TypeScript, JS is generated), and <code>pnpm vale</code> for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t6"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-t6" tabindex="0" role="group" aria-label="markdown snippet"><code>### API Documentation
+
+After changing component props or TypeScript declarations:
+
+```bash
+pnpm proptypes &amp;&amp; pnpm docs:api
+```
+
+### Docs demos
+
+Always author the TypeScript version of the demos. To generate the JavaScript variant, run:
+
+```bash
+pnpm docs:typescript:formatted
+```</code></pre></div>
+    </div></details></li><li><details class="tech-ex">
+    <summary><span class="chip">Validation loop</span><span class="nm">Effort-tiered review skill with precision/recall bias switching</span></summary>
+    <div class="tb">
+      <p>Builder-side. MUI’s shared pr-review skill does not just say ‘review the diff’ — it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’</p>
+      <div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
+      <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md" target="_blank" rel="noopener">mui/mui-public <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t7"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
+    <pre id="sn-material-ui-t7" tabindex="0" role="group" aria-label="markdown snippet"><code>Medium effort = **precision** bias: every finding actionable. **high**, **xhigh**,
+**max** shift to **recall**; missed bug ships. Surface uncertain findings when
+mechanism realistic, label clearly.
+
+## Effort levels
+
+- **low** — fastest: bug-only hunk pass. Skip Tests, Simplifications, Docs,
+  test/fixture hunks. Flag only high-confidence runtime-correctness bugs visible
+  from hunk alone.
+- **medium** (default) — one agent reviews Bugs, Tests, Simplifications, Docs, plus
+  triggered API design/performance concerns, then verifies locally. Precision
+  bias. Add one bug/regression subagent only for large, risky, fragile diffs.
+- **max** — `xhigh` plus verifier subagents for surviving candidates. Highest cost,
+  strongest recall bias.</code></pre></div>
+    </div></details></li></ul></div>
+      <h2>Platform integrations</h2>
+        <h3 class="pi">Figma</h3>
+        <p class="body-block">Official MUI for Figma design kit (commercial, 600+ Material UI / MUI X / Joy UI components, 1,500+ elements) plus the free beta ‘Material UI Sync’ Figma community plugin, which generates a Material UI theme file of design tokens and component customizations from Figma with an embedded Storybook preview panel. Separately, the MCP’s generateReactCode accepts a <code>designContext</code> to ground codegen in a Figma frame. No Figma Code Connect anywhere in the mui org. <a href="https://mui.com/material-ui/getting-started/design-resources/" target="_blank" rel="noopener" aria-label="Figma integration (opens in new tab)"><span aria-hidden="true">↗</span></a></p><h3 class="pi">Storybook</h3>
+        <p class="body-block">No public Storybook for the Material UI component library itself — mui.com’s own docs site with live demos is the canonical surface, and there is no Storybook MCP/addon integration. Storybook appears only as the embedded preview panel inside the Material UI Sync Figma plugin. <a href="https://mui.com/material-ui/design-resources/material-ui-sync/" target="_blank" rel="noopener" aria-label="Storybook integration (opens in new tab)"><span aria-hidden="true">↗</span></a></p><h3 class="pi">Other</h3>
+        <p class="body-block">UXPin Merge renders real Material UI React components in the design tool (third-party). Anima and CopyCat offer Figma-to-MUI conversion (third-party, not MUI-maintained). No Supernova, Knapsack, or zeroheight integration found. <a href="https://www.uxpin.com/merge/mui-library" target="_blank" rel="noopener" aria-label="Other integration (opens in new tab)"><span aria-hidden="true">↗</span></a></p>
+      <h2>Gaps &amp; open questions</h2><p class="body-block gaps">Not found, despite direct probing: (1) no root https://mui.com/llms.txt and no llms-full.txt (both 404); llms.txt exists only for /material-ui/ and /x/ — Joy UI, MUI System, Base UI and Toolpad all 404. (2) No machine-readable component registry — https://mui.com/r/registry.json and /material-ui/registry.json both 404 — even though the MCP docs page claims a benefit of ‘Using component code from officially published registries’; it was not possible to locate the registry that sentence refers to. (3) No Figma Code Connect: a GitHub code search across org:mui returned 0 hits for <code>code-connect</code> and 0 <code>figma.config.json</code> files. (4) No .cursorrules, .cursor/rules/, .github/copilot-instructions.md, .claude/ directory, or .mcp.json in mui/material-ui (all probed, all 404) — the org’s Claude skills live in mui/mui-public and mui/base-ui instead. (5) No dedicated /getting-started/ai/ or /getting-started/agents/ docs page; MCP is the only AI page in the nav. (6) No distributed ‘add to Cursor/Claude’ one-click install buttons found on the MCP page. (7) this study did not verify any community/third-party MUI MCP server: an npm registry search for ‘mui mcp’ surfaced only the official @mui/mcp. (8) generateReactCode is gated behind a paid MUI_RECIPES_API_KEY, so it was not possible to observe its system prompt or the constraints it imposes on generated code — the on-system coercion happening server-side at chat-backend.mui.com is a black box. (9) No evidence found of AI-assisted codemods (MUI’s <code>@mui/codemod</code> migrations appear to remain deterministic jscodeshift transforms) or of AI triage bots in .github/workflows — the AI-sounding <code>priority-support-validation-prompt.yml</code> is a plain templated support-key comment, not an LLM. (10) CONTRIBUTING.md was not read in full, so any AI-contribution policy language there is unverified.</p>
+      <h2>Sources</h2>
+      <ul class="srclist"><li><a href="https://mui.com/material-ui/getting-started/mcp/" target="_blank" rel="noopener"><span class="h">mui.com</span><span class="p">/material-ui/getting-started/mcp/</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://mui.com/material-ui/getting-started/mcp.md" target="_blank" rel="noopener"><span class="h">mui.com</span><span class="p">/material-ui/getting-started/mcp.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://mui.com/material-ui/llms.txt" target="_blank" rel="noopener"><span class="h">mui.com</span><span class="p">/material-ui/llms.txt</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://mui.com/material-ui/getting-started/design-resources.md" target="_blank" rel="noopener"><span class="h">mui.com</span><span class="p">/material-ui/getting-started/design-resources.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/AGENTS.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/CLAUDE.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/CLAUDE.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/README.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/skills/README.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/SKILL.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/skills/material-ui-styling/SKILL.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/AGENTS.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/skills/material-ui-styling/AGENTS.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-theming/metadata.json" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/skills/material-ui-theming/metadata.json</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-tailwind/AGENTS.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/material-ui/HEAD/skills/material-ui-tailwind/AGENTS.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/mcp/README.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/mui-x/HEAD/packages/mcp/README.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/tools.ts" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/tools.ts</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/url-guard.ts" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/url-guard.ts</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li><li><a href="https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md" target="_blank" rel="noopener"><span class="h">raw.githubusercontent.com</span><span class="p">/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md</span> <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></li></ul>
+      <p class="correct">Out of date, or wrong? <a href="https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=data-correction.yml&amp;labels=data&amp;title=%5Bdata%5D%20Material%20UI%20(MUI)&amp;subject=Material%20UI%20(MUI)%20(material-ui)&amp;claim=https%3A%2F%2Fstate-of-ai-in-design-systems.netlify.app%2Fsystems%2Fmaterial-ui" target="_blank" rel="noopener">Suggest a correction <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a></p></div></div>
+    <!-- Nested inside <main>, so the implicit contentinfo mapping is suppressed;
+         the role puts the site footer back in the landmark list. -->
+    <footer class="foot" id="foot" role="contentinfo">A field study by <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · Data gathered 26–27 July 2026 · <a href="/methodology">Methodology</a> · <a href="https://github.com/kaelig/state-of-ai-in-design-systems" target="_blank" rel="noopener">Source<span class="sr-only">(opens in new tab)</span></a> · <a href="https://github.com/kaelig/state-of-ai-in-design-systems/issues/new/choose" target="_blank" rel="noopener">Feedback<span class="sr-only">(opens in new tab)</span></a></footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  var stored = null;
+  try { stored = localStorage.getItem('theme'); } catch (e) {}
+  if (stored === 'light' || stored === 'dark') document.documentElement.setAttribute('data-theme', stored);
+})();
+</script>
+<script src="/data.js"></script>
+<script id="app">
+const ROUTING = 'path';
+const DATA = globalThis.DATA || JSON.parse(document.getElementById('ds-data').textContent);
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SITE_TITLE = 'State of AI in Design Systems';
+const BASE_TITLE = SITE_TITLE + ' · July 2026';
+const MAT = { 'ai-native': 'AI-native', 'invested': 'Invested', 'emerging': 'Emerging', 'none': 'None' };
+const MAT_ORDER = ['ai-native', 'invested', 'emerging', 'none'];
+const SYS_CATEGORY = { 'design-system': 'Design system', 'component-library': 'Component library' };
+const MAT_DEF = {
+  'ai-native': 'AI consumption is a core design goal of the system',
+  'invested': 'Official MCP / skills / rules with real engineering behind them',
+  'emerging': 'llms.txt or an AI docs page, little more',
+  'none': 'No AI affordances found'
+};
+const TYPE_LABEL = { 'mcp-server':'MCP server','llms-txt':'llms.txt','agents-md':'AGENTS.md','claude-md':'CLAUDE.md','claude-skill':'Agent skill','cursor-rules':'Cursor rules','copilot-instructions':'Copilot instructions','ai-docs-page':'AI docs page','registry':'Registry','cli-scaffolding':'CLI scaffolding','figma-code-connect':'Code Connect','storybook-integration':'Storybook','prompt-library':'Prompt library','codemod-ai':'AI codemod','other':'Other' };
+const CAT_LABEL = { 'prohibition':'Prohibition','tool-gating':'Tool-gating','curated-context':'Curated context','validation-loop':'Validation loop','scaffolding':'Scaffolding','exemplars':'Exemplars','token-enforcement':'Token enforcement','registry-metadata':'Registry metadata','instruction-files':'Instruction files','design-code-mapping':'Design–code mapping','other':'Other' };
+/* A per-system integration heading names the platform, not the id it is keyed
+   by: 'figma' → 'Figma'. The name comes from the platform's own record, minus
+   the parenthetical gloss that belongs on /platforms and reads as a subtitle
+   inside a 14px heading. 'other' has no record, so it is labelled the same way
+   the technique categories label theirs. */
+const PLAT_LABEL = { 'other': 'Other' };
+const platLabel = id => PLAT_LABEL[id]
+  || (((DATA.platforms || []).find(p => p.id === id) || {}).name || id).replace(/\s*\(.*\)\s*$/, '');
+const CAT_DEF = {
+  'prohibition': 'Explicit negative rules aimed at the model: “never invent components”, “no raw color values”, “do not use inline styles”.',
+  'tool-gating': 'The agent must call a tool — MCP, CLI, search script — to obtain component source or docs. It cannot answer from its weights, so it cannot hallucinate the API.',
+  'curated-context': 'Docs condensed and structured for context windows: llms.txt, llms-full.txt, per-page markdown mirrors, machine-readable component indexes.',
+  'validation-loop': 'Linters, type checks, or audit tools the agent is told to run, turning “follow the system” into a feedback loop with failures it must fix.',
+  'scaffolding': 'CLIs generate the canonical code; the agent orchestrates commands instead of writing component source from scratch.',
+  'exemplars': 'Few-shot Incorrect/Correct pairs, templates, and demo blocks placed where the model will read them.',
+  'token-enforcement': 'Rules and types that force design tokens over raw values — the token vocabulary is the only sanctioned styling channel.',
+  'registry-metadata': 'Machine-readable registries describing components, dependencies, and files, so agents resolve real artifacts instead of inventing them.',
+  'instruction-files': 'CLAUDE.md / AGENTS.md / editor rules distributed in repos or to consumers, loaded automatically into agent context.',
+  'design-code-mapping': 'Figma Code Connect-style node→component mappings, so design-to-code generation lands on real components with real props.',
+  'other': 'Techniques that don’t fit the taxonomy — often the most interesting ones.'
+};
+/* Counted off the records, not off CAT_DEF: the taxonomy dict is editorial copy
+   and drifts. The markdown layer counts the same way, so both surfaces agree. */
+const TECH_CAT_COUNT = new Set(DATA.systems.flatMap(s => (s.techniques || []).map(t => t.category))).size;
+const MX_COLS = [
+  { key: 'mcp', label: 'MCP server', types: ['mcp-server'] },
+  { key: 'llms', label: 'llms.txt', types: ['llms-txt'] },
+  { key: 'skill', label: 'Agent skill', types: ['claude-skill'] },
+  { key: 'rules', label: 'Editor rules', types: ['cursor-rules', 'copilot-instructions'] },
+  { key: 'repoagents', label: 'Repo agent files', types: ['agents-md', 'claude-md'] },
+  { key: 'aidocs', label: 'AI docs', types: ['ai-docs-page'] },
+  { key: 'registry', label: 'Registry', types: ['registry'] },
+  { key: 'cli', label: 'CLI', types: ['cli-scaffolding'] },
+  { key: 'codeconnect', label: 'Code Connect', types: ['figma-code-connect'] },
+  { key: 'storybook', label: 'Storybook', types: ['storybook-integration'] },
+  { key: 'misc', label: 'Other', types: ['prompt-library', 'codemod-ai', 'other'] },
+];
+
+/* ---------- routing helpers ---------- */
+function href(...parts) {
+  const p = parts.filter(x => x != null && x !== '').join('/');
+  return ROUTING === 'path' ? '/' + p : '#/' + p;
+}
+function parse() {
+  let raw;
+  if (ROUTING === 'path') raw = location.pathname;
+  else raw = location.hash.replace(/^#/, '');
+  raw = String(raw || '').replace(/^\/+/, '').replace(/\/+$/, '');
+  if (!raw) return { view: 'overview' };
+  const parts = raw.split('/');
+  if ((parts[0] === 'systems' || parts[0] === 'system') && parts[1]) return { view: 'system', arg: decodeURIComponent(parts[1]) };
+  if (parts[0] !== 'system' && Object.prototype.hasOwnProperty.call(VIEWS, parts[0])) return { view: parts[0] };
+  return { view: 'overview' };
+}
+
+/* The one place data becomes markup. Bold runs before italic so ** never gets
+   eaten by the single-asterisk rule. */
+function fmt(s) {
+  return esc(s)
+    .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+}
+const ARROW = '<span aria-hidden="true">↗</span>';
+const NEWTAB = '<span class="sr-only">(opens in new tab)</span>';
+/* text is trusted HTML (already escaped by the caller); label is plain text */
+function extLink(url, text) {
+  return `<a href="${esc(url)}" target="_blank" rel="noopener">${text} ${ARROW}${NEWTAB}</a>`;
+}
+function extArrow(url, label) {
+  return `<a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(label)} (opens in new tab)">${ARROW}</a>`;
+}
+const REPO_URL = 'https://github.com/kaelig/state-of-ai-in-design-systems';
+const SITE_URL = 'https://state-of-ai-in-design-systems.netlify.app';
+/* A prefilled data-correction issue for one record. GitHub matches `subject`
+   against the dropdown options in .github/ISSUE_TEMPLATE/data-correction.yml,
+   which are written as "<name> (<id>)" — the two lists have to stay in step, so
+   renaming a system means editing that file too. encodeURIComponent rather than
+   URLSearchParams: the prerender sandbox is a bare vm context and has the
+   ECMAScript intrinsics only. The canonical origin is hardcoded so the link is
+   still right from the artifact variant, which is served from another host. */
+const query = o => Object.keys(o).map(k => `${k}=${encodeURIComponent(o[k])}`).join('&');
+const correctionURL = s => `${REPO_URL}/issues/new?` + query({
+  template: 'data-correction.yml',
+  labels: 'data',
+  title: `[data] ${s.name}`,
+  subject: `${s.name} (${s.id})`,
+  claim: `${SITE_URL}/systems/${s.id}`,
+});
+/* What a source link should call itself. GitHub URLs are only distinguishable by
+   owner/repo — 62 of 257 snippet paths end in SKILL.md — so the repo is the name;
+   anything else gets its bare host. Regex rather than URL() so the prerender
+   sandbox needs no extra global. */
+function srcLabel(url) {
+  const m = /^https?:\/\/([^/?#]+)([^?#]*)/i.exec(String(url || ''));
+  if (!m) return 'source';
+  const host = m[1].replace(/^www\./, '');
+  if (host === 'github.com' || host === 'raw.githubusercontent.com') {
+    const seg = m[2].split('/').filter(Boolean);
+    if (seg.length >= 2) return seg[0] + '/' + seg[1];
+  }
+  return host;
+}
+/* Host recedes, path carries the meaning. Returns trusted HTML for extLink. */
+function urlParts(url) {
+  const m = /^https?:\/\/([^/?#]+)(.*)$/i.exec(String(url || ''));
+  if (!m) return esc(url);
+  return `<span class="h">${esc(m[1])}</span><span class="p">${esc(m[2])}</span>`;
+}
+/* The markdown and JSON twins of one record. They are real files under the
+   site root, so they only exist in the path-routed build — the artifact is one
+   file with nothing beside it, and would link into the void. */
+function mirrorLinks(kind, id, label) {
+  if (ROUTING !== 'path') return '';
+  const base = `/${kind}/${encodeURIComponent(id)}`;
+  return `<p class="links dlinks">
+    <a href="${esc(base)}.md">markdown<span class="sr-only"> record for ${esc(label)}</span></a>
+    <a href="${esc(base)}.json">json<span class="sr-only"> record for ${esc(label)}</span></a></p>`;
+}
+function matChip(m) { return `<span class="chip mat-${esc(m)}" title="${esc(MAT_DEF[m] || '')}">${esc(MAT[m] || m)}</span>`; }
+function offChip(o) { return o ? '<span class="chip official">official</span>' : '<span class="chip">community</span>'; }
+function audChip(a) { return a ? `<span class="chip">${esc(a)}</span>` : ''; }
+function snippetHTML(sn, id) {
+  if (!sn || !sn.content) return '';
+  const lang = sn.language || 'text';
+  /* No aria-label on the button: it would pin the accessible name and the
+     "copied" swap would never be announced. The language rides in sr-only text
+     so 300+ buttons are still told apart, and #copy-status does the announcing. */
+  return `<div class="snip">
+    <div class="snip-bar"><span class="sbleft"><span class="lang">${esc(lang)}</span>${sn.note ? `<span class="snote">${fmt(sn.note)}</span>` : ''}</span>
+      <span class="acts">${sn.source_url ? extLink(sn.source_url, esc(srcLabel(sn.source_url))) : ''}<button type="button" data-copy="${esc(id)}"><span class="btxt">copy</span><span class="sr-only"> ${esc(lang)} snippet</span></button></span></div>
+    <pre id="sn-${esc(id)}" tabindex="0" role="group" aria-label="${esc(lang)} snippet"><code>${esc(sn.content)}</code></pre></div>`;
+}
+function affordanceHTML(a, sysId, i) {
+  const id = `${sysId}-a${i}`;
+  return `<li><details class="aff">
+    <summary><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${esc(a.name)}</span>${offChip(a.official)}${audChip(a.audience)}</summary>
+    <div class="aff-body">
+      <p class="desc">${fmt(a.description)}</p>
+      ${snippetHTML(a.snippet, id)}
+      <div class="links">
+        ${a.docs_url ? extLink(a.docs_url, 'docs') : ''}
+        ${a.code_url ? extLink(a.code_url, 'code') : ''}
+      </div>
+      ${a.notes ? `<p class="note">${fmt(a.notes)}</p>` : ''}
+    </div></details></li>`;
+}
+function techniqueHTML(t, sysId, i, withSys) {
+  const id = `${sysId}-t${i}`;
+  const sys = withSys ? DATA.systems.find(s => s.id === sysId) : null;
+  return `<li><details class="tech-ex">
+    <summary>${sys ? `<span class="sysref">${esc(sys.name)}</span>` : `<span class="chip">${esc(CAT_LABEL[t.category] || t.category)}</span>`}<span class="nm">${esc(t.name)}</span></summary>
+    <div class="tb">
+      <p>${fmt(t.description)}</p>
+      ${snippetHTML(t.snippet, id)}
+    </div></details></li>`;
+}
+
+/* ---------- views ---------- */
+const VIEWS = {
+  overview() {
+    const m = DATA.meta, f = DATA.insights.findings;
+    /* Every step of the scale renders, including empty ones: the page claims an
+       ordinal scale, so it has to show the whole scale. This line is the empty
+       band's copy and lives here on purpose — it is not a maturity definition,
+       so it stays out of MAT_DEF. */
+    const BAND_EMPTY = 'No systems here in this snapshot.';
+    const bands = MAT_ORDER.map(k => {
+      const sys = DATA.systems.filter(s => s.ai_maturity === k);
+      const body = sys.length
+        ? `<ul>${sys.map(s => `<li><a href="${href('systems', s.id)}">${esc(s.name)}</a></li>`).join('')}</ul>`
+        : `<p class="bempty">${BAND_EMPTY}</p>`;
+      return `<div class="spec-band"><h3 class="bhead mat-${k}"><span class="bl">${MAT[k]}</span><span class="bn">${sys.length}</span></h3>
+        <p class="bdef">${esc(MAT_DEF[k])}</p>
+        ${body}</div>`;
+    }).join('');
+    return `<p class="eyebrow">Field study · data gathered ${esc(m.generated)}</p>
+      <h1>How design systems talk to machines</h1>
+      <p class="lede">${fmt(DATA.insights.lede)}</p>
+      <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–27 July 2026</p>
+      <hr class="accent-rule">
+      <ul class="tiles">
+        <li class="tile"><div class="n">${m.counts.systems}</div><div class="l">design systems studied</div><div class="d">+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances</div></li>
+        <li class="tile"><div class="n">${m.counts.official_mcp}</div><div class="l">ship an official MCP server</div><div class="d">of ${m.counts.systems} systems</div></li>
+        <li class="tile"><div class="n">${m.counts.official_skills}</div><div class="l">ship official agent skills</div><div class="d"><code>npx skills add …</code></div></li>
+        <li class="tile"><div class="n">${m.counts.llms_txt}</div><div class="l">publish llms.txt</div><div class="d">curated context files</div></li>
+        <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques catalogued</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
+      </ul>
+      <h2>The maturity spectrum</h2>
+      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued — click through to see the receipts.</p>
+      <div class="spectrum">${bands}</div>
+      <h2>Findings</h2>
+      <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
+  },
+
+  matrix() {
+    const row = s => {
+      const cells = MX_COLS.map(c => {
+        const hits = (s.affordances || []).filter(a => c.types.includes(a.type));
+        if (!hits.length) return '<td><span class="none" aria-hidden="true"></span><span class="sr-only">None found</span></td>';
+        const official = hits.some(a => a.official);
+        const names = hits.map(a => `${a.name}${a.official ? '' : ' (community)'}`).join(' · ');
+        const glyph = official ? '<span class="dot" aria-hidden="true"></span>' : '<span class="ring" aria-hidden="true"></span>';
+        const word = official ? 'Official' : 'Community';
+        return `<td title="${esc(names)}">${glyph}<span class="sr-only">${word}: ${esc(names)}</span></td>`;
+      }).join('');
+      return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
+    };
+    /* One tbody per maturity cohort, opened by a group header row. The chip that
+       used to sit in every row header says the same thing 19 times. */
+    const span = MX_COLS.length + 1;
+    const groups = MAT_ORDER.map(k => {
+      const sys = DATA.systems.filter(s => s.ai_maturity === k);
+      if (!sys.length) return '';
+      return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup">${MAT[k]} · <span class="gn">${sys.length}</span></th></tr>`
+        + sys.map(row).join('') + '</tbody>';
+    }).join('');
+    return `<p class="eyebrow">Comparison</p><h1>The affordance matrix</h1>
+      <p class="lede">What each system actually ships for AI consumption and building. Hover a cell for names; click a system for snippets and links.</p>
+      <hr class="accent-rule">
+      <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
+      <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
+        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they're official or community-built.</caption>
+        <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
+        ${groups}</table></div><span class="fade fade-l" aria-hidden="true"></span><span class="fade fade-r" aria-hidden="true"></span></div>
+      <h2>Affordance prevalence</h2>
+      <p class="h2-sub">Number of systems (of ${DATA.meta.counts.systems}) shipping each affordance, counting official and community.</p>
+      ${prevalenceBars()}`;
+  },
+
+  systems() {
+    /* Only levels that actually have systems, each with its count. A level with
+       nothing in it is a filter that returns nothing, so it is not offered.
+       Counted off DATA.systems, so future data adds its own option. */
+    const matCount = {};
+    for (const s of DATA.systems) matCount[s.ai_maturity] = (matCount[s.ai_maturity] || 0) + 1;
+    const matOpts = MAT_ORDER.filter(k => matCount[k])
+      .map(k => `<option value="${esc(k)}">${esc(MAT[k] || k)} · ${matCount[k]}</option>`).join('');
+    return `<p class="eyebrow">Drill down</p><h1>The systems</h1>
+      <p class="lede">Sorted by AI maturity. Each record lists every affordance and technique found, with verbatim snippets and links to source.</p>
+      <hr class="accent-rule">
+      <div class="searchbar">
+        <span class="qwrap"><input id="q" type="search" placeholder="Filter by name, org, affordance…" aria-label="Filter systems"><kbd class="qhint" aria-hidden="true">/</kbd></span>
+        <span class="selwrap"><select id="fmat" aria-label="Filter by maturity"><option value="">All maturity levels</option>${matOpts}</select></span>
+      </div>
+      <p class="count" id="syscount" role="status"></p>
+      <div class="syslist-head" aria-hidden="true"><span>System</span><span>Summary</span><span class="cts"><span class="ct">Affordances</span><span class="ct">Techniques</span></span></div>
+      <div class="syslist" id="syslist"></div>`;
+  },
+
+  system(id) {
+    const s = DATA.systems.find(x => x.id === id);
+    if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href('systems')}">Back to the list of systems</a>.</p>`;
+    const m = s.maintenance || {}, b = s.building_vs_consumption || {};
+    return `<a class="backlink" href="${href('systems')}">← all systems</a>
+      <p class="eyebrow">${esc(SYS_CATEGORY[s.category] || s.category || 'Record')}</p>
+      <div class="dhead"><h1>${esc(s.name)}</h1>${matChip(s.ai_maturity)}</div>
+      ${mirrorLinks('systems', s.id, s.name)}
+      <p class="detail-sum">${fmt(s.summary)}</p>
+      <hr class="accent-rule">
+      <dl class="metagrid">
+        <div><dt class="k">Org</dt><dd class="v">${esc(s.org || '—')}</dd></div>
+        <div><dt class="k">Repo</dt><dd class="v">${extLink(s.repo_url, esc((s.repo_url || '').replace('https://github.com/', '')))}</dd></div>
+        <div><dt class="k">Docs</dt><dd class="v">${extLink(s.docs_url, esc((s.docs_url || '').replace(/^https?:\/\//, '')))}</dd></div>
+        <div><dt class="k">License</dt><dd class="v">${esc(s.license || '—')}</dd></div>
+        <div><dt class="k">Last release</dt><dd class="v">${fmt(m.last_release || '—')}</dd></div>
+        <div class="wide"><dt class="k">Activity</dt><dd class="v">${fmt(m.activity_note || '—')}</dd></div>
+      </dl>
+      <div class="twocol">
+        <div class="col"><h2 class="t">For consumers — building with it</h2><p>${fmt(b.for_consumers || '—')}</p></div>
+        <div class="col"><h2 class="t">For builders — maintaining it</h2><p>${fmt(b.for_builders || '—')}</p></div>
+      </div>
+      <h2>Affordances <span class="hcount">· ${(s.affordances || []).length}</span></h2>
+      <p class="h2-sub">Concrete AI-facing artifacts this system ships. Expand for snippets and links.</p>
+      ${(s.affordances || []).length ? `<ul class="afflist">${s.affordances.map((a, i) => affordanceHTML(a, s.id, i)).join('')}</ul>` : ''}
+      <h2>Coercion techniques <span class="hcount">· ${(s.techniques || []).length}</span></h2>
+      <p class="h2-sub">How this system keeps models on-system instead of inventing components.</p>
+      <div class="tech-cat">${(s.techniques || []).length ? `<ul class="exlist">${s.techniques.map((t, i) => techniqueHTML(t, s.id, i, false)).join('')}</ul>` : ''}</div>
+      ${(s.platform_integrations || []).length ? `<h2>Platform integrations</h2>
+        ${s.platform_integrations.map(p => `<h3 class="pi">${esc(platLabel(p.platform))}</h3>
+        <p class="body-block">${fmt(p.description)} ${p.url ? extArrow(p.url, `${platLabel(p.platform)} integration`) : ''}</p>`).join('')}` : ''}
+      ${s.gaps ? `<h2>Gaps &amp; open questions</h2><p class="body-block gaps">${fmt(s.gaps)}</p>` : ''}
+      <h2>Sources</h2>
+      <ul class="srclist">${(s.sources || []).map(u => `<li>${extLink(u, urlParts(u))}</li>`).join('')}</ul>
+      <p class="correct">Out of date, or wrong? ${extLink(correctionURL(s), 'Suggest a correction')}</p>`;
+  },
+
+  techniques() {
+    const byCat = {};
+    for (const s of DATA.systems) for (let i = 0; i < (s.techniques || []).length; i++) {
+      const t = s.techniques[i];
+      (byCat[t.category] = byCat[t.category] || []).push({ t, sysId: s.id, i });
+    }
+    const order = Object.keys(CAT_DEF).filter(c => byCat[c]).sort((a, b) => byCat[b].length - byCat[a].length);
+    return `<p class="eyebrow">The playbook</p><h1>How teams coerce models into staying on-system</h1>
+      <p class="lede">${fmt(DATA.insights.techniques_lede)}</p>
+      <hr class="accent-rule">
+      <ul class="bars">${order.map(c => barRow(CAT_LABEL[c], byCat[c].length, DATA.meta.counts.techniques, c)).join('')}</ul>
+      ${order.map(c => `<section class="tech-cat" id="${esc(c)}">
+        <div class="th"><h2>${esc(CAT_LABEL[c])}</h2><span class="n">${byCat[c].length} instances · ${new Set(byCat[c].map(x => x.sysId)).size} systems</span></div>
+        <p class="def">${esc(CAT_DEF[c])}</p>
+        <ul class="exlist">${byCat[c].map(x => techniqueHTML(x.t, x.sysId, x.i, true)).join('')}</ul>
+      </section>`).join('')}`;
+  },
+
+  platforms() {
+    return `<p class="eyebrow">The tooling layer</p><h1>Platforms</h1>
+      <p class="lede">${fmt(DATA.insights.platforms_lede)}</p>
+      <hr class="accent-rule">
+      <ul class="jump" aria-label="Jump to a platform">${DATA.platforms.map(p =>
+        `<li><a href="#${esc(p.id)}" data-jump="${esc(p.id)}">${esc(p.name.replace(/\s*\([^()]*\)$/, ''))}</a></li>`).join('')}</ul>
+      ${DATA.platforms.map(p => `<section class="plat" id="${esc(p.id)}" tabindex="-1">
+        <h2>${esc(p.name)}</h2>
+        ${mirrorLinks('platforms', p.id, p.name)}
+        <p class="sum">${fmt(p.summary)}</p>
+        <h3 class="caps">Capabilities</h3>
+        ${(p.capabilities || []).length ? `<ul class="exlist">${p.capabilities.map((c, i) => `<li><details class="tech-ex">
+          <summary><span class="nm">${esc(c.title)}</span>${audChip(c.audience)}</summary>
+          <div class="tb"><p>${fmt(c.description)} ${c.url ? extArrow(c.url, `${p.name}: ${c.title}`) : ''}</p>
+          ${snippetHTML(c.snippet, `${p.id}-c${i}`)}</div>
+        </details></li>`).join('')}</ul>` : ''}
+        ${p.adoption_by_design_systems ? `<p class="adopt"><strong>Adoption:</strong> ${fmt(p.adoption_by_design_systems)}</p>` : ''}
+      </section>`).join('')}`;
+  },
+
+  insights() {
+    return `<p class="eyebrow">Synthesis</p><h1>Similarities, differences, and what actually works</h1>
+      <p class="lede">${fmt(DATA.insights.insights_lede)}</p>
+      <hr class="accent-rule">
+      <div class="prose">${DATA.insights.essay.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
+      <h2>Convergent patterns</h2>
+      <ol class="findings">${DATA.insights.convergence.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>
+      <h2>Divergent bets</h2>
+      <ol class="findings">${DATA.insights.divergence.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
+  },
+
+  methodology() {
+    return `<p class="eyebrow">How this was made</p><h1>Methodology</h1>
+      <p class="lede">${fmt(DATA.insights.methodology_lede)}</p>
+      <hr class="accent-rule">
+      <div class="prose">${DATA.insights.methodology.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
+      <h2>Caveats</h2>
+      <div class="prose"><ul>${DATA.insights.caveats.map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>`;
+  },
+
+  /* Copy comes from DATA.ai_page, compiled by scripts/build_md.py — the same
+     blocks /ai.md renders, so the page and its markdown twin cannot diverge. */
+  ai() {
+    const c = DATA.ai_page;
+    if (!c) return `<h1>Use this report with AI tools</h1>
+      <p class="lede">This page is generated by the build and is not available in this copy of the site.</p>`;
+    const block = (b, key) => {
+      if (b.type === 'prose') return `<div class="prose"><p>${fmt(b.text)}</p></div>`;
+      if (b.type === 'list') return `<div class="prose"><ul>${b.items.map(i => `<li>${fmt(i)}</li>`).join('')}</ul></div>`;
+      if (b.type === 'links') return `<ul class="ai-links">${b.items.map(i =>
+        `<li>${extLink(i.url, esc(i.label))}<span class="note">${fmt(i.note)}</span></li>`).join('')}</ul>`;
+      if (b.type === 'code') return snippetHTML({ language: b.lang, content: b.text }, key);
+      if (b.type === 'configs') return b.items.map((i, n) => `<h3>${esc(i.label)}</h3>
+        <p class="h2-sub">${fmt(i.note)}</p>
+        ${snippetHTML({ language: i.lang, content: i.code }, `${key}-${esc(i.id || n)}`)}`).join('');
+      return '';
+    };
+    const [first, ...rest] = c.sections;
+    const head = `<p class="eyebrow">For agents</p><h1>${esc(c.title)}</h1>
+      <p class="lede">${fmt(first.blocks[0].text)}</p>
+      <hr class="accent-rule">
+      ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}`;
+    return head + rest.map(sec => `<section id="${esc(sec.id)}">
+      <h2>${esc(sec.heading)}</h2>
+      ${sec.blocks.map((b, i) => block(b, `ai-${sec.id}-${i}`)).join('')}
+    </section>`).join('');
+  },
+};
+
+/* `anchor` is the id of the section this row summarises, and only /techniques
+   passes one — the matrix prevalence bars have nothing to jump to. Bare-hash
+   hrefs are left alone by the path router's delegated click handler (it only
+   claims hrefs starting with "/"), so the browser does the jump. The hash-routed
+   artifact has no such escape: "#curated-context" would be read as a route, so
+   there the rows stay plain. */
+function barRow(label, n, total, anchor) {
+  const w = Math.max(2, Math.round(n / total * 100));
+  const cells = `<span class="bl">${esc(label)}</span><span class="btrack" aria-hidden="true"><span class="bfill" style="width:${w}%"></span></span><span class="bv">${n}</span>`;
+  if (anchor && ROUTING === 'path') {
+    return `<li class="bar-row"><a class="bar-link" href="#${esc(anchor)}">${cells}</a></li>`;
+  }
+  return `<li class="bar-row">${cells}</li>`;
+}
+function prevalenceBars() {
+  const total = DATA.systems.length;
+  const rows = MX_COLS.filter(c => c.key !== 'misc').map(c => {
+    const n = DATA.systems.filter(s => (s.affordances || []).some(a => c.types.includes(a.type))).length;
+    return { label: c.label, n };
+  }).sort((a, b) => b.n - a.n);
+  return `<ul class="bars">${rows.map(r => barRow(r.label, r.n, total)).join('')}</ul>`;
+}
+
+function renderSyslist() {
+  const q = ($('#q') ? $('#q').value : '').toLowerCase();
+  const fm = $('#fmat') ? $('#fmat').value : '';
+  const list = DATA.systems.filter(s => {
+    if (fm && s.ai_maturity !== fm) return false;
+    if (!q) return true;
+    const hay = [s.name, s.org, s.summary, ...(s.affordances || []).map(a => a.name + ' ' + a.type)].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+  /* One link per row, and its accessible name is the system name — nothing else.
+     The row stays wholly clickable through the link's stretched ::after, so the
+     summary and the two counts are plain text instead of 300 characters of link
+     name. Keep class="sysrow" written exactly like this: prerender counts it. */
+  const row = s => `<li class="sysrow">
+    <span class="who"><a class="nm" href="${href('systems', s.id)}">${esc(s.name)}</a><span class="org">${esc(s.org || '')}</span></span>
+    <span class="sum">${fmt(s.summary)}</span>
+    <span class="cts"><span class="ct">${(s.affordances || []).length}<span class="cw"> affordances</span></span><span class="csep" aria-hidden="true">·</span><span class="ct">${(s.techniques || []).length}<span class="cw"> techniques</span></span></span></li>`;
+  /* The list is already sorted by maturity, so a cohort strip before each run of
+     rows replaces 19 repeated chips. Cohorts with nothing left after filtering
+     do not render a header. */
+  /* Said once, in the list, with a way out. #syscount keeps the announcement;
+     this is the visible copy, and it names what was actually filtered on. */
+  const raw = $('#q') ? $('#q').value : '';
+  const emptyLine = q && fm
+    ? `Nothing matches &ldquo;${esc(raw)}&rdquo; at that maturity level.`
+    : q ? `Nothing matches &ldquo;${esc(raw)}&rdquo;.`
+    : `No systems at that maturity level.`;
+  $('#syslist').innerHTML = MAT_ORDER.map(k => {
+    const rows = list.filter(s => s.ai_maturity === k);
+    if (!rows.length) return '';
+    return `<h2 class="sysgroup mat-${k}"><span class="gl">${MAT[k]}</span> · <span class="gn">${rows.length}</span></h2>`
+      + `<ul class="cohort">${rows.map(row).join('')}</ul>`;
+  }).join('')
+    || `<p class="empty">${emptyLine} <button type="button" class="linkbtn" id="clearf">Clear filters</button></p>`;
+  const c = $('#syscount');
+  if (c) c.textContent = list.length ? `${list.length} of ${DATA.systems.length} systems` : 'No systems match.';
+}
+
+/* A snippet that fits needs neither a tab stop nor a name: only the ones that
+   actually scroll sideways are keyboard-operable regions of content. Runs after
+   render, in the browser only — the prerender shim's querySelectorAll returns [],
+   so the shipped HTML keeps both attributes and each browser prunes what its own
+   layout says fits. Snippets stay role="group", never region: /techniques renders
+   147 of them and the landmark list is for the one matrix scroller. */
+function pruneSnippetTabStops(root) {
+  const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
+  scope.querySelectorAll('pre[id^="sn-"]').forEach(pre => {
+    /* clientWidth 0 means it is inside a closed <details> and has no box to
+       measure — and nothing inside a closed disclosure is a tab stop anyway, so
+       leave it alone and measure it when the disclosure opens. */
+    if (pre.clientWidth && pre.scrollWidth <= pre.clientWidth) {
+      pre.removeAttribute('tabindex');
+      pre.removeAttribute('role');
+    }
+  });
+}
+/* toggle does not bubble, so listen in the capture phase. */
+document.addEventListener('toggle', e => {
+  const d = e.target;
+  if (d && d.tagName === 'DETAILS' && d.open) pruneSnippetTabStops(d);
+}, true);
+
+/* Edge fades for the matrix while it still has to scroll sideways. Driven by a
+   scroll listener and a ResizeObserver so the state is right on load and on
+   rotate, not only after the first drag. */
+function setupMatrixFades() {
+  const wrap = document.getElementById('mxwrap');
+  if (!wrap || typeof wrap.querySelector !== 'function') return;
+  const sc = wrap.querySelector('.scroller');
+  if (!sc || typeof sc.addEventListener !== 'function') return;
+  const update = () => {
+    const max = (sc.scrollWidth || 0) - (sc.clientWidth || 0);
+    const x = sc.scrollLeft || 0;
+    const scrolls = max > 1;
+    wrap.setAttribute('data-at-start', String(!scrolls || x <= 1));
+    wrap.setAttribute('data-at-end', String(!scrolls || x >= max - 1));
+  };
+  sc.addEventListener('scroll', update, { passive: true });
+  if (typeof ResizeObserver === 'function') {
+    const ro = new ResizeObserver(update);
+    ro.observe(sc);
+    const t = sc.querySelector('table');
+    if (t) ro.observe(t);
+  }
+  update();
+}
+
+const NAV = [
+  ['overview', 'Overview'], ['matrix', 'Matrix'], ['systems', 'Systems'],
+  ['techniques', 'Techniques'], ['platforms', 'Platforms'], ['insights', 'Insights'], ['methodology', 'Methodology'],
+  ['ai', 'For agents'],
+];
+/* Full page titles, from the same build-time table the prerendered <title> tags
+   and the sitemap come from, so an in-page navigation to /matrix leaves the tab
+   reading what a crawler sees rather than the one-word nav label. */
+const VIEW_TITLES = (DATA.meta && DATA.meta.view_titles) || {};
+const NAV_LABEL = {};
+NAV.forEach(([r, l]) => { NAV_LABEL[r] = l; });
+$('#nav').innerHTML = NAV.map(([r, l]) => `<a href="${r === 'overview' ? href() : href(r)}" data-r="${r}">${l}</a>`).join('');
+$('#foot').innerHTML = `A field study by <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · Data gathered 26–27 July 2026 · <a href="${href('methodology')}">Methodology</a> · <a href="${REPO_URL}" target="_blank" rel="noopener">Source${NEWTAB}</a> · <a href="${REPO_URL}/issues/new/choose" target="_blank" rel="noopener">Feedback${NEWTAB}</a>`;
+
+function route(opts) {
+  const { view, arg } = parse();
+  const fn = VIEWS[view] || VIEWS.overview;
+  $('#view-root').innerHTML = `<div class="view on">${fn(arg)}</div>`;
+
+  let full = VIEW_TITLES[view] || '';
+  if (view === 'system') {
+    const s = DATA.systems.find(x => x.id === arg);
+    full = `${s ? s.name : 'Not found'} · ${SITE_TITLE}`;
+  } else if (!full) {
+    const label = NAV_LABEL[view] || '';
+    full = label ? `${label} · ${SITE_TITLE}` : BASE_TITLE;
+  }
+  document.title = full;
+
+  const navActive = view === 'system' ? 'systems' : (VIEWS[view] ? view : 'overview');
+  document.querySelectorAll('#nav a').forEach(a => {
+    const active = a.dataset.r === navActive;
+    a.classList.toggle('on', active);
+    if (active) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
+  /* On narrow screens the nav is one scrollable row, so the current section can
+     sit past the right edge. Scroll the row, never the document. */
+  const nav = $('#nav'), here = $('#nav a[aria-current]');
+  if (nav && here && nav.scrollWidth > nav.clientWidth) {
+    nav.scrollLeft = Math.max(0, here.offsetLeft - 12);
+  }
+
+  if ($('#q')) {
+    renderSyslist();
+    $('#q').addEventListener('input', renderSyslist);
+    $('#fmat').addEventListener('change', renderSyslist);
+  }
+  if (view === 'matrix') setupMatrixFades();
+  pruneSnippetTabStops();
+  window.scrollTo(0, 0);
+  if (opts && opts.focus) {
+    const main = document.getElementById('main');
+    if (main) main.focus({ preventScroll: true });
+  }
+}
+
+if (ROUTING === 'path') {
+  if (/^#\//.test(location.hash)) {
+    const p = location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
+    const seg = p.split('/');
+    let target = '/';
+    if (seg[0] === 'system' && seg[1]) target = '/systems/' + seg[1];
+    else if (p && seg[0] !== 'overview') target = '/' + p;
+    history.replaceState(null, '', target);
+  }
+  document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a');
+    if (!a || a.hasAttribute('target') || a.hasAttribute('download')) return;
+    if (a.origin !== location.origin) return;
+    const raw = a.getAttribute('href');
+    if (!raw || raw[0] !== '/') return;
+    /* A path with a file extension is a real file (the .md / .json record
+       mirrors, the data downloads), not a route. Let the browser fetch it. */
+    if (/\.[a-z0-9]{1,8}$/i.test(a.pathname)) return;
+    e.preventDefault();
+    if (a.pathname !== location.pathname) history.pushState(null, '', a.pathname);
+    route({ focus: true });
+  });
+  window.addEventListener('popstate', () => route({ focus: true }));
+} else {
+  window.addEventListener('hashchange', () => route({ focus: true }));
+}
+
+/* The announcement lives in one document-level status region, not on 300+
+   buttons. Cleared after the visible swap so a second copy re-announces. */
+let statusTimer = null;
+function say(msg) {
+  const n = document.getElementById('copy-status');
+  if (!n) return;
+  n.textContent = msg;
+  if (statusTimer) clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { n.textContent = ''; }, 2000);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button[data-copy]');
+  if (!b) return;
+  const label = b.querySelector('.btxt') || b;
+  const pre = document.getElementById('sn-' + b.dataset.copy);
+  if (pre && navigator.clipboard) navigator.clipboard.writeText(pre.textContent).then(() => {
+    label.textContent = 'copied'; say('Copied to clipboard');
+    setTimeout(() => { label.textContent = 'copy'; }, 1200);
+  }).catch(() => {
+    label.textContent = "couldn't copy"; say("Couldn't copy");
+    setTimeout(() => { label.textContent = 'copy'; }, 1500);
+  });
+});
+
+/* Clear filters, from the empty state. Returns focus to the field it emptied. */
+document.addEventListener('click', e => {
+  if (!e.target.closest('#clearf')) return;
+  if ($('#q')) $('#q').value = '';
+  if ($('#fmat')) $('#fmat').value = '';
+  renderSyslist();
+  if ($('#q')) $('#q').focus();
+});
+
+/* Platform jump links. preventDefault keeps the hash-routed artifact from
+   treating "#figma" as a route, and moving focus means the keyboard follows. */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-jump]');
+  if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  const target = document.getElementById(a.dataset.jump);
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ block: 'start' });
+  target.focus({ preventScroll: true });
+});
+
+/* "/" jumps to the filter, and only when you are not already typing somewhere. */
+document.addEventListener('keydown', e => {
+  if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if (t && typeof t.closest === 'function'
+      && t.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]')) return;
+  const q = $('#q');
+  if (!q) return;
+  e.preventDefault();
+  q.focus();
+  q.select();
+});
+
+function syncToggle(isDark) {
+  const t = $('#theme-toggle');
+  if (t) t.setAttribute('aria-pressed', String(!!isDark));
+}
+function darkNow() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  return cur ? cur === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+$('#theme-toggle').addEventListener('click', () => {
+  const next = darkNow() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  syncToggle(next === 'dark');
+  try { localStorage.setItem('theme', next); } catch (e) {}
+});
+syncToggle(darkNow());
+
+/* Expand every collapsed section for printing, then put it back. */
+let printRestore = [];
+window.addEventListener('beforeprint', () => {
+  printRestore = [];
+  document.querySelectorAll('details').forEach(d => {
+    printRestore.push([d, d.open]);
+    d.open = true;
+  });
+});
+window.addEventListener('afterprint', () => {
+  printRestore.forEach(([d, was]) => { d.open = was; });
+  printRestore = [];
+});
+
+/* ---------- WebMCP ----------
+   Registers the same four read-only tools the /mcp server exposes, as page tools
+   an in-browser agent can call instead of scraping the DOM. document.modelContext
+   is a W3C community-group draft (21 July 2026 editor's draft); today it exists
+   only in Chrome behind a flag or the 149–156 origin trial, so on every other
+   browser the guard below returns and nothing else in here runs. Kept isolated on
+   purpose: if the spec renames the entry point again, this is a one-line fix. */
+function registerReportTools(DATA) {
+  const mc = typeof document !== 'undefined' && document.modelContext;
+  if (!mc || typeof mc.registerTool !== 'function') return null;
+
+  const uniq = xs => Array.from(new Set(xs.filter(Boolean))).sort();
+  const systems = DATA.systems || [];
+  const IDS = systems.map(s => s.id);
+  const MATURITY = uniq(systems.map(s => s.ai_maturity));
+  const CATEGORY = uniq(systems.map(s => s.category));
+  const AFF_TYPE = uniq(systems.flatMap(s => (s.affordances || []).map(a => a.type)));
+  const TECH_CAT = uniq(systems.flatMap(s => (s.techniques || []).map(t => t.category)));
+  const SNAPSHOT = 'Snapshot of 26–27 July 2026. Cite the source_url on each record, not this page.';
+
+  /* The dataset quotes instruction files from third-party repositories, so tool
+     output is other people's text: read-only, and flagged as untrusted content. */
+  const annotations = { readOnlyHint: true, untrustedContentHint: true };
+  const ctl = typeof AbortController === 'function' ? new AbortController() : null;
+  const line = s => ({
+    id: s.id, name: s.name, org: s.org, category: s.category, ai_maturity: s.ai_maturity,
+    docs_url: s.docs_url, repo_url: s.repo_url, summary: s.summary,
+    affordance_types: uniq((s.affordances || []).map(a => a.type)),
+    counts: { affordances: (s.affordances || []).length, techniques: (s.techniques || []).length },
+  });
+  const out = v => JSON.stringify({ source: 'State of AI in Design Systems, July 2026', note: SNAPSHOT, ...v });
+
+  const TOOLS = [
+    {
+      name: 'list_systems',
+      title: 'List design systems',
+      description: `List the ${systems.length} design systems surveyed in this report, one compact record each: `
+        + 'id, org, category, AI maturity, links, which affordance types it ships, and a one-line summary. '
+        + 'Filter first, then call get_system for the full record. ' + SNAPSHOT,
+      inputSchema: {
+        type: 'object', additionalProperties: false, properties: {
+          maturity: { type: 'string', enum: MATURITY, description: 'How far the system has gone on AI consumption.' },
+          category: { type: 'string', enum: CATEGORY },
+          has_affordance: { type: 'string', enum: AFF_TYPE, description: 'Only systems shipping at least one affordance of this type.' },
+        },
+      },
+      execute: async (input) => {
+        const a = input || {};
+        let rows = systems;
+        if (a.maturity) rows = rows.filter(s => s.ai_maturity === a.maturity);
+        if (a.category) rows = rows.filter(s => s.category === a.category);
+        if (a.has_affordance) rows = rows.filter(s => (s.affordances || []).some(x => x.type === a.has_affordance));
+        return out({ total: rows.length, of: systems.length, systems: rows.map(line) });
+      },
+    },
+    {
+      name: 'get_system',
+      title: 'Get one design system',
+      description: 'The full record for one surveyed design system: summary, every AI affordance, every '
+        + 'model-coercion technique with the snippet it was quoted from, platform integrations, gaps and sources. '
+        + SNAPSHOT,
+      inputSchema: {
+        type: 'object', additionalProperties: false, required: ['id'],
+        properties: { id: { type: 'string', enum: IDS, description: 'System id, as returned by list_systems.' } },
+      },
+      execute: async (input) => {
+        const s = systems.find(x => x.id === (input || {}).id);
+        if (!s) return out({ error: 'No system with that id.', valid_ids: IDS });
+        return out({ system: s, page: location.origin + '/systems/' + s.id });
+      },
+    },
+    {
+      name: 'search',
+      title: 'Search the survey',
+      description: 'Full-text search across system summaries, affordances, coercion techniques and the quoted '
+        + 'snippets. Words are ANDed. Returns short excerpts with the source URL for each hit. ' + SNAPSHOT,
+      inputSchema: {
+        type: 'object', additionalProperties: false, required: ['query'],
+        properties: {
+          query: { type: 'string', maxLength: 120, description: 'Words to look for, e.g. "code connect".' },
+          kind: { type: 'string', enum: ['all', 'system', 'affordance', 'technique'] },
+          limit: { type: 'integer', minimum: 1, maximum: 25, description: 'Default 10.' },
+        },
+      },
+      execute: async (input) => {
+        const a = input || {};
+        const words = String(a.query || '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
+        if (!words.length) return out({ error: 'Empty query.' });
+        const kind = a.kind || 'all';
+        const limit = Math.min(Math.max(parseInt(a.limit, 10) || 10, 1), 25);
+        const hits = [];
+        for (const s of systems) {
+          const push = (k, name, text, url) => {
+            if (hits.length >= limit) return;
+            const hay = (name + ' ' + text).toLowerCase();
+            if (words.every(w => hay.includes(w))) {
+              hits.push({ kind: k, system: s.name, system_id: s.id, name, excerpt: String(text).slice(0, 300), source_url: url || null });
+            }
+          };
+          if (kind === 'all' || kind === 'system') push('system', s.name, s.summary || '', s.docs_url);
+          if (kind === 'all' || kind === 'affordance') {
+            for (const x of s.affordances || []) push('affordance', x.name, [x.description, x.snippet && x.snippet.content].filter(Boolean).join(' '), (x.snippet && x.snippet.source_url) || x.docs_url || x.code_url);
+          }
+          if (kind === 'all' || kind === 'technique') {
+            for (const t of s.techniques || []) push('technique', t.name, [t.description, t.snippet && t.snippet.content].filter(Boolean).join(' '), t.snippet && t.snippet.source_url);
+          }
+        }
+        return out({ query: words.join(' '), returned: hits.length, limit, hits });
+      },
+    },
+    {
+      name: 'get_stats',
+      title: 'Report totals and filter vocabulary',
+      description: 'Headline counts for the report plus the exact enum values the other tools accept as filters. '
+        + 'Call this first if you are unsure what to ask for. ' + SNAPSHOT,
+      inputSchema: { type: 'object', additionalProperties: false, properties: {} },
+      execute: async () => out({
+        counts: DATA.meta.counts,
+        enums: { ai_maturity: MATURITY, category: CATEGORY, affordance_type: AFF_TYPE, technique_category: TECH_CAT, system_id: IDS },
+        methodology: location.origin + '/methodology.md',
+      }),
+    },
+  ];
+
+  const registered = [];
+  for (const t of TOOLS) {
+    try {
+      mc.registerTool({ ...t, annotations }, ctl ? { signal: ctl.signal } : {});
+      registered.push(t.name);
+    } catch (e) { /* a spec change must not break the page */ }
+  }
+  return { tools: registered, unregister: () => ctl && ctl.abort() };
+}
+try { registerReportTools(DATA); } catch (e) { /* never let page tools break the report */ }
+
+route();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+# Static deploy of the State of AI in Design Systems report.
+# Deploy with: netlify deploy --prod  (or connect the repo and let Netlify pick this up)
+[build]
+  publish = "dashboard"
+
+# netlify/functions/mcp.mjs is the MCP server, served at /mcp by its exported
+# config.path. esbuild inlines the two build/*.json imports into the bundle, so
+# the function needs no filesystem access at runtime and no included_files.
+[functions]
+  node_bundler = "esbuild"
+
+# Referrer-Policy: outbound links go to 257 third-party repositories; they get
+# the origin, never the path of the page someone was reading.
+# Cache-Control: an hour on everything by default. data.js is rebuilt with the
+# HTML it belongs to, so it deliberately does NOT get a long immutable max-age —
+# a stale payload beside fresh markup would be worse than a re-fetch.
+#
+# No Content-Security-Policy. Every inline script would need its hash in the
+# header, and the per-page JSON-LD block is rewritten by scripts/prerender.mjs
+# after scripts/build_dashboard.py has run, so the hashes for 27 routes plus
+# artifact.html do not exist at the point the header could be written. A CSP
+# that misses one of them breaks a route silently; the audit prefers none.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=3600"
+
+# Content-addressed by nothing, but changed roughly never, and both are fetched
+# by crawlers and tab bars rather than by readers.
+[[headers]]
+  for = "/og-image.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The artifact variant is a duplicate of the site for a different host.
+[[headers]]
+  for = "/artifact.html"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+# The markdown mirror layer. These files exist so agents can read the report
+# without parsing HTML, so they are served as text and are readable cross-origin.
+[[headers]]
+  for = "/*.md"
+  [headers.values]
+    Content-Type = "text/markdown; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/llms*.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/.well-known/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+# No SPA fallback: every route is a real prerendered file, and Netlify serves
+# 404.html for anything else. A catch-all 200 would answer typo'd URLs with the
+# wrong page instead of an honest miss.
+#
+# netlify/edge-functions/markdown.ts handles Accept: text/markdown on the HTML
+# routes. Netlify discovers it in netlify/edge-functions/ automatically; the
+# route list is in its exported config.

@@ -1,0 +1,271 @@
+{
+  "id": "heroui",
+  "name": "HeroUI",
+  "org": "HeroUI Inc",
+  "category": "component-library",
+  "docs_url": "https://www.heroui.com",
+  "repo_url": "https://github.com/heroui-inc/heroui",
+  "license": "Apache-2.0",
+  "summary": "HeroUI (formerly NextUI) is a 30k-star React component library, now shipping v3 on Tailwind CSS v4 + React Aria Components. It is one of the most thoroughly AI-instrumented open-source component libraries in the study: the v3 monorepo ships a top-level `skills/` directory with three installable Agent Skills, a `prompts/` directory of vendor-specific system prompts (v0.dev, bolt.new, universal), four llms.txt variants per platform sliced by context-window budget, an official stdio MCP server (`@heroui/react-mcp`) auto-refreshed from docs deploys via repository_dispatch, and a `curl | bash` installer that writes skills into Claude Code, Cursor, OpenCode and Codex config dirs. On the builder side the repo carries both AGENTS.md and CLAUDE.md, five `.claude/agents/*` subagent definitions, a `.claude/guides/` reference, and a `.claude/hooks.mjs` pre/post-edit hook running prettier, eslint --fix and tsc on every agent edit. The coercion language is unusually blunt — the CLI-injected index literally opens with “STOP. What you remember about HeroUI React v3 is WRONG for this project.”",
+  "ai_maturity": "ai-native",
+  "maintenance": {
+    "actively_maintained": true,
+    "last_release": "v3.2.2 (2026-07-07)",
+    "activity_note": "Repo pushed 2026-07-26; 30,218 stars; releases roughly monthly through v3 (v3.0.5 May, v3.1.0 May, v3.2.0/3.2.1 June, v3.2.2 July 2026). heroui-cli 3.0.4 published 2026-07-06. The MCP monorepo (heroui-inc/heroui-mcp) is slower: last push 2026-04-16, @heroui/react-mcp 1.1.0 published 2026-02-12 — the MCP surface lags the main library. The older @heroui/mcp package is a stale 1.0.0-alpha.17 from Sept 2025, superseded by @heroui/react-mcp."
+  },
+  "affordances": [
+    {
+      "type": "claude-skill",
+      "name": "heroui-react Agent Skill (+ heroui-migration, heroui-native)",
+      "official": true,
+      "audience": "consumers",
+      "code_url": "https://github.com/heroui-inc/heroui/tree/v3/skills/heroui-react",
+      "docs_url": "https://heroui.com/docs/react/getting-started/agent-skills",
+      "description": "Three first-party Agent Skills versioned in the main repo under skills/. Each has SKILL.md plus a scripts/ dir of .mjs fetchers (list_components, get_component_docs, get_source, get_styles, get_theme, get_docs) so the agent pulls live docs rather than relying on weights. Installed via `curl -fsSL https://heroui.com/install | bash -s heroui-react` or `npx skills add heroui-inc/heroui`; auto-discovered, or invoked as /heroui-react.",
+      "notes": "Skill frontmatter is keyword-stuffed (“Keywords: HeroUI, Hero UI, heroui, @heroui/react, @heroui/styles”) to force autodiscovery; metadata.version pinned to 3.0.1.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://github.com/heroui-inc/heroui/tree/v3/skills/heroui-react",
+        "content": "## CRITICAL: v3 Only - Ignore v2 Knowledge\n\n**This guide is for HeroUI v3 ONLY.** Do NOT apply v2 patterns — the provider, styling, and component API all changed:\n\n| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                   |\n| Provider      | `<HeroUIProvider>` required       | **No Provider needed**          |\n| Animations    | `framer-motion` package           | CSS-based, no extra deps        |\n| Component API | Flat props: `<Card title=\"x\">`    | Compound: `<Card><Card.Header>` |\n\n```tsx\n// DO NOT DO THIS - v2 pattern\nimport { HeroUIProvider } from \"@heroui/react\";\nimport { motion } from \"framer-motion\";\n```\n\n**Always fetch v3 docs before implementing.**"
+      }
+    },
+    {
+      "type": "mcp-server",
+      "name": "@heroui/react-mcp (and @heroui/native-mcp)",
+      "official": true,
+      "audience": "consumers",
+      "code_url": "https://github.com/heroui-inc/heroui-mcp",
+      "docs_url": "https://heroui.com/docs/react/getting-started/mcp-server",
+      "description": "Official stdio MCP server exposing 6 tools. Docs ship copy-paste config for Cursor (plus one-click deeplink link.heroui.com/mcp-cursor-install), Claude Code, Windsurf, Zed, VS Code/Copilot, Codex (TOML) and OpenCode. Also pitched as an upgrade agent: ‘Hey Cursor, update HeroUI to the latest version’ → compares versions, reads changelog, applies updates.",
+      "notes": "v3-only, stdio-only. Requires Node 22+.",
+      "snippet": {
+        "language": "json",
+        "source_url": "https://heroui.com/docs/react/getting-started/mcp-server.mdx",
+        "content": "claude mcp add heroui-react -- npx -y @heroui/react-mcp@latest\n\n{\n  \"mcpServers\": {\n    \"heroui-react\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@heroui/react-mcp@latest\"]\n    }\n  }\n}\n\n| Tool | Description |\n| `list_components` | List all available HeroUI v3 components |\n| `get_component_docs` | Get complete component documentation including anatomy, props, examples, and usage patterns |\n| `get_component_source_code` | Access the React/TypeScript source code (.tsx files) for components |\n| `get_component_source_styles` | View the CSS styles (.css files) for components |\n| `get_theme_variables` | Access theme variables for colors, typography, spacing with light/dark mode support |\n| `get_docs` | Browse the full HeroUI v3 documentation including guides and principles |"
+      }
+    },
+    {
+      "type": "llms-txt",
+      "name": "llms.txt family (8 files, sliced by context budget)",
+      "official": true,
+      "audience": "consumers",
+      "docs_url": "https://heroui.com/docs/react/getting-started/llms-txt",
+      "description": "Eight files: /llms.txt (517 lines, 76 KB index), /llms-full.txt (~7 MB), /llms-components.txt and /llms-patterns.txt, each also namespaced per platform under /react/ and /native/. Explicitly tiered ‘For limited context windows’. Every docs page is also retrievable as raw MDX by appending .mdx, with a header naming the upstream GitHub source file.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/apps/docs/content/docs/en/react/getting-started/(ui-for-agents)/llms-txt.mdx",
+        "content": "**Core documentation:**\n- [/react/llms.txt](/react/llms.txt) — Quick reference index for React documentation\n- [/react/llms-full.txt](/react/llms-full.txt) — Complete HeroUI React documentation\n\n**For limited context windows:**\n- [/react/llms-components.txt](/react/llms-components.txt) — Component documentation only\n- [/react/llms-patterns.txt](/react/llms-patterns.txt) — Common patterns and recipes\n\n**Windsurf:** Add to your `.windsurfrules` file:\n```\n#docs https://heroui.com/react/llms-full.txt\n```\n\n## Contributing\n\nFound an issue with AI-generated code? Help us improve our LLMs.txt files on [GitHub](https://github.com/heroui-inc/heroui)."
+      }
+    },
+    {
+      "type": "cli-scaffolding",
+      "name": "heroui-cli agents-md",
+      "official": true,
+      "audience": "consumers",
+      "code_url": "https://github.com/heroui-inc/heroui-cli/blob/main/src/helpers/agents-docs/heroui-agents-md.ts",
+      "docs_url": "https://heroui.com/docs/react/getting-started/agents-md",
+      "description": "`npx heroui-cli@latest agents-md --react [--output AGENTS.md CLAUDE.md]` git-sparse-checkouts the v3 docs branch into `.heroui-docs/react/`, builds a compact index, injects it into AGENTS.md/CLAUDE.md, and auto-appends `.heroui-docs/` to .gitignore. Explicitly adapted from Vercel’s next-codemod agents-md tool; the docs page links Vercel’s ‘AGENTS.md outperforms Skills in our agent evals’ post as justification.",
+      "notes": "Split-brain: agents-md is v3-only while the CLI’s add/init/upgrade commands still target v2.",
+      "snippet": {
+        "language": "typescript",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts",
+        "content": "if (library === 'react') {\n    parts.push('[HeroUI React v3 Docs Index]');\n    if (reactDocsPath) parts.push(`root: ${reactDocsPath}`);\n    parts.push(\n      'STOP. What you remember about HeroUI React v3 is WRONG for this project. Always search docs and read before any task.'\n    );\n\n    const targetFile = outputFile || 'AGENTS.md';\n\n    parts.push(\n      `If docs missing, run this command first: heroui agents-md --react --output ${targetFile}`\n    );"
+      }
+    },
+    {
+      "type": "prompt-library",
+      "name": "prompts/ — vendor-specific system prompt packs",
+      "official": true,
+      "audience": "consumers",
+      "code_url": "https://github.com/heroui-inc/heroui/tree/v3/prompts",
+      "description": "Three maintained prompt packs in-repo: heroui-system-prompt.md (universal, usable as .cursorrules), v0-heroui.md (v0.dev, App Router + RSC), bolt-heroui.md (bolt.new/StackBlitz, full runnable Vite setup). README names Lovable, Replit Agent and Windsurf as further targets and tells contributors to diff prompts against real v3 source to catch drift.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://github.com/heroui-inc/heroui/tree/v3/prompts",
+        "content": "# HeroUI v3 — AI Integration Prompt Packs\n\nSystem prompts that teach AI code-generation tools to produce correct, idiomatic HeroUI v3 code.\n\n| File | Purpose |\n| `heroui-system-prompt.md` | Universal prompt — works with any LLM or AI coding tool (Claude, ChatGPT, Cursor, Copilot, etc.) |\n| `v0-heroui.md` | Tailored for [v0.dev](https://v0.dev) — emphasizes Next.js App Router, RSC patterns, and Tailwind v4 |\n| `bolt-heroui.md` | Tailored for [bolt.new](https://bolt.new) / StackBlitz — includes full Vite setup and runnable single-file examples |\n\n## Contributing\n\nWhen updating these prompts, verify that the component names, APIs, and import patterns match the actual v3 source code in this repo. Run a quick check against the component docs in `apps/docs/content/docs/react/components/` to catch any drift."
+      }
+    },
+    {
+      "type": "cli-scaffolding",
+      "name": "heroui.com/install — multi-harness skill installer",
+      "official": true,
+      "audience": "consumers",
+      "code_url": "https://heroui.com/install",
+      "description": "A bash script served from the docs domain that detects installed agent harnesses and drops the requested skill tarball into each: ~/.claude/skills/, ~/.cursor/skills/, ~/.config/opencode/skill/, and $CODEX_HOME. It also garbage-collects the previous-generation `heroui` skill and its /heroui slash command. Distribution-as-coercion: the skill lands in the agent’s global config without the user editing anything.",
+      "snippet": {
+        "language": "bash",
+        "source_url": "https://heroui.com/install",
+        "content": "#!/bin/bash\n# HeroUI Skill Installer\n# Usage: curl -sSL https://heroui.com/install | bash -s [skill-name]\n# Default: heroui-react\n# Available skills: heroui-react, heroui-native, heroui-migration\n\nSKILL_NAME=\"${1:-heroui-react}\"\nSKILL_URL=\"${BASE_URL}/skills/${SKILL_NAME}.tar.gz\"\nCODEX_HOME=\"${CODEX_HOME:-$HOME/.codex}\"\n\n# Claude Code - Skill only (skills are auto-discovered, no command needed)\nif [ -d \"$HOME/.claude\" ]; then\n  mkdir -p \"$HOME/.claude/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.claude/skills/${SKILL_NAME}\"\n  echo \"✓ Installed ${SKILL_NAME} skill for Claude Code\"\nfi\n\n# Cursor - Install skill\nif [ -d \"$HOME/.cursor\" ]; then\n  mkdir -p \"$HOME/.cursor/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.cursor/skills/${SKILL_NAME}\"\nfi"
+      }
+    },
+    {
+      "type": "agents-md",
+      "name": "AGENTS.md + CLAUDE.md (contributor-facing)",
+      "official": true,
+      "audience": "builders",
+      "code_url": "https://github.com/heroui-inc/heroui/blob/v3/AGENTS.md",
+      "description": "Both at repo root, largely mirroring each other (AGENTS.md is richer, ~220 lines). They encode the monorepo map, an exact command table, conventional-commit rules enforced by husky+commitlint, and hard styling prohibitions that constrain what an agent may write.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://github.com/heroui-inc/heroui/blob/v3/AGENTS.md",
+        "content": "### Creating a New Component\n\nAlways use the scaffold script:\n\n```bash\ncd packages/react\npnpm add:component ComponentName\n```\n\n### Styling Rules\n\n1. **Styles go in `.styles.ts` files**, never in `.tsx` files. Use `tv()` from `tailwind-variants`.\n2. **Import from `tailwind-variants`**, never from `@heroui/standard`.\n3. **Never use `twMerge` manually** — `tailwind-variants` already includes it.\n4. **Add `\"use client\"` directive** at the top of every component `.tsx` file.\n5. **Display names** follow: `HeroUI.ComponentName` or `HeroUI.Component.SubPart`."
+      }
+    },
+    {
+      "type": "claude-skill",
+      "name": ".claude/agents/ — five specialised subagents + .claude/guides/",
+      "official": true,
+      "audience": "builders",
+      "code_url": "https://github.com/heroui-inc/heroui/tree/v3/.claude/agents",
+      "description": "Checked-in Claude Code subagent definitions: docs-curator.md (13 KB, model: opus), heroui-docs-writer.md (16 KB), style-migrator.md (11 KB, .styles.ts → BEM CSS migration), tailwind-v4-css-expert.md, storybook-debugger.md — plus .claude/guides/tailwindcss-v4-css-guide.md as shared curated context. They chain: style-migrator is told to delegate to tailwind-v4-css-expert for validation.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://github.com/heroui-inc/heroui/tree/v3/.claude/agents",
+        "content": "**CRITICAL: Before Reviewing Documentation**\n\nBefore reviewing or improving any documentation, you MUST:\n\n1. **Check Component Implementation**: Always examine the actual component source files in `/packages/react/src/components/[component-name]/`:\n   - Read the `.tsx` file to understand the component structure and compound parts\n   - **MANDATORY: Read the `.stories.tsx` file thoroughly** - This is your PRIMARY reference for validating demos\n   - Verify demos match Storybook story patterns and structures\n\n4. **Verify Component APIs**: Never assume component structure - always verify:\n   - Compound parts match actual implementation"
+      }
+    },
+    {
+      "type": "other",
+      "name": ".claude/hooks.mjs — pre/post-edit validation loop",
+      "official": true,
+      "audience": "builders",
+      "code_url": "https://github.com/heroui-inc/heroui/blob/v3/.claude/hooks.mjs",
+      "description": "Programmatic guardrails around every agent file edit: preEdit hard-throws on a protected-files denylist (lockfiles, .env.production, firebase.json) and warns on formatting; postEdit runs `pnpm lint --fix` and `tsc --noEmit` on the edited file and surfaces failures back to the agent. Enforcement in code rather than prose.",
+      "snippet": {
+        "language": "javascript",
+        "source_url": "https://github.com/heroui-inc/heroui/blob/v3/.claude/hooks.mjs",
+        "content": "// Hook that runs before editing files\nexport async function preEdit({filePath}) {\n  // Prevent editing of certain protected files\n  const protectedFiles = [\"yarn.lock\", \"package-lock.json\", \".env.production\", \"firebase.json\"];\n  const fileName = path.basename(filePath);\n\n  if (protectedFiles.includes(fileName)) {\n    throw new Error(`❌ Cannot edit protected file: ${fileName}`);\n  }\n\n  return {proceed: true};\n}\n\n// Hook that runs after editing files\nexport async function postEdit({filePath, success}) {\n  if (!success) return;\n\n  if (filePath.match(/\\.(ts|tsx|js|jsx)$/)) {\n    try {\n      execSync(`pnpm lint --fix \"${filePath}\"`, {stdio: \"pipe\"});\n      console.log(\"✅ Lint fixes applied\");\n    } catch (e) {\n      console.log(\"⚠️  Lint errors detected - please review\");\n    }\n  }"
+      }
+    },
+    {
+      "type": "mcp-server",
+      "name": "T-hash06/heroui-mcp (community)",
+      "official": false,
+      "audience": "consumers",
+      "code_url": "https://github.com/T-hash06/heroui-mcp",
+      "description": "Independent community MCP server for HeroUI component context, predating the official one. 17 stars, last pushed 2025-07-20 — effectively dormant and superseded by @heroui/react-mcp.",
+      "notes": "Listed for completeness; not recommended."
+    }
+  ],
+  "techniques": [
+    {
+      "name": "\"STOP. What you remember is WRONG\" — weight-invalidation preamble",
+      "category": "prohibition",
+      "description": "The strongest coercion artefact in the corpus. Every AGENTS.md/CLAUDE.md index the CLI writes into a consumer project opens by asserting the model’s parametric memory of HeroUI is invalid, mandates doc retrieval before any task, and gives a recovery command if the docs directory is missing. It directly targets v2/NextUI contamination: ~30k stars of v2 code in training data against a v3 API that broke almost everything.",
+      "snippet": {
+        "language": "typescript",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts",
+        "content": "parts.push('[HeroUI React v3 Docs Index]');\nif (reactDocsPath) parts.push(`root: ${reactDocsPath}`);\nparts.push(\n  'STOP. What you remember about HeroUI React v3 is WRONG for this project. Always search docs and read before any task.'\n);\n\nconst targetFile = outputFile || 'AGENTS.md';\n\nparts.push(\n  `If docs missing, run this command first: heroui agents-md --react --output ${targetFile}`\n);"
+      }
+    },
+    {
+      "name": "Negative exemplars — a labelled \"DO NOT DO THIS\" code block",
+      "category": "exemplars",
+      "description": "The heroui-react skill pairs a v2/v3 contrast table with an explicitly labelled wrong-answer sample followed by the corrected one. Rather than only describing the target API, it shows the exact hallucination it expects (HeroUIProvider + framer-motion + flat Card props) and marks it forbidden.",
+      "snippet": {
+        "language": "tsx",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
+        "content": "```tsx\n// DO NOT DO THIS - v2 pattern\nimport { HeroUIProvider } from \"@heroui/react\";\nimport { motion } from \"framer-motion\";\n\n<HeroUIProvider>\n\t<Card title=\"Product\" description=\"A great product\" />\n</HeroUIProvider>;\n```\n\n### CORRECT (v3 patterns)\n\n```tsx\n// DO THIS - v3 pattern (no provider, compound components)\nimport { Card } from \"@heroui/react\";\n\n<Card>\n\t<Card.Header>\n\t\t<Card.Title>Product</Card.Title>\n\t\t<Card.Description>A great product</Card.Description>\n\t</Card.Header>\n</Card>;\n```"
+      }
+    },
+    {
+      "name": "Forced retrieval — the skill ships executable fetchers, not prose",
+      "category": "tool-gating",
+      "description": "heroui-react deliberately withholds component API detail from SKILL.md and instead hands the agent six node scripts plus a deterministic MDX URL scheme, repeating “Always fetch component docs before implementing.” The skill body stays small (6.5 KB) while every concrete answer must come from a live fetch — the same discipline the MCP server enforces via tools.",
+      "snippet": {
+        "language": "bash",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
+        "content": "**For component details, examples, props, and implementation patterns, always fetch documentation:**\n\n# List all available components\nnode scripts/list_components.mjs\n\n# Get component documentation (MDX)\nnode scripts/get_component_docs.mjs Button\n\n# Get component source code\nnode scripts/get_source.mjs Button\n\n# Get component CSS styles (BEM classes)\nnode scripts/get_styles.mjs Button\n\n# Get theme variables\nnode scripts/get_theme.mjs\n\nComponent docs: `https://heroui.com/docs/react/components/{component-name}.mdx`\n\n**Important:** Always fetch component docs before implementing. The MDX docs include complete examples, props, anatomy, and API references."
+      }
+    },
+    {
+      "name": "Semantic-token enforcement — \"Don't use raw colors\"",
+      "category": "token-enforcement",
+      "description": "The skill supplies a variant-intent table (primary = 1 per context, tertiary = dismissive, danger = destructive) and forbids raw/visual color choices, pushing the agent toward semantic variants and oklch CSS variables that adapt to theme and contrast. The naming convention is machine-checkable: bare var = background, `-foreground` suffix = text.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
+        "content": "## Semantic Variants\n\n| Variant     | Purpose                           | Usage          |\n| `primary`   | Main action to move forward       | 1 per context  |\n| `secondary` | Alternative actions               | Multiple       |\n| `tertiary`  | Dismissive actions (cancel, skip) | Sparingly      |\n| `danger`    | Destructive actions               | When needed    |\n\n**Don't use raw colors** - semantic variants adapt to themes and accessibility.\n\n**Color naming:**\n\n- Without suffix = background (e.g., `--accent`)\n- With `-foreground` = text color (e.g., `--accent-foreground`)"
+      }
+    },
+    {
+      "name": "Scaffold-only component creation (builders)",
+      "category": "scaffolding",
+      "description": "Contributor agents are forbidden from hand-rolling a new component directory; AGENTS.md mandates `pnpm add:component ComponentName` then a build to regenerate package.json exports. Combined with the enumerated prohibitions (never twMerge, never styles in .tsx, never import tv from @heroui/standard) this narrows the agent to filling in a generated skeleton.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/AGENTS.md",
+        "content": "### Creating a New Component\n\nAlways use the scaffold script:\n\n```bash\ncd packages/react\npnpm add:component ComponentName\n```\n\nThen build to update package.json exports:\n\n```bash\npnpm build\n```"
+      }
+    },
+    {
+      "name": "Hook-enforced validation loop on every edit",
+      "category": "validation-loop",
+      "description": "Rather than asking the agent to remember to lint, .claude/hooks.mjs runs prettier check pre-edit and `pnpm lint --fix` + `tsc --noEmit --skipLibCheck` post-edit, feeding results back into the transcript; a denylist throws outright for protected files. Deterministic enforcement outside the model’s discretion.",
+      "snippet": {
+        "language": "javascript",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/hooks.mjs",
+        "content": "  // Run type checking on TypeScript files\n  if (filePath.match(/\\.(ts|tsx)$/)) {\n    try {\n      execSync(`npx tsc --noEmit --skipLibCheck \"${filePath}\"`, {stdio: \"pipe\"});\n    } catch (e) {\n      console.log(\"⚠️  TypeScript errors detected - please review\");\n    }\n  }"
+      }
+    },
+    {
+      "name": "Ground-truth-first subagents (\"never assume, always verify\")",
+      "category": "curated-context",
+      "description": "The docs-curator subagent is barred from writing docs off memory: it must first read the component .tsx, its .stories.tsx (declared the PRIMARY reference), .styles.ts and BEM CSS, and verify React Aria `links.rac` frontmatter. Storybook stories are promoted to the executable spec docs are validated against. Sibling agents are pointed at .claude/guides/tailwindcss-v4-css-guide.md as shared curated context, with explicit CSS prohibitions.",
+      "snippet": {
+        "language": "markdown",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/agents/style-migrator.md",
+        "content": "**IMPORTANT**: Always refer to the comprehensive Tailwind CSS v4 guide at `.claude/guides/tailwindcss-v4-css-guide.md` for:\n\n- Proper @apply directive usage and v4-specific changes\n- CSS nesting syntax with & symbol\n\n- **DO NOT add any @utility directives** - the plugin handles CSS injection\n- Proper use of `@apply` directives for Tailwind utilities (IMPORTANT: Only ONE @apply per CSS rule block - combine all utilities into a single @apply statement)\n\n**IMPORTANT**: When creating or analyzing CSS files, use the tailwind-v4-css-expert agent to ensure proper Tailwind CSS v4 syntax and patterns."
+      }
+    },
+    {
+      "name": "Auto-refresh pipeline: docs deploy → MCP re-extraction",
+      "category": "registry-metadata",
+      "description": "A GitHub Actions workflow listens for Vercel deployment webhooks on the v3 branch and repository_dispatches `react-docs-deployed` / `native-docs-deployed` into heroui-inc/heroui-mcp, so the MCP server’s corpus is re-extracted from the freshly deployed docs. Infrastructure that keeps the agent-facing surface from drifting from the docs.",
+      "snippet": {
+        "language": "yaml",
+        "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.github/workflows/trigger-mcp-extraction.yml",
+        "content": "name: Trigger MCP Extraction on Vercel Deployment\n\non:\n  repository_dispatch:\n    types:\n      - vercel.deployment.success\n      - vercel.deployment.promoted\n\njobs:\n  trigger-extraction:\n    steps:\n      - name: Trigger React MCP Extraction\n        if: |\n          github.event.client_payload.git.ref == 'v3' ||\n          github.event.client_payload.git.ref == 'refs/heads/v3'\n        uses: peter-evans/repository-dispatch@v3\n        with:\n          token: ${{ secrets.MCP_DISPATCH_TOKEN }}\n          repository: heroui-inc/heroui-mcp\n          event-type: react-docs-deployed"
+      }
+    }
+  ],
+  "platform_integrations": [
+    {
+      "platform": "figma",
+      "url": "https://www.figma.com/community/file/1546526812159103429/heroui-figma-kit-v3",
+      "description": "Official HeroUI Figma Kit V3 on Figma Community, marketed as a 1:1 match with v3 code (same variants, naming, structure) using Figma variables mapped to code tokens (--accent, --surface, --radius) and Figma slots for composition. No Code Connect (*.figma.tsx) files exist anywhere in the heroui-inc org — code search returned only prose mentions in blog/docs MDX. Figma Dev Mode MCP is not documented as supported."
+    },
+    {
+      "platform": "storybook",
+      "url": "https://github.com/heroui-inc/heroui/tree/v3/packages/storybook",
+      "description": "Storybook is the internal component-development environment (`pnpm dev`, port 6006); every component ships a .stories.tsx. It is used as an AI substrate on the builder side — docs-curator treats stories as the primary source of truth for docs demos, and a dedicated storybook-debugger subagent exists. No public Storybook-based MCP or addon for consumers."
+    },
+    {
+      "platform": "other",
+      "url": "https://heroui.pro/docs/react/getting-started/agent-skills",
+      "description": "HeroUI Pro (commercial block library) ships its own agent-skills and Figma docs pages; not verified in depth here. No Supernova / Knapsack / zeroheight presence found."
+    }
+  ],
+  "building_vs_consumption": {
+    "for_consumers": "Exceptionally well served, and deliberately multi-modal so the same guidance lands whatever harness the developer uses: Agent Skills (Claude Code / Cursor / OpenCode / Codex, installed by a one-line curl or `npx skills add heroui-inc/heroui`), an official MCP server with six retrieval tools and copy-paste config for seven clients plus a one-click Cursor deeplink, four tiers of llms.txt per platform, `.mdx` suffix retrieval on every docs page, a `heroui-cli agents-md` command that vendors the docs into the consumer’s repo and rewrites their AGENTS.md/CLAUDE.md, and vendor-tuned prompt packs for v0.dev and bolt.new. The unifying strategy is anti-memory: because v3 broke nearly every v2/NextUI API models were trained on, almost every artefact’s first move is to invalidate the model’s priors and force a live fetch.",
+    "for_builders": "Also unusually mature for an OSS component library. The repo root carries both AGENTS.md and CLAUDE.md (overlapping; AGENTS.md is the fuller spec), plus `.claude/` with five committed subagent definitions (docs-curator on opus, heroui-docs-writer, style-migrator, tailwind-v4-css-expert, storybook-debugger), a curated `.claude/guides/tailwindcss-v4-css-guide.md`, and `hooks.mjs` enforcing lint/typecheck/protected-file rules on every agent edit. The style-migrator subagent is a genuine AI-assisted migration tool (tailwind-variants .styles.ts → BEM CSS) built for the v2→v3 restyle. Notably absent: any .cursorrules, .cursor/rules/, or .github/copilot-instructions.md, and CONTRIBUTING.md contains zero mentions of AI, agents, Claude, Copilot or skills — the agent tooling is entirely undocumented for outside contributors."
+  },
+  "gaps": "1) No Figma Code Connect: despite a 1:1 Figma Kit V3, a GitHub code search across heroui-inc found no *.figma.tsx or Code Connect configuration — only prose mentions in blog/docs MDX. No Figma Dev Mode MCP integration documented. 2) No shadcn-style machine-readable component registry (registry.json returned 0 results org-wide); agents get docs and source via MCP/scripts, not an installable registry. 3) MCP staleness: @heroui/react-mcp last published 2026-02-12 and heroui-inc/heroui-mcp last pushed 2026-04-16 while the library shipped v3.2.2 in July 2026 — the auto-extraction workflow keeps the docs corpus fresh but the server package lags. Legacy @heroui/mcp is stuck at 1.0.0-alpha.17 (Sept 2025) and still surfaces in search. 4) Tooling split-brain: heroui-cli’s agents-md is v3-only while add/init/upgrade still target v2, flagged in a docs Callout. 5) The migration skill points at a preview Vercel URL (heroui-git-docs-migration-heroui.vercel.app) rather than a stable domain, and is marked status: preview. 6) No Supernova / Knapsack / zeroheight presence found. 7) /llms-full.txt is ~7 MB — far beyond most context windows despite the ‘full’ framing; heroui.com/llms.txt serves a JS redirect shell to some clients before resolving to the 76 KB / 517-line index. 8) No AI guidance for external contributors: CONTRIBUTING.md never mentions the .claude/ tooling. 9) No evidence found of AI review bots on PRs or AI-authored codemods beyond the style-migrator subagent. 10) AGENTS.md and CLAUDE.md substantially duplicate each other, a drift risk.",
+  "sources": [
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/AGENTS.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/CLAUDE.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/hooks.mjs",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/agents/docs-curator.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/agents/style-migrator.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-migration/SKILL.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/prompts/README.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/prompts/heroui-system-prompt.md",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.github/workflows/trigger-mcp-extraction.yml",
+    "https://heroui.com/install",
+    "https://heroui.com/docs/react/getting-started/mcp-server.mdx",
+    "https://raw.githubusercontent.com/heroui-inc/heroui/v3/apps/docs/content/docs/en/react/getting-started/(ui-for-agents)/llms-txt.mdx",
+    "https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts",
+    "https://www.figma.com/community/file/1546526812159103429/heroui-figma-kit-v3"
+  ]
+}
