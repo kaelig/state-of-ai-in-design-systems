@@ -35,6 +35,27 @@ OUT = ROOT / "dashboard"
 BUILD = ROOT / "build"
 SCHEMA_SRC = ROOT / "schema" / "design-system.schema.json"
 
+# Every schema the records are validated against gets published, so a reader can
+# check the shape of any file we ship rather than only the system records.
+# (published path, source file, note for the /ai listing)
+PUBLIC_SCHEMAS = [
+    (
+        "/data/design-system.schema.json",
+        SCHEMA_SRC,
+        "The system record shape, including the technique taxonomy.",
+    ),
+    (
+        "/data/platform.schema.json",
+        ROOT / "schema" / "platform.schema.json",
+        "The platform record shape. Capabilities carry the URL they were read from.",
+    ),
+    (
+        "/data/insights.schema.json",
+        ROOT / "schema" / "insights.schema.json",
+        "The shape of the written analysis: findings, essay, methodology, caveats.",
+    ),
+]
+
 ORIGIN = "https://state-of-ai-in-design-systems.netlify.app"
 MCP_URL = f"{ORIGIN}/mcp"
 REPO_URL = "https://github.com/kaelig/state-of-ai-in-design-systems"
@@ -1009,11 +1030,14 @@ def ai_content():
             "url": U("/data/insights.json"),
             "note": "Findings, convergence, divergence, essay, methodology, caveats.",
         },
-        {
-            "label": "design-system.schema.json",
-            "url": U("/data/design-system.schema.json"),
-            "note": "The record shape, including the technique taxonomy.",
-        },
+        *(
+            {
+                "label": pub_path.rsplit("/", 1)[-1],
+                "url": U(pub_path),
+                "note": note,
+            }
+            for pub_path, _src, note in PUBLIC_SCHEMAS
+        ),
         {
             "label": "state-of-ai.sqlite",
             "url": U("/data/state-of-ai.sqlite"),
@@ -1657,7 +1681,11 @@ def schema_md():
             "sql",
         )
     )
-    p.append(f"\nJSON Schema for one system record: {U('/data/design-system.schema.json')}\n")
+    p.append(
+        f"\nJSON Schema: one system record {U('/data/design-system.schema.json')}, "
+        f"one platform record {U('/data/platform.schema.json')}, "
+        f"the written analysis {U('/data/insights.schema.json')}\n"
+    )
     p.append(foot(path))
     return render(p)
 
@@ -1837,8 +1865,12 @@ def llms_txt(sizes):
         f"[design-system.schema.json]({U('/data/design-system.schema.json')})."
     )
     A(
-        f"- [platforms.json]({U('/data/platforms.json')}) · "
-        f"[insights.json]({U('/data/insights.json')})"
+        f"- [platforms.json]({U('/data/platforms.json')}): the platform records. Schema: "
+        f"[platform.schema.json]({U('/data/platform.schema.json')})."
+    )
+    A(
+        f"- [insights.json]({U('/data/insights.json')}): the written analysis. Schema: "
+        f"[insights.schema.json]({U('/data/insights.schema.json')})."
     )
     A(
         f"- [state-of-ai.sqlite]({U('/data/state-of-ai.sqlite')}): relational form — `systems`, "
@@ -2057,9 +2089,14 @@ def build_public_sqlite(dest):
     db.close()
 
 
-def public_schema():
-    """The record schema with the research-process properties stripped."""
-    doc = json.loads(SCHEMA_SRC.read_text(encoding="utf-8"))
+def public_schema(src=SCHEMA_SRC):
+    """A schema with the research-process properties stripped.
+
+    Only the system schema has ever carried those properties; the walk is a
+    no-op on the other two, and keeping one code path means a field added to
+    any schema cannot leak by being published through a different route.
+    """
+    doc = json.loads(Path(src).read_text(encoding="utf-8"))
 
     def walk(node):
         if isinstance(node, dict):
@@ -2254,7 +2291,8 @@ def main():
     add("/data/design-systems.json", json.dumps(SYSTEMS, ensure_ascii=False, indent=2) + "\n")
     add("/data/platforms.json", json.dumps(PLATFORMS, ensure_ascii=False, indent=2) + "\n")
     add("/data/insights.json", json.dumps(INSIGHTS, ensure_ascii=False, indent=2) + "\n")
-    add("/data/design-system.schema.json", public_schema())
+    for pub_path, src, _note in PUBLIC_SCHEMAS:
+        add(pub_path, public_schema(src))
 
     # write text files, then the sqlite, then llms.txt (which quotes measured sizes)
     for p, text in FILES.items():

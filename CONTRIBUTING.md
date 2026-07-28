@@ -98,16 +98,20 @@ it isn’t blue.
 
 ## Where the data lives
 
-| File                               | What’s in it                                             |
-| ---------------------------------- | -------------------------------------------------------- |
-| `data/design-systems.json`         | The 19 system records: affordances, techniques, sources  |
-| `data/platforms.json`              | The 5 platform records and their capabilities            |
-| `data/insights.json`               | The written findings, essay, methodology and caveats     |
-| `schema/design-system.schema.json` | The record schema, including the controlled vocabularies |
+| File                               | What’s in it                                            |
+| ---------------------------------- | ------------------------------------------------------- |
+| `data/design-systems.json`         | The 19 system records: affordances, techniques, sources |
+| `data/platforms.json`              | The 5 platform records and their capabilities           |
+| `data/insights.json`               | The written findings, essay, methodology and caveats    |
+| `schema/design-system.schema.json` | The system record schema and controlled vocabularies    |
+| `schema/platform.schema.json`      | The platform record schema                              |
+| `schema/insights.schema.json`      | The shape of the written analysis                       |
 
 The schema is worth reading before you edit a record. `type`, `category`,
-`audience` and `ai_maturity` are closed enums; inventing a new value will pass
-`json.load` and then quietly fall out of every count that groups by it.
+`audience` and `ai_maturity` are closed enums, and the build validates every
+record against its schema before generating anything, so an invented value fails
+the build and names itself rather than quietly falling out of every count that
+groups by it.
 
 `ai_maturity` is an editorial call against one rubric, not a score: `none`,
 `emerging` (an llms.txt or an AI docs page, little more), `invested` (official

@@ -99,20 +99,20 @@ markdown twin follow from there.
 
 ## What gets published
 
-| Path                                                                          | What it is                                                                                          |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 27 routes plus a static 404, real HTML for crawlers that don’t run JS        |
-| `dashboard/data.js`                                                           | The payload every page loads (`window.DATA`)                                                        |
-| `dashboard/artifact.html`                                                     | The same site as one file: hash routing, no `<head>` of its own, `noindex`                          |
-| `dashboard/**/*.md`                                                           | Markdown twin of every route, plus 15 `questions/*.md` and `about/schema.md`                        |
-| `dashboard/**/*.json`                                                         | Typed twin of every system and platform record                                                      |
-| `dashboard/llms.txt` (and `/.well-known/`)                                    | The router: staleness note, retrieval contract, vocabulary, every file with its measured size       |
-| `dashboard/llms-full.txt`, `llms-{systems,techniques,platforms,insights}.txt` | Concatenated documentation sets, sliced by concern for context budgets                              |
-| `dashboard/data/`                                                             | `design-systems.json`, `platforms.json`, `insights.json`, the JSON schema, and `state-of-ai.sqlite` |
-| `netlify/functions/mcp.mjs`                                                   | The MCP server at `/mcp`: 9 read-only tools, 2 resources, 2 prompts                                 |
-| `netlify/edge-functions/markdown.ts`                                          | Serves the markdown twin when a client sends `Accept: text/markdown`                                |
-| `dashboard/template.html` → `registerReportTools()`                           | WebMCP: 4 page tools behind one feature check                                                       |
-| `/ai`                                                                         | The page documenting all of the above, mirrored at `/ai.md`                                         |
+| Path                                                                          | What it is                                                                                                 |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 27 routes plus a static 404, real HTML for crawlers that don’t run JS               |
+| `dashboard/data.js`                                                           | The payload every page loads (`window.DATA`)                                                               |
+| `dashboard/artifact.html`                                                     | The same site as one file: hash routing, no `<head>` of its own, `noindex`                                 |
+| `dashboard/**/*.md`                                                           | Markdown twin of every route, plus 15 `questions/*.md` and `about/schema.md`                               |
+| `dashboard/**/*.json`                                                         | Typed twin of every system and platform record                                                             |
+| `dashboard/llms.txt` (and `/.well-known/`)                                    | The router: staleness note, retrieval contract, vocabulary, every file with its measured size              |
+| `dashboard/llms-full.txt`, `llms-{systems,techniques,platforms,insights}.txt` | Concatenated documentation sets, sliced by concern for context budgets                                     |
+| `dashboard/data/`                                                             | `design-systems.json`, `platforms.json`, `insights.json`, a JSON Schema for each, and `state-of-ai.sqlite` |
+| `netlify/functions/mcp.mjs`                                                   | The MCP server at `/mcp`: 9 read-only tools, 2 resources, 2 prompts                                        |
+| `netlify/edge-functions/markdown.ts`                                          | Serves the markdown twin when a client sends `Accept: text/markdown`                                       |
+| `dashboard/template.html` → `registerReportTools()`                           | WebMCP: 4 page tools behind one feature check                                                              |
+| `/ai`                                                                         | The page documenting all of the above, mirrored at `/ai.md`                                                |
 
 ## Developing
 
