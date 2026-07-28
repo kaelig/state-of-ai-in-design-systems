@@ -506,15 +506,19 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
 .snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
-.tech-cat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 18px; margin-bottom: 12px; scroll-margin-top: 16px; }
-.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+/* Cards that hold .tech-ex rows carry vertical padding only, and each child
+   states its own inline inset through --card-pad. The rows are then full width
+   by construction — hover and hairlines run edge to edge, the .aff way — with
+   no negative margins anywhere. */
+.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 0; margin-bottom: 12px; scroll-margin-top: 16px; }
+.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-inline: var(--card-pad); }
 /* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
 .tech-cat > .th h2 { margin: 0; }
 .tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; }
 .tech-cat > .th .n { font-family: var(--font-body); font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px 0 10px; max-width: var(--measure-body); }
+.tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px var(--card-pad) 10px; max-width: var(--measure-body); }
 .tech-ex { border-top: 1px solid var(--line); }
-.tech-ex > summary { list-style: none; cursor: pointer; padding: 11px 2px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
+.tech-ex > summary { list-style: none; cursor: pointer; padding: 11px var(--card-pad, 2px); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
 .tech-ex > summary::-webkit-details-marker { display: none; }
 /* Same affordance cue as .aff: one marker, and background as the only hover
    signal. The old text recolour used the interactive blue on something that is
@@ -525,11 +529,12 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .tech-ex > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .tech-ex .sysref { font-family: var(--font-display); font-weight: 600; font-size: 12px; /* Data attribution, not a link: the steel data colour, never the interactive blue. */
   letter-spacing: .02em; color: var(--data-strong); min-width: 110px; }
-/* 2px summary padding + 14px marker + 10px gap: the body starts under the title. */
-.tech-ex .tb { padding: 0 2px 14px 26px; }
+/* summary inset + 14px marker + 10px gap: the body starts under the title. */
+.tech-ex .tb { padding: 0 var(--card-pad, 2px) 14px calc(var(--card-pad, 2px) + 24px); }
 .tech-ex .tb p { font-size: 13px; color: var(--ink); max-width: var(--measure-body); }
 
-.bars { margin: 14px 0 6px; display: grid; gap: 6px; list-style: none; padding: 0; }
+/* 28px below: the bars are a block of their own, not part of the first card. */
+.bars { margin: 14px 0 28px; display: grid; gap: 6px; list-style: none; padding: 0; }
 .bar-row, .bar-link { display: grid; grid-template-columns: 170px 1fr 46px; gap: 10px; align-items: center; font-size: 12.5px; }
 /* On /techniques the row is the link to its own section below. The grid moves to
    the <a>, so the li is only a container. */
@@ -545,16 +550,19 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .bar-row .bfill { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--data-strong); min-width: 2px; }
 .bar-row .bv { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
 
-.plat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 20px; margin-bottom: 14px; scroll-margin-top: 16px; }
-.plat h2 { margin: 0 0 6px; }
+/* Same construction as .tech-cat: vertical card padding, children own their
+   inline inset, capability rows run edge to edge. */
+.plat { --card-pad: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 0; margin-bottom: 14px; scroll-margin-top: 16px; }
+.plat h2 { margin: 0 var(--card-pad) 6px; }
 /* A card-internal section label that is still a heading in the outline. */
 .plat h3.caps {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
-  margin: 18px 0 4px;
+  margin: 18px var(--card-pad) 4px;
 }
-.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
-.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
+.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); margin-inline: var(--card-pad); text-wrap: pretty; }
+.plat > .dlinks { margin-inline: var(--card-pad); }
+.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; margin-inline: var(--card-pad); max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
 
 /* Sources as a hairline list, the .findings device without the numerals. Host
    recedes, path carries the meaning, nothing is truncated. */
@@ -872,7 +880,7 @@ typography:
       </div>
       
     </div></details></li><li><details class="aff">
-    <summary><span class="chip">CLI scaffolding</span><span class="nm">@ant-design/cli — `antd setup` / `antd lint` / `antd migrate --apply`</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
+    <summary><span class="chip">CLI scaffolding</span><span class="nm">@ant-design/cli — <code>antd setup</code> / <code>antd lint</code> / <code>antd migrate --apply</code></span><span class="chip official">official</span><span class="chip">consumers</span></summary>
     <div class="aff-body">
       <p class="desc">18-command offline CLI (npm @ant-design/cli, MIT, first published 2026-03-17, v6.5.2 on 2026-07-24). <code>antd setup --client claude|cursor|vscode|codex --mode mcp|skill|both</code> writes the MCP config and/or installs the skill into the user’s project; <code>--write-instructions</code> emits editor instruction files; <code>--dry-run</code> / <code>--check</code> for CI. <code>antd lint ./src</code> is the validation loop the skill mandates after every edit; <code>antd migrate 4 5 --apply ./src</code> emits an agent-ready migration prompt without touching files; <code>antd doctor</code> / <code>antd env</code> / <code>antd usage</code> cover diagnostics.</p>
       <div class="snip">
@@ -1019,7 +1027,7 @@ Before writing any antd component code, look up its API first — don&#39;t rely
 
 **Workflow:** `antd info` → understand props → `antd demo` → grab a working example → write code.</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="chip">Validation loop</span><span class="nm">Mandatory post-edit lint loop (`antd lint`)</span></summary>
+    <summary><span class="chip">Validation loop</span><span class="nm">Mandatory post-edit lint loop (<code>antd lint</code>)</span></summary>
     <div class="tb">
       <p>Key Rule 5 requires the agent to run <code>antd lint</code> on changed files after every write or modification, specifically to catch deprecated API usage. Combined with <code>antd doctor</code> (project config diagnosis) and <code>antd env</code> (environment snapshot), this gives the agent a closed verification loop that does not depend on the host project having any antd-aware linting configured.</p>
       <div class="snip">
@@ -1273,7 +1281,7 @@ function snippetHTML(sn, id) {
 function affordanceHTML(a, sysId, i) {
   const id = `${sysId}-a${i}`;
   return `<li><details class="aff">
-    <summary><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${esc(a.name)}</span>${offChip(a.official)}${audChip(a.audience)}</summary>
+    <summary><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${fmt(a.name)}</span>${offChip(a.official)}${audChip(a.audience)}</summary>
     <div class="aff-body">
       <p class="desc">${fmt(a.description)}</p>
       ${snippetHTML(a.snippet, id)}
@@ -1288,7 +1296,7 @@ function techniqueHTML(t, sysId, i, withSys) {
   const id = `${sysId}-t${i}`;
   const sys = withSys ? DATA.systems.find(s => s.id === sysId) : null;
   return `<li><details class="tech-ex">
-    <summary>${sys ? `<span class="sysref">${esc(sys.name)}</span>` : `<span class="chip">${esc(CAT_LABEL[t.category] || t.category)}</span>`}<span class="nm">${esc(t.name)}</span></summary>
+    <summary>${sys ? `<span class="sysref">${esc(sys.name)}</span>` : `<span class="chip">${esc(CAT_LABEL[t.category] || t.category)}</span>`}<span class="nm">${fmt(t.name)}</span></summary>
     <div class="tb">
       <p>${fmt(t.description)}</p>
       ${snippetHTML(t.snippet, id)}
@@ -1459,7 +1467,7 @@ const VIEWS = {
         <p class="sum">${fmt(p.summary)}</p>
         <h3 class="caps">Capabilities</h3>
         ${(p.capabilities || []).length ? `<ul class="exlist">${p.capabilities.map((c, i) => `<li><details class="tech-ex">
-          <summary><span class="nm">${esc(c.title)}</span>${audChip(c.audience)}</summary>
+          <summary><span class="nm">${fmt(c.title)}</span>${audChip(c.audience)}</summary>
           <div class="tb"><p>${fmt(c.description)} ${c.url ? extArrow(c.url, `${p.name}: ${c.title}`) : ''}</p>
           ${snippetHTML(c.snippet, `${p.id}-c${i}`)}</div>
         </details></li>`).join('')}</ul>` : ''}

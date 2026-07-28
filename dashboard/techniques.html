@@ -506,15 +506,19 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
 .snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
-.tech-cat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 18px; margin-bottom: 12px; scroll-margin-top: 16px; }
-.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+/* Cards that hold .tech-ex rows carry vertical padding only, and each child
+   states its own inline inset through --card-pad. The rows are then full width
+   by construction — hover and hairlines run edge to edge, the .aff way — with
+   no negative margins anywhere. */
+.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 0; margin-bottom: 12px; scroll-margin-top: 16px; }
+.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-inline: var(--card-pad); }
 /* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
 .tech-cat > .th h2 { margin: 0; }
 .tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; }
 .tech-cat > .th .n { font-family: var(--font-body); font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px 0 10px; max-width: var(--measure-body); }
+.tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px var(--card-pad) 10px; max-width: var(--measure-body); }
 .tech-ex { border-top: 1px solid var(--line); }
-.tech-ex > summary { list-style: none; cursor: pointer; padding: 11px 2px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
+.tech-ex > summary { list-style: none; cursor: pointer; padding: 11px var(--card-pad, 2px); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
 .tech-ex > summary::-webkit-details-marker { display: none; }
 /* Same affordance cue as .aff: one marker, and background as the only hover
    signal. The old text recolour used the interactive blue on something that is
@@ -525,11 +529,12 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .tech-ex > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .tech-ex .sysref { font-family: var(--font-display); font-weight: 600; font-size: 12px; /* Data attribution, not a link: the steel data colour, never the interactive blue. */
   letter-spacing: .02em; color: var(--data-strong); min-width: 110px; }
-/* 2px summary padding + 14px marker + 10px gap: the body starts under the title. */
-.tech-ex .tb { padding: 0 2px 14px 26px; }
+/* summary inset + 14px marker + 10px gap: the body starts under the title. */
+.tech-ex .tb { padding: 0 var(--card-pad, 2px) 14px calc(var(--card-pad, 2px) + 24px); }
 .tech-ex .tb p { font-size: 13px; color: var(--ink); max-width: var(--measure-body); }
 
-.bars { margin: 14px 0 6px; display: grid; gap: 6px; list-style: none; padding: 0; }
+/* 28px below: the bars are a block of their own, not part of the first card. */
+.bars { margin: 14px 0 28px; display: grid; gap: 6px; list-style: none; padding: 0; }
 .bar-row, .bar-link { display: grid; grid-template-columns: 170px 1fr 46px; gap: 10px; align-items: center; font-size: 12.5px; }
 /* On /techniques the row is the link to its own section below. The grid moves to
    the <a>, so the li is only a container. */
@@ -545,16 +550,19 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .bar-row .bfill { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--data-strong); min-width: 2px; }
 .bar-row .bv { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
 
-.plat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 20px; margin-bottom: 14px; scroll-margin-top: 16px; }
-.plat h2 { margin: 0 0 6px; }
+/* Same construction as .tech-cat: vertical card padding, children own their
+   inline inset, capability rows run edge to edge. */
+.plat { --card-pad: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 0; margin-bottom: 14px; scroll-margin-top: 16px; }
+.plat h2 { margin: 0 var(--card-pad) 6px; }
 /* A card-internal section label that is still a heading in the outline. */
 .plat h3.caps {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
-  margin: 18px 0 4px;
+  margin: 18px var(--card-pad) 4px;
 }
-.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
-.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
+.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); margin-inline: var(--card-pad); text-wrap: pretty; }
+.plat > .dlinks { margin-inline: var(--card-pad); }
+.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; margin-inline: var(--card-pad); max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
 
 /* Sources as a hairline list, the .findings device without the numerals. Host
    recedes, path carries the meaning, nothing is truncated. */
@@ -712,7 +720,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
         <div class="th"><h2>Validation loop</h2><span class="n">29 instances · 19 systems</span></div>
         <p class="def">Linters, type checks, or audit tools the agent is told to run, turning “follow the system” into a feedback loop with failures it must fix.</p>
         <ul class="exlist"><li><details class="tech-ex">
-    <summary><span class="sysref">Ant Design</span><span class="nm">Mandatory post-edit lint loop (`antd lint`)</span></summary>
+    <summary><span class="sysref">Ant Design</span><span class="nm">Mandatory post-edit lint loop (<code>antd lint</code>)</span></summary>
     <div class="tb">
       <p>Key Rule 5 requires the agent to run <code>antd lint</code> on changed files after every write or modification, specifically to catch deprecated API usage. Combined with <code>antd doctor</code> (project config diagnosis) and <code>antd env</code> (environment snapshot), this gives the agent a closed verification loop that does not depend on the host project having any antd-aware linting configured.</p>
       <div class="snip">
@@ -1722,7 +1730,7 @@ from existing code without verifying they match these instructions.
 If you can install skills, run:
 npx skills add ant-design/ant-design-cli</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">Atlassian Design System</span><span class="nm">Server-level `instructions` string as a persona + routing table</span></summary>
+    <summary><span class="sysref">Atlassian Design System</span><span class="nm">Server-level <code>instructions</code> string as a persona + routing table</span></summary>
     <div class="tb">
       <p><code>@atlaskit/ads-mcp</code> ships a dedicated <code>dist/cjs/instructions.js</code> module exporting a single <code>instructions</code> string injected at MCP handshake time. It sets a persona (‘You are an expert in the Atlassian Design System’), encodes the ads_<em>/atlaskit_</em> split, and pairs each ADS tool with a sibling Context Engine MCP tool so the model composes org-wide policy with system-specific guidance instead of choosing one. It ends with an explicit escape hatch to the llms.txt files for deep research.</p>
       <div class="snip">
@@ -1907,7 +1915,7 @@ SLDS skills ship in the **`@salesforce/afv-skills`** npm dependency.
 - **`design-systems-slds2-migrate`** — SLDS 1→2 / linter-driven uplift only.
 - **`design-systems-slds-validate`** — audit or scorecard requests only.</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">shadcn/ui</span><span class="nm">Live project-context injection at skill load (`info --json`)</span></summary>
+    <summary><span class="sysref">shadcn/ui</span><span class="nm">Live project-context injection at skill load (<code>info --json</code>)</span></summary>
     <div class="tb">
       <p>Rather than describing shadcn/ui in the abstract, the skill executes the CLI inside its own body (<code>!</code> command interpolation) so the model always sees the real project’s aliases, base library, icon library, Tailwind version and installed components. It then tells the model exactly how to act on each field: never assume lucide-react, never hardcode <code>@/</code>, never create a new CSS file. <code>allowed-tools</code> narrows the agent to shadcn CLI invocations only.</p>
       <div class="snip">
@@ -2115,7 +2123,7 @@ Before writing any antd component code, look up its API first — don&#39;t rely
 
 **Workflow:** `antd info` → understand props → `antd demo` → grab a working example → write code.</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">Atlassian Design System</span><span class="nm">Two-tier tool hierarchy: ads_* canonical, atlaskit_* fallback-only</span></summary>
+    <summary><span class="sysref">Atlassian Design System</span><span class="nm">Two-tier tool hierarchy: ads_<em> canonical, atlaskit_</em> fallback-only</span></summary>
     <div class="tb">
       <p>The single strongest coercion device. The server’s <code>instructions</code> and README both establish a priority order and then explicitly demote the broader catalog: ‘Do not treat Atlaskit results as equal-priority replacements for ADS components in standard UI decisions.’ Individual tool descriptions reinforce it (‘Prefer ADS resources first for standard UI’). This stops a model from reaching for a deprecated or non-ADS <code>@atlaskit/*</code> package just because the search index surfaced it.</p>
       <div class="snip">
@@ -2473,7 +2481,7 @@ Do not require a clean current working tree. Approved rollups must use a tempora
         <div class="th"><h2>Token enforcement</h2><span class="n">13 instances · 11 systems</span></div>
         <p class="def">Rules and types that force design tokens over raw values — the token vocabulary is the only sanctioned styling channel.</p>
         <ul class="exlist"><li><details class="tech-ex">
-    <summary><span class="sysref">Atlassian Design System</span><span class="nm">`ads_plan` as the default one-shot discovery call, with full-catalog dumps demoted to ‘last resort’</span></summary>
+    <summary><span class="sysref">Atlassian Design System</span><span class="nm"><code>ads_plan</code> as the default one-shot discovery call, with full-catalog dumps demoted to ‘last resort’</span></summary>
     <div class="tb">
       <p>Token budget is treated as a first-class design constraint. <code>ads_plan</code> fans out to token/icon/component/atlaskit searches in one call and is positioned as ‘the default way to discover’; it even coaches recall behaviour (‘Prefer supplying <strong>multiple</strong> terms per non-empty array... broader queries improve recall’) and requires at least one non-empty array. Symmetrically, all three <code>ads_get_all_*</code> tools are labelled ‘Last resort’ and ‘<strong>very large</strong> output’ so a model does not burn its window enumerating catalogs. Blog-reported effect of the structured-content work: ‘26% reduction in AI tooling calls, with 16% reduction in AI token usage’.</p>
       <div class="snip">
@@ -2491,7 +2499,7 @@ Returns **every** ADS design token from bundled metadata (name, example value, u
 WHEN TO USE:
 Last resort when `ads_plan` / `ads_search_tokens` cannot answer the question and you need the full list (e.g. exhaustive audit). Prefer targeted search for normal development.</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">Atlassian Design System</span><span class="nm">AI-provenance marking: `.ai-non-final` message-ID suffix</span></summary>
+    <summary><span class="sysref">Atlassian Design System</span><span class="nm">AI-provenance marking: <code>.ai-non-final</code> message-ID suffix</span></summary>
     <div class="tb">
       <p>The bundled i18n playbook (<code>ads_i18n_conversion_guide</code>) forces agents to tag their own output so humans can find it later. Verbatim from the guide payload in dist/cjs/tools/i18n-conversion/guide.js: &#39;<strong>CRITICAL: ai-non-final Suffix</strong>: ALL new message IDs MUST end with <code>.ai-non-final</code> suffix. This applies to ALL newly created messages, regardless of whether existing messages in the file have this suffix. Format: <code>{message-key}.ai-non-final</code>. Example: <code>applinks.administration.list.applinks-table.system-label.ai-non-final</code>. This suffix indicates the message is AI-generated and may need review before finalization.‘ The same guide fences scope aggressively: ’<strong>CRITICAL: ONLY CONVERT STRINGS WITH ESLINT-DISABLE</strong>: You MUST <strong>ONLY</strong> convert strings that have eslint-disable comments for @atlassian/i18n/no-literal-string-in-jsx’, ‘Do NOT modify files outside the provided scope’, and ‘Do NOT modify pre-existing messages that were already in the codebase, even if they have poor descriptions’. That turns an existing lint suppression into the authoritative worklist, so the agent cannot expand its own blast radius.</p>
       <div class="snip">
@@ -2666,7 +2674,7 @@ Nuxt UI uses 7 semantic colors. Never use raw Tailwind palette colors in compone
 4. **Never add dependencies between component packages.** `react-button` must not depend on `react-menu`.
 5. **Never skip beachball change files** for published package changes. Run `yarn beachball change`.</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">Nord Design System</span><span class="nm">Private-API prohibition: component properties over CSS custom properties, never `--_n-*`</span></summary>
+    <summary><span class="sysref">Nord Design System</span><span class="nm">Private-API prohibition: component properties over CSS custom properties, never <code>--_n-*</code></span></summary>
     <div class="tb">
       <p>The strongest single constraint in the corpus, a WARNING callout in the Web Components guide (inherited by nord-full’s references/docs/developer/web-components.md). It establishes an API hierarchy the model must respect: component properties first, public custom properties second, the <code>--_n-</code> private tier explicitly off-limits. Transferable pattern: give the private tier a visually distinct prefix so a model can pattern-match the prohibition instead of memorising a list.</p>
       <div class="snip">
@@ -3272,7 +3280,7 @@ Then build to update package.json exports:
 pnpm build
 ```</code></pre></div>
     </div></details></li><li><details class="tech-ex">
-    <summary><span class="sysref">Primer</span><span class="nm">Agent self-propagation via the `init` tool</span></summary>
+    <summary><span class="sysref">Primer</span><span class="nm">Agent self-propagation via the <code>init</code> tool</span></summary>
     <div class="tb">
       <p>Primer’s <code>init</code> MCP tool goes past scaffolding a project: its final bullet instructs the agent to write agent instructions into the consumer’s repo, so future sessions stay on-system even without the MCP server attached. The design system asks the agent to install the design system’s own guardrails.</p>
       <div class="snip">
@@ -3657,7 +3665,7 @@ function snippetHTML(sn, id) {
 function affordanceHTML(a, sysId, i) {
   const id = `${sysId}-a${i}`;
   return `<li><details class="aff">
-    <summary><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${esc(a.name)}</span>${offChip(a.official)}${audChip(a.audience)}</summary>
+    <summary><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${fmt(a.name)}</span>${offChip(a.official)}${audChip(a.audience)}</summary>
     <div class="aff-body">
       <p class="desc">${fmt(a.description)}</p>
       ${snippetHTML(a.snippet, id)}
@@ -3672,7 +3680,7 @@ function techniqueHTML(t, sysId, i, withSys) {
   const id = `${sysId}-t${i}`;
   const sys = withSys ? DATA.systems.find(s => s.id === sysId) : null;
   return `<li><details class="tech-ex">
-    <summary>${sys ? `<span class="sysref">${esc(sys.name)}</span>` : `<span class="chip">${esc(CAT_LABEL[t.category] || t.category)}</span>`}<span class="nm">${esc(t.name)}</span></summary>
+    <summary>${sys ? `<span class="sysref">${esc(sys.name)}</span>` : `<span class="chip">${esc(CAT_LABEL[t.category] || t.category)}</span>`}<span class="nm">${fmt(t.name)}</span></summary>
     <div class="tb">
       <p>${fmt(t.description)}</p>
       ${snippetHTML(t.snippet, id)}
@@ -3843,7 +3851,7 @@ const VIEWS = {
         <p class="sum">${fmt(p.summary)}</p>
         <h3 class="caps">Capabilities</h3>
         ${(p.capabilities || []).length ? `<ul class="exlist">${p.capabilities.map((c, i) => `<li><details class="tech-ex">
-          <summary><span class="nm">${esc(c.title)}</span>${audChip(c.audience)}</summary>
+          <summary><span class="nm">${fmt(c.title)}</span>${audChip(c.audience)}</summary>
           <div class="tb"><p>${fmt(c.description)} ${c.url ? extArrow(c.url, `${p.name}: ${c.title}`) : ''}</p>
           ${snippetHTML(c.snippet, `${p.id}-c${i}`)}</div>
         </details></li>`).join('')}</ul>` : ''}

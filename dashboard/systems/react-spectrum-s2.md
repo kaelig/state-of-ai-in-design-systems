@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:33:15Z"
+generated: "2026-07-28T02:39:42Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -556,4 +556,4 @@ Not confirmed, or absent: (1) No llms-full.txt: https://react-spectrum.adobe.com
 
 ---
 
-Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:39:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
