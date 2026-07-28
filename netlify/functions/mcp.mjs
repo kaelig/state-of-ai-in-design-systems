@@ -32,7 +32,11 @@ const SERVER_VERSION = '1.0.0';
 // Module-scope indexes. Built once per cold start, never per request.
 // ---------------------------------------------------------------------------
 
+// Typed from schema/*.json via types/data.d.ts, so a field renamed in the
+// schema shows up here as a type error rather than as undefined at runtime.
+/** @type {import('../../types/data.d.ts').DesignSystems} */
 const SYSTEMS = PAYLOAD.systems;
+/** @type {import('../../types/data.d.ts').Platforms} */
 const PLATFORMS = PAYLOAD.platforms;
 const INSIGHTS = PAYLOAD.insights;
 const META = PAYLOAD.meta;
@@ -559,7 +563,9 @@ function buildServer() {
             if (maturity) rows = rows.filter(s => s.ai_maturity === maturity);
             if (category) rows = rows.filter(s => s.category === category);
             if (has_affordance) rows = rows.filter(s => s.affordances.some(a => a.type === has_affordance));
-            if (platform) rows = rows.filter(s => s.platform_integrations.some(p => p.platform === platform));
+            // Optional in the schema, present on all 19 records today. Without
+            // the guard the first record that omits it crashes this filter.
+            if (platform) rows = rows.filter(s => (s.platform_integrations ?? []).some(p => p.platform === platform));
             if (org) {
                 const needle = org.toLowerCase();
                 rows = rows.filter(s => String(s.org || '').toLowerCase().includes(needle));

@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "types": "node scripts/generate_types.mjs",
+    "types:check": "node scripts/generate_types.mjs --check"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0-beta.5",
@@ -24,6 +26,7 @@
     "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.8.0",
+    "json-schema-to-typescript": "15.0.4",
     "prettier": "3.9.6",
     "typescript": "7.0.2"
   }
