@@ -77,8 +77,14 @@ the report, and it’s the one rule with no exceptions.
 
 **Counts are computed, never typed.** 19, 5, 168, 148 and every other number on
 the site is derived from the records at build time. If you find yourself typing a
-number into prose, stop: there is a mechanism for that, and a hand-typed number
-is a number that will be wrong in a month.
+number into prose, stop: a hand-typed number is a number that will be wrong in a
+month.
+
+The mechanism is a placeholder in `data/insights.json`. Write `{systems}` for 19,
+`{systems:word}` for nineteen, or `{systems:Word}` for a count that opens a
+sentence; `compute_counts()` in `scripts/build_dashboard.py` lists the keys you
+can use. The build fails on a key that doesn't exist and on a placeholder it
+couldn't fill, so a typo can't reach the page.
 
 **Data strings flow through `esc()` or `fmt()`.** Anything from `data/` that
 reaches the DOM goes through one of them. `esc()` escapes HTML;

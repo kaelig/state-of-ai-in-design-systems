@@ -253,7 +253,6 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
   letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
 }
 .spec-band .bdef { padding: 10px 12px 0; font-size: 12px; color: var(--ink-3); max-width: var(--measure-body); }
-.spec-band .bempty { padding: 8px 12px 12px; font-size: 12px; color: var(--ink-3); }
 .spec-band .bhead.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
 .spec-band .bhead.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
 .spec-band .bhead.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
@@ -281,9 +280,19 @@ table.mx th, table.mx td { padding: 7px 6px; text-align: center; border-bottom: 
 /* nowrap belongs to the data cells only: on the header row it was forcing
    "Repo agent files" onto one line and pushing the table past its column. */
 table.mx td { white-space: nowrap; }
-table.mx thead th { font-size: 10px; letter-spacing: .12em; background: var(--bg-sunk); position: sticky; top: 0; white-space: normal; line-height: 1.15; vertical-align: bottom; }
+/* The header row speaks the shared label voice (the .syslist-head rule above);
+   only the sticky mechanics are its own. */
+table.mx thead th { background: var(--bg-sunk); position: sticky; top: 0; white-space: normal; line-height: 1.15; vertical-align: bottom; }
 table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg-raise); border-right: 1px solid var(--line); min-width: 130px; }
-table.mx tbody th.sys { font-family: var(--font-body); font-size: 12px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
+/* The system name wears the systems-list row voice — display face, ink, wash on
+   hover, accent name — scaled to table density. The anchor fills the cell. */
+table.mx tbody th.sys { padding: 0; font-size: 12px; }
+table.mx tbody th.sys a { display: block; padding: 7px 6px; font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+/* Room for the longest name on one line; on phones the sticky column would eat
+   the screen at that width, so names wrap there instead. */
+@media (min-width: 861px) { table.mx tbody th.sys a { white-space: nowrap; } }
+table.mx tbody th.sys a:hover { background: var(--bg-sunk); color: var(--accent-ink); }
+table.mx tbody th.sys a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 table.mx thead th.sys { background: var(--bg-sunk); z-index: 2; }
 /* Rows are not interactive, so no row hover. A filled cell links to the
    affordance's own artifact; the anchor fills the cell so the target is the
@@ -299,18 +308,9 @@ table.mx td .ring { display: inline-block; width: 9px; height: 9px; border-radiu
    legend glyph, so cell and key stay identical. */
 table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
-/* Maturity cohort strip, same device as the systems list. Not interactive. */
-table.mx tr.mx-group th {
-  position: static; text-align: left;
-  font-family: var(--font-display); font-weight: 550; font-size: 11px;
-  letter-spacing: .14em; text-transform: uppercase;
-  background: var(--mat-0); color: var(--mat-0-ink);
-}
-table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
-table.mx tr.mx-group.mat-none th { background: var(--mat-0); color: var(--mat-0-ink); }
-table.mx tr.mx-group.mat-emerging th { background: var(--mat-1); color: var(--mat-1-ink); }
-table.mx tr.mx-group.mat-invested th { background: var(--mat-2); color: var(--mat-2-ink); }
-table.mx tr.mx-group.mat-ai-native th { background: var(--mat-3); color: var(--mat-3-ink); }
+/* Cohort strip: only the table mechanics live here — the strip itself is one
+   spec shared with the systems list, defined next to .sysgroup. */
+table.mx tr.mx-group th { position: static; text-align: left; }
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
 .mxwrap { position: relative; }
@@ -374,19 +374,21 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 .sysrow .csep { display: none; }
-/* Maturity cohort strip. Metadata, not a control: no hover, no pointer. */
-.sysgroup {
-  padding: 6px 10px; margin: 18px 0 0;
+/* Maturity cohort strip — one spec for both surfaces that group by cohort, the
+   systems list and the matrix. Metadata, not a control: no hover, no pointer.
+   Padding stays per-surface so each strip aligns to its own list's inset. */
+.sysgroup, table.mx tr.mx-group th {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
 }
+.sysgroup { padding: 6px 4px; margin: 18px 0 0; }
 .syslist > .sysgroup:first-child { margin-top: 0; }
-.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 13px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
-.sysgroup.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
-.sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
-.sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
-.sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
+.sysgroup .gn, table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+.sysgroup.mat-none, table.mx tr.mx-group.mat-none th { background: var(--mat-0); color: var(--mat-0-ink); }
+.sysgroup.mat-emerging, table.mx tr.mx-group.mat-emerging th { background: var(--mat-1); color: var(--mat-1-ink); }
+.sysgroup.mat-invested, table.mx tr.mx-group.mat-invested th { background: var(--mat-2); color: var(--mat-2-ink); }
+.sysgroup.mat-ai-native, table.mx tr.mx-group.mat-ai-native th { background: var(--mat-3); color: var(--mat-3-ink); }
 .searchbar { display: flex; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
 .searchbar input, .searchbar select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
 .searchbar input { flex: 1; min-width: 0; width: 100%; }
@@ -584,7 +586,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .prose { max-width: var(--measure-body); }
 .prose p { margin: 10px 0; color: var(--ink); font-size: 16px; }
 .prose strong { color: var(--ink); }
-.prose ul { margin: 10px 0 10px 20px; color: var(--ink); font-size: 16px; }
+.prose ul { margin: 10px 0 10px 20px; padding: 0; color: var(--ink); font-size: 16px; }
 .prose li { margin: 5px 0; }
 kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk); border: 1px solid var(--line-strong); border-radius: 2px; padding: 1px 6px; }
 
@@ -1250,16 +1252,11 @@ function techniqueHTML(t, sysId, i, withSys) {
 const VIEWS = {
   overview() {
     const m = DATA.meta, f = DATA.insights.findings;
-    /* Every step of the scale renders, including empty ones: the page claims an
-       ordinal scale, so it has to show the whole scale. This line is the empty
-       band's copy and lives here on purpose — it is not a maturity definition,
-       so it stays out of MAT_DEF. */
-    const BAND_EMPTY = 'No systems here in this snapshot.';
-    const bands = MAT_ORDER.map(k => {
+    /* Only levels with systems render, same policy as the /systems filter: an
+       empty band is a shelf with nothing on it. Future data brings its band back. */
+    const bands = MAT_ORDER.filter(k => DATA.systems.some(s => s.ai_maturity === k)).map(k => {
       const sys = DATA.systems.filter(s => s.ai_maturity === k);
-      const body = sys.length
-        ? `<ul>${sys.map(s => `<li><a href="${href('systems', s.id)}">${esc(s.name)}</a></li>`).join('')}</ul>`
-        : `<p class="bempty">${BAND_EMPTY}</p>`;
+      const body = `<ul>${sys.map(s => `<li><a href="${href('systems', s.id)}">${esc(s.name)}</a></li>`).join('')}</ul>`;
       return `<div class="spec-band"><h3 class="bhead mat-${k}"><span class="bl">${MAT[k]}</span><span class="bn">${sys.length}</span></h3>
         <p class="bdef">${esc(MAT_DEF[k])}</p>
         ${body}</div>`;

@@ -74,9 +74,18 @@ opposite of what it found. If a record has no link, read its description before
 adding one.
 
 **Counts are computed, never typed.** 19, 5, 168, 148, and every other number
-on the site is derived from the records at build time. If you are about to type a
-number into prose, find the mechanism instead. A hand-typed count is a count that
-goes stale silently.
+on the site is derived from the records at build time. A hand-typed count is a
+count that goes stale silently.
+
+The mechanism for prose is a placeholder in `data/insights.json`, filled by
+`resolve_counts()` in `scripts/build_dashboard.py` before anything renders, so
+the page, its markdown twin and the JSON passthrough always quote the same
+figure. `{systems}` gives 19, `{systems:word}` nineteen, and `{systems:Word}`
+Nineteen for a count that opens a sentence; past twenty the word forms fall back
+to digits. The keys come from `compute_counts()`: `systems`, `platforms`,
+`official_mcp`, `official_skills`, `llms_txt`, `affordances`, `techniques`,
+`technique_categories`, `ai_native`. An unknown key fails the build, and so does
+a placeholder that survives resolution.
 
 **Data strings reach the DOM through `esc()` or `fmt()`.** Both are defined near
 the top of the script block in `dashboard/template.html`: `esc()` escapes HTML,
