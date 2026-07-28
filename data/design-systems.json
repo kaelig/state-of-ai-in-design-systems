@@ -1542,7 +1542,7 @@
         "notes": "Skill frontmatter is keyword-stuffed (\"Keywords: HeroUI, Hero UI, heroui, @heroui/react, @heroui/styles\") to force autodiscovery; metadata.version pinned to 3.0.1.",
         "snippet": {
           "language": "markdown",
-          "source_url": "https://github.com/heroui-inc/heroui/tree/v3/skills/heroui-react",
+          "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/skills/heroui-react/SKILL.md",
           "content": "## CRITICAL: v3 Only - Ignore v2 Knowledge\n\n**This guide is for HeroUI v3 ONLY.** Do NOT apply v2 patterns — the provider, styling, and component API all changed:\n\n| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                   |\n| Provider      | `<HeroUIProvider>` required       | **No Provider needed**          |\n| Animations    | `framer-motion` package           | CSS-based, no extra deps        |\n| Component API | Flat props: `<Card title=\"x\">`    | Compound: `<Card><Card.Header>` |\n\n```tsx\n// DO NOT DO THIS - v2 pattern\nimport { HeroUIProvider } from \"@heroui/react\";\nimport { motion } from \"framer-motion\";\n```\n\n**Always fetch v3 docs before implementing.**"
         }
       },
@@ -1598,7 +1598,7 @@
         "description": "Three maintained prompt packs in-repo: heroui-system-prompt.md (universal, usable as .cursorrules), v0-heroui.md (v0.dev, App Router + RSC), bolt-heroui.md (bolt.new/StackBlitz, full runnable Vite setup). README names Lovable, Replit Agent and Windsurf as further targets and tells contributors to diff prompts against real v3 source to catch drift.",
         "snippet": {
           "language": "markdown",
-          "source_url": "https://github.com/heroui-inc/heroui/tree/v3/prompts",
+          "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/prompts/README.md",
           "content": "# HeroUI v3 — AI Integration Prompt Packs\n\nSystem prompts that teach AI code-generation tools to produce correct, idiomatic HeroUI v3 code.\n\n| File | Purpose |\n| `heroui-system-prompt.md` | Universal prompt — works with any LLM or AI coding tool (Claude, ChatGPT, Cursor, Copilot, etc.) |\n| `v0-heroui.md` | Tailored for [v0.dev](https://v0.dev) — emphasizes Next.js App Router, RSC patterns, and Tailwind v4 |\n| `bolt-heroui.md` | Tailored for [bolt.new](https://bolt.new) / StackBlitz — includes full Vite setup and runnable single-file examples |\n\n## Contributing\n\nWhen updating these prompts, verify that the component names, APIs, and import patterns match the actual v3 source code in this repo. Run a quick check against the component docs in `apps/docs/content/docs/react/components/` to catch any drift."
         }
       },
@@ -1637,7 +1637,7 @@
         "description": "Checked-in Claude Code subagent definitions: docs-curator.md (13 KB, model: opus), heroui-docs-writer.md (16 KB), style-migrator.md (11 KB, .styles.ts → BEM CSS migration), tailwind-v4-css-expert.md, storybook-debugger.md, plus .claude/guides/tailwindcss-v4-css-guide.md as shared curated context. They chain: style-migrator is told to delegate to tailwind-v4-css-expert for validation.",
         "snippet": {
           "language": "markdown",
-          "source_url": "https://github.com/heroui-inc/heroui/tree/v3/.claude/agents",
+          "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/.claude/agents/docs-curator.md",
           "content": "**CRITICAL: Before Reviewing Documentation**\n\nBefore reviewing or improving any documentation, you MUST:\n\n1. **Check Component Implementation**: Always examine the actual component source files in `/packages/react/src/components/[component-name]/`:\n   - Read the `.tsx` file to understand the component structure and compound parts\n   - **MANDATORY: Read the `.stories.tsx` file thoroughly** - This is your PRIMARY reference for validating demos\n   - Verify demos match Storybook story patterns and structures\n\n4. **Verify Component APIs**: Never assume component structure - always verify:\n   - Compound parts match actual implementation"
         }
       },
@@ -2881,7 +2881,7 @@
         "snippet": {
           "language": "markdown",
           "content": "| Artifact | Count | Description |\n|----------|-------|-------------|\n| **Lightning Base Components** | ~70 | Pre-built LWC components (LWC only) |\n| **SLDS Blueprints** | 85 | CSS/HTML patterns for any framework |\n| **Styling Hooks** | 523 | CSS custom properties (`--slds-g-*`) for theming |\n| **Utility Classes** | 1,147 | Rapid styling classes for spacing, layout, visibility |\n| **Icons** | 1,732 | SVG icons across 5 categories |\n\n## Component Selection Hierarchy\n\nAlways follow this order:\n\n```\n1. Lightning Base Components (LWC only)    ← Check first\n2. SLDS Blueprints (any framework)         ← Use exact SLDS classes\n3. Custom with Styling Hooks               ← Use var(--slds-g-*)\n4. Custom CSS (last resort)                ← Still use hooks for values\n```",
-          "source_url": "https://www.npmjs.com/package/@salesforce/afv-skills",
+          "source_url": "https://raw.githubusercontent.com/forcedotcom/sf-skills/main/skills/design-systems-slds-apply/SKILL.md",
           "note": "Path in tarball: package/skills/design-systems-slds-apply/SKILL.md"
         }
       },
@@ -2983,7 +2983,7 @@
         "snippet": {
           "language": "markdown",
           "content": "## Verify Before You Use\n\n> **Rule:** Never include an SLDS hook, utility class, blueprint class, or icon in generated code without first confirming it exists in the metadata. Guessing based on naming patterns is the primary source of invented artifacts.\n\nRun the appropriate search command **before** emitting any SLDS artifact:\n\n| Artifact | Verification command | Source of truth |\n|----------|---------------------|-----------------|\n| Styling hook (`--slds-g-*`) | `node scripts/search-hooks.cjs --prefix \"<hook-name>\"` | `assets/hooks-index.json` |\n| Utility class (`slds-*`) | `node scripts/search-utilities.cjs --search \"<class-name>\"` | `assets/utilities-index.json` |\n| Blueprint / CSS class | `node scripts/search-blueprints.cjs --search \"<pattern>\"` then read the YAML | `assets/blueprints/components/*.yaml` |\n| Icon | `node scripts/search-icons.cjs --query \"<description>\"` | `assets/icon-metadata.json` |\n\nIf the search returns no match: **do not use the artifact.** Find an alternative from the search results or build custom with verified hooks.",
-          "source_url": "https://www.npmjs.com/package/@salesforce/afv-skills",
+          "source_url": "https://raw.githubusercontent.com/forcedotcom/sf-skills/main/skills/design-systems-slds-apply/SKILL.md",
           "note": "Path in tarball: package/skills/design-systems-slds-apply/SKILL.md"
         }
       },
@@ -2994,7 +2994,7 @@
         "snippet": {
           "language": "markdown",
           "content": "### Don't\n\n- Hard-code colors, spacing, or typography values\n- Override `.slds-*` classes directly\n- Use deprecated `--lwc-*` tokens as primary values\n- Use `--slds-s-*` (shared) hooks -- they are private/internal\n- Reassign hook values -- only reference them with `var()`\n- Use color alone to convey meaning\n- Invent hook names by interpolating patterns from other families (see Naming Traps below)",
-          "source_url": "https://www.npmjs.com/package/@salesforce/afv-skills",
+          "source_url": "https://raw.githubusercontent.com/forcedotcom/sf-skills/main/skills/design-systems-slds-apply/SKILL.md",
           "note": "Path in tarball: package/skills/design-systems-slds-apply/SKILL.md"
         }
       },
@@ -3005,7 +3005,7 @@
         "snippet": {
           "language": "markdown",
           "content": "# Workflow\n\n```\n1. **REQUIRED — ALWAYS run first:** npx @salesforce-ux/slds-linter@latest lint --fix . — NEVER skip this step. This handles simple violations automatically.\n2. Review linter output -> Identify remaining manual fixes needed\n3. Fix by violation type -> Use per-rule reference guides\n4. Choose the right hook -> Context-first, inspect HTML before deciding",
-          "source_url": "https://www.npmjs.com/package/@salesforce/afv-skills",
+          "source_url": "https://raw.githubusercontent.com/forcedotcom/sf-skills/main/skills/design-systems-slds2-migrate/SKILL.md",
           "note": "Path in tarball: package/skills/design-systems-slds2-migrate/SKILL.md"
         }
       },
@@ -3016,7 +3016,7 @@
         "snippet": {
           "language": "markdown",
           "content": "## Quality Validation Process\n\n```\n1. Run SLDS Linter     → Collect violation counts (linter's job)\n2. Run Analyze Script  → Check what linter doesn't cover (supplementary)\n3. Agent Review        → Required manual review gate\n4. Score & Grade       → Compute automated score + final recommendation\n5. Generate Report     → Produce formatted scorecard\n```\n\n**Linter Compliance Score** = `100 - (total_violations × 10)`, minimum 0.\n\n**If the linter is unavailable** (no Node.js, no network access, CI sandbox restrictions): skip this step, note \"Linter not run\" in the report header, mark Linter Compliance as N/A, and compute the Overall score using the remaining 4 categories renormalized to 100%:\n\n```\nOverall (linter unavailable) = (Theming × 0.29) + (Accessibility × 0.29)\n                              + (CodeQuality × 0.21) + (ComponentUsage × 0.21)\n```",
-          "source_url": "https://www.npmjs.com/package/@salesforce/afv-skills",
+          "source_url": "https://raw.githubusercontent.com/forcedotcom/sf-skills/main/skills/design-systems-slds-validate/SKILL.md",
           "note": "Path in tarball: package/skills/design-systems-slds-validate/SKILL.md"
         }
       },
