@@ -106,7 +106,7 @@ markdown layer, so work through that list rather than trusting the first two.
 
 | Path                                                                          | What it is                                                                                                                 |
 | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 28 routes plus a static 404, real HTML for crawlers that don’t run JS                               |
+| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 29 routes plus a static 404, real HTML for crawlers that don’t run JS                               |
 | `dashboard/data.js`                                                           | The payload every page loads (`window.DATA`)                                                                               |
 | `dashboard/artifact.html`                                                     | The same site as one file: hash routing, no `<head>` of its own, `noindex`                                                 |
 | `dashboard/**/*.md`                                                           | Markdown twin of every route, plus 15 `questions/*.md` and `about/schema.md`                                               |

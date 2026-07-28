@@ -62,7 +62,7 @@ build still needs no Python packages; ruff and mypy are development-only and
 ## Never edit these
 
 `dashboard/` holds three source files — `template.html`, `favicon.svg` and
-`og-image.png` — and 128 generated ones: `index.html`, every
+`og-image.png` — and 137 generated ones: `index.html`, every
 `<route>/index.html`, every `.md`, every `.json`, `data.js`, `llms*.txt`,
 `sitemap.xml`, and `data/state-of-ai.sqlite`. The generated ones are gitignored,
 so an edit to one shows up nowhere and disappears on the next build.
