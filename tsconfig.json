@@ -1,0 +1,39 @@
+{
+  "// why": [
+    "No files are renamed to .ts. Types arrive through JSDoc, checked by allowJs",
+    "+ checkJs, so the build keeps running the same .mjs files Node already runs.",
+    "netlify/edge-functions/ is excluded on purpose: those files import netlify:edge",
+    "and run on Deno, which tsc cannot resolve. `deno check` covers them instead."
+  ],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["esnext"],
+    "types": ["node"],
+
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "scripts/**/*.mjs",
+    "scripts/**/*.js",
+    "netlify/functions/**/*.mjs",
+    "tests/**/*.mjs",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dashboard",
+    "build",
+    ".netlify",
+    "netlify/edge-functions"
+  ]
+}

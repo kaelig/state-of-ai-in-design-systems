@@ -1,0 +1,17 @@
+# Generated. scripts/build.sh rewrites all of it, including template.html's
+# output. The one source file in there, template.html, is 1,500 lines of
+# hand-tuned markup and CSS that Prettier would rewrite wholesale.
+dashboard/
+
+# Build intermediates and local tooling state.
+build/
+node_modules/
+.netlify/
+.playwright-mcp/
+
+# Lockfiles are written by their own tools.
+package-lock.json
+deno.lock
+
+# Generated from the schemas by json-schema-to-typescript.
+types/

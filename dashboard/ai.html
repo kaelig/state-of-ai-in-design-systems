@@ -577,7 +577,14 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .srclist a:hover .h, .srclist a:hover .p { color: var(--accent-ink); }
 /* Sits under the sources, after the reader has seen what the record claims and
    what it claims it from. The srclist already closes on a hairline, so no rule. */
-.correct { margin-top: 18px; font-size: 13px; color: var(--ink-3); max-width: var(--measure-body); }
+/* The correction invitation is the one call to action a record carries, so it
+   gets the accent and a box of its own — a footnote in ink-3 got no replies. */
+.correct { margin-top: 28px; padding: 14px 16px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius); background: var(--bg-raise); max-width: var(--measure-body); }
+.correct .t { font-family: var(--font-display); font-weight: 650; font-size: 16px; margin: 0 0 4px; }
+.correct p { font-size: 14px; color: var(--ink-2); margin: 0 0 12px; }
+.correct a { display: inline-block; border: 1px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--accent-ink); text-decoration: none; }
+.correct a:hover { background: var(--accent); color: var(--bg); }
+.correct a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
 .ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
 .ai-links li:last-child { border-bottom: 1px solid var(--line); }
@@ -1124,7 +1131,11 @@ const VIEWS = {
       ${s.gaps ? `<h2>Gaps &amp; open questions</h2><p class="body-block gaps">${fmt(s.gaps)}</p>` : ''}
       <h2>Sources</h2>
       <ul class="srclist">${(s.sources || []).map(u => `<li>${extLink(u, urlParts(u))}</li>`).join('')}</ul>
-      <p class="correct">Out of date, or wrong? ${extLink(correctionURL(s), 'Suggest a correction')}</p>`;
+      <aside class="correct" aria-label="Suggest a correction">
+        <p class="t">Out of date, or wrong?</p>
+        <p>Every claim above links to a fetched page, and this corner of the field moves fast. If ${esc(s.name)} has moved on, say so — the issue form arrives prefilled with this record.</p>
+        ${extLink(correctionURL(s), 'Suggest a correction')}
+      </aside>`;
   },
 
   techniques() {

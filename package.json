@@ -4,11 +4,26 @@
   "private": true,
   "type": "module",
   "description": "MCP server for the State of AI in Design Systems report (July 2026).",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "test": "node --test \"tests/**/*.test.mjs\""
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0-beta.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.1.2",
+    "eslint": "10.8.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.8.0",
+    "prettier": "3.9.6",
+    "typescript": "7.0.2"
   }
 }
