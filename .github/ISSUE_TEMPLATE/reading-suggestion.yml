@@ -1,0 +1,86 @@
+name: Suggest something to read
+description: A piece of writing, a talk or a course the further-reading list is missing.
+title: '[reading] '
+labels: ['reading']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The rest of the report is fixed at the date the data was collected. The
+        reading list is not: it is the one page kept current, and suggestions are
+        how it stays that way.
+
+        The bar it is held to:
+
+        > Work about what happens when a design system meets an AI agent — how
+        > systems are built for models to read, whether that works, and whether
+        > it should. Not a directory of design systems.
+
+        Galleries, component catalogues and lists of systems are good things that
+        this page is not. Everything listed gets opened and read first, so a link
+        behind a login or one that no longer says what it used to will come back
+        to you rather than go up.
+
+        If you made the thing, say so. It is not a reason to leave it out.
+
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: >-
+        The page itself, not a homepage or a newsletter issue that mentions it.
+      placeholder: https://…
+    validations:
+      required: true
+
+  - type: textarea
+    id: argument
+    attributes:
+      label: What does it say?
+      description: >-
+        In your words. What is the argument, the finding, or the thing it teaches?
+        If one line in it does the arguing, quote that line.
+    validations:
+      required: true
+
+  - type: textarea
+    id: bar
+    attributes:
+      label: Why does it clear the bar?
+      description: >-
+        Which part of the intersection above it lands on, and what it gives a
+        reader that the list does not already carry.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What sort of work is it?
+      options:
+        - 'Study, survey, index, or a report of original work'
+        - 'Essay or article'
+        - 'Talk, video, or podcast'
+        - 'Course or workshop'
+        - 'Something else'
+    validations:
+      required: false
+
+  - type: input
+    id: price
+    attributes:
+      label: What does it cost?
+      description: >-
+        Only if it costs money. The list names the price and what it buys, so a
+        reader knows before they follow the link.
+      placeholder: $199 — six sessions, recorded
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before you file
+      options:
+        - label: The link loads and shows what I said it shows.
+          required: true
