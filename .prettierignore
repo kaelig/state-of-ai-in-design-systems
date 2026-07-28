@@ -15,3 +15,7 @@ deno.lock
 
 # Generated from the schemas by json-schema-to-typescript.
 types/
+
+# Written by scripts/build_md.py on every build. Formatting it only makes the
+# next build undo the formatting and fail the check.
+netlify/edge-functions/lib/md-routes.ts
