@@ -28,10 +28,6 @@ data/raw/
 data/verified/
 db/
 
-# One-time migration tool, kept local. Once the records are clean it has no
-# further use, and build_dashboard.py already drops these fields at build time.
-scripts/sanitize_data.py
-
 # Staging note for work that isn't public yet.
 docs/feedback-integration.md
 

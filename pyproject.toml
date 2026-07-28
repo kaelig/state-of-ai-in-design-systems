@@ -6,9 +6,7 @@
 # Matches runtime.txt, which is what Netlify builds with.
 target-version = "py312"
 line-length = 100
-# Gitignored one-time migration tool. It exists on some machines and in no CI
-# checkout, so linting it would make local and CI results disagree.
-extend-exclude = ["scripts/sanitize_data.py", "build", "dashboard"]
+extend-exclude = ["build", "dashboard"]
 
 [tool.ruff.lint]
 # pycodestyle, pyflakes, isort, pyupgrade, flake8-bugbear, comprehensions.
@@ -21,7 +19,6 @@ ignore = [
 [tool.mypy]
 python_version = "3.12"
 files = ["scripts"]
-exclude = "scripts/sanitize_data\\.py"
 
 # Deliberately loose to start. 127KB of untyped Python does not get annotated in
 # one pass, and a strict config that never lands checks nothing. The ratchet is

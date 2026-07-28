@@ -10,7 +10,8 @@ The view functions in `dashboard/template.html` are pure `JSON → string`
 builders with no DOM references, so a small `node:vm` shim renders every route
 headless in about 10ms. Rebuilding on Astro or Eleventy would re-host a working
 renderer inside a dependency treadmill and put finished CSS at risk, for a
-dataset that is frozen. The build stays four scripts and no framework.
+dataset that is frozen. The build stays a handful of scripts and no framework:
+one validator and four generators, run by `scripts/build.sh`.
 
 ## Prerendered HTML, one file per route
 

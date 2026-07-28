@@ -88,6 +88,12 @@ sweep that “fixes” the missing link by supplying a URL makes the report say 
 opposite of what it found. If a record has no link, read its description before
 adding one.
 
+The schemas enforce as much of this as a schema can. `scripts/validate_data.mjs`
+runs as step 0 of the build and fails it on a missing `source_url`, an
+out-of-vocabulary value, or a property the schema does not know about. It cannot
+tell you whether the URL you supplied says what you claim it says. That part is
+still on you, and it is the part reviewers check.
+
 **Counts are computed, never typed.** 19, 5, 168, 148, and every other number
 on the site is derived from the records at build time. A hand-typed count is a
 count that goes stale silently.

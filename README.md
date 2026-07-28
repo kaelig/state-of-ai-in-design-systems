@@ -68,7 +68,10 @@ contribution. You don’t need to clone anything.
 derived from it by one command:
 
 ```
-data/*.json  ──▶ build_dashboard.py ──▶ dashboard/{index,artifact}.html, data.js
+data/*.json  ──▶ validate_data.mjs ──▶ every record against schema/*.json,
+                        │               or the build stops here
+                        ▼
+                 build_dashboard.py ──▶ dashboard/{index,artifact}.html, data.js
                         │                build/{payload,routes}.json
                         ▼
                    build_md.py ──▶ 60 × .md, 28 × .json, llms.txt + slices,
@@ -80,7 +83,12 @@ data/*.json  ──▶ build_dashboard.py ──▶ dashboard/{index,artifact}.h
                   prerender.mjs ──▶ dashboard/<route>/index.html × 28
 ```
 
-Nothing in `dashboard/` is written by hand. To change a page, edit
+Validation runs first and on the deploy, not only in CI, so a record with a bad
+enum or a missing `source_url` fails the build instead of reaching the site, the
+mirrors, the SQLite export and `/mcp`.
+
+Nothing generated in `dashboard/` is written by hand, or committed — Netlify
+rebuilds all of it on every deploy. To change a page, edit
 `dashboard/template.html` (markup, CSS, view functions) or a build script, then
 rebuild. `build_dashboard.py` runs twice because the `/ai` page quotes counts
 that only exist once the markdown layer has been compiled and measured.
