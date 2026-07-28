@@ -1,0 +1,33 @@
+# Python tooling config. These tools run in CI and locally, never on the deploy:
+# scripts/build.sh is standard library only, and Netlify installs no Python
+# packages to run it. Keep it that way.
+
+[tool.ruff]
+# Matches runtime.txt, which is what Netlify builds with.
+target-version = "py312"
+line-length = 100
+# Gitignored one-time migration tool. It exists on some machines and in no CI
+# checkout, so linting it would make local and CI results disagree.
+extend-exclude = ["scripts/sanitize_data.py", "build", "dashboard"]
+
+[tool.ruff.lint]
+# pycodestyle, pyflakes, isort, pyupgrade, flake8-bugbear, comprehensions.
+select = ["E", "F", "I", "UP", "B", "C4"]
+ignore = [
+    # The build scripts print wide, aligned report lines on purpose.
+    "E501",
+]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["scripts"]
+exclude = "scripts/sanitize_data\\.py"
+
+# Deliberately loose to start. 127KB of untyped Python does not get annotated in
+# one pass, and a strict config that never lands checks nothing. The ratchet is
+# to type one script, then raise the floor under it with a per-module override.
+ignore_missing_imports = true
+check_untyped_defs = true
+disallow_untyped_defs = false
+warn_unused_ignores = true
+warn_redundant_casts = true

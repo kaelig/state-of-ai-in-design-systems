@@ -9,7 +9,7 @@ id: "storybook"
 capability_count: 8
 design_systems_with_integration_records: 14
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T04:40:59Z"
+generated: "2026-07-28T04:48:05Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -306,4 +306,4 @@ Design systems with a recorded integration: [Atlassian Design System](https://st
 
 ---
 
-Generated 2026-07-28T04:40:59Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:48:05Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
