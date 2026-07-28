@@ -90,7 +90,7 @@
         "snippet": {
           "language": "yaml",
           "source_url": "https://ant.design/design.md",
-          "content": "---\nversion: alpha\nname: Ant Design\ndescription: Enterprise-grade React UI design system from Ant Group, built around the values Natural, Certain, Meaningful, and Growing.\ncolors:\n  primary: '#1677FF'\n  success: '#52C41A'\n  warning: '#FAAD14'\n  error: '#FF4D4F'\n  info: '#1677FF'\n  blue-7: '#0958D9'\n  surface: '#FFFFFF'\n  surface-container: '#FAFAFA'\n  surface-layout: '#F5F5F5'\n  on-surface: '#1F1F1F'\n  on-surface-variant: '#595959'\n  on-surface-disabled: '#BFBFBF'\n  outline: '#D9D9D9'\n  outline-variant: '#F0F0F0'\ntypography:\n  display-lg:\n    fontFamily: \"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif\"\n    fontSize: 38px\n    fontWeight: '600'\n    lineHeight: 46px"
+          "content": "---\nversion: alpha\nname: Ant Design\ndescription: Enterprise-grade React UI design system from Ant Group, built around the values Natural, Certain, Meaningful, and Growing.\ncolors:\n  primary: '#1677FF'\n  success: '#52C41A'\n  warning: '#FAAD14'\n  error: '#FF4D4F'\n  info: '#1677FF'\n  ...\n  blue-7: '#0958D9'\n  ...\n  surface: '#FFFFFF'\n  surface-container: '#FAFAFA'\n  surface-layout: '#F5F5F5'\n  on-surface: '#1F1F1F'\n  on-surface-variant: '#595959'\n  on-surface-disabled: '#BFBFBF'\n  outline: '#D9D9D9'\n  outline-variant: '#F0F0F0'\ntypography:\n  display-lg:\n    fontFamily: \"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif\"\n    fontSize: 38px\n    fontWeight: '600'\n    lineHeight: 46px"
         }
       },
       {
@@ -118,7 +118,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/.agents/skills/test-review/SKILL.md",
-          "content": "# Ant Design 测试用例审查\n\n## 目标\n\n一、只判断测试用例是否合理，不负责创建或补充测试。\n\n二、优先识别“用 a 证明 a”、实现细节自证、重复覆盖这类低价值测试。\n\n三、验证场景默认只做静态审查，不默认运行测试。\n\n四、输出先给结论，再给最关键原因。\n\n## 不做的事\n\n- 不主动新增测试\n- 不主动补回归测试\n- 不主动修改生产代码\n- 不默认执行 `npm test`、`npm run test:update`\n\n如果用户明确要求“顺手给改写建议”，可以在结论后补一句改写方向；但主任务仍然是审查，不是落地实现。"
+          "content": "# Ant Design 测试用例审查\n\n## 目标\n\n一、只判断测试用例是否合理，不负责创建或补充测试。\n\n二、优先识别“用 a 证明 a”、实现细节自证、重复覆盖这类低价值测试。\n\n三、验证场景默认只做静态审查，不默认运行测试。\n\n四、输出先给结论，再给最关键原因。\n\n...\n## 不做的事\n\n- 不主动新增测试\n- 不主动补回归测试\n- 不主动修改生产代码\n- 不默认执行 `npm test`、`npm run test:update`\n\n如果用户明确要求“顺手给改写建议”，可以在结论后补一句改写方向；但主任务仍然是审查，不是落地实现。"
         }
       },
       {
@@ -131,7 +131,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/CLAUDE.md",
-          "content": "## 编码行为准则\n\n旨在减少 LLM 编码中常见错误的行为准则，可与项目特定指令合并使用。\n\n**权衡：** 本准则倾向于\"谨慎优于速度\"。对于简单任务，请自行判断。\n\n### 1. 先思考再编码\n\n**\"不要假设。不要隐藏困惑。呈现权衡。\"**\n\n- 明确陈述假设；如果不确定，就提问。\n- 当存在多种理解时，逐一列出而非默默选择。\n- 如果存在更简单的方案，直接说明并在必要时提出异议。\n\n### 3. 精准改动\n\n**\"只改必须改的。只清理自己制造的遗留。\"**\n\n- 不要\"改善\"相邻的代码、注释或格式。\n- 不要重构没有问题的代码。\n- 即使你习惯不同写法，也要与现有风格保持一致。\n- 如果发现无关的废弃代码，提出来而不是直接删除。\n\n检验标准：\"每一行改动都应该能追溯到用户的请求。\"\n\n### 4. 目标驱动执行\n\n**\"定义成功标准。循环验证直到通过。\"**\n\n- \"添加校验\" → 为无效输入编写测试，然后使其通过\n- \"修复 Bug\" → 编写复现测试，然后使其通过"
+          "content": "## 编码行为准则\n\n旨在减少 LLM 编码中常见错误的行为准则，可与项目特定指令合并使用。\n\n**权衡：** 本准则倾向于\"谨慎优于速度\"。对于简单任务，请自行判断。\n\n### 1. 先思考再编码\n\n**\"不要假设。不要隐藏困惑。呈现权衡。\"**\n\n...\n- 明确陈述假设；如果不确定，就提问。\n- 当存在多种理解时，逐一列出而非默默选择。\n- 如果存在更简单的方案，直接说明并在必要时提出异议。\n\n...\n### 3. 精准改动\n\n**\"只改必须改的。只清理自己制造的遗留。\"**\n\n...\n- 不要\"改善\"相邻的代码、注释或格式。\n- 不要重构没有问题的代码。\n- 即使你习惯不同写法，也要与现有风格保持一致。\n- 如果发现无关的废弃代码，提出来而不是直接删除。\n\n...\n检验标准：\"每一行改动都应该能追溯到用户的请求。\"\n\n### 4. 目标驱动执行\n\n**\"定义成功标准。循环验证直到通过。\"**\n\n...\n- \"添加校验\" → 为无效输入编写测试，然后使其通过\n- \"修复 Bug\" → 编写复现测试，然后使其通过"
         }
       },
       {
@@ -153,7 +153,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/.github/copilot-instructions.md",
-          "content": "The following are the **only** top-level exports of `antd`. Do **not** invent components outside this list (e.g. `antd` does not export `Container`, `Stack`, `Heading`, `Box`, `Sidebar`, `Navbar`, `IconButton`, etc.).\n\nWhen in doubt, verify against `components/index.ts` (the source of truth for public exports). Icons live in a **separate** package: `@ant-design/icons` — never import icons from `antd`."
+          "content": "The following are the **only** top-level exports of `antd`. Do **not** invent components outside this list (e.g. `antd` does not export `Container`, `Stack`, `Heading`, `Box`, `Sidebar`, `Navbar`, `IconButton`, etc.).\n\n...\nWhen in doubt, verify against `components/index.ts` (the source of truth for public exports). Icons live in a **separate** package: `@ant-design/icons` — never import icons from `antd`."
         }
       },
       {
@@ -163,7 +163,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design-cli/main/skills/antd/SKILL.md",
-          "content": "allowed-tools:\n  - Bash(antd *)\n  - Bash(antd bug*)\n  - Bash(antd bug-cli*)\n  - Bash(antd upgrade*)\n  - Bash(npm install -g @ant-design/cli*)\n  - Bash(which antd)\n---\n\n## Setup\n\nBefore first use, check if the CLI is installed. If not, install it automatically:\n\n```bash\nwhich antd || npm install -g @ant-design/cli\n```\n\n**Always use `--format json` for structured output you can parse programmatically.**\n\n### 1. Writing antd component code\n\nBefore writing any antd component code, look up its API first — don't rely on memory.\n\n**Workflow:** `antd info` → understand props → `antd demo` → grab a working example → write code."
+          "content": "allowed-tools:\n  - Bash(antd *)\n  - Bash(antd bug*)\n  - Bash(antd bug-cli*)\n  - Bash(antd upgrade*)\n  - Bash(npm install -g @ant-design/cli*)\n  - Bash(which antd)\n---\n\n...\n## Setup\n\nBefore first use, check if the CLI is installed. If not, install it automatically:\n\n```bash\nwhich antd || npm install -g @ant-design/cli\n```\n\n...\n**Always use `--format json` for structured output you can parse programmatically.**\n\n...\n### 1. Writing antd component code\n\nBefore writing any antd component code, look up its API first — don't rely on memory.\n\n...\n**Workflow:** `antd info` → understand props → `antd demo` → grab a working example → write code."
         }
       },
       {
@@ -203,7 +203,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/.github/copilot-instructions.md",
-          "content": "## API Migration Notes (Do Not Hallucinate the Old Names)\n\nThe current major version uses these renames. Use the **new** API in suggestions:\n\n| AutoComplete, Cascader, Select | `dropdownClassName`, `dropdownStyle`, `dropdownRender`, `dropdownMatchSelectWidth` | `classNames.popup.root`, `styles.popup.root`, `popupRender`, `popupMatchSelectWidth` |\n| Card | `bordered` | `variant` |\n| Avatar.Group | `maxCount`, `maxStyle`, `maxPopoverPlacement` | `max={{ count, style, popover }}` |\n| BackTop | top-level `BackTop` | `FloatButton.BackTop` |\n\nInternally these are flagged via `warning.deprecated(...)` and `@deprecated` JSDoc tags; check the component's `interface.ts` / `index.tsx` if unsure."
+          "content": "## API Migration Notes (Do Not Hallucinate the Old Names)\n\nThe current major version uses these renames. Use the **new** API in suggestions:\n\n...\n| AutoComplete, Cascader, Select | `dropdownClassName`, `dropdownStyle`, `dropdownRender`, `dropdownMatchSelectWidth` | `classNames.popup.root`, `styles.popup.root`, `popupRender`, `popupMatchSelectWidth` |\n...\n| Card | `bordered` | `variant` |\n| Avatar.Group | `maxCount`, `maxStyle`, `maxPopoverPlacement` | `max={{ count, style, popover }}` |\n| BackTop | top-level `BackTop` | `FloatButton.BackTop` |\n\n...\nInternally these are flagged via `warning.deprecated(...)` and `@deprecated` JSDoc tags; check the component's `interface.ts` / `index.tsx` if unsure."
         }
       },
       {
@@ -223,7 +223,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/CLAUDE.md",
-          "content": "- 常规 demo 文件中，禁止使用 `..`、`../xxx`、`../../xxx`、`./xxx` 这类相对路径去引用组件实现、内部模块、方法、变量、类型，包含跨 demo、跨目录复用的场景。\n\n## Test 导入规范\n\n- 本规范适用于 `components/**/__tests__/` 下的测试文件。\n- 在这些目录下引入 Ant Design 组件，或引入组件内部模块、工具方法、变量、类型定义时，一律使用相对路径导入，不使用绝对路径导入。\n- 禁止在 `__tests__` 目录下使用 `antd`、`antd/es/*`、`antd/lib/*`、`antd/locale/*`、`.dumi/*`、`@@/*` 这类绝对路径或别名路径去引用仓库内代码。"
+          "content": "- 常规 demo 文件中，禁止使用 `..`、`../xxx`、`../../xxx`、`./xxx` 这类相对路径去引用组件实现、内部模块、方法、变量、类型，包含跨 demo、跨目录复用的场景。\n\n...\n## Test 导入规范\n\n- 本规范适用于 `components/**/__tests__/` 下的测试文件。\n- 在这些目录下引入 Ant Design 组件，或引入组件内部模块、工具方法、变量、类型定义时，一律使用相对路径导入，不使用绝对路径导入。\n...\n- 禁止在 `__tests__` 目录下使用 `antd`、`antd/es/*`、`antd/lib/*`、`antd/locale/*`、`.dumi/*`、`@@/*` 这类绝对路径或别名路径去引用仓库内代码。"
         }
       }
     ],
