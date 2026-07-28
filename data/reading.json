@@ -1,13 +1,134 @@
 [
   {
+    "id": "agent-ready-design-systems-index",
+    "title": "Agent-Ready Design Systems Index",
+    "author": "Kiryl Zhukouski, DesignSystems.one",
+    "published": "2026-06-10",
+    "kind": "study",
+    "url": "https://www.designsystems.one/ai-ready/systems",
+    "description": "Scores a field of 37 against five first-party signals: an MCP server, llms.txt, DTCG tokens, an installable component registry, and published Code Connect mappings. Wrappers and third-party shims do not count. Re-audited quarterly, and downloadable as JSON and CSV under CC BY 4.0.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "zeroheight-design-systems-report-2026",
+    "title": "Design Systems Report 2026",
+    "author": "zeroheight",
+    "kind": "study",
+    "url": "https://report.zeroheight.com/",
+    "description": "A practitioner survey, n=147. One in ten teams has AI in the process, just under half are experimenting, and the rest are not. Code generation leads the use cases, then documentation generation, then prototyping. Where this list mostly reads artifacts, this one asks people.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "building-design-system-components-with-agent-teams",
+    "title": "Building design system components with agent teams",
+    "author": "Kaelig Deloumeau-Prigent",
+    "published": "2026-04-22",
+    "kind": "study",
+    "url": "https://www.kaelig.fr/design-system-components-with-ai-agent-teams/",
+    "description": "A build report: eight agents across an Understand, Build and Verify pipeline turning a Figma file into a production Menu component, each with a named artifact, exit criteria and a retry budget. Full autonomy hit a ceiling, and the fix was a human gate rather than a better prompt.",
+    "quote": "The pipeline could follow rules but it couldn't question.",
+    "added_on": "2026-07-28"
+  },
+  {
     "id": "design-systems-need-evals",
     "title": "Design systems need evals",
     "author": "Murphy Trueman",
     "published": "2026-07-17",
     "kind": "essay",
     "url": "https://blog.murphytrueman.com/design-systems-need-evals/",
-    "description": "Argues that a design system with agents pointed at it should ship a regression suite the way it ships a changelog. Documentation tells you what the rules are; only running the agent under real conditions tells you whether it followed them.",
+    "description": "Argues that a design system with agents pointed at it should ship a regression suite the way it ships a changelog. Your instructions tell an agent what the rules are; only running it under real conditions tells you whether it followed them.",
     "quote": "You've taught agents your design system. You still don't know whether they're following it.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "in-the-open-what-the-modal-reveals",
+    "title": "In the open: What the modal reveals",
+    "author": "Murphy Trueman",
+    "published": "2026-03-13",
+    "kind": "essay",
+    "url": "https://blog.murphytrueman.com/in-the-open-what-the-modal-reveals/",
+    "description": "Reads the modal side by side in Carbon, Material UI, Polaris and Radix, then shows how each one's naming and composition choices commit it to a different contract with whoever consumes it, human or agent.",
+    "quote": "Where a component expresses its structure is where it communicates its contract.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "your-next-design-system-user",
+    "title": "Your next design system user",
+    "author": "Murphy Trueman",
+    "published": "2025-06-04",
+    "kind": "essay",
+    "url": "https://blog.murphytrueman.com/your-next-design-system-user/",
+    "description": "Makes the case for treating a component library as an interface other software consumes: explicit semantic contracts, purpose-driven naming, machine-readable documentation. The earliest work on this list, and the one the others keep arguing with.",
+    "quote": "Your design system is already an API; the question is whether it's a good one.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "my-beef-with-agentic-design-systems",
+    "title": "My beef with agentic design systems",
+    "author": "TJ Pitre, Southleft",
+    "published": "2026-06-19",
+    "kind": "essay",
+    "url": "https://southleft.substack.com/p/my-beef-with-agentic-design-systems",
+    "description": "Separates the architecture question from the accountability one. Agents working in a loop is a claim about capability; a design system is a way of encoding collective judgment and holding people to it. Offers one test for anyone selling the former as the latter.",
+    "quote": "what rejects the agent's output, and who decided the rule it's being rejected against?",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "agentic-ai-design-systems-and-figma",
+    "title": "Agentic AI, design systems and Figma",
+    "author": "Christine Vallaure",
+    "published": "2026-03-31",
+    "kind": "essay",
+    "url": "https://christinevallaure.substack.com/p/agentic-ai-design-systems-and-figma",
+    "description": "The design side of the same shift. Naming conventions, semantic tokens and complete component states stop being documentation hygiene and become the instructions a machine follows, which puts more of the outcome in the designer's hands and less of it up for interpretation.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "ai-in-design-systems-whats-changing-in-2026",
+    "title": "AI in design systems: What's changing in 2026",
+    "author": "Elyse Holladay, zeroheight",
+    "published": "2026-03-25",
+    "kind": "essay",
+    "url": "https://zeroheight.com/blog/ai-in-design-systems-whats-changing-in-2026/",
+    "description": "Three moves for the year: MCP servers, skills and design guidelines; designing in code rather than on a canvas; and shipping patterns as structured relationships instead of components. Argues a system has to document when and why, not only how, because the why is what a model otherwise guesses at.",
+    "quote": "AI is finally starting to change what a design system ships.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "agentic-design-systems-in-2026-with-brad-frost",
+    "title": "Agentic Design Systems in 2026 with Brad Frost",
+    "author": "Brad Frost, on Chromatic's channel",
+    "published": "2025-12-11",
+    "kind": "talk",
+    "url": "https://www.youtube.com/watch?v=Vg78K3t9KYc",
+    "description": "An eighty-minute conversation rather than a conference talk, recorded before most of the writing on this list. The oldest work here, and the one most likely to have been overtaken.",
+    "quote": "AI is rapidly reshaping who (or what) uses your design system.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "ai-and-design-systems-course",
+    "title": "AI & Design Systems",
+    "author": "Brad Frost, Ian Frost and TJ Pitre",
+    "kind": "course",
+    "url": "https://aianddesign.systems/",
+    "description": "Six chapters covering AI fundamentals, tooling setup, improving an existing system, and rolling the result out across an organisation. Released iteratively, with live jam sessions and a Slack community alongside.",
+    "price": {
+      "amount": "$995",
+      "buys": "one licence, with 20+ hours of demos and recorded sessions available so far"
+    },
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "into-design-systems-course",
+    "title": "Design Systems Course",
+    "author": "Sil Bormüller, Into Design Systems",
+    "kind": "course",
+    "url": "https://www.intodesignsystems.com/design-systems-course",
+    "description": "Six modules taught by practitioners from WhatsApp, GitHub, Figma, Adobe, Miro, Atlassian and Indeed: agentic design systems, making a system machine-readable, AI infrastructure, and shipping production code as a designer.",
+    "price": {
+      "amount": "$599",
+      "buys": "lifetime access to 15+ hours of video lessons"
+    },
     "added_on": "2026-07-28"
   }
 ]
