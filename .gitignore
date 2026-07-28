@@ -1,6 +1,18 @@
-# Build intermediates. scripts/build.sh regenerates these; dashboard/ is the
-# committed output, build/ is the scaffolding that produced it.
+# Build intermediates. scripts/build.sh regenerates these.
 build/
+
+# Generated site output. Netlify runs ./scripts/build.sh on every deploy and
+# publishes what that writes, so committing it only made a one-line data
+# correction arrive as a 131-file diff.
+#
+# Three files in here are source, not output, and the build does not recreate
+# them. Use `dashboard/*`, never `dashboard/**` — git cannot re-include a file
+# whose parent directory is excluded, and the negations below would silently
+# stop working.
+dashboard/*
+!dashboard/template.html
+!dashboard/favicon.svg
+!dashboard/og-image.png
 
 # Dependencies and local tooling state
 node_modules/
