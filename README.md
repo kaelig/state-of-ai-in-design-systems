@@ -108,12 +108,13 @@ markdown twin follow from there.
 
 ## Developing
 
-Python 3 with no packages, and Node 20 or newer.
+Node 24 and Python 3.12, pinned in `.nvmrc` and `runtime.txt`. Building needs no
+Python packages.
 
 ```sh
 npm install
+npm run check                       # everything CI runs, in one command
 ./scripts/build.sh                  # everything; fails loudly on an empty route
-python3 scripts/check_md_layer.py   # markdown layer self-check
 npm test                            # MCP server suite, no ports
 netlify serve                       # site + functions + edge functions locally
 npx @modelcontextprotocol/inspector --cli http://localhost:8888/mcp \
@@ -122,15 +123,22 @@ npx @modelcontextprotocol/inspector --cli http://localhost:8888/mcp \
 
 ## Deploying
 
-`netlify.toml` points Netlify at `dashboard/`, bundles the function with esbuild
-and picks up the edge function. There is no SPA fallback: every route is a real
-file, and anything else gets an honest 404.
+A push to `main` deploys production. Netlify runs `./scripts/build.sh`, publishes
+what it writes to `dashboard/`, bundles the function with esbuild and picks up the
+edge function. There is no SPA fallback: every route is a real file, and anything
+else gets an honest 404.
+
+Because the deploy builds from source, nothing generated is committed and no
+local build is needed before pushing. The build validates every record against
+its schema first, so a bad record fails the deploy rather than reaching the site.
+
+To deploy by hand — a preview, or from a branch:
 
 ```sh
 ./scripts/build.sh && netlify deploy --prod
 ```
 
-Build before you deploy. `netlify/functions/mcp.mjs` imports two files from
+Build first when you do. `netlify/functions/mcp.mjs` imports two files from
 `build/`, which is generated and not committed.
 
 ## Querying the data

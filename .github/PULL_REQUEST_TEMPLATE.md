@@ -11,15 +11,14 @@ reviewer can check it without hunting. Skip this section for code-only changes.
 
 ## Checks
 
-- [ ] `./scripts/build.sh` finishes clean
-- [ ] `python3 scripts/check_md_layer.py` passes
-- [ ] `npm test` passes
-- [ ] I didn’t hand-edit anything in `dashboard/` except `template.html`
-
 <!--
-The three commands regenerate and re-verify the whole published surface. The
-diff on a data change is large by design: one record edit fans out to the HTML,
-the markdown mirrors, the JSON twins, the SQLite export and llms.txt. That’s
-expected. A diff that touches dashboard/ and *not* data/ or template.html is
-the one to look at twice.
+Nothing to tick. CI runs `npm run check` on this pull request — the linters, the
+type checkers, the build, the tests and the markdown-layer self-check — so the
+answer shows up on the pull request itself rather than in a claim about it.
+
+Run `npm run check` locally first if you want to know sooner.
+
+Nothing under dashboard/ belongs in this diff. It is generated and gitignored,
+and Netlify rebuilds it on every deploy. If generated files turn up here,
+something is off with the change rather than with the build.
 -->

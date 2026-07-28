@@ -121,21 +121,22 @@ legitimate correction: open a data correction issue and make the case.
 git clone https://github.com/kaelig/state-of-ai-in-design-systems.git
 cd state-of-ai-in-design-systems
 npm install
-./scripts/build.sh                  # regenerate every published surface
-python3 scripts/check_md_layer.py   # markdown layer self-check
-npm test                            # MCP server suite
+npm run check                       # everything CI runs
 ```
 
-All three must pass. Commit the regenerated `dashboard/` output along with your
-source change. The site is deployed from those files, so a data change that
-doesn’t include them doesn’t reach anybody.
+`npm run check` has to pass. It runs the linters, the formatter, the type
+checkers, the build, the tests and the markdown-layer self-check, and CI runs the
+same script on your pull request, so a green run locally means a green run there.
 
-The diff on a one-record change is large. That’s expected: an edit fans out to
-the HTML, the markdown mirrors, the JSON twins, the SQLite export and `llms.txt`.
-A diff that touches `dashboard/` without touching `data/` or `template.html` is
-the one to look at twice.
+Do not commit anything under `dashboard/`. It is generated and gitignored.
+Netlify runs the build on every deploy and publishes what that writes, so
+building locally is how you check your change rather than something you hand in.
+A one-record correction should be a one-file diff, and a pull request that
+touches generated output is the one to look at twice.
 
-Requirements: Python 3 (no packages needed), Node 20 or newer.
+Requirements: Node 24 and Python 3.12, both pinned in `.nvmrc` and `runtime.txt`.
+Building needs no Python packages. The linters do, and `npm run check` fetches
+them for you with `uvx` if you do not already have them.
 
 ## If you’re an agent
 

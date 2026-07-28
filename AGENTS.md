@@ -15,16 +15,27 @@ either.
 
 ```sh
 npm install
+npm run check                       # everything CI runs: lint, format, types, build, tests
 ./scripts/build.sh                  # regenerate every published surface
-python3 scripts/check_md_layer.py   # markdown layer self-check
-npm test                            # MCP server suite (node --test, no ports)
 netlify serve                       # site + functions + edge functions locally
 ```
 
-Run all three checks before proposing a change. `build.sh` is not quiet: it fails
-if a route renders empty, if a placeholder survives into the HTML, if the nav and
-the route table disagree, or if the WebMCP tools and the `/ai` copy name
-different tools. Requirements are Python 3 with no packages and Node 20+.
+`npm run check` is the one to run before proposing a change. It calls
+`scripts/check.sh`, and so does CI, so the two cannot drift. In order: eslint,
+prettier, tsc, the generated types, ruff, mypy, deno over the edge functions, the
+contrast check, the build, the tests, and the markdown-layer self-check. The
+static checks come first because they fail in seconds; the build has to precede
+the tests because `build/` is generated and the tests read from it.
+
+The build is not quiet either. It validates every record against its schema
+before generating anything, then fails if a route renders empty, if a placeholder
+survives into the HTML, if the nav and the route table disagree, or if the WebMCP
+tools and the `/ai` copy name different tools.
+
+Requirements are Node 24 and Python 3.12, pinned in `.nvmrc` and `runtime.txt` —
+the two files Netlify itself reads, so your local versions match the deploy. The
+build still needs no Python packages; ruff and mypy are development-only and
+`npm run check` fetches them with `uvx` if they are not already installed.
 
 ## Edit these
 
@@ -33,7 +44,9 @@ different tools. Requirements are Python 3 with no packages and Node 20+.
 | `data/design-systems.json`           | The 19 system records. Facts go here, nowhere else.            |
 | `data/platforms.json`                | The 5 platform records.                                        |
 | `data/insights.json`                 | Findings, essay, methodology, caveats — the written analysis.  |
-| `schema/design-system.schema.json`   | Record schema and controlled vocabularies.                     |
+| `schema/design-system.schema.json`   | System record schema and controlled vocabularies.              |
+| `schema/platform.schema.json`        | Platform record schema.                                        |
+| `schema/insights.schema.json`        | Shape of the written analysis.                                 |
 | `dashboard/template.html`            | The entire site: markup, CSS, and one view function per route. |
 | `scripts/build_dashboard.py`         | Payload, HTML shells, route table, nav.                        |
 | `scripts/build_md.py`                | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
@@ -41,19 +54,21 @@ different tools. Requirements are Python 3 with no packages and Node 20+.
 | `netlify/functions/mcp.mjs`          | The MCP server at `/mcp`.                                      |
 | `netlify/edge-functions/markdown.ts` | Content negotiation for `Accept: text/markdown`.               |
 | `tests/mcp.test.mjs`                 | The MCP suite.                                                 |
+| `scripts/validate_data.mjs`          | Step 0 of the build: records against schemas.                  |
+| `scripts/check.sh`                   | The check sequence CI and `npm run check` both run.            |
 
 ## Never edit these
 
-Everything in `dashboard/` **except `template.html`** is generated. That is 130+
-files: `index.html`, every `<route>/index.html`, every `.md`, every `.json`,
-`data.js`, `llms*.txt`, `sitemap.xml`, and `data/state-of-ai.sqlite`.
+`dashboard/` holds three source files — `template.html`, `favicon.svg` and
+`og-image.png` — and 128 generated ones: `index.html`, every
+`<route>/index.html`, every `.md`, every `.json`, `data.js`, `llms*.txt`,
+`sitemap.xml`, and `data/state-of-ai.sqlite`. The generated ones are gitignored,
+so an edit to one shows up nowhere and disappears on the next build.
 
-Editing a generated file is the most common way to waste a change here. It
-survives until the next build and then disappears, and until then the HTML page
-and its markdown twin disagree about what the report says. `build/` is
-intermediate and not committed.
+`netlify/edge-functions/lib/md-routes.ts` is generated too, by `build_md.py`, and
+is the one generated file still tracked, because the edge function imports it.
 
-To change a page’s words, find the source: prose about a system is in
+To change a page's words, find the source: prose about a system is in
 `data/design-systems.json`, analysis is in `data/insights.json`, and page
 scaffolding is in `dashboard/template.html`.
 
@@ -213,13 +228,17 @@ asking for the link, which costs everybody a round trip.
 ## Conventions
 
 Commits are imperative and explain the change, not the process. Branch off
-`main`. For pull requests, `.github/PULL_REQUEST_TEMPLATE.md` asks for the
-source URLs behind any data change and confirmation that the three checks pass.
+`main`. For pull requests, `.github/PULL_REQUEST_TEMPLATE.md` asks for the source
+URLs behind any data change; CI answers for the checks, so there is nothing to
+confirm by hand.
 
-Commit the regenerated `dashboard/` output alongside a source change. The site
-deploys from those files, so a data change without them reaches nobody. The diff
-will be large; that is the pipeline fanning one record out across the HTML, the
-mirrors, the twins, the SQLite export and `llms.txt`.
+Do not commit the regenerated `dashboard/` output; it is gitignored. Netlify runs
+`./scripts/build.sh` on every deploy and publishes what that writes, so building
+locally is how you check your change, not something you hand in. A data
+correction should be a one-file diff.
+
+Three files under `dashboard/` are source and stay tracked: `template.html`,
+`favicon.svg` and `og-image.png`. The build does not recreate those.
 
 [`docs/architecture.md`](docs/architecture.md) explains why the site is built
 this way: no framework, prerendered routes, the compiled markdown layer, the MCP
