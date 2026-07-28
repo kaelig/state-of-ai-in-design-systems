@@ -30,6 +30,16 @@
     "added_on": "2026-07-28"
   },
   {
+    "id": "zeroheight-design-system-maturity-model",
+    "title": "Design System Maturity Model",
+    "author": "zeroheight",
+    "kind": "tool",
+    "url": "https://zeroheight.com/maturity/",
+    "description": "A free assessment that places a system on six independent axes rather than one score, each running through four stages. One of the axes is AI readiness, which makes this the closest thing to a self-serve version of the question this report asks. Built on the four-stage model from Sparkbox.",
+    "quote": "Whether your design system is the default context that AI tools build from, or whether AI is silently working around it.",
+    "added_on": "2026-07-28"
+  },
+  {
     "id": "design-systems-need-evals",
     "title": "Design systems need evals",
     "author": "Murphy Trueman",

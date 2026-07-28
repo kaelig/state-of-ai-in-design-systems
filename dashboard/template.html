@@ -1150,7 +1150,8 @@ const VIEWS = {
      plainly that it is not part of the frozen set. */
   reading() {
     const rs = DATA.reading || [], m = DATA.meta;
-    const KIND = { study: 'Studies, surveys and reports', essay: 'Essays', talk: 'Talks', course: 'Courses' };
+    const KIND = { study: 'Studies, surveys and reports', tool: 'Models and tools',
+      essay: 'Essays', talk: 'Talks', course: 'Courses' };
     const first = rs.reduce((a, r) => r.added_on < a ? r.added_on : a, '9999-99-99');
     const entry = r => `<li>
       <span class="t">${extLink(r.url, esc(r.title))}</span>

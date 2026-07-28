@@ -8,7 +8,7 @@ You do not need to run the build, clone the repo, or know Python to contribute.
 Filing an issue with a link in it is a complete contribution. If you want to open
 a pull request, the rest of this page tells you how.
 
-## Three ways in
+## Four ways in
 
 ### 1. Correct something
 
@@ -39,7 +39,19 @@ Bring links. Adding a system means researching it against
 [`schema/design-system.schema.json`](schema/design-system.schema.json), and the
 evidence you bring is the head start.
 
-### 3. Change the site or the code
+### 3. Send something to read
+
+The [further reading](https://state-of-ai-in-design-systems.netlify.app/reading)
+page collects other people's writing, talks and courses on what happens when a
+design system meets an AI agent. It is the one page kept current rather than
+fixed at the collection window, so it is the easiest thing here to contribute to.
+
+[Suggest something to read →](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=reading-suggestion.yml)
+
+Everything listed gets opened and read first, so bring the link rather than the
+recommendation.
+
+### 4. Change the site or the code
 
 Bugs, accessibility problems, build issues, a page that reads badly on a phone.
 

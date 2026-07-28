@@ -36,8 +36,8 @@
       "description": "ISO date the work was published. Omitted only when the work genuinely has no publication date — a rolling course, or a page that is revised rather than dated."
     },
     "kind": {
-      "enum": ["study", "essay", "talk", "course"],
-      "description": "What sort of work it is. The list renders these groups in this order, so work reporting data or reading artifacts appears before commentary."
+      "enum": ["study", "tool", "essay", "talk", "course"],
+      "description": "What sort of work it is. The list renders these groups in this order, so work reporting data and instruments you can run against your own system come before commentary about the field."
     },
     "url": {
       "type": "string",

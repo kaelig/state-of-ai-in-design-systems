@@ -222,6 +222,10 @@ export interface ReportAnalysisAndCopy {
   techniques_lede: Lede;
   platforms_lede: Lede;
   /**
+   * One paragraph under a page's title. Rendered on both the HTML route and its markdown twin, so it has to read on its own.
+   */
+  reading_lede: string;
+  /**
    * The numbered findings. Order is meaningful: the site numbers them by position, so reordering renumbers them.
    *
    * @minItems 1
@@ -270,9 +274,9 @@ export interface FurtherReadingEntry {
    */
   published?: string;
   /**
-   * What sort of work it is. The list renders these groups in this order, so work reporting data or reading artifacts appears before commentary.
+   * What sort of work it is. The list renders these groups in this order, so work reporting data and instruments you can run against your own system come before commentary about the field.
    */
-  kind: 'study' | 'essay' | 'talk' | 'course';
+  kind: 'study' | 'tool' | 'essay' | 'talk' | 'course';
   /**
    * The page this entry was read from. Required, and held to the same bar as a record's source_url: a page that loads and shows the thing.
    */

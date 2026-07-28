@@ -54,6 +54,12 @@ PUBLIC_SCHEMAS = [
         ROOT / "schema" / "insights.schema.json",
         "The shape of the written analysis: findings, essay, methodology, caveats.",
     ),
+    (
+        "/data/reading.schema.json",
+        ROOT / "schema" / "reading.schema.json",
+        "The further-reading entry shape. Carries an added date, which is where the "
+        "list's own updated date comes from.",
+    ),
 ]
 
 ORIGIN = "https://state-of-ai-in-design-systems.netlify.app"
@@ -914,6 +920,7 @@ def methodology_md():
 # Labels mirror dashboard/template.html so the two surfaces name things the same way.
 READING_GROUP = {
     "study": "Studies, surveys and reports",
+    "tool": "Models and tools",
     "essay": "Essays",
     "talk": "Talks",
     "course": "Courses",

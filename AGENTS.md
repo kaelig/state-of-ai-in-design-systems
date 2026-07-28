@@ -44,9 +44,11 @@ build still needs no Python packages; ruff and mypy are development-only and
 | `data/design-systems.json`           | The 20 system records. Facts go here, nowhere else.            |
 | `data/platforms.json`                | The 5 platform records.                                        |
 | `data/insights.json`                 | Findings, essay, methodology, caveats — the written analysis.  |
+| `data/reading.json`                  | The further-reading list. Other people's work, not ours.       |
 | `schema/design-system.schema.json`   | System record schema and controlled vocabularies.              |
 | `schema/platform.schema.json`        | Platform record schema.                                        |
 | `schema/insights.schema.json`        | Shape of the written analysis.                                 |
+| `schema/reading.schema.json`         | Reading-list entry schema.                                     |
 | `dashboard/template.html`            | The entire site: markup, CSS, and one view function per route. |
 | `scripts/build_dashboard.py`         | Payload, HTML shells, route table, nav.                        |
 | `scripts/build_md.py`                | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
@@ -175,6 +177,12 @@ The site also registers four WebMCP tools in-page via `registerReportTools()` in
 `template.html`, behind a feature check: `list_systems`, `get_system`, `search`,
 `get_stats`.
 
+`/reading` is the exception to all of it. It lists other people's writing, talks
+and courses on AI and design systems, it is kept current rather than fixed at the
+collection window, and its markdown twin carries an `updated` field in place of
+the `data_collected` every other page stamps. Quote that date when you cite it.
+It is computed from the newest entry, so adding a work moves it.
+
 Two things to carry into any answer you build from this: cite the `source_url` on
 each record rather than the report, and say that the data is a snapshot of 26–28
 July 2026. It goes stale, and the systems it describes ship weekly.
@@ -184,12 +192,13 @@ July 2026. It goes stale, and the systems it describes ship weekly.
 Corrections are the most useful contribution. Four templates, all fillable by a
 person or an agent:
 
-| Template              | For                                                        |
-| --------------------- | ---------------------------------------------------------- |
-| `data-correction.yml` | A fact is wrong, stale, or missing. Requires a source URL. |
-| `new-system.yml`      | A system that should be in the study.                      |
-| `site-bug.yml`        | A page, link, file, or endpoint that doesn’t work.         |
-| `feedback.yml`        | Anything else, including disagreement with the findings.   |
+| Template                 | For                                                        |
+| ------------------------ | ---------------------------------------------------------- |
+| `data-correction.yml`    | A fact is wrong, stale, or missing. Requires a source URL. |
+| `new-system.yml`         | A system that should be in the study.                      |
+| `site-bug.yml`           | A page, link, file, or endpoint that doesn’t work.         |
+| `reading-suggestion.yml` | Work the further-reading list is missing.                  |
+| `feedback.yml`           | Anything else, including disagreement with the findings.   |
 
 From a shell:
 
