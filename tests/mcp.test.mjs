@@ -316,6 +316,7 @@ describe('markdown is byte-identical to the static mirrors', () => {
   test('get_report sections', async () => {
     for (const [section, path] of [
       ['methodology', '/methodology.md'],
+      ['reading', '/reading.md'],
       ['insights', '/insights.md'],
       ['overview', '/index.md'],
       ['questions/mcp-server-adoption', '/questions/mcp-server-adoption.md'],
@@ -323,6 +324,16 @@ describe('markdown is byte-identical to the static mirrors', () => {
       const md = firstText(await callTool('get_report', { section }));
       assert.equal(md, MD_MAP[path]);
     }
+  });
+
+  test('the reading section dates itself, not the snapshot', async () => {
+    const md = firstText(await callTool('get_report', { section: 'reading' }));
+    // The rest of the report is fixed at the collection window and stamps every
+    // page with it. This one moves, so an agent that carries the window from
+    // get_stats has to be told, in the page itself, to use a different date.
+    assert.match(md, /^updated: "\d{4}-\d{2}-\d{2}"$/m);
+    assert.doesNotMatch(md, /^data_collected:/m);
+    assert.match(md, /kept current/i);
   });
 
   test('get_report with no section lists the sections', async () => {
@@ -347,6 +358,7 @@ function isReportPath(path) {
       '/platforms.md',
       '/insights.md',
       '/methodology.md',
+      '/reading.md',
       '/ai.md',
       '/about/schema.md',
     ].includes(path)

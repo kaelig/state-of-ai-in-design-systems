@@ -190,6 +190,11 @@ const FIXED_SECTIONS = [
     '/methodology.md',
     'How the data was gathered, and its limits',
   ],
+  [
+    'reading',
+    '/reading.md',
+    'Further reading on AI and design systems — kept current, not part of the snapshot',
+  ],
   ['ai-access', '/ai.md', 'How agents can read this report'],
   ['schema', '/about/schema.md', 'The data schema behind the report'],
 ];
