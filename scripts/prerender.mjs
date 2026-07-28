@@ -113,7 +113,8 @@ try {
   vm.runInContext(
     appSrc +
       '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;' +
-      ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;',
+      ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
+      ' globalThis.__footHTML = footHTML;',
     ctx,
     { filename: 'app.js' },
   );
@@ -130,8 +131,15 @@ if (!VIEWS || typeof renderSyslist !== 'function')
   die('VIEWS / renderSyslist not exposed');
 
 const NAV_HTML = el('#nav').innerHTML;
-const FOOT_HTML = el('#foot').innerHTML;
-if (!NAV_HTML || !FOOT_HTML) die('nav or footer markup was never recorded');
+// Per view, not once: the footer names when the page's contents were gathered,
+// and the reading list is the one page that does not answer that with the
+// collection window. Taking the module-load value for every file would ship the
+// overview's answer on all of them.
+const footHTML = sandbox.__footHTML;
+if (typeof footHTML !== 'function') die('footHTML not exposed');
+const NAV_FOOT_PROBE = footHTML('overview');
+if (!NAV_HTML || !NAV_FOOT_PROBE)
+  die('nav or footer markup was never recorded');
 
 /* ---------- head + body splicing ---------- */
 const attrEsc = (s) =>
@@ -241,7 +249,7 @@ function page({ path, view, title, description, body, noindex }) {
   h = sub(
     h,
     /<footer class="foot" id="foot" role="contentinfo"><\/footer>/,
-    `<footer class="foot" id="foot" role="contentinfo">${FOOT_HTML}</footer>`,
+    `<footer class="foot" id="foot" role="contentinfo">${footHTML(view)}</footer>`,
     'foot slot',
   );
   return h;
