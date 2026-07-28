@@ -70,8 +70,8 @@ describe('legacy 2025 leg', () => {
             {}
         );
         assert.equal(response.status, 200);
-        assert.match(response.headers.get('content-type'), /application\/json/);
-        const body = await response.json();
+        assert.match(response.headers.get('content-type') ?? '', /application\/json/);
+        const body = /** @type {any} */ (await response.json());
         assert.equal(body.result.protocolVersion, '2025-06-18');
         assert.equal(body.result.serverInfo.name, 'state-of-ai-in-design-systems');
     });
@@ -118,7 +118,7 @@ describe('modern 2026-07-28 leg', () => {
     test('server/discover advertises the modern revision', async () => {
         const { response, body } = await modern('server/discover');
         assert.equal(response.status, 200);
-        assert.match(response.headers.get('content-type'), /application\/json/);
+        assert.match(response.headers.get('content-type') ?? '', /application\/json/);
         assert.deepEqual(body.result.supportedVersions, ['2026-07-28']);
         // Modern results carry extra fields (resultType/ttlMs/cacheScope/_meta) — tolerated.
         assert.ok(body.result.capabilities.tools);
@@ -383,7 +383,7 @@ describe('HTTP negative cases', () => {
         const response = await handler(new Request(URL_, { method: 'GET' }));
         assert.equal(response.status, 405);
         assert.equal(response.headers.get('access-control-allow-origin'), '*');
-        assert.equal((await response.json()).error.code, -32000);
+        assert.equal(/** @type {any} */ (await response.json()).error.code, -32000);
     });
 
     test('DELETE is 405', async () => {
@@ -400,7 +400,7 @@ describe('HTTP negative cases', () => {
         );
         assert.equal(response.status, 204);
         assert.equal(response.headers.get('access-control-allow-origin'), '*');
-        assert.match(response.headers.get('access-control-allow-headers'), /content-type/);
+        assert.match(response.headers.get('access-control-allow-headers') ?? '', /content-type/);
     });
 
     test('legacy POST accepting only application/json is 406', async () => {

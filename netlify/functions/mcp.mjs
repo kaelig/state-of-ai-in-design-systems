@@ -296,6 +296,7 @@ function tokenize(s) {
     return s.toLowerCase().match(TOKEN_RE) || [];
 }
 
+/** @type {Map<string, any[]>} */
 const INDEX = new Map();
 LOWER.forEach((text, i) => {
     for (const tok of new Set(tokenize(text))) {
@@ -318,22 +319,31 @@ function runSearch(query, kind, systemId, limit) {
     if (!tokens.length) return { total: 0, hits: [] };
 
     // AND over tokens, with a prefix fallback so "affordanc" still finds things.
+    // null until the first token narrows it; tokens is non-empty by the guard
+    // above, so the loop always assigns before the scan below reads it.
+    /** @type {Set<any> | null} */
     let candidates = null;
     for (const tok of tokens) {
         let bucket = INDEX.get(tok);
         if (!bucket && tok.length >= 4) {
+            /** @type {Set<any>} */
             const merged = new Set();
             for (const [key, ids] of INDEX) if (key.startsWith(tok)) for (const id of ids) merged.add(id);
             bucket = [...merged];
         }
         if (!bucket || !bucket.length) return { total: 0, hits: [] };
         const set = new Set(bucket);
-        candidates = candidates === null ? set : new Set([...candidates].filter(i => set.has(i)));
+        if (candidates === null) {
+            candidates = set;
+        } else {
+            const prev = candidates;
+            candidates = new Set([...prev].filter(i => set.has(i)));
+        }
         if (!candidates.size) return { total: 0, hits: [] };
     }
 
     const scored = [];
-    for (const i of candidates) {
+    for (const i of candidates ?? []) {
         const doc = DOCS[i];
         if (kind && kind !== 'all' && doc.kind !== kind) continue;
         if (systemId && doc.system_id !== systemId) continue;
