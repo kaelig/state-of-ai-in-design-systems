@@ -226,6 +226,23 @@ def one_line(text, limit=170):
     return cut.rstrip(" ,;:.-/(—") + "…"
 
 
+def blockquote(text):
+    """Somebody else's words, on one line so they stay theirs.
+
+    A newline inside a quotation ends the blockquote, and every line after it
+    renders as the report's own prose. Whitespace is the only thing collapsed:
+    this is published as verbatim quotation, so `one_line()` — which strips
+    backticks and asterisks and truncates — would quietly rewrite it.
+    """
+    return "> " + re.sub(r"\s+", " ", str(text)).strip()
+
+
+def link_text(text):
+    """Bracket-safe label for a markdown link, so a `]` in a third-party title
+    cannot close the label early and leave the URL rendering as prose."""
+    return str(text).replace("[", "\\[").replace("]", "\\]")
+
+
 def first_sentence(text, limit=200):
     t = re.sub(r"\s+", " ", html_to_md(text)).strip()
     m = re.match(r"(.{40,}?[.!?])(\s|$)", t)
@@ -969,10 +986,10 @@ def reading_md():
             byline = r["author"]
             if r.get("published"):
                 byline += f" · {long_date(r['published'])}"
-            p.append(f"### [{r['title']}]({r['url']})\n\n{byline}\n")
+            p.append(f"### [{link_text(r['title'])}]({r['url']})\n\n{byline}\n")
             p.append(html_to_md(r["description"]) + "\n")
             if r.get("quote"):
-                p.append(f"> {r['quote']}\n")
+                p.append(blockquote(r["quote"]) + "\n")
             if r.get("price"):
                 p.append(f"**{r['price']['amount']}** — {r['price']['buys']}\n")
             if r["added_on"] > first_added:

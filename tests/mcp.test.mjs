@@ -331,9 +331,47 @@ describe('markdown is byte-identical to the static mirrors', () => {
     // The rest of the report is fixed at the collection window and stamps every
     // page with it. This one moves, so an agent that carries the window from
     // get_stats has to be told, in the page itself, to use a different date.
-    assert.match(md, /^updated: "\d{4}-\d{2}-\d{2}"$/m);
+    // Recomputed here rather than pattern-matched: a date-shaped regex passes
+    // just as happily when the build takes the oldest entry as the newest one.
+    const newest = PAYLOAD.reading
+      .map((r) => r.added_on)
+      .sort()
+      .at(-1);
+    assert.equal(md.match(/^updated: "([\d-]+)"$/m)?.[1], newest);
     assert.doesNotMatch(md, /^data_collected:/m);
     assert.match(md, /kept current/i);
+  });
+
+  test('the reading list is grouped by kind, newest first, undated last', async () => {
+    const kinds = PAYLOAD.meta.reading_kinds;
+    const order = PAYLOAD.reading.map((r) => kinds.indexOf(r.kind));
+    assert.deepEqual(
+      order,
+      [...order].sort((a, b) => a - b),
+      'kinds interleave',
+    );
+    assert.ok(
+      !order.includes(-1),
+      'an entry carries a kind the render cannot label',
+    );
+
+    for (const kind of kinds) {
+      const dates = PAYLOAD.reading
+        .filter((r) => r.kind === kind)
+        .map((r) => r.published ?? '');
+      const undated = dates.findIndex((d) => d === '');
+      if (undated !== -1)
+        assert.ok(
+          dates.slice(undated).every((d) => d === ''),
+          `undated ${kind} entry sorts above a dated one`,
+        );
+      const dated = dates.filter(Boolean);
+      assert.deepEqual(
+        dated,
+        [...dated].sort().reverse(),
+        `${kind} not newest-first`,
+      );
+    }
   });
 
   test('the tool metadata carves the reading section out of the snapshot', async () => {
