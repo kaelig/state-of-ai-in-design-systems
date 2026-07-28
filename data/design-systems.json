@@ -1294,7 +1294,7 @@
         "notes": "Source is closed: the npm package has no `repository` field and no license field; tool schemas could not be independently inspected without a license key. Version 1.5 changelog dated July 2026.",
         "snippet": {
           "language": "bash",
-          "content": "claude mcp add daisyui-blueprint --env LICENSE=YOUR_LICENSE_KEY --env EMAIL=YOUR_EMAIL --env FIGMA=YOUR_FIGMA_API_KEY -- npx -y daisyui-blueprint@latest",
+          "content": " Run this command to add the Blueprint MCP server. Figma API Key is optional and only needed for Figma-to-code conversion.\n claude mcp add daisyui-blueprint\n  --env LICENSE=YOUR_LICENSE_KEY\n  --env EMAIL=YOUR_EMAIL\n  --env FIGMA=YOUR_FIGMA_API_KEY\n  -- npx -y daisyui-blueprint@latest",
           "source_url": "https://daisyui.com/blueprint/claudecode/"
         }
       },
@@ -1363,7 +1363,7 @@
         "docs_url": "https://daisyui.com/skills/",
         "snippet": {
           "language": "text",
-          "content": "Official daisyUI Skills\nEnough with AI slop 🙅 Setup your coding agent to generate better UI.\nCompatible with all coding agents\ndaisyUI Skill — Generates daisyUI components and themes — Free\nDashboard Skill — Expert in generating layouts and UI blocks for dashboards and admin panels, based on daisyUI style — from $29\nCharts Skill — Expert in generating all kind of charts and graphs, based on daisyUI style — from $39",
+          "content": " Dashboard Skill\n Expert in generating layouts and UI blocks for dashboards and admin panels, based on daisyUI style\n  from $29\n Charts Skill\n Expert in generating all kind of charts and graphs, based on daisyUI style\n  from $39",
           "source_url": "https://daisyui.com/skills/"
         }
       },
@@ -1405,7 +1405,7 @@
         "description": "Blueprint's central coercion device. Rather than trusting the model to read rules, it decomposes UI generation into six tools with a fixed execution order, three explicitly labelled 'Mandatory' and one labelled 'Final gate'. Context is withheld until the corresponding tool is called, and the Quality Inspector produces a repair list the agent must clear before it may declare completion. This is the strongest anti-skimming architecture observed in the study: it converts instructions the model can ignore into tool calls it cannot skip.",
         "snippet": {
           "language": "text",
-          "content": "THE REAL SOLUTION\nBlueprint fixes that.\nIntroducing a mandatory MCP workflow.\nEvery tool has a defined job and a strict execution order. Each tool provides the necessary resources and functionality to your agent. The agent must follow these rules sequentially. It cannot skip steps, invent component syntax, or mark unfinished work as complete.\n\n01 Mandatory — Setup Expert\n02 Mandatory — Rules Enforcer\n   Loads implementation, syntax, accessibility, responsive, theme, media, and quality rules as requirements your LLM must follow.\n   The workflow cannot continue by skimming half a skill file and quietly dropping the difficult constraints.\n05 Mandatory — Component Syntax Expert\n   Retrieves exact, correct daisyUI component structures, variants, code snippets, and examples only when the page needs them.\n   No stale syntax from model memory. No utility pile pretending to be a maintained component.\n06 Final gate — Quality Inspector\n   When the inspection finds a problem, your agent has to fix it before the workflow can call the page finished.",
+          "content": " THE REAL SOLUTION\n Blueprint fixes that.\n Introducing a mandatory MCP workflow.\n...\n 01 Mandatory\n  Setup Expert\n...\n02 Mandatory\n  Rules Enforcer\n Loads implementation, syntax, accessibility, responsive, theme, media, and quality rules as requirements your LLM must follow.\n The workflow cannot continue by skimming half a skill file and quietly dropping the difficult constraints.\n...\n05 Mandatory\n  Component Syntax Expert\n Retrieves exact, correct daisyUI component structures, variants, code snippets, and examples only when the page needs them.\n No stale syntax from model memory. No utility pile pretending to be a maintained component.\n06 Final gate\n  Quality Inspector\n Audits the finished source for visual problems, syntax errors, accessibility issues, responsive failures, and ignored rules.\n When the inspection finds a problem, your agent has to fix it before the workflow can call the page finished.",
           "source_url": "https://daisyui.com/blueprint/"
         }
       },
