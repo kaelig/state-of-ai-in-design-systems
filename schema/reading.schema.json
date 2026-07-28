@@ -4,7 +4,15 @@
   "title": "Further Reading Entry",
   "description": "One work on the /reading list of the State of AI in Design Systems study: writing, talks and courses about what happens when a design system meets an AI agent. Unlike the rest of the dataset, this list is not frozen at the July 2026 snapshot — its published date is computed from the newest `added_on` below. Every entry links to a page that was read before it was listed.",
   "type": "object",
-  "required": ["id", "title", "author", "kind", "url", "description", "added_on"],
+  "required": [
+    "id",
+    "title",
+    "author",
+    "kind",
+    "url",
+    "description",
+    "added_on"
+  ],
   "additionalProperties": false,
   "properties": {
     "id": {

@@ -78,7 +78,7 @@ flowchart TB
 **What gets listed**
 
 - R4. Entries are limited to work about the intersection of AI and design systems. General design-system galleries and directories do not qualify.
-- R5. `/reading` states the inclusion bar on the page, so a reader knows why each work is there and a contributor knows what is worth sending. The bar reads: *Work about what happens when a design system meets an AI agent — how systems are built for models to read, whether that works, and whether it should. Not a directory of design systems.*
+- R5. `/reading` states the inclusion bar on the page, so a reader knows why each work is there and a contributor knows what is worth sending. The bar reads: _Work about what happens when a design system meets an AI agent — how systems are built for models to read, whether that works, and whether it should. Not a directory of design systems._
 - R6. Every entry links to a page that was fetched and read before it was listed, the same bar the report applies to a `source_url`.
 
 **How an entry reads**
@@ -164,35 +164,35 @@ Candidate entries, read 28 July 2026. Every link below was opened and read; the 
 
 **Studies and data**
 
-| Work | Who | Date | Note |
-|---|---|---|---|
-| [Agent-Ready Design Systems Index](https://www.designsystems.one/ai-ready/systems) | Kiryl Zhukouski, DesignSystems.one | audited 2026-06-10 | 37 systems scored 0–5 on MCP, llms.txt, DTCG tokens, component registry and Code Connect. Re-audited quarterly. JSON and CSV under CC BY 4.0. Highest score is 3. |
-| [Design Systems Report 2026](https://report.zeroheight.com/) | zeroheight | 2026 | Practitioner survey, n=147. 10% have AI in their process, 46% experimenting, 44% not. Code generation 71%, documentation generation 60%. |
-| [Building design system components with agent teams](https://www.kaelig.fr/design-system-components-with-ai-agent-teams/) | Kaelig Deloumeau-Prigent | 2026-04-22 | A build report: eight agents across Understand, Build and Verify phases producing a production Menu component from Figma, each with a named artifact, exit criteria and a retry budget. Full autonomy hit a ceiling, and the fix was a human gate rather than a better prompt. "The pipeline could follow rules but it couldn't question." |
+| Work                                                                                                                      | Who                                | Date               | Note                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Agent-Ready Design Systems Index](https://www.designsystems.one/ai-ready/systems)                                        | Kiryl Zhukouski, DesignSystems.one | audited 2026-06-10 | 37 systems scored 0–5 on MCP, llms.txt, DTCG tokens, component registry and Code Connect. Re-audited quarterly. JSON and CSV under CC BY 4.0. Highest score is 3.                                                                                                                                                                          |
+| [Design Systems Report 2026](https://report.zeroheight.com/)                                                              | zeroheight                         | 2026               | Practitioner survey, n=147. 10% have AI in their process, 46% experimenting, 44% not. Code generation 71%, documentation generation 60%.                                                                                                                                                                                                   |
+| [Building design system components with agent teams](https://www.kaelig.fr/design-system-components-with-ai-agent-teams/) | Kaelig Deloumeau-Prigent           | 2026-04-22         | A build report: eight agents across Understand, Build and Verify phases producing a production Menu component from Figma, each with a named artifact, exit criteria and a retry budget. Full autonomy hit a ceiling, and the fix was a human gate rather than a better prompt. "The pipeline could follow rules but it couldn't question." |
 
 **Essays**
 
-| Work | Who | Date | Note |
-|---|---|---|---|
-| [Design systems need evals](https://blog.murphytrueman.com/design-systems-need-evals/) | Murphy Trueman | 2026-07-17 | "You've taught agents your design system. You still don't know whether they're following it." |
-| [In the open: what the modal reveals](https://blog.murphytrueman.com/in-the-open-what-the-modal-reveals/) | Murphy Trueman | 2026-03-13 | Comparative reading of the modal in Carbon, Material UI, Polaris and Radix. |
-| [Your next design system user](https://blog.murphytrueman.com/your-next-design-system-user/) | Murphy Trueman | 2025-06-04 | "Your design system is already an API; the question is whether it's a good one." |
-| [My beef with agentic design systems](https://southleft.substack.com/p/my-beef-with-agentic-design-systems) | TJ Pitre, Southleft | 2026-06-19 | "What rejects the agent's output, and who decided the rule?" |
-| [Agentic AI, design systems and Figma](https://christinevallaure.substack.com/p/agentic-ai-design-systems-and-figma) | Christine Vallaure | 2026-03-31 | "The design system is no longer just documentation for developers. It is instructions for a machine." |
+| Work                                                                                                                      | Who                        | Date       | Note                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Design systems need evals](https://blog.murphytrueman.com/design-systems-need-evals/)                                    | Murphy Trueman             | 2026-07-17 | "You've taught agents your design system. You still don't know whether they're following it."                                                                                                                                                                                                                                           |
+| [In the open: what the modal reveals](https://blog.murphytrueman.com/in-the-open-what-the-modal-reveals/)                 | Murphy Trueman             | 2026-03-13 | Comparative reading of the modal in Carbon, Material UI, Polaris and Radix.                                                                                                                                                                                                                                                             |
+| [Your next design system user](https://blog.murphytrueman.com/your-next-design-system-user/)                              | Murphy Trueman             | 2025-06-04 | "Your design system is already an API; the question is whether it's a good one."                                                                                                                                                                                                                                                        |
+| [My beef with agentic design systems](https://southleft.substack.com/p/my-beef-with-agentic-design-systems)               | TJ Pitre, Southleft        | 2026-06-19 | "What rejects the agent's output, and who decided the rule?"                                                                                                                                                                                                                                                                            |
+| [Agentic AI, design systems and Figma](https://christinevallaure.substack.com/p/agentic-ai-design-systems-and-figma)      | Christine Vallaure         | 2026-03-31 | "The design system is no longer just documentation for developers. It is instructions for a machine."                                                                                                                                                                                                                                   |
 | [AI in design systems: what's changing in 2026](https://zeroheight.com/blog/ai-in-design-systems-whats-changing-in-2026/) | Elyse Holladay, zeroheight | 2026-03-25 | Three moves for the year: MCPs, skills and design guidelines; designing with code; shipping patterns as structured relationships rather than components. Argues design systems have to document when and why, not only how, because that is the part a model guesses at. "AI is finally starting to change what a design system ships." |
 
 **Talks**
 
-| Work | Who | Date | Note |
-|---|---|---|---|
+| Work                                                                                          | Who                                | Date       | Note                                                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------- | ---------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [Agentic Design Systems in 2026 with Brad Frost](https://www.youtube.com/watch?v=Vg78K3t9KYc) | Brad Frost, on Chromatic's channel | 2025-12-11 | An 80-minute conversation, not a conference talk. "AI is rapidly reshaping who (or what) uses your design system." Oldest work on the list and the one most likely to have been overtaken. |
 
 **Courses**
 
-| Work | Who | Price | Note |
-|---|---|---|---|
-| [AI & Design Systems](https://aianddesign.systems/) | Brad Frost, Ian Frost, TJ Pitre | $995 | Six chapters, 20+ hours, released iteratively. Biweekly jam sessions and a Slack community. |
-| [Design Systems Course](https://www.intodesignsystems.com/design-systems-course) | Sil Bormüller, Into Design Systems | $599 | Six modules, 15+ hours, 21 practitioners. Agentic design systems, MCP and LLM readiness, vibe coding for designers. |
+| Work                                                                             | Who                                | Price | Note                                                                                                                |
+| -------------------------------------------------------------------------------- | ---------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------- |
+| [AI & Design Systems](https://aianddesign.systems/)                              | Brad Frost, Ian Frost, TJ Pitre    | $995  | Six chapters, 20+ hours, released iteratively. Biweekly jam sessions and a Slack community.                         |
+| [Design Systems Course](https://www.intodesignsystems.com/design-systems-course) | Sil Bormüller, Into Design Systems | $599  | Six modules, 15+ hours, 21 practitioners. Agentic design systems, MCP and LLM readiness, vibe coding for designers. |
 
 Three notes on the set.
 
@@ -375,15 +375,15 @@ Data and schema first, then the entries, then the surfaces that render them. The
 
 ## Verification Contract
 
-| Gate | Command | Proves |
-|---|---|---|
-| Everything CI runs | `npm run check` | The whole sequence below, in order, and nothing drifts from CI |
-| Schema validation | `node scripts/validate_data.mjs` | U1, U2 — four files validate, twelve reading records |
-| Full build | `./scripts/build.sh` | U4, U5 — every view body clears 400 characters, no placeholder survives, nav and route counts match |
-| Markdown layer | `python3 scripts/check_md_layer.py` | U5 — the grep gate finds no process narration in the generated reading files |
-| Contrast | `node scripts/check_contrast.js` | U4 — any new colour pairing holds AA 4.5:1 |
-| MCP suite | `node --test tests/mcp.test.mjs` | U6 — the section resolves and the tool count is unchanged |
-| Manual | `netlify serve` | U4 — `/reading` reads correctly in light and dark |
+| Gate               | Command                             | Proves                                                                                              |
+| ------------------ | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Everything CI runs | `npm run check`                     | The whole sequence below, in order, and nothing drifts from CI                                      |
+| Schema validation  | `node scripts/validate_data.mjs`    | U1, U2 — four files validate, twelve reading records                                                |
+| Full build         | `./scripts/build.sh`                | U4, U5 — every view body clears 400 characters, no placeholder survives, nav and route counts match |
+| Markdown layer     | `python3 scripts/check_md_layer.py` | U5 — the grep gate finds no process narration in the generated reading files                        |
+| Contrast           | `node scripts/check_contrast.js`    | U4 — any new colour pairing holds AA 4.5:1                                                          |
+| MCP suite          | `node --test tests/mcp.test.mjs`    | U6 — the section resolves and the tool count is unchanged                                           |
+| Manual             | `netlify serve`                     | U4 — `/reading` reads correctly in light and dark                                                   |
 
 The build is the main gate. It refuses a thin view body, a placeholder that survives into HTML, and a nav that disagrees with the route table, which covers most of the ways a ninth view goes wrong.
 
