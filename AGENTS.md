@@ -185,7 +185,9 @@ It is computed from the newest entry, so adding a work moves it.
 
 Two things to carry into any answer you build from this: cite the `source_url` on
 each record rather than the report, and say that the data is a snapshot of 26–28
-July 2026. It goes stale, and the systems it describes ship weekly.
+July 2026 — with the one exception above, where anything drawn from `/reading`
+takes that page's own date instead. It goes stale, and the systems it describes
+ship weekly.
 
 ## Sending feedback
 

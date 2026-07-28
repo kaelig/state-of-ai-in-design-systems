@@ -41,6 +41,11 @@ const PLATFORMS = PAYLOAD.platforms;
 const INSIGHTS = PAYLOAD.insights;
 const META = PAYLOAD.meta;
 const GENERATED = META.generated;
+// The reading list is the one section not fixed at the collection window, and
+// this date is read from the records rather than written here. A literal would
+// keep answering 2026-07-28 long after the list had moved on, which is the
+// mis-date the whole `updated` field exists to prevent.
+const READING_UPDATED = META.reading_updated;
 
 const SYSTEM_BY_ID = new Map(SYSTEMS.map((s) => [s.id, s]));
 const PLATFORM_BY_ID = new Map(PLATFORMS.map((p) => [p.id, p]));
@@ -943,7 +948,8 @@ function buildServer() {
       description:
         'Counts, breakdowns, and the exact enum values every other tool accepts as a filter. Call this first ' +
         'if you are unsure what to pass for maturity, affordance type, technique category, system id or ' +
-        'report section. Also carries per-system affordance coverage. Small and cheap. Snapshot of 2026-07-28.',
+        'report section. Also carries per-system affordance coverage. Small and cheap. Snapshot of ' +
+        '2026-07-28, except the "reading" report section — see reading_updated in the response.',
       inputSchema: z.object({}),
       annotations: RO,
     },
@@ -952,6 +958,10 @@ function buildServer() {
         report: 'State of AI in Design Systems',
         generated: GENERATED,
         snapshot_date: '2026-07-28',
+        // Everything above is fixed at snapshot_date. The reading section is not,
+        // so it states its own date here rather than letting an agent anchor the
+        // whole report on one field the way this server's instructions teach.
+        reading_updated: READING_UPDATED,
         site: SITE,
         author: 'Kaelig Deloumeau-Prigent',
         license: 'CC-BY-4.0',
@@ -1001,7 +1011,8 @@ function buildServer() {
         'The prose half of the study: the findings, where the systems converge and diverge, the essay, the ' +
         'per-question pages, and — read this before quoting any number — the methodology and its caveats. ' +
         'Returns markdown byte-identical to the file the site serves, with YAML front matter carrying the ' +
-        'canonical url and citation. Call with no arguments for the list of sections. Snapshot of 2026-07-28.',
+        'canonical url and citation. Call with no arguments for the list of sections. Snapshot of ' +
+        `2026-07-28, except the "reading" section, which is kept current and carries its own updated date (${READING_UPDATED}).`,
       inputSchema: z.object({
         section: z
           .string()

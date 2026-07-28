@@ -336,6 +336,21 @@ describe('markdown is byte-identical to the static mirrors', () => {
     assert.match(md, /kept current/i);
   });
 
+  test('the tool metadata carves the reading section out of the snapshot', async () => {
+    // An agent reads tools/list before it reads any section, and this server's
+    // own instructions tell it to anchor on get_stats. Both surfaces claimed one
+    // blanket snapshot date, which would have mis-dated the one section exempt
+    // from it — and gone on doing so as the list moved.
+    const { body } = await legacy('tools/list');
+    const getReport = body.result.tools.find((t) => t.name === 'get_report');
+    assert.match(getReport.description, /reading.*kept current/is);
+
+    const stats = await callJson('get_stats');
+    assert.equal(stats.reading_updated, PAYLOAD.meta.reading_updated);
+    assert.notEqual(stats.reading_updated, undefined);
+    assert.match(getReport.description, new RegExp(stats.reading_updated));
+  });
+
   test('get_report with no section lists the sections', async () => {
     const toc = await callJson('get_report');
     assert.equal(toc.section, 'all');
