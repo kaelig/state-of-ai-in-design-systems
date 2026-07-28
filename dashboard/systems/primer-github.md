@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -471,7 +471,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/.github/copilot-inst
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
+Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. The prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
 
 ```markdown
 Base every decision only on what the issue and its comments actually say. Do not invent
@@ -520,7 +520,7 @@ Equally strong, and committed entirely to GitHub’s own agent-file formats rath
 
 ## Gaps
 
-Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `` with content-type text/html and is byte-identical in size to the homepage; it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist: same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons, only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations: `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer; it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.
+Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `` with content-type text/html and is byte-identical in size to the homepage; it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist: same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons, only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations. `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer; it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.
 
 ## Sources (15)
 
@@ -556,4 +556,4 @@ Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

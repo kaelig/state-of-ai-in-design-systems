@@ -1,7 +1,7 @@
 # State of AI in Design Systems — July 2026 — everything
 
 State of AI in Design Systems — July 2026. Every document in this report concatenated: 19 system records, 5 platform records, 148 techniques, the analysis, the questions and the schema.
-Snapshot of 2026-07-27. Generated 2026-07-28T02:17:18Z. Kaelig Deloumeau-Prigent. CC BY 4.0.
+Snapshot of 2026-07-27. Generated 2026-07-28T02:33:15Z. Kaelig Deloumeau-Prigent. CC BY 4.0.
 Every claim carries the source URL it came from; cite that.
 
 Contents (59 documents):
@@ -79,7 +79,7 @@ platform_count: 5
 affordance_count: 168
 technique_count: 148
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -148,7 +148,7 @@ USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -163,7 +163,7 @@ id: "matrix"
 system_count: 19
 column_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -247,7 +247,7 @@ Per-system detail: https://state-of-ai-in-design-systems.netlify.app/systems.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -261,7 +261,7 @@ type: "view"
 id: "systems"
 system_count: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -450,7 +450,7 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-
 
 invested · Microsoft · 8 affordances · 8 techniques
 
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills…
+Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills (scaffolding, token…
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
 
@@ -472,7 +472,7 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -486,7 +486,7 @@ type: "view"
 id: "platforms"
 platform_count: 5
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -541,7 +541,7 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/platforms/zerohei
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -555,7 +555,7 @@ type: "view"
 id: "insights"
 finding_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -662,7 +662,7 @@ The design-system team’s own repo is a different battlefield from the consumer
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -676,7 +676,7 @@ type: "view"
 id: "methodology"
 caveat_count: 5
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -727,7 +727,7 @@ The counts above are computed from the published dataset at build time. Recount 
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -740,7 +740,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/ai"
 type: "view"
 id: "ai"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -939,7 +939,7 @@ The source is at https://github.com/kaelig/state-of-ai-in-design-systems. AGENTS
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -954,7 +954,7 @@ id: "schema"
 affordance_type_count: 15
 technique_category_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1080,7 +1080,7 @@ JSON Schema for one system record: https://state-of-ai-in-design-systems.netlify
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1093,7 +1093,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/mcp-serv
 type: "question"
 id: "mcp-server-adoption"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1121,7 +1121,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1134,7 +1134,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/llms-txt
 type: "question"
 id: "llms-txt-adoption"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1159,7 +1159,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1172,7 +1172,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/prohibit
 type: "question"
 id: "prohibition-vs-tool-gating"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1201,7 +1201,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1214,7 +1214,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/ai-matur
 type: "question"
 id: "ai-maturity"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1245,7 +1245,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1258,7 +1258,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/building
 type: "question"
 id: "building-vs-consumption"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1285,7 +1285,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1298,7 +1298,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/currency
 type: "question"
 id: "currency"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1314,7 +1314,7 @@ years. Treat anything here as “true when checked”, and re-fetch before you t
 lacks a feature.
 
 Every affordance, technique and capability carries the URL of the file it was quoted from, so
-checking one claim takes one fetch. Generated 2026-07-28T02:17:18Z. If you are reading this long after that
+checking one claim takes one fetch. Generated 2026-07-28T02:33:15Z. If you are reading this long after that
 date, the 16-of-19 MCP number and the 14-of-19 llms.txt number
 are the two most likely to have moved.
 
@@ -1323,7 +1323,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1336,7 +1336,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/agent-sk
 type: "question"
 id: "agent-skill-distribution"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1363,7 +1363,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1376,7 +1376,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/well-kno
 type: "question"
 id: "well-known-skills"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1400,7 +1400,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1413,7 +1413,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/platform
 type: "question"
 id: "platform-role"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1438,7 +1438,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1451,7 +1451,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/evals.md
 type: "question"
 id: "evals"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1477,7 +1477,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1490,7 +1490,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/public-s
 type: "question"
 id: "public-sector"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1515,7 +1515,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1528,7 +1528,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/walled-g
 type: "question"
 id: "walled-gardens"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1554,7 +1554,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1567,7 +1567,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/token-bu
 type: "question"
 id: "token-budgets"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1593,7 +1593,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1606,7 +1606,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/validati
 type: "question"
 id: "validation-loops"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1632,7 +1632,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1645,7 +1645,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/design-t
 type: "question"
 id: "design-tokens"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -1672,7 +1672,7 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -1690,7 +1690,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -2202,7 +2202,7 @@ Not confirmed, or not found: (a) no Figma Code Connect files, no Dev Mode MCP in
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -2220,7 +2220,7 @@ ai_maturity: "ai-native"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -2592,7 +2592,7 @@ Not confirmed, or reported wrongly elsewhere: (1) https://mcp.atlassian.com/v1/a
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -2610,7 +2610,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -3202,7 +3202,7 @@ Not confirmed, or not found: (1) Carbon MCP’s server source is NOT public: car
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -3220,7 +3220,7 @@ ai_maturity: "ai-native"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -3240,7 +3240,7 @@ Chakra UI (Segun Adebayo / Chakra Systems) · component-library · MIT · AI mat
 
 ## Summary
 
-Chakra UI is one of the most AI-invested open-source React component libraries: it ships an official MCP server (`@chakra-ui/react-mcp`, 10 tools, developed in-tree at apps/mcp), six curated llms.txt variants sliced by concern (components / styling / theming / charts / v3-migration) so agents with small context windows load only what they need, and, unusually, three first-party Claude Code Skills (`chakra-ui-builder`, `chakra-ui-migrate`, `chakra-ui-refactor`) installable via `npx skills add`, with progressive-disclosure reference files including a decision tree over all ~114 components. On the building side the team runs committed Claude Code subagents (`.claude/agents/github-issue-triage.md` on Opus, `.claude/agents/ark-ui-version-bumper.md` on Haiku) plus slash commands for changelog and PR review. The main weakness is the consumer-side prohibition surface: the skills are advisory (“prefer semantic tokens”, “avoid deep nesting”) rather than hard-gated: no linter loop on the build path, no machine-readable component registry, no forced MCP call before generation. The repo’s own CLAUDE.md is a stale (Sept 2025) narrative “learning document” rather than an enforced contributor rules file.
+Chakra UI is one of the most AI-invested open-source React component libraries: it ships an official MCP server (`@chakra-ui/react-mcp`, 10 tools, developed in-tree at apps/mcp), six curated llms.txt variants sliced by concern (components / styling / theming / charts / v3-migration) so agents with small context windows load only what they need, and, unusually, three first-party Claude Code Skills (`chakra-ui-builder`, `chakra-ui-migrate`, `chakra-ui-refactor`) installable via `npx skills add`, with progressive-disclosure reference files including a decision tree over all ~114 components. On the building side the team runs committed Claude Code subagents (`.claude/agents/github-issue-triage.md` on Opus, `.claude/agents/ark-ui-version-bumper.md` on Haiku) plus slash commands for changelog and PR review. The main weakness is the consumer-side prohibition surface. The skills are advisory (“prefer semantic tokens”, “avoid deep nesting”) rather than hard-gated: no linter loop on the build path, no machine-readable component registry, no forced MCP call before generation. The repo’s own CLAUDE.md is a stale (Sept 2025) narrative “learning document” rather than an enforced contributor rules file.
 
 ## Maintenance
 
@@ -3296,7 +3296,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/apps/mcp/src/
 
 Type: `claude-skill` (Agent skill) · Official · Audience: consumers
 
-Three first-party Agent Skills in the monorepo’s top-level skills/ directory, documented on the site and installable with `npx skills add https://github.com/chakra-ui/chakra-ui/tree/main/skills`. The builder skill uses progressive disclosure: SKILL.md is the always-loaded spine and three reference files load on demand: references/theming.md (defineConfig/createSystem, tokens, recipes, typegen), references/charts.md (useChart, Recharts integration), and references/component-decision-tree.md, which the README describes as covering ‘all ~114 Chakra components with head-to-head comparisons’. Skill frontmatter descriptions are deliberately over-triggered with casual phrasings (‘make me a login form’, ‘add my brand colors’, ‘chakra-ify this’) so the skill fires without the user naming it. chakra-ui-refactor doubles as a review rubric with fixed dimensions (Accessibility / Responsiveness / Chakra API correctness / Token and style usage / Component structure / Maintainability).
+Three first-party Agent Skills in the monorepo’s top-level skills/ directory, documented on the site and installable with `npx skills add https://github.com/chakra-ui/chakra-ui/tree/main/skills`. The builder skill uses progressive disclosure. SKILL.md is the always-loaded spine, and three reference files load on demand: references/theming.md (defineConfig/createSystem, tokens, recipes, typegen), references/charts.md (useChart, Recharts integration), and references/component-decision-tree.md, which the README describes as covering ‘all ~114 Chakra components with head-to-head comparisons’. Skill frontmatter descriptions are deliberately over-triggered with casual phrasings (‘make me a login form’, ‘add my brand colors’, ‘chakra-ify this’) so the skill fires without the user naming it. chakra-ui-refactor doubles as a review rubric with fixed dimensions (Accessibility / Responsiveness / Chakra API correctness / Token and style usage / Component structure / Maintainability).
 
 - Docs: https://chakra-ui.com/docs/get-started/ai/skills
 
@@ -3437,7 +3437,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/CLAUDE.md
 
 Type: `claude-skill` (Agent skill) · Official · Audience: builders
 
-Two committed Claude Code subagents automating real maintainer workflows, with deliberate per-task model selection: github-issue-triage runs on `model: opus` and owns the full loop: reproduce in /apps/compositions/src/examples/, register the repro in a *.stories.tsx, check Storybook on port 6006/6007, drive Chrome MCP to visually confirm, then trace into node_modules through zag.js and ark-ui to root cause and write a changeset. ark-ui-version-bumper runs on the cheaper `model: haiku` and syncs Ark UI versions across the monorepo, extracts a changeset changelog scoped to components Chakra actually wraps, and must leave typecheck and build green.
+Two committed Claude Code subagents automating real maintainer workflows, with deliberate per-task model selection. github-issue-triage runs on `model: opus` and owns the full loop: reproduce in /apps/compositions/src/examples/, register the repro in a *.stories.tsx, check Storybook on port 6006/6007, drive Chrome MCP to visually confirm, then trace into node_modules through zag.js and ark-ui to root cause and write a changeset. ark-ui-version-bumper runs on the cheaper `model: haiku` and syncs Ark UI versions across the monorepo, extracts a changeset changelog scoped to components Chakra actually wraps, and must leave typecheck and build green.
 
 - Code: https://github.com/chakra-ui/chakra-ui/tree/main/.claude/agents
 
@@ -3761,7 +3761,7 @@ Confirmed absent (probed directly, HTTP 404 on raw.githubusercontent.com/chakra-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -3779,7 +3779,7 @@ ai_maturity: "ai-native"
 affordance_count: 9
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -3853,7 +3853,7 @@ Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/S
 
 Type: `llms-txt` (llms.txt) · Official · Audience: consumers
 
-A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). Crucially it is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: "**"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.
+A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). It is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: "**"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.
 
 - Docs: https://daisyui.com/docs/editor/cursor/
 
@@ -4237,7 +4237,7 @@ Not confirmed, or not found: (1) Blueprint’s actual MCP tool names, input sche
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -4255,7 +4255,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -4849,7 +4849,7 @@ Also unusually mature for an OSS component library. The repo root carries both A
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -4867,7 +4867,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -5268,7 +5268,7 @@ Deliberately minimal and single-sourced compared with the consumer side: one roo
 
 ## Gaps
 
-Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI: a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models; it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint: /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
+Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI: a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models; it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint. /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
 
 ## Sources (15)
 
@@ -5304,7 +5304,7 @@ Claims that don’t hold up: (1) There are NO .cursorrules templates distributed
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -5322,7 +5322,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -5852,7 +5852,7 @@ Not confirmed, or contradictory: (1) The `claude mcp add patternfly-mcp` one-lin
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -5870,7 +5870,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -6330,7 +6330,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/.github/copilot-inst
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
+Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. The prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
 
 ```markdown
 Base every decision only on what the issue and its comments actually say. Do not invent
@@ -6379,7 +6379,7 @@ Equally strong, and committed entirely to GitHub’s own agent-file formats rath
 
 ## Gaps
 
-Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `` with content-type text/html and is byte-identical in size to the homepage; it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist: same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons, only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations: `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer; it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.
+Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `` with content-type text/html and is byte-identical in size to the homepage; it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist: same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons, only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations. `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer; it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.
 
 ## Sources (15)
 
@@ -6415,7 +6415,7 @@ Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -6433,7 +6433,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -6978,7 +6978,7 @@ Not confirmed, or absent: (1) No llms-full.txt: https://react-spectrum.adobe.com
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -6996,7 +6996,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -7465,7 +7465,7 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt: https://www.light
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -7483,7 +7483,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -7609,7 +7609,7 @@ Several third-party MCP servers predate/parallel the official one: Jpisnice/shad
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. Notably it bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
+The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. It bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
 
 ```markdown
 ## Critical Rules
@@ -7895,7 +7895,7 @@ Link: https://ui.shadcn.com/docs/directory
 
 ### For consumers (agents building UIs with shadcn/ui)
 
-Very heavily invested and arguably best-in-class. Four stacked channels: (1) the CLI itself as the agent’s action surface (`info --json` for project context, `search`/`view`/`docs` for retrieval, `add --dry-run --diff` for safe mutation, `preset`/`apply` for theming); (2) an official MCP server bundled in the same npm package with `mcp init --client claude|cursor|vscode|opencode` one-liners; (3) an official Agent Skill (`npx skills add shadcn/ui`) whose SKILL.md is a dense, prohibition-heavy policy document with linked Incorrect/Correct rule files, a Cursor plugin manifest, an OpenAI/Codex interface manifest, and a committed eval suite; (4) `llms.txt` plus a machine-readable registry (JSON Schema’d registry.json / registry-item.json, `owner/repo` addressing, a public community registry index at /r/registries.json validated in CI). The design principles page explicitly frames the whole architecture as LLM-facing: ‘AI-Ready: Open code for LLMs to read, understand, and improve’ and 'A shared, composable interface means it’s predictable for both your team and LLMs.'
+Very heavily invested, and probably best-in-class. Four stacked channels: (1) the CLI itself as the agent’s action surface (`info --json` for project context, `search`/`view`/`docs` for retrieval, `add --dry-run --diff` for safe mutation, `preset`/`apply` for theming); (2) an official MCP server bundled in the same npm package with `mcp init --client claude|cursor|vscode|opencode` one-liners; (3) an official Agent Skill (`npx skills add shadcn/ui`) whose SKILL.md is a dense, prohibition-heavy policy document with linked Incorrect/Correct rule files, a Cursor plugin manifest, an OpenAI/Codex interface manifest, and a committed eval suite; (4) `llms.txt` plus a machine-readable registry (JSON Schema’d registry.json / registry-item.json, `owner/repo` addressing, a public community registry index at /r/registries.json validated in CI). The design principles page explicitly frames the whole architecture as LLM-facing: ‘AI-Ready: Open code for LLMs to read, understand, and improve’ and 'A shared, composable interface means it’s predictable for both your team and LLMs.'
 
 ### For builders (the shadcn/ui team using AI on the system itself)
 
@@ -7939,7 +7939,7 @@ Not confirmed, or absent: (1) https://ui.shadcn.com/llms-full.txt returns 404, a
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -7957,7 +7957,7 @@ ai_maturity: "ai-native"
 affordance_count: 7
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -8400,7 +8400,7 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed loca
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -8418,7 +8418,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 7
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -8856,7 +8856,7 @@ Rated ‘emerging’ rather than ‘invested’ strictly on the schema’s defin
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -8874,7 +8874,7 @@ ai_maturity: "invested"
 affordance_count: 9
 technique_count: 7
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -9001,7 +9001,7 @@ Source: https://mantine.dev/mcp/index.json
 
 Type: `llms-txt` (llms.txt) · Official · Audience: consumers
 
-Both live and measured: https://mantine.dev/llms.txt (43,113 bytes, a curated llmstxt.org-standard index linking to standalone .md files under /llms/) and https://mantine.dev/llms-full.txt (4,201,406 bytes: the whole corpus in one file; the docs still claim ~1.8MB, so it has more than doubled). The index is FAQ-first: the top of llms.txt is dozens of question-shaped entries harvested from help.mantine.dev, which functions as pre-emptive misconception correction. Generated by scripts/llm/compile-llm-doc.ts from MDX, props tables, demos and Styles API docs; regenerated with each release.
+Both live and measured: https://mantine.dev/llms.txt (43,113 bytes, a curated llmstxt.org-standard index linking to standalone .md files under /llms/) and https://mantine.dev/llms-full.txt (4,201,406 bytes, the whole corpus in one file; the docs still claim ~1.8MB, so it has more than doubled). The index is FAQ-first: the top of llms.txt is dozens of question-shaped entries harvested from help.mantine.dev, which functions as pre-emptive misconception correction. Generated by scripts/llm/compile-llm-doc.ts from MDX, props tables, demos and Styles API docs; regenerated with each release.
 
 - Docs: https://mantine.dev/llms.txt
 
@@ -9345,7 +9345,7 @@ Source: https://raw.githubusercontent.com/mantinedev/skills/HEAD/skills/mantine-
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
-The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base: at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
+The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base, whether at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
 
 ```json
 {
@@ -9431,7 +9431,7 @@ Confirmed absences (probed, not assumed): mantine.dev/ai, /docs/mcp and /getting
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -9449,7 +9449,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -9775,7 +9775,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/README.md
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
+Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps, `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
 
 ````markdown
 ### API Documentation
@@ -9801,7 +9801,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
+Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’. It exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
 
 ```markdown
 Medium effort = **precision** bias: every finding actionable. **high**, **xhigh**,
@@ -9890,14 +9890,14 @@ Not found, despite direct probing: (1) no root https://mui.com/llms.txt and no l
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
 
 ---
 title: "Microsoft Fluent UI — AI affordances"
-description: "Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md…"
+description: "Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft"
 type: "design-system-record"
@@ -9908,7 +9908,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -9928,7 +9928,7 @@ Microsoft · design-system · MIT (repo license metadata reports NOASSERTION due
 
 ## Summary
 
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
+Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
 
 ## Maintenance
 
@@ -10415,7 +10415,7 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt anywhere. fluent2.
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -10433,7 +10433,7 @@ ai_maturity: "invested"
 affordance_count: 7
 technique_count: 6
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -10467,7 +10467,7 @@ Nord is Nordhealth’s healthcare (veterinary/therapy) design system: 156+ Lit-b
 
 Type: `claude-skill` (Agent skill) · Official · Audience: consumers
 
-Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with `npx skills add https://nordhealth.design`. `nord` is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); `nord-full` is comprehensive (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party `npx skills` CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.
+Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with `npx skills add https://nordhealth.design`. `nord` is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); `nord-full` is the complete tier (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party `npx skills` CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.
 
 - Docs: https://nordhealth.design/docs/developer/working-with-ai/skills/
 
@@ -10832,7 +10832,7 @@ Effectively unobservable, and that is the finding. github.com/nordhealth/design-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -10850,7 +10850,7 @@ ai_maturity: "emerging"
 affordance_count: 6
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -10924,7 +10924,7 @@ Notes: Leads with a disclaimer: 'not affiliated with, endorsed by, sponsored by,
 
 Type: `claude-skill` (Agent skill) · Community · Audience: consumers
 
-A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating: the skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.
+A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating. The skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.
 
 - Code: https://github.com/emilycryan/USWDS-design
 
@@ -10944,7 +10944,7 @@ Notes: 0 stars, last push 2025-12-16. Note that trussworks/react-uswds itself, b
 
 Type: `mcp-server` (MCP server) · Community · Audience: consumers
 
-Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community landscape; neither is production-signalling.
+Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community picture; neither is production-signalling.
 
 - Code: https://github.com/ctrimm/uswds-local-mcp-server
 
@@ -11175,7 +11175,7 @@ Not confirmed, or not found: (1) The ‘team of one (Anne Petersen)’ claim abo
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -11191,7 +11191,7 @@ id: "figma"
 capability_count: 8
 design_systems_with_integration_records: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -11209,7 +11209,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 ## Summary
 
-Figma is the most complete AI surface among design-system platforms in July 2026, and it works in both directions. CONSUMPTION: the remote MCP server at https://mcp.figma.com/mcp (OAuth; no desktop app needed) exposes ~25 tools: get_design_context (returns React+Tailwind reference code + screenshot + hints), get_metadata, get_screenshot, get_variable_defs, search_design_system, get_libraries, get_code_connect_map, get_motion_context, plus write-to-canvas tools (use_figma, generate_figma_design, create_new_file, upload_assets, generate_diagram). A local/desktop server variant runs through the Figma desktop app. Figma also ships official Agent Skills (github.com/figma/mcp-server-guide, 12 SKILL.md files) and first-party plugins for Claude Code (`claude plugin install figma@claude-plugins-official`), Cursor (`/add-plugin figma`) and Codex. These bundle MCP config + skills + asset-handling rules. BUILDING: Code Connect (CLI parser files `.figma.tsx` / framework-agnostic template files `.figma.ts`) maps Figma components to real code; MCP wraps mapped nodes in synthetic `` markers carrying import statement, snippet, prop mappings and ‘Add instructions for MCP’ user rules. Code Connect UI adds a GitHub-integrated, no-CLI path. Figma Make kits let a DS team publish their React npm package plus a `guidelines/` markdown tree that Make must read before generating. CONSTRAINTS: MCP is free during beta but rate-limited by seat/plan: Starter/Professional/Org/Enterprise View or Collab seats get 6 tool calls per MONTH; Dev/Full seats get 200/day (10/min) on Professional, 200/day (15/min) on Organization, 600/day (20/min) on Enterprise; write tools (add_code_connect_map, generate_figma_design, whoami) are exempt. Figma says it ‘will eventually be a usage-based paid feature’. Only clients in the Figma MCP Catalog (VS Code, Cursor, Claude Code, Codex, Xcode) may connect; others must join a waitlist. Code Connect requires Organization or Enterprise plan + a full Design or Dev Mode seat. Figma Make requires a Full seat on a paid plan; private Make-kit npm packages need org-admin scope management. Enterprise-managed auth exists only for Claude via Okta Cross App Access.
+Figma is the most complete AI surface among design-system platforms in July 2026, and it works in both directions. CONSUMPTION: the remote MCP server at https://mcp.figma.com/mcp (OAuth; no desktop app needed) exposes ~25 tools: get_design_context (returns React+Tailwind reference code + screenshot + hints), get_metadata, get_screenshot, get_variable_defs, search_design_system, get_libraries, get_code_connect_map, get_motion_context, plus write-to-canvas tools (use_figma, generate_figma_design, create_new_file, upload_assets, generate_diagram). A local/desktop server variant runs through the Figma desktop app. Figma also ships official Agent Skills (github.com/figma/mcp-server-guide, 12 SKILL.md files) and first-party plugins for Claude Code (`claude plugin install figma@claude-plugins-official`), Cursor (`/add-plugin figma`) and Codex. These bundle MCP config + skills + asset-handling rules. BUILDING: Code Connect (CLI parser files `.figma.tsx` / framework-agnostic template files `.figma.ts`) maps Figma components to real code; MCP wraps mapped nodes in synthetic `` markers carrying import statement, snippet, prop mappings and ‘Add instructions for MCP’ user rules. Code Connect UI adds a GitHub-integrated, no-CLI path. Figma Make kits let a DS team publish their React npm package plus a `guidelines/` markdown tree that Make must read before generating. CONSTRAINTS: MCP is free during beta but rate-limited by seat/plan. Starter/Professional/Org/Enterprise View or Collab seats get 6 tool calls per MONTH; Dev/Full seats get 200/day (10/min) on Professional, 200/day (15/min) on Organization, 600/day (20/min) on Enterprise; write tools (add_code_connect_map, generate_figma_design, whoami) are exempt. Figma says it ‘will eventually be a usage-based paid feature’. Only clients in the Figma MCP Catalog (VS Code, Cursor, Claude Code, Codex, Xcode) may connect; others must join a waitlist. Code Connect requires Organization or Enterprise plan + a full Design or Dev Mode seat. Figma Make requires a Full seat on a paid plan; private Make-kit npm packages need org-admin scope management. Enterprise-managed auth exists only for Claude via Okta Cross App Access.
 
 ## Capabilities (8)
 
@@ -11346,7 +11346,7 @@ Source: https://raw.githubusercontent.com/figma/mcp-server-guide/main/skills/fig
 
 Audience: both
 
-OFFICIAL. `figma.connect(Component, url, { props, example })` files (`.figma.tsx` parser API, or framework-agnostic `.figma.ts` template files) published via the Code Connect CLI. Supported: React/React Native, HTML (Web Components, Angular, Vue), SwiftUI, Jetpack Compose, and a Storybook integration. Crucially for AI: ‘Code Connect files are not executed... the Code Connect CLI essentially treats code snippets as strings’, so the mapping is a curated few-shot exemplar, not runtime behavior. When MCP hits a mapped node it emits a synthetic `` wrapper carrying design properties, import statements, the real component snippet, and 'Instructions: Any custom instructions you’ve added to help guide AI code generation’. Code Connect UI adds an ‘Add instructions for MCP’ field whose text is injected as ‘user rules’. Requires Organization or Enterprise plan + full Design or Dev Mode seat.
+OFFICIAL. `figma.connect(Component, url, { props, example })` files (`.figma.tsx` parser API, or framework-agnostic `.figma.ts` template files) published via the Code Connect CLI. Supported: React/React Native, HTML (Web Components, Angular, Vue), SwiftUI, Jetpack Compose, and a Storybook integration. What matters for AI: ‘Code Connect files are not executed... the Code Connect CLI essentially treats code snippets as strings’, so the mapping is a curated few-shot exemplar, not runtime behavior. When MCP hits a mapped node it emits a synthetic `` wrapper carrying design properties, import statements, the real component snippet, and 'Instructions: Any custom instructions you’ve added to help guide AI code generation’. Code Connect UI adds an ‘Add instructions for MCP’ field whose text is injected as ‘user rules’. Requires Organization or Enterprise plan + full Design or Dev Mode seat.
 
 Link: https://developers.figma.com/docs/code-connect/react/
 
@@ -11479,7 +11479,7 @@ Design systems with a recorded integration: [Ant Design](https://state-of-ai-in-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -11495,7 +11495,7 @@ id: "storybook"
 capability_count: 8
 design_systems_with_integration_records: 14
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -11521,7 +11521,7 @@ Storybook 10 turned the component workshop into an agent-readable API. The piece
 
 Audience: consumers
 
-OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components: it forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.
+OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components. It forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.
 
 Link: https://storybook.js.org/docs/ai/mcp/overview
 
@@ -11792,7 +11792,7 @@ Design systems with a recorded integration: [Atlassian Design System](https://st
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -11808,7 +11808,7 @@ id: "supernova"
 capability_count: 7
 design_systems_with_integration_records: 0
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -11963,7 +11963,7 @@ No publicly documented design system was found naming Supernova Relay/MCP or AI 
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -11979,7 +11979,7 @@ id: "knapsack"
 capability_count: 7
 design_systems_with_integration_records: 0
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -12172,7 +12172,7 @@ No named design system publicly documents using the Knapsack MCP. Knapsack’s o
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -12188,7 +12188,7 @@ id: "zeroheight"
 capability_count: 8
 design_systems_with_integration_records: 1
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -12438,7 +12438,7 @@ Design systems with a recorded integration: [Salesforce Lightning Design System]
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -12453,7 +12453,7 @@ id: "techniques"
 technique_count: 148
 category_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -12857,7 +12857,7 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/other.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -12872,7 +12872,7 @@ id: "validation-loop"
 technique_count: 29
 system_count: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -13422,7 +13422,7 @@ Source: https://raw.githubusercontent.com/mantinedev/mantine/master/AGENTS.md
 
 Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
 
-Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
+Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps, `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
 
 ````markdown
 ### API Documentation
@@ -13448,7 +13448,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md
 
 Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
 
-Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
+Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’. It exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
 
 ```markdown
 Medium effort = **precision** bias: every finding actionable. **high**, **xhigh**,
@@ -13572,7 +13572,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -13587,7 +13587,7 @@ id: "prohibition"
 technique_count: 25
 system_count: 18
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -13837,7 +13837,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/ser
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
+Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. The prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
 
 ```markdown
 Base every decision only on what the issue and its comments actually say. Do not invent
@@ -13919,7 +13919,7 @@ Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
-The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. Notably it bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
+The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. It bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
 
 ```markdown
 ## Critical Rules
@@ -14136,7 +14136,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -14151,7 +14151,7 @@ id: "curated-context"
 technique_count: 21
 system_count: 17
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -14625,7 +14625,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -14640,7 +14640,7 @@ id: "tool-gating"
 technique_count: 20
 system_count: 16
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -15024,7 +15024,7 @@ Source: https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base: at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
+The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base, whether at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
 
 ```json
 {
@@ -15126,7 +15126,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -15141,7 +15141,7 @@ id: "token-enforcement"
 technique_count: 13
 system_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -15430,7 +15430,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -15445,7 +15445,7 @@ id: "exemplars"
 technique_count: 10
 system_count: 10
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -15698,7 +15698,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -15713,7 +15713,7 @@ id: "registry-metadata"
 technique_count: 9
 system_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -15942,7 +15942,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -15957,7 +15957,7 @@ id: "instruction-files"
 technique_count: 9
 system_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -16172,7 +16172,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -16187,7 +16187,7 @@ id: "scaffolding"
 technique_count: 7
 system_count: 7
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -16391,7 +16391,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -16406,7 +16406,7 @@ id: "design-code-mapping"
 technique_count: 3
 system_count: 3
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -16502,7 +16502,7 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -16517,7 +16517,7 @@ id: "other"
 technique_count: 2
 system_count: 2
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -16578,9 +16578,9 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
 
-Generated: 2026-07-28T02:17:18Z
+Generated: 2026-07-28T02:33:15Z

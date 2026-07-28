@@ -8,7 +8,7 @@ id: "prohibition"
 technique_count: 25
 system_count: 18
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -258,7 +258,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/ser
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
+Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. The prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
 
 ```markdown
 Base every decision only on what the issue and its comments actually say. Do not invent
@@ -340,7 +340,7 @@ Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
-The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. Notably it bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
+The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. It bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
 
 ```markdown
 ## Critical Rules
@@ -557,4 +557,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

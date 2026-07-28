@@ -301,7 +301,7 @@ table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
 /* Maturity cohort strip, same device as the systems list. Not interactive. */
 table.mx tr.mx-group th {
-  position: static; text-align: left; padding: 6px 10px;
+  position: static; text-align: left;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
@@ -729,7 +729,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
       <ul class="afflist"><li><details class="aff">
     <summary><span class="chip">Agent skill</span><span class="nm">Nord Agent Skills (`nord` and `nord-full`) served from /.well-known/skills/</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
     <div class="aff-body">
-      <p class="desc">Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with <code>npx skills add https://nordhealth.design</code>. <code>nord</code> is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); <code>nord-full</code> is comprehensive (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party <code>npx skills</code> CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.</p>
+      <p class="desc">Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with <code>npx skills add https://nordhealth.design</code>. <code>nord</code> is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); <code>nord-full</code> is the complete tier (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party <code>npx skills</code> CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://nordhealth.design/.well-known/skills/nord/SKILL.md" target="_blank" rel="noopener">nordhealth.design <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="nord-design-system-a0"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>

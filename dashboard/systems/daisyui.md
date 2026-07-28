@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 9
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -85,7 +85,7 @@ Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/S
 
 Type: `llms-txt` (llms.txt) · Official · Audience: consumers
 
-A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). Crucially it is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: "**"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.
+A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). It is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: "**"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.
 
 - Docs: https://daisyui.com/docs/editor/cursor/
 
@@ -469,4 +469,4 @@ Not confirmed, or not found: (1) Blueprint’s actual MCP tool names, input sche
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -51,7 +51,7 @@
       "name": "USWDS-prototype Claude plugin (emilycryan/USWDS-design)",
       "official": false,
       "audience": "consumers",
-      "description": "A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating: the skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.",
+      "description": "A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating. The skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.",
       "code_url": "https://github.com/emilycryan/USWDS-design",
       "notes": "Authored from an ICF (contractor) perspective; the skill’s own description literally begins ‘You are a product designer (or a role acting as a product designer) at ICF’. Illustrates how agency contractors, not GSA, are filling the AI-affordance vacuum."
     },
@@ -69,7 +69,7 @@
       "name": "Other community MCP experiments",
       "official": false,
       "audience": "consumers",
-      "description": "Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community landscape; neither is production-signalling.",
+      "description": "Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community picture; neither is production-signalling.",
       "code_url": "https://github.com/ctrimm/uswds-local-mcp-server",
       "notes": "Listed together because individually they are noise; collectively they show repeated independent attempts to build the MCP layer GSA has not."
     }

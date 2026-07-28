@@ -6,7 +6,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/currency
 type: "question"
 id: "currency"
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -22,7 +22,7 @@ years. Treat anything here as “true when checked”, and re-fetch before you t
 lacks a feature.
 
 Every affordance, technique and capability carries the URL of the file it was quoted from, so
-checking one claim takes one fetch. Generated 2026-07-28T02:17:18Z. If you are reading this long after that
+checking one claim takes one fetch. Generated 2026-07-28T02:33:15Z. If you are reading this long after that
 date, the 16-of-19 MCP number and the 14-of-19 llms.txt number
 are the two most likely to have moved.
 
@@ -31,4 +31,4 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

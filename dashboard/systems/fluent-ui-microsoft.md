@@ -1,6 +1,6 @@
 ---
 title: "Microsoft Fluent UI — AI affordances"
-description: "Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md…"
+description: "Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft"
 type: "design-system-record"
@@ -11,7 +11,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ Microsoft · design-system · MIT (repo license metadata reports NOASSERTION due
 
 ## Summary
 
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
+Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
 
 ## Maintenance
 
@@ -518,4 +518,4 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt anywhere. fluent2.
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -11,7 +11,7 @@ ai_maturity: "invested"
 affordance_count: 7
 technique_count: 6
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -45,7 +45,7 @@ Nord is Nordhealth’s healthcare (veterinary/therapy) design system: 156+ Lit-b
 
 Type: `claude-skill` (Agent skill) · Official · Audience: consumers
 
-Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with `npx skills add https://nordhealth.design`. `nord` is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); `nord-full` is comprehensive (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party `npx skills` CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.
+Two officially published agent skills served over HTTP from the docs domain, discoverable via a JSON manifest at /.well-known/skills/ and installable with `npx skills add https://nordhealth.design`. `nord` is the lean tier (87 files: SKILL.md + one reference markdown per component + migration guides); `nord-full` is the complete tier (152 files: adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, contributing, updates). Follows the Cloudflare Agent Skills Discovery RFC, which Nord explicitly cites; the third-party `npx skills` CLI (vercel-labs/skills) fans the same skill out to Claude Code, Cursor, Codex CLI, GitHub Copilot, Windsurf, Cline, Aider, Continue and ~40 other agents from one source of truth.
 
 - Docs: https://nordhealth.design/docs/developer/working-with-ai/skills/
 
@@ -410,4 +410,4 @@ Effectively unobservable, and that is the finding. github.com/nordhealth/design-
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -301,7 +301,7 @@ table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
 /* Maturity cohort strip, same device as the systems list. Not interactive. */
 table.mx tr.mx-group th {
-  position: static; text-align: left; padding: 6px 10px;
+  position: static; text-align: left;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
@@ -761,7 +761,7 @@ metadata:
     </div></details></li><li><details class="aff">
     <summary><span class="chip">llms.txt</span><span class="nm">daisyui.com/llms.txt</span><span class="chip official">official</span><span class="chip">consumers</span></summary>
     <div class="aff-body">
-      <p class="desc">A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). Crucially it is not a plain llms.txt: it ships YAML frontmatter with <code>alwaysApply: true</code> and <code>applyTo: &quot;**&quot;</code>, so the exact same file works as a Cursor <code>.mdc</code> rule, a skill, or an @docs source. The Cursor setup page tells you to <code>curl</code> it straight into <code>.cursor/rules/daisyui.mdc</code>.</p>
+      <p class="desc">A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). It is not a plain llms.txt: it ships YAML frontmatter with <code>alwaysApply: true</code> and <code>applyTo: &quot;**&quot;</code>, so the exact same file works as a Cursor <code>.mdc</code> rule, a skill, or an @docs source. The Cursor setup page tells you to <code>curl</code> it straight into <code>.cursor/rules/daisyui.mdc</code>.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">yaml</span></span>
       <span class="acts"><a href="https://daisyui.com/llms.txt" target="_blank" rel="noopener">daisyui.com <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="daisyui-a2"><span class="btxt">copy</span><span class="sr-only"> yaml snippet</span></button></span></div>

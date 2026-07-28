@@ -48,7 +48,7 @@
       "name": "daisyui.com/llms.txt",
       "official": true,
       "audience": "consumers",
-      "description": "A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). Crucially it is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: \"**\"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.",
+      "description": "A ~79 KB single-file digest of the whole library (install matrix for 35 frameworks, usage rules, class-name taxonomy, config, colors/themes, per-component syntax). It is not a plain llms.txt: it ships YAML frontmatter with `alwaysApply: true` and `applyTo: \"**\"`, so the exact same file works as a Cursor `.mdc` rule, a skill, or an @docs source. The Cursor setup page tells you to `curl` it straight into `.cursor/rules/daisyui.mdc`.",
       "docs_url": "https://daisyui.com/docs/editor/cursor/",
       "code_url": "https://daisyui.com/llms.txt",
       "notes": "No /llms-full.txt (404). No per-page .md variants (/components/button.md → 404); instead each docs page has a ‘Text version for AI prompts’ link pointing at the raw GitHub source of the page’s +page.md.",

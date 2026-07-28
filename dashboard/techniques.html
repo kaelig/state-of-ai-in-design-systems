@@ -301,7 +301,7 @@ table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
 /* Maturity cohort strip, same device as the systems list. Not interactive. */
 table.mx tr.mx-group th {
-  position: static; text-align: left; padding: 6px 10px;
+  position: static; text-align: left;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
@@ -1151,7 +1151,7 @@ Overall (linter unavailable) = (Theming × 0.29) + (Accessibility × 0.29)
     </div></details></li><li><details class="tech-ex">
     <summary><span class="sysref">Material UI (MUI)</span><span class="nm">Mandatory contributor validation loop (7-step pre-PR checklist incl. a prose linter)</span></summary>
     <div class="tb">
-      <p>Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: <code>pnpm proptypes &amp;&amp; pnpm docs:api</code> if the API changed, <code>pnpm docs:typescript:formatted</code> if demos changed (demos must be authored in TypeScript, JS is generated), and <code>pnpm vale</code> for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.</p>
+      <p>Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps, <code>pnpm proptypes &amp;&amp; pnpm docs:api</code> if the API changed, <code>pnpm docs:typescript:formatted</code> if demos changed (demos must be authored in TypeScript, JS is generated), and <code>pnpm vale</code> for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t6"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
@@ -1173,7 +1173,7 @@ pnpm docs:typescript:formatted
     </div></details></li><li><details class="tech-ex">
     <summary><span class="sysref">Material UI (MUI)</span><span class="nm">Effort-tiered review skill with precision/recall bias switching</span></summary>
     <div class="tb">
-      <p>Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’</p>
+      <p>Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’. It exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md" target="_blank" rel="noopener">mui/mui-public <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t7"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
@@ -1466,7 +1466,7 @@ The following list of coding guidelines must be followed:
     </div></details></li><li><details class="tech-ex">
     <summary><span class="sysref">Primer</span><span class="nm">Anti-invention clauses backed by platform-level output caps</span></summary>
     <div class="tb">
-      <p>Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw <code>safe-outputs</code> maxima, not just in the prompt.</p>
+      <p>Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. The prohibition is also enforced at the platform layer via gh-aw <code>safe-outputs</code> maxima, not just in the prompt.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/primer/react/HEAD/.github/workflows/issue-triage.md" target="_blank" rel="noopener">primer/react <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="primer-github-t7"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
@@ -1532,7 +1532,7 @@ For grids of objects/files/products/people, use `CardView` plus a prescribed var
     </div></details></li><li><details class="tech-ex">
     <summary><span class="sysref">shadcn/ui</span><span class="nm">Hard prohibition list (‘Critical Rules … always enforced’)</span></summary>
     <div class="tb">
-      <p>The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. Notably it bans generic markup in favour of system components (&#39;Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).</p>
+      <p>The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. It bans generic markup in favour of system components (&#39;Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.md" target="_blank" rel="noopener">shadcn-ui/ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="shadcn-ui-t0"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
@@ -2389,7 +2389,7 @@ scripts/search_docs.mjs &quot;s-form&quot; --model YOUR_MODEL_NAME --client-name
     </div></details></li><li><details class="tech-ex">
     <summary><span class="sysref">Mantine</span><span class="nm">Redirectable context source (MANTINE_MCP_DATA_URL)</span></summary>
     <div class="tb">
-      <p>The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base: at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.</p>
+      <p>The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base, whether at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">json</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/mantinedev/mantine/master/apps/mantine.dev/src/pages/guides/llms.mdx" target="_blank" rel="noopener">mantinedev/mantine <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="mantine-t6"><span class="btxt">copy</span><span class="sr-only"> json snippet</span></button></span></div>

@@ -7,7 +7,7 @@ type: "view"
 id: "systems"
 system_count: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -196,7 +196,7 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-
 
 invested · Microsoft · 8 affordances · 8 techniques
 
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills…
+Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills (scaffolding, token…
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
 
@@ -218,4 +218,4 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

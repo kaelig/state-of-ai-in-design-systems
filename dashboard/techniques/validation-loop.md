@@ -8,7 +8,7 @@ id: "validation-loop"
 technique_count: 29
 system_count: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -558,7 +558,7 @@ Source: https://raw.githubusercontent.com/mantinedev/mantine/master/AGENTS.md
 
 Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
 
-Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
+Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps, `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
 
 ````markdown
 ### API Documentation
@@ -584,7 +584,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md
 
 Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
 
-Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
+Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’. It exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
 
 ```markdown
 Medium effort = **precision** bias: every finding actionable. **high**, **xhigh**,
@@ -708,4 +708,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

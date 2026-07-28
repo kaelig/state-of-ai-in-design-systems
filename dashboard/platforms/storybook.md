@@ -9,7 +9,7 @@ id: "storybook"
 capability_count: 8
 design_systems_with_integration_records: 14
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -35,7 +35,7 @@ Storybook 10 turned the component workshop into an agent-readable API. The piece
 
 Audience: consumers
 
-OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components: it forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.
+OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components. It forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.
 
 Link: https://storybook.js.org/docs/ai/mcp/overview
 
@@ -306,4 +306,4 @@ Design systems with a recorded integration: [Atlassian Design System](https://st
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

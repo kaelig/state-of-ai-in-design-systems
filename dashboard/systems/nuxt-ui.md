@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -412,7 +412,7 @@ Deliberately minimal and single-sourced compared with the consumer side: one roo
 
 ## Gaps
 
-Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI: a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models; it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint: /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
+Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI: a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models; it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint. /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
 
 ## Sources (15)
 
@@ -448,4 +448,4 @@ Claims that don’t hold up: (1) There are NO .cursorrules templates distributed
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

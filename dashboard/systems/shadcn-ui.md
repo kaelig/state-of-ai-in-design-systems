@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -137,7 +137,7 @@ Several third-party MCP servers predate/parallel the official one: Jpisnice/shad
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. Notably it bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
+The skill front-loads a list of negative constraints in bold imperative form, each linked to a rule file with Incorrect/Correct code pairs. It bans generic markup in favour of system components ('Callouts use Alert. Don’t build custom styled divs’), bans raw Tailwind color values in favour of semantic tokens, and bans layout primitives the system doesn’t use (space-x/space-y).
 
 ```markdown
 ## Critical Rules
@@ -423,7 +423,7 @@ Link: https://ui.shadcn.com/docs/directory
 
 ### For consumers (agents building UIs with shadcn/ui)
 
-Very heavily invested and arguably best-in-class. Four stacked channels: (1) the CLI itself as the agent’s action surface (`info --json` for project context, `search`/`view`/`docs` for retrieval, `add --dry-run --diff` for safe mutation, `preset`/`apply` for theming); (2) an official MCP server bundled in the same npm package with `mcp init --client claude|cursor|vscode|opencode` one-liners; (3) an official Agent Skill (`npx skills add shadcn/ui`) whose SKILL.md is a dense, prohibition-heavy policy document with linked Incorrect/Correct rule files, a Cursor plugin manifest, an OpenAI/Codex interface manifest, and a committed eval suite; (4) `llms.txt` plus a machine-readable registry (JSON Schema’d registry.json / registry-item.json, `owner/repo` addressing, a public community registry index at /r/registries.json validated in CI). The design principles page explicitly frames the whole architecture as LLM-facing: ‘AI-Ready: Open code for LLMs to read, understand, and improve’ and 'A shared, composable interface means it’s predictable for both your team and LLMs.'
+Very heavily invested, and probably best-in-class. Four stacked channels: (1) the CLI itself as the agent’s action surface (`info --json` for project context, `search`/`view`/`docs` for retrieval, `add --dry-run --diff` for safe mutation, `preset`/`apply` for theming); (2) an official MCP server bundled in the same npm package with `mcp init --client claude|cursor|vscode|opencode` one-liners; (3) an official Agent Skill (`npx skills add shadcn/ui`) whose SKILL.md is a dense, prohibition-heavy policy document with linked Incorrect/Correct rule files, a Cursor plugin manifest, an OpenAI/Codex interface manifest, and a committed eval suite; (4) `llms.txt` plus a machine-readable registry (JSON Schema’d registry.json / registry-item.json, `owner/repo` addressing, a public community registry index at /r/registries.json validated in CI). The design principles page explicitly frames the whole architecture as LLM-facing: ‘AI-Ready: Open code for LLMs to read, understand, and improve’ and 'A shared, composable interface means it’s predictable for both your team and LLMs.'
 
 ### For builders (the shadcn/ui team using AI on the system itself)
 
@@ -467,4 +467,4 @@ Not confirmed, or absent: (1) https://ui.shadcn.com/llms-full.txt returns 404, a
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

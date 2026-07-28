@@ -5,7 +5,7 @@
   "capabilities": [
     {
       "title": "@storybook/addon-mcp — install, wire to agent, and the recommended anti-hallucination AGENTS.md",
-      "description": "OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components: it forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.",
+      "description": "OFFICIAL. Three-step setup. Step 3 is the interesting one: Storybook publishes a ready-made AGENTS.md/CLAUDE.md block whose entire purpose is to stop the model inventing props on design-system components. It forces an MCP round-trip before any component use, forbids inferring props from naming conventions, tells the agent to escalate to the human rather than guess, and closes the loop with a mandatory test run.",
       "audience": "consumers",
       "url": "https://storybook.js.org/docs/ai/mcp/overview",
       "snippet": {

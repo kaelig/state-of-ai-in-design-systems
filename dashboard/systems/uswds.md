@@ -11,7 +11,7 @@ ai_maturity: "emerging"
 affordance_count: 6
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -85,7 +85,7 @@ Notes: Leads with a disclaimer: 'not affiliated with, endorsed by, sponsored by,
 
 Type: `claude-skill` (Agent skill) · Community · Audience: consumers
 
-A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating: the skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.
+A Claude Code plugin marketplace repo (`.claude-plugin/marketplace.json`) shipping one skill, `USWDS-prototype`, aimed at product designers producing federal-looking prototypes. Curated-context approach rather than tool-gating. The skill carries its own offline context bundle: `assets/components.md`, `assets/tokens-color.md`, `assets/tokens-spacing.md`, `assets/tokens-typography.md`, `assets/fonts.md`, plus `examples/starter.html` and a full worked prototype (`prototypes/doe-renewable-energy.html`) as a few-shot exemplar. Four output modes (Spec / HTML / Figma / Paper). Pins USWDS to an exact CDN version.
 
 - Code: https://github.com/emilycryan/USWDS-design
 
@@ -105,7 +105,7 @@ Notes: 0 stars, last push 2025-12-16. Note that trussworks/react-uswds itself, b
 
 Type: `mcp-server` (MCP server) · Community · Audience: consumers
 
-Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community landscape; neither is production-signalling.
+Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` (‘stand up a local mcp server to interact with USWDS’, last push 2026-01-04) and `Chris39704/ui_mcp` (‘MCP server for the latest MUI, Angular Material, and USWDS documentation and context’, last push 2026-03-17). Both 0 stars. Recorded for completeness of the community picture; neither is production-signalling.
 
 - Code: https://github.com/ctrimm/uswds-local-mcp-server
 
@@ -336,4 +336,4 @@ Not confirmed, or not found: (1) The ‘team of one (Anne Petersen)’ claim abo
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

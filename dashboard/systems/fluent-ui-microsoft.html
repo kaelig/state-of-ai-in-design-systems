@@ -6,7 +6,7 @@
 <title>Microsoft Fluent UI · State of AI in Design Systems</title>
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
-<meta name="description" content="Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a…">
+<meta name="description" content="Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root…">
 <meta name="author" content="Kaelig Deloumeau-Prigent">
 <!-- netlify-head:start -->
 <link rel="canonical" href="https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="State of AI in Design Systems">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Microsoft Fluent UI · State of AI in Design Systems">
-<meta property="og:description" content="Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a…">
+<meta property="og:description" content="Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root…">
 <meta property="og:url" content="https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft">
 <meta property="og:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
 <meta property="og:image:alt" content="State of AI in Design Systems — a field study by Kaelig Deloumeau-Prigent">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Microsoft Fluent UI · State of AI in Design Systems">
-<meta name="twitter:description" content="Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a…">
+<meta name="twitter:description" content="Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root…">
 <meta name="twitter:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
 <meta name="twitter:creator" content="@kaelig">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -37,7 +37,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Microsoft Fluent UI · State of AI in Design Systems",
-  "description": "Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a…",
+  "description": "Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root…",
   "author": {
     "@type": "Person",
     "name": "Kaelig Deloumeau-Prigent",
@@ -301,7 +301,7 @@ table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
 /* Maturity cohort strip, same device as the systems list. Not interactive. */
 table.mx tr.mx-group th {
-  position: static; text-align: left; padding: 6px 10px;
+  position: static; text-align: left;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
@@ -710,7 +710,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
       <p class="links dlinks">
     <a href="/systems/fluent-ui-microsoft.md">markdown<span class="sr-only"> record for Microsoft Fluent UI</span></a>
     <a href="/systems/fluent-ui-microsoft.json">json<span class="sr-only"> record for Microsoft Fluent UI</span></a></p>
-      <p class="detail-sum">Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated <em>builder</em>-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, <code>.agents/skills/</code> + <code>.claude/skills/</code> with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a <code>.github/instructions/copilot.instructions.md</code> with <code>applyTo: &#39;*<em>&#39;</code>, and a <code>copilot-setup-steps.yml</code> workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, </em>consumer<em>-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the </em>Blazor* flavor (<code>Microsoft.FluentUI.AspNetCore.McpServer</code>, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.</p>
+      <p class="detail-sum">Fluent UI’s AI story is lopsided. The React monorepo has one of the most sophisticated <em>builder</em>-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, <code>.agents/skills/</code> + <code>.claude/skills/</code> with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a <code>.github/instructions/copilot.instructions.md</code> with <code>applyTo: &#39;*<em>&#39;</code>, and a <code>copilot-setup-steps.yml</code> workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, </em>consumer<em>-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the </em>Blazor* flavor (<code>Microsoft.FluentUI.AspNetCore.McpServer</code>, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.</p>
       <hr class="accent-rule">
       <dl class="metagrid">
         <div><dt class="k">Org</dt><dd class="v">Microsoft</dd></div>

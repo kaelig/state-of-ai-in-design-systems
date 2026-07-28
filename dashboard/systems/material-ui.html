@@ -301,7 +301,7 @@ table.mx td .none { color: var(--ink-3); }
 table.mx td .none::before { content: "·"; }
 /* Maturity cohort strip, same device as the systems list. Not interactive. */
 table.mx tr.mx-group th {
-  position: static; text-align: left; padding: 6px 10px;
+  position: static; text-align: left;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
@@ -987,7 +987,7 @@ The root `AGENTS.md` lists each skill and links directly to `skills/&lt;name&gt;
     </div></details></li><li><details class="tech-ex">
     <summary><span class="chip">Validation loop</span><span class="nm">Mandatory contributor validation loop (7-step pre-PR checklist incl. a prose linter)</span></summary>
     <div class="tb">
-      <p>Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: <code>pnpm proptypes &amp;&amp; pnpm docs:api</code> if the API changed, <code>pnpm docs:typescript:formatted</code> if demos changed (demos must be authored in TypeScript, JS is generated), and <code>pnpm vale</code> for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.</p>
+      <p>Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps, <code>pnpm proptypes &amp;&amp; pnpm docs:api</code> if the API changed, <code>pnpm docs:typescript:formatted</code> if demos changed (demos must be authored in TypeScript, JS is generated), and <code>pnpm vale</code> for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md" target="_blank" rel="noopener">mui/material-ui <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t6"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>
@@ -1009,7 +1009,7 @@ pnpm docs:typescript:formatted
     </div></details></li><li><details class="tech-ex">
     <summary><span class="chip">Validation loop</span><span class="nm">Effort-tiered review skill with precision/recall bias switching</span></summary>
     <div class="tb">
-      <p>Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’</p>
+      <p>Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’. It exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’</p>
       <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">markdown</span></span>
       <span class="acts"><a href="https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-review/SKILL.md" target="_blank" rel="noopener">mui/mui-public <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><button type="button" data-copy="material-ui-t7"><span class="btxt">copy</span><span class="sr-only"> markdown snippet</span></button></span></div>

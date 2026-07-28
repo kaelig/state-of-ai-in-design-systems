@@ -8,7 +8,7 @@ id: "tool-gating"
 technique_count: 20
 system_count: 16
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T02:17:18Z"
+generated: "2026-07-28T02:33:15Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -392,7 +392,7 @@ Source: https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base: at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
+The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base, whether at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
 
 ```json
 {
@@ -494,4 +494,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:33:15Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
