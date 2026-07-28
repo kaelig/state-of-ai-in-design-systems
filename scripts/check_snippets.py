@@ -86,6 +86,20 @@ CHALLENGE = re.compile(
 # A marked cut tells the reader something was removed. Only these forms count.
 ELISION = re.compile(r"^\s*(?:[#/<!*\-]*\s*)?(?:\[?\.\.\.\]?|…)\s*(?:\*/|-->|[-*/>])?\s*$")
 
+# `--allow-respaced` has to be argued in writing rather than typed to make a run
+# go green, so the argument lives here and the flag only covers what is named.
+# Any other respaced snippet still fails with the flag on, which is the point:
+# one page whose markup indents its content is a finding about that page, and a
+# second one appearing silently would not be.
+RESPACED_EXCEPTIONS = {
+    ("supernova", "Supernova Relay — official remote MCP server (per design system)"): (
+        "learn.supernova.io wraps its code blocks in markup indented about 150 spaces. "
+        "Quoting the eight-line MCP config verbatim would be 1,362 characters, 1,200 of "
+        "them leading whitespace that is in the page source and on nobody's screen. The "
+        "snippet's own two-space JSON indentation is what the page displays."
+    ),
+}
+
 
 class Finding(NamedTuple):
     """One defect, with enough position to repair it rather than only report it.
@@ -612,8 +626,9 @@ def run_snippets(systems, platforms, args):
         elif status == "ok":
             row["status"] = "ok"
             counts["ok"] += 1
-        elif status == "respaced" and args.allow_respaced:
+        elif status == "respaced" and args.allow_respaced and (sid, name) in RESPACED_EXCEPTIONS:
             row["status"] = "respaced"
+            row["note"] = RESPACED_EXCEPTIONS[(sid, name)]
             counts["respaced"] += 1
         else:
             row["status"] = "failed"
@@ -658,7 +673,7 @@ def main():
     ap.add_argument(
         "--allow-respaced",
         action="store_true",
-        help="downgrade whitespace-only mismatches; write down why before using it",
+        help="downgrade the whitespace-only mismatches argued in RESPACED_EXCEPTIONS",
     )
     ap.add_argument("--timeout", type=float, default=25.0)
     ap.add_argument("--jobs", type=int, default=4)
