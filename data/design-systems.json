@@ -665,9 +665,9 @@
         "category": "prohibition",
         "description": "`ads_get_a11y_guidelines` is the only tool in the set written as an obligation rather than an affordance, and it pre-empts the model's parametric knowledge: 'DO NOT rely on generic web accessibility advice alone—ADS conventions may differ.' It also splits jurisdiction between org-wide standards (Context Engine `get_accessibility_docs`) and ADS-specific patterns.",
         "snippet": {
-          "language": "text",
-          "source_url": "https://mcp.atlassian.com/v1/ads/public/mcp",
-          "content": "Returns Atlassian Design System (ADS) accessibility guidance: best practices and patterns for buttons, interactions, color contrast, forms, and other design-system topics shipped in this tool.\n\nUse this alongside the Context Engine MCP tool `get_accessibility_docs` for Atlassian-wide accessibility standards (e.g. A11YKB); this tool supplies ADS-specific component and pattern guidance.\n\nWHEN TO USE:\nYou MUST call this when generating or substantially changing a new interactive or visual user interface built with ADS, or when you need topic-specific ADS guidance (e.g. focus, forms, motion).\n\nDO NOT rely on generic web accessibility advice alone—ADS conventions may differ. Use `get_accessibility_docs` for org-wide standards and this tool for ADS-topic guidance."
+          "language": "javascript",
+          "source_url": "https://unpkg.com/@atlaskit/ads-mcp@1.7.1/dist/esm/tools/get-a11y-guidelines/list-get-a11y-guidelines-tool.js",
+          "content": "  name: 'ads_get_a11y_guidelines',\n  description: \"Returns Atlassian Design System (ADS) accessibility guidance: best practices and patterns for buttons, interactions, color contrast, forms, and other design-system topics shipped in this tool.\n\nUse this alongside the Context Engine MCP tool `get_accessibility_docs` for Atlassian-wide accessibility standards (e.g. A11YKB); this tool supplies ADS-specific component and pattern guidance.\n\nWHEN TO USE:\nYou MUST call this when generating or substantially changing a new interactive or visual user interface built with ADS, or when you need topic-specific ADS guidance (e.g. focus, forms, motion).\n\nDO NOT rely on generic web accessibility advice alone—ADS conventions may differ. Use `get_accessibility_docs` for org-wide standards and this tool for ADS-topic guidance.\","
         }
       },
       {
@@ -675,9 +675,9 @@
         "category": "token-enforcement",
         "description": "Token budget is treated as a first-class design constraint. `ads_plan` fans out to token/icon/component/atlaskit searches in one call and is positioned as 'the default way to discover'; it even coaches recall behaviour ('Prefer supplying **multiple** terms per non-empty array... broader queries improve recall') and requires at least one non-empty array. Symmetrically, all three `ads_get_all_*` tools are labelled 'Last resort' and '**very large** output' so a model does not burn its window enumerating catalogs. Blog-reported effect of the structured-content work: '26% reduction in AI tooling calls, with 16% reduction in AI token usage'.",
         "snippet": {
-          "language": "text",
-          "source_url": "https://mcp.atlassian.com/v1/ads/public/mcp",
-          "content": "### ads_plan\nRuns **ads_search_tokens**, **ads_search_icons**, **ads_search_components**, and **ads_search_atlaskit_components** in one call and returns a single JSON payload (each section only if that list was non-empty). Use this as the default way to discover ADS **tokens**, **icons**, and **components** (including legacy/broader Atlaskit) for a UI task.\n\nWHEN TO USE:\n**Implementing or iterating on a UI**—new screen, feature, or polish—and you need candidate **token** names, **icon** imports, and **component** packages/props in one pass.\n\n### ads_get_all_tokens\nReturns **every** ADS design token from bundled metadata (name, example value, usage guidelines)—one JSON object per token, **very large** output.\n\nWHEN TO USE:\nLast resort when `ads_plan` / `ads_search_tokens` cannot answer the question and you need the full list (e.g. exhaustive audit). Prefer targeted search for normal development."
+          "language": "javascript",
+          "source_url": "https://unpkg.com/@atlaskit/ads-mcp@1.7.1/dist/esm/tools/plan/list-plan-tool.js",
+          "content": "  name: 'ads_plan',\n  description: \"Runs **ads_search_tokens**, **ads_search_icons**, **ads_search_components**, and optionally **atlaskit_search_components** in one call and returns a single JSON payload (each section only if that list was non-empty). Use this as the default way to discover ADS **tokens**, **icons**, and **components** for a UI task.\n\nWHEN TO USE:\n**Implementing or iterating on a UI**—new screen, feature, or polish—and you need candidate **token** names, **icon** imports, and **ADS component** packages/props in one pass. Also use when exploring ADS building blocks before you write code.\n\nADS-FIRST ROUTING:\nUse `components` for canonical ADS components. Use `atlaskitComponents` only as explicit fallback research for public `@atlaskit/*` packages outside the ADS catalog, or after ADS component search has no useful match. This tool does not auto-populate `atlaskitComponents` from `components`."
         }
       },
       {
@@ -695,9 +695,9 @@
         "category": "validation-loop",
         "description": "A three-step loop is baked into the tool graph: `ads_analyze_a11y` (JSX string → heuristic/axe findings) → `ads_suggest_a11y_fixes` (violation string → ADS-biased 'recipe map' fixes) → `ads_get_a11y_guidelines` (topic guidance). The descriptions are unusually honest about their own limits: 'not every finding maps to a specific ADS component fix', 'Does not replace testing in a real browser with assistive technologies', which reduces false confidence. The live-browser variant `ads_analyze_localhost_a11y` is gated by deployment: 'it is **only exposed when this MCP runs locally**, not in the remote MCP deployment.' The package depends on axe-core, @axe-core/playwright and @axe-core/puppeteer to back this.",
         "snippet": {
-          "language": "text",
-          "source_url": "https://mcp.atlassian.com/v1/ads/public/mcp",
-          "content": "### ads_analyze_a11y\nAnalyzes a **string of React/JSX** code for likely accessibility issues (heuristics and/or axe-related paths) and returns hints that often **point to** `ads_suggest_a11y_fixes` or generic axe/WCAG-style context—not every finding maps to a specific ADS component fix.\n\nLIMITATIONS:\n- Does not replace testing in a real browser with assistive technologies or full keyboard traversal.\n- For rendered UI, `ads_analyze_localhost_a11y` (live URL + axe) is preferable when available—it is **only exposed when this MCP runs locally**, not in the remote MCP deployment.\n\n### ads_suggest_a11y_fixes\nWHAT YOU GET (varies by match):\n- **Curated hit:** ADS-biased examples and patterns from this server's recipe map (components, tokens, common fixes).\n- **No strong match:** Generic guidance (e.g. \"use ADS components\", labeling, testing)—still useful, but **not** guaranteed to be ADS-specific."
+          "language": "javascript",
+          "source_url": "https://unpkg.com/@atlaskit/ads-mcp@1.7.1/dist/esm/tools/analyze-a11y/list-analyze-a11y-tool.js",
+          "content": "  name: 'ads_analyze_a11y',\n  description: \"Analyzes a **string of React/JSX** code for likely accessibility issues (heuristics and/or axe-related paths) and returns hints that often **point to** `ads_suggest_a11y_fixes` or generic axe/WCAG-style context—not every finding maps to a specific ADS component fix.\n\nWHEN TO USE:\nYou have component source as text and want automated checks or heuristics before or during a code review.\n\nLIMITATIONS:\n- Does not replace testing in a real browser with assistive technologies or full keyboard traversal.\n- For rendered UI, `ads_analyze_localhost_a11y` (live URL + axe) is preferable when available—it is **only exposed when this MCP runs locally**, not in the remote MCP deployment.\","
         }
       },
       {
@@ -3467,7 +3467,7 @@
         "description": "Shopify embeds the coercion in the MCP tool's own `description` field, so it lands in the model's tool schema regardless of whether any skill or rules file is loaded. Note the anti-deflection clauses ('DONT ASK THE USER TO DO THIS. DON'T CONTEXT SWITCH') and the explicit statement of purpose: preventing hallucinated components and props.",
         "snippet": {
           "language": "javascript",
-          "source_url": "https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3",
+          "source_url": "https://unpkg.com/@shopify/dev-mcp@1.14.3/dist/index-6_XnqjXS.js",
           "content": "    name: \"validate_component_codeblocks\",\n    description: `🚨 MANDATORY VALIDATION TOOL - MUST BE CALLED WHEN COMPONENTS FROM SHOPIFY PACKAGES ARE USED. DONT ASK THE USER TO DO THIS. DON'T CONTEXT SWITCH.\n\n    This tool MUST be used to validate ALL code blocks containing Shopify components, regardless of size or complexity.\n\n    ⚠️  CRITICAL REQUIREMENTS:\n    - Call this tool IMMEDIATELY after generating ANY Shopify component code\n    - NEVER skip validation, even for simple examples or snippets\n    - ALWAYS use this tool when generating JSX, TSX, or web component code\n    - This validation prevents hallucinated components, props, and prop values"
         }
       },
