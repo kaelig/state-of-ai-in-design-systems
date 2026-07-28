@@ -253,28 +253,71 @@ def _smarten_selftest():
         assert got == want, f"smarten({src!r}) == {got!r}, expected {want!r}"
 
 
-def resolve_counts(insights, systems):
+# Prose that opens a sentence with a count wants the word, not the digit
+# ("Sixteen of nineteen systems…"). Past twenty the digits read better anyway,
+# and a count that grows past twenty falls back to them on its own.
+NUMBER_WORD = {
+    0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
+    6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+    12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen",
+    17: "seventeen", 18: "eighteen", 19: "nineteen", 20: "twenty",
+}
+# {systems} -> 19, {systems:word} -> nineteen, {systems:Word} -> Nineteen
+_COUNT_REF = re.compile(r"\{([a-z_]+)(?::(word|Word))?\}")
+
+# The subset the payload's meta block carries, which the stat tiles and the MCP
+# server read. Kept explicit so adding a count for the prose cannot silently
+# change the shape of meta.
+META_COUNTS = ("systems", "platforms", "official_mcp", "official_skills",
+               "llms_txt", "affordances", "techniques")
+
+
+def compute_counts(systems, platforms):
+    """Every number the report is allowed to state, derived once. The prose and
+    the stat tiles read the same dict, so a figure quoted in a finding and the
+    same figure on a tile cannot drift apart."""
+    def systems_with(pred):
+        return sum(1 for s in systems
+                   if any(pred(a) for a in s.get("affordances", [])))
+
+    return {
+        "systems": len(systems),
+        "platforms": len(platforms),
+        "official_mcp": systems_with(
+            lambda a: a.get("type") == "mcp-server" and a.get("official")),
+        "official_skills": systems_with(
+            lambda a: a.get("type") == "claude-skill" and a.get("official")
+            and not (a.get("name") or "").lower().startswith("planned")),
+        "llms_txt": systems_with(lambda a: a.get("type") == "llms-txt"),
+        "affordances": sum(len(s.get("affordances", [])) for s in systems),
+        "techniques": sum(len(s.get("techniques", [])) for s in systems),
+        "technique_categories": len({t.get("category") for s in systems
+                                     for t in s.get("techniques", [])}),
+        "ai_native": sum(1 for s in systems
+                         if s.get("ai_maturity") == "ai-native"),
+    }
+
+
+def resolve_counts(insights, counts):
     """Editorial copy states counts; the counts come from the records. Any
     {placeholder} in an insights string is filled here, so the site, the
     markdown twins and the JSON passthrough all quote the same number, and a
     changed dataset can't leave a stale figure in the prose."""
-    counts = {
-        "technique_categories": len({t.get("category") for s in systems
-                                     for t in s.get("techniques", [])}),
-        "techniques": sum(len(s.get("techniques", [])) for s in systems),
-        "systems": len(systems),
-    }
     unknown = set()
+
+    def one(m):
+        key, form = m.group(1), m.group(2)
+        if key not in counts:
+            unknown.add(key)
+            return m.group(0)
+        n = counts[key]
+        if form and n in NUMBER_WORD:
+            return NUMBER_WORD[n].capitalize() if form == "Word" else NUMBER_WORD[n]
+        return str(n)
 
     def fill(value):
         if isinstance(value, str):
-            def one(m):
-                key = m.group(1)
-                if key not in counts:
-                    unknown.add(key)
-                    return m.group(0)
-                return str(counts[key])
-            return re.sub(r"\{([a-z_]+)\}", one, value)
+            return _COUNT_REF.sub(one, value)
         if isinstance(value, list):
             return [fill(v) for v in value]
         if isinstance(value, dict):
@@ -285,6 +328,13 @@ def resolve_counts(insights, systems):
         insights[key] = fill(insights[key])
     if unknown:
         raise SystemExit(f"insights.json references unknown counts: {sorted(unknown)}")
+    # A misspelled form ({systems:plural}) names a real count, so the unknown-key
+    # check above passes and the braces would ship as literal text. Check the
+    # output instead of trusting the keys.
+    left = sorted(set(re.findall(r"\{[^{}\s]{1,40}\}",
+                                 json.dumps(insights, ensure_ascii=False))))
+    if left:
+        raise SystemExit(f"insights.json has unresolved placeholders: {left}")
 
 
 def strip_artifact_wrapper(html):
@@ -408,24 +458,12 @@ def main():
     _, k = smarten_tree(insights)
     n_quotes += k
 
-    resolve_counts(insights, systems)
+    counts = compute_counts(systems, platforms)
+    resolve_counts(insights, counts)
 
     meta = {
         "generated": "July 2026",
-        "counts": {
-            "systems": len(systems),
-            "platforms": len(platforms),
-            "official_mcp": sum(1 for s in systems if any(
-                a.get("type") == "mcp-server" and a.get("official") for a in s.get("affordances", []))),
-            "official_skills": sum(1 for s in systems if any(
-                a.get("type") == "claude-skill" and a.get("official")
-                and not (a.get("name") or "").lower().startswith("planned")
-                for a in s.get("affordances", []))),
-            "llms_txt": sum(1 for s in systems if any(
-                a.get("type") == "llms-txt" for a in s.get("affordances", []))),
-            "affordances": sum(len(s.get("affordances", [])) for s in systems),
-            "techniques": sum(len(s.get("techniques", [])) for s in systems),
-        },
+        "counts": {k: counts[k] for k in META_COUNTS},
         # The client router sets document.title on every in-page navigation.
         # It reads these so a client-side visit to /matrix gets the same title
         # a crawler gets from the prerendered file, instead of the short nav word.

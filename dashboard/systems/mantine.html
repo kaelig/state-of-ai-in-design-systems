@@ -93,8 +93,8 @@
 * { margin: 0; box-sizing: border-box; }
 body {
   font-family: var(--font-body);
-  font-size: 15.5px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.5; /* 24px — the scale and its leading sit on the 4px grid */
   background: var(--bg);
   color: var(--ink);
   /* No theme transition: only body could animate, so every hairline, wash and
@@ -162,7 +162,7 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 }
 .rail-brand strong {
   display: block; margin-top: 5px; font-family: var(--font-display); font-weight: 700;
-  font-size: 15px; line-height: 1.25; letter-spacing: -.02em; color: var(--ink);
+  font-size: 16px; line-height: 1.25; letter-spacing: -.02em; color: var(--ink);
 }
 .navwrap { position: relative; }
 .rail nav { display: flex; flex-direction: column; gap: 2px; margin-top: 26px; }
@@ -174,7 +174,7 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 }
 .rail nav a:hover { color: var(--ink); background: var(--bg-sunk); }
 .rail nav a.on, .rail nav a[aria-current="page"] { color: var(--accent-ink); border-right-color: var(--accent); background: var(--accent-wash); }
-.rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 12.5px; color: var(--ink-3); }
+.rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 13px; color: var(--ink-3); }
 
 .main { padding: 34px 40px 40px; max-width: 1120px; min-width: 0; }
 .view { display: none; }
@@ -187,16 +187,16 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
 }
 .eyebrow { color: var(--accent-ink); }
-h1 { font-family: var(--font-display); font-size: clamp(28px, calc(24px + 1.4vw), 38px); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
-.lede { font-size: 16.5px; color: var(--ink-2); max-width: var(--measure-lede); }
+h1 { font-family: var(--font-display); font-size: clamp(28px, calc(24px + 1.4vw), 40px); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
+.lede { font-size: 18px; color: var(--ink-2); max-width: var(--measure-lede); }
 .byline { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
-h2 { font-family: var(--font-display); font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin: 38px 0 6px; }
+h2 { font-family: var(--font-display); font-size: 20px; font-weight: 650; letter-spacing: -.015em; margin: 38px 0 6px; }
 /* Scoped to a view's own genuinely-first heading. Unscoped, this fired on every
    h2 that opens a <section> wrapper — on /ai each section's h2 is a first child,
    so every one of them lost its 38px and sat on the block above it. Card headings
    (.tech-cat, .plat) set their own margin and are unaffected either way. */
 .view > h2:first-child { margin-top: 0; }
-.h2-sub { color: var(--ink-2); font-size: 13.5px; margin-bottom: 14px; max-width: var(--measure-body); }
+.h2-sub { color: var(--ink-2); font-size: 14px; margin-bottom: 14px; max-width: var(--measure-body); }
 /* Primary content that happens to sit under an h2, as opposed to a subtitle for
    it. .h2-sub is chrome; this is prose. */
 .body-block { font-size: 14px; color: var(--ink); max-width: var(--measure-body); margin: 0 0 8px; text-wrap: pretty; }
@@ -204,7 +204,7 @@ h2 { font-family: var(--font-display); font-size: 19px; font-weight: 650; letter
 /* Per-platform verdicts on a system page: a heading in the outline, but sized to
    the paragraph it opens rather than to the section h3s above it. */
 .pi { font-size: 14px; margin: 14px 0 2px; }
-h3 { font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
+h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
 /* One count treatment, everywhere a number sits beside a heading or a label:
    body sans, tabular, --ink-3. Same family as the systems-list numbers and the
    spectrum band counts. */
@@ -214,11 +214,11 @@ h3 { font-family: var(--font-display); font-size: 15.5px; font-weight: 650; lett
 /* Column + margin-top:auto: the third line sits on one baseline across all five
    tiles however many lines the label above it takes. */
 .tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; }
-.tile .n { font-family: var(--font-display); font-size: 27px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
-.tile .l { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; line-height: 1.4; }
+.tile .n { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
+.tile .l { font-size: 13px; color: var(--ink-2); margin-top: 3px; line-height: 1.4; }
 /* Prose stopped wearing mono here: only the tile that quotes an actual command
    keeps a monospace run, and it does it with <code>. */
-.tile .d { font-size: 11.5px; color: var(--ink-3); margin-top: auto; padding-top: 6px; font-variant-numeric: tabular-nums; }
+.tile .d { font-size: 12px; color: var(--ink-3); margin-top: auto; padding-top: 6px; font-variant-numeric: tabular-nums; }
 /* The detail line is a standalone chip, not a run inside a sentence, so it can
    afford the vertical padding that inline <code> in prose cannot. */
 .tile .d code { padding: 2px 7px; }
@@ -249,7 +249,7 @@ h3 { font-family: var(--font-display); font-size: 15.5px; font-weight: 650; lett
   background: var(--mat-0); color: var(--mat-0-ink);
 }
 .spec-band .bhead .bn {
-  font-family: var(--font-body); font-weight: 600; font-size: 12.5px;
+  font-family: var(--font-body); font-weight: 600; font-size: 13px;
   letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
 }
 .spec-band .bdef { padding: 10px 12px 0; font-size: 12px; color: var(--ink-3); max-width: var(--measure-body); }
@@ -260,30 +260,30 @@ h3 { font-family: var(--font-display); font-size: 15.5px; font-weight: 650; lett
 .spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* One treatment, two users: the spectrum bands and the platforms jump row. */
-.spec-band li a, .jump li a { font-size: 12.5px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
+.spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
 .spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
 .jump { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* font-size here only so `ch` resolves against the body text it caps: the
    hairline then ends exactly where the paragraph does, past the 48px numeral
    gutter. Title and numeral set their own sizes. */
-.findings { counter-reset: f; list-style: none; padding: 0; margin: 14px 0 0; font-size: 13.5px; max-width: calc(var(--measure-body) + 48px); }
+.findings { counter-reset: f; list-style: none; padding: 0; margin: 14px 0 0; font-size: 14px; max-width: calc(var(--measure-body) + 48px); }
 .findings li { counter-increment: f; position: relative; border-top: 1px solid var(--line); padding: 14px 0 14px 48px; }
 .findings li:last-child { border-bottom: 1px solid var(--line); }
 .findings li::before { content: counter(f, decimal-leading-zero) / ""; position: absolute; left: 0; top: 15px; font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
-.findings h3 { display: block; margin: 0 0 3px; font-family: var(--font-display); font-weight: 650; font-size: 15px; letter-spacing: -.01em; }
-.findings p { color: var(--ink); font-size: 13.5px; max-width: var(--measure-body); }
+.findings h3 { display: block; margin: 0 0 3px; font-family: var(--font-display); font-weight: 650; font-size: 16px; letter-spacing: -.01em; }
+.findings p { color: var(--ink); font-size: 14px; max-width: var(--measure-body); }
 
 .scroller { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); }
 .scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-table.mx { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+table.mx { border-collapse: collapse; width: 100%; font-size: 12px; }
 table.mx th, table.mx td { padding: 7px 6px; text-align: center; border-bottom: 1px solid var(--line); }
 /* nowrap belongs to the data cells only: on the header row it was forcing
    "Repo agent files" onto one line and pushing the table past its column. */
 table.mx td { white-space: nowrap; }
 table.mx thead th { font-size: 10px; letter-spacing: .12em; background: var(--bg-sunk); position: sticky; top: 0; white-space: normal; line-height: 1.15; vertical-align: bottom; }
 table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg-raise); border-right: 1px solid var(--line); min-width: 130px; }
-table.mx tbody th.sys { font-family: var(--font-body); font-size: 12.5px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
+table.mx tbody th.sys { font-family: var(--font-body); font-size: 12px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
 table.mx thead th.sys { background: var(--bg-sunk); z-index: 2; }
 /* Rows are not interactive, so no row hover. A filled cell links to the
    affordance's own artifact; the anchor fills the cell so the target is the
@@ -306,7 +306,7 @@ table.mx tr.mx-group th {
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
 }
-table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
 table.mx tr.mx-group.mat-none th { background: var(--mat-0); color: var(--mat-0-ink); }
 table.mx tr.mx-group.mat-emerging th { background: var(--mat-1); color: var(--mat-1-ink); }
 table.mx tr.mx-group.mat-invested th { background: var(--mat-2); color: var(--mat-2-ink); }
@@ -325,7 +325,7 @@ table.mx tr.mx-group.mat-ai-native th { background: var(--mat-3); color: var(--m
   .scroller { overflow: visible; }
   .mxwrap .fade { display: none; }
 }
-.mx-legend { display: flex; gap: 18px; align-items: center; font-size: 12.5px; color: var(--ink-2); margin: 10px 2px 22px; flex-wrap: wrap; }
+.mx-legend { display: flex; gap: 18px; align-items: center; font-size: 13px; color: var(--ink-2); margin: 10px 2px 22px; flex-wrap: wrap; }
 .mx-legend .dot, .mx-legend .ring { margin-right: 5px; }
 .mx-legend .none-key { color: var(--ink-3); }
 .mx-legend .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
@@ -360,9 +360,9 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .cohort > .sysrow:first-child { border-top: none; }
 .sysrow:hover { background: var(--bg-sunk); }
 .sysrow:hover .nm { color: var(--accent-ink); }
-.sysrow .nm { font-family: var(--font-display); font-weight: 650; font-size: 15px; letter-spacing: -.015em; }
+.sysrow .nm { font-family: var(--font-display); font-weight: 650; font-size: 16px; letter-spacing: -.015em; }
 .sysrow .org { font-size: 12px; color: var(--ink-3); display: block; }
-.sysrow .sum { font-size: 12.5px; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+.sysrow .sum { font-size: 13px; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
 .sysrow:active, .spec-band li a:active, .jump li a:active { background: var(--bg-sunk); }
 .cts { display: flex; gap: 14px; justify-content: flex-end; }
 .cts .ct { width: var(--ct-col); text-align: right; white-space: nowrap; }
@@ -382,13 +382,13 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   background: var(--mat-0); color: var(--mat-0-ink);
 }
 .syslist > .sysgroup:first-child { margin-top: 0; }
-.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 12.5px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 13px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
 .sysgroup.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
 .sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
 .sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
 .sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .searchbar { display: flex; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
-.searchbar input, .searchbar select { font: inherit; font-size: 13.5px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
+.searchbar input, .searchbar select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
 .searchbar input { flex: 1; min-width: 0; width: 100%; }
 .searchbar input, .searchbar select { min-height: 40px; }
 /* The native caret sits hard against the border and reads off-centre next to the
@@ -425,7 +425,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   border: 1px solid var(--line); border-radius: 2px; padding: 3px 6px;
 }
 .qwrap input { padding-right: 34px; }
-.count { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; }
+.count { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
 /* A control that is a link in everything but element type. Never .chip, never
    the square button chrome. */
 .linkbtn {
@@ -435,11 +435,11 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   text-decoration-thickness: 1.5px; transition: text-decoration-color .2s ease;
 }
 .linkbtn:hover { text-decoration-color: currentColor; }
-.empty { font-size: 13.5px; color: var(--ink-2); max-width: var(--measure-body); padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; }
+.empty { font-size: 14px; color: var(--ink-2); max-width: var(--measure-body); padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-block; margin-bottom: 6px; }
 /* A record summary runs to a paragraph or more. That is body copy, not a lede. */
-.detail-sum { font-size: 15.5px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
+.detail-sum { font-size: 16px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
 .backlink:hover { color: var(--accent); }
 .dhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
 .dhead h1 { margin: 0; }
@@ -464,8 +464,8 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 /* Non-interactive section label: stays neutral so blue keeps meaning "you can act on this".
    It is an h2 in the outline, so the margin has to be reset here — the global h2's
    38px top margin would otherwise open a gap inside the card, above its own title. */
-.twocol .col .t { font-size: 10.5px; letter-spacing: .12em; color: var(--ink-2); margin: 0 0 6px; }
-.twocol .col p { font-size: 13.5px; color: var(--ink); }
+.twocol .col .t { font-size: 11px; letter-spacing: .12em; color: var(--ink-2); margin: 0 0 6px; }
+.twocol .col p { font-size: 14px; color: var(--ink); }
 
 /* A run of disclosures is a list: ten of them announce as ten items, not as ten
    unrelated widgets. The count in the h2 says the total once; this says where you are. */
@@ -479,9 +479,9 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .aff > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .aff .nm { font-family: var(--font-display); font-weight: 650; font-size: 14px; letter-spacing: -.01em; }
 .aff-body { padding: 2px 16px 16px 40px; }
-.aff-body p.desc { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); }
-.links { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0 0; font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
-.aff-body .note { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; max-width: var(--measure-body); }
+.aff-body p.desc { font-size: 14px; color: var(--ink); max-width: var(--measure-body); }
+.links { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0 0; font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.aff-body .note { font-size: 13px; color: var(--ink-3); margin-top: 8px; max-width: var(--measure-body); }
 .snip { margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-sunk); }
 .snip-bar { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; padding: 5px 10px 5px 12px; border-bottom: 1px solid var(--line); font-family: var(--mono); }
 .snip-bar .sbleft { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; flex: 1 1 auto; min-width: 0; }
@@ -491,12 +491,12 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .snip-bar .snote { font-size: 10px; color: var(--ink-2); overflow-wrap: anywhere; }
 /* Never let the note or a long language name crush the source link. */
 .snip-bar .acts { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
-.snip-bar a { font-size: 10.5px; text-decoration: none; position: relative; }
+.snip-bar a { font-size: 11px; text-decoration: none; position: relative; }
 .snip-bar a:hover { color: var(--accent); }
 /* Same trick as the copy button: the link draws at 10.5px and takes taps across
    the full height of the bar. Vertical only, so the button beside it keeps its own. */
 .snip-bar a::after { content: ""; position: absolute; inset: -12px 0; }
-.snip-bar button { font: inherit; font-family: var(--mono); font-size: 10.5px; color: var(--ink); background: none; border: 1px solid var(--control-line); border-radius: var(--radius); padding: 5px 9px; cursor: pointer; position: relative; }
+.snip-bar button { font: inherit; font-family: var(--mono); font-size: 11px; color: var(--ink); background: none; border: 1px solid var(--control-line); border-radius: var(--radius); padding: 5px 9px; cursor: pointer; position: relative; }
 /* Invisible hit area, not visible height: the button draws at ~29px and takes
    taps across ~43px, at every viewport. Vertical only — the width is the button's,
    so the source link beside it can never lose a tap to it. Measured, not assumed:
@@ -514,8 +514,8 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-inline: var(--card-pad); }
 /* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
 .tech-cat > .th h2 { margin: 0; }
-.tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 15.5px; font-weight: 650; letter-spacing: -.015em; }
-.tech-cat > .th .n { font-family: var(--font-body); font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; }
+.tech-cat > .th .n { font-family: var(--font-body); font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px var(--card-pad) 10px; max-width: var(--measure-body); }
 .tech-ex { border-top: 1px solid var(--line); }
 .tech-ex > summary { list-style: none; cursor: pointer; padding: 11px var(--card-pad, 2px); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
@@ -535,7 +535,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 
 /* 28px below: the bars are a block of their own, not part of the first card. */
 .bars { margin: 14px 0 28px; display: grid; gap: 6px; list-style: none; padding: 0; }
-.bar-row, .bar-link { display: grid; grid-template-columns: 170px 1fr 46px; gap: 10px; align-items: center; font-size: 12.5px; }
+.bar-row, .bar-link { display: grid; grid-template-columns: 170px 1fr 46px; gap: 10px; align-items: center; font-size: 13px; }
 /* On /techniques the row is the link to its own section below. The grid moves to
    the <a>, so the li is only a container. */
 .bar-row:has(> .bar-link) { display: block; }
@@ -548,7 +548,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .bar-row .bl { color: var(--ink-2); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bar-row .btrack { height: 16px; border-radius: 2px; background: var(--bg-sunk); position: relative; }
 .bar-row .bfill { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--data-strong); min-width: 2px; }
-.bar-row .bv { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.bar-row .bv { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
 
 /* Same construction as .tech-cat: vertical card padding, children own their
    inline inset, capability rows run edge to edge. */
@@ -560,16 +560,16 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
   margin: 18px var(--card-pad) 4px;
 }
-.plat .sum { font-size: 13.5px; color: var(--ink); max-width: var(--measure-body); margin-inline: var(--card-pad); text-wrap: pretty; }
+.plat .sum { font-size: 14px; color: var(--ink); max-width: var(--measure-body); margin-inline: var(--card-pad); text-wrap: pretty; }
 .plat > .dlinks { margin-inline: var(--card-pad); }
-.plat .adopt { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; margin-inline: var(--card-pad); max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
+.plat .adopt { font-size: 13px; color: var(--ink-2); margin-top: 10px; margin-inline: var(--card-pad); max-width: var(--measure-body); border-left: 2px solid var(--line-strong); padding-left: 12px; }
 
 /* Sources as a hairline list, the .findings device without the numerals. Host
    recedes, path carries the meaning, nothing is truncated. */
 .srclist { list-style: none; padding: 0; margin: 14px 0 0; max-width: var(--measure-body); }
 .srclist li { border-top: 1px solid var(--line); padding: 10px 0; }
 .srclist li:last-child { border-bottom: 1px solid var(--line); }
-.srclist a { font-family: var(--mono); font-size: 11.5px; overflow-wrap: anywhere; }
+.srclist a { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 .srclist .h { color: var(--ink-3); }
 .srclist .p { color: var(--ink); }
 .srclist a:hover .h, .srclist a:hover .p { color: var(--accent-ink); }
@@ -582,9 +582,9 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .ai-links a { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 .ai-links .note { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
 .prose { max-width: var(--measure-body); }
-.prose p { margin: 10px 0; color: var(--ink); font-size: 14.5px; }
+.prose p { margin: 10px 0; color: var(--ink); font-size: 16px; }
 .prose strong { color: var(--ink); }
-.prose ul { margin: 10px 0 10px 20px; color: var(--ink); font-size: 14.5px; }
+.prose ul { margin: 10px 0 10px 20px; color: var(--ink); font-size: 16px; }
 .prose li { margin: 5px 0; }
 kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk); border: 1px solid var(--line-strong); border-radius: 2px; padding: 1px 6px; }
 
@@ -661,9 +661,8 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
 }
 @media (max-width: 540px) {
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile .n { font-size: 23px; }
+  .tile .n { font-size: 24px; }
   .bar-row, .bar-link { grid-template-columns: 96px 1fr 40px; }
-  .snip pre { font-size: 11.5px; }
   /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
   .aff-body { padding-left: 16px; }
 }
