@@ -53,6 +53,7 @@ import urllib.request
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import NamedTuple
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "design-systems.json"
@@ -81,6 +82,26 @@ CHALLENGE = re.compile(
 
 # A marked cut tells the reader something was removed. Only these forms count.
 ELISION = re.compile(r"^\s*(?:[#/<!*\-]*\s*)?(?:\[?\.\.\.\]?|…)\s*(?:\*/|-->|[-*/>])?\s*$")
+
+
+class Finding(NamedTuple):
+    """One defect, with enough position to repair it rather than only report it.
+
+    The report prints `kind` and `why` and nothing else, which is all a reader
+    needs. A repair needs to know where: which segment, which line inside it,
+    and what the page actually says at that spot. Carrying those here is what
+    lets scripts/repair_snippets.py reuse this walk instead of writing a second
+    one that drifts from it.
+    """
+
+    kind: str
+    why: str
+    # The page's own text this verdict was reached against: the dropped line for
+    # a gap, the matched line for respaced and truncated, None when nothing on
+    # the page matched at all.
+    page_line: str | None = None
+    seg: int = -1  # index into segments(content)
+    at: int = -1  # index into that segment; for a gap, the line the cut precedes
 
 
 def fetch_urls(url):
@@ -221,16 +242,26 @@ def squash(text):
     return re.sub(r"\s+", " ", text).strip()
 
 
-def segments(content):
-    """Snippet content split at elision markers, blank lines dropped."""
-    segs: list[list[str]] = [[]]
-    for raw in content.split("\n"):
+def segments_indexed(content):
+    """segments(), with each quoted line's index in content.split("\n").
+
+    The check only needs the text. A repair edits the content, so it needs the
+    line numbers the segments were built from; deriving them a second time is
+    how a repair ends up marking a cut in the wrong place.
+    """
+    segs: list[list[tuple[int, str]]] = [[]]
+    for i, raw in enumerate(content.split("\n")):
         line = raw.rstrip()
         if ELISION.match(line):
             segs.append([])
         elif line.strip():
-            segs[-1].append(line)
+            segs[-1].append((i, line))
     return [s for s in segs if s]
+
+
+def segments(content):
+    """Snippet content split at elision markers, blank lines dropped."""
+    return [[line for _, line in seg] for seg in segments_indexed(content)]
 
 
 def place(page, seg, start):
@@ -259,99 +290,187 @@ def place(page, seg, start):
 
 
 def place_with_gaps(page, seg, start):
-    """In-order placement that tolerates dropped page lines, and names them."""
-    cursor, dropped = start, []
+    """In-order placement that tolerates dropped page lines, and names them.
+
+    Each drop carries the index in `seg` of the quoted line it sits before,
+    which is exactly where a marker has to go for the cut to be marked. A drop
+    is always interior: `n` is falsy for the first quoted line, so nothing is
+    ever reported before it, and the walk stops at the last one.
+    """
+    cursor, drops = start, []
     for n, line in enumerate(seg):
         try:
             at = page.index(line, cursor)
         except ValueError:
             return None
         if n and at > cursor:
-            dropped += [ln for ln in page[cursor:at] if ln.strip()]
+            drops += [(n, ln) for ln in page[cursor:at] if ln.strip()]
         cursor = at + 1
-    return cursor, dropped
+    return cursor, drops
 
 
 def diagnose(page, line, cursor):
-    """Why one line did not land where the snippet puts it."""
+    """Why one line did not land where the snippet puts it.
+
+    Returns (kind, why, page_line). `page_line` is the page's own text the
+    verdict was reached against, so a repair can substitute it rather than
+    re-deriving it from a message that has already been truncated for display.
+    It is None when no single page line matched.
+    """
     if line in page:
-        return "out-of-order", f"quoted out of the order the page has it: {line.strip()[:100]}"
+        return (
+            "out-of-order",
+            f"quoted out of the order the page has it: {line.strip()[:100]}",
+            line,
+        )
     squashed = squash(line)
     for page_line in page:
         if page_line and squash(page_line) == squashed:
             return (
                 "respaced",
                 f"matches only after respacing, so it was re-indented or reflowed: {line.strip()[:90]}",
+                page_line,
             )
     for page_line in page[cursor:] + page[:cursor]:
         flat = squash(page_line)
         if squashed and squashed in flat and flat != squashed:
-            return "truncated", (
-                "is part of a longer line, and the rest was dropped without a marker.\n"
-                f"              page has:    {page_line.strip()[:100]}\n"
-                f"              snippet has: {line.strip()[:100]}"
+            return (
+                "truncated",
+                (
+                    "is part of a longer line, and the rest was dropped without a marker.\n"
+                    f"              page has:    {page_line.strip()[:100]}\n"
+                    f"              snippet has: {line.strip()[:100]}"
+                ),
+                page_line,
             )
     if squashed and squashed in squash("\n".join(page)):
         return (
             "respaced",
             f"appears only across a line break on the page, so the quote was re-wrapped: {line.strip()[:90]}",
+            None,
         )
-    return "missing", f"is not on the page at all: {line.strip()[:100]}"
+    return "missing", f"is not on the page at all: {line.strip()[:100]}", None
 
 
-def check_view(page, segs):
-    """Status and findings for one representation of the page."""
-    findings = []
+def check_view(page, segs, cap=3):
+    """Status and findings for one representation of the page.
+
+    `cap` bounds two separate kinds of under-reporting at once: how many
+    dropped page lines a gap segment names, and whether a segment stops at its
+    first non-gap defect. Both are right for a report a person reads and wrong
+    for a work list, because a repair driven off a truncated list leaves
+    defects behind and then reports success. Pass None to lift both.
+
+    It is one switch rather than two on purpose. The number of findings is the
+    tie-break in best_view(), so lifting a limit for the checker's own run
+    would change which representation of a page wins.
+    """
+    findings: list[Finding] = []
     status = "ok"
     cursor = 0
-    for seg in segs:
+    for s, seg in enumerate(segs):
         hit = place(page, seg, cursor)
         if hit:
             cursor = hit[1]
             continue
         loose = place_with_gaps(page, seg, cursor)
         if loose and loose[1]:
-            cursor, dropped = loose
+            cursor, drops = loose
             status = max(status, "gap", key=RANK.index)
-            for line in dropped[:3]:
+            for at, line in drops if cap is None else drops[:cap]:
                 findings.append(
-                    (
+                    Finding(
                         "gap",
                         f"the page has a line here that the snippet drops: {line.strip()[:100]}",
+                        line,
+                        s,
+                        at,
                     )
                 )
             continue
-        for line in seg:
+        faulted = False
+        for n, line in enumerate(seg):
             if line in page[cursor:]:
                 continue
-            kind, why = diagnose(page, line, cursor)
+            kind, why, hit_line = diagnose(page, line, cursor)
             status = max(status, kind, key=RANK.index)
-            findings.append((kind, why))
-            break
-        else:
+            findings.append(Finding(kind, why, hit_line, s, n))
+            faulted = True
+            if cap is not None:
+                break
+        if not faulted:
             status = max(status, "out-of-order", key=RANK.index)
             findings.append(
-                ("out-of-order", "the quoted run does not appear in this order on the page")
+                Finding(
+                    "out-of-order",
+                    "the quoted run does not appear in this order on the page",
+                    None,
+                    s,
+                )
             )
     return status, findings
 
 
-def check_snippet(content, body):
-    """Best status across every representation of the page."""
+def best_view(content, body, cap=3):
+    """The representation of the page that scores best, and its verdict.
+
+    Returns (status, findings, page, view). `view` indexes views(), where 0 is
+    always the raw served bytes. A repair may only substitute page text from
+    that one: a derived view can hold text that appears nowhere on the page, and
+    a round-trip through the checker cannot tell the difference.
+    """
     segs = segments(content)
     if not segs:
-        return "missing", [("missing", "snippet is empty or is nothing but elision markers")]
-    best: tuple[tuple[int, int], str, list] | None = None
-    for view in views(body):
+        empty = [Finding("missing", "snippet is empty or is nothing but elision markers")]
+        return "missing", empty, [], -1
+    best: tuple[tuple[int, int], str, list[Finding], list[str], int] | None = None
+    for v, view in enumerate(views(body)):
         page = [ln.rstrip() for ln in view.split("\n")]
-        status, findings = check_view(page, segs)
+        status, findings = check_view(page, segs, cap)
         score = (RANK.index(status), len(findings))
         if best is None or score < best[0]:
-            best = (score, status, findings)
+            best = (score, status, findings, page, v)
         if status == "ok":
             break
     assert best is not None
-    return best[1], best[2]
+    return best[1], best[2], best[3], best[4]
+
+
+def check_snippet(content, body):
+    """Best status across every representation of the page."""
+    status, findings, _, _ = best_view(content, body)
+    return status, findings
+
+
+class Verdict(NamedTuple):
+    status: str
+    findings: list[Finding]
+    page: list[str]
+    view: int
+    url: str  # the candidate that read best, which is not always the cited one
+
+
+def best_source(content, source_url, bodies, cap=3):
+    """The candidate URL that reads best for this snippet, and its verdict.
+
+    A blob page and the raw file behind it are the same document, so the one
+    that reads best is the one to judge against. Returns (Verdict, note), with
+    Verdict None when no candidate produced a body at all; `note` then carries
+    why the last attempt failed.
+    """
+    best: tuple[tuple[int, int], Verdict] | None = None
+    note = "not cached"
+    for candidate in fetch_urls(source_url):
+        body, note = bodies.get(candidate, (None, "not fetched"))
+        if body is None:
+            continue
+        status, findings, page, view = best_view(content, body, cap)
+        score = (RANK.index(status), len(findings))
+        if best is None or score < best[0]:
+            best = (score, Verdict(status, findings, page, view, candidate))
+        if status == "ok":
+            break
+    return (best[1] if best else None), note
 
 
 def collect_snippets(systems, only):
@@ -453,27 +572,19 @@ def run_snippets(systems, args):
             counts["failed"] += 1
             report.append(row)
             continue
-        best, note = None, "not cached"
-        for candidate in fetch_urls(url):
-            body, note = bodies.get(candidate, (None, "not fetched"))
-            if body is None:
-                continue
-            status, findings = check_snippet(snippet["content"], body)
-            score = (RANK.index(status), len(findings))
-            if best is None or score < best[0]:
-                best = (score, status, findings, candidate)
-            if status == "ok":
-                break
-        if best is None:
+        verdict, note = best_source(snippet["content"], url, bodies)
+        if verdict is None:
             row["status"] = "skipped" if note == "not cached" else "unfetchable"
             row["note"] = note
             counts[row["status"]] += 1
             report.append(row)
             continue
-        _, status, findings, fetched = best
-        row["fetched"] = fetched
-        row["findings"] = [list(f) for f in findings]
-        why = unreadable(bodies[fetched][0]) if status == "missing" else None
+        status, findings = verdict.status, verdict.findings
+        row["fetched"] = verdict.url
+        # Position travels inside the run for the repair pass; the report keeps
+        # the two fields a reader needs, so the JSON stays what it always was.
+        row["findings"] = [[f.kind, f.why] for f in findings]
+        why = unreadable(bodies[verdict.url][0]) if status == "missing" else None
         if why:
             # Everything is "missing" from a page nobody could read. Saying so as
             # a quotation defect sends the next person to re-copy a snippet that
