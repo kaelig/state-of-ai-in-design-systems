@@ -173,7 +173,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/ant-design/ant-design-cli/main/skills/antd/SKILL.md",
-          "content": "5. **Lint after changes** — After writing or modifying antd code, run `antd lint` on the changed files to catch deprecated or problematic usage.\n\n**Workflow:** `antd env` → capture full environment → `antd doctor` → check configuration → `antd info --version X` → verify API against the user's exact version → `antd lint` → find deprecated or incorrect usage."
+          "content": "**Workflow:** `antd env` → capture full environment → `antd doctor` → check configuration → `antd info --version X` → verify API against the user's exact version → `antd lint` → find deprecated or incorrect usage.\n...\n5. **Lint after changes** — After writing or modifying antd code, run `antd lint` on the changed files to catch deprecated or problematic usage."
         }
       },
       {
@@ -1475,7 +1475,7 @@
         "description": "On the maintainer side, daisyUI's own Copilot instructions do not ask the model to be careful; they redirect it to a tool. Context7 MCP is named twice as the required lookup path for syntax and package information, paired with 'do not make up answers' and 'Do not guess, do not hallucinate'. Workspace rules add hard directory prohibitions and a dependency-approval gate.",
         "snippet": {
           "language": "markdown",
-          "content": "- `packages/bundle`: This directory contains generated bundle files. Do not read nor write code here.\n- `packages/logs`: This directory contains generated log files for performance analysis. Do not read nor write code here.\n\n# Our Stack\n\n- We use Bun.js as the runtime environment and package manager\n- We use latest stable versions of all packages, languages, and libraries\n- This project is a monorepo managed by Bun Workspaces\n- Do not add any new package or dependency without asking first",
+          "content": "# Our Stack\n- We use Bun.js as the runtime environment and package manager\n...\n- We use latest stable versions of all packages, languages, and libraries\n- This project is a monorepo managed by Bun Workspaces\n- Do not add any new package or dependency without asking first\n...\n- `packages/bundle`: This directory contains generated bundle files. Do not read nor write code here.\n- `packages/logs`: This directory contains generated log files for performance analysis. Do not read nor write code here.",
           "source_url": "https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/.github/instructions/workspace.instructions.md"
         }
       }
@@ -1732,7 +1732,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/agents/style-migrator.md",
-          "content": "**IMPORTANT**: Always refer to the comprehensive Tailwind CSS v4 guide at `.claude/guides/tailwindcss-v4-css-guide.md` for:\n\n- Proper @apply directive usage and v4-specific changes\n- CSS nesting syntax with & symbol\n\n- **DO NOT add any @utility directives** - the plugin handles CSS injection\n- Proper use of `@apply` directives for Tailwind utilities (IMPORTANT: Only ONE @apply per CSS rule block - combine all utilities into a single @apply statement)\n\n**IMPORTANT**: When creating or analyzing CSS files, use the tailwind-v4-css-expert agent to ensure proper Tailwind CSS v4 syntax and patterns. This agent can help with:"
+          "content": "**IMPORTANT**: Always refer to the comprehensive Tailwind CSS v4 guide at `.claude/guides/tailwindcss-v4-css-guide.md` for:\n- Proper @apply directive usage and v4-specific changes\n- CSS nesting syntax with & symbol\n...\n- Proper use of `@apply` directives for Tailwind utilities (IMPORTANT: Only ONE @apply per CSS rule block - combine all utilities into a single @apply statement)\n...\n- **DO NOT add any @utility directives** - the plugin handles CSS injection\n...\n**IMPORTANT**: When creating or analyzing CSS files, use the tailwind-v4-css-expert agent to ensure proper Tailwind CSS v4 syntax and patterns. This agent can help with:"
         }
       },
       {
@@ -2217,7 +2217,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/patternfly/patternfly-mcp/HEAD/docs/usage.md",
-          "content": "### Context and guidelines\n\n- **`patternfly://context`**: General PatternFly MCP server context, including high-level development rules and accessibility guidelines.\n\n> **Tip for LLMs**: When a user asks about a component you aren't familiar with, first check `patternfly://docs/index` to find the correct name, then read the documentation via `patternfly://docs/{name}`. Use `patternfly://components/index` for a cleaner list of component-only names.\n...\n> **Note on AI content**: Specialized AI guidance resources are sourced from the [patternfly/ai-helpers](https://github.com/patternfly/ai-helpers) integration. These are specifically optimized to help LLMs generate more accurate PatternFly code. [See Data sources and integrations in architecture](./architecture.md#data-sources-and-integrations)."
+          "content": "> **Note on AI content**: Specialized AI guidance resources are sourced from the [patternfly/ai-helpers](https://github.com/patternfly/ai-helpers) integration. These are specifically optimized to help LLMs generate more accurate PatternFly code. [See Data sources and integrations in architecture](./architecture.md#data-sources-and-integrations).\n...\n### Context and guidelines\n- **`patternfly://context`**: General PatternFly MCP server context, including high-level development rules and accessibility guidelines.\n> **Tip for LLMs**: When a user asks about a component you aren't familiar with, first check `patternfly://docs/index` to find the correct name, then read the documentation via `patternfly://docs/{name}`. Use `patternfly://components/index` for a cleaner list of component-only names."
         }
       },
       {
@@ -2592,7 +2592,7 @@
         "notes": "Install surface on /ai covers Cursor deeplink, VS Code deeplink + `code --add-mcp`, Claude Code CLI (`claude mcp add react-spectrum-s2 npx @react-spectrum/mcp@latest`), Codex ~/.codex/config.toml, and Gemini CLI. Sibling @react-aria/mcp (created 2025-11-14, also 1.2.0) covers React Aria alone.",
         "snippet": {
           "language": "typescript",
-          "content": "server.registerTool(\n          'get_style_macro_property_values',\n  {\n            title: 'Get style macro property values',\n    description:\n              'Returns the allowed values for a given S2 style macro property (including expanded color/spacing value lists where applicable).',\n            inputSchema: {propertyName: z.string()},\n    annotations: {readOnlyHint: true, openWorldHint: true}\n  },\n          async ({propertyName}) => {\n            const name = String(propertyName ?? '').trim();\n    ...\n    if (!def) {\n      const available = Object.keys(all).sort((a, b) => a.localeCompare(b));\n      throw new Error(\n        `Unknown style macro property '${name}'. Available properties: ${available.join(', ')}`\n      );\n    }\n            return {content: [{type: 'text', text: JSON.stringify(def, null, 2)}]};\n  }\n);",
+          "content": "        server.registerTool(\n          'get_style_macro_property_values',\n          {\n            title: 'Get style macro property values',\n            description:\n              'Returns the allowed values for a given S2 style macro property (including expanded color/spacing value lists where applicable).',\n            inputSchema: {propertyName: z.string()},\n            annotations: {readOnlyHint: true, openWorldHint: true}\n          },",
           "source_url": "https://raw.githubusercontent.com/adobe/react-spectrum/main/packages/dev/mcp/s2/src/index.ts"
         }
       },
@@ -3655,7 +3655,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/agentience/react-design-systems-mcp/main/prompts/claude-cloudscape-amplify-prompt.md",
-          "content": "# Claude 4 System Prompt: Expert Cloudscape Developer with AWS Amplify Gen 2\n\nYou are an expert front-end developer specializing in AWS Cloudscape Design System and AWS Amplify Gen 2. You leverage the React Design Systems MCP server to provide comprehensive, accurate, and efficient solutions for building AWS web applications.\n\n## MCP Server Integration\n\nYou have access to multiple MCP servers that you must use systematically to provide accurate, up-to-date solutions:\n\n### Primary MCP Servers\n1. **React Design Systems MCP** (`mcp__react-design-systems-mcp`) - For Cloudscape components\n\n#### Component Discovery & Information\n- `search_components` - Find Cloudscape components with advanced filtering\n- `get_component_details` - Get comprehensive component information including props, events, and methods\n\nI approach Amplify Gen 2 by:\n- Researching current implementation patterns before providing solutions\n- Using MCP tools to verify correct Gen 2 syntax and patterns"
+          "content": "# Claude 4 System Prompt: Expert Cloudscape Developer with AWS Amplify Gen 2\nYou are an expert front-end developer specializing in AWS Cloudscape Design System and AWS Amplify Gen 2. You have deep knowledge of React, TypeScript, and modern web development practices. You leverage the React Design Systems MCP server to provide comprehensive, accurate, and efficient solutions for building AWS web applications.\n...\nI approach Amplify Gen 2 by:\n- Researching current implementation patterns before providing solutions\n...\n- Using MCP tools to verify correct Gen 2 syntax and patterns\n...\n## MCP Server Integration\nYou have access to multiple MCP servers that you must use systematically to provide accurate, up-to-date solutions:\n### Primary MCP Servers\n1. **React Design Systems MCP** (`mcp__react-design-systems-mcp`) - For Cloudscape components\n...\n#### Component Discovery & Information\n- `search_components` - Find Cloudscape components with advanced filtering\n- `get_component_details` - Get comprehensive component information including props, events, and methods"
         }
       },
       {
@@ -3938,7 +3938,7 @@
         "description": "Instead of writing rules about what agents must not do, Mantine front-loads llms.txt with a large FAQ block (sourced from help.mantine.dev) whose entries are literally refusals. The verdict sits in the link description, so a model that only reads the index and never fetches the linked .md still absorbs the constraint: \"No, Astro does not support React context\"; \"No, Mantine is a React library and does not support other frameworks/libraries\"; \"No, it is not safe and will not work with future versions of Mantine\" (private CSS variables); \"Nested styles are supported only in CSS files\"; \"SegmentedControl cannot be used without a value\". Prohibition smuggled into an index of URLs, targeting exactly the hallucinations LLMs make about Mantine.",
         "snippet": {
           "language": "markdown",
-          "content": "- [Can I use Mantine with Astro?](https://mantine.dev/llms/q-can-i-use-mantine-with-astro.md): No, Astro does not support React context\n- [Can I use Mantine with Vue/Svelte/Angular/etc.?](https://mantine.dev/llms/q-vue-svelte-angular.md): No, Mantine is a React library and does not support other frameworks/libraries\n- [Can I use nested inline styles with Mantine components?](https://mantine.dev/llms/q-nested-inline-styles.md): Nested styles are supported only in CSS files\n- [Can I use private CSS variables to style components?](https://mantine.dev/llms/q-private-css-variables.md): No, it is not safe and will not work with future versions of Mantine.\n- [Can I use SegmentedControl with empty value?](https://mantine.dev/llms/q-segmented-control-no-value.md): SegmentedControl cannot be used without a value\n- [Can I use Mantine with Emotion/styled-components/tailwindcss?](https://mantine.dev/llms/q-third-party-styles.md): Learn about limitations of third-party styles",
+          "content": "- [Can I use Mantine with Astro?](https://mantine.dev/llms/q-can-i-use-mantine-with-astro.md): No, Astro does not support React context\n...\n- [Can I use Mantine with Emotion/styled-components/tailwindcss?](https://mantine.dev/llms/q-third-party-styles.md): Learn about limitations of third-party styles\n- [Can I use Mantine with Vue/Svelte/Angular/etc.?](https://mantine.dev/llms/q-vue-svelte-angular.md): No, Mantine is a React library and does not support other frameworks/libraries\n- [Can I use nested inline styles with Mantine components?](https://mantine.dev/llms/q-nested-inline-styles.md): Nested styles are supported only in CSS files\n...\n- [Can I use private CSS variables to style components?](https://mantine.dev/llms/q-private-css-variables.md): No, it is not safe and will not work with future versions of Mantine.\n- [Can I use SegmentedControl with empty value?](https://mantine.dev/llms/q-segmented-control-no-value.md): SegmentedControl cannot be used without a value",
           "source_url": "https://mantine.dev/llms.txt"
         }
       },
@@ -3968,7 +3968,7 @@
         "description": "Rather than trusting the model to run the formatter, .claude/settings.json makes it automatic: every Write or Edit fires a shell hook that extracts the touched file path and runs `npm run format:write:files` on it. Scoped (only the changed file), bounded (30s timeout) and non-blocking (`2>/dev/null || true`) so a formatter failure never derails the session. Combined with the AGENTS.md checklist this is belt-and-braces: the deterministic layer handles what must never be forgotten, the prose layer handles what needs judgement.",
         "snippet": {
           "language": "json",
-          "content": "    \"PostToolUse\": [\n  {\n    \"matcher\": \"Write|Edit\",\n    \"hooks\": [\n      {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | { read -r f; npm run format:write:files \\\"$f\\\"; } 2>/dev/null || true\",\n            \"timeout\": 30\n      }\n    ]\n  }\n]",
+          "content": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | { read -r f; npm run format:write:files \\\"$f\\\"; } 2>/dev/null || true\",\n            \"timeout\": 30\n          }\n        ]\n      }\n    ]\n  }\n}",
           "source_url": "https://raw.githubusercontent.com/mantinedev/mantine/master/.claude/settings.json"
         }
       },
@@ -4807,7 +4807,7 @@
         "category": "validation-loop",
         "description": "Community uswds-mcp's skill forbids the agent from declaring done until its own MCP validator tools return clean. This is the strongest coercion mechanism in the USWDS ecosystem, and it is unofficial. Two validators are gated: `validate_uswds_markup` (DOM/class/ARIA/token drift) and `validate_uswds_project_setup` (import paths, CDN usage, global CSS blast radius).",
         "snippet": {
-          "content": "8. Validate generated markup with `validate_uswds_markup` and validate project setup with `validate_uswds_project_setup` before finalizing.\n\n- Do not finalize generated markup until the MCP validator reports no errors; if warnings remain, explain why they are acceptable or what the user should fix.\n- Do not claim Section 508 compliance from component usage alone; USWDS guidance still requires project-specific accessibility testing.",
+          "content": "8. Validate generated markup with `validate_uswds_markup` and validate project setup with `validate_uswds_project_setup` before finalizing.\n...\n- Do not claim Section 508 compliance from component usage alone; USWDS guidance still requires project-specific accessibility testing.\n...\n- Do not finalize generated markup until the MCP validator reports no errors; if warnings remain, explain why they are acceptable or what the user should fix.",
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/bibekpdl/uswds-mcp/HEAD/.agents/skills/uswds/SKILL.md"
         }
@@ -4827,7 +4827,7 @@
         "category": "token-enforcement",
         "description": "Rather than an absolute ban on custom CSS (which models violate and then rationalize), uswds-mcp's skill sets a preference order plus a bounded, named exception: 'small, documented, and subordinate'. Worth contrasting with the community Claude skill, which uses the blunter absolute prohibition form.",
         "snippet": {
-          "content": "- Prefer USWDS design tokens, Sass settings, and utilities over custom CSS.\n- Custom CSS is acceptable for application-specific layout and integration gaps, but keep it small, documented, and subordinate to USWDS tokens/utilities.\n- Treat third-party framework implementations as optional adapters, not the source of truth.",
+          "content": "- Treat third-party framework implementations as optional adapters, not the source of truth.\n...\n- Prefer USWDS design tokens, Sass settings, and utilities over custom CSS.\n- Custom CSS is acceptable for application-specific layout and integration gaps, but keep it small, documented, and subordinate to USWDS tokens/utilities.",
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/bibekpdl/uswds-mcp/HEAD/.agents/skills/uswds/SKILL.md"
         }
