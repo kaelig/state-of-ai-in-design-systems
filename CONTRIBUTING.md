@@ -19,18 +19,18 @@ that has since changed direction.
 [File a data correction →](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=data-correction.yml)
 
 One requirement: a source URL. Every claim on the site links to the page it came
-from, and a correction without a link can't replace one that has a link. Link the
+from, and a correction without a link can’t replace one that has a link. Link the
 specific page, not the site root. For a file in a repo, a permalink pinned to a
 commit or tag is best, because `main` moves.
 
-If you maintain the system in question, say so in the issue. It doesn't waive the
+If you maintain the system in question, say so in the issue. It doesn’t waive the
 source requirement, but it tells us how to weigh a judgement call.
 
 ### 2. Suggest a system
 
 19 systems and 5 platforms are in. The bar is: open source, active in the last
 six months, and enough public surface to study. That last one rejects most
-suggestions — a system whose monorepo is private can still qualify on published
+suggestions. A system whose monorepo is private can still qualify on published
 packages and docs, but somebody has to be able to read something.
 
 [Suggest a design system →](https://github.com/kaelig/state-of-ai-in-design-systems/issues/new?template=new-system.yml)
@@ -71,9 +71,9 @@ vanish, and in the meantime the markdown mirror and the HTML page will disagree
 about what the report says. Edit `data/` for facts and `template.html` for
 markup, CSS and view logic.
 
-**Every claim needs a `source_url`.** Not a citation, not "the docs say" — a URL
+**Every claim needs a `source_url`.** Not a citation, and not “the docs say”: a URL
 that loads and shows the thing. This is the whole basis on which anyone trusts
-the report, and it's the one rule with no exceptions.
+the report, and it’s the one rule with no exceptions.
 
 **Counts are computed, never typed.** 19, 5, 168, 148 and every other number on
 the site is derived from the records at build time. If you find yourself typing a
@@ -83,16 +83,16 @@ is a number that will be wrong in a month.
 **Data strings flow through `esc()` or `fmt()`.** Anything from `data/` that
 reaches the DOM goes through one of them. `esc()` escapes HTML;
 `fmt()` handles the light inline markup the descriptions use. Interpolating a
-record string straight into an HTML template is how a stray `<` in somebody's
+record string straight into an HTML template is how a stray `<` in somebody’s
 docs quietly breaks a page.
 
 **Blue means interactive.** The palette reserves blue for things you can click,
-focus or tab to. If you're adding colour to something that isn't interactive,
-it isn't blue.
+focus or tab to. If you’re adding colour to something that isn’t interactive,
+it isn’t blue.
 
 ## Where the data lives
 
-| File | What's in it |
+| File | What’s in it |
 |---|---|
 | `data/design-systems.json` | The 19 system records: affordances, techniques, sources |
 | `data/platforms.json` | The 5 platform records and their capabilities |
@@ -107,7 +107,7 @@ The schema is worth reading before you edit a record. `type`, `category`,
 `emerging` (an llms.txt or an AI docs page, little more), `invested` (official
 MCP, skills or rules with real engineering behind them), `ai-native` (AI
 consumption is a core design goal). Arguing that a system is rated wrong is a
-legitimate correction — open a data correction issue and make the case.
+legitimate correction: open a data correction issue and make the case.
 
 ## Opening a pull request
 
@@ -121,17 +121,17 @@ npm test                            # MCP server suite
 ```
 
 All three must pass. Commit the regenerated `dashboard/` output along with your
-source change — the site is deployed from those files, so a data change that
-doesn't include them doesn't reach anybody.
+source change. The site is deployed from those files, so a data change that
+doesn’t include them doesn’t reach anybody.
 
-The diff on a one-record change is large. That's expected: an edit fans out to
+The diff on a one-record change is large. That’s expected: an edit fans out to
 the HTML, the markdown mirrors, the JSON twins, the SQLite export and `llms.txt`.
 A diff that touches `dashboard/` without touching `data/` or `template.html` is
 the one to look at twice.
 
 Requirements: Python 3 (no packages needed), Node 20 or newer.
 
-## If you're an agent
+## If you’re an agent
 
 Everything above applies. Some specifics.
 
@@ -176,7 +176,7 @@ in this repo.
 
 Verify before you file. Fetch the `source_url` on the record you think is wrong
 and confirm it actually says what the report claims. A correction based on a
-model's recollection of a library, rather than on a page that was fetched, is
+model’s recollection of a library, rather than on a page that was fetched, is
 worse than no correction, and it is obvious to the reviewer.
 
 ## What happens next
@@ -185,6 +185,6 @@ Corrections with a working source URL get applied. Corrections without one get a
 reply asking for the link. Suggestions for new systems are queued and batched,
 because each one is a research pass, not an edit.
 
-The dataset is CC BY 4.0 and the code is MIT. Contributing means you're fine with
+The dataset is CC BY 4.0 and the code is MIT. Contributing means you’re fine with
 your contribution going out under those. See [LICENSE](LICENSE) and
 [LICENSE-DATA](LICENSE-DATA).

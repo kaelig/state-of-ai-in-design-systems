@@ -1,5 +1,5 @@
 name: Feedback
-description: Anything else — what was useful, what was missing, what you'd want next.
+description: Anything else — what was useful, what was missing, what you’d want next.
 title: "[feedback] "
 labels: ["feedback"]
 body:
@@ -15,7 +15,7 @@ body:
     attributes:
       label: Your feedback
       description: >-
-        If you came looking for something specific and didn't find it, that's
+        If you came looking for something specific and didn’t find it, that’s
         worth more than a compliment.
     validations:
       required: true

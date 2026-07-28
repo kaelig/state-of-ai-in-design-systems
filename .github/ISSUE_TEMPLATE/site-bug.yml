@@ -1,5 +1,5 @@
 name: Site bug
-description: A page, link, file, or endpoint that doesn't work.
+description: A page, link, file, or endpoint that doesn’t work.
 title: "[bug] "
 labels: ["bug"]
 body:
@@ -7,10 +7,10 @@ body:
     attributes:
       value: |
         For the site itself: broken pages, dead links, layout that falls apart,
-        keyboard traps, a `.md` mirror that doesn't match its page, an MCP tool
+        keyboard traps, a `.md` mirror that doesn’t match its page, an MCP tool
         that errors.
 
-        If the page loads fine but says something untrue, that's a data
+        If the page loads fine but says something untrue, that’s a data
         correction instead.
 
   - type: input
@@ -34,7 +34,7 @@ body:
     attributes:
       label: What happened
       description: >-
-        Console errors, a non-200 status, a screenshot, the response body — paste
+        Console errors, a non-200 status, a screenshot, the response body: paste
         whatever you have.
     validations:
       required: true
@@ -54,6 +54,6 @@ body:
     id: repro
     attributes:
       label: Steps to reproduce
-      description: Only if it isn't obvious from the URL.
+      description: Only if it isn’t obvious from the URL.
     validations:
       required: false

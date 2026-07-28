@@ -3,8 +3,8 @@
 A field survey of how 19 actively maintained open-source design systems make
 themselves legible to machines, plus the five platforms around them.
 
-For each system: what it ships so coding agents can build with it — MCP servers,
-agent skills, `llms.txt`, editor rules, component registries — and the techniques
+For each system: what it ships so coding agents can build with it (MCP servers,
+agent skills, `llms.txt`, editor rules, component registries) and the techniques
 that keep a model using real components and tokens instead of inventing its own.
 Both directions are covered: AI for **consumption** (agents building UIs with the
 system) and AI for **building** (the team using AI to maintain the system itself).
@@ -14,17 +14,17 @@ system) and AI for **building** (the team using AI to maintain the system itself
 19 design systems · 5 platforms · 168 affordances · 148 coercion techniques ·
 every snippet linked to its source. Data gathered 26–27 July 2026.
 
-![The report's overview page: five headline counts, systems placed on a maturity spectrum, and the numbered findings below.](docs/screenshot.png)
+![The report’s overview page: five headline counts, systems placed on a maturity spectrum, and the numbered findings below.](docs/screenshot.png)
 
 ## Using it
 
 **As a reader**, start at the [overview](https://state-of-ai-in-design-systems.netlify.app)
 for the findings, or the [matrix](https://state-of-ai-in-design-systems.netlify.app/matrix)
 if you want to see all 19 systems against each other at once. Every claim links
-to the page it came from. Open the link before you cite it — the data is a
+to the page it came from. Open the link before you cite it. The data is a
 snapshot and the underlying systems keep moving.
 
-**With an AI tool**, don't scrape the HTML. Every route has a markdown twin and
+**With an AI tool**, don’t scrape the HTML. Every route has a markdown twin and
 every record has a JSON twin, and
 [`/llms.txt`](https://state-of-ai-in-design-systems.netlify.app/llms.txt)
 indexes all of them with measured file sizes so an agent can budget context
@@ -35,7 +35,7 @@ Read https://state-of-ai-in-design-systems.netlify.app/llms.txt, then answer fro
 what you read there and cite the source_url on each record. My question: …
 ```
 
-Or connect the MCP server — public, read-only, no auth, a July 2026 snapshot:
+Or connect the MCP server: public, read-only, no auth, a July 2026 snapshot:
 
 ```sh
 claude mcp add --transport http --scope user state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
@@ -52,7 +52,7 @@ claude mcp add --transport http --scope user state-of-ai https://state-of-ai-in-
 }
 ```
 
-`type` is required in Claude Code and VS Code — a `url` without it is read as a
+`type` is required in Claude Code and VS Code; a `url` without it is read as a
 local command and skipped. VS Code puts servers under `servers`, not
 `mcpServers`. Cursor needs only the `url`. Full instructions with copy-paste
 blocks: [`/ai`](https://state-of-ai-in-design-systems.netlify.app/ai).
@@ -60,9 +60,9 @@ blocks: [`/ai`](https://state-of-ai-in-design-systems.netlify.app/ai).
 **As a contributor**, the report is wrong in places and corrections are welcome.
 [CONTRIBUTING.md](CONTRIBUTING.md) covers how; [AGENTS.md](AGENTS.md) is the same
 ground written for agents. Filing an issue with a link in it is a complete
-contribution — you don't need to clone anything.
+contribution. You don’t need to clone anything.
 
-## How it's built
+## How it’s built
 
 `data/*.json` is the only place facts are written. Everything published is
 derived from it by one command:
@@ -93,7 +93,7 @@ markdown twin follow from there.
 
 | Path | What it is |
 |---|---|
-| `dashboard/index.html` + `dashboard/<route>/index.html` | The site, prerendered: 27 routes plus a static 404, real HTML for crawlers that don't run JS |
+| `dashboard/index.html` + `dashboard/<route>/index.html` | The site, prerendered: 27 routes plus a static 404, real HTML for crawlers that don’t run JS |
 | `dashboard/data.js` | The payload every page loads (`window.DATA`) |
 | `dashboard/artifact.html` | The same site as one file: hash routing, no `<head>` of its own, `noindex` |
 | `dashboard/**/*.md` | Markdown twin of every route, plus 15 `questions/*.md` and `about/schema.md` |

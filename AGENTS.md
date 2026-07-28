@@ -8,7 +8,7 @@ from them by `./scripts/build.sh`.
 
 If you only want to read the report, skip to
 [Reading it as data](#reading-it-as-data). If you want to correct it, skip to
-[Sending feedback](#sending-feedback). You don't need to build anything to do
+[Sending feedback](#sending-feedback). You don’t need to build anything to do
 either.
 
 ## Commands
@@ -53,22 +53,23 @@ survives until the next build and then disappears, and until then the HTML page
 and its markdown twin disagree about what the report says. `build/` is
 intermediate and not committed.
 
-To change a page's words, find the source: prose about a system is in
+To change a page’s words, find the source: prose about a system is in
 `data/design-systems.json`, analysis is in `data/insights.json`, and page
 scaffolding is in `dashboard/template.html`.
 
 ## Constraints that will fail review
 
-**Every claim carries a `source_url`.** A page that loads and shows the thing.
+**Every claim carries a `source_url`.** Not a citation: a page that loads and shows
+the thing.
 This is the basis on which the report is trustworthy. Before changing a fact,
-fetch the existing `source_url` and read it — a correction from a model's
+fetch the existing `source_url` and read it. A correction from a model’s
 recollection rather than from a fetched page is worse than no correction, and
 reviewers can tell.
 
 A record that documents an *absence* is the one case with nothing to link, and
-it is correct that way. `patternfly`'s "llms.txt / llms-full.txt" affordance
+it is correct that way. `patternfly`'s “llms.txt / llms-full.txt” affordance
 exists to record that both files return 404; there is no page to point at, and a
-sweep that "fixes" the missing link by supplying a URL makes the report say the
+sweep that “fixes” the missing link by supplying a URL makes the report say the
 opposite of what it found. If a record has no link, read its description before
 adding one.
 
@@ -81,7 +82,7 @@ goes stale silently.
 the top of the script block in `dashboard/template.html`: `esc()` escapes HTML,
 `fmt()` handles the light inline markup the descriptions use. A record string
 interpolated raw into a template is a page that breaks on the first `<` in
-somebody's docs.
+somebody’s docs.
 
 **Publish the report, not the making of it.** Generated surfaces carry the claim
 and its source URL. They do not carry research-process narration, per-claim
@@ -90,8 +91,8 @@ enforces this with a grep gate over every generated file, and it will fail the
 build if such fields reappear.
 
 **Write like a person.** The report is read by designers and engineers who can
-smell a generated paragraph. No em-dash chains, no "not just X, but Y", no
-three-item flourishes, no "robust" / "seamless" / "comprehensive", no bolding for
+smell a generated paragraph. No em-dash chains, no “not just X, but Y”, no
+three-item flourishes, no “robust” / “seamless” / “comprehensive”, no bolding for
 emphasis mid-sentence, no emoji headers. Contractions are fine. Say the specific
 thing.
 
@@ -117,7 +118,7 @@ or `--measure-body` (74ch); tabular blocks are not prose and stay full width.
 
 ## Reading it as data
 
-Read the data, don't scrape the HTML. Every route has a markdown twin and every
+Read the data, don’t scrape the HTML. Every route has a markdown twin and every
 record has a JSON twin.
 
 - `https://state-of-ai-in-design-systems.netlify.app/llms.txt` — the index. Every
@@ -157,7 +158,7 @@ person or an agent:
 |---|---|
 | `data-correction.yml` | A fact is wrong, stale, or missing. Requires a source URL. |
 | `new-system.yml` | A system that should be in the study. |
-| `site-bug.yml` | A page, link, file, or endpoint that doesn't work. |
+| `site-bug.yml` | A page, link, file, or endpoint that doesn’t work. |
 | `feedback.yml` | Anything else, including disagreement with the findings. |
 
 From a shell:
@@ -192,10 +193,10 @@ https://github.com/kaelig/state-of-ai-in-design-systems/issues/new
 
 Field ids are in `.github/ISSUE_TEMPLATE/data-correction.yml`. The `title` and
 the three textareas (`claim`, `correction`, `source`) prefill. The `subject`
-dropdown does not — GitHub's issue-form UI renders it as a custom component and
+dropdown does not: GitHub’s issue-form UI renders it as a custom component and
 ignores the parameter, whether you pass the option text or its index. Name the
 record in `claim` instead and leave the dropdown for the person submitting. The
-"Suggest a correction" link on each system page does exactly this.
+“Suggest a correction” link on each system page does exactly this.
 
 Include a source URL you actually fetched. A correction without one gets a reply
 asking for the link, which costs everybody a round trip.
@@ -206,7 +207,7 @@ Commits are imperative and explain the change, not the process. Branch off
 `main`. For pull requests, `.github/PULL_REQUEST_TEMPLATE.md` asks for the
 source URLs behind any data change and confirmation that the three checks pass.
 
-Commit the regenerated `dashboard/` output alongside a source change — the site
+Commit the regenerated `dashboard/` output alongside a source change. The site
 deploys from those files, so a data change without them reaches nobody. The diff
 will be large; that is the pipeline fanning one record out across the HTML, the
 mirrors, the twins, the SQLite export and `llms.txt`.

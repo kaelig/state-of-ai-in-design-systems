@@ -9,11 +9,11 @@ body:
         The report is a snapshot of 26–27 July 2026. Design systems move, so some
         of it is wrong by now. Corrections are the most useful thing you can send.
 
-        One rule: every correction needs a source URL. Not because we doubt you —
-        because every claim on the site links to where it came from, and a
-        correction without a link can't replace one that has a link.
+        One rule: every correction needs a source URL. Not because we doubt you.
+        Every claim on the site links to where it came from, and a correction
+        without a link can’t replace one that has a link.
 
-        If you maintain the system in question, say so. It doesn't skip the source
+        If you maintain the system in question, say so. It doesn’t skip the source
         requirement, but it does tell us how to weigh a judgement call.
 
   - type: dropdown
@@ -61,7 +61,7 @@ body:
         to quote from.
       placeholder: |
         On https://state-of-ai-in-design-systems.netlify.app/systems/primer-github,
-        the affordance "…" says "…"
+        the affordance “…” says “…”
     validations:
       required: true
 
@@ -80,9 +80,9 @@ body:
     attributes:
       label: Source URL
       description: >-
-        A page that shows the corrected version is true — docs, a repo file, a
+        A page that shows the corrected version is true: docs, a repo file, a
         release note, a changelog. Link the specific page, not the site root. If
-        it's a file in a repo, a permalink pinned to a commit or tag is ideal.
+        it’s a file in a repo, a permalink pinned to a commit or tag is ideal.
       placeholder: https://primer.style/…
     validations:
       required: true
