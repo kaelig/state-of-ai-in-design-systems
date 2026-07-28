@@ -94,7 +94,7 @@ out-of-vocabulary value, or a property the schema does not know about. It cannot
 tell you whether the URL you supplied says what you claim it says. That part is
 still on you, and it is the part reviewers check.
 
-**Counts are computed, never typed.** 20, 5, 178, 157, and every other number
+**Counts are computed, never typed.** 20, 5, 179, 157, and every other number
 on the site is derived from the records at build time. A hand-typed count is a
 count that goes stale silently.
 

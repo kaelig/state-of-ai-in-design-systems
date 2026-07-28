@@ -3407,6 +3407,21 @@
         "notes": "validate.mjs bundles the TypeScript compiler and builds a virtual FS (lib.es5.d.ts, lib.es2020.d.ts, lib.dom.d.ts + the Polaris .d.ts) so the check runs locally without npm install."
       },
       {
+        "type": "other",
+        "name": "Per-page markdown twins with Accept: text/markdown negotiation",
+        "official": true,
+        "audience": "consumers",
+        "docs_url": "https://shopify.dev/docs/api/app-home/web-components",
+        "code_url": "https://shopify.dev/docs/api/app-home/web-components.md",
+        "description": "Every shopify.dev docs page is also served as markdown at `<path>.md`, and the HTML URL itself returns `text/markdown` when asked for it via an `Accept: text/markdown` request header (verified byte-for-byte identical to the `.md` file, 34,777 bytes for the Polaris web components page). Each twin opens with frontmatter that names both representations under `source_url`, so an agent that lands on one can cite the other. The docs UI exposes this as a **Copy MD** button next to **Ask about this page**. Shopify ships no llms.txt, so these twins and the MCP server are the whole machine-readable surface.",
+        "notes": "Only reachable by rendering the page or by knowing the convention: the button is client-side, so a fetch of the HTML shows neither the button nor the markdown. This study missed it on the first pass for exactly that reason.",
+        "snippet": {
+          "language": "markdown",
+          "source_url": "https://shopify.dev/docs/api/polaris/using-mcp.md",
+          "content": "---\ntitle: Use Polaris with the Shopify dev MCP server\ndescription: >-\n  Learn how to enable Polaris tooling in the Shopify dev MCP server to\n  accelerate app development.\nsource_url:\n  html: 'https://shopify.dev/docs/api/polaris/using-mcp'\n  md: 'https://shopify.dev/docs/api/polaris/using-mcp.md'\n---"
+        }
+      },
+      {
         "type": "mcp-server",
         "name": "polaris-mcp-server (community)",
         "official": false,
@@ -3528,7 +3543,7 @@
         "url": "https://github.com/Shopify/polaris/tree/HEAD/stylelint-polaris"
       }
     ],
-    "gaps": "Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed location: polaris.shopify.com/llms.txt, /llms-full.txt, polaris-react.shopify.com/llms.txt, shopify.dev/llms.txt, shopify.dev/llms-full.txt, shopify.dev/docs/llms.txt, shopify.dev/docs/api/app-home/llms.txt all return 404. Reports of a shopify.dev/llms.txt are wrong as of 2026-07-27. (2) github.com/Shopify/dev-mcp returns 404 via the GitHub API; the MCP server source does not appear to be at that path; the published npm tarball was inspected (@shopify/dev-mcp@1.14.3) instead, so tool descriptions are quoted from the minified bundle `package/dist/index-6_XnqjXS.js` rather than from source. The npm page itself 403s to WebFetch. (3) POLARIS_UNIFIED=true was documented in the 2025-05-21 changelog but the string appears nowhere in the 1.14.3 bundle, which suggests Polaris support is now default rather than flagged, but Shopify has not stated this explicitly anywhere this study found. (4) Reported 'polaris-internal usage of AI' could not be confirmed: Shopify/polaris-internal is not publicly accessible and no public evidence of it surfaced. (5) shopify.dev/docs/api/app-home/using-polaris-components 404s; the live page is /docs/api/app-home/polaris-web-components, which contains no AI/MCP/agent content at all; the AI story lives entirely under /docs/apps/build/ai-toolkit and /docs/api/polaris/using-mcp. (6) The full body of scripts/search_docs.mjs and validate.mjs are bundled/minified; the TypeScript virtual-filesystem typecheck was confirmed and the shopify.dev POST endpoint by grep but did not trace the complete validation path. (7) No evidence found of AI-assisted codemods, AI PR-review bots, or AI mentioned in contribution docs for either repo.",
+    "gaps": "Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed location: polaris.shopify.com/llms.txt, /llms-full.txt, polaris-react.shopify.com/llms.txt, shopify.dev/llms.txt, shopify.dev/llms-full.txt, shopify.dev/docs/llms.txt, shopify.dev/docs/api/app-home/llms.txt all return 404. Reports of a shopify.dev/llms.txt are wrong as of 2026-07-27. (2) github.com/Shopify/dev-mcp returns 404 via the GitHub API; the MCP server source does not appear to be at that path; the published npm tarball was inspected (@shopify/dev-mcp@1.14.3) instead, so tool descriptions are quoted from the minified bundle `package/dist/index-6_XnqjXS.js` rather than from source. The npm page itself 403s to WebFetch. (3) POLARIS_UNIFIED=true was documented in the 2025-05-21 changelog but the string appears nowhere in the 1.14.3 bundle, which suggests Polaris support is now default rather than flagged, but Shopify has not stated this explicitly anywhere this study found. (4) Reported 'polaris-internal usage of AI' could not be confirmed: Shopify/polaris-internal is not publicly accessible and no public evidence of it surfaced. (5) shopify.dev/docs/api/app-home/using-polaris-components 404s; /docs/api/app-home/polaris-web-components redirects to /docs/api/app-home/web-components. That page does carry AI affordances, but it renders them client-side: an Install AI Toolkit menu offering per-host install commands for Claude, Codex, Cursor, VS Code and Antigravity, an Ask about this page control, and a Copy MD button, plus an Agents section in the top nav. None of it is in the HTML a non-rendering fetch receives. The written AI guidance is under /docs/apps/build/ai-toolkit and /docs/api/polaris/using-mcp. (6) The full body of scripts/search_docs.mjs and validate.mjs are bundled/minified; the TypeScript virtual-filesystem typecheck was confirmed and the shopify.dev POST endpoint by grep but did not trace the complete validation path. (7) No evidence found of AI-assisted codemods, AI PR-review bots, or AI mentioned in contribution docs for either repo.",
     "sources": [
       "https://github.com/Shopify/polaris",
       "https://raw.githubusercontent.com/Shopify/polaris/HEAD/README.md",

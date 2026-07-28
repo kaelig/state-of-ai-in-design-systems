@@ -80,7 +80,7 @@ facts and `template.html` for markup, CSS and view logic.
 that loads and shows the thing. This is the whole basis on which anyone trusts
 the report, and it’s the one rule with no exceptions.
 
-**Counts are computed, never typed.** 20, 5, 178, 157 and every other number on
+**Counts are computed, never typed.** 20, 5, 179, 157 and every other number on
 the site is derived from the records at build time. If you find yourself typing a
 number into prose, stop: a hand-typed number is a number that will be wrong in a
 month.
