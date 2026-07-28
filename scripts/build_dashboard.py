@@ -6,6 +6,7 @@ artifact.html for the artifact wrapper), the external data payload the site
 variant loads (data.js), sitemap.xml, robots.txt, and two build intermediates
 consumed by scripts/prerender.mjs (build/payload.json, build/routes.json).
 """
+
 import json
 import re
 import sys
@@ -40,29 +41,45 @@ EXTERNAL_DATA_SCRIPT = '<script src="/data.js"></script>'
 # table, the sitemap and the prerenderer all read this.
 VIEW_TITLES = {
     "overview": (
-        "/", "State of AI in Design Systems · July 2026",
-        "A field study of how 19 open-source design systems and 5 platforms make themselves readable to AI agents."),
+        "/",
+        "State of AI in Design Systems · July 2026",
+        "A field study of how 19 open-source design systems and 5 platforms make themselves readable to AI agents.",
+    ),
     "matrix": (
-        "/matrix", "The affordance matrix · State of AI in Design Systems",
-        "What each of 19 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries."),
+        "/matrix",
+        "The affordance matrix · State of AI in Design Systems",
+        "What each of 19 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries.",
+    ),
     "systems": (
-        "/systems", "The systems · State of AI in Design Systems",
-        "All 19 systems with their AI maturity and what each one ships. Pick a system to read the full record."),
+        "/systems",
+        "The systems · State of AI in Design Systems",
+        "All 19 systems with their AI maturity and what each one ships. Pick a system to read the full record.",
+    ),
     "techniques": (
-        "/techniques", "Coercion techniques · State of AI in Design Systems",
-        "148 techniques design systems use to keep models on-system, grouped by category and quoted from the source files."),
+        "/techniques",
+        "Coercion techniques · State of AI in Design Systems",
+        "148 techniques design systems use to keep models on-system, grouped by category and quoted from the source files.",
+    ),
     "platforms": (
-        "/platforms", "Platforms · State of AI in Design Systems",
-        "What Figma, Storybook, Supernova, Knapsack and zeroheight give teams who want their design system used by agents."),
+        "/platforms",
+        "Platforms · State of AI in Design Systems",
+        "What Figma, Storybook, Supernova, Knapsack and zeroheight give teams who want their design system used by agents.",
+    ),
     "insights": (
-        "/insights", "Insights · State of AI in Design Systems",
-        "What the data says: where the 19 systems converge, where they split, and what the leaders do that the rest don't."),
+        "/insights",
+        "Insights · State of AI in Design Systems",
+        "What the data says: where the 19 systems converge, where they split, and what the leaders do that the rest don't.",
+    ),
     "methodology": (
-        "/methodology", "Methodology · State of AI in Design Systems",
-        "How the systems were picked, what counted as an affordance or a technique, and where the numbers come from."),
+        "/methodology",
+        "Methodology · State of AI in Design Systems",
+        "How the systems were picked, what counted as an affordance or a technique, and where the numbers come from.",
+    ),
     "ai": (
-        "/ai", "Use this report with AI tools · State of AI in Design Systems",
-        "Read this report with an AI assistant: the markdown twins, a prompt to paste, the MCP server, the raw data, and the tools this page registers itself."),
+        "/ai",
+        "Use this report with AI tools · State of AI in Design Systems",
+        "Read this report with an AI assistant: the markdown twins, a prompt to paste, the MCP server, the raw data, and the tools this page registers itself.",
+    ),
 }
 
 # Copy blocks for the /ai view, compiled by scripts/build_md.py so the page and
@@ -170,13 +187,30 @@ def validate_urls(systems, platforms):
 # Prose fields only. Names, orgs, ids, languages, licences and every URL field
 # are absent from this set on purpose, and snippet.content is never touched:
 # the snippets are verbatim quotations of other people's files.
-PROSE_KEYS = frozenset({
-    "summary", "description", "notes", "note", "gaps",
-    "activity_note", "last_release", "for_consumers", "for_builders",
-    "adoption_by_design_systems", "title", "body",
-    "lede", "insights_lede", "methodology_lede", "techniques_lede", "platforms_lede",
-    "essay", "methodology", "caveats",
-})
+PROSE_KEYS = frozenset(
+    {
+        "summary",
+        "description",
+        "notes",
+        "note",
+        "gaps",
+        "activity_note",
+        "last_release",
+        "for_consumers",
+        "for_builders",
+        "adoption_by_design_systems",
+        "title",
+        "body",
+        "lede",
+        "insights_lede",
+        "methodology_lede",
+        "techniques_lede",
+        "platforms_lede",
+        "essay",
+        "methodology",
+        "caveats",
+    }
+)
 _CODE_SPAN = re.compile(r"`[^`]*`")
 # A possessive or a contraction: an apostrophe with a letter or digit on its left.
 _APOS = re.compile(r"(?<=[A-Za-z0-9])'")
@@ -192,7 +226,7 @@ def _smarten_run(text):
     n += 2 * k
     text, k = _APOS.subn("’", text)
     n += k
-    out = []
+    out: list[str] = []
     for ch in text:
         if ch == '"':
             prev = out[-1] if out else ""
@@ -209,7 +243,7 @@ def smarten(text):
     n = 0
     pos = 0
     for m in _CODE_SPAN.finditer(text):
-        run, k = _smarten_run(text[pos:m.start()])
+        run, k = _smarten_run(text[pos : m.start()])
         parts.append(run)
         n += k
         parts.append(m.group(0))
@@ -257,10 +291,27 @@ def _smarten_selftest():
 # ("Sixteen of nineteen systems…"). Past twenty the digits read better anyway,
 # and a count that grows past twenty falls back to them on its own.
 NUMBER_WORD = {
-    0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
-    6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
-    12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen",
-    17: "seventeen", 18: "eighteen", 19: "nineteen", 20: "twenty",
+    0: "zero",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten",
+    11: "eleven",
+    12: "twelve",
+    13: "thirteen",
+    14: "fourteen",
+    15: "fifteen",
+    16: "sixteen",
+    17: "seventeen",
+    18: "eighteen",
+    19: "nineteen",
+    20: "twenty",
 }
 # {systems} -> 19, {systems:word} -> nineteen, {systems:Word} -> Nineteen
 _COUNT_REF = re.compile(r"\{([a-z_]+)(?::(word|Word))?\}")
@@ -268,33 +319,43 @@ _COUNT_REF = re.compile(r"\{([a-z_]+)(?::(word|Word))?\}")
 # The subset the payload's meta block carries, which the stat tiles and the MCP
 # server read. Kept explicit so adding a count for the prose cannot silently
 # change the shape of meta.
-META_COUNTS = ("systems", "platforms", "official_mcp", "official_skills",
-               "llms_txt", "affordances", "techniques")
+META_COUNTS = (
+    "systems",
+    "platforms",
+    "official_mcp",
+    "official_skills",
+    "llms_txt",
+    "affordances",
+    "techniques",
+)
 
 
 def compute_counts(systems, platforms):
     """Every number the report is allowed to state, derived once. The prose and
     the stat tiles read the same dict, so a figure quoted in a finding and the
     same figure on a tile cannot drift apart."""
+
     def systems_with(pred):
-        return sum(1 for s in systems
-                   if any(pred(a) for a in s.get("affordances", [])))
+        return sum(1 for s in systems if any(pred(a) for a in s.get("affordances", [])))
 
     return {
         "systems": len(systems),
         "platforms": len(platforms),
-        "official_mcp": systems_with(
-            lambda a: a.get("type") == "mcp-server" and a.get("official")),
+        "official_mcp": systems_with(lambda a: a.get("type") == "mcp-server" and a.get("official")),
         "official_skills": systems_with(
-            lambda a: a.get("type") == "claude-skill" and a.get("official")
-            and not (a.get("name") or "").lower().startswith("planned")),
+            lambda a: (
+                a.get("type") == "claude-skill"
+                and a.get("official")
+                and not (a.get("name") or "").lower().startswith("planned")
+            )
+        ),
         "llms_txt": systems_with(lambda a: a.get("type") == "llms-txt"),
         "affordances": sum(len(s.get("affordances", [])) for s in systems),
         "techniques": sum(len(s.get("techniques", [])) for s in systems),
-        "technique_categories": len({t.get("category") for s in systems
-                                     for t in s.get("techniques", [])}),
-        "ai_native": sum(1 for s in systems
-                         if s.get("ai_maturity") == "ai-native"),
+        "technique_categories": len(
+            {t.get("category") for s in systems for t in s.get("techniques", [])}
+        ),
+        "ai_native": sum(1 for s in systems if s.get("ai_maturity") == "ai-native"),
     }
 
 
@@ -331,8 +392,7 @@ def resolve_counts(insights, counts):
     # A misspelled form ({systems:plural}) names a real count, so the unknown-key
     # check above passes and the braces would ship as literal text. Check the
     # output instead of trusting the keys.
-    left = sorted(set(re.findall(r"\{[^{}\s]{1,40}\}",
-                                 json.dumps(insights, ensure_ascii=False))))
+    left = sorted(set(re.findall(r"\{[^{}\s]{1,40}\}", json.dumps(insights, ensure_ascii=False))))
     if left:
         raise SystemExit(f"insights.json has unresolved placeholders: {left}")
 
@@ -391,8 +451,7 @@ def build_routes(systems):
 def write_sitemap(routes):
     urls = [ORIGIN + r["path"] for r in routes]
     body = "\n".join(
-        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{LASTMOD}</lastmod>\n  </url>"
-        for u in urls
+        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{LASTMOD}</lastmod>\n  </url>" for u in urls
     )
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -404,13 +463,7 @@ def write_sitemap(routes):
 
 
 def write_robots():
-    txt = (
-        "User-agent: *\n"
-        "Allow: /\n"
-        "Disallow: /artifact.html\n"
-        "\n"
-        f"Sitemap: {ORIGIN}/sitemap.xml\n"
-    )
+    txt = f"User-agent: *\nAllow: /\nDisallow: /artifact.html\n\nSitemap: {ORIGIN}/sitemap.xml\n"
     (OUT / "robots.txt").write_text(txt, encoding="utf-8")
 
 
@@ -421,7 +474,8 @@ def load_ai_content(required):
         if required:
             raise SystemExit(
                 f"{AI_CONTENT} is missing: run scripts/build_md.py before "
-                "scripts/build_dashboard.py --final (scripts/build.sh does both)")
+                "scripts/build_dashboard.py --final (scripts/build.sh does both)"
+            )
         return None
     content = json.loads(AI_CONTENT.read_text(encoding="utf-8"))
     n = str(content["counts"]["markdown_files"])
@@ -470,8 +524,7 @@ def main():
         "view_titles": {view: title for view, (_p, title, _d) in VIEW_TITLES.items()},
     }
 
-    payload = {"systems": systems, "platforms": platforms,
-               "insights": insights, "meta": meta}
+    payload = {"systems": systems, "platforms": platforms, "insights": insights, "meta": meta}
     if ai_page:
         payload["ai_page"] = ai_page
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
@@ -495,16 +548,19 @@ def main():
 
     # Artifact variant: single file, payload stays inline.
     artifact = strip_artifact_wrapper(
-        template.replace("__DATA__", blob).replace("__ROUTING__", "hash"))
+        template.replace("__DATA__", blob).replace("__ROUTING__", "hash")
+    )
     artifact_path = OUT / "artifact.html"
     artifact_path.write_text(artifact, encoding="utf-8")
 
     routes = build_routes(systems)
     BUILD.mkdir(parents=True, exist_ok=True)
     (BUILD / "payload.json").write_text(
-        json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8"
+    )
     (BUILD / "routes.json").write_text(
-        json.dumps(routes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        json.dumps(routes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
     n_urls = len(routes)
     if not final:
@@ -524,7 +580,9 @@ def main():
     print(f"url check: clean across {n_records} linked records")
     print(f"smart quotes: {n_quotes} replacements across prose fields")
     print(f"meta={json.dumps(meta['counts'])}")
-    print("ai_page: " + (f"{len(ai_page['sections'])} sections" if ai_page else "absent (first pass)"))
+    print(
+        "ai_page: " + (f"{len(ai_page['sections'])} sections" if ai_page else "absent (first pass)")
+    )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Self-check for the markdown mirror layer. Run after scripts/build.sh."""
+
 import json
 import re
 import sqlite3
@@ -18,7 +19,7 @@ missing = []
 for t in sorted(set(targets)):
     if not t.startswith(ORIGIN):
         continue
-    rel = t[len(ORIGIN):].split("#")[0].lstrip("/")
+    rel = t[len(ORIGIN) :].split("#")[0].lstrip("/")
     if not (OUT / rel).exists():
         missing.append(t)
 print(f"[1] llms.txt links: {len(set(targets))} unique, {len(missing)} missing")
@@ -37,7 +38,7 @@ if (OUT / ".well-known" / "llms.txt").read_bytes() != (OUT / "llms.txt").read_by
 # 'critic' is matched as a standalone token: the words "critical"/"critically"
 # appear inside verbatim source snippets and are not the critic table.
 pats = ["verify_note", '"verified"', r"\bcritic\b"]
-hits = {p: [] for p in pats}
+hits: dict[str, list[str]] = {p: [] for p in pats}
 gen_ext = {".md", ".json", ".txt", ".sqlite", ".ts"}
 scanned = 0
 for f in sorted(OUT.rglob("*")):
@@ -69,8 +70,11 @@ print(f"    (excluded site copy) {html_hits}")
 # 4. frontmatter parses as YAML on 3 sampled files
 samples = ["index.md", "systems/primer-github.md", "questions/mcp-server-adoption.md"]
 try:
-    import yaml  # type: ignore
-    loader = lambda s: yaml.safe_load(s)
+    import yaml
+
+    def loader(s):
+        return yaml.safe_load(s)
+
     mode = "PyYAML"
 except ImportError:
     mode = "strict key: value parser"
@@ -86,6 +90,8 @@ except ImportError:
             assert sep and re.fullmatch(r"[A-Za-z0-9_]+", k), f"bad frontmatter line: {line!r}"
             out[k] = v.strip()
         return out
+
+
 for s in samples:
     body = (OUT / s).read_text(encoding="utf-8")
     assert body.startswith("---\n"), f"{s}: no frontmatter"
@@ -99,8 +105,9 @@ for s in samples:
 # 5. sqlite opens and counts match the payload
 payload = json.loads((ROOT / "build" / "payload.json").read_text(encoding="utf-8"))
 con = sqlite3.connect(OUT / "data" / "state-of-ai.sqlite")
-tables = [r[0] for r in con.execute(
-    "select name from sqlite_master where type='table' order by name")]
+tables = [
+    r[0] for r in con.execute("select name from sqlite_master where type='table' order by name")
+]
 counts = {t: con.execute(f"select count(*) from {t}").fetchone()[0] for t in tables}
 cols = {t: [r[1] for r in con.execute(f"pragma table_info({t})")] for t in tables}
 # Table names match db/state-of-ai.sqlite so the README's example queries run
@@ -109,8 +116,7 @@ expect = {
     "systems": len(payload["systems"]),
     "platforms": len(payload["platforms"]),
     "affordances": sum(len(s.get("affordances") or []) for s in payload["systems"]),
-    "techniques": sum(len(s.get("techniques") or [])
-                      for s in payload["systems"]),
+    "techniques": sum(len(s.get("techniques") or []) for s in payload["systems"]),
 }
 print(f"[5] sqlite tables: {counts}")
 for t, n in expect.items():
@@ -137,7 +143,7 @@ if drift:
     fail.append(f"md-map drift: {drift[:5]}")
 
 # 7. inventory
-inv = {}
+inv: dict[str, list[int]] = {}
 for f in OUT.rglob("*"):
     if f.is_file():
         inv.setdefault(f.suffix or "(none)", [0, 0])
@@ -146,8 +152,10 @@ for f in OUT.rglob("*"):
 print("[7] dashboard/ inventory:")
 for ext, (n, b) in sorted(inv.items(), key=lambda kv: -kv[1][1]):
     print(f"    {ext:9} {n:4} files  {b:>10,} bytes")
-print(f"    TOTAL     {sum(v[0] for v in inv.values()):4} files  "
-      f"{sum(v[1] for v in inv.values()):>10,} bytes")
+print(
+    f"    TOTAL     {sum(v[0] for v in inv.values()):4} files  "
+    f"{sum(v[1] for v in inv.values()):>10,} bytes"
+)
 
 print()
 print("FAIL: " + "; ".join(fail) if fail else "ALL CHECKS PASS")

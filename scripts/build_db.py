@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Merge raw research records with verification verdicts and build the final
 JSON dataset + SQLite database for the State of AI in Design Systems study."""
+
 import json
 import sqlite3
 import sys
@@ -12,22 +13,45 @@ OUT = ROOT / "data"
 DB = ROOT / "db" / "state-of-ai.sqlite"
 
 SYSTEM_FILES = [
-    "shadcn-ui", "material-ui", "chakra-ui", "ant-design", "carbon-design-system",
-    "shopify-polaris", "salesforce-slds", "fluent-ui-microsoft", "primer-github",
-    "react-spectrum-s2", "cloudscape-design-system", "nuxt-ui", "heroui",
-    "mantine", "nord-design-system", "uswds",
+    "shadcn-ui",
+    "material-ui",
+    "chakra-ui",
+    "ant-design",
+    "carbon-design-system",
+    "shopify-polaris",
+    "salesforce-slds",
+    "fluent-ui-microsoft",
+    "primer-github",
+    "react-spectrum-s2",
+    "cloudscape-design-system",
+    "nuxt-ui",
+    "heroui",
+    "mantine",
+    "nord-design-system",
+    "uswds",
 ]
 # group id used in the verify workflow -> raw file stem
 GROUP_TO_FILE = {
-    "shadcn-ui": "shadcn-ui", "material-ui": "material-ui", "chakra-ui": "chakra-ui",
-    "ant-design": "ant-design", "carbon": "carbon-design-system", "polaris": "shopify-polaris",
-    "slds": "salesforce-slds", "fluent-ui": "fluent-ui-microsoft", "primer": "primer-github",
-    "react-spectrum": "react-spectrum-s2", "cloudscape": "cloudscape-design-system",
-    "nuxt-ui": "nuxt-ui", "heroui": "heroui", "mantine": "mantine",
-    "nord": "nord-design-system", "uswds": "uswds",
+    "shadcn-ui": "shadcn-ui",
+    "material-ui": "material-ui",
+    "chakra-ui": "chakra-ui",
+    "ant-design": "ant-design",
+    "carbon": "carbon-design-system",
+    "polaris": "shopify-polaris",
+    "slds": "salesforce-slds",
+    "fluent-ui": "fluent-ui-microsoft",
+    "primer": "primer-github",
+    "react-spectrum": "react-spectrum-s2",
+    "cloudscape": "cloudscape-design-system",
+    "nuxt-ui": "nuxt-ui",
+    "heroui": "heroui",
+    "mantine": "mantine",
+    "nord": "nord-design-system",
+    "uswds": "uswds",
     # critic-driven supplement — verdicts already merged into the raw files
     "atlassian-design-system": "atlassian-design-system",
-    "patternfly": "patternfly", "daisyui": "daisyui",
+    "patternfly": "patternfly",
+    "daisyui": "daisyui",
 }
 
 
@@ -37,8 +61,10 @@ def load_verifications(path):
     {verifications: [{id, verdicts}], critic})."""
     doc = json.load(open(path))
     result = doc.get("result", doc)
-    by_group = {v["id"]: {x["claim_id"]: x for x in v.get("verdicts", [])}
-                for v in result.get("verifications", [])}
+    by_group = {
+        v["id"]: {x["claim_id"]: x for x in v.get("verdicts", [])}
+        for v in result.get("verifications", [])
+    }
     critic = result.get("critic")
     return by_group, critic
 
@@ -126,45 +152,95 @@ def build_sqlite(systems, platforms):
         b = s.get("building_vs_consumption", {})
         cur.execute(
             "INSERT INTO systems VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (s["id"], s.get("name"), s.get("org"), s.get("category"),
-             s.get("repo_url"), s.get("docs_url"), s.get("license"), s.get("ai_maturity"),
-             1 if m.get("actively_maintained") else 0, m.get("last_release"),
-             m.get("activity_note"), b.get("for_consumers"), b.get("for_builders"),
-             s.get("gaps"), s.get("summary")))
+            (
+                s["id"],
+                s.get("name"),
+                s.get("org"),
+                s.get("category"),
+                s.get("repo_url"),
+                s.get("docs_url"),
+                s.get("license"),
+                s.get("ai_maturity"),
+                1 if m.get("actively_maintained") else 0,
+                m.get("last_release"),
+                m.get("activity_note"),
+                b.get("for_consumers"),
+                b.get("for_builders"),
+                s.get("gaps"),
+                s.get("summary"),
+            ),
+        )
         for a in s.get("affordances", []):
             sn = a.get("snippet") or {}
             cur.execute(
                 "INSERT INTO affordances (system_id,type,name,official,audience,description,docs_url,code_url,snippet_language,snippet_content,snippet_source_url,verified,verify_note,notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (s["id"], a.get("type"), a.get("name"), 1 if a.get("official") else 0,
-                 a.get("audience"), a.get("description"), a.get("docs_url"), a.get("code_url"),
-                 sn.get("language"), sn.get("content"), sn.get("source_url"),
-                 a.get("verified"), a.get("verify_note"), a.get("notes")))
+                (
+                    s["id"],
+                    a.get("type"),
+                    a.get("name"),
+                    1 if a.get("official") else 0,
+                    a.get("audience"),
+                    a.get("description"),
+                    a.get("docs_url"),
+                    a.get("code_url"),
+                    sn.get("language"),
+                    sn.get("content"),
+                    sn.get("source_url"),
+                    a.get("verified"),
+                    a.get("verify_note"),
+                    a.get("notes"),
+                ),
+            )
         for t in s.get("techniques", []):
             sn = t.get("snippet") or {}
             cur.execute(
                 "INSERT INTO techniques (system_id,name,category,description,snippet_language,snippet_content,snippet_source_url,verified,verify_note) VALUES (?,?,?,?,?,?,?,?,?)",
-                (s["id"], t.get("name"), t.get("category"), t.get("description"),
-                 sn.get("language"), sn.get("content"), sn.get("source_url"),
-                 t.get("verified"), t.get("verify_note")))
+                (
+                    s["id"],
+                    t.get("name"),
+                    t.get("category"),
+                    t.get("description"),
+                    sn.get("language"),
+                    sn.get("content"),
+                    sn.get("source_url"),
+                    t.get("verified"),
+                    t.get("verify_note"),
+                ),
+            )
         for p in s.get("platform_integrations", []):
             cur.execute(
                 "INSERT INTO platform_integrations (system_id,platform,description,url) VALUES (?,?,?,?)",
-                (s["id"], p.get("platform"), p.get("description"), p.get("url")))
+                (s["id"], p.get("platform"), p.get("description"), p.get("url")),
+            )
         for u in s.get("sources", []):
             cur.execute("INSERT INTO sources (system_id,url) VALUES (?,?)", (s["id"], u))
     for p in platforms:
-        cur.execute("INSERT INTO platforms VALUES (?,?,?,?)",
-                    (p["id"], p.get("name"), p.get("summary"), p.get("adoption_by_design_systems")))
+        cur.execute(
+            "INSERT INTO platforms VALUES (?,?,?,?)",
+            (p["id"], p.get("name"), p.get("summary"), p.get("adoption_by_design_systems")),
+        )
         for c in p.get("capabilities", []):
             sn = c.get("snippet") or {}
             cur.execute(
                 "INSERT INTO platform_capabilities (platform_id,title,description,audience,url,snippet_language,snippet_content,snippet_source_url,verified,verify_note) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                (p["id"], c.get("title"), c.get("description"), c.get("audience"), c.get("url"),
-                 sn.get("language"), sn.get("content"), sn.get("source_url"),
-                 c.get("verified"), c.get("verify_note")))
+                (
+                    p["id"],
+                    c.get("title"),
+                    c.get("description"),
+                    c.get("audience"),
+                    c.get("url"),
+                    sn.get("language"),
+                    sn.get("content"),
+                    sn.get("source_url"),
+                    c.get("verified"),
+                    c.get("verify_note"),
+                ),
+            )
     con.commit()
-    counts = {t: cur.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
-              for t in ("systems", "affordances", "techniques", "platforms", "platform_capabilities")}
+    counts = {
+        t: cur.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+        for t in ("systems", "affordances", "techniques", "platforms", "platform_capabilities")
+    }
     con.close()
     return counts
 
@@ -202,7 +278,7 @@ def main(journal_path):
         json.dump(critic, open(OUT / "critic-review.json", "w"), indent=2)
 
     counts = build_sqlite(systems, platforms)
-    verdict_tally = {}
+    verdict_tally: dict[str, int] = {}
     for g in by_group.values():
         for v in g.values():
             verdict_tally[v["verdict"]] = verdict_tally.get(v["verdict"], 0) + 1
