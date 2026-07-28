@@ -248,11 +248,69 @@ export interface TitledSection {
   body: string;
 }
 
+// ---- ReadingRecord ----
+/**
+ * One work on the /reading list of the State of AI in Design Systems study: writing, talks and courses about what happens when a design system meets an AI agent. Unlike the rest of the dataset, this list is not frozen at the July 2026 snapshot — its published date is computed from the newest `added_on` below. Every entry links to a page that was read before it was listed.
+ */
+export interface FurtherReadingEntry {
+  /**
+   * kebab-case slug, e.g. 'design-systems-need-evals'. A correction names a record by it, the way a data correction names 'systems/primer-github'.
+   */
+  id: string;
+  /**
+   * The work's own title, as the page gives it.
+   */
+  title: string;
+  /**
+   * Who made it. A publication rather than a person when the work carries no byline.
+   */
+  author: string;
+  /**
+   * ISO date the work was published. Omitted only when the work genuinely has no publication date — a rolling course, or a page that is revised rather than dated.
+   */
+  published?: string;
+  /**
+   * What sort of work it is. The list renders these groups in this order, so work reporting data or reading artifacts appears before commentary.
+   */
+  kind: 'study' | 'essay' | 'talk' | 'course';
+  /**
+   * The page this entry was read from. Required, and held to the same bar as a record's source_url: a page that loads and shows the thing.
+   */
+  url: string;
+  /**
+   * What the work says, on its own terms. Not what it means for this report — a neutral description ages well and needs no claim about this study's own coverage.
+   */
+  description: string;
+  /**
+   * A short verbatim line from the work, present when the work has one that does the arguing. Quoted exactly, from the page at `url`.
+   */
+  quote?: string;
+  /**
+   * Present when the work costs money. A reading list that sends someone to a checkout without saying so is not serving them.
+   */
+  price?: {
+    /**
+     * As the page states it, currency included, e.g. '$995'.
+     */
+    amount: string;
+    /**
+     * What that buys, e.g. '20+ hours across six chapters, plus a Slack community'.
+     */
+    buys: string;
+  };
+  /**
+   * ISO date this entry was added to the list. The newest of these is the list's published last-updated date, which is why it is computed rather than typed.
+   */
+  added_on: string;
+}
+
 // ---- aliases ----
 export type DesignSystemRecord = DesignSystemAIAffordancesRecord;
 export type PlatformRecord = DesignSystemPlatformRecord;
 export type InsightsRecord = ReportAnalysisAndCopy;
+export type ReadingRecord = FurtherReadingEntry;
 
 // ---- collections ----
 export type DesignSystems = DesignSystemRecord[];
 export type Platforms = PlatformRecord[];
+export type Reading = ReadingRecord[];

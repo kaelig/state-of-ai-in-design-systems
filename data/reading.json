@@ -1,0 +1,13 @@
+[
+  {
+    "id": "design-systems-need-evals",
+    "title": "Design systems need evals",
+    "author": "Murphy Trueman",
+    "published": "2026-07-17",
+    "kind": "essay",
+    "url": "https://blog.murphytrueman.com/design-systems-need-evals/",
+    "description": "Argues that a design system with agents pointed at it should ship a regression suite the way it ships a changelog. Documentation tells you what the rules are; only running the agent under real conditions tells you whether it followed them.",
+    "quote": "You've taught agents your design system. You still don't know whether they're following it.",
+    "added_on": "2026-07-28"
+  }
+]

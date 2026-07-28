@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "further-reading-entry",
+  "title": "Further Reading Entry",
+  "description": "One work on the /reading list of the State of AI in Design Systems study: writing, talks and courses about what happens when a design system meets an AI agent. Unlike the rest of the dataset, this list is not frozen at the July 2026 snapshot — its published date is computed from the newest `added_on` below. Every entry links to a page that was read before it was listed.",
+  "type": "object",
+  "required": ["id", "title", "author", "kind", "url", "description", "added_on"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "kebab-case slug, e.g. 'design-systems-need-evals'. A correction names a record by it, the way a data correction names 'systems/primer-github'."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The work's own title, as the page gives it."
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Who made it. A publication rather than a person when the work carries no byline."
+    },
+    "published": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date the work was published. Omitted only when the work genuinely has no publication date — a rolling course, or a page that is revised rather than dated."
+    },
+    "kind": {
+      "enum": ["study", "essay", "talk", "course"],
+      "description": "What sort of work it is. The list renders these groups in this order, so work reporting data or reading artifacts appears before commentary."
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "The page this entry was read from. Required, and held to the same bar as a record's source_url: a page that loads and shows the thing."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What the work says, on its own terms. Not what it means for this report — a neutral description ages well and needs no claim about this study's own coverage."
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 1,
+      "description": "A short verbatim line from the work, present when the work has one that does the arguing. Quoted exactly, from the page at `url`."
+    },
+    "price": {
+      "type": "object",
+      "required": ["amount", "buys"],
+      "additionalProperties": false,
+      "description": "Present when the work costs money. A reading list that sends someone to a checkout without saying so is not serving them.",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "minLength": 1,
+          "description": "As the page states it, currency included, e.g. '$995'."
+        },
+        "buys": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What that buys, e.g. '20+ hours across six chapters, plus a Slack community'."
+        }
+      }
+    },
+    "added_on": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date this entry was added to the list. The newest of these is the list's published last-updated date, which is why it is computed rather than typed."
+    }
+  }
+}

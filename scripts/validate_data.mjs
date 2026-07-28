@@ -34,6 +34,11 @@ const PAIRS = [
     schema: 'schema/insights.schema.json',
     each: false,
   },
+  {
+    data: 'data/reading.json',
+    schema: 'schema/reading.schema.json',
+    each: true,
+  },
 ];
 
 const read = (rel) => {
