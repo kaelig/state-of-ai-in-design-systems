@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "design-system-platform-record",
+  "title": "Design System Platform Record",
+  "description": "One record per platform in the State of AI in Design Systems study (July 2026). Platforms host or tool design systems rather than being one: Figma, Storybook, Supernova, Knapsack, zeroheight. Each capability carries the URL of the page it was quoted from.",
+  "type": "object",
+  "required": ["id", "name", "summary", "adoption_by_design_systems", "capabilities", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "kebab-case slug, e.g. 'zeroheight'" },
+    "name": { "type": "string" },
+    "summary": {
+      "type": "string",
+      "description": "What the platform is, and what it does about AI consumption."
+    },
+    "adoption_by_design_systems": {
+      "type": "string",
+      "description": "Prose on who in the study actually uses it. Deliberately not a count: adoption is uneven and partially undocumented, and a number would imply a precision the sources do not support."
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Concrete AI-facing capabilities this platform ships. The platform equivalent of a system's affordances, but without `type` and `official`: a platform's capabilities are all first-party by definition, and they do not sort into the affordance taxonomy.",
+      "items": {
+        "type": "object",
+        "required": ["title", "description", "audience", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "audience": {
+            "enum": ["consumers", "builders", "both"],
+            "description": "Same vocabulary as a system affordance. consumers = people/agents building UIs with the platform; builders = the team maintaining a design system inside it"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "description": "The page this capability was read from. Required: this is the basis on which the claim is checkable."
+          },
+          "snippet": {
+            "type": "object",
+            "required": ["language", "content", "source_url"],
+            "additionalProperties": false,
+            "properties": {
+              "language": {
+                "enum": ["json", "markdown", "shell", "text", "ts", "tsx"],
+                "description": "Fence label. Extend the list rather than passing an unlabelled string, so the site can highlight consistently."
+              },
+              "content": {
+                "type": "string",
+                "description": "verbatim excerpt, <= 40 lines / 1500 chars"
+              },
+              "source_url": { "type": "string", "format": "uri", "pattern": "^https?://" }
+            }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri", "pattern": "^https?://" },
+      "description": "Every page consulted for this record, including ones no single capability cites."
+    }
+  }
+}

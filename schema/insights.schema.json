@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "design-system-insights-record",
+  "title": "Report Analysis and Copy",
+  "description": "The written half of the State of AI in Design Systems study (July 2026): the findings, the essay, the methodology, the caveats, and the per-page ledes. One object, not a collection. Everything here is prose written about the records rather than quoted from a source, which is why nothing in this file carries a source URL.",
+  "type": "object",
+  "required": [
+    "lede",
+    "insights_lede",
+    "methodology_lede",
+    "techniques_lede",
+    "platforms_lede",
+    "findings",
+    "convergence",
+    "divergence",
+    "essay",
+    "methodology",
+    "caveats"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "lede": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One paragraph under a page's title. Rendered on both the HTML route and its markdown twin, so it has to read on its own."
+    },
+    "titledSection": {
+      "type": "object",
+      "required": ["title", "body"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 }
+      }
+    },
+    "paragraphs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "One string per paragraph. The build joins them; do not embed blank lines."
+    }
+  },
+  "properties": {
+    "lede": { "$ref": "#/$defs/lede", "description": "The home page lede." },
+    "insights_lede": { "$ref": "#/$defs/lede" },
+    "methodology_lede": { "$ref": "#/$defs/lede" },
+    "techniques_lede": { "$ref": "#/$defs/lede" },
+    "platforms_lede": { "$ref": "#/$defs/lede" },
+
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/titledSection" },
+      "description": "The numbered findings. Order is meaningful: the site numbers them by position, so reordering renumbers them."
+    },
+    "convergence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/titledSection" },
+      "description": "Where the systems agree."
+    },
+    "divergence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/titledSection" },
+      "description": "Where they do not."
+    },
+
+    "essay": { "$ref": "#/$defs/paragraphs" },
+    "methodology": {
+      "$ref": "#/$defs/paragraphs",
+      "description": "How the data was gathered, including who gathered it and when."
+    },
+    "caveats": {
+      "$ref": "#/$defs/paragraphs",
+      "description": "What the study does not support. The staleness caveat belongs here."
+    }
+  }
+}
