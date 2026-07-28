@@ -243,6 +243,13 @@ def link_text(text):
     return str(text).replace("[", "\\[").replace("]", "\\]")
 
 
+def link_url(url):
+    """Paren-safe target, for the same reason. The schema only checks that a
+    URL starts with http, so a `)` in one would end the link early and spill
+    the rest into the page as text somebody else chose."""
+    return str(url).replace("(", "%28").replace(")", "%29")
+
+
 def first_sentence(text, limit=200):
     t = re.sub(r"\s+", " ", html_to_md(text)).strip()
     m = re.match(r"(.{40,}?[.!?])(\s|$)", t)
@@ -976,7 +983,9 @@ def reading_md():
     ]
     p.append("# Further reading\n")
     p.append(html_to_md(INSIGHTS["reading_lede"]) + "\n")
-    first_added = min(r["added_on"] for r in READING)
+    # Same rule as the page: anything added after the list was first published
+    # states when. The founding batch is the baseline and stays unmarked.
+    founded = min(r["added_on"] for r in READING)
     for kind in READING_KINDS:
         group = [r for r in READING if r["kind"] == kind]
         if not group:
@@ -986,13 +995,13 @@ def reading_md():
             byline = r["author"]
             if r.get("published"):
                 byline += f" · {long_date(r['published'])}"
-            p.append(f"### [{link_text(r['title'])}]({r['url']})\n\n{byline}\n")
+            p.append(f"### [{link_text(r['title'])}]({link_url(r['url'])})\n\n{byline}\n")
             p.append(html_to_md(r["description"]) + "\n")
             if r.get("quote"):
                 p.append(blockquote(r["quote"]) + "\n")
             if r.get("price"):
                 p.append(f"**{r['price']['amount']}** — {r['price']['buys']}\n")
-            if r["added_on"] > first_added:
+            if r["added_on"] > founded:
                 p.append(f"Added {long_date(r['added_on'])}.\n")
     p.append(
         f"## Suggest something\n\nThe bar above is the whole standard. If a work clears it and "
@@ -1134,6 +1143,11 @@ def ai_content():
             "label": "insights.json",
             "url": U("/data/insights.json"),
             "note": "Findings, convergence, divergence, essay, methodology, caveats.",
+        },
+        {
+            "label": "reading.json",
+            "url": U("/data/reading.json"),
+            "note": f"The further-reading list. Kept current; last changed {READING_UPDATED}.",
         },
         *(
             {
@@ -1894,9 +1908,8 @@ def llms_txt(sizes):
         f"counted, and what the numbers do not support."
     )
     A(
-        f"- [Further reading]({U('/reading.md')}): other people's writing, talks and courses on "
-        f"AI and design systems. The one file here that is kept current rather than fixed at the "
-        f"collection window, so it carries its own `updated` date — cite that, not the window."
+        f"- [Further reading]({U('/reading.md')}): third-party writing, talks and courses. "
+        f"Kept current; cite its own `updated` date, not the collection window."
     )
     A(
         f"- [Use this report with AI tools]({U('/ai.md')}): the MCP server, a prompt to paste, and "
@@ -1983,6 +1996,10 @@ def llms_txt(sizes):
         f"[insights.schema.json]({U('/data/insights.schema.json')})."
     )
     A(
+        f"- [reading.json]({U('/data/reading.json')}): the reading list, last changed "
+        f"{READING_UPDATED}. Schema: [reading.schema.json]({U('/data/reading.schema.json')})."
+    )
+    A(
         f"- [state-of-ai.sqlite]({U('/data/state-of-ai.sqlite')}): relational form — `systems`, "
         f"`affordances`, `techniques`, `platform_integrations`, `platforms`, "
         f"`platform_capabilities`, `sources`. Query it rather than counting by hand."
@@ -2047,6 +2064,7 @@ def llms_txt(sizes):
         f"in the last six months, enough public surface to study."
     )
     A(f"- Broken page or endpoint: {REPO_URL}/issues/new?template=site-bug.yml")
+    A(f"- Something to read: {REPO_URL}/issues/new?template=reading-suggestion.yml")
     A(f"- Field ids for prefilling those forms from a URL: {REPO_URL}/blob/main/AGENTS.md\n")
 
     A(
@@ -2258,7 +2276,13 @@ def rewrite_sitemap(md_paths):
         dict.fromkeys([u for u in existing if not u.endswith(".md")] + [U(p) for p in md_paths])
     )
     body = "\n".join(
-        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{LASTMOD}</lastmod>\n  </url>" for u in urls
+        # The reading list is the one thing here that changes, so it is the one
+        # thing that must not tell a crawler it never has. Every other URL is
+        # fixed at the collection window and says so.
+        f"  <url>\n    <loc>{u}</loc>\n"
+        f"    <lastmod>{READING_UPDATED if u.rstrip('/').endswith('/reading') or u.endswith('/reading.md') else LASTMOD}</lastmod>\n"
+        f"  </url>"
+        for u in urls
     )
     path.write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'

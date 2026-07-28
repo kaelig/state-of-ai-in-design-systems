@@ -612,9 +612,9 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   font-size: 15px; color: var(--ink-2); }
 .readlist .cost { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
   color: var(--ink-2); background: var(--bg-sunk); padding: 2px 7px; border-radius: 3px; }
-/* Quiet on purpose: blue marks interaction on this site, and "added recently"
-   is not something you click. */
-.readlist .fresh { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
+/* Quiet on purpose: blue marks interaction on this site, and a date you cannot
+   click is not an interaction. */
+.readlist .added { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
   color: var(--ink-3); }
 .ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
 .ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
@@ -1152,14 +1152,17 @@ const VIEWS = {
     const rs = DATA.reading || [], m = DATA.meta;
     const KIND = { study: 'Studies, surveys and reports', tool: 'Models and tools',
       essay: 'Essays', talk: 'Talks', course: 'Courses' };
-    const first = rs.reduce((a, r) => r.added_on < a ? r.added_on : a, '9999-99-99');
+    /* Anything added after the list was first published states when. It is a
+       record, not a "new" flag, so it is permanent and reads as one — the
+       founding batch is the baseline and stays unmarked. */
+    const founded = rs.reduce((a, r) => r.added_on < a ? r.added_on : a, '9999-99-99');
     const entry = r => `<li>
       <span class="t">${extLink(r.url, esc(r.title))}</span>
       <span class="by">${esc(r.author)}${r.published ? ' · ' + esc(longDate(r.published)) : ''}</span>
       <p>${fmt(r.description)}</p>
       ${r.quote ? `<blockquote>${esc(r.quote)}</blockquote>` : ''}
       ${r.price ? `<span class="cost">${esc(r.price.amount)} — ${esc(r.price.buys)}</span>` : ''}
-      ${r.added_on > first ? `<span class="fresh">Added ${esc(longDate(r.added_on))}</span>` : ''}
+      ${r.added_on > founded ? `<span class="added">Added ${esc(longDate(r.added_on))}</span>` : ''}
     </li>`;
     const groups = (m.reading_kinds || []).filter(k => rs.some(r => r.kind === k)).map(k =>
       `<section><h2>${esc(KIND[k] || k)}</h2>
@@ -1325,7 +1328,16 @@ const VIEW_TITLES = (DATA.meta && DATA.meta.view_titles) || {};
 const NAV_LABEL = {};
 NAV.forEach(([r, l]) => { NAV_LABEL[r] = l; });
 $('#nav').innerHTML = NAV.map(([r, l]) => `<a href="${r === 'overview' ? href() : href(r)}" data-r="${r}">${l}</a>`).join('');
-$('#foot').innerHTML = `A field study by <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · Data gathered 26–28 July 2026 · <a href="${href('methodology')}">Methodology</a> · <a href="${REPO_URL}" target="_blank" rel="noopener">Source${NEWTAB}</a> · <a href="${REPO_URL}/issues/new/choose" target="_blank" rel="noopener">Feedback${NEWTAB}</a>`;
+/* The provenance clause is per view: every page is fixed at the collection
+   window except the reading list, and a page carrying both dates tells the
+   reader to pick one. */
+function footHTML(view) {
+  const when = view === 'reading'
+    ? `Reading list updated ${esc(longDate(DATA.meta.reading_updated))}`
+    : 'Data gathered 26–28 July 2026';
+  return `A field study by <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · ${when} · <a href="${href('methodology')}">Methodology</a> · <a href="${REPO_URL}" target="_blank" rel="noopener">Source${NEWTAB}</a> · <a href="${REPO_URL}/issues/new/choose" target="_blank" rel="noopener">Feedback${NEWTAB}</a>`;
+}
+$('#foot').innerHTML = footHTML(parse().view);
 
 function route(opts) {
   const { view, arg } = parse();
@@ -1341,6 +1353,7 @@ function route(opts) {
     full = label ? `${label} · ${SITE_TITLE}` : BASE_TITLE;
   }
   document.title = full;
+  $('#foot').innerHTML = footHTML(view);
 
   const navActive = view === 'system' ? 'systems' : (VIEWS[view] ? view : 'overview');
   document.querySelectorAll('#nav a').forEach(a => {

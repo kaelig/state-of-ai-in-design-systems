@@ -10,6 +10,7 @@ consumed by scripts/prerender.mjs (build/payload.json, build/routes.json).
 import json
 import re
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -538,9 +539,20 @@ def main():
     reading.sort(key=lambda r: r.get("published") or "", reverse=True)
     reading.sort(key=lambda r: reading_kinds.index(r["kind"]))
 
+    # One mistyped year here would advertise a date the list has not reached on
+    # the page, the markdown twin, llms.txt, the sitemap and two MCP tools at
+    # once, and the schema's date pattern cannot tell 2027 from a typo.
+    reading_updated = max(r["added_on"] for r in reading)
+    today = datetime.now(UTC).date().isoformat()
+    if reading_updated > today:
+        raise SystemExit(
+            f"data/reading.json has an added_on in the future: {reading_updated} (today is {today}). "
+            f"Every surface quotes that date as when the list last moved."
+        )
+
     meta = {
         "generated": "July 2026",
-        "reading_updated": max(r["added_on"] for r in reading),
+        "reading_updated": reading_updated,
         "reading_kinds": reading_kinds,
         "counts": {k: counts[k] for k in META_COUNTS},
         # The client router sets document.title on every in-page navigation.
