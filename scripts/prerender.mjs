@@ -233,6 +233,18 @@ function page({ path, view, title, description, body, noindex }) {
     `"url": ${ld(url)}`,
     'ld url',
   );
+  // Structured data reads the same claim as the page. Everything else here was
+  // published once and never revised, so datePublished alone is honest; the
+  // reading list is revised, and a crawler that sees no dateModified has no
+  // reason to come back for it.
+  if (view === 'reading') {
+    h = sub(
+      h,
+      /"datePublished": "[^"]*"/,
+      `"datePublished": ${ld(payload.meta.reading_updated)},\n  "dateModified": ${ld(payload.meta.reading_updated)}`,
+      'ld reading dates',
+    );
+  }
 
   h = sub(
     h,
