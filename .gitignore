@@ -28,6 +28,11 @@ data/raw/
 data/verified/
 db/
 
+# Per-contribution working files: fetched evidence, claim lists, the refutation
+# agents' verdicts, and the stamps that say which build a resync was correct
+# for. Research notes, not findings. The findings are in data/.
+.work/
+
 # Staging note for work that isn't public yet.
 docs/feedback-integration.md
 
