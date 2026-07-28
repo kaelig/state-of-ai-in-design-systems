@@ -4,10 +4,20 @@
   "title": "Design System Platform Record",
   "description": "One record per platform in the State of AI in Design Systems study (July 2026). Platforms host or tool design systems rather than being one: Figma, Storybook, Supernova, Knapsack, zeroheight. Each capability carries the URL of the page it was quoted from.",
   "type": "object",
-  "required": ["id", "name", "summary", "adoption_by_design_systems", "capabilities", "sources"],
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "adoption_by_design_systems",
+    "capabilities",
+    "sources"
+  ],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string", "description": "kebab-case slug, e.g. 'zeroheight'" },
+    "id": {
+      "type": "string",
+      "description": "kebab-case slug, e.g. 'zeroheight'"
+    },
     "name": { "type": "string" },
     "summary": {
       "type": "string",
@@ -33,7 +43,6 @@
           },
           "url": {
             "type": "string",
-            "format": "uri",
             "pattern": "^https?://",
             "description": "The page this capability was read from. Required: this is the basis on which the claim is checkable."
           },
@@ -50,7 +59,7 @@
                 "type": "string",
                 "description": "verbatim excerpt, <= 40 lines / 1500 chars"
               },
-              "source_url": { "type": "string", "format": "uri", "pattern": "^https?://" }
+              "source_url": { "type": "string", "pattern": "^https?://" }
             }
           }
         }
@@ -58,7 +67,7 @@
     },
     "sources": {
       "type": "array",
-      "items": { "type": "string", "format": "uri", "pattern": "^https?://" },
+      "items": { "type": "string", "pattern": "^https?://" },
       "description": "Every page consulted for this record, including ones no single capability cites."
     }
   }
