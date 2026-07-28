@@ -9,7 +9,7 @@ Runs after scripts/build_dashboard.py (which writes build/payload.json) and
 before scripts/prerender.mjs.
 
 Writes into dashboard/:
-  systems/<id>.md + .json        19 + 19
+  systems/<id>.md + .json        20 + 20
   platforms/<id>.md + .json       5 + 5
   techniques/<category>.md       one per category present in the data
   <view>.md                      index, matrix, systems, techniques, platforms,
@@ -165,7 +165,7 @@ CAT_ORDER = [
 VIEW_META = {
     "/index.md": ("Report overview and headline findings", "overview"),
     "/matrix.md": ("The affordance matrix", "matrix"),
-    "/systems.md": ("The 19 design systems", "systems"),
+    "/systems.md": ("The 20 design systems", "systems"),
     "/techniques.md": ("Coercion techniques", "techniques"),
     "/platforms.md": ("The 5 platforms", "platforms"),
     "/insights.md": ("Insights: findings, convergence, divergence, essay", "insights"),

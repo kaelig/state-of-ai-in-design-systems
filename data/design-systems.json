@@ -263,6 +263,287 @@
     ]
   },
   {
+    "id": "astryx",
+    "name": "Astryx",
+    "org": "Meta",
+    "category": "design-system",
+    "repo_url": "https://github.com/facebook/astryx",
+    "docs_url": "https://astryx.atmeta.com",
+    "license": "MIT",
+    "summary": "Astryx is Meta's design system, open-sourced on 18 June 2026 after eight years inside the company, where it grew to power over 13,000 apps. It is the clearest case in this study of a system rebuilt because of AI rather than adapted to it, and the team says so: \"AI changed the economics of building UIs… we wanted to modernize on the latest browser technology, open up far more customization, and make the system AI-fluent by design rather than retrofitting it.\" The architecture follows from that. The CLI is the source of truth and the docs site is a consumer of it, which is why `llms.txt` tells agents to stop crawling and run `npx @astryxdesign/cli` instead. Every command speaks a typed JSON envelope with append-only error codes an agent can branch on, and a `--dense` mode keeps the answers inside a context window. A hosted MCP server answers two tools that return real prop tables and compilable template source. What separates it is measurement. A nightly benchmark scores it against shadcn/Tailwind and raw HTML across six dimensions, and the 91-row ledger is public on the repo wiki with the losses left in. Over those 91 nights the shadcn baseline won 50, Astryx 19, Astryx-plus-Tailwind 9, and 13 were ties.",
+    "ai_maturity": "ai-native",
+    "maintenance": {
+      "actively_maintained": true,
+      "last_release": "v0.1.9 — 2026-07-27 (npm `@astryxdesign/core` 0.1.9 published 2026-07-27T19:20Z); prior: v0.1.8 (2026-07-23), v0.1.7 (2026-07-21), v0.1.6 (2026-07-15)",
+      "activity_note": "Public since 18 June 2026 and moving fast. Nine releases in 31 days at a median gap of four days, 153 commits in the most recent full week against a 10-week peak of 226, and 16 changesets already pending on `main` the day after v0.1.9 shipped. 10,994 stars, roughly 69 contributors, 194 open issues and 163 open PRs against 3,245 closed. Ten stable packages version in lockstep through a changesets `fixed` group and publish from CI by npm trusted publishing over OIDC with `--provenance`, so there is no long-lived npm token in the pipeline. Still 0.1.x and labelled Beta, with no 1.0 date published."
+    },
+    "affordances": [
+      {
+        "type": "cli-scaffolding",
+        "name": "@astryxdesign/cli — the machine interface, and the source of truth",
+        "official": true,
+        "audience": "both",
+        "description": "Astryx inverts the usual arrangement: the CLI is the canonical docs and the website is downstream of it. Sixteen top-level commands (`init`, `build`, `search`, `docs`, `component`, `hook`, `template`, `layout`, `theme`, `swizzle`, `upgrade`, `discover`, `doctor`, `validate-integration`, `manifest`, plus an undocumented `blog`). `component Button` returns 20,128 bytes of markdown covering anatomy, do/don't guidance, 19 typed props, theming variables and 96 related block templates. Global `--dense` and `--detail full|compact|brief` exist purely to manage context windows. `doctor` and `validate-integration` document their exit codes as \"safe as a CI gate\". Eighteen fully-qualified command paths, counting subcommands like `theme build` and `layout expand`, also emit `{apiVersion, type, data}` envelopes under a global `--json`, gated by an allowlist checked before any side effect so a programmatic caller never gets partial state plus an error. Failures carry a stable `code` and Levenshtein `suggestions`; `astryx manifest --json` is a 23KB self-description of every command, flag and response type, and `@astryxdesign/cli/json` ships an `isError()` type guard.",
+        "docs_url": "https://astryx.atmeta.com/docs/cli",
+        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/cli/index.mjs",
+        "snippet": {
+          "language": "text",
+          "content": "It is the tool an agent uses to build with Astryx or as we like to think of it the interface for the machine.\n\n…\n\nAgents live in the terminal now. Give one a good tool and it uses it well. But most tools we hand agents are not good enough. So we made a call that the CLI is the docs. That is where every doc, example, and reference starts. The docs site you are reading is a consumer of the CLI and not the other way around. The CLI is the source of truth. An agent always reads the exact source we wrote and maintain. There is no second copy to fall out of sync. Nothing goes stale.",
+          "source_url": "https://astryx.atmeta.com/blog/the-astryx-cli"
+        },
+        "notes": "`component` and `hook` need `@astryxdesign/core` installed in the project; without it the command exits 1 with `Error: Could not find @astryxdesign/core package`. Only `search`, `docs` and `blog` work from a bare `npx`. The error codes come with a stability promise the docs state plainly: \"The code field is a stable, machine-readable identifier. Branch on it, never on the human-readable error string... Codes are append-only: once shipped, a code's meaning never changes and a code is never removed.\""
+      },
+      {
+        "type": "mcp-server",
+        "name": "Hosted MCP server at astryx.atmeta.com/mcp",
+        "official": true,
+        "audience": "consumers",
+        "description": "A remote streamable-HTTP server (protocol 2025-06-18, `serverInfo` reports `astryx` 2.0.0) built on `mcp-handler` and zod, running as a Next.js route in the docs app. Stateless and unauthenticated: no session id is issued and `tools/list` answers without an `initialize` handshake. Exactly two tools, `search(query, limit)` and `get(name, section)`. They return content rather than links — `get(\"Button\")` is a 10KB typed prop table, `get(\"settings\")` returns the template's actual source. The keyword index is derived from the same component `.doc.mjs` files that produce the human docs, so the machine surface cannot drift from them.",
+        "docs_url": "https://astryx.atmeta.com/docs/cli",
+        "code_url": "https://github.com/facebook/astryx/blob/main/apps/docsite/src/app/mcp/route.ts",
+        "snippet": {
+          "language": "javascript",
+          "content": "/**\n * @file MCP Server route handler — hybrid v2 (search + get).\n *\n * Two tools:\n *   - search(): curated brief results with keyword-based resolution and scoring\n *   - get(): full component/topic/template details with examples\n *\n * Key features:\n *   - Keyword index derived from component .doc.mjs `keywords` fields\n *   - Compound component awareness (Table → sorting/selection hooks)\n *   - Context budget control (~1.5K tokens per brief result)\n *   - Showcase examples included in get() responses\n *\n * Transport: Streamable HTTP (via mcp-handler)\n */",
+          "source_url": "https://github.com/facebook/astryx/blob/main/apps/docsite/src/app/mcp/route.ts"
+        },
+        "notes": "Neither tool description contains coercion language of the kind Primer, Polaris or shadcn use. The strongest instruction in the whole surface is a parenthetical: \"recommended for large topics like \\\"theme\\\" to avoid context overload\". The published config block on /docs/cli still keys the server `\"xds\"`, the name it carried before the June rename."
+      },
+      {
+        "type": "agents-md",
+        "name": "Generated agent context (`astryx init --features agents`)",
+        "official": true,
+        "audience": "consumers",
+        "description": "Rather than publishing a rules file for people to copy, the CLI writes one into the consumer's repo, generated from the installed package version so it matches the API actually present. Targets are picked per tool: `AGENTS.md` by default (\"the tool-agnostic standard most agents read\"), `.claude/CLAUDE.md` for Claude Code, and `--agent all` for every one. The preset list is ordered so the first existing file wins and the last entry is the default, which means `--agent cursor` only updates a `.cursorrules` that is already there and otherwise writes AGENTS.md. The docs page says it produces `.cursorrules`; in a clean project it does not. Content is a three-step discovery workflow, a rules block, a component count and a CLI reference, written between `<!-- ASTRYX:START -->` markers so it can be regenerated in place. The styling rule branches on whether the project runs StyleX, Tailwind or plain CSS, so it never recommends a path that is not compiled in that repo.",
+        "docs_url": "https://astryx.atmeta.com/docs/working-with-ai",
+        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs",
+        "snippet": {
+          "language": "text",
+          "content": "WORKFLOW — discover, don't guess. Before writing UI:\n1. `astryx build \"<idea>\"` — START HERE: returns a kit (closest [page] + [block]s + [component]s). No args = full playbook.\n2. `astryx template <name> [--skeleton]` — scaffold the [page]/[block]s it named, or study their layout. Templates are reference code.\n3. `astryx component <Name>` — props + examples for every component you use.\n\nRULES:\n- No <div> — components do all layout/spacing. Full page → AppShell; sidebar nav → SideNav.\n- Frame first: pick the shell (AppShell / Layout+LayoutPanel) and budget regions in px BEFORE\n  writing content (`astryx docs layout`).\n- Dense data = rows (Table, List/Item) edge-to-edge — never Card-wrapped list items. Card =\n  dashboard widgets, galleries, settings groups only.\n- Status → StatusDot/Token; Badge only for counts and enumerated states, never decoration.\n- Custom styling: component props first; else the xstyle prop / StyleX tokens\n  (@astryxdesign/core/theme/tokens.stylex). No raw hex/px.\n- Tokens for every value (`astryx docs tokens`). Brand/accent via `astryx theme` — never\n  override --color-* in :root.\n- SELF-CHECK before you finish: re-read the file and replace any className=, style={{…}}, raw\n  <div>/<span> layout, imported .css/@apply, or hardcoded #hex/px with the component or the\n  xstyle prop + a token.",
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+        },
+        "notes": "There is no URL at which this file can be read: it exists only after a consumer runs the CLI, so the snippet reproduces generated output and the link points at the generator that emits it. The styling rule shown is the StyleX branch; a Tailwind or plain-CSS project gets a different one. Astryx's own repo has no AGENTS.md for the same reason. The file is small, about 2.4KB: it carries a component count taken from the installed package rather than an allow-list, and delegates the enumeration to `astryx component --list`."
+      },
+      {
+        "type": "other",
+        "name": "Public nightly vibe-test ledger",
+        "official": true,
+        "audience": "builders",
+        "description": "A nightly benchmark scores agent-written UI on four targets: Astryx, Astryx plus Tailwind, a shadcn/Tailwind baseline, and raw HTML. Each run appends one row to a public wiki page. 91 rows from 2026-03-20 to 2026-07-28, plus a second table breaking Astryx across five of them for 32 nights. Six dimensions are scored: Correctness, Accessibility, Code Quality, Efficiency and Maintainability by static analysis, and Design by a vision model against designer-reviewed reference images. The losses are left in. Across the 91 nights the baseline wins 50, Astryx 19, Astryx plus Tailwind 9, and 13 are ties, and the most recent row is a loss (Astryx 95, Baseline 96). Each row links its source run issue. The stated purpose is regression detection against a competitor, not marketing.",
+        "docs_url": "https://github.com/facebook/astryx/wiki/Vibe-Test-Scores",
+        "code_url": "https://github.com/facebook/astryx/wiki/Vibe-Evaluation",
+        "snippet": {
+          "language": "text",
+          "content": "The nightly evaluation answers: **is Astryx measurably better than the alternatives?** If baseline (shadcn/Tailwind) consistently outscores Astryx, something is regressing — stale docs, growing API complexity, or conventions that fight mental models.\n\n…\n\n- **Decisions/element** — How many styling decisions the LLM had to make per UI element. Astryx typically scores ~1.7 vs ~2.3 for raw Tailwind. Lower is better — it means the system is absorbing complexity.\n- **Semantic ratio** — What percentage of styling uses semantic tokens vs raw values. Higher means more maintainable, more themeable.\n- **Escape hatches** — Did the LLM drop out of the design system to raw CSS/HTML? Where and why?",
+          "source_url": "https://github.com/facebook/astryx/wiki/Vibe-Evaluation"
+        },
+        "notes": "The harness lives at `internal/vibe-tests/` with 62 designer-reviewed reference images across 55 prompt ids, a vision-model design judge, and a README stating \"Known Accepted Asymmetries… they slightly favor baseline, making Astryx wins more credible\". Per-run output is committed to `vibe-test/nightly-*` branches and rendered reports are served at facebook.github.io/astryx/reports/, but nothing on astryx.atmeta.com links to any of it, and the explainer post is drafted on a branch and unpublished (/blog/vibe-tests is a 404)."
+      },
+      {
+        "type": "ai-docs-page",
+        "name": "/docs/working-with-ai",
+        "official": true,
+        "audience": "consumers",
+        "description": "The one docs page addressed to people setting up an agent. It gives a prompt to paste (\"Install @astryxdesign/cli and run `npx @astryxdesign/cli init --features agents`…\"), documents the per-tool file targets, and carries a three-question self-test for whether the setup took. The framing is unusually empirical: the three questions \"have a 0% pass rate without docs; models confidently guess wrong on all of them\". It also names a failure mode observed in the wild, agents invoking the CLI through the wrong `node_modules` path, and prescribes an npm script alias to prevent it.",
+        "docs_url": "https://astryx.atmeta.com/docs/working-with-ai"
+      },
+      {
+        "type": "llms-txt",
+        "name": "astryx.atmeta.com/llms.txt",
+        "official": true,
+        "audience": "consumers",
+        "description": "A 1,180-byte file that refuses to be an index. Instead of listing docs URLs it tells the agent to stop reading the site and run the CLI, then lists five commands and warns that bare `npx astryx` resolves to an unrelated package. It is the only llms.txt in this study whose purpose is to redirect traffic off the website. There is no llms-full.txt and no markdown twin of any docs page; individual blog posts do have `.txt` mirrors.",
+        "docs_url": "https://astryx.atmeta.com/llms.txt",
+        "snippet": {
+          "language": "text",
+          "content": "Everything on this docs site (component docs, props, variants, tokens, page\ntemplates, and design rules) is also available through the Astryx CLI, in a\nform built for agents to read. Instead of crawling these pages, use the CLI to\nlearn about Astryx directly. Some examples:\n\n    npx @astryxdesign/cli search \"<what you're looking for>\"   # search components, hooks, docs, templates\n    npx @astryxdesign/cli docs                                 # list reference docs, then: docs <topic>\n    npx @astryxdesign/cli component <Name>                     # props, variants, examples for one component\n    npx @astryxdesign/cli component --list                     # every component\n    npx @astryxdesign/cli blog                                 # read the Astryx blog\n\nUse the scoped name @astryxdesign/cli. Bare \"npx astryx\" resolves to an\nunrelated package until the CLI is installed as a dependency.",
+          "source_url": "https://astryx.atmeta.com/llms.txt"
+        },
+        "notes": "It never mentions the MCP server. The two machine channels are documented in different places and do not reference each other."
+      },
+      {
+        "type": "claude-md",
+        "name": "Root CLAUDE.md that hands maintainers the consumer CLI",
+        "official": true,
+        "audience": "builders",
+        "description": "7,737 bytes, and most of its imperative force sits in two generated blocks. The `ASTRYX-CLI` block gives maintainers a sub-500ms bootstrap sequence of the same commands consumers run, with rules attached: \"always run bootstrap on each branch — docs reflect the branch's actual API\" and \"always run `$ASTRYX component <Name> --dense` before modifying a component\". The `STYLEX-CAPS` block is a pipe-delimited capability table ending in a VERIFY command. The effect is a loop: the people who maintain the machine interface are required to use it, so it cannot rot quietly.",
+        "code_url": "https://github.com/facebook/astryx/blob/main/CLAUDE.md",
+        "snippet": {
+          "language": "text",
+          "content": "Astryx CLI|Run from repo root. Load agent docs before any component work.\nASTRYX=\"node packages/cli/bin/astryx.mjs\"\nBOOTSTRAP (run every branch, <500ms):\n$ASTRYX help # discover all commands and options\n$ASTRYX docs # list available doc topics\n$ASTRYX docs principles --dense # design rules, anti-patterns, xstyle, tokens\n$ASTRYX docs tokens --dense # spacing, color, radius, typography, shadow\n$ASTRYX component --list # all components grouped by category\n$ASTRYX template --list # available page templates\n…\nRULE: always run bootstrap on each branch — docs reflect the branch's actual API\nRULE: always run $ASTRYX component <Name> --dense before modifying a component\nRULE: after @astryxdesign/core bump, always run $ASTRYX upgrade --apply",
+          "source_url": "https://github.com/facebook/astryx/blob/main/CLAUDE.md"
+        },
+        "notes": "The two generated blocks appear to be mirrored into the file by hand: `scan.mjs` writes `CAPABILITIES.md` and `capabilities.json`, and no CI job regenerates or drift-checks the copy inside CLAUDE.md."
+      },
+      {
+        "type": "copilot-instructions",
+        "name": ".github/copilot-instructions.md plus four path-scoped instruction files",
+        "official": true,
+        "audience": "builders",
+        "description": "A 12KB repo-wide review policy for the Copilot reviewer, plus `applyTo`-scoped files for `packages/**` (35KB, the largest agent file in the repo), the docs site, CLI templates, and blog posts. The policy is written as severity rules rather than advice, and it tells the reviewer explicitly not to discount a finding because the trigger is unlikely or because a lint rule was already suppressed. Committed assistant fingerprints in any text are a blocking finding, alongside internal identifiers and @meta.com addresses.",
+        "code_url": "https://github.com/facebook/astryx/blob/main/.github/copilot-instructions.md",
+        "snippet": {
+          "language": "text",
+          "content": "## Blocking criteria — score the failure, not its likelihood\n\nA finding's severity is set by **what breaks if it ships**, not by how likely\nthe trigger is, who wrote it, or whether a linter already flagged it. A rare\npath to data loss is still a blocker; a lint-suppressed hardcode is still a\nblocker. Do not let low probability, a documented `eslint-disable`, \"the happy\npath works,\" or the author's seniority soften a bright-line violation into\nadvisory. Score the failure first; use likelihood only to prioritize the fix,\nnever to decide whether it blocks.\n\n…\n\n**🔴 Always blocking:**\n\n- **Hardcoded colors.** Every color is either a token — `var(--color-*)` — or\n  **derived from tokens** via `color-mix()` / `light-dark()` / `calc()` whose\n  inputs are vars. **No raw hex/rgb/hsl anywhere**, including as an argument to\n  `light-dark()` or `color-mix()`, behind a `const`, or under an\n  `eslint-disable`. \"No suitable token exists\" is **not** an exception",
+          "source_url": "https://github.com/facebook/astryx/blob/main/.github/copilot-instructions.md"
+        },
+        "notes": "The AI reviewer is advisory by design. `.github/REVIEW_GATE.md` states \"Detection is **path-based and deterministic** (no LLM in the enforcement path)\", and a 29KB labeler workflow does the actual gating."
+      },
+      {
+        "type": "registry",
+        "name": "Graded template gallery as the exemplar corpus",
+        "official": true,
+        "audience": "consumers",
+        "description": "Page and block templates, reachable by `astryx template` and by `astryx build \"<idea>\"`, which ranks them deterministically with no model and no network call and returns a composition kit. They are held to a published 100-point rubric where Astryx Component Purity is scored by counting raw HTML tags, and every gallery template must grade B or better. This is the concrete expression of the team's stated strategy: fix what the model copies rather than arguing with it.",
+        "docs_url": "https://github.com/facebook/astryx/wiki/Contributing-Templates",
+        "snippet": {
+          "language": "text",
+          "content": "Arguably what an LLM does best is copy. We all know it is much worse at coming up with original ideas... The answer was almost too simple. It was copying our bad examples. Garbage in, garbage out. The old saying still holds. That is why we wrote a grading rubric for templates. It scores every template the same way every time. Nothing sloppy slips through and a room full of designers can hold one bar. We fixed what the agent was copying and the output followed.\n\n…\n\nInstead of fighting the copycat we lean into it. We make good things. We put them where the agent will find them. And we let it copy.",
+          "source_url": "https://astryx.atmeta.com/blog/astryx-cli-build-command"
+        }
+      },
+      {
+        "type": "other",
+        "name": "Claude Code slash commands (.claude/commands/)",
+        "official": true,
+        "audience": "builders",
+        "description": "Two invocable maintainer workflows, `/create-component <Name>` and `/create-theme <name>`, each taking `$ARGUMENTS`. The component one is the whole contribution path in one file: seven files to create across `packages/core`, `apps/storybook` and the CLI's showcase blocks, a required `isShowcase: true` marker, an export wired into `index.ts`, `node scripts/sync-exports.js`, then `pnpm build && pnpm test && pnpm lint` as the gate. It carries conventions in the same voice the consumer rules use: \"Compose, don't rebuild\", \"displayName — always set it\", \"all `:hover` in `@media (hover: hover)`\", \"Spacing/elevation tokens — never raw px or boxShadow strings\". Notably it routes rather than instructs: the actual protocol lives on three GitHub wiki pages and the in-repo file keeps only a quick reference, so the resident context stays small.",
+        "code_url": "https://github.com/facebook/astryx/blob/main/.claude/commands/create-component.md",
+        "snippet": {
+          "language": "text",
+          "content": "Follow the full component lifecycle documented on the Astryx wiki:\n\n- **Lifecycle Overview**: https://github.com/facebook/astryx/wiki/Component-Lifecycle\n- **Specification Protocol**: https://github.com/facebook/astryx/wiki/Component-Specification-Protocol\n- **Build Protocol**: https://github.com/facebook/astryx/wiki/Component-Build-Protocol\n\n### Quick reference\n\n- Read the spec thoroughly — it's the contract\n- Study sibling components in the same family for patterns\n- Create files in `packages/core/src/{ComponentName}/`:\n  - `{ComponentName}.tsx` — main component\n  - `{ComponentName}.test.tsx` — unit tests\n  - `{ComponentName}.doc.mjs` — typed docs (ComponentDoc)\n  …\n- Run `node scripts/sync-exports.js` to update package.json exports\n- Run `pnpm build && pnpm test && pnpm lint`\n\n### Key conventions\n\n- **Compose, don't rebuild** — use existing Astryx components (Field, Icon, etc.)\n- **displayName** — always set it\n- **:hover guards** — all `:hover` in `@media (hover: hover)`\n- **Spacing/elevation tokens** — never raw px or boxShadow strings",
+          "source_url": "https://github.com/facebook/astryx/blob/main/.claude/commands/create-component.md"
+        },
+        "notes": "`.claude/skills/` holds two more maintainer documents, on authoring component docs and on writing the compressed `docsDense` strings the CLI's `--dense` mode serves. Both are plain markdown with no frontmatter, so they are context files rather than registered skills, and nothing loads or gates on them."
+      }
+    ],
+    "techniques": [
+      {
+        "name": "The CLI is the docs, and the website is downstream",
+        "category": "tool-gating",
+        "description": "Every doc, prop table and example originates in the CLI; the docs site and the MCP server read from the same `.doc.mjs` sources. Because there is no second copy, an agent that runs the CLI is reading the branch's actual API rather than a rendering of it. llms.txt exists to push agents onto that channel.",
+        "snippet": {
+          "language": "text",
+          "content": "So we made a call that the CLI is the docs. That is where every doc, example, and reference starts. The docs site you are reading is a consumer of the CLI and not the other way around. The CLI is the source of truth. An agent always reads the exact source we wrote and maintain. There is no second copy to fall out of sync. Nothing goes stale.",
+          "source_url": "https://astryx.atmeta.com/blog/the-astryx-cli"
+        }
+      },
+      {
+        "name": "Fix the exemplars instead of the prompt",
+        "category": "exemplars",
+        "description": "The team traced bad agent output to bad templates rather than to bad prompting, then wrote a 100-point grading rubric so every template in the gallery scores B or above. Component purity is scored by literally counting raw HTML tags: zero tags earns the full 30 points, 21 or more earns none. Exemplars ship at three sizes, page, block and component example, so retrieval can match the request.",
+        "snippet": {
+          "language": "text",
+          "content": "Quality rubric for grading templates. Use this to evaluate any template (page or block)\nagainst the guidelines above. Every template in the gallery should score **B or above**.\n\n### Grade Scale\n\n| Grade | Score | Meaning |\n|-------|-------|---------|\n| **A** | 90–100 | Exemplary. Copy-paste ready. No excuses needed. |\n| **B** | 75–89 | Good. Minor issues a reviewer would flag but approve. |\n| **C** | 60–74 | Needs work. Would get \"request changes\" in review. |\n| **D** | 40–59 | Poor. Significant rewrites needed. |\n| **F** | 0–39 | Failing. Actively teaches bad patterns. |",
+          "source_url": "https://github.com/facebook/astryx/wiki/Contributing-Templates"
+        }
+      },
+      {
+        "name": "A self-check pass measured to cut escapes fourfold",
+        "category": "validation-loop",
+        "description": "The generated agent file ends by making the model re-read its own output and replace any `className=`, inline style, raw layout element, imported CSS or hardcoded value. The rule is there because it was tested: the code comment beside it records that rules alone still leave raw CSS in 11-13% of runs on complex UIs, and that the re-read pass cuts that roughly fourfold at negligible token cost. It is also the arm that won a three-way trial: a control that appends nothing, a one-paragraph re-read, and a four-step mandatory audit opening \"STOP — MANDATORY SELF-AUDIT\". The cheap middle arm shipped, not the forceful one. `doctor` and `validate-integration` give the same loop a CI-safe exit code.",
+        "snippet": {
+          "language": "javascript",
+          "content": "// Self-check — post-generation pass. Validated via vibe tests (internal/vibe-tests/\n// prompt-purity-test): on complex multi-step UIs the rules above alone still leave raw\n// CSS in ~11-13% of runs; a re-read-and-fix pass cuts that ~4x at negligible token cost.\n// The fix names the sanctioned escape hatch for the configured system.",
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+        }
+      },
+      {
+        "name": "Context budgeting as a flag, not a docs strategy",
+        "category": "curated-context",
+        "description": "Where other systems slice llms.txt by concern, Astryx puts the budget control in the tool. `--dense` rewrites prose rather than dropping structure, `--detail` offers full, compact and brief, and the MCP server guards against context bombs in code: topics over 4,000 characters come back as an overview plus a section list and a hint to request one section. Brief search results are budgeted at about 1.5K tokens each.",
+        "snippet": {
+          "language": "javascript",
+          "content": "          // Full topic — guard against context bombs\n          const fullJson = JSON.stringify(doc);\n          if (fullJson.length > MAX_TOPIC_BRIEF_CHARS) {\n            const overview = doc.sections[0];\n            return {\n              content: [\n                {\n                  type: 'text' as const,\n                  text: JSON.stringify(\n                    {\n                      topic: doc.topic,\n                      title: doc.title,\n                      description: doc.description,\n                      overview: overview,\n                      sections: doc.sections.map(s => s.title),\n                      hint: `This topic is large (${doc.sections.length} sections). Use get(\"${doc.topic}\", { section: \"...\" }) for specific sections to avoid context overload.`,\n                    },\n                  ),\n                },\n              ],\n            };\n          }",
+          "source_url": "https://github.com/facebook/astryx/blob/main/apps/docsite/src/app/mcp/route.ts"
+        }
+      },
+      {
+        "name": "Negative rules that name the component to use instead",
+        "category": "prohibition",
+        "description": "The generated rules are prohibitions with a destination attached: \"No <div> — components do all layout/spacing. Full page → AppShell; sidebar nav → SideNav\", \"never Card-wrapped list items\", \"Badge only for counts and enumerated states, never decoration\". The anti-patterns list served by `astryx docs principles` does the same, including the hallucination this study sees repeatedly: \"❌ Inventing props. Read component docs first\". The register is prohibition and imperative throughout; there is no \"must\" and no \"always\" in the shipped rules.",
+        "snippet": {
+          "language": "text",
+          "content": "RULES:\n- No <div> — components do all layout/spacing. Full page → AppShell; sidebar nav → SideNav.\n…\n- Dense data = rows (Table, List/Item) edge-to-edge — never Card-wrapped list items. Card =\n  dashboard widgets, galleries, settings groups only.\n- Status → StatusDot/Token; Badge only for counts and enumerated states, never decoration.\n- Tokens for every value (`astryx docs tokens`). Brand/accent via `astryx theme` — never\n  override --color-* in :root.",
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+        }
+      },
+      {
+        "name": "A typed, versioned interface agents can program against",
+        "category": "other",
+        "description": "`{apiVersion, type, data}` envelopes across 18 commands, component data carrying name, TypeScript union type, default and required flag per prop, do/don't guidance encoded as a boolean rather than prose, error codes promised to be append-only, and a capability manifest that describes the whole tool in one call. The manifest's own header says it exists so an agent can discover the surface \"without scraping `--help`\". Nothing else in this study offers agents a stability promise like it.",
+        "snippet": {
+          "language": "json",
+          "content": "Every command supports --json for machine-readable output. Responses are typed envelopes:\n\n{\"type\": \"component.detail\", \"data\": {\"name\": \"Button\", ...}}\n\nErrors:\n\n{\n  \"error\": \"No component named \\\"Buttn\\\"\",\n  \"code\": \"ERR_UNKNOWN_COMPONENT\",\n  \"suggestions\": [{\"name\": \"Button\", \"reason\": \"similar name\"}]\n}",
+          "source_url": "https://astryx.atmeta.com/docs/cli"
+        }
+      },
+      {
+        "name": "Instruction files written into the consumer's repo, per tool",
+        "category": "instruction-files",
+        "description": "Astryx does not ask consumers to copy a rules file. `init --features agents` generates one from the installed version and writes it to the file the consumer's tool actually reads, defaulting to AGENTS.md and injecting into an existing CLAUDE.md rather than overwriting it. Because it is generated per install, the component index and CLI reference inside it match the version in the project.",
+        "snippet": {
+          "language": "javascript",
+          "content": "/**\n * Agent tool presets — maps tool names to their file search paths.\n * Order matters: first existing file wins, last entry is the default (created if none exist).\n */\nconst AGENT_PRESETS = {\n  claude: [CLAUDE_MD, CLAUDE_DIR_MD],\n  cursor: [CURSOR_RULES, AGENTS_MD],\n  codex: [AGENTS_MD],\n  hermes: [HERMES_DOT_MD, HERMES_MD, AGENTS_MD],\n};",
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+        }
+      },
+      {
+        "name": "Tokens or nothing, enforced on both sides of the repo boundary",
+        "category": "token-enforcement",
+        "description": "Consumers get \"Tokens for every value\" and \"never override --color-* in :root\" in their generated agent file. Contributors get the same rule as a blocking review criterion, written to close the usual escapes: no raw hex, rgb or hsl anywhere, including inside `light-dark()` or `color-mix()`, behind a `const`, or under an `eslint-disable`, and \"no suitable token exists\" is explicitly not an exception.",
+        "snippet": {
+          "language": "text",
+          "content": "- **Tokens, not raw values** — every visual value references a token; a raw\n  color/space/radius/shadow in core is fixed by using the right token, never by\n  swapping one raw value for another.\n- **Spacing (relationship hierarchy)** — 4px grid; gaps step up with grouping\n  (`label→input < fields < groups < sections`); flag monotonous spacing,\n  inverted nesting (child gap wider than parent), off-grid values, nested cards.",
+          "source_url": "https://github.com/facebook/astryx/blob/main/.github/instructions/packages.instructions.md"
+        }
+      },
+      {
+        "name": "API naming settled by measuring what models reach for",
+        "category": "other",
+        "description": "Astryx arbitrates API decisions by writing two versions of a component's docs, throwing the same prompts at both, and shipping whichever one models use correctly. Issue #477 asked whether Selector should take `items` or `options`; PR #479 renamed it the same day. The decisive arm was neither documented variant but a no-docs condition measuring the model's untutored prior. The shipped `Selector.doc.mjs` declares `options` and no `items` remains. Elsewhere agents are the audience for the design system; here they are an input to designing it.",
+        "snippet": {
+          "language": "text",
+          "content": "Renames the XDSSelector `items` prop to `options` based on vibe test results from #477.\n\n## Vibe Test Results\n\nRan 8 prompts × 3 variants (24 sub-agents):\n- **`items` (with docs)**: 1/8 confusion (about StyleX, not naming)\n- **`options` (with docs)**: 0/8 confusion\n- **No docs (LLM guesses)**: chose `options` 5/8 times, `items` 0/8 times\n\n`options` aligns with HTML `<select>`/`<option>` semantics and matches Ant Design,\nChakra, MUI, and React Select conventions.",
+          "source_url": "https://github.com/facebook/astryx/pull/479"
+        }
+      }
+    ],
+    "platform_integrations": [
+      {
+        "platform": "storybook",
+        "description": "A published Storybook: 1,571 stories across about 170 story files, built from `apps/storybook` in the monorepo. The package is private and excluded from releases by a changesets `ignore` rule, so it ships as a site rather than as something a consumer installs.",
+        "url": "https://facebook.github.io/astryx/storybook/"
+      },
+      {
+        "platform": "figma",
+        "description": "No official Figma library, and no Figma Code Connect: the string does not appear anywhere in the repo's 4,484 tree entries. The gap is deliberate rather than overlooked. Issue #569 proposed a Figma plugin for theme sync with a full design and was closed in March with \"Tabling this for now.\" The two Astryx Figma libraries on the community site both describe themselves as unofficial. Design-to-code grounding is the one machine channel Astryx has not built.",
+        "url": "https://github.com/facebook/astryx/issues/569"
+      }
+    ],
+    "building_vs_consumption": {
+      "for_consumers": "Two parallel machine channels: a CLI that is the canonical source of docs, props and templates, and a hosted MCP server that answers search and get. A third channel writes rules into the consumer's own repo, generated per install so it matches their version and their styling system. Coercion is mostly structural rather than verbal, and the one measured intervention, a self-check re-read pass, is in the shipped file.",
+      "for_builders": "Maintainers are pointed at the consumer CLI by the root CLAUDE.md, with rules requiring a bootstrap on every branch and a `component --dense` read before editing a component. Review runs on a 12KB Copilot policy plus four path-scoped instruction files, though the enforcement gate is deliberately deterministic and model-free. The distinctive part is arbitration: conventions are settled by putting competing approaches in front of people and models and measuring, with the nightly ledger catching regressions in how usable the system is."
+    },
+    "gaps": "Not confirmed, or found wanting: 1) The invitation to stop crawling has a floor. `component` and `hook` need `@astryxdesign/core` installed, so a bare `npx` gets only `search`, `docs` and `blog`, and no hosted props manifest exists at any guessable path (/manifest.json, /components.json, /api/components.json all 404). Press coverage describing a fetchable JSON manifest is describing an npm-only artifact. Typed props are served, but only inside the Next.js RSC flight payload, so an HTML-only agent fetching a component page gets navigation and nothing else while /docs pages read fine. 2) `astryx init --features agents --agent cursor` is documented as writing `.cursorrules` and does not; in a clean project it writes AGENTS.md instead. 3) `component --list --json` on 0.1.9 leaks two prop-description strings, one untranslated Chinese, into its group keys, so an agent iterating categories gets two garbage entries. 4) Whether the eval harness scores as target-neutrally as its README claims was not assessed; the five scoring functions were not audited. 5) The per-arm results of the prompt-purity trial are not published. Only the aggregate reaches the open repo, as a source comment, so the effect size can be read but not checked.",
+    "sources": [
+      "https://astryx.atmeta.com/llms.txt",
+      "https://astryx.atmeta.com/docs/cli",
+      "https://astryx.atmeta.com/docs/working-with-ai",
+      "https://astryx.atmeta.com/blog/how-astryx-works",
+      "https://astryx.atmeta.com/blog/the-astryx-cli",
+      "https://astryx.atmeta.com/blog/astryx-cli-build-command",
+      "https://github.com/facebook/astryx/blob/main/CLAUDE.md",
+      "https://github.com/facebook/astryx/blob/main/.github/copilot-instructions.md",
+      "https://github.com/facebook/astryx/blob/main/apps/docsite/src/app/mcp/route.ts",
+      "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs",
+      "https://github.com/facebook/astryx/blob/main/.claude/commands/create-component.md",
+      "https://github.com/facebook/astryx/wiki/Vibe-Test-Scores",
+      "https://github.com/facebook/astryx/wiki/Vibe-Evaluation",
+      "https://github.com/facebook/astryx/pull/479",
+      "https://github.com/facebook/astryx/blob/main/internal/vibe-tests/prompt-purity-test/variants/C-strong.md"
+    ]
+  },
+  {
     "id": "atlassian-design-system",
     "name": "Atlassian Design System",
     "org": "Atlassian",

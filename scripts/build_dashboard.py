@@ -43,22 +43,22 @@ VIEW_TITLES = {
     "overview": (
         "/",
         "State of AI in Design Systems · July 2026",
-        "A field study of how 19 open-source design systems and 5 platforms make themselves readable to AI agents.",
+        "A field study of how 20 open-source design systems and 5 platforms make themselves readable to AI agents.",
     ),
     "matrix": (
         "/matrix",
         "The affordance matrix · State of AI in Design Systems",
-        "What each of 19 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries.",
+        "What each of 20 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries.",
     ),
     "systems": (
         "/systems",
         "The systems · State of AI in Design Systems",
-        "All 19 systems with their AI maturity and what each one ships. Pick a system to read the full record.",
+        "All 20 systems with their AI maturity and what each one ships. Pick a system to read the full record.",
     ),
     "techniques": (
         "/techniques",
         "Coercion techniques · State of AI in Design Systems",
-        "148 techniques design systems use to keep models on-system, grouped by category and quoted from the source files.",
+        "157 techniques design systems use to keep models on-system, grouped by category and quoted from the source files.",
     ),
     "platforms": (
         "/platforms",
@@ -68,7 +68,7 @@ VIEW_TITLES = {
     "insights": (
         "/insights",
         "Insights · State of AI in Design Systems",
-        "What the data says: where the 19 systems converge, where they split, and what the leaders do that the rest don't.",
+        "What the data says: where the 20 systems converge, where they split, and what the leaders do that the rest don't.",
     ),
     "methodology": (
         "/methodology",

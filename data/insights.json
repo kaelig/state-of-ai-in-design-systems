@@ -7,15 +7,15 @@
   "findings": [
     {
       "title": "The machine interface is table stakes: {official_mcp} of {systems} ship an official MCP server",
-      "body": "Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. Nobody is still arguing about whether to ship a machine interface. The arguments now are about how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting."
+      "body": "Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with a docs pipeline that regenerates llms.txt daily and mirrors every page as markdown. Nobody is still arguing about whether to ship a machine interface. The arguments now are about how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting."
     },
     {
       "title": "2026 is the year of the agent skill",
-      "body": "{official_skills:Word} of {systems:word} ship official agent skills (Cloudscape has none; USWDS has an open issue). Distribution has settled on `npx skills add`, and Nord, React Spectrum, Nuxt UI and Atlassian serve skills from well-known discovery endpoints, a pattern that didn't exist a year ago. PatternFly ships 32 consumer skills across 8 plugins. daisyUI sells paid Dashboard and Charts skills next to its free one."
+      "body": "{official_skills:Word} of {systems:word} ship official agent skills (Cloudscape has none; USWDS has an open issue; Astryx ships no registered skill and generates an AGENTS.md into your repo instead). Distribution has settled on `npx skills add`, and Nord, React Spectrum, Nuxt UI and Atlassian serve skills from well-known discovery endpoints, a pattern that didn't exist a year ago. PatternFly ships 32 consumer skills across 8 plugins. daisyUI sells paid Dashboard and Charts skills next to its free one."
     },
     {
       "title": "The frontier: portable design context and published evals",
-      "body": "Atlassian ships DESIGN.md, an 80KB token-first manifest (RFC 2119 rules over roughly a thousand lines of YAML tokens) for generating on-brand UI anywhere, and routes production work to the MCP server instead. It also published head-to-head evals of its own affordances: MCP vs skill vs DESIGN.md vs no context, with token, time and turn counts. shadcn regression-tests its skill's rules with an evals.json. Agent-facing artifacts are becoming measured, versioned software."
+      "body": "Atlassian ships DESIGN.md, an 80KB token-first manifest (RFC 2119 rules over roughly a thousand lines of YAML tokens) for generating on-brand UI anywhere, and routes production work to the MCP server instead. It also published head-to-head evals of its own affordances: MCP vs skill vs DESIGN.md vs no context, with token, time and turn counts. shadcn regression-tests its skill's rules with an evals.json. Astryx goes furthest: a nightly benchmark scores agent-written UI against a shadcn/Tailwind baseline on six dimensions and appends every run to a public ledger, losses included. The baseline has won 50 of 91 nights. Agent-facing artifacts are becoming measured, versioned software."
     },
     {
       "title": "Tool-gating beats prohibition",
@@ -23,11 +23,11 @@
     },
     {
       "title": "The best context files are compiled, not written",
-      "body": "Mantine regenerates llms.txt, a 4.2MB llms-full.txt and mcp/index.json from the same MDX and docgen data as the human docs, on every release. Cloudscape mirrors every docs page as markdown, exposes typed JSON API definitions per component and regenerates llms.txt daily. HeroUI refreshes its MCP server from docs deploys via repository_dispatch. Hand-written agent docs rot. These can't."
+      "body": "Mantine regenerates llms.txt, a 4.2MB llms-full.txt and mcp/index.json from the same MDX and docgen data as the human docs, on every release. Cloudscape mirrors every docs page as markdown, exposes typed JSON API definitions per component and regenerates llms.txt daily. HeroUI refreshes its MCP server from docs deploys via repository_dispatch. Astryx takes it further and makes the CLI the source of truth, with the docs site reading from it rather than the other way round. Hand-written agent docs rot. These can't."
     },
     {
       "title": "Consumer-side and builder-side investment barely track each other",
-      "body": "Fluent UI has the deepest builder-side agent stack in the study (nine executable skills, never-violate rules, lint auto-fix loops, visual verification) and almost nothing for consumers. React Spectrum, shadcn, Polaris and SLDS are the mirror image: heavy consumer investment, no public agent files for contributors. Carbon, HeroUI, Ant Design and Chakra are the few investing seriously on both sides."
+      "body": "Fluent UI runs one of the two deepest builder-side stacks in the study (nine executable skills, never-violate rules, lint auto-fix loops, visual verification) behind almost nothing for consumers. Polaris and SLDS are the mirror image: heavy consumer investment, nothing public for contributors. React Spectrum and shadcn are barely different, with a formatting hook and a release-notes skill at Adobe and one scoped Cursor rule at shadcn. Carbon, HeroUI, Ant Design, Chakra, PatternFly, Primer and Astryx invest seriously on both sides, which is a third of the study rather than a handful."
     },
     {
       "title": "A walled-garden pattern is emerging alongside the open one",
@@ -45,11 +45,11 @@
   "convergence": [
     {
       "title": "llms.txt plus markdown twins of every docs page",
-      "body": "The near-universal baseline: {llms_txt} of {systems} systems publish llms.txt. The refinement war is over context budgets. Chakra slices llms.txt six ways by concern, HeroUI four ways by platform, Atlassian six ways by topic, Nuxt UI serves section-scoped variants, and Cloudscape regenerates daily with typed JSON API definitions per component."
+      "body": "The near-universal baseline: {llms_txt} of {systems} systems publish llms.txt. The refinement war is over context budgets. Chakra slices llms.txt six ways by concern, HeroUI four ways by platform, Atlassian six ways by topic, Nuxt UI serves section-scoped variants, and Cloudscape regenerates daily with typed JSON API definitions per component. Astryx is the exception that sharpens the point: its llms.txt indexes nothing and tells agents to leave the site and run the CLI instead."
     },
     {
       "title": "Official MCP servers, converging on read-only retrieval",
-      "body": "{official_mcp:Word} of {systems:word} systems have an official MCP channel, and nearly all expose the same core shape: search docs, get component docs and examples, list tokens. The variance is in delivery. Bundled in the CLI (shadcn), npm stdio (MUI, Chakra, Mantine, HeroUI, Spectrum, Primer, PatternFly, daisyUI), hosted remote with auth (Carbon, Nuxt UI, Atlassian), or owned by the platform org rather than the DS team (SLDS via @salesforce/mcp, Polaris via Shopify's dev MCP)."
+      "body": "{official_mcp:Word} of {systems:word} systems have an official MCP channel, and nearly all expose the same core shape: search docs, get component docs and examples, list tokens. The variance is in delivery. Bundled in the CLI (shadcn), npm stdio (MUI, Chakra, Mantine, HeroUI, Spectrum, Primer, PatternFly, daisyUI), hosted remote with auth (Carbon, Nuxt UI, Atlassian), hosted remote with neither auth nor a session (Astryx), or owned by the platform org rather than the DS team (SLDS via @salesforce/mcp, Polaris via Shopify's dev MCP)."
     },
     {
       "title": "Agent skills with progressive disclosure",
@@ -71,7 +71,7 @@
     },
     {
       "title": "Where the affordances live",
-      "body": "In the DS repo itself, with skills and MCP developed in-tree (shadcn, HeroUI, Chakra). In the platform tooling layer, invisible from the DS repo (SLDS inside @salesforce/mcp, Polaris inside shopify-ai-toolkit). Or in the docs-site infrastructure (Cloudscape, Nord). Where it lives predicts who maintains it and how fast it ships."
+      "body": "In the DS repo itself, with skills and MCP developed in-tree (shadcn, HeroUI, Chakra). In the platform tooling layer, invisible from the DS repo (SLDS inside @salesforce/mcp, Polaris inside shopify-ai-toolkit). Or in the docs-site infrastructure (Cloudscape, Nord). Or in the shipped package itself: Astryx puts the canonical docs inside the CLI, so the machine interface installs with the system. Where it lives predicts who maintains it and how fast it ships."
     },
     {
       "title": "Vendor-neutral vs. harness-specific",
@@ -79,7 +79,7 @@
     },
     {
       "title": "Builder-side philosophy: rulebook vs. router",
-      "body": "Fluent UI's contributor stack is a rulebook: numbered never-violate rules and nine operational skills. Carbon and Cloudscape bet on routers, keeping AGENTS.md deliberately tiny (Carbon's opens by telling maintainers to keep it short; Cloudscape's ~20 lines point into a 12-file docs index) and trusting retrieval over resident context."
+      "body": "Fluent UI's contributor stack is a rulebook: numbered never-violate rules and nine operational skills. Carbon and Cloudscape bet on routers, keeping AGENTS.md deliberately tiny (Carbon's opens by telling maintainers to keep it short; Cloudscape's ~20 lines point into a 12-file docs index) and trusting retrieval over resident context. Astryx runs both at once, split by task: a rulebook for review, a 12KB repo-wide policy plus four path-scoped files, the largest 35KB over `packages/**`; and a router for authoring, where `/create-component` hands the real protocol off to three wiki pages and keeps a quick reference in the repo. It draws a line none of the others do: the AI reviewer is advisory, and the check that blocks a merge is deterministic, with \"no LLM in the enforcement path\"."
     },
     {
       "title": "Paid AI surfaces are appearing inside open systems",
@@ -90,7 +90,7 @@
     "Two years ago the question was whether design systems should care about AI consumption at all. That debate is over: of the {systems:word} systems here, all but one ship official machine-facing affordances, and {ai_native:word} treat AI consumption as a core design goal. What's still contested, and what this study set out to map, is how you make a probabilistic text generator reliably use *your* components and *your* tokens rather than a statistically plausible imitation of them.",
     "The answers cluster into three generations. The first is documentation reshaped for machines: llms.txt, markdown twins of docs pages, condensed component indexes. Nearly everyone does this now, and the state of the art is no longer writing these files but compiling them from the same sources as the human docs so they can't drift. The second is instruction: rules files and skills that tell the model what to do and, mostly, what never to do. The best instruction writing reads like policy rather than documentation: numbered never-violate rules, allow-lists of exported components written to stop models hallucinating `Box`/`Stack`/`Container` (Ant Design), Incorrect/Correct exemplar pairs (shadcn).",
     "The third generation, and the clearest line between the leaders and the pack, is structural coercion: redesigning the task so the model can't go off-system even if it wants to. Tool-gating makes the agent call an MCP tool or CLI to get component source; Primer writes \"CRITICAL: CALL THIS FIRST\" straight into its tool descriptions. Scaffolding has the CLI generate canonical code while the agent merely orchestrates (shadcn). Registries resolve real artifacts instead of imagined ones. Validation loops make the agent run linters and audits until they pass (SLDS, Fluent, Polaris). Instruction hopes the model complies. Structure checks.",
-    "The design-system team's own repo is a different battlefield from the consumer's repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon's AGENTS.md opens by telling maintainers to keep it short because it's loaded into every agent's context. Give the machine interface the care you already give the component API. That is the part of this worth copying."
+    "The design-system team's own repo is a different battlefield from the consumer's repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (SLDS, Polaris, React Spectrum) put almost nothing public on the builder side, while Fluent UI runs one of the two deepest contributor stacks behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Astryx runs a nightly benchmark against a competitor and publishes the nights it loses. Carbon's AGENTS.md opens by telling maintainers to keep it short because it's loaded into every agent's context. Give the machine interface the care you already give the component API. That is the part of this worth copying."
   ],
   "methodology": [
     "Research agents (Claude Opus 5) gathered the data on 26–28 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",

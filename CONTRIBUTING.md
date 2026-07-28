@@ -28,7 +28,7 @@ source requirement, but it tells us how to weigh a judgement call.
 
 ### 2. Suggest a system
 
-19 systems and 5 platforms are in. The bar is: open source, active in the last
+20 systems and 5 platforms are in. The bar is: open source, active in the last
 six months, and enough public surface to study. That last one rejects most
 suggestions. A system whose monorepo is private can still qualify on published
 packages and docs, but somebody has to be able to read something.
@@ -80,13 +80,13 @@ facts and `template.html` for markup, CSS and view logic.
 that loads and shows the thing. This is the whole basis on which anyone trusts
 the report, and it’s the one rule with no exceptions.
 
-**Counts are computed, never typed.** 19, 5, 168, 148 and every other number on
+**Counts are computed, never typed.** 20, 5, 178, 157 and every other number on
 the site is derived from the records at build time. If you find yourself typing a
 number into prose, stop: a hand-typed number is a number that will be wrong in a
 month.
 
-The mechanism is a placeholder in `data/insights.json`. Write `{systems}` for 19,
-`{systems:word}` for nineteen, or `{systems:Word}` for a count that opens a
+The mechanism is a placeholder in `data/insights.json`. Write `{systems}` for 20,
+`{systems:word}` for twenty, or `{systems:Word}` for a count that opens a
 sentence; `compute_counts()` in `scripts/build_dashboard.py` lists the keys you
 can use. The build fails on a key that doesn't exist and on a placeholder it
 couldn't fill, so a typo can't reach the page.
@@ -105,7 +105,7 @@ it isn’t blue.
 
 | File                               | What’s in it                                            |
 | ---------------------------------- | ------------------------------------------------------- |
-| `data/design-systems.json`         | The 19 system records: affordances, techniques, sources |
+| `data/design-systems.json`         | The 20 system records: affordances, techniques, sources |
 | `data/platforms.json`              | The 5 platform records and their capabilities           |
 | `data/insights.json`               | The written findings, essay, methodology and caveats    |
 | `schema/design-system.schema.json` | The system record schema and controlled vocabularies    |

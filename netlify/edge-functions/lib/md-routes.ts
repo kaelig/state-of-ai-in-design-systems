@@ -9,6 +9,7 @@ export const MD_TWINS: Record<string, string> = {
   "/platforms": "/platforms.md",
   "/systems": "/systems.md",
   "/systems/ant-design": "/systems/ant-design.md",
+  "/systems/astryx": "/systems/astryx.md",
   "/systems/atlassian-design-system": "/systems/atlassian-design-system.md",
   "/systems/carbon-design-system": "/systems/carbon-design-system.md",
   "/systems/chakra-ui": "/systems/chakra-ui.md",

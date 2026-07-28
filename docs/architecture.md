@@ -42,14 +42,14 @@ Everything under the markdown layer is generated from `data/*.json` by
 from the page it mirrors.
 
 The layer is a 1:1 shadow of the routes (`/systems/ant-design` →
-`/systems/ant-design.md`): 19 system records and 5 platform records in both
+`/systems/ant-design.md`): 20 system records and 5 platform records in both
 markdown and JSON, 11 technique-category files plus a roll-up, the seven view
 files, 15 `questions/*.md`, and `about/schema.md` so agents don’t invent labels.
 Aggregates ship as `llms-full.txt` and four slices, each carrying measured byte
 counts so a model can route on budget.
 
 Category is the retrieval unit for techniques, not the individual technique.
-148 single-technique files would be 148 fetches to answer one question.
+157 single-technique files would be 157 fetches to answer one question.
 
 `llms.txt` (mirrored at `/.well-known/llms.txt`) is a router, not a dump: a
 staleness preamble, the retrieval contract, a Questions section, a Vocabulary

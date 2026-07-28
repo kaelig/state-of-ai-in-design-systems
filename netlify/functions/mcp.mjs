@@ -176,7 +176,7 @@ function tally(items, key) {
 
 const FIXED_SECTIONS = [
   ['overview', '/index.md', 'Overview and headline findings'],
-  ['systems', '/systems.md', 'All 19 design systems, one entry each'],
+  ['systems', '/systems.md', 'All 20 design systems, one entry each'],
   ['matrix', '/matrix.md', 'Affordance coverage matrix'],
   ['techniques', '/techniques.md', 'The model-coercion technique catalogue'],
   ['platforms', '/platforms.md', 'The five platforms'],
@@ -663,7 +663,7 @@ function buildServer() {
         rows = rows.filter((s) =>
           s.affordances.some((a) => a.type === has_affordance),
         );
-      // Optional in the schema, present on all 19 records today. Without
+      // Optional in the schema, present on all 20 records today. Without
       // the guard the first record that omits it crashes this filter.
       if (platform)
         rows = rows.filter((s) =>

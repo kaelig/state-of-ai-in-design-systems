@@ -6,14 +6,14 @@
 <title>State of AI in Design Systems · July 2026</title>
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
-<meta name="description" content="How 19 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta name="description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta name="author" content="Kaelig Deloumeau-Prigent">
 <!-- netlify-head:start -->
 <link rel="canonical" href="https://state-of-ai-in-design-systems.netlify.app/">
 <meta property="og:site_name" content="State of AI in Design Systems">
 <meta property="og:type" content="website">
 <meta property="og:title" content="State of AI in Design Systems · July 2026">
-<meta property="og:description" content="How 19 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta property="og:description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta property="og:url" content="https://state-of-ai-in-design-systems.netlify.app/">
 <meta property="og:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="State of AI in Design Systems — a field study by Kaelig Deloumeau-Prigent">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="State of AI in Design Systems · July 2026">
-<meta name="twitter:description" content="How 19 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta name="twitter:description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta name="twitter:image" content="https://state-of-ai-in-design-systems.netlify.app/og-image.png">
 <meta name="twitter:creator" content="@kaelig">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -36,7 +36,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "State of AI in Design Systems · July 2026",
-  "description": "How 19 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.",
+  "description": "How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.",
   "author": {
     "@type": "Person",
     "name": "Kaelig Deloumeau-Prigent",
@@ -732,7 +732,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
     <div class="navwrap"><nav id="nav" aria-label="Sections"></nav></div>
     <!-- Authorship appears once per surface: the overview byline and the site
          footer carry it, so the rail states the scope and stops. -->
-    <div class="rail-foot">19 systems · 5 platforms · every snippet linked to its source</div>
+    <div class="rail-foot">20 systems · 5 platforms · every snippet linked to its source</div>
   </aside>
   <main class="main" id="main" tabindex="-1">
     <div id="view-root"></div>
@@ -980,7 +980,7 @@ const VIEWS = {
       return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
     };
     /* One tbody per maturity cohort, opened by a group header row. The chip that
-       used to sit in every row header says the same thing 19 times. */
+       used to sit in every row header says the same thing 20 times. */
     const span = MX_COLS.length + 1;
     const groups = MAT_ORDER.map(k => {
       const sys = DATA.systems.filter(s => s.ai_maturity === k);
@@ -1190,7 +1190,7 @@ function renderSyslist() {
     <span class="sum">${fmt(s.summary)}</span>
     <span class="cts"><span class="ct">${(s.affordances || []).length}<span class="cw"> affordances</span></span><span class="csep" aria-hidden="true">·</span><span class="ct">${(s.techniques || []).length}<span class="cw"> techniques</span></span></span></li>`;
   /* The list is already sorted by maturity, so a cohort strip before each run of
-     rows replaces 19 repeated chips. Cohorts with nothing left after filtering
+     rows replaces 20 repeated chips. Cohorts with nothing left after filtering
      do not render a header. */
   /* Said once, in the list, with a way out. #syscount keeps the announcement;
      this is the visible copy, and it names what was actually filtered on. */

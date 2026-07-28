@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository is a research report: a July 2026 field survey of how 19
+This repository is a research report: a July 2026 field survey of how 20
 open-source design systems and 5 platforms make themselves usable by AI agents,
 published as a static site with a markdown mirror, a JSON and SQLite export, and
 an MCP server. Facts live in `data/*.json`; everything published is generated
@@ -41,7 +41,7 @@ build still needs no Python packages; ruff and mypy are development-only and
 
 | Path                                 | What it is                                                     |
 | ------------------------------------ | -------------------------------------------------------------- |
-| `data/design-systems.json`           | The 19 system records. Facts go here, nowhere else.            |
+| `data/design-systems.json`           | The 20 system records. Facts go here, nowhere else.            |
 | `data/platforms.json`                | The 5 platform records.                                        |
 | `data/insights.json`                 | Findings, essay, methodology, caveats — the written analysis.  |
 | `schema/design-system.schema.json`   | System record schema and controlled vocabularies.              |
@@ -94,15 +94,15 @@ out-of-vocabulary value, or a property the schema does not know about. It cannot
 tell you whether the URL you supplied says what you claim it says. That part is
 still on you, and it is the part reviewers check.
 
-**Counts are computed, never typed.** 19, 5, 168, 148, and every other number
+**Counts are computed, never typed.** 20, 5, 178, 157, and every other number
 on the site is derived from the records at build time. A hand-typed count is a
 count that goes stale silently.
 
 The mechanism for prose is a placeholder in `data/insights.json`, filled by
 `resolve_counts()` in `scripts/build_dashboard.py` before anything renders, so
 the page, its markdown twin and the JSON passthrough always quote the same
-figure. `{systems}` gives 19, `{systems:word}` nineteen, and `{systems:Word}`
-Nineteen for a count that opens a sentence; past twenty the word forms fall back
+figure. `{systems}` gives 20, `{systems:word}` twenty, and `{systems:Word}`
+Twenty for a count that opens a sentence; past twenty the word forms fall back
 to digits. The keys come from `compute_counts()`: `systems`, `platforms`,
 `official_mcp`, `official_skills`, `llms_txt`, `affordances`, `techniques`,
 `technique_categories`, `ai_native`. An unknown key fails the build, and so does
