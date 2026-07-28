@@ -1543,7 +1543,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/skills/heroui-react/SKILL.md",
-          "content": "## CRITICAL: v3 Only - Ignore v2 Knowledge\n\n**This guide is for HeroUI v3 ONLY.** Do NOT apply v2 patterns — the provider, styling, and component API all changed:\n\n| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                   |\n| Provider      | `<HeroUIProvider>` required       | **No Provider needed**          |\n| Animations    | `framer-motion` package           | CSS-based, no extra deps        |\n| Component API | Flat props: `<Card title=\"x\">`    | Compound: `<Card><Card.Header>` |\n\n```tsx\n// DO NOT DO THIS - v2 pattern\nimport { HeroUIProvider } from \"@heroui/react\";\nimport { motion } from \"framer-motion\";\n```\n\n**Always fetch v3 docs before implementing.**"
+          "content": "## CRITICAL: v3 Only - Ignore v2 Knowledge\n\n**This guide is for HeroUI v3 ONLY.** Do NOT apply v2 patterns — the provider, styling, and component API all changed:\n\n| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                               |\n...\n| Provider      | `<HeroUIProvider>` required       | **No Provider needed**                      |\n| Animations    | `framer-motion` package           | CSS-based, no extra deps                    |\n| Component API | Flat props: `<Card title=\"x\">`    | Compound: `<Card><Card.Header>`             |\n\n...\n```tsx\n// DO NOT DO THIS - v2 pattern\nimport { HeroUIProvider } from \"@heroui/react\";\nimport { motion } from \"framer-motion\";\n...\n```\n\n...\n**Always fetch v3 docs before implementing.**"
         }
       },
       {
@@ -1558,7 +1558,7 @@
         "snippet": {
           "language": "json",
           "source_url": "https://heroui.com/docs/react/getting-started/mcp-server.mdx",
-          "content": "claude mcp add heroui-react -- npx -y @heroui/react-mcp@latest\n\n{\n  \"mcpServers\": {\n    \"heroui-react\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@heroui/react-mcp@latest\"]\n    }\n  }\n}\n\n| Tool | Description |\n| `list_components` | List all available HeroUI v3 components |\n| `get_component_docs` | Get complete component documentation including anatomy, props, examples, and usage patterns |\n| `get_component_source_code` | Access the React/TypeScript source code (.tsx files) for components |\n| `get_component_source_styles` | View the CSS styles (.css files) for components |\n| `get_theme_variables` | Access theme variables for colors, typography, spacing with light/dark mode support |\n| `get_docs` | Browse the full HeroUI v3 documentation including guides and principles |"
+          "content": "claude mcp add heroui-react -- npx -y @heroui/react-mcp@latest\n\n{\n  \"mcpServers\": {\n    \"heroui-react\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@heroui/react-mcp@latest\"]\n    }\n  }\n}\n\n| Tool                          | Description                                                                                                                                                |\n| `list_components`             | List all available HeroUI v3 components                                                                                                                    |\n| `get_component_docs` | Get complete component documentation including anatomy, props, examples, and usage patterns |\n| `get_component_source_code`   | Access the React/TypeScript source code (.tsx files) for components                                                                                        |\n| `get_component_source_styles` | View the CSS styles (.css files) for components                                                                                                            |\n| `get_theme_variables`         | Access theme variables for colors, typography, spacing with light/dark mode support                                                                        |\n| `get_docs` | Browse the full HeroUI v3 documentation including guides and principles |"
         }
       },
       {
@@ -1571,7 +1571,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/apps/docs/content/docs/en/react/getting-started/(ui-for-agents)/llms-txt.mdx",
-          "content": "**Core documentation:**\n- [/react/llms.txt](/react/llms.txt) — Quick reference index for React documentation\n- [/react/llms-full.txt](/react/llms-full.txt) — Complete HeroUI React documentation\n\n**For limited context windows:**\n- [/react/llms-components.txt](/react/llms-components.txt) — Component documentation only\n- [/react/llms-patterns.txt](/react/llms-patterns.txt) — Common patterns and recipes\n\n**Windsurf:** Add to your `.windsurfrules` file:\n```\n#docs https://heroui.com/react/llms-full.txt\n```\n\n## Contributing\n\nFound an issue with AI-generated code? Help us improve our LLMs.txt files on [GitHub](https://github.com/heroui-inc/heroui)."
+          "content": "**Core documentation:**\n- [/react/llms.txt](/react/llms.txt) — Quick reference index for React documentation\n- [/react/llms-full.txt](/react/llms-full.txt) — Complete HeroUI React documentation\n\n**For limited context windows:**\n- [/react/llms-components.txt](/react/llms-components.txt) — Component documentation only\n- [/react/llms-patterns.txt](/react/llms-patterns.txt) — Common patterns and recipes\n\n...\n**Windsurf:** Add to your `.windsurfrules` file:\n```\n#docs https://heroui.com/react/llms-full.txt\n```\n\n...\n## Contributing\n\nFound an issue with AI-generated code? Help us improve our LLMs.txt files on [GitHub](https://github.com/heroui-inc/heroui)."
         }
       },
       {
@@ -1599,7 +1599,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/prompts/README.md",
-          "content": "# HeroUI v3 — AI Integration Prompt Packs\n\nSystem prompts that teach AI code-generation tools to produce correct, idiomatic HeroUI v3 code.\n\n| File | Purpose |\n| `heroui-system-prompt.md` | Universal prompt — works with any LLM or AI coding tool (Claude, ChatGPT, Cursor, Copilot, etc.) |\n| `v0-heroui.md` | Tailored for [v0.dev](https://v0.dev) — emphasizes Next.js App Router, RSC patterns, and Tailwind v4 |\n| `bolt-heroui.md` | Tailored for [bolt.new](https://bolt.new) / StackBlitz — includes full Vite setup and runnable single-file examples |\n\n## Contributing\n\nWhen updating these prompts, verify that the component names, APIs, and import patterns match the actual v3 source code in this repo. Run a quick check against the component docs in `apps/docs/content/docs/react/components/` to catch any drift."
+          "content": "# HeroUI v3 — AI Integration Prompt Packs\n\nSystem prompts that teach AI code-generation tools to produce correct, idiomatic HeroUI v3 code.\n\n...\n| File | Purpose |\n...\n| `heroui-system-prompt.md` | Universal prompt — works with any LLM or AI coding tool (Claude, ChatGPT, Cursor, Copilot, etc.) |\n| `v0-heroui.md` | Tailored for [v0.dev](https://v0.dev) — emphasizes Next.js App Router, RSC patterns, and Tailwind v4 |\n| `bolt-heroui.md` | Tailored for [bolt.new](https://bolt.new) / StackBlitz — includes full Vite setup and runnable single-file examples |\n\n...\n## Contributing\n\nWhen updating these prompts, verify that the component names, APIs, and import patterns match the actual v3 source code in this repo. Run a quick check against the component docs in `apps/docs/content/docs/react/components/` to catch any drift."
         }
       },
       {
@@ -1612,7 +1612,7 @@
         "snippet": {
           "language": "bash",
           "source_url": "https://heroui.com/install",
-          "content": "#!/bin/bash\n# HeroUI Skill Installer\n# Usage: curl -sSL https://heroui.com/install | bash -s [skill-name]\n# Default: heroui-react\n# Available skills: heroui-react, heroui-native, heroui-migration\n\nSKILL_NAME=\"${1:-heroui-react}\"\nSKILL_URL=\"${BASE_URL}/skills/${SKILL_NAME}.tar.gz\"\nCODEX_HOME=\"${CODEX_HOME:-$HOME/.codex}\"\n\n# Claude Code - Skill only (skills are auto-discovered, no command needed)\nif [ -d \"$HOME/.claude\" ]; then\n  mkdir -p \"$HOME/.claude/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.claude/skills/${SKILL_NAME}\"\n  echo \"✓ Installed ${SKILL_NAME} skill for Claude Code\"\nfi\n\n# Cursor - Install skill\nif [ -d \"$HOME/.cursor\" ]; then\n  mkdir -p \"$HOME/.cursor/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.cursor/skills/${SKILL_NAME}\"\nfi"
+          "content": "#!/bin/bash\n# HeroUI Skill Installer\n# Usage: curl -sSL https://heroui.com/install | bash -s [skill-name]\n# Default: heroui-react\n# Available skills: heroui-react, heroui-native, heroui-migration\n\n...\nSKILL_NAME=\"${1:-heroui-react}\"\n...\nSKILL_URL=\"${BASE_URL}/skills/${SKILL_NAME}.tar.gz\"\n...\nCODEX_HOME=\"${CODEX_HOME:-$HOME/.codex}\"\n\n...\n# Claude Code - Skill only (skills are auto-discovered, no command needed)\nif [ -d \"$HOME/.claude\" ]; then\n  mkdir -p \"$HOME/.claude/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.claude/skills/${SKILL_NAME}\"\n  echo \"✓ Installed ${SKILL_NAME} skill for Claude Code\"\n...\nfi\n\n# Cursor - Install skill\nif [ -d \"$HOME/.cursor\" ]; then\n  mkdir -p \"$HOME/.cursor/skills/${SKILL_NAME}\"\n  curl -sL \"$SKILL_URL\" | tar xz -C \"$HOME/.cursor/skills/${SKILL_NAME}\"\n...\nfi"
         }
       },
       {
@@ -1625,7 +1625,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://github.com/heroui-inc/heroui/blob/v3/AGENTS.md",
-          "content": "### Creating a New Component\n\nAlways use the scaffold script:\n\n```bash\ncd packages/react\npnpm add:component ComponentName\n```\n\n### Styling Rules\n\n1. **Styles go in `.styles.ts` files**, never in `.tsx` files. Use `tv()` from `tailwind-variants`.\n2. **Import from `tailwind-variants`**, never from `@heroui/standard`.\n3. **Never use `twMerge` manually** — `tailwind-variants` already includes it.\n4. **Add `\"use client\"` directive** at the top of every component `.tsx` file.\n5. **Display names** follow: `HeroUI.ComponentName` or `HeroUI.Component.SubPart`."
+          "content": "### Creating a New Component\n\nAlways use the scaffold script:\n\n```bash\ncd packages/react\npnpm add:component ComponentName\n```\n\n...\n### Styling Rules\n\n1. **Styles go in `.styles.ts` files**, never in `.tsx` files. Use `tv()` from `tailwind-variants`.\n2. **Import from `tailwind-variants`**, never from `@heroui/standard`.\n3. **Never use `twMerge` manually** — `tailwind-variants` already includes it.\n4. **Add `\"use client\"` directive** at the top of every component `.tsx` file.\n5. **Display names** follow: `HeroUI.ComponentName` or `HeroUI.Component.SubPart`."
         }
       },
       {
@@ -1638,7 +1638,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/v3/.claude/agents/docs-curator.md",
-          "content": "**CRITICAL: Before Reviewing Documentation**\n\nBefore reviewing or improving any documentation, you MUST:\n\n1. **Check Component Implementation**: Always examine the actual component source files in `/packages/react/src/components/[component-name]/`:\n   - Read the `.tsx` file to understand the component structure and compound parts\n   - **MANDATORY: Read the `.stories.tsx` file thoroughly** - This is your PRIMARY reference for validating demos\n   - Verify demos match Storybook story patterns and structures\n\n4. **Verify Component APIs**: Never assume component structure - always verify:\n   - Compound parts match actual implementation"
+          "content": "**CRITICAL: Before Reviewing Documentation**\n\nBefore reviewing or improving any documentation, you MUST:\n\n1. **Check Component Implementation**: Always examine the actual component source files in `/packages/react/src/components/[component-name]/`:\n   - Read the `.tsx` file to understand the component structure and compound parts\n   ...\n   - **MANDATORY: Read the `.stories.tsx` file thoroughly** - This is your PRIMARY reference for validating demos\n   - Verify demos match Storybook story patterns and structures\n\n...\n4. **Verify Component APIs**: Never assume component structure - always verify:\n   - Compound parts match actual implementation"
         }
       },
       {
@@ -1651,7 +1651,7 @@
         "snippet": {
           "language": "javascript",
           "source_url": "https://github.com/heroui-inc/heroui/blob/v3/.claude/hooks.mjs",
-          "content": "// Hook that runs before editing files\nexport async function preEdit({filePath}) {\n  // Prevent editing of certain protected files\n  const protectedFiles = [\"yarn.lock\", \"package-lock.json\", \".env.production\", \"firebase.json\"];\n  const fileName = path.basename(filePath);\n\n  if (protectedFiles.includes(fileName)) {\n    throw new Error(`❌ Cannot edit protected file: ${fileName}`);\n  }\n\n  return {proceed: true};\n}\n\n// Hook that runs after editing files\nexport async function postEdit({filePath, success}) {\n  if (!success) return;\n\n  if (filePath.match(/\\.(ts|tsx|js|jsx)$/)) {\n    try {\n      execSync(`pnpm lint --fix \"${filePath}\"`, {stdio: \"pipe\"});\n      console.log(\"✅ Lint fixes applied\");\n    } catch (e) {\n      console.log(\"⚠️  Lint errors detected - please review\");\n    }\n  }"
+          "content": "// Hook that runs before editing files\nexport async function preEdit({filePath}) {\n  ...\n  // Prevent editing of certain protected files\n  const protectedFiles = [\"yarn.lock\", \"package-lock.json\", \".env.production\", \"firebase.json\"];\n  const fileName = path.basename(filePath);\n\n  if (protectedFiles.includes(fileName)) {\n    throw new Error(`❌ Cannot edit protected file: ${fileName}`);\n  }\n\n  return {proceed: true};\n}\n\n// Hook that runs after editing files\nexport async function postEdit({filePath, success}) {\n  if (!success) return;\n\n  ...\n  if (filePath.match(/\\.(ts|tsx|js|jsx)$/)) {\n    try {\n      execSync(`pnpm lint --fix \"${filePath}\"`, {stdio: \"pipe\"});\n      console.log(\"✅ Lint fixes applied\");\n    } catch (e) {\n      console.log(\"⚠️  Lint errors detected - please review\");\n    }\n  }"
         }
       },
       {
@@ -1672,7 +1672,7 @@
         "snippet": {
           "language": "typescript",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts",
-          "content": "parts.push('[HeroUI React v3 Docs Index]');\nif (reactDocsPath) parts.push(`root: ${reactDocsPath}`);\nparts.push(\n  'STOP. What you remember about HeroUI React v3 is WRONG for this project. Always search docs and read before any task.'\n);\n\nconst targetFile = outputFile || 'AGENTS.md';\n\nparts.push(\n  `If docs missing, run this command first: heroui agents-md --react --output ${targetFile}`\n);"
+          "content": "    parts.push('[HeroUI React v3 Docs Index]');\n    if (reactDocsPath) parts.push(`root: ${reactDocsPath}`);\nparts.push(\n      'STOP. What you remember about HeroUI React v3 is WRONG for this project. Always search docs and read before any task.'\n);\n\nconst targetFile = outputFile || 'AGENTS.md';\n\nparts.push(\n      `If docs missing, run this command first: heroui agents-md --react --output ${targetFile}`\n);"
         }
       },
       {
@@ -1692,7 +1692,7 @@
         "snippet": {
           "language": "bash",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
-          "content": "**For component details, examples, props, and implementation patterns, always fetch documentation:**\n\n# List all available components\nnode scripts/list_components.mjs\n\n# Get component documentation (MDX)\nnode scripts/get_component_docs.mjs Button\n\n# Get component source code\nnode scripts/get_source.mjs Button\n\n# Get component CSS styles (BEM classes)\nnode scripts/get_styles.mjs Button\n\n# Get theme variables\nnode scripts/get_theme.mjs\n\nComponent docs: `https://heroui.com/docs/react/components/{component-name}.mdx`\n\n**Important:** Always fetch component docs before implementing. The MDX docs include complete examples, props, anatomy, and API references."
+          "content": "**For component details, examples, props, and implementation patterns, always fetch documentation:**\n\n...\n# List all available components\nnode scripts/list_components.mjs\n\n# Get component documentation (MDX)\nnode scripts/get_component_docs.mjs Button\n\n...\n# Get component source code\nnode scripts/get_source.mjs Button\n\n# Get component CSS styles (BEM classes)\nnode scripts/get_styles.mjs Button\n\n# Get theme variables\nnode scripts/get_theme.mjs\n\n...\nComponent docs: `https://heroui.com/docs/react/components/{component-name}.mdx`\n\n...\n**Important:** Always fetch component docs before implementing. The MDX docs include complete examples, props, anatomy, and API references."
         }
       },
       {
@@ -1702,7 +1702,7 @@
         "snippet": {
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md",
-          "content": "## Semantic Variants\n\n| Variant     | Purpose                           | Usage          |\n| `primary`   | Main action to move forward       | 1 per context  |\n| `secondary` | Alternative actions               | Multiple       |\n| `tertiary`  | Dismissive actions (cancel, skip) | Sparingly      |\n| `danger`    | Destructive actions               | When needed    |\n\n**Don't use raw colors** - semantic variants adapt to themes and accessibility.\n\n**Color naming:**\n\n- Without suffix = background (e.g., `--accent`)\n- With `-foreground` = text color (e.g., `--accent-foreground`)"
+          "content": "## Semantic Variants\n\n...\n| Variant     | Purpose                           | Usage          |\n...\n| `primary`   | Main action to move forward       | 1 per context  |\n| `secondary` | Alternative actions               | Multiple       |\n| `tertiary`  | Dismissive actions (cancel, skip) | Sparingly      |\n| `danger`    | Destructive actions               | When needed    |\n\n...\n**Don't use raw colors** - semantic variants adapt to themes and accessibility.\n\n...\n**Color naming:**\n\n- Without suffix = background (e.g., `--accent`)\n- With `-foreground` = text color (e.g., `--accent-foreground`)"
         }
       },
       {
@@ -1742,7 +1742,7 @@
         "snippet": {
           "language": "yaml",
           "source_url": "https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.github/workflows/trigger-mcp-extraction.yml",
-          "content": "name: Trigger MCP Extraction on Vercel Deployment\n\non:\n  repository_dispatch:\n    types:\n      - vercel.deployment.success\n      - vercel.deployment.promoted\n\njobs:\n  trigger-extraction:\n    steps:\n      - name: Trigger React MCP Extraction\n        if: |\n          github.event.client_payload.git.ref == 'v3' ||\n          github.event.client_payload.git.ref == 'refs/heads/v3'\n        uses: peter-evans/repository-dispatch@v3\n        with:\n          token: ${{ secrets.MCP_DISPATCH_TOKEN }}\n          repository: heroui-inc/heroui-mcp\n          event-type: react-docs-deployed"
+          "content": "name: Trigger MCP Extraction on Vercel Deployment\n\non:\n  repository_dispatch:\n    types:\n      - vercel.deployment.success\n      - vercel.deployment.promoted\n\njobs:\n  trigger-extraction:\n    ...\n    steps:\n      ...\n      - name: Trigger React MCP Extraction\n        if: |\n          github.event.client_payload.git.ref == 'v3' ||\n          github.event.client_payload.git.ref == 'refs/heads/v3'\n        uses: peter-evans/repository-dispatch@v3\n        with:\n          token: ${{ secrets.MCP_DISPATCH_TOKEN }}\n          repository: heroui-inc/heroui-mcp\n          event-type: react-docs-deployed"
         }
       }
     ],
