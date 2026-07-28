@@ -66,12 +66,18 @@ const edit = (dir, rel, fn) => {
   writeFileSync(p, JSON.stringify(json, null, 2));
 };
 
+/** Record counts come from the data, so adding a system doesn't fail this. */
+const recordCount = (rel) =>
+  JSON.parse(readFileSync(join(ROOT, 'data', rel), 'utf8')).length;
+
 describe('validate_data accepts the real dataset', () => {
   test('exits 0 and reports every file', () => {
     const { code, out } = runAgainst(null);
     assert.equal(code, 0, out);
-    assert.match(out, /design-systems\.json: 19 records/);
-    assert.match(out, /platforms\.json: 5 records/);
+    const systems = recordCount('design-systems.json');
+    const platforms = recordCount('platforms.json');
+    assert.match(out, new RegExp(`design-systems\\.json: ${systems} records`));
+    assert.match(out, new RegExp(`platforms\\.json: ${platforms} records`));
     assert.match(out, /insights\.json: 1 record/);
   });
 });

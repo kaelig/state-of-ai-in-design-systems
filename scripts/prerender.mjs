@@ -344,8 +344,10 @@ const sysList = sysHtml.slice(
   listStart,
   sysHtml.indexOf('id="foot"', listStart),
 );
+const nSystems = payload.systems.length;
 const nSysrow = count(sysList, 'class="sysrow"');
-if (nSysrow !== 19) die(`/systems.html has ${nSysrow} sysrows, expected 19`);
+if (nSysrow !== nSystems)
+  die(`/systems.html has ${nSysrow} sysrows, expected ${nSystems}`);
 const nSysGroup = count(sysList, 'class="sysgroup');
 const nMaturities = new Set(payload.systems.map((s) => s.ai_maturity)).size;
 if (nSysGroup !== nMaturities)
@@ -361,7 +363,8 @@ const mxTable = mxHtml.slice(
   mxHtml.indexOf('</table>'),
 );
 const nRows = count(mxTable, '<th scope="row" class="sys">');
-if (nRows !== 19) die(`/matrix.html has ${nRows} system rows, expected 19`);
+if (nRows !== nSystems)
+  die(`/matrix.html has ${nRows} system rows, expected ${nSystems}`);
 const nMxGroups = count(mxTable, 'class="mx-group');
 const nMxBodies = count(mxTable, '<tbody>');
 if (nMxGroups !== nMxBodies)
