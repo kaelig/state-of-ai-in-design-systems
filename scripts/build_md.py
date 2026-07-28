@@ -170,6 +170,7 @@ VIEW_META = {
     "/platforms.md": ("The 5 platforms", "platforms"),
     "/insights.md": ("Insights: findings, convergence, divergence, essay", "insights"),
     "/methodology.md": ("Methodology and caveats", "methodology"),
+    "/reading.md": ("Further reading on AI and design systems", "reading"),
     "/ai.md": ("Use this report with AI tools", "ai"),
 }
 
@@ -252,6 +253,7 @@ HTML_TWIN = {
     "/platforms.md": "/platforms",
     "/insights.md": "/insights",
     "/methodology.md": "/methodology",
+    "/reading.md": "/reading",
     "/ai.md": "/ai",
 }
 
@@ -271,7 +273,10 @@ def canonical_for(path):
     return U(path)
 
 
-def base_fm(path, title, description, type_, **extra):
+def base_fm(path, title, description, type_, dateline=None, **extra):
+    """`dateline` replaces the collection window for a page that does not belong
+    to it. Only /reading.md does: it is kept current, so stamping it with the
+    window every other page carries would date it wrong wherever it is quoted."""
     pairs = [
         ("title", title),
         ("description", description),
@@ -281,7 +286,7 @@ def base_fm(path, title, description, type_, **extra):
     ]
     pairs += list(extra.items())
     pairs += [
-        ("data_collected", DATA_COLLECTED),
+        dateline or ("data_collected", DATA_COLLECTED),
         ("generated", GENERATED),
         ("report", REPORT),
         ("author", AUTHOR),
@@ -312,8 +317,13 @@ def render(parts):
     return out.rstrip("\n") + "\n"
 
 
-def head(path, title, description, type_, **extra):
-    return base_fm(path, title, description, type_, **extra) + "\n" + NOTICE + "\n\n"
+def head(path, title, description, type_, dateline=None, notice=None, **extra):
+    return (
+        base_fm(path, title, description, type_, dateline=dateline, **extra)
+        + "\n"
+        + (notice or NOTICE)
+        + "\n\n"
+    )
 
 
 def foot(path):
@@ -331,6 +341,9 @@ payload = json.loads((BUILD / "payload.json").read_text(encoding="utf-8"))
 SYSTEMS = payload["systems"]
 PLATFORMS = payload["platforms"]
 INSIGHTS = payload["insights"]
+READING = payload["reading"]
+READING_KINDS = payload["meta"]["reading_kinds"]
+READING_UPDATED = payload["meta"]["reading_updated"]
 COUNTS = payload["meta"]["counts"]
 
 NAME = {s["id"]: s["name"] for s in SYSTEMS}
@@ -893,6 +906,74 @@ def methodology_md():
         f"\nThe counts above are computed from the published dataset at build time. "
         f"Recount them yourself: {U('/data/design-systems.json')} or "
         f"{U('/data/state-of-ai.sqlite')}.\n"
+    )
+    p.append(foot(path))
+    return render(p)
+
+
+# Labels mirror dashboard/template.html so the two surfaces name things the same way.
+READING_GROUP = {
+    "study": "Studies, surveys and reports",
+    "essay": "Essays",
+    "talk": "Talks",
+    "course": "Courses",
+}
+
+MONTHS = (
+    "January February March April May June July August September October November December"
+).split()
+
+
+def long_date(iso):
+    """ISO to prose. Split rather than parsed: this only ever receives the
+    schema's YYYY-MM-DD, and a parser would invite a timezone to shift it."""
+    y, m, d = str(iso).split("-")
+    return f"{int(d)} {MONTHS[int(m) - 1]} {y}"
+
+
+def reading_md():
+    path = "/reading.md"
+    p = [
+        head(
+            path,
+            "Further reading",
+            "Writing, talks and courses on what happens when a design system meets an AI "
+            "agent. Kept current rather than fixed at the collection window.",
+            "view",
+            dateline=("updated", READING_UPDATED),
+            notice=(
+                f"> Not part of the {SNAPSHOT_DATE} snapshot. This list is kept current, and "
+                f"last changed on {long_date(READING_UPDATED)}. Cite that date, not the "
+                f"collection window."
+            ),
+            id="reading",
+            entry_count=len(READING),
+        )
+    ]
+    p.append("# Further reading\n")
+    p.append(html_to_md(INSIGHTS["reading_lede"]) + "\n")
+    first_added = min(r["added_on"] for r in READING)
+    for kind in READING_KINDS:
+        group = [r for r in READING if r["kind"] == kind]
+        if not group:
+            continue
+        p.append(f"## {READING_GROUP.get(kind, kind)}\n")
+        for r in group:
+            byline = r["author"]
+            if r.get("published"):
+                byline += f" · {long_date(r['published'])}"
+            p.append(f"### [{r['title']}]({r['url']})\n\n{byline}\n")
+            p.append(html_to_md(r["description"]) + "\n")
+            if r.get("quote"):
+                p.append(f"> {r['quote']}\n")
+            if r.get("price"):
+                p.append(f"**{r['price']['amount']}** — {r['price']['buys']}\n")
+            if r["added_on"] > first_added:
+                p.append(f"Added {long_date(r['added_on'])}.\n")
+    p.append(
+        f"## Suggest something\n\nThe bar above is the whole standard. If a work clears it and "
+        f"is missing, send it: {REPO_URL}/issues/new?template=reading-suggestion.yml — "
+        f"everything listed gets opened and read first.\n"
     )
     p.append(foot(path))
     return render(p)
@@ -1789,6 +1870,11 @@ def llms_txt(sizes):
         f"counted, and what the numbers do not support."
     )
     A(
+        f"- [Further reading]({U('/reading.md')}): other people's writing, talks and courses on "
+        f"AI and design systems. The one file here that is kept current rather than fixed at the "
+        f"collection window, so it carries its own `updated` date — cite that, not the window."
+    )
+    A(
         f"- [Use this report with AI tools]({U('/ai.md')}): the MCP server, a prompt to paste, and "
         f"the data downloads.\n"
     )
@@ -2213,6 +2299,7 @@ def main():
     add("/platforms.md", platforms_md())
     add("/insights.md", insights_md())
     add("/methodology.md", methodology_md())
+    add("/reading.md", reading_md())
     add("/about/schema.md", schema_md())
     add("/404.md", not_found_md())
 
@@ -2231,6 +2318,7 @@ def main():
         "/platforms.md",
         "/insights.md",
         "/methodology.md",
+        "/reading.md",
         "/ai.md",
         "/about/schema.md",
     ]
@@ -2291,6 +2379,7 @@ def main():
     add("/data/design-systems.json", json.dumps(SYSTEMS, ensure_ascii=False, indent=2) + "\n")
     add("/data/platforms.json", json.dumps(PLATFORMS, ensure_ascii=False, indent=2) + "\n")
     add("/data/insights.json", json.dumps(INSIGHTS, ensure_ascii=False, indent=2) + "\n")
+    add("/data/reading.json", json.dumps(READING, ensure_ascii=False, indent=2) + "\n")
     for pub_path, src, _note in PUBLIC_SCHEMAS:
         add(pub_path, public_schema(src))
 
@@ -2341,6 +2430,7 @@ def main():
         "/platforms",
         "/insights",
         "/methodology",
+        "/reading",
         "/ai",
     ):
         html_routes[p] = p + ".md"

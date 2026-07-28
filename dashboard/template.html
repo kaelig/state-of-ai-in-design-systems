@@ -1166,8 +1166,7 @@ const VIEWS = {
       </section>`).join('');
     return `<p class="eyebrow">Further reading</p><h1>Further reading</h1>
       <p class="lede">${fmt(DATA.insights.reading_lede)}</p>
-      <p class="byline">The rest of this report is fixed at the collection window. This page is not:
-        it is kept current, and it last changed on ${esc(longDate(m.reading_updated))}.</p>
+      <p class="byline">Last updated ${esc(longDate(m.reading_updated))}</p>
       <hr class="accent-rule">
       ${groups}
       <div class="prose"><p>Something missing? ${extLink(REPO_URL + '/issues/new?template=reading-suggestion.yml',
