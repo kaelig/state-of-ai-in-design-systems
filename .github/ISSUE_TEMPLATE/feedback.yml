@@ -1,7 +1,7 @@
 name: Feedback
 description: Anything else — what was useful, what was missing, what you’d want next.
-title: "[feedback] "
-labels: ["feedback"]
+title: '[feedback] '
+labels: ['feedback']
 body:
   - type: markdown
     attributes:

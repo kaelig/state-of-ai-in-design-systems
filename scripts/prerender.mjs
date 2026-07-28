@@ -2,7 +2,14 @@
 // Prerender every route to real HTML. The view functions in the app script are
 // pure JSON -> string builders, so they run in node:vm behind a small DOM shim
 // and produce the same markup the browser would. No dependencies.
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  readdirSync,
+  rmSync,
+} from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -12,7 +19,10 @@ const OUT = join(ROOT, 'dashboard');
 const BUILD = join(ROOT, 'build');
 const ORIGIN = 'https://state-of-ai-in-design-systems.netlify.app';
 
-const die = (msg) => { console.error('prerender: ' + msg); process.exit(1); };
+const die = (msg) => {
+  console.error('prerender: ' + msg);
+  process.exit(1);
+};
 
 const shell = readFileSync(join(OUT, 'index.html'), 'utf8');
 const payload = JSON.parse(readFileSync(join(BUILD, 'payload.json'), 'utf8'));
@@ -28,30 +38,70 @@ const appSrc = shell.slice(open + '<script id="app">'.length, close);
 const els = new Map();
 function makeEl() {
   return {
-    innerHTML: '', textContent: '', value: '', open: false, dataset: {},
-    style: {}, classList: { add() {}, remove() {}, toggle() {} },
-    addEventListener() {}, removeEventListener() {}, setAttribute() {},
-    removeAttribute() {}, getAttribute() { return null; },
-    hasAttribute() { return false; }, focus() {}, closest() { return null; },
-    querySelector() { return makeEl(); }, querySelectorAll() { return []; },
+    innerHTML: '',
+    textContent: '',
+    value: '',
+    open: false,
+    dataset: {},
+    style: {},
+    classList: { add() {}, remove() {}, toggle() {} },
+    addEventListener() {},
+    removeEventListener() {},
+    setAttribute() {},
+    removeAttribute() {},
+    getAttribute() {
+      return null;
+    },
+    hasAttribute() {
+      return false;
+    },
+    focus() {},
+    closest() {
+      return null;
+    },
+    querySelector() {
+      return makeEl();
+    },
+    querySelectorAll() {
+      return [];
+    },
   };
 }
-const el = (key) => { if (!els.has(key)) els.set(key, makeEl()); return els.get(key); };
+const el = (key) => {
+  if (!els.has(key)) els.set(key, makeEl());
+  return els.get(key);
+};
 const document = {
   documentElement: el(':root'),
   getElementById: (id) => el('#' + id),
   querySelector: (sel) => el(sel),
   querySelectorAll: () => [],
-  addEventListener() {}, createElement: () => makeEl(),
+  addEventListener() {},
+  createElement: () => makeEl(),
 };
-const location = { pathname: '/', hash: '', search: '', origin: ORIGIN, href: ORIGIN + '/' };
+const location = {
+  pathname: '/',
+  hash: '',
+  search: '',
+  origin: ORIGIN,
+  href: ORIGIN + '/',
+};
 const sandbox = {
-  DATA: payload, document, location,
+  DATA: payload,
+  document,
+  location,
   history: { pushState() {}, replaceState() {} },
   localStorage: { getItem: () => null, setItem() {}, removeItem() {} },
   navigator: { clipboard: null },
-  matchMedia: () => ({ matches: false, addEventListener() {}, addListener() {} }),
-  setTimeout() {}, clearTimeout() {}, console, AbortController,
+  matchMedia: () => ({
+    matches: false,
+    addEventListener() {},
+    addListener() {},
+  }),
+  setTimeout() {},
+  clearTimeout() {},
+  console,
+  AbortController,
 };
 sandbox.window = sandbox;
 sandbox.self = sandbox;
@@ -61,22 +111,35 @@ const ctx = vm.createContext(sandbox);
 
 try {
   vm.runInContext(
-    appSrc + '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;'
-      + ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;',
-    ctx, { filename: 'app.js' });
-} catch (e) { die('app script threw in the sandbox: ' + (e instanceof Error ? e.stack : String(e))); }
+    appSrc +
+      '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;' +
+      ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;',
+    ctx,
+    { filename: 'app.js' },
+  );
+} catch (e) {
+  die(
+    'app script threw in the sandbox: ' +
+      (e instanceof Error ? e.stack : String(e)),
+  );
+}
 
 const VIEWS = sandbox.__VIEWS;
 const renderSyslist = sandbox.__renderSyslist;
-if (!VIEWS || typeof renderSyslist !== 'function') die('VIEWS / renderSyslist not exposed');
+if (!VIEWS || typeof renderSyslist !== 'function')
+  die('VIEWS / renderSyslist not exposed');
 
 const NAV_HTML = el('#nav').innerHTML;
 const FOOT_HTML = el('#foot').innerHTML;
 if (!NAV_HTML || !FOOT_HTML) die('nav or footer markup was never recorded');
 
 /* ---------- head + body splicing ---------- */
-const attrEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const attrEsc = (s) =>
+  String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 
 function sub(html, re, replacement, label) {
   if (!re.test(html)) die('head pattern not found: ' + label);
@@ -87,50 +150,107 @@ function navFor(view) {
   const active = view === 'system' ? 'systems' : view;
   return NAV_HTML.replace(
     new RegExp(`<a href="([^"]*)" data-r="${active}">`),
-    (m, h) => `<a class="on" aria-current="page" href="${h}" data-r="${active}">`);
+    (m, h) =>
+      `<a class="on" aria-current="page" href="${h}" data-r="${active}">`,
+  );
 }
 
 function page({ path, view, title, description, body, noindex }) {
   const url = ORIGIN + path;
   const mdHref = path === '/' ? '/index.md' : path + '.md';
   let h = shell;
-  h = sub(h, /<title>[\s\S]*?<\/title>/, `<title>${attrEsc(title)}</title>`, 'title');
-  h = sub(h, /<meta name="description" content="[^"]*">/,
-    `<meta name="description" content="${attrEsc(description)}">`, 'description');
-  h = sub(h, /<meta property="og:title" content="[^"]*">/,
-    `<meta property="og:title" content="${attrEsc(title)}">`, 'og:title');
-  h = sub(h, /<meta property="og:description" content="[^"]*">/,
-    `<meta property="og:description" content="${attrEsc(description)}">`, 'og:description');
-  h = sub(h, /<meta property="og:url" content="[^"]*">/,
-    `<meta property="og:url" content="${attrEsc(url)}">`, 'og:url');
-  h = sub(h, /<meta name="twitter:title" content="[^"]*">/,
-    `<meta name="twitter:title" content="${attrEsc(title)}">`, 'twitter:title');
-  h = sub(h, /<meta name="twitter:description" content="[^"]*">/,
-    `<meta name="twitter:description" content="${attrEsc(description)}">`, 'twitter:description');
-  h = sub(h, /<link rel="canonical" href="[^"]*">/,
+  h = sub(
+    h,
+    /<title>[\s\S]*?<\/title>/,
+    `<title>${attrEsc(title)}</title>`,
+    'title',
+  );
+  h = sub(
+    h,
+    /<meta name="description" content="[^"]*">/,
+    `<meta name="description" content="${attrEsc(description)}">`,
+    'description',
+  );
+  h = sub(
+    h,
+    /<meta property="og:title" content="[^"]*">/,
+    `<meta property="og:title" content="${attrEsc(title)}">`,
+    'og:title',
+  );
+  h = sub(
+    h,
+    /<meta property="og:description" content="[^"]*">/,
+    `<meta property="og:description" content="${attrEsc(description)}">`,
+    'og:description',
+  );
+  h = sub(
+    h,
+    /<meta property="og:url" content="[^"]*">/,
+    `<meta property="og:url" content="${attrEsc(url)}">`,
+    'og:url',
+  );
+  h = sub(
+    h,
+    /<meta name="twitter:title" content="[^"]*">/,
+    `<meta name="twitter:title" content="${attrEsc(title)}">`,
+    'twitter:title',
+  );
+  h = sub(
+    h,
+    /<meta name="twitter:description" content="[^"]*">/,
+    `<meta name="twitter:description" content="${attrEsc(description)}">`,
+    'twitter:description',
+  );
+  h = sub(
+    h,
+    /<link rel="canonical" href="[^"]*">/,
     noindex
       ? '<meta name="robots" content="noindex">'
       : `<link rel="canonical" href="${attrEsc(url)}">\n<link rel="alternate" type="text/markdown" href="${attrEsc(mdHref)}">`,
-    'canonical');
+    'canonical',
+  );
 
   // The Article JSON-LD ships on every page, so it has to name that page.
   const ld = (s) => JSON.stringify(String(s)).replace(/</g, '\\u003c');
   h = sub(h, /"headline": "[^"]*"/, `"headline": ${ld(title)}`, 'ld headline');
-  h = sub(h, /"description": "[^"]*"/, `"description": ${ld(description)}`, 'ld description');
-  h = sub(h, /"url": "https:\/\/state-of-ai-in-design-systems[^"]*"/, `"url": ${ld(url)}`, 'ld url');
+  h = sub(
+    h,
+    /"description": "[^"]*"/,
+    `"description": ${ld(description)}`,
+    'ld description',
+  );
+  h = sub(
+    h,
+    /"url": "https:\/\/state-of-ai-in-design-systems[^"]*"/,
+    `"url": ${ld(url)}`,
+    'ld url',
+  );
 
-  h = sub(h, /<nav id="nav" aria-label="Sections"><\/nav>/,
-    `<nav id="nav" aria-label="Sections">${navFor(view)}</nav>`, 'nav slot');
-  h = sub(h, /<div id="view-root"><\/div>/,
-    `<div id="view-root"><div class="view on">${body}</div></div>`, 'view-root slot');
-  h = sub(h, /<footer class="foot" id="foot" role="contentinfo"><\/footer>/,
-    `<footer class="foot" id="foot" role="contentinfo">${FOOT_HTML}</footer>`, 'foot slot');
+  h = sub(
+    h,
+    /<nav id="nav" aria-label="Sections"><\/nav>/,
+    `<nav id="nav" aria-label="Sections">${navFor(view)}</nav>`,
+    'nav slot',
+  );
+  h = sub(
+    h,
+    /<div id="view-root"><\/div>/,
+    `<div id="view-root"><div class="view on">${body}</div></div>`,
+    'view-root slot',
+  );
+  h = sub(
+    h,
+    /<footer class="foot" id="foot" role="contentinfo"><\/footer>/,
+    `<footer class="foot" id="foot" role="contentinfo">${FOOT_HTML}</footer>`,
+    'foot slot',
+  );
   return h;
 }
 
 function render(route) {
   const fn = VIEWS[route.view];
-  if (typeof fn !== 'function') die(`no view function for "${route.view}" (${route.path})`);
+  if (typeof fn !== 'function')
+    die(`no view function for "${route.view}" (${route.path})`);
   let body = fn(route.arg);
   if (route.view === 'systems') {
     renderSyslist();
@@ -138,10 +258,14 @@ function render(route) {
     if (!list) die('renderSyslist produced nothing');
     const n = payload.systems.length;
     body = body
-      .replace('<div class="syslist" id="syslist"></div>',
-        `<div class="syslist" id="syslist">${list}</div>`)
-      .replace('<p class="count" id="syscount" role="status"></p>',
-        `<p class="count" id="syscount" role="status">${n} of ${n} systems</p>`);
+      .replace(
+        '<div class="syslist" id="syslist"></div>',
+        `<div class="syslist" id="syslist">${list}</div>`,
+      )
+      .replace(
+        '<p class="count" id="syscount" role="status"></p>',
+        `<p class="count" id="syscount" role="status">${n} of ${n} systems</p>`,
+      );
   }
   return body;
 }
@@ -157,22 +281,30 @@ function emit(relPath, html) {
 // File-form output (matrix.html, systems/shadcn-ui.html): Netlify serves these
 // extensionless with a 200, so the canonical URL never redirects. Directory
 // form (matrix/index.html) made every canonical 301 to its trailing-slash twin.
-const relFor = (p) => (p === '/' ? 'index.html' : p.replace(/^\//, '') + '.html');
+const relFor = (p) =>
+  p === '/' ? 'index.html' : p.replace(/^\//, '') + '.html';
 
 let minBody = Infinity;
 for (const r of routes) {
   const rel = relFor(r.path);
   const body = render(r);
   // The shell alone is ~50KB, so a file-size floor cannot catch an empty view.
-  if (body.length < 400) die(`${r.path} rendered only ${body.length} chars of view HTML`);
+  if (body.length < 400)
+    die(`${r.path} rendered only ${body.length} chars of view HTML`);
   minBody = Math.min(minBody, body.length);
   emit(rel, page({ ...r, body }));
 }
-emit('404.html', page({
-  path: '/404', view: 'system', title: 'Not found',
-  description: 'That address is not part of this report.',
-  body: VIEWS.system(' not-a-system'), noindex: true,
-}));
+emit(
+  '404.html',
+  page({
+    path: '/404',
+    view: 'system',
+    title: 'Not found',
+    description: 'That address is not part of this report.',
+    body: VIEWS.system(' not-a-system'),
+    noindex: true,
+  }),
+);
 
 // Remove any directory-form twin a previous build left behind; with both
 // matrix.html and matrix/index.html on disk, Netlify's resolution is ambiguous.
@@ -184,16 +316,22 @@ for (const r of routes) {
   }
   try {
     const dir = join(OUT, r.path.replace(/^\//, ''));
-    if (existsSync(dir) && readdirSync(dir).length === 0) rmSync(dir, { recursive: true });
-  } catch { /* dir holds md/json mirrors — keep it */
+    if (existsSync(dir) && readdirSync(dir).length === 0)
+      rmSync(dir, { recursive: true });
+  } catch {
+    /* dir holds md/json mirrors — keep it */
   }
 }
 
 /* ---------- guard rails: an empty page must never ship quietly ---------- */
 const MIN = 2048;
 const small = written.filter(([, n]) => n <= MIN);
-if (small.length) die(`route files under ${MIN}B: ${small.map(([p, n]) => `${p}=${n}`).join(', ')}`);
-for (const [p] of written) if (!existsSync(join(OUT, p))) die('missing after write: ' + p);
+if (small.length)
+  die(
+    `route files under ${MIN}B: ${small.map(([p, n]) => `${p}=${n}`).join(', ')}`,
+  );
+for (const [p] of written)
+  if (!existsSync(join(OUT, p))) die('missing after write: ' + p);
 
 const read = (p) => readFileSync(join(OUT, p), 'utf8');
 const count = (s, needle) => s.split(needle).length - 1;
@@ -202,24 +340,32 @@ const count = (s, needle) => s.split(needle).length - 1;
 // name inside its own template literal.
 const sysHtml = read('systems.html');
 const listStart = sysHtml.indexOf('id="syslist"');
-const sysList = sysHtml.slice(listStart, sysHtml.indexOf('id="foot"', listStart));
+const sysList = sysHtml.slice(
+  listStart,
+  sysHtml.indexOf('id="foot"', listStart),
+);
 const nSysrow = count(sysList, 'class="sysrow"');
 if (nSysrow !== 19) die(`/systems.html has ${nSysrow} sysrows, expected 19`);
 const nSysGroup = count(sysList, 'class="sysgroup');
 const nMaturities = new Set(payload.systems.map((s) => s.ai_maturity)).size;
 if (nSysGroup !== nMaturities)
   die(`/systems.html has ${nSysGroup} cohort strips, expected ${nMaturities}`);
-if (!sysHtml.includes('class="syslist-head"')) die('/systems.html lost its column header row');
+if (!sysHtml.includes('class="syslist-head"'))
+  die('/systems.html lost its column header row');
 
 // Group header rows and multiple tbodies now sit between the system rows, so
 // count the rows that carry a row header and exclude the cohort strips.
 const mxHtml = read('matrix.html');
-const mxTable = mxHtml.slice(mxHtml.indexOf('<table class="mx">'), mxHtml.indexOf('</table>'));
+const mxTable = mxHtml.slice(
+  mxHtml.indexOf('<table class="mx">'),
+  mxHtml.indexOf('</table>'),
+);
 const nRows = count(mxTable, '<th scope="row" class="sys">');
 if (nRows !== 19) die(`/matrix.html has ${nRows} system rows, expected 19`);
 const nMxGroups = count(mxTable, 'class="mx-group');
 const nMxBodies = count(mxTable, '<tbody>');
-if (nMxGroups !== nMxBodies) die(`/matrix.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
+if (nMxGroups !== nMxBodies)
+  die(`/matrix.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
 if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
   die('a matrix cohort strip is missing scope="rowgroup"');
 
@@ -230,28 +376,45 @@ if (!rootHtml.includes('<h1>How design systems talk to machines</h1>'))
 // Every view in routes.json got a file, and the nav offers every one of them.
 const viewRoutes = routes.filter((r) => r.view !== 'system');
 for (const r of viewRoutes) {
-  if (!written.some(([p]) => p === relFor(r.path))) die(`no file written for view route ${r.path}`);
+  if (!written.some(([p]) => p === relFor(r.path)))
+    die(`no file written for view route ${r.path}`);
 }
 const navItems = sandbox.__NAV.map(([r]) => r);
 if (navItems.length !== viewRoutes.length)
-  die(`nav has ${navItems.length} items but routes.json has ${viewRoutes.length} view routes`);
+  die(
+    `nav has ${navItems.length} items but routes.json has ${viewRoutes.length} view routes`,
+  );
 for (const [r] of sandbox.__NAV) {
-  if (!routes.some((x) => x.view === r)) die(`nav item "${r}" has no route in routes.json`);
+  if (!routes.some((x) => x.view === r))
+    die(`nav item "${r}" has no route in routes.json`);
 }
 
 // The /ai page describes tools it registers, so the two must be the same list.
 const aiHtml = read('ai.html');
-if (!aiHtml.includes('Use this report with AI tools')) die('/ai.html is missing its h1');
+if (!aiHtml.includes('Use this report with AI tools'))
+  die('/ai.html is missing its h1');
 if (!aiHtml.includes('data-copy=')) die('/ai.html has no copy buttons');
 const declared = payload.ai_page && payload.ai_page.webmcp_tools;
-if (!declared || !declared.length) die('payload.ai_page.webmcp_tools is missing');
+if (!declared || !declared.length)
+  die('payload.ai_page.webmcp_tools is missing');
 const captured = [];
 sandbox.document.modelContext = {
   registerTool(tool) {
-    if (!tool || !tool.name || !tool.description || typeof tool.execute !== 'function')
+    if (
+      !tool ||
+      !tool.name ||
+      !tool.description ||
+      typeof tool.execute !== 'function'
+    )
       die('a WebMCP tool is missing name, description or execute');
-    if (!tool.annotations || tool.annotations.readOnlyHint !== true || tool.annotations.untrustedContentHint !== true)
-      die(`WebMCP tool ${tool.name} is missing readOnlyHint / untrustedContentHint`);
+    if (
+      !tool.annotations ||
+      tool.annotations.readOnlyHint !== true ||
+      tool.annotations.untrustedContentHint !== true
+    )
+      die(
+        `WebMCP tool ${tool.name} is missing readOnlyHint / untrustedContentHint`,
+      );
     captured.push(tool);
     return Promise.resolve();
   },
@@ -260,19 +423,24 @@ const handle = sandbox.__registerReportTools(payload);
 sandbox.document.modelContext = undefined;
 const names = captured.map((t) => t.name);
 if (names.join(',') !== declared.join(','))
-  die(`WebMCP tools ${names.join(',')} but /ai copy says ${declared.join(',')}`);
+  die(
+    `WebMCP tools ${names.join(',')} but /ai copy says ${declared.join(',')}`,
+  );
 for (const t of captured) {
   const res = await t.execute({ id: payload.systems[0].id, query: 'mcp' });
-  if (typeof res !== 'string' || res.length < 20) die(`WebMCP tool ${t.name} returned no JSON string`);
+  if (typeof res !== 'string' || res.length < 20)
+    die(`WebMCP tool ${t.name} returned no JSON string`);
   JSON.parse(res);
 }
-if (!handle || typeof handle.unregister !== 'function') die('registerReportTools returned no handle');
+if (!handle || typeof handle.unregister !== 'function')
+  die('registerReportTools returned no handle');
 
 function allHtml(dir, acc = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
     if (e.isDirectory()) allHtml(p, acc);
-    else if (e.name.endsWith('.html') && e.name !== 'template.html') acc.push(p);
+    else if (e.name.endsWith('.html') && e.name !== 'template.html')
+      acc.push(p);
   }
   return acc;
 }
@@ -286,7 +454,15 @@ console.log(`prerendered ${written.length} files`);
 console.log(`  nav: ${navItems.length} items (${navItems.join(', ')})`);
 console.log(`  webmcp tools registered and executed: ${names.join(', ')}`);
 console.log(`  smallest view body: ${minBody} chars`);
-console.log(`  smallest: ${written.reduce((a, b) => (b[1] < a[1] ? b : a)).join('=')} bytes`);
-console.log(`  largest:  ${written.reduce((a, b) => (b[1] > a[1] ? b : a)).join('=')} bytes`);
-console.log(`  /systems sysrows=${nSysrow} (+${nSysGroup} cohort strips)  /matrix system rows=${nRows} in ${nMxBodies} tbodies`);
-console.log('  placeholder scan: clean across ' + allHtml(OUT).length + ' html files');
+console.log(
+  `  smallest: ${written.reduce((a, b) => (b[1] < a[1] ? b : a)).join('=')} bytes`,
+);
+console.log(
+  `  largest:  ${written.reduce((a, b) => (b[1] > a[1] ? b : a)).join('=')} bytes`,
+);
+console.log(
+  `  /systems sysrows=${nSysrow} (+${nSysGroup} cohort strips)  /matrix system rows=${nRows} in ${nMxBodies} tbodies`,
+);
+console.log(
+  '  placeholder scan: clean across ' + allHtml(OUT).length + ' html files',
+);

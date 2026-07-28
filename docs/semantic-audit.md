@@ -76,8 +76,14 @@ treatment exactly as it looks now.
 
 ```html
 <div class="twocol">
-  <div class="col"><h2 class="t">For consumers — building with it</h2><p>…</p></div>
-  <div class="col"><h2 class="t">For builders — maintaining it</h2><p>…</p></div>
+  <div class="col">
+    <h2 class="t">For consumers — building with it</h2>
+    <p>…</p>
+  </div>
+  <div class="col">
+    <h2 class="t">For builders — maintaining it</h2>
+    <p>…</p>
+  </div>
 </div>
 ```
 
@@ -124,25 +130,25 @@ apply the table below. Every component the presentation pass flagged as
 executor’s taste, and `code`/`em`/`strong` inside a promoted paragraph inherit
 the promotion for free.
 
-| Component (selector) | Now | Ruling | Reason |
-|---|---|---|---|
-| `.twocol .col p` | `--ink-2` | **→ `--ink`** | Owner directive; the card body is the finding, not a caption. |
-| `.tech-ex .tb p` | `--ink-2` | **→ `--ink`** | ~78k characters across `/techniques/`, `/platforms/` and every system page — the single largest body of prose on the site, and the whole point of the technique catalogue. |
-| `.plat .sum` | `--ink-2` | **→ `--ink`** | The platform’s verdict paragraph, and the first prose under its `h2`. |
-| `.aff-body p.desc` | `--ink-2` | **→ `--ink`** | What the affordance *is*; the reader opened the disclosure to read exactly this. |
-| `.findings p` | `--ink-2` | **→ `--ink`** | The nine findings are the report’s argument (see directive 3). |
-| `.body-block` | `--ink-2` | **→ `--ink`** | Its own code comment calls it “primary content that happens to sit under an h2, as opposed to a subtitle”, and its `.gaps` variant is already `--ink`. Align the base with both. |
-| `.prose p` (and `.prose li`, which inherits) | `--ink-2` | **→ `--ink`** | On `/methodology/` and `/ai/` this is the entire page body; a whole page of secondary text has no primary to be secondary to. |
-| `.snip-bar button .btxt` | `--ink-2` | **→ `--ink`** | A control label. Muted control text reads as disabled. |
-| `.snip-bar .lang`, `.snip-bar .snote` | `--ink-3` | **→ `--ink-2`** | 10px at 4.68:1 is the smallest, weakest text on the site, and `.snote` carries source receipts (“Path in tarball: …”). |
-| `.plat .adopt` | `--ink-3` | **→ `--ink-2`** | It is the platform’s adoption evidence — a receipt, quoted with a rule on the left. Receipts are not chrome. |
-| `.sysrow .sum` | `--ink-2` | **keep muted** | A 19-row scanning list: the system name is the target, the summary is the preview. Promoting it flattens the row. |
-| `p.lede` | `--ink-2` | **keep muted** | Deck under an `h1` at 16.5px; size and measure carry it. |
-| `.h2-sub` | `--ink-2` | **keep muted** | Genuinely a subtitle for the heading above it — the distinction the `.body-block` comment draws. |
-| `.tech-cat > .def` | `--ink-2` | **keep muted** | Same role as `.h2-sub`: it defines the category heading rather than making a claim. |
-| `.aff-body .note` | `--ink-3` | **keep muted** | Qualifies `.desc`; the two must not read at the same level. |
-| `.ai-links .note` | `--ink-2` | **keep muted** | Annotation on a link list. |
-| `.metagrid .k`, `.sysrow .org`, `.chip` text, `.srclist .h`, rail nav idle items, `.rail-foot`, `footer.foot` | `--ink-2`/`--ink-3` | **keep muted** | Labels, chrome and metadata. This is what the muted tokens are for, and keeping them muted is what makes the promotions above readable as hierarchy. |
+| Component (selector)                                                                                          | Now                 | Ruling          | Reason                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------- | ------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.twocol .col p`                                                                                              | `--ink-2`           | **→ `--ink`**   | Owner directive; the card body is the finding, not a caption.                                                                                                                    |
+| `.tech-ex .tb p`                                                                                              | `--ink-2`           | **→ `--ink`**   | ~78k characters across `/techniques/`, `/platforms/` and every system page — the single largest body of prose on the site, and the whole point of the technique catalogue.       |
+| `.plat .sum`                                                                                                  | `--ink-2`           | **→ `--ink`**   | The platform’s verdict paragraph, and the first prose under its `h2`.                                                                                                            |
+| `.aff-body p.desc`                                                                                            | `--ink-2`           | **→ `--ink`**   | What the affordance _is_; the reader opened the disclosure to read exactly this.                                                                                                 |
+| `.findings p`                                                                                                 | `--ink-2`           | **→ `--ink`**   | The nine findings are the report’s argument (see directive 3).                                                                                                                   |
+| `.body-block`                                                                                                 | `--ink-2`           | **→ `--ink`**   | Its own code comment calls it “primary content that happens to sit under an h2, as opposed to a subtitle”, and its `.gaps` variant is already `--ink`. Align the base with both. |
+| `.prose p` (and `.prose li`, which inherits)                                                                  | `--ink-2`           | **→ `--ink`**   | On `/methodology/` and `/ai/` this is the entire page body; a whole page of secondary text has no primary to be secondary to.                                                    |
+| `.snip-bar button .btxt`                                                                                      | `--ink-2`           | **→ `--ink`**   | A control label. Muted control text reads as disabled.                                                                                                                           |
+| `.snip-bar .lang`, `.snip-bar .snote`                                                                         | `--ink-3`           | **→ `--ink-2`** | 10px at 4.68:1 is the smallest, weakest text on the site, and `.snote` carries source receipts (“Path in tarball: …”).                                                           |
+| `.plat .adopt`                                                                                                | `--ink-3`           | **→ `--ink-2`** | It is the platform’s adoption evidence — a receipt, quoted with a rule on the left. Receipts are not chrome.                                                                     |
+| `.sysrow .sum`                                                                                                | `--ink-2`           | **keep muted**  | A 19-row scanning list: the system name is the target, the summary is the preview. Promoting it flattens the row.                                                                |
+| `p.lede`                                                                                                      | `--ink-2`           | **keep muted**  | Deck under an `h1` at 16.5px; size and measure carry it.                                                                                                                         |
+| `.h2-sub`                                                                                                     | `--ink-2`           | **keep muted**  | Genuinely a subtitle for the heading above it — the distinction the `.body-block` comment draws.                                                                                 |
+| `.tech-cat > .def`                                                                                            | `--ink-2`           | **keep muted**  | Same role as `.h2-sub`: it defines the category heading rather than making a claim.                                                                                              |
+| `.aff-body .note`                                                                                             | `--ink-3`           | **keep muted**  | Qualifies `.desc`; the two must not read at the same level.                                                                                                                      |
+| `.ai-links .note`                                                                                             | `--ink-2`           | **keep muted**  | Annotation on a link list.                                                                                                                                                       |
+| `.metagrid .k`, `.sysrow .org`, `.chip` text, `.srclist .h`, rail nav idle items, `.rail-foot`, `footer.foot` | `--ink-2`/`--ink-3` | **keep muted**  | Labels, chrome and metadata. This is what the muted tokens are for, and keeping them muted is what makes the promotions above readable as hierarchy.                             |
 
 **Where:** the CSS rules named in the table, all in `dashboard/template.html`.
 
@@ -163,7 +169,10 @@ If it does, the answer is more space, not re-muting.
 becomes:
 
 ```html
-<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>
+<li>
+  <h3>${esc(x.title)}</h3>
+  <p>${fmt(x.body)}</p>
+</li>
 ```
 
 CSS: change the selector `.findings b` to `.findings h3` and add
@@ -195,10 +204,14 @@ the full two-line-clamped summary, and both counts — because the whole row is
 one `<a>`. Split the link from the row and make the cohorts real lists:
 
 ```html
-<h2 class="sysgroup mat-ai-native"><span class="gl">AI-native</span> · <span class="gn">13</span></h2>
+<h2 class="sysgroup mat-ai-native">
+  <span class="gl">AI-native</span> · <span class="gn">13</span>
+</h2>
 <ul class="cohort">
   <li class="sysrow">
-    <a class="who" href="${href('systems', s.id)}"><span class="nm">…</span><span class="org">…</span></a>
+    <a class="who" href="${href('systems', s.id)}"
+      ><span class="nm">…</span><span class="org">…</span></a
+    >
     <span class="sum">…</span>
     <span class="cts">…</span>
   </li>
@@ -252,8 +265,14 @@ and that `href()` is still the only source of row URLs so hash-mode
 
 ```html
 <dl class="metagrid">
-  <div><dt class="k">Org</dt><dd class="v">shadcn (Vercel)</dd></div>
-  <div class="wide"><dt class="k">Activity</dt><dd class="v">…</dd></div>
+  <div>
+    <dt class="k">Org</dt>
+    <dd class="v">shadcn (Vercel)</dd>
+  </div>
+  <div class="wide">
+    <dt class="k">Activity</dt>
+    <dd class="v">…</dd>
+  </div>
 </dl>
 ```
 
@@ -286,7 +305,7 @@ and 4-cell record widths at 1440/1100/900/375.
 <p class="body-block">${fmt(p.description)} ${extArrow(...)}</p>
 ```
 
-Drop the ` — ` separator that currently joins name to prose, or the paragraph
+Drop the `—` separator that currently joins name to prose, or the paragraph
 opens on a dangling em dash. Style `.pi { font-size: 14px; margin: 14px 0 2px }`
 so the section keeps its current rhythm rather than inheriting the 15.5px `h3`.
 
@@ -354,8 +373,11 @@ to snippets that do not scroll. A post-render pass, next to
 `setupMatrixFades()`:
 
 ```js
-document.querySelectorAll('pre[id^="sn-"]').forEach(p => {
-  if (p.scrollWidth <= p.clientWidth) { p.removeAttribute('tabindex'); p.removeAttribute('role'); }
+document.querySelectorAll('pre[id^="sn-"]').forEach((p) => {
+  if (p.scrollWidth <= p.clientWidth) {
+    p.removeAttribute('tabindex');
+    p.removeAttribute('role');
+  }
 });
 ```
 
@@ -384,8 +406,12 @@ the theme toggle draw their borders in `--line` / `--line-strong`, measured at
 use it on controls only:
 
 ```css
-:root { --control-line: #8F8F8F }        /* 3.2:1 on #FFF */
-:root[data-theme="dark"] { --control-line: #6B6B6B }  /* 3.5:1 on #111 */
+:root {
+  --control-line: #8f8f8f;
+} /* 3.2:1 on #FFF */
+:root[data-theme='dark'] {
+  --control-line: #6b6b6b;
+} /* 3.5:1 on #111 */
 ```
 
 Apply to `.searchbar input`, `.searchbar select`, `.snip-bar button`,

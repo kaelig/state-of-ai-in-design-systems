@@ -98,11 +98,11 @@ it isn’t blue.
 
 ## Where the data lives
 
-| File | What’s in it |
-|---|---|
-| `data/design-systems.json` | The 19 system records: affordances, techniques, sources |
-| `data/platforms.json` | The 5 platform records and their capabilities |
-| `data/insights.json` | The written findings, essay, methodology and caveats |
+| File                               | What’s in it                                             |
+| ---------------------------------- | -------------------------------------------------------- |
+| `data/design-systems.json`         | The 19 system records: affordances, techniques, sources  |
+| `data/platforms.json`              | The 5 platform records and their capabilities            |
+| `data/insights.json`               | The written findings, essay, methodology and caveats     |
 | `schema/design-system.schema.json` | The record schema, including the controlled vocabularies |
 
 The schema is worth reading before you edit a record. `type`, `category`,

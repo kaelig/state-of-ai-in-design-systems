@@ -8,36 +8,39 @@
 // Vary: Accept is set on BOTH branches. Without it the CDN would cache one
 // representation and hand markdown to browsers, or HTML to agents.
 
-import type { Config, Context } from "https://edge.netlify.com";
-import { MD_TWINS } from "./lib/md-routes.ts";
+import type { Config, Context } from 'https://edge.netlify.com';
+import { MD_TWINS } from './lib/md-routes.ts';
 
-const ORIGIN = "https://state-of-ai-in-design-systems.netlify.app";
+const ORIGIN = 'https://state-of-ai-in-design-systems.netlify.app';
 
 function wantsMarkdown(accept: string | null): boolean {
   if (!accept) return false;
-  return accept.toLowerCase().includes("text/markdown");
+  return accept.toLowerCase().includes('text/markdown');
 }
 
 export default async function handler(req: Request, context: Context) {
   const url = new URL(req.url);
   // Trailing slashes are equivalent: /systems/ and /systems are one route.
-  const path = url.pathname !== "/" && url.pathname.endsWith("/")
-    ? url.pathname.slice(0, -1)
-    : url.pathname;
+  const path =
+    url.pathname !== '/' && url.pathname.endsWith('/')
+      ? url.pathname.slice(0, -1)
+      : url.pathname;
   const twin = MD_TWINS[path];
 
-  if (twin && wantsMarkdown(req.headers.get("accept"))) {
-    const res = await fetch(new URL(twin, url), { headers: { accept: "text/markdown" } });
+  if (twin && wantsMarkdown(req.headers.get('accept'))) {
+    const res = await fetch(new URL(twin, url), {
+      headers: { accept: 'text/markdown' },
+    });
     if (res.ok) {
       const body = await res.text();
       return new Response(body, {
         status: 200,
         headers: {
-          "content-type": "text/markdown; charset=utf-8",
-          "vary": "Accept",
-          "link": `<${ORIGIN}${path}>; rel="canonical"`,
-          "access-control-allow-origin": "*",
-          "x-content-type-options": "nosniff",
+          'content-type': 'text/markdown; charset=utf-8',
+          vary: 'Accept',
+          link: `<${ORIGIN}${path}>; rel="canonical"`,
+          'access-control-allow-origin': '*',
+          'x-content-type-options': 'nosniff',
         },
       });
     }
@@ -46,35 +49,35 @@ export default async function handler(req: Request, context: Context) {
 
   const res = await context.next();
   const headers = new Headers(res.headers);
-  headers.append("vary", "Accept");
+  headers.append('vary', 'Accept');
   return new Response(res.body, { status: res.status, headers });
 }
 
 export const config: Config = {
   path: [
-    "/",
-    "/ai",
-    "/insights",
-    "/matrix",
-    "/methodology",
-    "/platforms",
-    "/systems",
-    "/systems/*",
-    "/techniques",
+    '/',
+    '/ai',
+    '/insights',
+    '/matrix',
+    '/methodology',
+    '/platforms',
+    '/systems',
+    '/systems/*',
+    '/techniques',
   ],
   // Anything that is already a file gets served directly; the negotiation only
   // applies to the HTML routes above.
   excludedPath: [
-    "/*.md",
-    "/*.json",
-    "/*.txt",
-    "/*.xml",
-    "/*.svg",
-    "/*.png",
-    "/*.js",
-    "/*.css",
-    "/*.sqlite",
-    "/data/*",
-    "/.well-known/*",
+    '/*.md',
+    '/*.json',
+    '/*.txt',
+    '/*.xml',
+    '/*.svg',
+    '/*.png',
+    '/*.js',
+    '/*.css',
+    '/*.sqlite',
+    '/data/*',
+    '/.well-known/*',
   ],
 };

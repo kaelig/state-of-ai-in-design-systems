@@ -596,7 +596,7 @@ safety net exists before the committed output is removed.
 4. Run, in order: `lint`, `format:check`, `typecheck`, `deno check` and
    `deno lint` over `netlify/edge-functions/`, `ruff check`,
    `ruff format --check`, `mypy scripts/`, `npm test`, `node
-   scripts/check_contrast.js`, `./scripts/build.sh`,
+scripts/check_contrast.js`, `./scripts/build.sh`,
    `python3 scripts/check_md_layer.py`, and the U7 type drift check.
 5. Add `npm run check` running the same sequence locally, so the two never drift.
    The workflow should call the npm script where possible rather than restating
@@ -710,21 +710,21 @@ passing `npm run check` without further instruction.
 
 The whole sequence, in the order CI runs it:
 
-| Gate | Command | Fails when |
-|---|---|---|
-| Lint | `npm run lint` | ESLint finds an error in `.mjs`/`.js` |
-| Format | `npm run format:check` | Any tracked file is unformatted |
-| Types | `npm run typecheck` | `tsc` reports an error |
-| Edge functions | `deno check` and `deno lint` on `netlify/edge-functions/` | Deno reports an error |
-| Python lint | `ruff check` | A lint rule fires |
-| Python format | `ruff format --check` | Any script is unformatted |
-| Python types | `mypy scripts/` | An error above the recorded baseline |
-| Unit tests | `npm test` | The MCP suite fails |
-| Contrast | `node scripts/check_contrast.js` | A token pair falls below AA |
-| Data | step 0 of `build.sh` | A record violates its schema |
-| Build | `./scripts/build.sh` | Any pipeline step fails |
-| Markdown layer | `python3 scripts/check_md_layer.py` | A mirror, link or budget check fails |
-| Type drift | regenerate `types/data.d.ts` | The working tree changed |
+| Gate           | Command                                                   | Fails when                            |
+| -------------- | --------------------------------------------------------- | ------------------------------------- |
+| Lint           | `npm run lint`                                            | ESLint finds an error in `.mjs`/`.js` |
+| Format         | `npm run format:check`                                    | Any tracked file is unformatted       |
+| Types          | `npm run typecheck`                                       | `tsc` reports an error                |
+| Edge functions | `deno check` and `deno lint` on `netlify/edge-functions/` | Deno reports an error                 |
+| Python lint    | `ruff check`                                              | A lint rule fires                     |
+| Python format  | `ruff format --check`                                     | Any script is unformatted             |
+| Python types   | `mypy scripts/`                                           | An error above the recorded baseline  |
+| Unit tests     | `npm test`                                                | The MCP suite fails                   |
+| Contrast       | `node scripts/check_contrast.js`                          | A token pair falls below AA           |
+| Data           | step 0 of `build.sh`                                      | A record violates its schema          |
+| Build          | `./scripts/build.sh`                                      | Any pipeline step fails               |
+| Markdown layer | `python3 scripts/check_md_layer.py`                       | A mirror, link or budget check fails  |
+| Type drift     | regenerate `types/data.d.ts`                              | The working tree changed              |
 
 ---
 

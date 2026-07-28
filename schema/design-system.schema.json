@@ -4,9 +4,20 @@
   "title": "Design System AI Affordances Record",
   "description": "One record per design system / component library in the State of AI in Design Systems study (July 2026). Every affordance, technique and capability carries the source URL of the file it was quoted from.",
   "type": "object",
-  "required": ["id", "name", "summary", "maintenance", "ai_maturity", "affordances", "techniques"],
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "maintenance",
+    "ai_maturity",
+    "affordances",
+    "techniques"
+  ],
   "properties": {
-    "id": { "type": "string", "description": "kebab-case slug, e.g. 'shadcn-ui'" },
+    "id": {
+      "type": "string",
+      "description": "kebab-case slug, e.g. 'shadcn-ui'"
+    },
     "name": { "type": "string" },
     "org": { "type": "string", "description": "Maintaining org/company" },
     "category": {
@@ -19,8 +30,14 @@
     "maintenance": {
       "type": "object",
       "properties": {
-        "last_release": { "type": "string", "description": "version + approx date" },
-        "activity_note": { "type": "string", "description": "commit cadence, open development signals" },
+        "last_release": {
+          "type": "string",
+          "description": "version + approx date"
+        },
+        "activity_note": {
+          "type": "string",
+          "description": "commit cadence, open development signals"
+        },
         "actively_maintained": { "type": "boolean" }
       }
     },
@@ -37,26 +54,46 @@
         "properties": {
           "type": {
             "enum": [
-              "mcp-server", "llms-txt", "agents-md", "claude-md", "claude-skill",
-              "cursor-rules", "copilot-instructions", "ai-docs-page", "registry",
-              "cli-scaffolding", "figma-code-connect", "storybook-integration",
-              "prompt-library", "codemod-ai", "other"
+              "mcp-server",
+              "llms-txt",
+              "agents-md",
+              "claude-md",
+              "claude-skill",
+              "cursor-rules",
+              "copilot-instructions",
+              "ai-docs-page",
+              "registry",
+              "cli-scaffolding",
+              "figma-code-connect",
+              "storybook-integration",
+              "prompt-library",
+              "codemod-ai",
+              "other"
             ]
           },
           "name": { "type": "string" },
-          "official": { "type": "boolean", "description": "shipped by the DS team vs community" },
+          "official": {
+            "type": "boolean",
+            "description": "shipped by the DS team vs community"
+          },
           "audience": {
             "enum": ["consumers", "builders", "both"],
             "description": "consumers = people/agents building UIs WITH the system; builders = the DS team maintaining the system itself"
           },
           "description": { "type": "string" },
           "docs_url": { "type": "string" },
-          "code_url": { "type": "string", "description": "link to the actual source (prefer raw.githubusercontent / permalink)" },
+          "code_url": {
+            "type": "string",
+            "description": "link to the actual source (prefer raw.githubusercontent / permalink)"
+          },
           "snippet": {
             "type": "object",
             "properties": {
               "language": { "type": "string" },
-              "content": { "type": "string", "description": "verbatim excerpt, <= 40 lines / 1500 chars" },
+              "content": {
+                "type": "string",
+                "description": "verbatim excerpt, <= 40 lines / 1500 chars"
+              },
               "source_url": { "type": "string" }
             }
           },
@@ -74,9 +111,17 @@
           "name": { "type": "string" },
           "category": {
             "enum": [
-              "prohibition", "tool-gating", "curated-context", "validation-loop",
-              "scaffolding", "exemplars", "token-enforcement", "registry-metadata",
-              "instruction-files", "design-code-mapping", "other"
+              "prohibition",
+              "tool-gating",
+              "curated-context",
+              "validation-loop",
+              "scaffolding",
+              "exemplars",
+              "token-enforcement",
+              "registry-metadata",
+              "instruction-files",
+              "design-code-mapping",
+              "other"
             ],
             "description": "prohibition = explicit negative rules ('never invent components'); tool-gating = agent must call MCP/CLI to obtain source, cannot hallucinate it; curated-context = llms.txt-style condensed docs sized for context windows; validation-loop = linters/type-checkers the agent runs for feedback (e.g. slds-linter); scaffolding = CLIs generate the correct code, agent orchestrates; exemplars = few-shot examples/templates in agent-readable form; token-enforcement = rules/types that force design tokens over raw values; registry-metadata = machine-readable component registry with deps/props; instruction-files = CLAUDE.md/AGENTS.md/rules distributed to repos; design-code-mapping = Figma Code Connect-style node-to-component mapping"
           },
@@ -98,7 +143,16 @@
         "type": "object",
         "required": ["platform", "description"],
         "properties": {
-          "platform": { "enum": ["figma", "storybook", "supernova", "knapsack", "zeroheight", "other"] },
+          "platform": {
+            "enum": [
+              "figma",
+              "storybook",
+              "supernova",
+              "knapsack",
+              "zeroheight",
+              "other"
+            ]
+          },
           "description": { "type": "string" },
           "url": { "type": "string" }
         }
@@ -107,12 +161,24 @@
     "building_vs_consumption": {
       "type": "object",
       "properties": {
-        "for_consumers": { "type": "string", "description": "1-3 sentence summary of AI support for using the system" },
-        "for_builders": { "type": "string", "description": "1-3 sentence summary of how the team uses AI to build the system" }
+        "for_consumers": {
+          "type": "string",
+          "description": "1-3 sentence summary of AI support for using the system"
+        },
+        "for_builders": {
+          "type": "string",
+          "description": "1-3 sentence summary of how the team uses AI to build the system"
+        }
       }
     },
-    "gaps": { "type": "string", "description": "what could not be confirmed; open questions" },
+    "gaps": {
+      "type": "string",
+      "description": "what could not be confirmed; open questions"
+    },
     "sources": { "type": "array", "items": { "type": "string" } },
-    "summary": { "type": "string", "description": "2-4 sentence editorial summary for the dashboard" }
+    "summary": {
+      "type": "string",
+      "description": "2-4 sentence editorial summary for the dashboard"
+    }
   }
 }

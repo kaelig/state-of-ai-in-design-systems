@@ -1,7 +1,7 @@
 name: Suggest a design system
 description: A system that should be in the study and isn’t.
-title: "[system] "
-labels: ["new-system"]
+title: '[system] '
+labels: ['new-system']
 body:
   - type: markdown
     attributes:
@@ -69,7 +69,7 @@ body:
       description: >-
         A release in the last six months, recent commits on the default branch, a
         changelog entry. A link is enough.
-      placeholder: "Latest release 2026-07-01: https://github.com/org/repo/releases"
+      placeholder: 'Latest release 2026-07-01: https://github.com/org/repo/releases'
     validations:
       required: true
 

@@ -1,7 +1,7 @@
 name: Site bug
 description: A page, link, file, or endpoint that doesn’t work.
-title: "[bug] "
-labels: ["bug"]
+title: '[bug] '
+labels: ['bug']
 body:
   - type: markdown
     attributes:

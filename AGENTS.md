@@ -28,19 +28,19 @@ different tools. Requirements are Python 3 with no packages and Node 20+.
 
 ## Edit these
 
-| Path | What it is |
-|---|---|
-| `data/design-systems.json` | The 19 system records. Facts go here, nowhere else. |
-| `data/platforms.json` | The 5 platform records. |
-| `data/insights.json` | Findings, essay, methodology, caveats — the written analysis. |
-| `schema/design-system.schema.json` | Record schema and controlled vocabularies. |
-| `dashboard/template.html` | The entire site: markup, CSS, and one view function per route. |
-| `scripts/build_dashboard.py` | Payload, HTML shells, route table, nav. |
-| `scripts/build_md.py` | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite. |
-| `scripts/prerender.mjs` | One static HTML file per route. |
-| `netlify/functions/mcp.mjs` | The MCP server at `/mcp`. |
-| `netlify/edge-functions/markdown.ts` | Content negotiation for `Accept: text/markdown`. |
-| `tests/mcp.test.mjs` | The MCP suite. |
+| Path                                 | What it is                                                     |
+| ------------------------------------ | -------------------------------------------------------------- |
+| `data/design-systems.json`           | The 19 system records. Facts go here, nowhere else.            |
+| `data/platforms.json`                | The 5 platform records.                                        |
+| `data/insights.json`                 | Findings, essay, methodology, caveats — the written analysis.  |
+| `schema/design-system.schema.json`   | Record schema and controlled vocabularies.                     |
+| `dashboard/template.html`            | The entire site: markup, CSS, and one view function per route. |
+| `scripts/build_dashboard.py`         | Payload, HTML shells, route table, nav.                        |
+| `scripts/build_md.py`                | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
+| `scripts/prerender.mjs`              | One static HTML file per route.                                |
+| `netlify/functions/mcp.mjs`          | The MCP server at `/mcp`.                                      |
+| `netlify/edge-functions/markdown.ts` | Content negotiation for `Accept: text/markdown`.               |
+| `tests/mcp.test.mjs`                 | The MCP suite.                                                 |
 
 ## Never edit these
 
@@ -66,7 +66,7 @@ fetch the existing `source_url` and read it. A correction from a model’s
 recollection rather than from a fetched page is worse than no correction, and
 reviewers can tell.
 
-A record that documents an *absence* is the one case with nothing to link, and
+A record that documents an _absence_ is the one case with nothing to link, and
 it is correct that way. `patternfly`'s “llms.txt / llms-full.txt” affordance
 exists to record that both files return 404; there is no page to point at, and a
 sweep that “fixes” the missing link by supplying a URL makes the report say the
@@ -163,12 +163,12 @@ July 2026. It goes stale, and the systems it describes ship weekly.
 Corrections are the most useful contribution. Four templates, all fillable by a
 person or an agent:
 
-| Template | For |
-|---|---|
+| Template              | For                                                        |
+| --------------------- | ---------------------------------------------------------- |
 | `data-correction.yml` | A fact is wrong, stale, or missing. Requires a source URL. |
-| `new-system.yml` | A system that should be in the study. |
-| `site-bug.yml` | A page, link, file, or endpoint that doesn’t work. |
-| `feedback.yml` | Anything else, including disagreement with the findings. |
+| `new-system.yml`      | A system that should be in the study.                      |
+| `site-bug.yml`        | A page, link, file, or endpoint that doesn’t work.         |
+| `feedback.yml`        | Anything else, including disagreement with the findings.   |
 
 From a shell:
 

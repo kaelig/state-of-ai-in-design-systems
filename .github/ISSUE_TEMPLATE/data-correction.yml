@@ -1,7 +1,7 @@
 name: Data correction
 description: Something in the report is wrong, out of date, or missing a detail.
-title: "[data] "
-labels: ["data"]
+title: '[data] '
+labels: ['data']
 body:
   - type: markdown
     attributes:
@@ -22,32 +22,32 @@ body:
       label: What does this correct?
       description: Pick the record. The id in parentheses is the one used in the data files and URLs.
       options:
-        - "Ant Design (ant-design)"
-        - "Atlassian Design System (atlassian-design-system)"
-        - "Carbon Design System (carbon-design-system)"
-        - "Chakra UI (chakra-ui)"
-        - "Cloudscape Design System (cloudscape-design-system)"
-        - "daisyUI (daisyui)"
-        - "HeroUI (heroui)"
-        - "Mantine (mantine)"
-        - "Material UI (MUI) (material-ui)"
-        - "Microsoft Fluent UI (fluent-ui-microsoft)"
-        - "Nord Design System (nord-design-system)"
-        - "Nuxt UI (nuxt-ui)"
-        - "PatternFly (patternfly)"
-        - "Primer (primer-github)"
-        - "React Spectrum / Spectrum 2 (S2) (react-spectrum-s2)"
-        - "Salesforce Lightning Design System (salesforce-slds)"
-        - "shadcn/ui (shadcn-ui)"
-        - "Shopify Polaris (shopify-polaris)"
-        - "U.S. Web Design System (USWDS) (uswds)"
-        - "Figma (figma) — platform"
-        - "Storybook (storybook) — platform"
-        - "Supernova.io (supernova) — platform"
-        - "Knapsack.cloud (knapsack) — platform"
-        - "zeroheight (zeroheight) — platform"
-        - "A finding, count, or claim on a report page"
-        - "Something else, or not sure"
+        - 'Ant Design (ant-design)'
+        - 'Atlassian Design System (atlassian-design-system)'
+        - 'Carbon Design System (carbon-design-system)'
+        - 'Chakra UI (chakra-ui)'
+        - 'Cloudscape Design System (cloudscape-design-system)'
+        - 'daisyUI (daisyui)'
+        - 'HeroUI (heroui)'
+        - 'Mantine (mantine)'
+        - 'Material UI (MUI) (material-ui)'
+        - 'Microsoft Fluent UI (fluent-ui-microsoft)'
+        - 'Nord Design System (nord-design-system)'
+        - 'Nuxt UI (nuxt-ui)'
+        - 'PatternFly (patternfly)'
+        - 'Primer (primer-github)'
+        - 'React Spectrum / Spectrum 2 (S2) (react-spectrum-s2)'
+        - 'Salesforce Lightning Design System (salesforce-slds)'
+        - 'shadcn/ui (shadcn-ui)'
+        - 'Shopify Polaris (shopify-polaris)'
+        - 'U.S. Web Design System (USWDS) (uswds)'
+        - 'Figma (figma) — platform'
+        - 'Storybook (storybook) — platform'
+        - 'Supernova.io (supernova) — platform'
+        - 'Knapsack.cloud (knapsack) — platform'
+        - 'zeroheight (zeroheight) — platform'
+        - 'A finding, count, or claim on a report page'
+        - 'Something else, or not sure'
     validations:
       required: true
 
@@ -93,12 +93,12 @@ body:
       label: How did you find this?
       description: Optional. It helps to know which surfaces people and agents actually read.
       options:
-        - "Reading the site"
-        - "The markdown layer (/llms.txt, *.md)"
-        - "The MCP server"
-        - "The JSON or SQLite data"
-        - "I maintain this design system"
-        - "Other"
+        - 'Reading the site'
+        - 'The markdown layer (/llms.txt, *.md)'
+        - 'The MCP server'
+        - 'The JSON or SQLite data'
+        - 'I maintain this design system'
+        - 'Other'
     validations:
       required: false
 
