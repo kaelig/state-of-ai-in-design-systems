@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "types": "node scripts/generate_types.mjs",
-    "types:check": "node scripts/generate_types.mjs --check"
+    "types:check": "node scripts/generate_types.mjs --check",
+    "check": "./scripts/check.sh"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0-beta.5",

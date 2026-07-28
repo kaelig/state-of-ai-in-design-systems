@@ -1,0 +1,45 @@
+name: CI
+
+# Netlify deploys production on every push to main, so the run on main is an
+# alarm rather than a gate — it tells you a bad commit landed. The run that
+# actually gates anything is the one on pull requests, which is the path an
+# outside contribution takes.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A newer push makes an in-flight run pointless; don't queue behind it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Both versions come from the files Netlify itself reads, so CI cannot
+      # test one runtime while the deploy uses another.
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: runtime.txt
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - uses: astral-sh/setup-uv@v5
+
+      - run: npm ci
+
+      # scripts/check.sh is the same sequence `npm run check` runs locally.
+      # Keep the logic there, not here.
+      - run: ./scripts/check.sh
