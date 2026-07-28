@@ -4,6 +4,7 @@
   "methodology_lede": "How the set was picked and what counted as an affordance or a technique. Every number on this site is computed from the records, not typed in.",
   "techniques_lede": "Every team here is solving the same problem: a model will happily write plausible code against a component API that doesn't exist. The {techniques} techniques catalogued below are the industry's answers, grouped into {technique_categories} categories, from blunt prohibition (\"never invent components\") to setups where hallucination stops being possible because the agent has to fetch source it can't fabricate.",
   "platforms_lede": "Figma is the deepest AI surface in the study, a remote MCP server that gets sharper the more Code Connect mappings you feed it. Storybook turned the component workshop into an agent-readable API. Supernova, Knapsack and zeroheight all run remote MCP servers over the design-system content they host, and none of them can point to much published adoption yet.",
+  "reading_lede": "Work about what happens when a design system meets an AI agent: how systems are built for models to read, whether that works, and whether it should. Not a directory of design systems. Everything here was opened and read before it was listed.",
   "findings": [
     {
       "title": "The machine interface is table stakes: {official_mcp} of {systems} ship an official MCP server",

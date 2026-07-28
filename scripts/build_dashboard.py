@@ -75,6 +75,11 @@ VIEW_TITLES = {
         "Methodology · State of AI in Design Systems",
         "How the systems were picked, what counted as an affordance or a technique, and where the numbers come from.",
     ),
+    "reading": (
+        "/reading",
+        "Further reading · State of AI in Design Systems",
+        "Writing, talks and courses on what happens when a design system meets an AI agent. The one page here that is kept current rather than fixed at the collection date.",
+    ),
     "ai": (
         "/ai",
         "Use this report with AI tools · State of AI in Design Systems",
@@ -494,6 +499,7 @@ def main():
     systems = json.load(open(DATA / "design-systems.json"))
     platforms = json.load(open(DATA / "platforms.json"))
     insights = json.load(open(DATA / "insights.json"))
+    reading = json.load(open(DATA / "reading.json"))
     for s in systems:
         sanitize(s.get("affordances", []))
         sanitize(s.get("techniques", []))
@@ -511,12 +517,31 @@ def main():
     n_quotes += k
     _, k = smarten_tree(insights)
     n_quotes += k
+    _, k = smarten_tree(reading)
+    n_quotes += k
 
     counts = compute_counts(systems, platforms)
     resolve_counts(insights, counts)
 
+    # The reading list is the one surface not fixed at the collection date, so it
+    # states when it last moved. Derived from the records for the same reason the
+    # counts are: a date typed by hand is a date that goes stale in silence. The
+    # group order comes from the schema's own vocabulary rather than a second
+    # list here, so adding a kind is a one-file change.
+    reading_kinds = json.loads((ROOT / "schema" / "reading.schema.json").read_text())["properties"][
+        "kind"
+    ]["enum"]
+    # Newest first within each group, undated work last, ties by title. Three
+    # stable passes rather than one composite key: sorting a date descending and
+    # a title ascending in the same key needs a value that inverts a string.
+    reading.sort(key=lambda r: r["title"])
+    reading.sort(key=lambda r: r.get("published") or "", reverse=True)
+    reading.sort(key=lambda r: reading_kinds.index(r["kind"]))
+
     meta = {
         "generated": "July 2026",
+        "reading_updated": max(r["added_on"] for r in reading),
+        "reading_kinds": reading_kinds,
         "counts": {k: counts[k] for k in META_COUNTS},
         # The client router sets document.title on every in-page navigation.
         # It reads these so a client-side visit to /matrix gets the same title
@@ -524,7 +549,13 @@ def main():
         "view_titles": {view: title for view, (_p, title, _d) in VIEW_TITLES.items()},
     }
 
-    payload = {"systems": systems, "platforms": platforms, "insights": insights, "meta": meta}
+    payload = {
+        "systems": systems,
+        "platforms": platforms,
+        "insights": insights,
+        "reading": reading,
+        "meta": meta,
+    }
     if ai_page:
         payload["ai_page"] = ai_page
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")

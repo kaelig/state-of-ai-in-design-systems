@@ -600,6 +600,22 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .correct a { display: inline-block; border: 1px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--accent-ink); text-decoration: none; }
 .correct a:hover { background: var(--accent); color: var(--bg); }
 .correct a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* One entry per work. Wider than .ai-links because an entry carries a
+   paragraph and sometimes a quotation, not a one-line note. */
+.readlist { list-style: none; padding: 0; margin: 14px 0 30px; max-width: var(--measure-body); }
+.readlist li { border-top: 1px solid var(--line); padding: 14px 0; }
+.readlist li:last-child { border-bottom: 1px solid var(--line); }
+.readlist .t { font-size: 16px; font-family: var(--font-display); }
+.readlist .by { display: block; margin-top: 2px; font-size: 13px; color: var(--ink-3); }
+.readlist p { margin: 8px 0 0; font-size: 15px; color: var(--ink); }
+.readlist blockquote { margin: 8px 0 0; padding-left: 12px; border-left: 2px solid var(--line-strong);
+  font-size: 15px; color: var(--ink-2); }
+.readlist .cost { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
+  color: var(--ink-2); background: var(--bg-sunk); padding: 2px 7px; border-radius: 3px; }
+/* Quiet on purpose: blue marks interaction on this site, and "added recently"
+   is not something you click. */
+.readlist .fresh { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
+  color: var(--ink-3); }
 .ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
 .ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
 .ai-links li:last-child { border-bottom: 1px solid var(--line); }
@@ -830,6 +846,15 @@ function fmt(s) {
     .replace(/`([^`\n]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+}
+/* ISO date to prose, built from the parts rather than Date.parse so a bare
+   YYYY-MM-DD is not read as UTC midnight and shown as the day before. */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+function longDate(iso) {
+  const [y, m, d] = String(iso || '').split('-');
+  const name = MONTHS[Number(m) - 1];
+  return name ? `${Number(d)} ${name} ${y}` : String(iso || '');
 }
 const ARROW = '<span aria-hidden="true">↗</span>';
 const NEWTAB = '<span class="sr-only">(opens in new tab)</span>';
@@ -1120,6 +1145,35 @@ const VIEWS = {
       <div class="prose"><ul>${DATA.insights.caveats.map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>`;
   },
 
+  /* The one view whose date is its own. Everything else on the site quotes the
+     collection window; this list moves, so it states when it last did and says
+     plainly that it is not part of the frozen set. */
+  reading() {
+    const rs = DATA.reading || [], m = DATA.meta;
+    const KIND = { study: 'Studies, surveys and reports', essay: 'Essays', talk: 'Talks', course: 'Courses' };
+    const first = rs.reduce((a, r) => r.added_on < a ? r.added_on : a, '9999-99-99');
+    const entry = r => `<li>
+      <span class="t">${extLink(r.url, esc(r.title))}</span>
+      <span class="by">${esc(r.author)}${r.published ? ' · ' + esc(longDate(r.published)) : ''}</span>
+      <p>${fmt(r.description)}</p>
+      ${r.quote ? `<blockquote>${esc(r.quote)}</blockquote>` : ''}
+      ${r.price ? `<span class="cost">${esc(r.price.amount)} — ${esc(r.price.buys)}</span>` : ''}
+      ${r.added_on > first ? `<span class="fresh">Added ${esc(longDate(r.added_on))}</span>` : ''}
+    </li>`;
+    const groups = (m.reading_kinds || []).filter(k => rs.some(r => r.kind === k)).map(k =>
+      `<section><h2>${esc(KIND[k] || k)}</h2>
+        <ul class="readlist">${rs.filter(r => r.kind === k).map(entry).join('')}</ul>
+      </section>`).join('');
+    return `<p class="eyebrow">Further reading</p><h1>Further reading</h1>
+      <p class="lede">${fmt(DATA.insights.reading_lede)}</p>
+      <p class="byline">The rest of this report is fixed at the collection window. This page is not:
+        it is kept current, and it last changed on ${esc(longDate(m.reading_updated))}.</p>
+      <hr class="accent-rule">
+      ${groups}
+      <div class="prose"><p>Something missing? ${extLink(REPO_URL + '/issues/new?template=reading-suggestion.yml',
+        'Suggest it')}. Everything listed gets opened and read first.</p></div>`;
+  },
+
   /* Copy comes from DATA.ai_page, compiled by scripts/build_md.py — the same
      blocks /ai.md renders, so the page and its markdown twin cannot diverge. */
   ai() {
@@ -1262,7 +1316,7 @@ function setupMatrixFades() {
 const NAV = [
   ['overview', 'Overview'], ['matrix', 'Matrix'], ['systems', 'Systems'],
   ['techniques', 'Techniques'], ['platforms', 'Platforms'], ['insights', 'Insights'], ['methodology', 'Methodology'],
-  ['ai', 'For agents'],
+  ['reading', 'Reading'], ['ai', 'For agents'],
 ];
 /* Full page titles, from the same build-time table the prerendered <title> tags
    and the sitemap come from, so an in-page navigation to /matrix leaves the tab

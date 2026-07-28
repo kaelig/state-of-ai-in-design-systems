@@ -10,6 +10,7 @@
     "methodology_lede",
     "techniques_lede",
     "platforms_lede",
+    "reading_lede",
     "findings",
     "convergence",
     "divergence",
@@ -46,6 +47,10 @@
     "methodology_lede": { "$ref": "#/$defs/lede" },
     "techniques_lede": { "$ref": "#/$defs/lede" },
     "platforms_lede": { "$ref": "#/$defs/lede" },
+    "reading_lede": {
+      "$ref": "#/$defs/lede",
+      "description": "The bar the further-reading list is held to. It is the page lede and the standard a suggestion is judged against, which is why it is one sentence a contributor can read before they send a link."
+    },
 
     "findings": {
       "type": "array",
