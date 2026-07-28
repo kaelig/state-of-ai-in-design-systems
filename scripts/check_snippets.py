@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Prove every published snippet is a quotation, and every published URL loads.
 
-Snippets in data/design-systems.json are published as verbatim quotation, so
-every line of `snippet.content` has to appear, as a whole line, in the page it
-claims to come from, in order, with nothing silently dropped in between.
+Snippets in data/design-systems.json and data/platforms.json are published as
+verbatim quotation, so every line of `snippet.content` has to appear, as a whole
+line, in the page it claims to come from, in order, with nothing silently
+dropped in between. A reader cannot tell which record set a snippet came from,
+so both are held to it.
 
 Two rules make this catch what a substring search cannot:
 
@@ -57,6 +59,7 @@ from typing import NamedTuple
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "design-systems.json"
+PLATFORMS = ROOT / "data" / "platforms.json"
 CACHE = ROOT / "build" / "snippet-cache"
 UA = "state-of-ai-in-design-systems fidelity check (+https://github.com/kaelig/state-of-ai-in-design-systems)"
 
@@ -473,7 +476,14 @@ def best_source(content, source_url, bodies, cap=3):
     return (best[1] if best else None), note
 
 
-def collect_snippets(systems, only):
+def collect_snippets(systems, platforms, only):
+    """Every published snippet, from both record sets.
+
+    A platform capability publishes a snippet in exactly the shape a system
+    affordance does; it is named `title` rather than `name`, and that is the
+    whole difference. Leaving the platforms out kept a tenth of the report's
+    quotations unchecked while the rest of it read as uniformly verified.
+    """
     for system in systems:
         if only and system.get("id") not in only:
             continue
@@ -482,6 +492,13 @@ def collect_snippets(systems, only):
                 snippet = item.get("snippet") or {}
                 if snippet.get("content"):
                     yield system["id"], kind[:-1], item.get("name", "?"), snippet
+    for platform in platforms:
+        if only and platform.get("id") not in only:
+            continue
+        for item in platform.get("capabilities", []):
+            snippet = item.get("snippet") or {}
+            if snippet.get("content"):
+                yield platform["id"], "capability", item.get("title", "?"), snippet
 
 
 def collect_links(systems, only):
@@ -553,8 +570,8 @@ def run_links(systems, args):
     return report, 1 if counts["dead"] else 0
 
 
-def run_snippets(systems, args):
-    rows = list(collect_snippets(systems, set(args.only)))
+def run_snippets(systems, platforms, args):
+    rows = list(collect_snippets(systems, platforms, set(args.only)))
     wanted = set()
     for *_, snippet in rows:
         if snippet.get("source_url"):
@@ -649,13 +666,16 @@ def main():
     args = ap.parse_args()
 
     systems = json.loads(DATA.read_text(encoding="utf-8"))
-    known = {s["id"] for s in systems}
+    platforms = json.loads(PLATFORMS.read_text(encoding="utf-8"))
+    known = {s["id"] for s in systems} | {p["id"] for p in platforms}
     for wanted in args.only:
         if wanted not in known:
             print(f"no record with id {wanted!r}", file=sys.stderr)
             return 2
 
-    report, code = (run_links if args.links else run_snippets)(systems, args)
+    report, code = (
+        run_links(systems, args) if args.links else run_snippets(systems, platforms, args)
+    )
     if args.json_out:
         Path(args.json_out).parent.mkdir(parents=True, exist_ok=True)
         Path(args.json_out).write_text(json.dumps(report, indent=2), encoding="utf-8")

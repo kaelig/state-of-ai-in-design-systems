@@ -421,8 +421,8 @@ def report_line(row):
             print(f"                     near: {near}")
 
 
-def run(systems, args):
-    rows = list(cs.collect_snippets(systems, set(args.only)))
+def run(systems, platforms, args):
+    rows = list(cs.collect_snippets(systems, platforms, set(args.only)))
     wanted = set()
     for *_, snippet in rows:
         if snippet.get("source_url"):
@@ -506,22 +506,26 @@ def main():
     args = ap.parse_args()
     _selftest()
 
-    text = cs.DATA.read_text(encoding="utf-8")
-    systems = json.loads(text)
-    known = {s["id"] for s in systems}
+    files = [
+        (cs.DATA, cs.DATA.read_text(encoding="utf-8")),
+        (cs.PLATFORMS, cs.PLATFORMS.read_text(encoding="utf-8")),
+    ]
+    systems, platforms = (json.loads(text) for _, text in files)
+    known = {r["id"] for r in systems + platforms}
     for wanted in args.only:
         if wanted not in known:
             print(f"no record with id {wanted!r}", file=sys.stderr)
             return 2
 
-    report, code = run(systems, args)
+    report, code = run(systems, platforms, args)
     if args.apply:
-        # This exact serializer round-trips the committed file byte for byte, so
-        # the diff is the repair and nothing else. Any other one reformats all
-        # 4,900 lines and destroys per-record review.
-        out = json.dumps(systems, indent=2, ensure_ascii=False) + "\n"
-        assert text.endswith("\n") and json.loads(out) == systems
-        cs.DATA.write_text(out, encoding="utf-8")
+        # This exact serializer round-trips both committed files byte for byte,
+        # so the diff is the repair and nothing else. Any other one reformats
+        # every line and destroys per-record review.
+        for (path, text), records in zip(files, (systems, platforms), strict=True):
+            out = json.dumps(records, indent=2, ensure_ascii=False) + "\n"
+            assert text.endswith("\n") and json.loads(out) == records
+            path.write_text(out, encoding="utf-8")
     if args.json_out:
         Path(args.json_out).parent.mkdir(parents=True, exist_ok=True)
         Path(args.json_out).write_text(json.dumps(report, indent=2), encoding="utf-8")
