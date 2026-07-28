@@ -104,6 +104,20 @@ def _nearest(page, line, count=3):
     return [pl.strip()[:120] for _, pl in scored[:count]]
 
 
+def _marker(content):
+    """The cut marker this snippet already uses, or the corpus default.
+
+    Two forms are in use, `...` on 17 snippets and `…` on 7, and one writes the
+    marker as a comment so it stays valid in the language it quotes. Which one
+    is house style does not matter as much as not mixing them inside a single
+    quotation, so a snippet that already marks a cut gets more of its own.
+    """
+    for line in content.split("\n"):
+        if line.strip() and cs.ELISION.match(line.rstrip()):
+            return line.strip()
+    return "..."
+
+
 def _substitution(page, seg, finding, view):
     """Whether the page's line may be pasted in unattended, and why not if not.
 
@@ -140,6 +154,7 @@ def repairs(content, page, findings, view):
     edits: list[Edit] = []
     notes: list[Note] = []
     marked: set[int] = set()
+    marker = _marker(content)
 
     for f in findings:
         seg = segs[f.seg] if 0 <= f.seg < len(segs) else []
@@ -154,8 +169,10 @@ def repairs(content, page, findings, view):
             if at in marked:
                 continue
             marked.add(at)
+            # Indentation follows the line the cut sits above, so the marker
+            # keeps the shape of the block it interrupts.
             pad = content.split("\n")[at][: len(line) - len(line.lstrip())]
-            edits.append(Edit("gap", "mark-cut", at, pad + "...", True, f.why))
+            edits.append(Edit("gap", "mark-cut", at, pad + marker, True, f.why))
 
         elif f.kind == "respaced" and f.page_line is not None:
             safe, why = _substitution(page, text, f, view)
@@ -287,6 +304,13 @@ def _selftest():
     p = propose("A\n...\nC", "A\nB\nC\n")
     assert p.status == "ok", p.status
     assert p.edits == []
+
+    # A snippet that already marks a cut one way gets more of the same, rather
+    # than two spellings of "something was removed" in one quotation.
+    p = propose("A\nC\n…\nE", "A\nB\nC\nD\nE\n")
+    assert p.after == "A\n…\nC\n…\nE", repr(p.after)
+    p = propose("  A\n  C\n  // ...\n  E", "  A\n  B\n  C\n  D\n  E\n")
+    assert p.after == "  A\n  // ...\n  C\n  // ...\n  E", repr(p.after)
 
     # More than three drops: a marker at every one, proving the cap is lifted.
     p = propose("A\nC\nE\nG\nI", "A\nB\nC\nD\nE\nF\nG\nH\nI\n")
