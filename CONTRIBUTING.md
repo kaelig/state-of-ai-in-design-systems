@@ -48,28 +48,33 @@ Bugs, accessibility problems, build issues, a page that reads badly on a phone.
 
 ## How the build works
 
-Five lines, because they explain most of the rules further down:
+A few lines, because they explain most of the rules further down:
 
 1. `data/*.json` holds the records. It is the only place facts are written.
-2. `scripts/build_dashboard.py` turns those records into a payload and two HTML
+2. `scripts/validate_data.mjs` checks every record against its schema. Nothing is
+   generated until this passes.
+3. `scripts/build_dashboard.py` turns those records into a payload and two HTML
    shells, using the markup, CSS and view functions in `dashboard/template.html`.
-3. `scripts/build_md.py` turns the same payload into the markdown mirrors, the
+4. `scripts/build_md.py` turns the same payload into the markdown mirrors, the
    JSON twins, `llms.txt`, the sitemap and the public SQLite.
-4. `scripts/build_dashboard.py --final` runs again, now that the `/ai` page copy
+5. `scripts/build_dashboard.py --final` runs again, now that the `/ai` page copy
    exists and its file counts can be measured rather than typed.
-5. `scripts/prerender.mjs` writes one static HTML file per route.
+6. `scripts/prerender.mjs` writes one static HTML file per route.
 
-`./scripts/build.sh` runs all five in order. It refuses to finish if a route
-renders empty, if a placeholder survives into the HTML, if the nav and the route
-table disagree, or if the WebMCP tools and the `/ai` copy name different tools.
+`./scripts/build.sh` runs them in order. It refuses to finish if a record fails
+its schema, if a route renders empty, if a placeholder survives into the HTML, if
+the nav and the route table disagree, or if the WebMCP tools and the `/ai` copy
+name different tools.
+
+Netlify runs the same script on every deploy, so what ships is always built from
+`data/`, never from anything committed.
 
 ## The rules
 
-**Never edit anything in `dashboard/` except `template.html`.** Every other file
-in there is generated. Your edit will survive until the next build and then
-vanish, and in the meantime the markdown mirror and the HTML page will disagree
-about what the report says. Edit `data/` for facts and `template.html` for
-markup, CSS and view logic.
+**Three files in `dashboard/` are source: `template.html`, `favicon.svg` and
+`og-image.png`.** Everything else in there is generated and gitignored, so an
+edit to one is invisible to git and gone at the next build. Edit `data/` for
+facts and `template.html` for markup, CSS and view logic.
 
 **Every claim needs a `source_url`.** Not a citation, and not “the docs say”: a URL
 that loads and shows the thing. This is the whole basis on which anyone trusts
