@@ -1,7 +1,7 @@
 # State of AI in Design Systems — July 2026 — analysis
 
 State of AI in Design Systems — July 2026. Findings, convergence, divergence, the essay, the matrix, methodology and caveats. No raw records.
-Snapshot of 2026-07-27. Generated 2026-07-28T03:49:42Z. Kaelig Deloumeau-Prigent. CC BY 4.0.
+Snapshot of 2026-07-27. Generated 2026-07-28T04:35:23Z. Kaelig Deloumeau-Prigent. CC BY 4.0.
 Every claim carries the source URL it came from; cite that.
 
 Contents (4 documents):
@@ -24,7 +24,7 @@ platform_count: 5
 affordance_count: 168
 technique_count: 148
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T03:49:42Z"
+generated: "2026-07-28T04:35:23Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -93,7 +93,7 @@ USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs
 
 ---
 
-Generated 2026-07-28T03:49:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:35:23Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -107,7 +107,7 @@ type: "view"
 id: "insights"
 finding_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T03:49:42Z"
+generated: "2026-07-28T04:35:23Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -214,7 +214,7 @@ The design-system team’s own repo is a different battlefield from the consumer
 
 ---
 
-Generated 2026-07-28T03:49:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:35:23Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -229,7 +229,7 @@ id: "matrix"
 system_count: 19
 column_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T03:49:42Z"
+generated: "2026-07-28T04:35:23Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -313,7 +313,7 @@ Per-system detail: https://state-of-ai-in-design-systems.netlify.app/systems.md
 
 ---
 
-Generated 2026-07-28T03:49:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:35:23Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
@@ -327,7 +327,7 @@ type: "view"
 id: "methodology"
 caveat_count: 5
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T03:49:42Z"
+generated: "2026-07-28T04:35:23Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -378,9 +378,9 @@ The counts above are computed from the published dataset at build time. Recount 
 
 ---
 
-Generated 2026-07-28T03:49:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:35:23Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
 
 
 ---
 
-Generated: 2026-07-28T03:49:42Z
+Generated: 2026-07-28T04:35:23Z

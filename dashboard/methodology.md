@@ -7,7 +7,7 @@ type: "view"
 id: "methodology"
 caveat_count: 5
 data_collected: "2026-07-26/27"
-generated: "2026-07-28T03:49:42Z"
+generated: "2026-07-28T04:35:23Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -58,4 +58,4 @@ The counts above are computed from the published dataset at build time. Recount 
 
 ---
 
-Generated 2026-07-28T03:49:42Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T04:35:23Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
