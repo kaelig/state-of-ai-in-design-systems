@@ -1,6 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="State of AI in Design Systems">
-  <rect width="32" height="32" rx="2" fill="#2563EB"/>
-  <rect x="7" y="9" width="18" height="3" rx="1.5" fill="#FFFFFF"/>
-  <rect x="7" y="14.5" width="13" height="3" rx="1.5" fill="#FFFFFF"/>
-  <rect x="7" y="20" width="8" height="3" rx="1.5" fill="#FFFFFF"/>
+  <!-- The affordance matrix in miniature: filled dots, one ring, on the slate
+       data wash. Site colours: mat-2 ground and ink, per theme. -->
+  <style>
+    .g { fill: #CBDCEB; } .d { fill: #29465F; } .r { fill: none; stroke: #29465F; stroke-width: 1.8; }
+    @media (prefers-color-scheme: dark) {
+      .g { fill: #27394C; } .d { fill: #BBD2E6; } .r { stroke: #BBD2E6; }
+    }
+  </style>
+  <rect class="g" width="32" height="32" rx="4"/>
+  <circle class="d" cx="8" cy="8" r="2.9"/>
+  <circle class="d" cx="16" cy="8" r="2.9"/>
+  <circle class="r" cx="24" cy="8" r="2.4"/>
+  <circle class="d" cx="8" cy="16" r="2.9"/>
+  <circle class="d" cx="16" cy="16" r="2.9"/>
+  <circle class="d" cx="24" cy="16" r="2.9"/>
+  <circle class="d" cx="8" cy="24" r="2.9"/>
+  <circle class="r" cx="16" cy="24" r="2.4"/>
+  <circle class="d" cx="24" cy="24" r="2.9"/>
 </svg>
