@@ -18,7 +18,7 @@ OUT = ROOT / "dashboard"
 BUILD = ROOT / "build"
 
 ORIGIN = "https://state-of-ai-in-design-systems.netlify.app"
-LASTMOD = "2026-07-27"
+LASTMOD = "2026-07-28"
 
 # Wrapper lines stripped from the artifact variant (matched as exact stripped lines).
 WRAPPER_LINES = {

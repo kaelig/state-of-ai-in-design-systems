@@ -93,13 +93,13 @@
     "The design-system team's own repo is a different battlefield from the consumer's repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon's AGENTS.md opens by telling maintainers to keep it short because it's loaded into every agent's context. Give the machine interface the care you already give the component API. That is the part of this worth copying."
   ],
   "methodology": [
-    "Research agents (Claude Opus 5) gathered the data on 26–27 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",
+    "Research agents (Claude Opus 5) gathered the data on 26–28 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",
     "Inclusion criteria: open source, active within the last six months, and enough public surface to study. The set spans AI-native leaders, large corporate systems and one deliberate public-sector contrast case. Where monorepos are private (Atlassian, Nord, SLDS internals), records rely on published packages and docs, and say so.",
     "AI maturity is a four-step editorial rating applied with one rubric across all systems: **none** (no AI affordances found), **emerging** (llms.txt or an AI docs page, little more), **invested** (official MCP, skills or rules with real engineering behind them), **ai-native** (AI consumption is a core design goal).",
     "The full dataset ships alongside this report as JSON records and a relational SQLite database: systems, affordances, techniques, platform capabilities and sources."
   ],
   "caveats": [
-    "A snapshot taken 26–27 July 2026. The systems described here ship weekly, so expect drift within weeks.",
+    "A snapshot taken 26–28 July 2026. The systems described here ship weekly, so expect drift within weeks.",
     "Snippets are excerpts, capped at 40 lines and sometimes abridged mid-list. Follow the source link before quoting further.",
     "Builder-side findings cover public evidence only. Private monorepos may hold agent tooling this study can't see; \"no public agent files\" is not \"no AI usage\".",
     "Community tools were checked for existence, not audited for quality or maintenance.",

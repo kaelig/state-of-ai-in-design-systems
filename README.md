@@ -12,7 +12,7 @@ system) and AI for **building** (the team using AI to maintain the system itself
 **Read it: <https://state-of-ai-in-design-systems.netlify.app>**
 
 19 design systems · 5 platforms · 168 affordances · 148 coercion techniques ·
-every snippet linked to its source. Data gathered 26–27 July 2026.
+every snippet linked to its source. Data gathered 26–28 July 2026.
 
 ![The report’s overview page: five headline counts, systems placed on a maturity spectrum, and the numbered findings below.](docs/screenshot.png)
 
@@ -205,7 +205,7 @@ https://state-of-ai-in-design-systems.netlify.app
   year         = {2026},
   month        = {7},
   howpublished = {\url{https://state-of-ai-in-design-systems.netlify.app}},
-  note         = {Data gathered 26--27 July 2026}
+  note         = {Data gathered 26--28 July 2026}
 }
 ```
 

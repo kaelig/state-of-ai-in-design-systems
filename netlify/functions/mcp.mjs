@@ -576,7 +576,7 @@ const fail = (message) => ({
 });
 
 const PROVENANCE =
-  'Snapshot of 2026-07-27. Cite the source_url on each record, not this server.';
+  'Snapshot of 2026-07-28. Cite the source_url on each record, not this server.';
 
 function page(items, limit, offset) {
   const start = offset || 0;
@@ -626,7 +626,7 @@ function buildServer() {
       description:
         `List the ${COUNTS.systems} design systems and component libraries in the survey, one compact line each: ` +
         'id, org, category, AI maturity, license, doc and repo links, which affordance types it ships, and a ' +
-        'one-sentence headline. Filter to narrow before spending a get_system call. Snapshot of 2026-07-27; ' +
+        'one-sentence headline. Filter to narrow before spending a get_system call. Snapshot of 2026-07-28; ' +
         "cite each record's docs_url or repo_url rather than this server. Full detail: get_system.",
       inputSchema: z.object({
         maturity: z
@@ -697,7 +697,7 @@ function buildServer() {
         'default and replaced with a snippet_ref you can pass to get_snippet — ask for include:["snippets"] ' +
         'only when you really want every code block, it is roughly ten times the size. format:"markdown" ' +
         'returns the same page the site publishes at /systems/{id}.md, front matter and all. ' +
-        'Snapshot of 2026-07-27; cite the source_url on each record.',
+        'Snapshot of 2026-07-28; cite the source_url on each record.',
       inputSchema: z.object({
         id: z
           .string()
@@ -753,7 +753,7 @@ function buildServer() {
         'Full-text search across every system summary, affordance, coercion technique, snippet body, ' +
         'platform capability, and finding. Words are ANDed. Returns short excerpts with a source_url and, ' +
         'where one exists, a snippet_ref for get_snippet. This is the cheapest way in when you do not know ' +
-        'which system to look at. Snapshot of 2026-07-27; cite the source_url on each hit.',
+        'which system to look at. Snapshot of 2026-07-28; cite the source_url on each hit.',
       inputSchema: z.object({
         query: z
           .string()
@@ -801,7 +801,7 @@ function buildServer() {
         `The cross-system view of all ${COUNTS.affordances} AI affordances: MCP servers, agent skills, ` +
         'llms.txt files, instruction files, registries, scaffolding CLIs and the rest. Use it to answer ' +
         '"who ships X" across the whole survey. Descriptions only, no snippet bodies — follow a snippet_ref ' +
-        'into get_snippet for the code. Paginated; check next_offset. Snapshot of 2026-07-27; cite each ' +
+        'into get_snippet for the code. Paginated; check next_offset. Snapshot of 2026-07-28; cite each ' +
         "record's docs_url or code_url.",
       inputSchema: z.object({
         type: z.enum(ENUMS.affordance_type).optional(),
@@ -864,7 +864,7 @@ function buildServer() {
         'but wrong code: validation loops, prohibitions and allow-lists, curated context, tool gating, token ' +
         'enforcement, exemplars, registry metadata, instruction files, scaffolding, design-to-code mapping. ' +
         'Descriptions only; pass a snippet_ref to get_snippet for the verbatim source. Paginated. ' +
-        'Snapshot of 2026-07-27; cite snippet_source_url.',
+        'Snapshot of 2026-07-28; cite snippet_source_url.',
       inputSchema: z.object({
         category: z.enum(ENUMS.technique_category).optional(),
         system_id: z.string().optional(),
@@ -911,7 +911,7 @@ function buildServer() {
         'Fetch the verbatim body of one quoted file or code block by its ref, as handed to you by search, ' +
         'list_affordances, list_techniques or get_system. Refs look like "technique:ant-design:3" or ' +
         '"affordance:carbon-design-system:7". Returns the text with the source_url it was quoted from — ' +
-        'quote that URL when you use the snippet. Snapshot of 2026-07-27.',
+        'quote that URL when you use the snippet. Snapshot of 2026-07-28.',
       inputSchema: z.object({
         ref: z.string().describe('A snippet_ref returned by another tool.'),
       }),
@@ -938,7 +938,7 @@ function buildServer() {
       description:
         'Counts, breakdowns, and the exact enum values every other tool accepts as a filter. Call this first ' +
         'if you are unsure what to pass for maturity, affordance type, technique category, system id or ' +
-        'report section. Also carries per-system affordance coverage. Small and cheap. Snapshot of 2026-07-27.',
+        'report section. Also carries per-system affordance coverage. Small and cheap. Snapshot of 2026-07-28.',
       inputSchema: z.object({}),
       annotations: RO,
     },
@@ -946,7 +946,7 @@ function buildServer() {
       return json({
         report: 'State of AI in Design Systems',
         generated: GENERATED,
-        snapshot_date: '2026-07-27',
+        snapshot_date: '2026-07-28',
         site: SITE,
         author: 'Kaelig Deloumeau-Prigent',
         license: 'CC-BY-4.0',
@@ -996,7 +996,7 @@ function buildServer() {
         'The prose half of the study: the findings, where the systems converge and diverge, the essay, the ' +
         'per-question pages, and — read this before quoting any number — the methodology and its caveats. ' +
         'Returns markdown byte-identical to the file the site serves, with YAML front matter carrying the ' +
-        'canonical url and citation. Call with no arguments for the list of sections. Snapshot of 2026-07-27.',
+        'canonical url and citation. Call with no arguments for the list of sections. Snapshot of 2026-07-28.',
       inputSchema: z.object({
         section: z
           .string()
@@ -1031,7 +1031,7 @@ function buildServer() {
         'Platforms are shaped differently from systems — they have capabilities rather than affordances — so ' +
         'they get their own tool. Includes what the platform ships for agents and how widely design systems ' +
         'have adopted it. Snippet bodies come back as refs for get_snippet. ' +
-        'Snapshot of 2026-07-27; cite the url on each capability.',
+        'Snapshot of 2026-07-28; cite the url on each capability.',
       inputSchema: z.object({
         id: z.enum(ENUMS.platform),
         format: z
@@ -1172,7 +1172,7 @@ function buildServer() {
           content: {
             type: 'text',
             text: [
-              `Audit ${target} against the State of AI in Design Systems survey (snapshot 2026-07-27).`,
+              `Audit ${target} against the State of AI in Design Systems survey (snapshot 2026-07-28).`,
               '',
               'Work in this order:',
               '1. Call get_stats to learn the affordance types and the coverage baseline.',

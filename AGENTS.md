@@ -176,7 +176,7 @@ The site also registers four WebMCP tools in-page via `registerReportTools()` in
 `get_stats`.
 
 Two things to carry into any answer you build from this: cite the `source_url` on
-each record rather than the report, and say that the data is a snapshot of 26–27
+each record rather than the report, and say that the data is a snapshot of 26–28
 July 2026. It goes stale, and the systems it describes ship weekly.
 
 ## Sending feedback

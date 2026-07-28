@@ -12,6 +12,11 @@ import MD_MAP from '../build/md-map.json' with { type: 'json' };
 const URL_ = 'https://state-of-ai-in-design-systems.netlify.app/mcp';
 const BOTH = 'application/json, text/event-stream';
 
+// When the data was gathered. Every tool description has to carry it, so an
+// agent that quotes the server knows how stale the answer is. Unrelated to the
+// MCP protocol version below, which happens to be a date too.
+const SNAPSHOT_DATE = '2026-07-28';
+
 // The 2026-07-28 per-request envelope.
 const ENVELOPE = {
   'io.modelcontextprotocol/protocolVersion': '2026-07-28',
@@ -217,7 +222,7 @@ describe('tool surface', () => {
       );
       assert.match(
         tool.description,
-        /2026-07-27/,
+        new RegExp(SNAPSHOT_DATE),
         `${tool.name} does not mention the snapshot date`,
       );
     }

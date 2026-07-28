@@ -1,6 +1,6 @@
 # Contributing
 
-This report is a snapshot of 26–27 July 2026. Design systems ship fast, so parts
+This report is a snapshot of 26–28 July 2026. Design systems ship fast, so parts
 of it are already wrong. Telling us which parts is the most valuable thing you
 can do here.
 
