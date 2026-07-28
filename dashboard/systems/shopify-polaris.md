@@ -1,6 +1,6 @@
 ---
-title: "Polaris (Shopify) — AI affordances"
-description: "Polaris is the most instructive split-personality case in this study. The classic artifact — Polaris React at github.com/Shopify/polaris — is archived and deprecated…"
+title: "Shopify Polaris — AI affordances"
+description: "Polaris is the most instructive split-personality case in this study. The classic artifact, Polaris React at github.com/Shopify/polaris, is archived and deprecated…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris"
 type: "design-system-record"
@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 7
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -20,7 +20,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 > Snapshot of 2026-07-27. Every claim below links to the source URL it was taken from. Check the source before citing.
 
-# Polaris (Shopify) — AI affordances
+# Shopify Polaris — AI affordances
 
 Shopify · design-system · NOASSERTION (custom/MIT-ish on Shopify/polaris); MIT on Shopify/shopify-ai-toolkit · AI maturity: **ai-native** (AI consumption is a design goal, with dedicated surfaces and staff behind it). 7 affordances, 8 coercion techniques.
 
@@ -31,7 +31,7 @@ Shopify · design-system · NOASSERTION (custom/MIT-ish on Shopify/polaris); MIT
 
 ## Summary
 
-Polaris is the most instructive split-personality case in this study. The classic artifact — Polaris React at github.com/Shopify/polaris — is archived and deprecated (last release @shopify/polaris@13.9.5, 2025-03-26), and its docs site is one of the very few design-system sites that actively *blocks* AI: polaris-react.shopify.com/robots.txt disallows GPTBot, ClaudeBot, Google-Extended, PerplexityBot and CCBot, and every page ships ``. There is no llms.txt, no CLAUDE.md, no .cursorrules anywhere in that monorepo. Meanwhile the *living* Polaris — Polaris web components (`s-page`, `s-button`, …), shipped Oct 1 2025 on shopify.dev — is among the most aggressively AI-coerced design systems in existence, delivered through the MIT-licensed Shopify AI Toolkit (agent skills + one-line plugins for Claude Code, Codex, Cursor, VS Code, Antigravity, Hermes) and the `@shopify/dev-mcp` server. Its `shopify-polaris-app-home` skill forces a search→generate→typecheck→retry loop the agent may not exit until code compiles against bundled `@shopify/polaris-types` declarations, and instruments every step back to Shopify.
+Polaris is the most instructive split-personality case in this study. The classic artifact, Polaris React at github.com/Shopify/polaris, is archived and deprecated (last release @shopify/polaris@13.9.5, 2025-03-26), and its docs site is one of the very few design-system sites that actively *blocks* AI: polaris-react.shopify.com/robots.txt disallows GPTBot, ClaudeBot, Google-Extended, PerplexityBot and CCBot, and every page ships ``. There is no llms.txt, no CLAUDE.md, no .cursorrules anywhere in that monorepo. Meanwhile the *living* Polaris, the Polaris web components (`s-page`, `s-button`, …) shipped Oct 1 2025 on shopify.dev, is among the most aggressively AI-coerced design systems in existence, delivered through the MIT-licensed Shopify AI Toolkit (agent skills + one-line plugins for Claude Code, Codex, Cursor, VS Code, Antigravity, Hermes) and the `@shopify/dev-mcp` server. Its `shopify-polaris-app-home` skill forces a search→generate→typecheck→retry loop the agent may not exit until code compiles against bundled `@shopify/polaris-types` declarations, and instruments every step back to Shopify.
 
 ## Maintenance
 
@@ -101,7 +101,7 @@ Source: https://shopify.dev/docs/api/polaris/using-mcp
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-One repo published simultaneously as a Claude Code plugin (.claude-plugin), Codex plugin (.codex-plugin), Cursor plugin (.cursor-plugin), Hermes plugin (.hermes-plugin), Gemini/Antigravity extension (gemini-extension.json), and VS Code agent plugin — each with a one-line install command in the README. This is ‘distributed editor rules’ taken to its logical end: the DS team ships the rules into every agent host rather than hoping consumers copy a .cursorrules.
+One repo published simultaneously as a Claude Code plugin (.claude-plugin), Codex plugin (.codex-plugin), Cursor plugin (.cursor-plugin), Hermes plugin (.hermes-plugin), Gemini/Antigravity extension (gemini-extension.json), and VS Code agent plugin, each with a one-line install command in the README. This is ‘distributed editor rules’ taken to its logical end: the DS team ships the rules into every agent host rather than hoping consumers copy a .cursorrules.
 
 - Code: https://github.com/Shopify/shopify-ai-toolkit
 
@@ -137,7 +137,7 @@ Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/README
 
 Type: `other` (Other) · Official · Audience: consumers
 
-The legacy Polaris docs site does the opposite of an llms.txt: it disallows every major AI crawler and tags each page `noai, noimageai`. Worth recording as a deliberate design choice — Shopify wants agents fetching Polaris knowledge through its instrumented MCP/skill channel, not scraping the deprecated React docs.
+The legacy Polaris docs site does the opposite of an llms.txt: it disallows every major AI crawler and tags each page `noai, noimageai`. Worth recording as a deliberate design choice: Shopify wants agents fetching Polaris knowledge through its instrumented MCP/skill channel, not scraping the deprecated React docs.
 
 - Docs: https://polaris-react.shopify.com/robots.txt
 
@@ -207,7 +207,7 @@ Notes: No evidence of Storybook being wired into any agent workflow.
 
 ## Coercion techniques (8)
 
-### Mandatory retrieval before generation ('you cannot trust your trained knowledge')
+### Mandatory retrieval before generation (‘you cannot trust your trained knowledge’)
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
@@ -236,7 +236,7 @@ Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-Generated code is typechecked against bundled Polaris .d.ts files in a virtual TypeScript filesystem. On failure the agent must re-search for the named type rather than guess, fix exactly the reported error, and re-validate — max 3 attempts. This is the strongest anti-hallucination construct found in any system in this study: the agent literally cannot emit a component prop that does not exist in the type declarations.
+Generated code is typechecked against bundled Polaris .d.ts files in a virtual TypeScript filesystem. On failure the agent must re-search for the named type rather than guess, fix exactly the reported error, and re-validate, up to 3 attempts. This is the strongest anti-hallucination construct found in any system in this study: the agent literally cannot emit a component prop that does not exist in the type declarations.
 
 ````markdown
 **When validation fails, follow this loop:**
@@ -279,7 +279,7 @@ Source: https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-Because @shopify/polaris (React) dominates pre-2026 training data, the skill names the exact wrong packages and forbids them — closing the highest-probability failure mode for a deprecated-then-replaced design system. It also states the correct alternative (globally registered custom elements, no import at all).
+Because @shopify/polaris (React) dominates pre-2026 training data, the skill names the exact wrong packages and forbids them, closing the highest-probability failure mode for a deprecated-then-replaced design system. It also states the correct alternative (globally registered custom elements, no import at all).
 
 ````markdown
 ## Imports
@@ -327,7 +327,7 @@ Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills
 
 Category: `instruction-files` (Instruction files) · all 9 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/instruction-files.md
 
-The skill’s `description` frontmatter — the only text a host model sees when deciding which skill to load — contains an explicit tie-break rule claiming the ambiguous word ‘Polaris’ for the web-components surface. A cheap, high-leverage trick for a system whose old meaning still dominates the training corpus.
+The skill’s `description` frontmatter, the only text a host model sees when deciding which skill to load, contains an explicit tie-break rule claiming the ambiguous word ‘Polaris’ for the web-components surface. A cheap, high-leverage trick for a system whose old meaning still dominates the training corpus.
 
 ```yaml
 ---
@@ -352,7 +352,7 @@ Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills
 
 Category: `other` (Other) · all 2 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/other.md
 
-Uniquely aggressive. Every skill invocation, doc search and validation POSTs to https://shopify.dev/mcp/usage carrying skill version, model name, client name/version, the validated code, an artifact id + revision number, and the user’s most recent prompt verbatim (base64, 2000-char cap). PostToolUse and UserPromptSubmit hooks are registered for Claude Code, Cursor and Copilot. On by default; `OPT_OUT_INSTRUMENTATION=true` disables. This gives the Polaris team a live measurement loop on how well models generate their components — a builder-side capability delivered through the consumer-side channel.
+Uniquely aggressive. Every skill invocation, doc search and validation POSTs to https://shopify.dev/mcp/usage carrying skill version, model name, client name/version, the validated code, an artifact id + revision number, and the user’s most recent prompt verbatim (base64, 2000-char cap). PostToolUse and UserPromptSubmit hooks are registered for Claude Code, Cursor and Copilot. On by default; `OPT_OUT_INSTRUMENTATION=true` disables. This gives the Polaris team a live measurement loop on how well models generate their components, a builder-side capability delivered through the consumer-side channel.
 
 ```markdown
 The skill scripts (`scripts/search_docs.mjs`, `scripts/validate.mjs`, `scripts/log_skill_use.mjs`) send a usage event to `https://shopify.dev/mcp/usage` on each invocation. The payload includes:
@@ -408,17 +408,17 @@ Link: https://github.com/Shopify/polaris/tree/HEAD/stylelint-polaris
 
 ## Building the system vs. consuming it
 
-### For consumers (agents building UIs with Polaris (Shopify))
+### For consumers (agents building UIs with Shopify Polaris)
 
-Best-in-class and arguably the strictest in the industry — but only for Polaris web components, and only through Shopify’s own channel. Install is one line per host (`claude plugin install shopify-ai-toolkit@claude-plugins-official`, `codex plugin add shopify@openai-curated`, `/add-plugin shopify`, `agy plugin install …`, VS Code ‘Chat: Install Plugin From Source’, plus a Hermes curl script) or `npx -y @shopify/dev-mcp@latest`. Once loaded, the agent is boxed in: it must call search_docs.mjs before writing, must call validate.mjs (a real TypeScript program over bundled @shopify/polaris-types declarations) before returning, gets three retries, and is told in so many words that it cannot trust its trained knowledge. The MCP path duplicates the same gate inside the tool description so it survives context loss. What is absent is equally telling: no llms.txt or llms-full.txt anywhere (polaris.shopify.com/llms.txt, /llms-full.txt, shopify.dev/llms.txt, /llms-full.txt, /docs/llms.txt all 404), no published .cursorrules template, no Figma Code Connect mappings, no Storybook-to-agent bridge. Shopify has bet entirely on executable, instrumented channels over static context files — and deliberately closed the scraping path.
+Best-in-class, and probably the strictest in the industry, but only for Polaris web components, and only through Shopify’s own channel. Install is one line per host (`claude plugin install shopify-ai-toolkit@claude-plugins-official`, `codex plugin add shopify@openai-curated`, `/add-plugin shopify`, `agy plugin install …`, VS Code ‘Chat: Install Plugin From Source’, plus a Hermes curl script) or `npx -y @shopify/dev-mcp@latest`. Once loaded, the agent is boxed in: it must call search_docs.mjs before writing, must call validate.mjs (a real TypeScript program over bundled @shopify/polaris-types declarations) before returning, gets three retries, and is told in so many words that it cannot trust its trained knowledge. The MCP path duplicates the same gate inside the tool description so it survives context loss. What is absent is equally telling: no llms.txt or llms-full.txt anywhere (polaris.shopify.com/llms.txt, /llms-full.txt, shopify.dev/llms.txt, /llms-full.txt, /docs/llms.txt all 404), no published .cursorrules template, no Figma Code Connect mappings, no Storybook-to-agent bridge. Shopify has bet entirely on executable, instrumented channels over static context files, and deliberately closed the scraping path.
 
-### For builders (the Polaris (Shopify) team using AI on the system itself)
+### For builders (the Shopify Polaris team using AI on the system itself)
 
-Essentially nothing public. The Shopify/polaris monorepo has no AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md or .claude/ (all probed, all 404), and .github/CONTRIBUTING.md contains no mention of AI, agents, Copilot, Claude or Cursor. The repo is archived, so this is unsurprising but still a real absence of evidence about how the system was maintained. Shopify/shopify-ai-toolkit — the actively developed successor — likewise ships no root AGENTS.md/CLAUDE.md/.cursorrules for its own contributors; its agent files are all outbound product, not inbound process. The nearest thing to a builder-side AI practice is the telemetry loop: validated code, model identity and verbatim user prompts flow back to shopify.dev/mcp/usage, giving the team empirical data on model failure modes against their components. Pre-AI, the team did ship @shopify/polaris-migrator (jscodeshift/postcss codemods, v1.0.7, 2025-03-17) and stylelint-polaris for token enforcement — deterministic, not AI-assisted, but the lineage that the validate.mjs typecheck loop clearly descends from.
+Essentially nothing public. The Shopify/polaris monorepo has no AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md or .claude/ (all probed, all 404), and .github/CONTRIBUTING.md contains no mention of AI, agents, Copilot, Claude or Cursor. The repo is archived, so this is unsurprising but still a real absence of evidence about how the system was maintained. Shopify/shopify-ai-toolkit, the actively developed successor, likewise ships no root AGENTS.md/CLAUDE.md/.cursorrules for its own contributors; its agent files are all outbound product, not inbound process. The nearest thing to a builder-side AI practice is the telemetry loop: validated code, model identity and verbatim user prompts flow back to shopify.dev/mcp/usage, giving the team empirical data on model failure modes against their components. Pre-AI, the team did ship @shopify/polaris-migrator (jscodeshift/postcss codemods, v1.0.7, 2025-03-17) and stylelint-polaris for token enforcement: deterministic, not AI-assisted, but the lineage that the validate.mjs typecheck loop clearly descends from.
 
 ## Gaps
 
-Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed location — polaris.shopify.com/llms.txt, /llms-full.txt, polaris-react.shopify.com/llms.txt, shopify.dev/llms.txt, shopify.dev/llms-full.txt, shopify.dev/docs/llms.txt, shopify.dev/docs/api/app-home/llms.txt all return 404. Reports of a shopify.dev/llms.txt are wrong as of 2026-07-27. (2) github.com/Shopify/dev-mcp returns 404 via the GitHub API — the MCP server source does not appear to be at that path; the published npm tarball was inspected (@shopify/dev-mcp@1.14.3) instead, so tool descriptions are quoted from the minified bundle `package/dist/index-6_XnqjXS.js` rather than from source. The npm page itself 403s to WebFetch. (3) POLARIS_UNIFIED=true was documented in the 2025-05-21 changelog but the string appears nowhere in the 1.14.3 bundle, which suggests Polaris support is now default rather than flagged, but Shopify has not stated this explicitly anywhere this study found. (4) Reported ‘polaris-internal usage of AI’ could not be confirmed — Shopify/polaris-internal is not publicly accessible and no public evidence of it surfaced. (5) shopify.dev/docs/api/app-home/using-polaris-components 404s; the live page is /docs/api/app-home/polaris-web-components, which contains no AI/MCP/agent content at all — the AI story lives entirely under /docs/apps/build/ai-toolkit and /docs/api/polaris/using-mcp. (6) The full body of scripts/search_docs.mjs and validate.mjs are bundled/minified; the TypeScript virtual-filesystem typecheck was confirmed and the shopify.dev POST endpoint by grep but did not trace the complete validation path. (7) No evidence found of AI-assisted codemods, AI PR-review bots, or AI mentioned in contribution docs for either repo.
+Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed location: polaris.shopify.com/llms.txt, /llms-full.txt, polaris-react.shopify.com/llms.txt, shopify.dev/llms.txt, shopify.dev/llms-full.txt, shopify.dev/docs/llms.txt, shopify.dev/docs/api/app-home/llms.txt all return 404. Reports of a shopify.dev/llms.txt are wrong as of 2026-07-27. (2) github.com/Shopify/dev-mcp returns 404 via the GitHub API; the MCP server source does not appear to be at that path; the published npm tarball was inspected (@shopify/dev-mcp@1.14.3) instead, so tool descriptions are quoted from the minified bundle `package/dist/index-6_XnqjXS.js` rather than from source. The npm page itself 403s to WebFetch. (3) POLARIS_UNIFIED=true was documented in the 2025-05-21 changelog but the string appears nowhere in the 1.14.3 bundle, which suggests Polaris support is now default rather than flagged, but Shopify has not stated this explicitly anywhere this study found. (4) Reported ‘polaris-internal usage of AI’ could not be confirmed: Shopify/polaris-internal is not publicly accessible and no public evidence of it surfaced. (5) shopify.dev/docs/api/app-home/using-polaris-components 404s; the live page is /docs/api/app-home/polaris-web-components, which contains no AI/MCP/agent content at all; the AI story lives entirely under /docs/apps/build/ai-toolkit and /docs/api/polaris/using-mcp. (6) The full body of scripts/search_docs.mjs and validate.mjs are bundled/minified; the TypeScript virtual-filesystem typecheck was confirmed and the shopify.dev POST endpoint by grep but did not trace the complete validation path. (7) No evidence found of AI-assisted codemods, AI PR-review bots, or AI mentioned in contribution docs for either repo.
 
 ## Sources (15)
 
@@ -454,4 +454,4 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt at any probed loca
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

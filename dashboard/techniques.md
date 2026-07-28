@@ -8,7 +8,7 @@ id: "techniques"
 technique_count: 148
 category_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -56,25 +56,19 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/validati
 
 - Mandatory post-edit lint loop (`antd lint`) — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
 
-- axe-core validation loop with capability-scoped tools — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- axe-core validation loop with capability-scoped tools — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- Published head-to-head context-delivery evals — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- Published head-to-head context-delivery evals — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
 - Self-check validation list of known silent failures — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
 - Migration validation loop: codemod dry-run → typecheck → lint → build → grep for leftovers — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
 
-- Named the failure mode: "Your LLM ignores the instructions and skills" — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
+- Named the failure mode: “Your LLM ignores the instructions and skills” — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
 - Builder-side: mandate an external MCP as the anti-hallucination source of truth — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
 - Hook-enforced validation loop on every edit — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
-
-- Verify Before You Use — no artifact without a registry lookup — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
-
-- Mandatory linter-first migration workflow — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
-
-- Scored compliance gate with an explicit degradation formula — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
 - Scaffolding-first + validation-loop checklist for contributor agents — Nuxt UI (https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md)
 
@@ -84,29 +78,35 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/validati
 
 - ERROR/WARN severity report contract with fix strings — PatternFly (https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md)
 
-- Compiler-in-the-loop validation with bounded retry — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
-
-- Hard tool-gated validation loop ("REQUIRED FINAL STEP") — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
+- Hard tool-gated validation loop (“REQUIRED FINAL STEP”) — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
 - Build-toolchain validation loop before declaring done — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
 - Deterministic scoring rubric with anti-vibe language — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
+- Verify Before You Use — no artifact without a registry lookup — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+
+- Mandatory linter-first migration workflow — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+
+- Scored compliance gate with an explicit degradation formula — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+
 - MCP-side audit checklist as a post-generation validation loop — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
 
 - Committed eval suite for the skill (rule-level assertions) — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
 
+- Compiler-in-the-loop validation with bounded retry — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+
 - Teaching the agent the CI check it will otherwise fail — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
-
-- Lint-rule → fix-recipe table, with re-run verification per file — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
-
-- Visual verification loop: per-component Storybook + Playwright screenshot — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 - Mandatory verification loop + cross-vendor agent-reviews-agent handoff — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
 
 - Mandatory contributor validation loop (7-step pre-PR checklist incl. a prose linter) — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
 
 - Effort-tiered review skill with precision/recall bias switching — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+
+- Lint-rule → fix-recipe table, with re-run verification per file — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+
+- Visual verification loop: per-component Storybook + Playwright screenshot — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 - Auto-fixable codemod rule as a migration lever (deterministic, not AI) — Nord Design System (https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md)
 
@@ -122,9 +122,9 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibit
 
 - Directory-scoped import prohibitions for contributor agents — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
 
-- Mandatory accessibility gate ('You MUST call this') — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- Mandatory accessibility gate (‘You MUST call this’) — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- DESIGN.md 'drift pattern' table — an explicit anti-AI-slop prohibition list — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- DESIGN.md ‘drift pattern’ table — an explicit anti-AI-slop prohibition list — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
 - Numbered implementation guardrails: hard prohibitions on styling escape hatches — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
@@ -132,17 +132,11 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibit
 
 - Closed class-name allowlist + escape-hatch ladder + default-variant bias — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
-- "STOP. What you remember is WRONG" — weight-invalidation preamble — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
-
-- Explicit Do/Don't prohibition list — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+- “STOP. What you remember is WRONG” — weight-invalidation preamble — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
 - ALWAYS/NEVER prefix prohibitions + ordered escalation ladder — PatternFly (https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md)
 
 - Allowlisted design sources — PatternFly (https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md)
-
-- Named-package prohibition to kill stale-training imports — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
-
-- Deliberate crawler starvation for the deprecated surface — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - Named-API prohibitions served over MCP — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
@@ -150,21 +144,27 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibit
 
 - Named-competitor prohibition + escape-hatch ban — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
-- Anti-"reinvent the component" clauses with named failure modes — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
+- Anti-“reinvent the component” clauses with named failure modes — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
-- Hard prohibition list ('Critical Rules … always enforced') — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
+- Explicit Do/Don’t prohibition list — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+
+- Hard prohibition list (‘Critical Rules … always enforced’) — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
+
+- Named-package prohibition to kill stale-training imports — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+
+- Deliberate crawler starvation for the deprecated surface — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - Hard CSS prohibitions in contributor docs (builder-side) — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
-- 'Never X — use Y' escape-hatch closing in satellite repos — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
-
-- "Source of truth, not existing code" — overriding the repo itself — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+- ‘Never X — use Y’ escape-hatch closing in satellite repos — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
 - FAQ-as-prohibition: negative answers hoisted to the top of llms.txt — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
 
-- "using ONLY the URLs present in the returned content" — closed-world retrieval rule — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+- “using ONLY the URLs present in the returned content” — closed-world retrieval rule — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
 
-- Per-component Do/Don't blocks that route the model to the correct sibling component — Nord Design System (https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md)
+- “Source of truth, not existing code” — overriding the repo itself — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+
+- Per-component Do/Don’t blocks that route the model to the correct sibling component — Nord Design System (https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md)
 
 - Absolute prohibition on inventing UI — U.S. Web Design System (USWDS) (https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
@@ -174,21 +174,19 @@ Docs condensed and structured for context windows: llms.txt, llms-full.txt, per-
 
 Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-- "Your training data is stale" preamble as a distributable prompt — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
+- “Your training data is stale” preamble as a distributable prompt — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
 
-- Server-level `instructions` string as a persona + routing table — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- Server-level `instructions` string as a persona + routing table — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- Conditional lazy-loading of reference files ('→ Only read when …') — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
+- Conditional lazy-loading of reference files (‘→ Only read when …’) — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
 - Concern-sliced llms.txt as a context budget device — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
 
-- Progressive disclosure — 'read X before responding' — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
+- Progressive disclosure — ‘read X before responding’ — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
 
-- "Mandatory reference" routing table with per-file MANDATORY flags — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
+- “Mandatory reference” routing table with per-file MANDATORY flags — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
-- Ground-truth-first subagents ("never assume, always verify") — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
-
-- Skill routing table — 'do not improvise from memory' — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+- Ground-truth-first subagents (“never assume, always verify”) — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
 - Adversarial recommendation steering inside llms.txt — Nuxt UI (https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md)
 
@@ -200,15 +198,17 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-
 
 - Progressive disclosure over a generated 211-file reference tree — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
+- Skill routing table — ‘do not improvise from memory’ — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+
 - Live project-context injection at skill load (`info --json`) — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
 
 - Dual-format docs routing: .md for reasoning, .json for typing — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
-- Token lookup as a search procedure + few-shot mapping table — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
-
 - Narrowest-scope-first decision ladder for styling — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
 
 - Two-tier skill layout: SKILL.md as router, AGENTS.md as payload — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+
+- Token lookup as a search procedure + few-shot mapping table — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 - SKILL.md as a pure routing table (progressive disclosure, no inlined rules) — Nord Design System (https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md)
 
@@ -222,17 +222,17 @@ The agent has to call a tool — MCP, CLI, search script — to get component so
 
 Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
-- "Always query before writing" — forced CLI lookup instead of recall — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
+- “Always query before writing” — forced CLI lookup instead of recall — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
 
-- Two-tier tool hierarchy: ads_* canonical, atlaskit_* fallback-only — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- Two-tier tool hierarchy: ads_* canonical, atlaskit_* fallback-only — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- MCP-First Rule: 'The MCP index is the authoritative source — not your weights' — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
+- MCP-First Rule: ‘The MCP index is the authoritative source — not your weights’ — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
 - Least-privilege bot mode + prompt-injection quarantine (builder side) — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
 - Zod enum over the live component list (agent cannot hallucinate a component) — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
 
-- "Mandatory MCP workflow" — tool-gated sequential pipeline with a terminal quality gate — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
+- “Mandatory MCP workflow” — tool-gated sequential pipeline with a terminal quality gate — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
 - Forced retrieval — the skill ships executable fetchers, not prose — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
@@ -240,11 +240,7 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gat
 
 - Router agent with an explicit opt-out gate — PatternFly (https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md)
 
-- Mandatory retrieval before generation ('you cannot trust your trained knowledge') — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
-
-- Emoji-escalated imperative in the MCP tool description itself — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
-
-- Forced tool ordering ("CRITICAL: CALL THIS FIRST") — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
+- Forced tool ordering (“CRITICAL: CALL THIS FIRST”) — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
 - Mandatory local MCP before answering (Storybook as ground truth) — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
@@ -252,13 +248,17 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gat
 
 - Forcing the CLI as the only source of truth (no training-data guessing, no raw GitHub fetches) — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
 
-- Recommend-then-apply gating on mutating skills — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+- Mandatory retrieval before generation (‘you cannot trust your trained knowledge’) — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+
+- Emoji-escalated imperative in the MCP tool description itself — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - Redirectable context source (MANTINE_MCP_DATA_URL) — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
 
-- "You must use this tool to answer any questions" — hard tool mandate in the tool description — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+- “You must use this tool to answer any questions” — hard tool mandate in the tool description — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
 
 - Host allowlist enforced in code (agent physically cannot fetch off-system) — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+
+- Recommend-then-apply gating on mutating skills — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 - Query-the-server-before-you-choose (tool gating) — U.S. Web Design System (USWDS) (https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
@@ -268,27 +268,27 @@ Rules and types that force design tokens over raw values, so the token vocabular
 
 Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
-- `ads_plan` as the default one-shot discovery call, with full-catalog dumps demoted to 'last resort' — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- `ads_plan` as the default one-shot discovery call, with full-catalog dumps demoted to ‘last resort’ — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- AI-provenance marking: `.ai-non-final` message-ID suffix — Atlassian Design System (ADS / Atlaskit) (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
+- AI-provenance marking: `.ai-non-final` message-ID suffix — Atlassian Design System (https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md)
 
-- Output-suppression protocol: 'Received the necessary context.' — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
+- Output-suppression protocol: ‘Received the necessary context.’ — Carbon Design System (https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md)
 
 - Token-first styling rule with a narrowly bounded escape hatch — Chakra UI (https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md)
 
-- Unsolicited-trigger framing: "the mandatory UI library", fires "even if the user does not explicitly ask" — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
+- Unsolicited-trigger framing: “the mandatory UI library”, fires “even if the user does not explicitly ask” — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
-- Semantic-token enforcement — "Don't use raw colors" — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
-
-- Semantic-token enforcement with wrong/right exemplars — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+- Semantic-token enforcement — “Don’t use raw colors” — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
 - Token enforcement: semantic colors only, never the raw Tailwind palette — Nuxt UI (https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md)
 
 - Bounded-deviation token rules for generative theming — Nuxt UI (https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md)
 
-- Numbered "Critical Rules (never violate)" with token enforcement at #1 — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+- Semantic-token enforcement with wrong/right exemplars — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
 - Harness-level enforcement: formatting as a hook, not an instruction — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
+
+- Numbered “Critical Rules (never violate)” with token enforcement at #1 — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 - Private-API prohibition: component properties over CSS custom properties, never `--_n-*` — Nord Design System (https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md)
 
@@ -306,13 +306,13 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/exemplar
 
 - Exemplar library as coercion: 211 page architectures matched by intent — daisyUI (https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md)
 
-- Negative exemplars — a labelled "DO NOT DO THIS" code block — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
+- Negative exemplars — a labelled “DO NOT DO THIS” code block — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
-- Canonical in-repo exemplar for the pattern models get wrong — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
-
-- Inlined prop-complete component catalogue as few-shot exemplars — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+- Canonical in-repo exemplar for the pattern models get wrong — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
 - Incorrect/Correct exemplar pairs as the rule bodies — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
+
+- Inlined prop-complete component catalogue as few-shot exemplars — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - 181 addressable few-shot exemplars at predictable URLs — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
@@ -338,11 +338,11 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/registry
 
 - Constraint smuggled into the API schema itself — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
-- PR-type classification table that scopes which rules apply — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
-
 - Version-locked AI surface — the MCP server ships with the release — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
 
 - Version-fencing the skill so the agent self-invalidates on the wrong major — Material UI (MUI) (https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md)
+
+- PR-type classification table that scopes which rules apply — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 ## Instruction files (9)
 
@@ -358,9 +358,9 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/instruct
 
 - Role priming + processing-priority headers in builder guidelines — PatternFly (https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md)
 
-- Disambiguation clause in skill description (routing coercion) — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+- Globbed parity rule for contributors’ agents — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
 
-- Globbed parity rule for contributors' agents — shadcn/ui (https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md)
+- Disambiguation clause in skill description (routing coercion) — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - Docs shattered into an agent-routable index — Cloudscape Design System (https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md)
 
@@ -378,15 +378,15 @@ Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/scaffold
 
 - Scaffold-only component creation (builders) — HeroUI (https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md)
 
-- Ordered escalation ladder (LBC → Blueprint → Hook → Custom CSS) — Lightning Design System (SLDS) (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
-
 - Agent self-propagation via the `init` tool — Primer (https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
 - Layered skill handoff (build → audit → migrate) — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
-- Forcing the generator instead of free-hand scaffolding — Fluent UI (Fluent 2) (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
+- Ordered escalation ladder (LBC → Blueprint → Hook → Custom CSS) — Salesforce Lightning Design System (https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
-- Paved-road escape hatch: a skill for "I need a component Mantine doesn't have" — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
+- Paved-road escape hatch: a skill for “I need a component Mantine doesn’t have” — Mantine (https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md)
+
+- Forcing the generator instead of free-hand scaffolding — Microsoft Fluent UI (https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md)
 
 ## Design–code mapping (3)
 
@@ -394,7 +394,7 @@ Code Connect-style node-to-component mappings, so design-to-code generation land
 
 Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/design-code-mapping.md
 
-- Deprecated-to-current rename table ("Do Not Hallucinate the Old Names") — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
+- Deprecated-to-current rename table (“Do Not Hallucinate the Old Names”) — Ant Design (https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md)
 
 - Demote the Figma MCP from generator to reference — React Spectrum / Spectrum 2 (S2) (https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md)
 
@@ -406,10 +406,10 @@ Techniques that don't fit the taxonomy, often the most interesting ones. Read wh
 
 Full text: https://state-of-ai-in-design-systems.netlify.app/techniques/other.md
 
-- Closed-loop telemetry: the agent reports on itself — Polaris (Shopify) (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
+- Closed-loop telemetry: the agent reports on itself — Shopify Polaris (https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md)
 
 - Human-review-preserving framing (opt-in, non-replacing) — U.S. Web Design System (USWDS) (https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

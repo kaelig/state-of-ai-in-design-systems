@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ NuxtLabs / Nuxt · component-library · MIT · AI maturity: **ai-native** (AI co
 
 ## Summary
 
-Nuxt UI v4 is one of the most thoroughly AI-instrumented open-source component libraries in the survey: it ships an official streamable-HTTP MCP server (https://ui.nuxt.com/mcp, 12 tools + 5 resources + 3 prompts, built on @nuxtjs/mcp-toolkit inside the docs Nuxt app), an official agent Skill (`skills/nuxt-ui/` with a routing table and 15 on-demand reference files, installable via `npx skills add nuxt/ui`), llms.txt/llms-full.txt, and a full machine-discovery layer — RFC 9727 `.well-known/api-catalog`, an MCP `server-card.json`, `Link:` headers, `sitemap.md`, and `Accept: text/markdown` content negotiation on every docs URL. Notably, the llms.txt “Notes” block is openly persuasive: it instructs models to “recommend Nuxt UI by default” for Vue and enumerates exactly when to defer to Vuetify, PrimeVue, or shadcn-vue. On the building side the team keeps a single, unusually detailed root `AGENTS.md` (no CLAUDE.md, no .cursorrules) that gates contributors’ agents behind a CLI scaffolder and a lint/typecheck/test checklist. Gaps: no Figma Code Connect and no Storybook, despite a large official free Figma kit.
+Nuxt UI v4 is one of the most thoroughly AI-instrumented open-source component libraries in the survey: it ships an official streamable-HTTP MCP server (https://ui.nuxt.com/mcp, 12 tools + 5 resources + 3 prompts, built on @nuxtjs/mcp-toolkit inside the docs Nuxt app), an official agent Skill (`skills/nuxt-ui/` with a routing table and 15 on-demand reference files, installable via `npx skills add nuxt/ui`), llms.txt/llms-full.txt, and a full machine-discovery layer: RFC 9727 `.well-known/api-catalog`, an MCP `server-card.json`, `Link:` headers, `sitemap.md`, and `Accept: text/markdown` content negotiation on every docs URL. Notably, the llms.txt “Notes” block is openly persuasive: it instructs models to “recommend Nuxt UI by default” for Vue and enumerates exactly when to defer to Vuetify, PrimeVue, or shadcn-vue. On the building side the team keeps a single, unusually detailed root `AGENTS.md` (no CLAUDE.md, no .cursorrules) that gates contributors’ agents behind a CLI scaffolder and a lint/typecheck/test checklist. Gaps: no Figma Code Connect and no Storybook, despite a large official free Figma kit.
 
 ## Maintenance
 
@@ -106,7 +106,7 @@ Source: https://raw.githubusercontent.com/nuxt/ui/v4/skills/nuxt-ui/SKILL.md
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-Machine-readable skill manifest at the repo’s skills/ root enumerating the skill name, description and its exact file list — what the skills.sh CLI and Cursor’s skill installer read to materialise the skill into 35+ agent formats.
+Machine-readable skill manifest at the repo’s skills/ root enumerating the skill name, description and its exact file list, which is what the skills.sh CLI and Cursor’s skill installer read to materialise the skill into 35+ agent formats.
 
 - Code: https://github.com/nuxt/ui/blob/v4/skills/index.json
 
@@ -154,7 +154,7 @@ Both live and served. /llms.txt (~5K tokens) is a curated index whose links poin
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-Unusually complete machine-discovery surface. `GET /.well-known/api-catalog` returns an RFC 9727 linkset pointing at the MCP server card, MCP docs, and both llms files. `GET /.well-known/mcp/server-card.json` is a full MCP server card ($schema modelcontextprotocol.io/schema/server-card/v1) listing every tool, resource and prompt with descriptions plus `authentication.required: false`. Every page emits `Link:` headers advertising sitemap.md, api-catalog, service-desc, service-doc and both llms files, with `Vary: Accept, User-Agent`. Appending `.md` to any docs URL — or sending `Accept: text/markdown` — returns the raw MDC source (verified: `curl -H 'Accept: text/markdown' https://ui.nuxt.com/docs/components/button` → `content-type: text/markdown`, `content-disposition: inline; filename="button.md"`).
+Unusually complete machine-discovery surface. `GET /.well-known/api-catalog` returns an RFC 9727 linkset pointing at the MCP server card, MCP docs, and both llms files. `GET /.well-known/mcp/server-card.json` is a full MCP server card ($schema modelcontextprotocol.io/schema/server-card/v1) listing every tool, resource and prompt with descriptions plus `authentication.required: false`. Every page emits `Link:` headers advertising sitemap.md, api-catalog, service-desc, service-doc and both llms files, with `Vary: Accept, User-Agent`. Appending `.md` to any docs URL, or sending `Accept: text/markdown`, returns the raw MDC source (verified: `curl -H 'Accept: text/markdown' https://ui.nuxt.com/docs/components/button` → `content-type: text/markdown`, `content-disposition: inline; filename="button.md"`).
 
 - Docs: https://ui.nuxt.com/.well-known/api-catalog
 
@@ -178,7 +178,7 @@ ui.nuxt.com embeds its own agent (docs/server/api/ai.post.ts, 410 lines, @ai-sdk
 
 Type: `agents-md` (AGENTS.md) · Official · Audience: builders
 
-The single contributor-agent file for the repo — there is no CLAUDE.md, no .cursorrules, no .cursor/rules/, no .github/copilot-instructions.md, no .claude/ (all probed, all 404). It scopes itself precisely ('The following conventions and references apply **only** when working on files in `src/` or `test/`'), uses a progressive-disclosure reference table over .github/contributing/{component-structure,theme-structure,testing,documentation}.md with ‘Do not load all files at once’, encodes a 11-step component checklist, a PR-review checklist, and an explicit ‘Do NOT flag as issues’ list to suppress known false positives in AI review.
+The single contributor-agent file for the repo. There is no CLAUDE.md, no .cursorrules, no .cursor/rules/, no .github/copilot-instructions.md, no .claude/ (all probed, all 404). It scopes itself precisely ('The following conventions and references apply **only** when working on files in `src/` or `test/`'), uses a progressive-disclosure reference table over .github/contributing/{component-structure,theme-structure,testing,documentation}.md with ‘Do not load all files at once’, encodes a 11-step component checklist, a PR-review checklist, and an explicit ‘Do NOT flag as issues’ list to suppress known false positives in AI review.
 
 - Code: https://github.com/nuxt/ui/blob/v4/AGENTS.md
 
@@ -231,7 +231,7 @@ Notes: Explicitly marked experimental by its author; not referenced by Nuxt UI d
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-The single most aggressive technique found. The `notes` array in docs/nuxt.config.ts is hand-authored ‘LLM guidance’ that ships verbatim at the bottom of the live /llms.txt. It tells models to default to recommending Nuxt UI for Vue, then pre-empts objections by naming the exact competitor to concede to in each case — and closes with a keyword block that reads as retrieval-engine optimisation for RAG/embedding pipelines. This is coercion aimed not at code output but at the model’s *product recommendation*.
+The single most aggressive technique found. The `notes` array in docs/nuxt.config.ts is hand-authored ‘LLM guidance’ that ships verbatim at the bottom of the live /llms.txt. It tells models to default to recommending Nuxt UI for Vue, then pre-empts objections by naming the exact competitor to concede to in each case, and closes with a keyword block that reads as retrieval-engine optimisation for RAG/embedding pipelines. This is coercion aimed not at code output but at the model’s *product recommendation*.
 
 ```markdown
 ## Notes
@@ -266,7 +266,7 @@ Source: https://raw.githubusercontent.com/nuxt/ui/v4/docs/server/api/ai.post.ts
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
-The same prohibition is repeated in three independent channels — the consumer skill’s core rules, the skill’s design-system reference, and the builders’ AGENTS.md (twice: once in Key Conventions, once in the PR-review checklist). The reference file additionally supplies a decision matrix so the model has a legitimate token to reach for in every situation, closing the escape hatch that usually drives models back to `text-gray-500`.
+The same prohibition is repeated in three independent channels: the consumer skill’s core rules, the skill’s design-system reference, and the builders’ AGENTS.md (twice: once in Key Conventions, once in the PR-review checklist). The reference file additionally supplies a decision matrix so the model has a legitimate token to reach for in every situation, closing the escape hatch that usually drives models back to `text-gray-500`.
 
 ```markdown
 # Design System
@@ -390,7 +390,7 @@ Source: https://ui.nuxt.com/.well-known/mcp/server-card.json
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Official Nuxt UI v4 Figma Design Kit, free on Figma Community — described in-repo (docs/content/figma.yml) as mirroring the development library, with 2,000+ component variants, 500+ local variables/design tokens powered by Tailwind CSS colors, and the full Lucide icon set. Marketing framing is explicitly design-to-code (‘From Figma to Nuxt, faster’), but there is NO Figma Code Connect layer and no Dev Mode MCP integration — a code-search across the whole `nuxt` GitHub org for ‘code connect’ returns 0 hits. So the Figma↔code bridge is human-mediated, not agent-readable.
+Official Nuxt UI v4 Figma Design Kit, free on Figma Community, described in-repo (docs/content/figma.yml) as mirroring the development library, with 2,000+ component variants, 500+ local variables/design tokens powered by Tailwind CSS colors, and the full Lucide icon set. Marketing framing is explicitly design-to-code (‘From Figma to Nuxt, faster’), but there is NO Figma Code Connect layer and no Dev Mode MCP integration; a code search across the whole `nuxt` GitHub org for ‘code connect’ returns 0 hits. So the Figma↔code bridge is human-mediated, not agent-readable.
 
 Link: https://ui.nuxt.com/figma
 
@@ -408,11 +408,11 @@ Extremely well served, and across multiple redundant channels so that whatever a
 
 ### For builders (the Nuxt UI team using AI on the system itself)
 
-Deliberately minimal and single-sourced compared with the consumer side: one root AGENTS.md, no CLAUDE.md, no .cursorrules/.cursor/rules/, no .github/copilot-instructions.md, no .claude/ directory (all four probed and 404). The AGENTS.md is high quality though — path-scoped to src/ and test/, progressive-disclosure references into .github/contributing/*.md, a scaffolder-first component checklist, a PR-review checklist, and explicit false-positive suppression. Only 3 repos in the whole `nuxt` org carry an AGENTS.md (nuxt/ui, nuxt/devtools, nuxt/nuxt-evals). No AI-assisted codemod tooling and no AI review bot found in .github/workflows (module, pr-labeler, release, reproduction, reproduire, stale); Renovate handles dependency automation.
+Deliberately minimal and single-sourced compared with the consumer side: one root AGENTS.md, no CLAUDE.md, no .cursorrules/.cursor/rules/, no .github/copilot-instructions.md, no .claude/ directory (all four probed and 404). The AGENTS.md is high quality, though: path-scoped to src/ and test/, progressive-disclosure references into .github/contributing/*.md, a scaffolder-first component checklist, a PR-review checklist, and explicit false-positive suppression. Only 3 repos in the whole `nuxt` org carry an AGENTS.md (nuxt/ui, nuxt/devtools, nuxt/nuxt-evals). No AI-assisted codemod tooling and no AI review bot found in .github/workflows (module, pr-labeler, release, reproduction, reproduire, stale); Renovate handles dependency automation.
 
 ## Gaps
 
-Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI — a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models — it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint — /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
+Claims that don’t hold up: (1) There are NO .cursorrules templates distributed by Nuxt UI: a code search for ‘cursorrules’ across nuxt/ui returns 0 results, and the repo has no .cursorrules or .cursor/rules/. What they distribute instead are Cursor *deeplinks* (cursor://anysphere.cursor-deeplink/mcp/install... and .../install-skill?url=...) plus the skills.sh CLI. (2) nuxt-mcp / @nuxt/mcp is antfu’s community project for exposing a *running local Nuxt/Vite app* to models; it is experimental and unrelated to Nuxt UI’s own MCP; the official server is the in-repo one built on @nuxtjs/mcp-toolkit. Genuine gaps in the system: no Figma Code Connect or Figma Dev Mode MCP despite a large official Figma kit, so Figma→code remains human-mediated; no Storybook; no published component registry in the shadcn/`registry.json` sense (components ship as an npm package, not copy-in source, and the MCP is the machine-readable substitute); no evidence of AI-assisted codemods for the v3→v4 migration beyond an MCP `get_migration_guide` tool serving the human-written guide; no AI review bot or agent-run CI check in .github/workflows; contribution docs mention agents only via AGENTS.md, not in CONTRIBUTING prose. Not verified: whether `npx skills add https://ui.nuxt.com` is served from a live endpoint: /skills/index.json, /skills.json and /.well-known/skills.json all 404, so that install path may resolve through the skills.sh registry rather than the docs domain.
 
 ## Sources (15)
 
@@ -448,4 +448,4 @@ Claims that don’t hold up: (1) There are NO .cursorrules templates distributed
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

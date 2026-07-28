@@ -8,7 +8,7 @@ id: "schema"
 affordance_type_count: 15
 technique_category_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -112,7 +112,7 @@ There is no confidence field and no rating of evidence in this dataset. Provenan
 
 Ids are stable and are the same in the URLs, the JSON, the SQLite export and the MCP server. They are never renamed.
 
-`ant-design`, `atlassian-design-system`, `carbon-design-system`, `chakra-ui`, `daisyui`, `heroui`, `salesforce-slds`, `nuxt-ui`, `patternfly`, `shopify-polaris`, `primer-github`, `react-spectrum-s2`, `shadcn-ui`, `cloudscape-design-system`, `fluent-ui-microsoft`, `mantine`, `material-ui`, `nord-design-system`, `uswds`
+`ant-design`, `atlassian-design-system`, `carbon-design-system`, `chakra-ui`, `daisyui`, `heroui`, `nuxt-ui`, `patternfly`, `primer-github`, `react-spectrum-s2`, `salesforce-slds`, `shadcn-ui`, `shopify-polaris`, `cloudscape-design-system`, `mantine`, `material-ui`, `fluent-ui-microsoft`, `nord-design-system`, `uswds`
 
 `figma`, `storybook`, `supernova`, `knapsack`, `zeroheight`
 
@@ -134,4 +134,4 @@ JSON Schema for one system record: https://state-of-ai-in-design-systems.netlify
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -8,7 +8,7 @@ id: "curated-context"
 technique_count: 21
 system_count: 17
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,9 +23,9 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Docs condensed and structured for context windows: llms.txt, llms-full.txt, per-page markdown mirrors, machine-readable component indexes.
 
-Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System (ADS / Atlaskit)](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
-## "Your training data is stale" preamble as a distributable prompt
+## “Your training data is stale” preamble as a distributable prompt
 
 Ant Design · full record: https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md
 
@@ -42,9 +42,9 @@ Source: https://ant.design/docs/react/for-agents.md
 
 ## Server-level `instructions` string as a persona + routing table
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
-`@atlaskit/ads-mcp` ships a dedicated `dist/cjs/instructions.js` module exporting a single `instructions` string injected at MCP handshake time. It sets a persona (‘You are an expert in the Atlassian Design System’), encodes the ads_*/atlaskit_* split, and — notably — pairs each ADS tool with a sibling Context Engine MCP tool so the model composes org-wide policy with system-specific guidance instead of choosing one. It ends with an explicit escape hatch to the llms.txt files for deep research.
+`@atlaskit/ads-mcp` ships a dedicated `dist/cjs/instructions.js` module exporting a single `instructions` string injected at MCP handshake time. It sets a persona (‘You are an expert in the Atlassian Design System’), encodes the ads_*/atlaskit_* split, and pairs each ADS tool with a sibling Context Engine MCP tool so the model composes org-wide policy with system-specific guidance instead of choosing one. It ends with an explicit escape hatch to the llms.txt files for deep research.
 
 ```text
 You are an expert in the Atlassian Design System (ADS).
@@ -59,11 +59,11 @@ These tools will support you, but for deep research you may also fetch https://a
 
 Source: https://unpkg.com/@atlaskit/ads-mcp@1.7.1/dist/cjs/instructions.js
 
-## Conditional lazy-loading of reference files ('→ Only read when …')
+## Conditional lazy-loading of reference files (‘→ Only read when …’)
 
 Carbon Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md
 
-Every one of the 12 reference docs is linked with an explicit trigger condition appended to the link, so the agent pulls ~10-20 KB of specialist context only on demand rather than the full ~190 KB payload. This is the mechanism the public ‘Token conservation’ docs page is built to explain — a design system treating the consumer’s inference bill as a design constraint.
+Every one of the 12 reference docs is linked with an explicit trigger condition appended to the link, so the agent pulls ~10-20 KB of specialist context only on demand rather than the full ~190 KB payload. This is the mechanism the public ‘Token conservation’ docs page is built to explain: a design system treating the consumer’s inference bill as a design constraint.
 
 ```markdown
 See [references/framework-rules.md](references/framework-rules.md) for the full rule set. → **Only read when** setting up React SCSS baseline, Web Components styling, composing floating UI (Dropdown, ComboBox, Select) inside a Modal, IBM Plex font setup, or resolving component selection (status indicators vs Tag, Tabs vs TabsVertical).
@@ -83,7 +83,7 @@ Source: https://carbondesignsystem.com/developing/carbon-mcp/files/carbon-builde
 
 Chakra UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md
 
-Rather than one monolithic dump, Chakra publishes llms-full.txt (~2 MB) plus five narrower slices and explicitly frames the split for limited-context agents. The docs prose does the routing: pick the slice matching the task. Cheap but effective coercion — an agent that loaded llms-v3-migration.txt cannot see v2-shaped or Tailwind-shaped answers.
+Rather than one monolithic dump, Chakra publishes llms-full.txt (~2 MB) plus five narrower slices and explicitly frames the split for limited-context agents. The docs prose does the routing: pick the slice matching the task. Cheap but effective coercion: an agent that loaded llms-v3-migration.txt cannot see v2-shaped or Tailwind-shaped answers.
 
 ```markdown
 Separate docs are available if you have a limited context window.
@@ -103,11 +103,11 @@ for migrating to Chakra UI v3.
 
 Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/apps/www/content/docs/get-started/ai/llms.mdx
 
-## Progressive disclosure — 'read X before responding'
+## Progressive disclosure — ‘read X before responding’
 
 Chakra UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md
 
-The builder SKILL.md refuses to inline theming, charts and component-selection knowledge; instead it issues explicit read-before-answer directives that pull reference files into context only on matching request types. component-decision-tree.md is the key anti-hallucination device: all ~114 components with head-to-head comparisons (Select vs Combobox vs NativeSelect, Dialog vs Drawer, Tooltip vs HoverCard vs Popover) — exactly where models otherwise invent or misuse APIs.
+The builder SKILL.md refuses to inline theming, charts and component-selection knowledge; instead it issues explicit read-before-answer directives that pull reference files into context only on matching request types. component-decision-tree.md is the key anti-hallucination device: all ~114 components with head-to-head comparisons (Select vs Combobox vs NativeSelect, Dialog vs Drawer, Tooltip vs HoverCard vs Popover), exactly where models otherwise invent or misuse APIs.
 
 ```markdown
 For deeper theming work — defining brand color tokens, semantic tokens with dark
@@ -128,11 +128,11 @@ with guidance on when to choose one over a similar alternative.
 
 Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra-ui-builder/SKILL.md
 
-## "Mandatory reference" routing table with per-file MANDATORY flags
+## “Mandatory reference” routing table with per-file MANDATORY flags
 
 daisyUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md
 
-The root SKILL.md is a dispatcher, not a document: a table that tells the agent which sub-skill to read for which task, with each row annotated MANDATORY or conditional. It also pre-empts premature component choice (‘Always read multiple candidate component docs before deciding which one to use’) — a cheap, effective guard against the model grabbing the first plausible class name. Sub-skills repeat the enforcement in their own frontmatter (‘description: MANDATORY usage rules for daisyUI 5’, ‘MANDATORY color usage rules for daisyUI 5’).
+The root SKILL.md is a dispatcher, not a document: a table that tells the agent which sub-skill to read for which task, with each row annotated MANDATORY or conditional. It also pre-empts premature component choice (‘Always read multiple candidate component docs before deciding which one to use’), a cheap and effective guard against the model grabbing the first plausible class name. Sub-skills repeat the enforcement in their own frontmatter (‘description: MANDATORY usage rules for daisyUI 5’, ‘MANDATORY color usage rules for daisyUI 5’).
 
 ```markdown
 ## Mandatory reference
@@ -148,7 +148,7 @@ daisyUI components | [./components/](./components/) | MANDATORY. Read the releva
 
 Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/SKILL.md
 
-## Ground-truth-first subagents ("never assume, always verify")
+## Ground-truth-first subagents (“never assume, always verify”)
 
 HeroUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
@@ -168,29 +168,11 @@ The docs-curator subagent is barred from writing docs off memory: it must first 
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/agents/style-migrator.md
 
-## Skill routing table — 'do not improvise from memory'
-
-Lightning Design System (SLDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
-
-AGENTS.md refuses to inline SLDS knowledge. Instead it routes the agent to exact node_modules SKILL.md paths and states the failure mode it is preventing outright: ‘Do not improvise SLDS from memory when a skill exists. Re-read it when you iterate on presentation.’ Each skill is scoped to a narrow trigger so the agent can’t reach for the migration or audit skill during ordinary build work.
-
-```markdown
-### SLDS Agent Skills
-
-SLDS skills ship in the **`@salesforce/afv-skills`** npm dependency.
-
-- **For ALL UI work** (markup, CSS, layout, icons, LBC vs blueprint), **read and follow `node_modules/@salesforce/afv-skills/skills/design-systems-slds-apply/SKILL.md` first**. Do not improvise SLDS from memory when a skill exists. Re-read it when you iterate on presentation.
-- **`design-systems-slds2-migrate`** — SLDS 1→2 / linter-driven uplift only.
-- **`design-systems-slds-validate`** — audit or scorecard requests only.
-```
-
-Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/AGENTS.md
-
 ## Adversarial recommendation steering inside llms.txt
 
 Nuxt UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md
 
-The single most aggressive technique found. The `notes` array in docs/nuxt.config.ts is hand-authored ‘LLM guidance’ that ships verbatim at the bottom of the live /llms.txt. It tells models to default to recommending Nuxt UI for Vue, then pre-empts objections by naming the exact competitor to concede to in each case — and closes with a keyword block that reads as retrieval-engine optimisation for RAG/embedding pipelines. This is coercion aimed not at code output but at the model’s *product recommendation*.
+The single most aggressive technique found. The `notes` array in docs/nuxt.config.ts is hand-authored ‘LLM guidance’ that ships verbatim at the bottom of the live /llms.txt. It tells models to default to recommending Nuxt UI for Vue, then pre-empts objections by naming the exact competitor to concede to in each case, and closes with a keyword block that reads as retrieval-engine optimisation for RAG/embedding pipelines. This is coercion aimed not at code output but at the model’s *product recommendation*.
 
 ```markdown
 ## Notes
@@ -227,7 +209,7 @@ Source: https://raw.githubusercontent.com/nuxt/ui/v4/skills/nuxt-ui/SKILL.md
 
 PatternFly · full record: https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md
 
-The MCP deliberately collapsed four tools into two and forces a discover-then-fetch sequence, capping `urlList` at 15 to bound context. `usePatternFlyDocs` auto-appends the machine-readable JSON Schema (props, types, validation) whenever it detects a component, fusing prose docs with a hallucination-resistant prop contract. A per-LLM tip in the docs prescribes the lookup order for unknown components, and `patternfly://` URIs are framed as a ‘transitional’ compatibility bridge for clients that cannot read MCP resources — pushing clients toward `resources/read`.
+The MCP deliberately collapsed four tools into two and forces a discover-then-fetch sequence, capping `urlList` at 15 to bound context. `usePatternFlyDocs` auto-appends the machine-readable JSON Schema (props, types, validation) whenever it detects a component, fusing prose docs with a hallucination-resistant prop contract. A per-LLM tip in the docs prescribes the lookup order for unknown components, and `patternfly://` URIs are framed as a ‘transitional’ compatibility bridge for clients that cannot read MCP resources, pushing clients toward `resources/read`.
 
 ```markdown
 ### Context and guidelines
@@ -258,7 +240,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/ser
 
 React Spectrum / Spectrum 2 (S2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md
 
-SKILL.md stays ~380 lines and defers to references/components/.md, references/guides/*.md, and a bundled React Aria doc set — all emitted from docs source by generateAgentSkills.mjs on each deploy, keeping agent context and human docs in lockstep. Entry conditions are stated up front so the model loads the right file before generating any code.
+SKILL.md stays ~380 lines and defers to references/components/.md, references/guides/*.md, and a bundled React Aria doc set, all emitted from docs source by generateAgentSkills.mjs on each deploy, keeping agent context and human docs in lockstep. Entry conditions are stated up front so the model loads the right file before generating any code.
 
 ```markdown
 If the requirements do not clearly specify which React Spectrum component to use, consult the [Component Decision Tree](references/guides/component-decision-tree.md) before choosing a component.
@@ -273,11 +255,29 @@ When writing tests that exercise S2 components, consult [Testing with React Spec
 
 Source: https://react-spectrum.adobe.com/.well-known/skills/react-spectrum-s2/SKILL.md
 
+## Skill routing table — ‘do not improvise from memory’
+
+Salesforce Lightning Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
+
+AGENTS.md refuses to inline SLDS knowledge. Instead it routes the agent to exact node_modules SKILL.md paths and states the failure mode it is preventing outright: ‘Do not improvise SLDS from memory when a skill exists. Re-read it when you iterate on presentation.’ Each skill is scoped to a narrow trigger so the agent can’t reach for the migration or audit skill during ordinary build work.
+
+```markdown
+### SLDS Agent Skills
+
+SLDS skills ship in the **`@salesforce/afv-skills`** npm dependency.
+
+- **For ALL UI work** (markup, CSS, layout, icons, LBC vs blueprint), **read and follow `node_modules/@salesforce/afv-skills/skills/design-systems-slds-apply/SKILL.md` first**. Do not improvise SLDS from memory when a skill exists. Re-read it when you iterate on presentation.
+- **`design-systems-slds2-migrate`** — SLDS 1→2 / linter-driven uplift only.
+- **`design-systems-slds-validate`** — audit or scorecard requests only.
+```
+
+Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/AGENTS.md
+
 ## Live project-context injection at skill load (`info --json`)
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
-Rather than describing shadcn/ui in the abstract, the skill executes the CLI inside its own body (`!` command interpolation) so the model always sees the real project’s aliases, base library, icon library, Tailwind version and installed components. It then tells the model exactly how to act on each field — e.g. never assume lucide-react, never hardcode `@/`, never create a new CSS file. `allowed-tools` narrows the agent to shadcn CLI invocations only.
+Rather than describing shadcn/ui in the abstract, the skill executes the CLI inside its own body (`!` command interpolation) so the model always sees the real project’s aliases, base library, icon library, Tailwind version and installed components. It then tells the model exactly how to act on each field: never assume lucide-react, never hardcode `@/`, never create a new CSS file. `allowed-tools` narrows the agent to shadcn CLI invocations only.
 
 ````markdown
 ---
@@ -310,7 +310,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.
 
 Cloudscape Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
 
-Rather than one giant llms-full.txt, Cloudscape appends `/index.html.md` to every docs page and `/index.html.json` to every component page, and llms.txt lists BOTH per component. The official docs then instruct agents which to fetch for which task — Markdown guidelines for tests and usage rules, JSON for implementation-time prop correctness. This is context-budget engineering: the agent pulls only the shape it needs instead of loading the whole system.
+Rather than one giant llms-full.txt, Cloudscape appends `/index.html.md` to every docs page and `/index.html.json` to every component page, and llms.txt lists BOTH per component. The official docs then instruct agents which to fetch for which task: Markdown guidelines for tests and usage rules, JSON for implementation-time prop correctness. This is context-budget engineering: the agent pulls only the shape it needs instead of loading the whole system.
 
 ```markdown
 #### 1. Component API Definitions and Guidelines
@@ -324,38 +324,6 @@ All our documentation pages are available in markdown by appending /index.html.m
 ```
 
 Source: https://cloudscape.design/get-started/for-developers/ai-tools-support/index.html.md
-
-## Token lookup as a search procedure + few-shot mapping table
-
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
-
-`/token-lookup ` gives the model a value-category decision tree (hex → color tokens, px → spacing/font-size/radius, ms → duration), points it at the exact theme source path to grep (`packages/react-components/react-theme/library/src/`), constrains it to `allowed-tools: Read Grep Glob` (read-only — it cannot ‘fix’ anything, only advise), and seeds a few-shot table of common hardcoded→token mappings. Crucially it also handles the failure mode: if no exact match, suggest the closest semantic token AND explain the difference.
-
-````markdown
----
-name: token-lookup
-description: Find the matching Fluent UI design token for a hardcoded CSS value (color, spacing, font size, border radius, shadow)
-argument-hint: <css-value>
-allowed-tools: Read Grep Glob
----
-
-2. **Search the theme source** for matching values:
-
-   ```
-   packages/react-components/react-theme/library/src/
-   ```
-
-4. **If no exact match exists**, suggest the closest semantic token and explain the difference.
-
-## Common Mappings
-
-| Hardcoded           | Token                                                    |
-| `#0078d4`           | `tokens.colorBrandBackground`                            |
-| `#323130`           | `tokens.colorNeutralForeground1`                         |
-| `#ffffff`           | `tokens.colorNeutralBackground1`                         |
-````
-
-Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/token-lookup/SKILL.md
 
 ## Narrowest-scope-first decision ladder for styling
 
@@ -400,11 +368,43 @@ The root `AGENTS.md` lists each skill and links directly to `skills/<name>/AGENT
 
 Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/README.md
 
+## Token lookup as a search procedure + few-shot mapping table
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+
+`/token-lookup ` gives the model a value-category decision tree (hex → color tokens, px → spacing/font-size/radius, ms → duration), points it at the exact theme source path to grep (`packages/react-components/react-theme/library/src/`), constrains it to `allowed-tools: Read Grep Glob` (read-only, so it cannot ‘fix’ anything, only advise), and seeds a few-shot table of common hardcoded→token mappings. Crucially it also handles the failure mode: if no exact match, suggest the closest semantic token AND explain the difference.
+
+````markdown
+---
+name: token-lookup
+description: Find the matching Fluent UI design token for a hardcoded CSS value (color, spacing, font size, border radius, shadow)
+argument-hint: <css-value>
+allowed-tools: Read Grep Glob
+---
+
+2. **Search the theme source** for matching values:
+
+   ```
+   packages/react-components/react-theme/library/src/
+   ```
+
+4. **If no exact match exists**, suggest the closest semantic token and explain the difference.
+
+## Common Mappings
+
+| Hardcoded           | Token                                                    |
+| `#0078d4`           | `tokens.colorBrandBackground`                            |
+| `#323130`           | `tokens.colorNeutralForeground1`                         |
+| `#ffffff`           | `tokens.colorNeutralBackground1`                         |
+````
+
+Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/token-lookup/SKILL.md
+
 ## SKILL.md as a pure routing table (progressive disclosure, no inlined rules)
 
 Nord Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md
 
-Nord’s SKILL.md contains essentially no prose rules — ~218 lines of markdown tables mapping every component and guideline to a `references/*.md` path, preceded by a two-sentence system description. All behavioural constraint lives one hop away in the per-component reference files, keeping the always-loaded context ~32 KB while the agent pulls only what it touches. Grepping the whole `nord` SKILL.md for ‘never’, “don’t”, ‘always’ or ‘avoid’ returns zero rule hits — deliberate, but it means the top-level skill exerts no direct pressure beyond naming the `` prefix.
+Nord’s SKILL.md contains essentially no prose rules: ~218 lines of markdown tables mapping every component and guideline to a `references/*.md` path, preceded by a two-sentence system description. All behavioural constraint lives one hop away in the per-component reference files, keeping the always-loaded context ~32 KB while the agent pulls only what it touches. Grepping the whole `nord` SKILL.md for ‘never’, “don’t”, ‘always’ or ‘avoid’ returns zero rule hits. That is deliberate, but it means the top-level skill exerts no direct pressure beyond naming the `` prefix.
 
 ```markdown
 ## Design Tokens
@@ -428,7 +428,7 @@ Source: https://nordhealth.design/.well-known/skills/nord/SKILL.md
 
 Nord Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md
 
-Nord ships `nord` (87 files — components + migrations only) and `nord-full` (152 files — adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, even contributing and updates pages), mirroring the /llms.txt vs /llms-full.txt split. The same discipline applied twice: publish a lean default and an exhaustive opt-in. Outside the manifest itself, only the lean tier is advertised: the Agent Skills page documents `npx skills add https://nordhealth.design` and nothing else, and neither /llms.txt nor the 997KB /llms-full.txt names `nord-full`.
+Nord ships `nord` (87 files, components and migrations only) and `nord-full` (152 files, adding tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, even contributing and updates pages), mirroring the /llms.txt vs /llms-full.txt split. The same discipline applied twice: publish a lean default and an exhaustive opt-in. Outside the manifest itself, only the lean tier is advertised: the Agent Skills page documents `npx skills add https://nordhealth.design` and nothing else, and neither /llms.txt nor the 997KB /llms-full.txt names `nord-full`.
 
 ```json
         "references/migrations/figma-4.0.0.md",
@@ -453,7 +453,7 @@ Source: https://nordhealth.design/.well-known/skills/
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-USWDS publishes no agent registry, but uswds-site’s Jekyll `_data/` directory is a structured, machine-readable substrate that community tools ingest: `_data/tokens/{color,spacing,shadow,opacity,z-index,order,flex,conversion,special}.yml`, `_data/packages.yml` (per-component name, fullSize, sourceSize, dependency graph), `_data/utilities.yml`, `_data/settings/`. uswds-mcp’s `npm run ingest` builds its whole index from this plus the component repo. Accidental agent-readiness — the data is structured for a docs site, and agents get it as a side effect.
+USWDS publishes no agent registry, but uswds-site’s Jekyll `_data/` directory is a structured, machine-readable substrate that community tools ingest: `_data/tokens/{color,spacing,shadow,opacity,z-index,order,flex,conversion,special}.yml`, `_data/packages.yml` (per-component name, fullSize, sourceSize, dependency graph), `_data/utilities.yml`, `_data/settings/`. uswds-mcp’s `npm run ingest` builds its whole index from this plus the component repo. Accidental agent-readiness: the data is structured for a docs site, and agents get it as a side effect.
 
 ```yaml
 - name: "usa-accordion"
@@ -482,4 +482,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

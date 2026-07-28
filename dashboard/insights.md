@@ -7,7 +7,7 @@ type: "view"
 id: "insights"
 finding_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -18,13 +18,13 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 # Insights
 
-Nineteen records read together: what nearly every team now ships, and what the leading systems do that the rest have not started.
+Nineteen records read together: what nearly every team now ships, and what the leading systems do that the rest haven’t started.
 
 ## Findings (9)
 
 ### 1. The machine interface is table stakes: 16 of 19 ship an official MCP server
 
-Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. The question has shifted from whether to ship a machine interface to how: how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting.
+Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. Nobody is still arguing about whether to ship a machine interface. The arguments now are about how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting.
 
 ### 2. 2026 is the year of the agent skill
 
@@ -42,7 +42,7 @@ The strongest systems restructure the task so hallucination can’t happen, rath
 
 Mantine regenerates llms.txt, a 4.2MB llms-full.txt and mcp/index.json from the same MDX and docgen data as the human docs, on every release. Cloudscape mirrors every docs page as markdown, exposes typed JSON API definitions per component and regenerates llms.txt daily. HeroUI refreshes its MCP server from docs deploys via repository_dispatch. Hand-written agent docs rot. These can’t.
 
-### 6. Consumer-side and builder-side investment are wildly asymmetric, in both directions
+### 6. Consumer-side and builder-side investment barely track each other
 
 Fluent UI has the deepest builder-side agent stack in the study (nine executable skills, never-violate rules, lint auto-fix loops, visual verification) and almost nothing for consumers. React Spectrum, shadcn, Polaris and SLDS are the mirror image: heavy consumer investment, no public agent files for contributors. Carbon, HeroUI, Ant Design and Chakra are the few investing seriously on both sides.
 
@@ -52,11 +52,11 @@ Polaris blocks GPTBot, ClaudeBot and friends in robots.txt and puts `noai` meta 
 
 ### 8. Validation loops turn guidelines into gates
 
-SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. The shared idea: don’t trust generation, check it mechanically, and make the agent fix its own failures.
+SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. None of them trust generation. They check it mechanically and make the agent fix what fails.
 
 ### 9. The public sector is sitting this out, so far
 
-USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. What it added three weeks before this study says a lot: one deliberately vendor-neutral AGENTS.md for contributors, merged 2026-07-06. The AI-affordance race is a private-sector phenomenon for now.
+USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. Three weeks before this study it merged a single deliberately vendor-neutral AGENTS.md for contributors, on 2026-07-06. That is the entire federal contribution to date. The AI-affordance race is a private-sector phenomenon for now.
 
 ## Convergence (5)
 
@@ -106,12 +106,12 @@ MUI’s MCP includes generateReactCode, a paid service that can ground generatio
 
 Two years ago the question was whether design systems should care about AI consumption at all. That debate is over: of the nineteen systems here, all but one ship official machine-facing affordances, and thirteen treat AI consumption as a core design goal. What’s still contested, and what this study set out to map, is how you make a probabilistic text generator reliably use *your* components and *your* tokens rather than a statistically plausible imitation of them.
 
-The answers cluster into three generations. The first is documentation reshaped for machines: llms.txt, markdown twins of docs pages, condensed component indexes. Nearly everyone does this now, and the state of the art is no longer writing these files but compiling them from the same sources as the human docs so they can’t drift. The second is instruction: rules files and skills that tell the model what to do and, mostly, what never to do. The best instruction writing reads like policy, not documentation — numbered never-violate rules, allow-lists of exported components written to stop models hallucinating `Box`/`Stack`/`Container` (Ant Design), Incorrect/Correct exemplar pairs (shadcn).
+The answers cluster into three generations. The first is documentation reshaped for machines: llms.txt, markdown twins of docs pages, condensed component indexes. Nearly everyone does this now, and the state of the art is no longer writing these files but compiling them from the same sources as the human docs so they can’t drift. The second is instruction: rules files and skills that tell the model what to do and, mostly, what never to do. The best instruction writing reads like policy rather than documentation: numbered never-violate rules, allow-lists of exported components written to stop models hallucinating `Box`/`Stack`/`Container` (Ant Design), Incorrect/Correct exemplar pairs (shadcn).
 
 The third generation, and the clearest line between the leaders and the pack, is structural coercion: redesigning the task so the model can’t go off-system even if it wants to. Tool-gating makes the agent call an MCP tool or CLI to get component source; Primer writes “CRITICAL: CALL THIS FIRST” straight into its tool descriptions. Scaffolding has the CLI generate canonical code while the agent merely orchestrates (shadcn). Registries resolve real artifacts instead of imagined ones. Validation loops make the agent run linters and audits until they pass (SLDS, Fluent, Polaris). Instruction hopes the model complies. Structure checks.
 
-One meta-finding deserves emphasis: the design-system team’s own repo is a different battlefield from the consumer’s repo, and investment on the two sides is strikingly uncorrelated. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: teams have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon’s AGENTS.md opens by telling maintainers to keep it short because it’s loaded into every agent’s context. That rigor, the machine interface treated with the same care as the component API, is probably what the next two years of this discipline look like.
+The design-system team’s own repo is a different battlefield from the consumer’s repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon’s AGENTS.md opens by telling maintainers to keep it short because it’s loaded into every agent’s context. Give the machine interface the care you already give the component API. That is the part of this worth copying.
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

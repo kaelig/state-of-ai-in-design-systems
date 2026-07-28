@@ -9,7 +9,7 @@ id: "zeroheight"
 capability_count: 8
 design_systems_with_integration_records: 1
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -27,7 +27,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 ## Summary
 
-zeroheight has the most thoroughly documented MCP surface of the three. Remote MCP lives at a single endpoint, https://mcp.zeroheight.com/mcp, with two access modes: MCP via login (OAuth/SSO, recommended, can span multiple styleguides, CAN read private pages) and MCP via link (unique per-viewer URL, no auth, scoped to a single styleguide, CANNOT read private pages). A local MCP also ships as the npm package @zeroheight/mcp-server (Node 22+, browser OAuth by default with tokens at ~/.zeroheight/mcp-oauth.json, or ZEROHEIGHT_CLIENT_ID/ZEROHEIGHT_ACCESS_TOKEN sent as X-API-CLIENT / X-API-KEY headers); local MCP is for orgs blocking remote MCP, token-based auth, or CI/CD pipelines, and it too can read private pages. Five documented tools: list-styleguides, search-pages, list-pages, get-page, get-page-asset (plus list-releases for versioned content). Crucially, zeroheight publishes an “Optimising your styleguide for consumption via MCP” guide — the clearest vendor articulation anywhere of how to write DS docs FOR retrieval, including “Write content as rules, not descriptions”. A Markdown Export feature turns any page into AI-ready context with a pre-filled prompt, for teams who cannot enable MCP. On the builder side: Build with AI / Write with AI / Improve with AI, AI tone-of-voice instructions, AI-generated release notes, an Assistant for editors/viewers/Figma/Slack/Teams, and a Docs Agent closed beta that watches Figma for component/token changes and proposes documentation updates (suggestions only; Enterprise-only; OpenAI is the sub-processor; no customer data used for training). PRICING/AVAILABILITY: MCP, Markdown Export and the MCP optimisation features are all headed “This feature is not available for Free or Starter plans.” search-pages additionally requires the org-level “Allow use of AI features in styleguides” setting — without it the agent falls back to list-pages/get-page navigation only. Docs Agent beta requires Enterprise + AI features enabled + a styleguide mapped to Figma files. Public list pricing is roughly $39–49 per editor/month annually (third-party sources; treat as approximate). GAPS: no Code Connect-style mapping; zeroheight.com/llms.txt returns 404 — machine-readable access is Markdown Export + MCP, not llms.txt; the frequently cited claim about “llms.txt generation for DS docs sites” is NOT confirmed for zeroheight (it IS confirmed for Knapsack).
+zeroheight has the most thoroughly documented MCP surface of the three. Remote MCP lives at a single endpoint, https://mcp.zeroheight.com/mcp, with two access modes: MCP via login (OAuth/SSO, recommended, can span multiple styleguides, CAN read private pages) and MCP via link (unique per-viewer URL, no auth, scoped to a single styleguide, CANNOT read private pages). A local MCP also ships as the npm package @zeroheight/mcp-server (Node 22+, browser OAuth by default with tokens at ~/.zeroheight/mcp-oauth.json, or ZEROHEIGHT_CLIENT_ID/ZEROHEIGHT_ACCESS_TOKEN sent as X-API-CLIENT / X-API-KEY headers); local MCP is for orgs blocking remote MCP, token-based auth, or CI/CD pipelines, and it too can read private pages. Five documented tools: list-styleguides, search-pages, list-pages, get-page, get-page-asset (plus list-releases for versioned content). zeroheight also publishes an “Optimising your styleguide for consumption via MCP” guide, the clearest vendor articulation anywhere of how to write DS docs FOR retrieval, including “Write content as rules, not descriptions”. A Markdown Export feature turns any page into AI-ready context with a pre-filled prompt, for teams who cannot enable MCP. On the builder side: Build with AI / Write with AI / Improve with AI, AI tone-of-voice instructions, AI-generated release notes, an Assistant for editors/viewers/Figma/Slack/Teams, and a Docs Agent closed beta that watches Figma for component/token changes and proposes documentation updates (suggestions only; Enterprise-only; OpenAI is the sub-processor; no customer data used for training). PRICING/AVAILABILITY: MCP, Markdown Export and the MCP optimisation features are all headed “This feature is not available for Free or Starter plans.” search-pages additionally requires the org-level “Allow use of AI features in styleguides” setting; without it the agent falls back to list-pages/get-page navigation only. Docs Agent beta requires Enterprise + AI features enabled + a styleguide mapped to Figma files. Public list pricing is roughly $39–49 per editor/month annually (third-party sources; treat as approximate). GAPS: no Code Connect-style mapping; zeroheight.com/llms.txt returns 404, so machine-readable access is Markdown Export + MCP, not llms.txt; the frequently cited claim about “llms.txt generation for DS docs sites” is NOT confirmed for zeroheight (it IS confirmed for Knapsack).
 
 ## Capabilities (8)
 
@@ -107,7 +107,7 @@ Source: https://help.zeroheight.com/hc/en-us/articles/51478956166939-zeroheight-
 
 Audience: builders
 
-The single best vendor guidance on authoring DS docs for agent consumption. Key mechanism disclosed: the agent selects pages by title and navigation structure, not by reading everything — so information architecture is the retrieval index. Five rules: descriptive page titles, one topic per page, flat navigation, meaningful section/category names, and rules-not-prose. Also candid about model variance: smaller/older models struggle; ChatGPT and Codex “occasionally need explicit instruction to use the MCP”.
+The single best vendor guidance on authoring DS docs for agent consumption. Key mechanism disclosed: the agent selects pages by title and navigation structure, not by reading everything, so information architecture is the retrieval index. Five rules: descriptive page titles, one topic per page, flat navigation, meaningful section/category names, and rules-not-prose. Also candid about model variance: smaller/older models struggle; ChatGPT and Codex “occasionally need explicit instruction to use the MCP”.
 
 Link: https://help.zeroheight.com/hc/en-us/articles/50270875184795-Optimising-your-styleguide-for-consumption-via-MCP
 
@@ -128,7 +128,7 @@ Source: https://help.zeroheight.com/hc/en-us/articles/50270875184795-Optimising-
 
 Audience: consumers
 
-npm package for orgs that block remote MCP, need token auth, or run in CI/CD. Note the imperative sequencing baked into the tool descriptions themselves — “Call this tool first”, “Call this tool immediately after list-styleguides” — which pushes the model into a discovery-before-generation loop rather than letting it improvise from training data. Also note the disambiguation prompt: “If multiple systems are available, confirm with the user which should be used.”
+npm package for orgs that block remote MCP, need token auth, or run in CI/CD. Note the imperative sequencing baked into the tool descriptions themselves (“Call this tool first”, “Call this tool immediately after list-styleguides”), which pushes the model into a discovery-before-generation loop rather than letting it improvise from training data. Also note the disambiguation prompt: “If multiple systems are available, confirm with the user which should be used.”
 
 Link: https://www.npmjs.com/package/@zeroheight/mcp-server
 
@@ -167,7 +167,7 @@ Source: https://registry.npmjs.org/@zeroheight%2Fmcp-server
 
 Audience: consumers
 
-Fallback for teams that can’t enable MCP: viewers get “Copy page MD link”, “Copy page MD”, and “Open page MD link in…” which launches a chosen AI tool with a pre-filled prompt. That prompt is itself a coercion device — it durably scopes the whole conversation to the design system page. Admins choose which AI tools appear. SSO/password-protected pages only get “Copy page MD” because LLMs can’t fetch them.
+Fallback for teams that can’t enable MCP: viewers get “Copy page MD link”, “Copy page MD”, and “Open page MD link in…” which launches a chosen AI tool with a pre-filled prompt. That prompt is itself a coercion device: it durably scopes the whole conversation to the design system page. Admins choose which AI tools appear. SSO/password-protected pages only get “Copy page MD” because LLMs can’t fetch them.
 
 Link: https://help.zeroheight.com/hc/en-us/articles/47142563041819-Markdown-Export
 
@@ -195,7 +195,7 @@ Source: https://help.zeroheight.com/hc/en-us/articles/47142563041819-Markdown-Ex
 
 Audience: builders
 
-Builder-side agent that watches Figma via OAuth for component/token/rename changes, reads the existing documentation, and proposes doc updates in a dedicated Docs Agent area. Deliberately suggestion-only during beta — “approving a proposal is to signal intent rather than change any documentation directly.” Up to 30 minutes latency, no notifications. Enterprise-only, requires “Allow use of AI features in styleguides”, OpenAI is the sub-processor, and neither zeroheight nor OpenAI use customer data for training.
+Builder-side agent that watches Figma via OAuth for component/token/rename changes, reads the existing documentation, and proposes doc updates in a dedicated Docs Agent area. Deliberately suggestion-only during beta: “approving a proposal is to signal intent rather than change any documentation directly.” Up to 30 minutes latency, no notifications. Enterprise-only, requires “Allow use of AI features in styleguides”, OpenAI is the sub-processor, and neither zeroheight nor OpenAI use customer data for training.
 
 Link: https://help.zeroheight.com/hc/en-us/articles/51269532940059-zeroheight-Docs-Agent-Closed-Beta
 
@@ -221,15 +221,15 @@ Source: https://help.zeroheight.com/hc/en-us/articles/51269532940059-zeroheight-
 
 Audience: builders
 
-Builder-side authoring stack documented as distinct help-centre features: “Build with AI” (blank page → structured first draft mirroring existing docs’ layout and tone), “Write with AI” (first-pass content), “Improve with AI” (tighten wording, formatting, standardise tone), “AI tone of voice instructions” (org-level style constraint applied to generated copy), “AI-generated release notes”, and the zeroheight Assistant in four surfaces — editors (flags gaps, recommendations in-editor), viewers, Figma plugin (canvas-aware component queries), and Slack/Teams. Note the important governance caveat from the MCP FAQ: styleguide-level security (password/SSO) has NO impact on MCP reachability — only page-level privacy does.
+Builder-side authoring stack documented as distinct help-centre features: “Build with AI” (blank page → structured first draft mirroring existing docs’ layout and tone), “Write with AI” (first-pass content), “Improve with AI” (tighten wording, formatting, standardise tone), “AI tone of voice instructions” (org-level style constraint applied to generated copy), “AI-generated release notes”, and the zeroheight Assistant in four surfaces: editors (flags gaps, recommendations in-editor), viewers, Figma plugin (canvas-aware component queries), and Slack/Teams. Note the important governance caveat from the MCP FAQ: styleguide-level security (password/SSO) has NO impact on MCP reachability; only page-level privacy does.
 
 Link: https://help.zeroheight.com/hc/en-us/articles/35887017130651-AI-powered-features-in-zeroheight
 
 ## Adoption by design systems
 
-zeroheight is the only one of the three with a documented mechanism for DS teams to publicise MCP access to consumers — the “Remote MCP details block”, a slash-inserter block that renders each viewer’s unique MCP URL and per-client setup tabs directly inside a public styleguide page. That makes public adoption in principle observable, but it was not possible to verify a specific named public styleguide carrying the block. Named zeroheight customers appear in vendor marketing (Uber, Salesforce, United Airlines, Compare The Market on zeroheight.com/ai; Decathlon — 5-person core team, 30 contributors, 17 products, 19 countries — in the Design Systems Report 2026), but none of these is documented as using MCP specifically. Treat all adoption evidence as vendor-side. zeroheight’s own Design Systems Report 2026 is the better third-party datapoint for sector-wide MCP uptake.
+zeroheight is the only one of the three with a documented mechanism for DS teams to publicise MCP access to consumers: the “Remote MCP details block”, a slash-inserter block that renders each viewer’s unique MCP URL and per-client setup tabs directly inside a public styleguide page. That makes public adoption in principle observable, but it was not possible to verify a specific named public styleguide carrying the block. Named zeroheight customers appear in vendor marketing (Uber, Salesforce, United Airlines, Compare The Market on zeroheight.com/ai; Decathlon, with a 5-person core team, 30 contributors, 17 products and 19 countries, in the Design Systems Report 2026), but none of these is documented as using MCP specifically. Treat all adoption evidence as vendor-side. zeroheight’s own Design Systems Report 2026 is the better third-party datapoint for sector-wide MCP uptake.
 
-Design systems with a recorded integration: [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+Design systems with a recorded integration: [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
 ## Sources (12)
 
@@ -259,4 +259,4 @@ Design systems with a recorded integration: [Lightning Design System (SLDS)](htt
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

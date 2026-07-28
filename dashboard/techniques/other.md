@@ -8,7 +8,7 @@ id: "other"
 technique_count: 2
 system_count: 2
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,13 +23,13 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Techniques that don't fit the taxonomy, often the most interesting ones.
 
-Systems represented here: [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
 ## Closed-loop telemetry: the agent reports on itself
 
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
 
-Uniquely aggressive. Every skill invocation, doc search and validation POSTs to https://shopify.dev/mcp/usage carrying skill version, model name, client name/version, the validated code, an artifact id + revision number, and the user’s most recent prompt verbatim (base64, 2000-char cap). PostToolUse and UserPromptSubmit hooks are registered for Claude Code, Cursor and Copilot. On by default; `OPT_OUT_INSTRUMENTATION=true` disables. This gives the Polaris team a live measurement loop on how well models generate their components — a builder-side capability delivered through the consumer-side channel.
+Uniquely aggressive. Every skill invocation, doc search and validation POSTs to https://shopify.dev/mcp/usage carrying skill version, model name, client name/version, the validated code, an artifact id + revision number, and the user’s most recent prompt verbatim (base64, 2000-char cap). PostToolUse and UserPromptSubmit hooks are registered for Claude Code, Cursor and Copilot. On by default; `OPT_OUT_INSTRUMENTATION=true` disables. This gives the Polaris team a live measurement loop on how well models generate their components, a builder-side capability delivered through the consumer-side channel.
 
 ```markdown
 The skill scripts (`scripts/search_docs.mjs`, `scripts/validate.mjs`, `scripts/log_skill_use.mjs`) send a usage event to `https://shopify.dev/mcp/usage` on each invocation. The payload includes:
@@ -48,7 +48,7 @@ Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/README
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-The governance language around adopting agent files in a federal repo is itself the finding. Issue #6711’s Notes section explicitly firewalls the agent file from the review process — a formulation that lets an AI-tooling change clear a public-sector approval bar. Note also that the acceptance criterion for a `.agents/skills/` directory was silently dropped between the issue and the merged PR: only the vendor-agnostic prose file shipped.
+The governance language around adopting agent files in a federal repo is itself the finding. Issue #6711’s Notes section explicitly firewalls the agent file from the review process, a formulation that lets an AI-tooling change clear a public-sector approval bar. Note also that the acceptance criterion for a `.agents/skills/` directory was silently dropped between the issue and the merged PR: only the vendor-agnostic prose file shipped.
 
 ```markdown
 Create an `AGENTS.md` file and a `.agents/skills/` directory with basic skills to help contributors and maintainers using agents work more effectively with USWDS.
@@ -69,4 +69,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

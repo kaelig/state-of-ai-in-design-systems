@@ -9,7 +9,7 @@ id: "supernova"
 capability_count: 7
 design_systems_with_integration_records: 0
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -27,7 +27,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 ## Summary
 
-Supernova has repositioned as “the agentic design system platform” (verbatim from https://www.supernova.io/llms.txt). Two consumption surfaces exist: (1) Supernova Relay, the official remote MCP server at https://mcp.supernova.io/mcp/ds/{ID} (OAuth, 14 read-only tools spanning tokens, DS components, code components, Figma components, Storybook stories, assets and docs-as-Markdown; explicitly read-only — “can’t make changes to data inside Supernova”); and (2) AI Context Management (shipped 22 Jun 2026), which lets a DS team define per-team scoped contexts — design tokens, component APIs, component patterns, usage data, rules, docs, plus “knowledge files, rules, and custom skills” — and publish each as its own context-scoped MCP endpoint, with a feedback loop capturing both engineer flags and automatic agent-interaction captures. On the builder side: Write with AI / documentation AI agents, and exporters (Supernova exporter store) that ship skills and knowledge files into repos. Marketing llms.txt exists at supernova.io/llms.txt and a human-readable /for-ai index page. PRICING/AVAILABILITY (from supernova.io/pricing): Free = 5 MCP consumers, 2 AI contexts, 2,400 automation credits/mo; Pro ($35/full seat/mo) = up to 50 MCP consumers, 10 AI contexts, 3,000 credits/seat/mo; Enterprise = custom MCP consumers, unlimited AI contexts, 5,000 credits/seat/mo. “Unlimited MCP lookups/month” on all tiers; dynamic filtering is Pro/Enterprise only. GAPS: no public Code Connect-style Figma↔code mapping file format found; no published per-styleguide llms.txt generation for customer docs sites (unlike zeroheight/Knapsack); the named AI agents (PM/Release note/Documentation/Architect) appear in blog/marketing copy but it was not possible to fetch a canonical docs page describing them, so treat as unverified. No named customer publicly documented as using the MCP.
+Supernova has repositioned as “the agentic design system platform” (verbatim from https://www.supernova.io/llms.txt). Two consumption surfaces exist: (1) Supernova Relay, the official remote MCP server at https://mcp.supernova.io/mcp/ds/{ID} (OAuth, 14 read-only tools spanning tokens, DS components, code components, Figma components, Storybook stories, assets and docs-as-Markdown; explicitly read-only, “can’t make changes to data inside Supernova”); and (2) AI Context Management (shipped 22 Jun 2026), which lets a DS team define per-team scoped contexts: design tokens, component APIs, component patterns, usage data, rules, docs, plus “knowledge files, rules, and custom skills”, and publish each as its own context-scoped MCP endpoint, with a feedback loop capturing both engineer flags and automatic agent-interaction captures. On the builder side: Write with AI / documentation AI agents, and exporters (Supernova exporter store) that ship skills and knowledge files into repos. Marketing llms.txt exists at supernova.io/llms.txt and a human-readable /for-ai index page. PRICING/AVAILABILITY (from supernova.io/pricing): Free = 5 MCP consumers, 2 AI contexts, 2,400 automation credits/mo; Pro ($35/full seat/mo) = up to 50 MCP consumers, 10 AI contexts, 3,000 credits/seat/mo; Enterprise = custom MCP consumers, unlimited AI contexts, 5,000 credits/seat/mo. “Unlimited MCP lookups/month” on all tiers; dynamic filtering is Pro/Enterprise only. GAPS: no public Code Connect-style Figma↔code mapping file format found; no published per-styleguide llms.txt generation for customer docs sites (unlike zeroheight/Knapsack); the named AI agents (PM/Release note/Documentation/Architect) appear in blog/marketing copy but it was not possible to fetch a canonical docs page describing them, so treat as unverified. No named customer publicly documented as using the MCP.
 
 ## Capabilities (7)
 
@@ -92,7 +92,7 @@ Source: https://www.supernova.io/blog/we-just-shipped-ai-context-management
 
 Audience: builders
 
-Beyond raw data, Supernova lets DS teams author “knowledge files, rules, and custom skills” and “Ship them through predefined or custom exporters when ready” — i.e. the platform becomes the distribution channel for agent rule files (Cursor rules / skills) into consumer repos, alongside token/code exporters for iOS, Android, React Web, React Native, Flutter.
+Beyond raw data, Supernova lets DS teams author “knowledge files, rules, and custom skills” and “Ship them through predefined or custom exporters when ready”, so the platform becomes the distribution channel for agent rule files (Cursor rules / skills) into consumer repos, alongside token/code exporters for iOS, Android, React Web, React Native, Flutter.
 
 Link: https://www.supernova.io/blog/we-just-shipped-ai-context-management
 
@@ -100,7 +100,7 @@ Link: https://www.supernova.io/blog/we-just-shipped-ai-context-management
 
 Audience: builders
 
-Reusable configuration templates for Portal prototypes that pin the design system + dataset, component library (standard or custom enterprise), theme and icon pack, plus “Custom knowledge” providing “additional context, guidelines, or data for Supernova AI to consider” (what you’re building, who it’s for, core problems, platform, constraints, brand voice, API schemas). Once saved, the DS/component-library/icon-pack settings are locked and only the theme is editable — a hard constraint on what an AI prototype can reach for. Versioning caveat: new context versions apply only to newly created prototypes.
+Reusable configuration templates for Portal prototypes that pin the design system + dataset, component library (standard or custom enterprise), theme and icon pack, plus “Custom knowledge” providing “additional context, guidelines, or data for Supernova AI to consider” (what you’re building, who it’s for, core problems, platform, constraints, brand voice, API schemas). Once saved, the DS/component-library/icon-pack settings are locked and only the theme is editable, a hard constraint on what an AI prototype can reach for. Versioning caveat: new context versions apply only to newly created prototypes.
 
 Link: https://learn.supernova.io/latest/portal/create/prototyping-contexts-jppeqv9d
 
@@ -108,7 +108,7 @@ Link: https://learn.supernova.io/latest/portal/create/prototyping-contexts-jppeq
 
 Audience: consumers
 
-Supernova publishes a curated llms.txt at the site root as a “machine-readable index” of key resources plus a human-readable /for-ai page. This is corporate-site context, not per-customer design-system context — do not confuse it with zeroheight’s per-styleguide Markdown export.
+Supernova publishes a curated llms.txt at the site root as a “machine-readable index” of key resources plus a human-readable /for-ai page. This is corporate-site context, not per-customer design-system context; do not confuse it with zeroheight’s per-styleguide Markdown export.
 
 Link: https://www.supernova.io/llms.txt
 
@@ -164,4 +164,4 @@ No publicly documented design system was found naming Supernova Relay/MCP or AI 
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

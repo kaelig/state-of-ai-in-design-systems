@@ -8,7 +8,7 @@ id: "matrix"
 system_count: 19
 column_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -26,7 +26,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 | Ant Design | ai-native | 2 | 1 | 2 | 1 | 1 | 1 | — | 1 | — | — | 1 |
 
-| Atlassian Design System (ADS / Atlaskit) | ai-native | 2 | 1 | 1 | — | — | — | — | — | — | 1 | 3 |
+| Atlassian Design System | ai-native | 2 | 1 | 1 | — | — | — | — | — | — | 1 | 3 |
 
 | Carbon Design System | ai-native | 1 | 1 | 1 | 1 | 3 | 1 | — | — | 1 | — | 1 |
 
@@ -36,27 +36,27 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 | HeroUI | ai-native | 2 | 1 | 2 | — | 1 | — | — | 2 | — | — | 2 |
 
-| Lightning Design System (SLDS) | ai-native | 2 | — | 2 | 1 | 1 | 1 | 1 | 1 | — | — | 1 |
-
 | Nuxt UI | ai-native | 2 | 1 | 1 | — | 1 | 1 | 2 | 1 | — | — | 1 |
 
 | PatternFly | ai-native | 1 | 1 | 1 | — | 2 | 1 | 1 | 1 | — | — | 2 |
-
-| Polaris (Shopify) | ai-native | 2 | — | 1 | — | — | — | 1 | — | — | 1 | 2 |
 
 | Primer | ai-native | 2 | — | 1 | 2 | 1 | 1 | — | — | 1 | — | 2 |
 
 | React Spectrum / Spectrum 2 (S2) | ai-native | 1 | 1 | 4 | — | — | 1 | 1 | — | — | — | 2 |
 
+| Salesforce Lightning Design System | ai-native | 2 | — | 2 | 1 | 1 | 1 | 1 | 1 | — | — | 1 |
+
 | shadcn/ui | ai-native | 2 | 1 | 2 | 2 | — | — | 1 | 1 | — | — | 1 |
 
-| Cloudscape Design System | invested | 2 | 1 | — | — | 1 | 1 | 2 | — | 1 | — | — |
+| Shopify Polaris | ai-native | 2 | — | 1 | — | — | — | 1 | — | — | 1 | 2 |
 
-| Fluent UI (Fluent 2) | invested | 4 | — | 1 | 1 | 1 | — | — | — | — | — | 1 |
+| Cloudscape Design System | invested | 2 | 1 | — | — | 1 | 1 | 2 | — | 1 | — | — |
 
 | Mantine | invested | 3 | 1 | 1 | — | 2 | 1 | 1 | — | — | — | — |
 
 | Material UI (MUI) | invested | 1 | 1 | 2 | — | 1 | 1 | — | — | 1 | — | 1 |
+
+| Microsoft Fluent UI | invested | 4 | — | 1 | 1 | 1 | — | — | — | — | — | 1 |
 
 | Nord Design System | invested | — | 1 | 1 | — | — | 1 | 1 | — | — | 1 | 2 |
 
@@ -92,4 +92,4 @@ Per-system detail: https://state-of-ai-in-design-systems.netlify.app/systems.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

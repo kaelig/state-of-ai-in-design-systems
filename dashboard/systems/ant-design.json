@@ -6,7 +6,7 @@
   "repo_url": "https://github.com/ant-design/ant-design",
   "docs_url": "https://ant.design",
   "license": "MIT",
-  "summary": "Ant Design is one of the most AI-invested open-source design systems as of mid-2026. It ships a dedicated “AI” documentation group (For Agents / design.md / LLMs.txt / MCP Server / CLI), an official offline CLI (`@ant-design/cli`, first published 2026-03-17) that doubles as an MCP server with 8 tools and 2 prompts and as an installable Claude/Codex/Cursor skill, and a `.github/copilot-instructions.md` whose central trick is an authoritative allow-list of exported components written specifically to stop models hallucinating `Box`/`Stack`/`Container`. On the building side the team runs a 291-line bilingual root `CLAUDE.md` (with `AGENTS.md` symlinked to it) plus six repo-local agent skills under `.agents/skills/` — symlinked to both `.claude/skills` and `.cursor/skills`. The dominant coercion pattern is “never answer from memory: query the offline CLI/MCP for your exact antd version first, then lint after writing.”",
+  "summary": "Ant Design is one of the most AI-invested open-source design systems as of mid-2026. It ships a dedicated “AI” documentation group (For Agents / design.md / LLMs.txt / MCP Server / CLI), an official offline CLI (`@ant-design/cli`, first published 2026-03-17) that doubles as an MCP server with 8 tools and 2 prompts and as an installable Claude/Codex/Cursor skill, and a `.github/copilot-instructions.md` whose central trick is an authoritative allow-list of exported components written specifically to stop models hallucinating `Box`/`Stack`/`Container`. On the building side the team runs a 291-line bilingual root `CLAUDE.md` (with `AGENTS.md` symlinked to it) plus six repo-local agent skills under `.agents/skills/`, symlinked to both `.claude/skills` and `.cursor/skills`. The dominant coercion pattern is “never answer from memory: query the offline CLI/MCP for your exact antd version first, then lint after writing.”",
   "ai_maturity": "ai-native",
   "maintenance": {
     "actively_maintained": true,
@@ -19,7 +19,7 @@
       "name": "@ant-design/cli mcp (official antd MCP server)",
       "official": true,
       "audience": "consumers",
-      "description": "Since @ant-design/cli v6.3.5, `antd mcp` starts an official stdio MCP server exposing 8 tools (antd_list, antd_info, antd_doc, antd_demo, antd_token, antd_design_md, antd_semantic, antd_changelog) and 2 prompts (antd-expert, antd-page-generator). All metadata is bundled offline — 55+ per-minor snapshots across antd v3/v4/v5/v6 — so the agent can be pinned to the project’s exact antd version via `--version 5.20.0`. Documented configs for Cursor, Windsurf, Claude Code, VS Code, Codex, Gemini CLI, Trae, Qoder, Neovate.",
+      "description": "Since @ant-design/cli v6.3.5, `antd mcp` starts an official stdio MCP server exposing 8 tools (antd_list, antd_info, antd_doc, antd_demo, antd_token, antd_design_md, antd_semantic, antd_changelog) and 2 prompts (antd-expert, antd-page-generator). All metadata is bundled offline (55+ per-minor snapshots across antd v3/v4/v5/v6), so the agent can be pinned to the project’s exact antd version via `--version 5.20.0`. Documented configs for Cursor, Windsurf, Claude Code, VS Code, Codex, Gemini CLI, Trae, Qoder, Neovate.",
       "docs_url": "https://ant.design/docs/react/mcp",
       "code_url": "https://github.com/ant-design/ant-design-cli",
       "notes": "Version-pinning is the notable design decision: the agent is served the API surface of the user’s installed antd rather than ‘latest’.",
@@ -46,7 +46,7 @@
     },
     {
       "type": "ai-docs-page",
-      "name": "docs/react/for-agents (\"For Agents\")",
+      "name": "docs/react/for-agents (“For Agents”)",
       "official": true,
       "audience": "consumers",
       "description": "A dedicated docs page in an “AI” group (order 0.9) that hands the user a copy-pasteable prompt to paste into any agent. The prompt explicitly warns the model that its training data is stale and instructs it to read two URLs before writing code. Siblings in the same group: design.md, LLMs.txt, MCP Server, CLI.",
@@ -84,7 +84,7 @@
       "name": "design.md (google-labs-code/design.md format)",
       "official": true,
       "audience": "consumers",
-      "description": "A ~21 KB machine-readable design-language file at https://ant.design/design.md conformant with the google-labs-code/design.md spec, aimed at AI *design* tools (Figma Make, Google Stitch) rather than coding agents. Front-matter enumerates the full palette, typography scale, radius, spacing and shadows as tokens, followed by component archetypes and — notably — “misuse patterns AI design tools should avoid when generating Ant Design interfaces.” Also retrievable offline via `antd design.md` and over MCP via `antd_design_md`.",
+      "description": "A ~21 KB machine-readable design-language file at https://ant.design/design.md conformant with the google-labs-code/design.md spec, aimed at AI *design* tools (Figma Make, Google Stitch) rather than coding agents. Front-matter enumerates the full palette, typography scale, radius, spacing and shadows as tokens, followed by component archetypes and “misuse patterns AI design tools should avoid when generating Ant Design interfaces.” Also retrievable offline via `antd design.md` and over MCP via `antd_design_md`.",
       "docs_url": "https://ant.design/docs/react/design-md",
       "snippet": {
         "language": "yaml",
@@ -148,7 +148,7 @@
     {
       "name": "Authoritative export allow-list with named anti-examples",
       "category": "prohibition",
-      "description": "Rather than describing components, copilot-instructions.md enumerates the complete set of legal top-level exports and then names the specific components models are known to invent — Container, Stack, Heading, Box, Sidebar, Navbar, IconButton — as explicitly non-existent. It also points at `components/index.ts` as the machine-checkable source of truth and bans importing icons from `antd`. The single most transferable trick in the system.",
+      "description": "Rather than describing components, copilot-instructions.md enumerates the complete set of legal top-level exports and then names the specific components models are known to invent (Container, Stack, Heading, Box, Sidebar, Navbar, IconButton) as explicitly non-existent. It also points at `components/index.ts` as the machine-checkable source of truth and bans importing icons from `antd`. The single most transferable trick in the system.",
       "snippet": {
         "language": "markdown",
         "source_url": "https://raw.githubusercontent.com/ant-design/ant-design/HEAD/.github/copilot-instructions.md",
@@ -156,7 +156,7 @@
       }
     },
     {
-      "name": "\"Always query before writing\" — forced CLI lookup instead of recall",
+      "name": "“Always query before writing” — forced CLI lookup instead of recall",
       "category": "tool-gating",
       "description": "The official skill forbids writing antd code from memory and prescribes a fixed pipeline: `antd info` -> understand props -> `antd demo` -> grab a working example -> write code. The skill’s `allowed-tools` front-matter narrows the agent to `Bash(antd *)` invocations, and it self-bootstraps with `which antd || npm install -g @ant-design/cli` so the gate can never be skipped for lack of tooling.",
       "snippet": {
@@ -186,7 +186,7 @@
       }
     },
     {
-      "name": "\"Your training data is stale\" preamble as a distributable prompt",
+      "name": "“Your training data is stale” preamble as a distributable prompt",
       "category": "curated-context",
       "description": "The For Agents page hands users a prompt whose first sentence tells the model its own training data is likely wrong about antd, then orders it to fetch two specific URLs before writing any code, and finally offers a one-liner (`npx skills add ant-design/ant-design-cli`) to upgrade from prompt-level to skill-level installation. A graceful-degradation ladder: prompt -> skill -> MCP.",
       "snippet": {
@@ -196,7 +196,7 @@
       }
     },
     {
-      "name": "Deprecated-to-current rename table (\"Do Not Hallucinate the Old Names\")",
+      "name": "Deprecated-to-current rename table (“Do Not Hallucinate the Old Names”)",
       "category": "design-code-mapping",
       "description": "A table mapping every major v4/v5-era prop the model is likely to emit (`visible`, `destroyOnClose`, `Tabs.TabPane` children API, `dropdownClassName`, `bordered`, `maxCount`, `dateCellRender`) to its v6 replacement, plus the pointer that these are runtime-flagged via `warning.deprecated(...)` and `@deprecated` JSDoc so the agent can verify in `interface.ts` / `index.tsx`.",
       "snippet": {
@@ -239,10 +239,10 @@
     }
   ],
   "building_vs_consumption": {
-    "for_consumers": "Very strong and unusually layered — four escalating tiers. (1) Paste-a-prompt from /docs/react/for-agents. (2) `npx skills add ant-design/ant-design-cli` or `antd setup --client claude --mode skill` for an Agent Skill with `allowed-tools` gating. (3) `antd mcp` official MCP server, 8 tools + 2 prompts, version-pinnable to the project’s installed antd. (4) Raw context files: llms.txt, llms-full.txt (~2 MB), llms-semantic.md, per-component `.md` and `semantic.md`, plus design.md for AI design tools. The coercion story is coherent end to end: never recall, always query the offline snapshot for your exact version, then run `antd lint`. `antd setup --client cursor|vscode|codex --write-instructions` is effectively official distribution of editor rules, replacing the .cursorrules-template pattern.",
-    "for_builders": "Also strong, and notably bilingual. A 291-line root CLAUDE.md (AGENTS.md symlinked to it) encoding directory-scoped import regimes, API-table format, anchor-ID regex, PR/branch conventions and a highly prescriptive changelog spec, capped by a Karpathy-style “coding conduct” section of LLM guardrails. Six repo-local skills under .agents/skills/ (changelog-collect, commit-msg, create-pr, issue-reply, test-review, version-release) shared to Claude Code and Cursor by symlink; issue-reply even carries a strict language policy and dosubot-handling rules for AI-assisted triage. The sibling ant-design-cli repo runs the same playbook plus a docs/superpowers/{plans,specs}/ directory of AI-workflow design specs — including 2026-03-24-antd-mcp-server-design.md — showing the MCP server itself was spec-driven through an agent workflow."
+    "for_consumers": "Very strong and unusually layered: four escalating tiers. (1) Paste-a-prompt from /docs/react/for-agents. (2) `npx skills add ant-design/ant-design-cli` or `antd setup --client claude --mode skill` for an Agent Skill with `allowed-tools` gating. (3) `antd mcp` official MCP server, 8 tools + 2 prompts, version-pinnable to the project’s installed antd. (4) Raw context files: llms.txt, llms-full.txt (~2 MB), llms-semantic.md, per-component `.md` and `semantic.md`, plus design.md for AI design tools. The coercion story is coherent end to end: never recall, always query the offline snapshot for your exact version, then run `antd lint`. `antd setup --client cursor|vscode|codex --write-instructions` is effectively official distribution of editor rules, replacing the .cursorrules-template pattern.",
+    "for_builders": "Also strong, and notably bilingual. A 291-line root CLAUDE.md (AGENTS.md symlinked to it) encoding directory-scoped import regimes, API-table format, anchor-ID regex, PR/branch conventions and a highly prescriptive changelog spec, capped by a Karpathy-style “coding conduct” section of LLM guardrails. Six repo-local skills under .agents/skills/ (changelog-collect, commit-msg, create-pr, issue-reply, test-review, version-release) shared to Claude Code and Cursor by symlink; issue-reply even carries a strict language policy and dosubot-handling rules for AI-assisted triage. The sibling ant-design-cli repo runs the same playbook plus a docs/superpowers/{plans,specs}/ directory of AI-workflow design specs, including 2026-03-24-antd-mcp-server-design.md, showing the MCP server itself was spec-driven through an agent workflow."
   },
-  "gaps": "Not confirmed, or not found: (a) no Figma Code Connect files, no Dev Mode MCP integration, no official Ant Group Figma library — the Figma kits are community/commercial; (b) no Storybook, Supernova, Knapsack or zeroheight integration; (c) no “Add to Cursor” / one-click install buttons on ant.design — installation is via `antd setup` or manual JSON; (d) no .cursorrules and no .cursor/rules/*.mdc — .cursor is a symlink to .agents/skills only; (e) no AI-bot GitHub Actions in .github/workflows (the issue-reply skill references dosubot, an AI issue bot, but it is a GitHub App, not an in-repo workflow); (f) no AI-assisted codemods shipped for consumers beyond `antd migrate --apply`, which emits a prompt rather than transforming files; (g) MCP behavior was read from official docs and SKILL.md, not verified against a live server handshake — the 8-tools/2-prompts count is documentation, not observed; (h) git history of .agents/skills was not checked, so how long these have been in place is unknown; (i) https://ant.design/docs/mcp and https://ant.design/ai return 404 — the real paths are /docs/react/mcp and the “AI” doc group.",
+  "gaps": "Not confirmed, or not found: (a) no Figma Code Connect files, no Dev Mode MCP integration, no official Ant Group Figma library (the Figma kits are community or commercial); (b) no Storybook, Supernova, Knapsack or zeroheight integration; (c) no “Add to Cursor” / one-click install buttons on ant.design, since installation is via `antd setup` or manual JSON; (d) no .cursorrules and no .cursor/rules/*.mdc, since .cursor is a symlink to .agents/skills only; (e) no AI-bot GitHub Actions in .github/workflows (the issue-reply skill references dosubot, an AI issue bot, but it is a GitHub App, not an in-repo workflow); (f) no AI-assisted codemods shipped for consumers beyond `antd migrate --apply`, which emits a prompt rather than transforming files; (g) MCP behavior was read from official docs and SKILL.md, not verified against a live server handshake, so the 8-tools/2-prompts count is documentation, not observation; (h) git history of .agents/skills was not checked, so how long these have been in place is unknown; (i) https://ant.design/docs/mcp and https://ant.design/ai return 404; the real paths are /docs/react/mcp and the “AI” doc group.",
   "sources": [
     "https://ant.design/llms.txt",
     "https://ant.design/llms-full.txt",

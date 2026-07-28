@@ -11,7 +11,7 @@ ai_maturity: "invested"
 affordance_count: 7
 technique_count: 6
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ Nordhealth · design-system · Proprietary ("SEE LICENSE IN LICENSE.md"); npm pa
 
 ## Summary
 
-Nord is Nordhealth’s healthcare (veterinary/therapy) design system: 156+ Lit-based `` web components, CSS custom-property tokens, Tailwind CSS v4 integration with an `n:` variant prefix, two brands with dark and high-contrast variants. Its AI story is entirely consumption-side and unusually current for July 2026: a dedicated /ai/ section, /llms.txt plus a ~1M-token /llms-full.txt, a `/raw/.md` markdown twin for every docs page, and — the standout — two officially published Agent Skills served from a `/.well-known/skills/` discovery endpoint following the Cloudflare Agent Skills Discovery RFC, installable with `npx skills add https://nordhealth.design`. The building side is invisible: the source repo is explicitly private, so no CLAUDE.md/AGENTS.md/cursor rules are observable, and the promised MCP server is still roadmap, not shipped.
+Nord is Nordhealth’s healthcare (veterinary/therapy) design system: 156+ Lit-based `` web components, CSS custom-property tokens, Tailwind CSS v4 integration with an `n:` variant prefix, two brands with dark and high-contrast variants. Its AI story is entirely consumption-side and unusually current for July 2026: a dedicated /ai/ section, /llms.txt plus a ~1M-token /llms-full.txt, a `/raw/.md` markdown twin for every docs page, and, the standout here, two officially published Agent Skills served from a `/.well-known/skills/` discovery endpoint following the Cloudflare Agent Skills Discovery RFC, installable with `npx skills add https://nordhealth.design`. The building side is invisible: the source repo is explicitly private, so no CLAUDE.md/AGENTS.md/cursor rules are observable, and the promised MCP server is still roadmap, not shipped.
 
 ## Maintenance
 
@@ -51,7 +51,7 @@ Two officially published agent skills served over HTTP from the docs domain, dis
 
 - Code: https://nordhealth.design/.well-known/skills/
 
-Notes: The most notable thing Nord has built. It replaces per-editor rule files (.cursorrules, copilot-instructions.md, CLAUDE.md) with one host-served skill — Nord ships zero editor-specific rule templates and does not need to. Verified bug: the `nord` tier’s SKILL.md links to references/tokens.md, references/themes.md, references/accessibility-checklist.md and references/css/eslint.md, all of which return 404, because those files exist only in the `nord-full` manifest.
+Notes: The most notable thing Nord has built. It replaces per-editor rule files (.cursorrules, copilot-instructions.md, CLAUDE.md) with one host-served skill. Nord ships zero editor-specific rule templates and does not need to. Verified bug: the `nord` tier’s SKILL.md links to references/tokens.md, references/themes.md, references/accessibility-checklist.md and references/css/eslint.md, all of which return 404, because those files exist only in the `nord-full` manifest.
 
 ```markdown
 ---
@@ -77,7 +77,7 @@ Source: https://nordhealth.design/.well-known/skills/nord/SKILL.md
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-Machine-readable JSON manifest at the well-known endpoint enumerating available skills and every file each contains — what `npx skills add https://nordhealth.design` reads. Effectively a component registry for agents: 87 file paths for `nord`, 152 for `nord-full`, one markdown reference per component.
+Machine-readable JSON manifest at the well-known endpoint enumerating available skills and every file each contains, which is what `npx skills add https://nordhealth.design` reads. Effectively a component registry for agents: 87 file paths for `nord`, 152 for `nord-full`, one markdown reference per component.
 
 - Code: https://nordhealth.design/.well-known/skills/
 
@@ -110,7 +110,7 @@ Type: `llms-txt` (llms.txt) · Official · Audience: consumers
 
 - Code: https://nordhealth.design/llms.txt
 
-Notes: Nord’s llms.txt is a routing index rather than a dump — every entry links to https://nordhealth.design/raw/.md, so an agent can pull only the components it needs.
+Notes: Nord’s llms.txt is a routing index rather than a dump: every entry links to https://nordhealth.design/raw/.md, so an agent can pull only the components it needs.
 
 ```markdown
 > [!NOTE]
@@ -156,7 +156,7 @@ Source: https://nordhealth.design/raw/docs/developer/working-with-ai.md
 
 Type: `other` (Other) · Official · Audience: consumers
 
-Every page on the Nuxt docs site is also served as clean markdown at https://nordhealth.design/raw/.md (verified 200 for docs/developer.md, components/button.md, docs/developer/web-components.md, resources/contributing.md, design/foundations/figma.md). This is what llms.txt links to and what the skills’ reference files are generated from — agents fetch precise per-component context without scraping HTML.
+Every page on the Nuxt docs site is also served as clean markdown at https://nordhealth.design/raw/.md (verified 200 for docs/developer.md, components/button.md, docs/developer/web-components.md, resources/contributing.md, design/foundations/figma.md). This is what llms.txt links to and what the skills’ reference files are generated from, so agents fetch precise per-component context without scraping HTML.
 
 - Code: https://nordhealth.design/raw/components/button.md
 
@@ -176,7 +176,7 @@ Notes: Not AI-specific, but the custom-elements-manifest → generated API table
 
 Type: `other` (Other) · Official · Audience: consumers
 
-v1.1.2 (2026-07-13). Ships `recommended` and `vue` presets bundling eslint-plugin-better-tailwindcss, plus an auto-fixable `@nordhealth/no-legacy-classes` rule that migrates legacy `n-*` classes to Tailwind v4 equivalents, gated by category (spacing, borders, typography, colors, layout, components, utilities). Off by default in the recommended config; opted into for the duration of a migration. The only machine-checkable enforcement loop Nord offers — and it is never framed for agents.
+v1.1.2 (2026-07-13). Ships `recommended` and `vue` presets bundling eslint-plugin-better-tailwindcss, plus an auto-fixable `@nordhealth/no-legacy-classes` rule that migrates legacy `n-*` classes to Tailwind v4 equivalents, gated by category (spacing, borders, typography, colors, layout, components, utilities). Off by default in the recommended config; opted into for the duration of a migration. The only machine-checkable enforcement loop Nord offers, and it is never framed for agents.
 
 - Docs: https://nordhealth.design/docs/developer/eslint/
 
@@ -223,7 +223,7 @@ Source: https://nordhealth.design/raw/docs/developer/working-with-ai/skills.md
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-Nord’s SKILL.md contains essentially no prose rules — ~218 lines of markdown tables mapping every component and guideline to a `references/*.md` path, preceded by a two-sentence system description. All behavioural constraint lives one hop away in the per-component reference files, keeping the always-loaded context ~32 KB while the agent pulls only what it touches. Grepping the whole `nord` SKILL.md for ‘never’, “don’t”, ‘always’ or ‘avoid’ returns zero rule hits — deliberate, but it means the top-level skill exerts no direct pressure beyond naming the `` prefix.
+Nord’s SKILL.md contains essentially no prose rules: ~218 lines of markdown tables mapping every component and guideline to a `references/*.md` path, preceded by a two-sentence system description. All behavioural constraint lives one hop away in the per-component reference files, keeping the always-loaded context ~32 KB while the agent pulls only what it touches. Grepping the whole `nord` SKILL.md for ‘never’, “don’t”, ‘always’ or ‘avoid’ returns zero rule hits. That is deliberate, but it means the top-level skill exerts no direct pressure beyond naming the `` prefix.
 
 ```markdown
 ## Design Tokens
@@ -243,7 +243,7 @@ Nord’s SKILL.md contains essentially no prose rules — ~218 lines of markdown
 
 Source: https://nordhealth.design/.well-known/skills/nord/SKILL.md
 
-### Per-component Do/Don't blocks that route the model to the correct sibling component
+### Per-component Do/Don’t blocks that route the model to the correct sibling component
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
@@ -269,7 +269,7 @@ Source: https://nordhealth.design/.well-known/skills/nord/references/components/
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
-The strongest single constraint in the corpus, a WARNING callout in the Web Components guide (inherited by nord-full’s references/docs/developer/web-components.md). It establishes an API hierarchy the model must respect — component properties first, public custom properties second, the `--_n-` private tier explicitly off-limits. Transferable pattern: give the private tier a visually distinct prefix so a model can pattern-match the prohibition instead of memorising a list.
+The strongest single constraint in the corpus, a WARNING callout in the Web Components guide (inherited by nord-full’s references/docs/developer/web-components.md). It establishes an API hierarchy the model must respect: component properties first, public custom properties second, the `--_n-` private tier explicitly off-limits. Transferable pattern: give the private tier a visually distinct prefix so a model can pattern-match the prohibition instead of memorising a list.
 
 ```markdown
 > [!WARNING]
@@ -286,7 +286,7 @@ Source: https://nordhealth.design/raw/docs/developer/web-components.md
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-Nord ships `nord` (87 files — components + migrations only) and `nord-full` (152 files — adds tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, even contributing and updates pages), mirroring the /llms.txt vs /llms-full.txt split. The same discipline applied twice: publish a lean default and an exhaustive opt-in. Outside the manifest itself, only the lean tier is advertised: the Agent Skills page documents `npx skills add https://nordhealth.design` and nothing else, and neither /llms.txt nor the 997KB /llms-full.txt names `nord-full`.
+Nord ships `nord` (87 files, components and migrations only) and `nord-full` (152 files, adding tokens, CSS/Tailwind, themes, accessibility checklist, changelogs, design foundations, even contributing and updates pages), mirroring the /llms.txt vs /llms-full.txt split. The same discipline applied twice: publish a lean default and an exhaustive opt-in. Outside the manifest itself, only the lean tier is advertised: the Agent Skills page documents `npx skills add https://nordhealth.design` and nothing else, and neither /llms.txt nor the 997KB /llms-full.txt names `nord-full`.
 
 ```json
         "references/migrations/figma-4.0.0.md",
@@ -311,7 +311,7 @@ Source: https://nordhealth.design/.well-known/skills/
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-`@nordhealth/no-legacy-classes` ships in the recommended config but disabled by default; consumers enable it, optionally scoped to categories, run `eslint --fix`, then turn it off. A genuine machine-checked convergence loop toward Tailwind v4 + Nord tokens — but framed as a human migration tool, never wired into the skill as something the agent must run.
+`@nordhealth/no-legacy-classes` ships in the recommended config but disabled by default; consumers enable it, optionally scoped to categories, run `eslint --fix`, then turn it off. A genuine machine-checked convergence loop toward Tailwind v4 + Nord tokens, but framed as a human migration tool, never wired into the skill as something the agent must run.
 
 ````markdown
 The migration rules are included in the recommended config but **off by default**. Enable them during migration:
@@ -358,7 +358,7 @@ Link: https://nordhealth.design/design/foundations/figma/
 
 ### other
 
-Docs are self-built on Nuxt 4 / @nuxt/content v3 / Tailwind v4, ~2000 prerendered routes, deployed to GitHub Pages (Feb 2026 rewrite). No Supernova, Knapsack or zeroheight involvement — Nord runs its own docs platform, which is exactly what let it add /raw/*.md twins, /llms.txt and the /.well-known/skills/ endpoint as first-class server routes.
+Docs are self-built on Nuxt 4 / @nuxt/content v3 / Tailwind v4, ~2000 prerendered routes, deployed to GitHub Pages (Feb 2026 rewrite). No Supernova, Knapsack or zeroheight involvement; Nord runs its own docs platform, which is exactly what let it add /raw/*.md twins, /llms.txt and the /.well-known/skills/ endpoint as first-class server routes.
 
 Link: https://nordhealth.design
 
@@ -366,15 +366,15 @@ Link: https://nordhealth.design
 
 ### For consumers (agents building UIs with Nord Design System)
 
-Strong and current. An agent building product UI with Nord has four escalating options: (1) install the official skill with one command — `npx skills add https://nordhealth.design` — landing the same content in Claude Code, Cursor, Codex, Copilot, Windsurf, Cline, Aider and ~40 others via the Cloudflare Agent Skills Discovery RFC; (2) point at /llms.txt as a ~5K-token routing index; (3) fetch /llms-full.txt for the whole ~1M-token corpus; (4) fetch any single page’s markdown twin at /raw/.md. The per-component Do/Don’t blocks are the real behavioural constraint and they are good — they name the correct alternative component and the accessibility attribute agents usually drop. Weak spots: no MCP server (roadmapped only), no Figma Code Connect, no CLI scaffolding of Nord’s own, no ‘Add to Cursor’ button, no few-shot exemplar app wired to the skill, and the ESLint plugin is never presented to the agent as a verification loop it must run.
+Strong and current. An agent building product UI with Nord has four escalating options: (1) install the official skill with one command, `npx skills add https://nordhealth.design`, landing the same content in Claude Code, Cursor, Codex, Copilot, Windsurf, Cline, Aider and ~40 others via the Cloudflare Agent Skills Discovery RFC; (2) point at /llms.txt as a ~5K-token routing index; (3) fetch /llms-full.txt for the whole ~1M-token corpus; (4) fetch any single page’s markdown twin at /raw/.md. The per-component Do/Don’t blocks are the real behavioural constraint and they are good: they name the correct alternative component and the accessibility attribute agents usually drop. Weak spots: no MCP server (roadmapped only), no Figma Code Connect, no CLI scaffolding of Nord’s own, no ‘Add to Cursor’ button, no few-shot exemplar app wired to the skill, and the ESLint plugin is never presented to the agent as a verification loop it must run.
 
 ### For builders (the Nord Design System team using AI on the system itself)
 
-Effectively unobservable, and that is the finding. github.com/nordhealth/design-system is private — the contributing page says so outright: ‘Nord GitHub Repository — Our private repository, not for public use.’ github.com/NordhealthDesign/nord (the frequently cited claim) does not exist; that org returns 404 from the GitHub API. Probing the public nordhealth org’s related repos (react-example-project, vue-example-project, advanced-table-examples, adele) turns up no AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md or .claude/ at any root. The publicly documented contribution model is entirely human — proposal, kick-off, pairing, review, publish, with Zalando-style light/medium/heavy weighting — and mentions no AI assistance, AI-assisted codemods, or review bots. The only maintenance-side automation visible is the deterministic @nordhealth/eslint-plugin codemod and a public code-review-rotation script. Whether the Nord team uses Claude Code or Cursor internally cannot be determined from public sources.
+Effectively unobservable, and that is the finding. github.com/nordhealth/design-system is private, and the contributing page says so outright: ‘Nord GitHub Repository — Our private repository, not for public use.’ github.com/NordhealthDesign/nord (the frequently cited claim) does not exist; that org returns 404 from the GitHub API. Probing the public nordhealth org’s related repos (react-example-project, vue-example-project, advanced-table-examples, adele) turns up no AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md or .claude/ at any root. The publicly documented contribution model is entirely human: proposal, kick-off, pairing, review, publish, with Zalando-style light/medium/heavy weighting, and it mentions no AI assistance, AI-assisted codemods, or review bots. The only maintenance-side automation visible is the deterministic @nordhealth/eslint-plugin codemod and a public code-review-rotation script. Whether the Nord team uses Claude Code or Cursor internally cannot be determined from public sources.
 
 ## Gaps
 
-1) MCP server: announced as a roadmap item in the Feb 2026 Nuxt docs rewrite post — ‘**MCP server** for connecting Nord Design System directly to AI-powered development tools’ under 'What’s next’, listed alongside ‘AI skills’ which HAS since shipped. As of 2026-07-27 no MCP endpoint exists: /mcp and /.well-known/mcp.json return the SPA shell / 404, and npm has no @nordhealth/mcp, @nordhealth/mcp-server or nord-mcp. No community Nord MCP server found either. 2) Broken skill references (verified bug): the lean `nord` skill’s SKILL.md tables link to references/tokens.md, references/themes.md, references/accessibility-checklist.md, references/css.md, references/css/tailwind.md and references/css/eslint.md, but the /.well-known/skills/ manifest lists only 87 files for `nord` (SKILL.md + components + migrations) and all four probed paths return 404. An agent following the SKILL.md’s token or Tailwind links gets nothing; only `nord-full` (152 files, under references/core/ and references/design/) resolves. 3) Builder-side AI practice is unverifiable because the source repo is private — absence of evidence, not evidence of absence. 4) No Figma Code Connect, no Dev Mode MCP, no distributed editor-rule templates, no ‘Add to Cursor’ install button, no Nord-authored CLI (`npx skills` is a third-party CLI from vercel-labs). 5) Inconsistent component counts an agent may repeat: the skills docs page says '55+ `` web components’, SKILL.md says ‘156+’, and the runtime custom-element list carries ~150 tags.
+1) MCP server: announced as a roadmap item in the Feb 2026 Nuxt docs rewrite post: ‘**MCP server** for connecting Nord Design System directly to AI-powered development tools’ under 'What’s next’, listed alongside ‘AI skills’ which HAS since shipped. As of 2026-07-27 no MCP endpoint exists: /mcp and /.well-known/mcp.json return the SPA shell / 404, and npm has no @nordhealth/mcp, @nordhealth/mcp-server or nord-mcp. No community Nord MCP server found either. 2) Broken skill references (verified bug): the lean `nord` skill’s SKILL.md tables link to references/tokens.md, references/themes.md, references/accessibility-checklist.md, references/css.md, references/css/tailwind.md and references/css/eslint.md, but the /.well-known/skills/ manifest lists only 87 files for `nord` (SKILL.md + components + migrations) and all four probed paths return 404. An agent following the SKILL.md’s token or Tailwind links gets nothing; only `nord-full` (152 files, under references/core/ and references/design/) resolves. 3) Builder-side AI practice is unverifiable because the source repo is private. That is absence of evidence, not evidence of absence. 4) No Figma Code Connect, no Dev Mode MCP, no distributed editor-rule templates, no ‘Add to Cursor’ install button, no Nord-authored CLI (`npx skills` is a third-party CLI from vercel-labs). 5) Inconsistent component counts an agent may repeat: the skills docs page says '55+ `` web components’, SKILL.md says ‘156+’, and the runtime custom-element list carries ~150 tags.
 
 ## Sources (15)
 
@@ -410,4 +410,4 @@ Effectively unobservable, and that is the finding. github.com/nordhealth/design-
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

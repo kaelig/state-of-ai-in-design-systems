@@ -11,7 +11,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ MUI · component-library · MIT · AI maturity: **invested** (official MCP, skil
 
 ## Summary
 
-Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official `@mui/mcp` stdio server (three tools: `useMuiDocs`, `fetchDocs`, and a paid `generateReactCode` backed by the MUI Recipes service, optionally grounded in a Figma frame), a curated per-package `llms.txt` at https://mui.com/material-ui/llms.txt whose every entry is a `.md` twin of a docs page, and — newest and most interesting — four versioned Agent Skills checked into the repo under `skills/` (styling, theming, Next.js, Tailwind) with SKILL.md/AGENTS.md/metadata.json layout and an explicit `muiVersion: ">=9.0.0 <10.0.0"` compatibility range. For builders, `mui/material-ui` carries a 241-line AGENTS.md (CLAUDE.md is a three-line pointer to it) with a hard pre-PR validation checklist, and the org keeps shared Claude Code skills in `mui/mui-public/.claude/skills` (a very elaborate `pr-review` skill with effort tiers and a verbatim subagent scope contract) that other MUI repos re-use. The notable gaps: no Figma Code Connect, no shadcn-style machine-readable component registry, and no llms-full.txt.
+Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence. For consumers it ships an official `@mui/mcp` stdio server (three tools: `useMuiDocs`, `fetchDocs`, and a paid `generateReactCode` backed by the MUI Recipes service, optionally grounded in a Figma frame), a curated per-package `llms.txt` at https://mui.com/material-ui/llms.txt whose every entry is a `.md` twin of a docs page, and, newest and most interesting, four versioned Agent Skills checked into the repo under `skills/` (styling, theming, Next.js, Tailwind) with SKILL.md/AGENTS.md/metadata.json layout and an explicit `muiVersion: ">=9.0.0 <10.0.0"` compatibility range. For builders, `mui/material-ui` carries a 241-line AGENTS.md (CLAUDE.md is a three-line pointer to it) with a hard pre-PR validation checklist, and the org keeps shared Claude Code skills in `mui/mui-public/.claude/skills` (a very elaborate `pr-review` skill with effort tiers and a verbatim subagent scope contract) that other MUI repos re-use. The notable gaps: no Figma Code Connect, no shadcn-style machine-readable component registry, and no llms-full.txt.
 
 ## Maintenance
 
@@ -106,7 +106,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-u
 
 Type: `llms-txt` (llms.txt) · Official · Audience: consumers
 
-https://mui.com/material-ui/llms.txt is a 156-line curated index: one bullet per docs page, each linking to a `.md` variant (e.g. https://mui.com/material-ui/react-button.md, ~33 KB of raw markdown) with a one-line description. Grouped under ## Components and further sections. MUI X has its own at https://mui.com/x/llms.txt (~66 KB). This per-package split is exactly what useMuiDocs consumes as its ‘sources’ argument. Notably there is NO root https://mui.com/llms.txt, no llms-full.txt, and no llms.txt for Joy UI, MUI System, Base UI, or Toolpad — all 404.
+https://mui.com/material-ui/llms.txt is a 156-line curated index: one bullet per docs page, each linking to a `.md` variant (e.g. https://mui.com/material-ui/react-button.md, ~33 KB of raw markdown) with a one-line description. Grouped under ## Components and further sections. MUI X has its own at https://mui.com/x/llms.txt (~66 KB). This per-package split is exactly what useMuiDocs consumes as its ‘sources’ argument. Notably there is NO root https://mui.com/llms.txt, no llms-full.txt, and no llms.txt for Joy UI, MUI System, Base UI, or Toolpad: all 404.
 
 - Docs: https://mui.com/material-ui/llms.txt
 
@@ -130,7 +130,7 @@ Source: https://mui.com/material-ui/llms.txt
 
 Type: `ai-docs-page` (AI docs page) · Official · Audience: consumers
 
-The only AI-specific page in the Material UI docs nav (alongside installation, usage, templates...). Frames MCP as an anti-hallucination measure — ‘Quoting real, direct sources in answers’, ‘Linking to actual documentation—no imaginary links that lead to 404s’, ‘Using component code from officially published registries’. Includes per-editor install JSON, an MCP Inspector debugging recipe, and — critically — a copy-paste rule file for when the agent ignores the MCP.
+The only AI-specific page in the Material UI docs nav (alongside installation, usage, templates...). Frames MCP as an anti-hallucination measure: ‘Quoting real, direct sources in answers’, ‘Linking to actual documentation—no imaginary links that lead to 404s’, ‘Using component code from officially published registries’. Includes per-editor install JSON, an MCP Inspector debugging recipe, and a copy-paste rule file for when the agent ignores the MCP.
 
 - Docs: https://mui.com/material-ui/getting-started/mcp/
 
@@ -166,7 +166,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md
 
 Type: `claude-skill` (Agent skill) · Official · Audience: builders
 
-MUI keeps shared maintainer-facing Claude Code skills in the mui/mui-public repo: `pr-review` (a very substantial review workflow with five effort tiers low/medium/high/xhigh/max, subagent fan-out, precision-vs-recall bias switching, --fix and --comment inline modes) and `circleci-why-flaky`. The `.claude/skills/pr-review/SKILL.md` is a thin Claude Code entrypoint that defers to the canonical `.agents/skills/pr-review/SKILL.md` — a dual-namespace pattern so the same skill serves Claude Code and other AGENTS.md-reading agents. mui/base-ui mirrors the pattern with a `base-ui-review` skill in both `.claude/skills` and `.agents/skills`.
+MUI keeps shared maintainer-facing Claude Code skills in the mui/mui-public repo: `pr-review` (a very substantial review workflow with five effort tiers low/medium/high/xhigh/max, subagent fan-out, precision-vs-recall bias switching, --fix and --comment inline modes) and `circleci-why-flaky`. The `.claude/skills/pr-review/SKILL.md` is a thin Claude Code entrypoint that defers to the canonical `.agents/skills/pr-review/SKILL.md`, a dual-namespace pattern so the same skill serves Claude Code and other AGENTS.md-reading agents. mui/base-ui mirrors the pattern with a `base-ui-review` skill in both `.claude/skills` and `.agents/skills`.
 
 - Code: https://github.com/mui/mui-public/tree/HEAD/.agents/skills/pr-review
 
@@ -195,7 +195,7 @@ Source: https://raw.githubusercontent.com/mui/mui-public/HEAD/.agents/skills/pr-
 
 Type: `other` (Other) · Official · Audience: consumers
 
-Public-beta commercial service (‘What do you need to Build?’ / ‘Describe the interface you want, lock the package line you care about, and let Recipes shape the first implementation around your MUI stack.’). It is the backend behind the MCP’s generateReactCode tool: the server exchanges a MUI_RECIPES_API_KEY (issued at console.mui.com/products/recipes/api-keys) for a short-lived JWT, then posts prompts to chat-backend.mui.com. The `muiPairing` argument lets the caller pin which MUI / MUI X major the generated code targets — version coercion built into the codegen contract.
+Public-beta commercial service (‘What do you need to Build?’ / ‘Describe the interface you want, lock the package line you care about, and let Recipes shape the first implementation around your MUI stack.’). It is the backend behind the MCP’s generateReactCode tool: the server exchanges a MUI_RECIPES_API_KEY (issued at console.mui.com/products/recipes/api-keys) for a short-lived JWT, then posts prompts to chat-backend.mui.com. The `muiPairing` argument lets the caller pin which MUI / MUI X major the generated code targets, version coercion built into the codegen contract.
 
 - Docs: https://recipes.mui.com/
 
@@ -213,7 +213,7 @@ Notes: Third-party Figma-to-MUI paths exist (Anima, UXPin Merge, CopyCat) but ar
 
 ## Coercion techniques (8)
 
-### "You must use this tool to answer any questions" — hard tool mandate in the tool description
+### “You must use this tool to answer any questions” — hard tool mandate in the tool description
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
@@ -227,11 +227,11 @@ The useMuiDocs tool description opens with an unconditional imperative rather th
 
 Source: https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/tools.ts
 
-### "using ONLY the URLs present in the returned content" — closed-world retrieval rule
+### “using ONLY the URLs present in the returned content” — closed-world retrieval rule
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-The docs page hands users a copy-paste rule file (suggested location `.github/instructions/mui.md`, explicitly reusable in any IDE) that forces a loop: call useMuiDocs, then fetchDocs restricted to URLs the previous tool returned, repeat until saturated, and only then answer. The capitalised ONLY is the coercive core — it forbids the agent from inventing or guessing doc URLs, which is the exact hallucination mode the page complains about.
+The docs page hands users a copy-paste rule file (suggested location `.github/instructions/mui.md`, explicitly reusable in any IDE) that forces a loop: call useMuiDocs, then fetchDocs restricted to URLs the previous tool returned, repeat until saturated, and only then answer. The capitalised ONLY is the coercive core: it forbids the agent from inventing or guessing doc URLs, which is the exact hallucination mode the page complains about.
 
 ```text
 ## Use the mui-mcp server to answer any MUI questions --
@@ -337,7 +337,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/README.md
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps — `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
+Builder-side. The root AGENTS.md ends with an ordered gauntlet the agent must run before proposing a PR: prettier, eslint, tsc, unit tests, then conditional regeneration steps: `pnpm proptypes && pnpm docs:api` if the API changed, `pnpm docs:typescript:formatted` if demos changed (demos must be authored in TypeScript, JS is generated), and `pnpm vale` for prose. CI independently fails if generated a11y JSON is stale (‘CI fails if any are stale’), so the loop is enforced, not advisory.
 
 ````markdown
 ### API Documentation
@@ -363,7 +363,7 @@ Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/AGENTS.md
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-Builder-side. MUI’s shared pr-review skill does not just say ‘review the diff’ — it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
+Builder-side. MUI’s shared pr-review skill goes well past ‘review the diff’: it exposes five named effort levels that change subagent fan-out AND the model’s error preference: medium is a precision bias (‘every finding actionable’), high/xhigh/max deliberately flip to recall (‘missed bug ships’), with max adding verifier subagents for surviving candidates. It also instructs finders not to self-censor: ‘Finders that silently drop half-believed candidates bypass verify step — dominant cause of misses.’
 
 ```markdown
 Medium effort = **precision** bias: every finding actionable. **high**, **xhigh**,
@@ -394,7 +394,7 @@ Link: https://mui.com/material-ui/getting-started/design-resources/
 
 ### Storybook (addon-mcp, manifests, AI docs)
 
-No public Storybook for the Material UI component library itself — mui.com’s own docs site with live demos is the canonical surface, and there is no Storybook MCP/addon integration. Storybook appears only as the embedded preview panel inside the Material UI Sync Figma plugin.
+No public Storybook for the Material UI component library itself; mui.com’s own docs site with live demos is the canonical surface, and there is no Storybook MCP/addon integration. Storybook appears only as the embedded preview panel inside the Material UI Sync Figma plugin.
 
 Link: https://mui.com/material-ui/design-resources/material-ui-sync/
 
@@ -408,7 +408,7 @@ Link: https://www.uxpin.com/merge/mui-library
 
 ### For consumers (agents building UIs with Material UI (MUI))
 
-Very well served, and improving fast. Three stacked layers: (1) retrieval — a curated per-package llms.txt plus a .md twin for every docs page, consumable directly or through the official @mui/mcp server whose tool descriptions mandate their own use and whose fetcher is host-allowlisted to mui.com; (2) judgement — four versioned Agent Skills that encode the decisions models get wrong (sx vs styled vs theme vs global, CSS-variable theming, Next.js Emotion cache/SSR, Tailwind v4 cascade layers with enableCssLayer), each with a compatibility semver range pinning them to v9; (3) generation — the commercial Recipes backend behind generateReactCode, with Figma-frame grounding and a muiPairing version target. The install docs even anticipate the agent ignoring the MCP and hand you a rule file to fix it. What is missing is anything shadcn-registry-shaped: no machine-readable component registry JSON, no CLI that pulls component source into a project, and no distributed .cursorrules templates or ‘add to Cursor’ buttons.
+Very well served, and improving fast. Three stacked layers. (1) Retrieval: a curated per-package llms.txt plus a .md twin for every docs page, consumable directly or through the official @mui/mcp server whose tool descriptions mandate their own use and whose fetcher is host-allowlisted to mui.com; (2) Judgement: four versioned Agent Skills that encode the decisions models get wrong (sx vs styled vs theme vs global, CSS-variable theming, Next.js Emotion cache/SSR, Tailwind v4 cascade layers with enableCssLayer), each with a compatibility semver range pinning them to v9; (3) Generation: the commercial Recipes backend behind generateReactCode, with Figma-frame grounding and a muiPairing version target. The install docs even anticipate the agent ignoring the MCP and hand you a rule file to fix it. What is missing is anything shadcn-registry-shaped: no machine-readable component registry JSON, no CLI that pulls component source into a project, and no distributed .cursorrules templates or ‘add to Cursor’ buttons.
 
 ### For builders (the Material UI (MUI) team using AI on the system itself)
 
@@ -416,7 +416,7 @@ Mature and unusually well-factored for a project this size. mui/material-ui has 
 
 ## Gaps
 
-Not found, despite direct probing: (1) no root https://mui.com/llms.txt and no llms-full.txt (both 404); llms.txt exists only for /material-ui/ and /x/ — Joy UI, MUI System, Base UI and Toolpad all 404. (2) No machine-readable component registry — https://mui.com/r/registry.json and /material-ui/registry.json both 404 — even though the MCP docs page claims a benefit of ‘Using component code from officially published registries’; it was not possible to locate the registry that sentence refers to. (3) No Figma Code Connect: a GitHub code search across org:mui returned 0 hits for `code-connect` and 0 `figma.config.json` files. (4) No .cursorrules, .cursor/rules/, .github/copilot-instructions.md, .claude/ directory, or .mcp.json in mui/material-ui (all probed, all 404) — the org’s Claude skills live in mui/mui-public and mui/base-ui instead. (5) No dedicated /getting-started/ai/ or /getting-started/agents/ docs page; MCP is the only AI page in the nav. (6) No distributed ‘add to Cursor/Claude’ one-click install buttons found on the MCP page. (7) this study did not verify any community/third-party MUI MCP server: an npm registry search for ‘mui mcp’ surfaced only the official @mui/mcp. (8) generateReactCode is gated behind a paid MUI_RECIPES_API_KEY, so it was not possible to observe its system prompt or the constraints it imposes on generated code — the on-system coercion happening server-side at chat-backend.mui.com is a black box. (9) No evidence found of AI-assisted codemods (MUI’s `@mui/codemod` migrations appear to remain deterministic jscodeshift transforms) or of AI triage bots in .github/workflows — the AI-sounding `priority-support-validation-prompt.yml` is a plain templated support-key comment, not an LLM. (10) CONTRIBUTING.md was not read in full, so any AI-contribution policy language there is unverified.
+Not found, despite direct probing: (1) no root https://mui.com/llms.txt and no llms-full.txt (both 404); llms.txt exists only for /material-ui/ and /x/; Joy UI, MUI System, Base UI and Toolpad all 404. (2) No machine-readable component registry: https://mui.com/r/registry.json and /material-ui/registry.json both 404, even though the MCP docs page claims a benefit of ‘Using component code from officially published registries’; it was not possible to locate the registry that sentence refers to. (3) No Figma Code Connect: a GitHub code search across org:mui returned 0 hits for `code-connect` and 0 `figma.config.json` files. (4) No .cursorrules, .cursor/rules/, .github/copilot-instructions.md, .claude/ directory, or .mcp.json in mui/material-ui (all probed, all 404); the org’s Claude skills live in mui/mui-public and mui/base-ui instead. (5) No dedicated /getting-started/ai/ or /getting-started/agents/ docs page; MCP is the only AI page in the nav. (6) No distributed ‘add to Cursor/Claude’ one-click install buttons found on the MCP page. (7) this study did not verify any community/third-party MUI MCP server: an npm registry search for ‘mui mcp’ surfaced only the official @mui/mcp. (8) generateReactCode is gated behind a paid MUI_RECIPES_API_KEY, so it was not possible to observe its system prompt or the constraints it imposes on generated code. The on-system coercion happening server-side at chat-backend.mui.com is a black box. (9) No evidence found of AI-assisted codemods (MUI’s `@mui/codemod` migrations appear to remain deterministic jscodeshift transforms) or of AI triage bots in .github/workflows; the AI-sounding `priority-support-validation-prompt.yml` is a plain templated support-key comment, not an LLM. (10) CONTRIBUTING.md was not read in full, so any AI-contribution policy language there is unverified.
 
 ## Sources (15)
 
@@ -452,4 +452,4 @@ Not found, despite direct probing: (1) no root https://mui.com/llms.txt and no l
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

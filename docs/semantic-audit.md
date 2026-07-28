@@ -24,7 +24,7 @@ target.
 
 **One number frames the whole presentation half of this document:** across the
 sampled routes, `--ink-2` carries roughly 156,000 characters of text and `--ink`
-roughly 163,000. Half the site's prose renders as secondary. No text on any
+roughly 163,000. Half the site’s prose renders as secondary. No text on any
 route in either theme falls below 4.5:1, so every promotion below is a
 hierarchy decision, not a contrast repair. That is why several muted components
 are explicitly left alone.
@@ -94,7 +94,7 @@ unchanged; so does the `.twocol .col .t { font-size: 10.5px }` override.
 `.metagrid` and the first `h2`, so the outline reads h1 → h2 For consumers →
 h2 For builders → h2 Affordances → … with no skipped level and no reordering.
 The two rejected alternatives, for the record: `h3` alone skips from `h1`; a
-new wrapper `h2` ("Building it vs. consuming it", as `build_md.py` emits for
+new wrapper `h2` (“Building it vs. consuming it”, as `build_md.py` emits for
 the markdown twin) invents on-page copy the design does not show — the mirror
 needs that wrapper because markdown has no cards, the page does not.
 
@@ -120,22 +120,22 @@ the rhythm between the cards.
 
 **What:** `.twocol .col p { color: var(--ink-2) }` becomes `var(--ink)`. Then
 apply the table below. Every component the presentation pass flagged as
-"muted but primary" gets an explicit verdict here; nothing is left to the
-executor's taste, and `code`/`em`/`strong` inside a promoted paragraph inherit
+“muted but primary” gets an explicit verdict here; nothing is left to the
+executor’s taste, and `code`/`em`/`strong` inside a promoted paragraph inherit
 the promotion for free.
 
 | Component (selector) | Now | Ruling | Reason |
 |---|---|---|---|
 | `.twocol .col p` | `--ink-2` | **→ `--ink`** | Owner directive; the card body is the finding, not a caption. |
 | `.tech-ex .tb p` | `--ink-2` | **→ `--ink`** | ~78k characters across `/techniques/`, `/platforms/` and every system page — the single largest body of prose on the site, and the whole point of the technique catalogue. |
-| `.plat .sum` | `--ink-2` | **→ `--ink`** | The platform's verdict paragraph, and the first prose under its `h2`. |
+| `.plat .sum` | `--ink-2` | **→ `--ink`** | The platform’s verdict paragraph, and the first prose under its `h2`. |
 | `.aff-body p.desc` | `--ink-2` | **→ `--ink`** | What the affordance *is*; the reader opened the disclosure to read exactly this. |
-| `.findings p` | `--ink-2` | **→ `--ink`** | The nine findings are the report's argument (see directive 3). |
-| `.body-block` | `--ink-2` | **→ `--ink`** | Its own code comment calls it "primary content that happens to sit under an h2, as opposed to a subtitle", and its `.gaps` variant is already `--ink`. Align the base with both. |
+| `.findings p` | `--ink-2` | **→ `--ink`** | The nine findings are the report’s argument (see directive 3). |
+| `.body-block` | `--ink-2` | **→ `--ink`** | Its own code comment calls it “primary content that happens to sit under an h2, as opposed to a subtitle”, and its `.gaps` variant is already `--ink`. Align the base with both. |
 | `.prose p` (and `.prose li`, which inherits) | `--ink-2` | **→ `--ink`** | On `/methodology/` and `/ai/` this is the entire page body; a whole page of secondary text has no primary to be secondary to. |
 | `.snip-bar button .btxt` | `--ink-2` | **→ `--ink`** | A control label. Muted control text reads as disabled. |
-| `.snip-bar .lang`, `.snip-bar .snote` | `--ink-3` | **→ `--ink-2`** | 10px at 4.68:1 is the smallest, weakest text on the site, and `.snote` carries source receipts ("Path in tarball: …"). |
-| `.plat .adopt` | `--ink-3` | **→ `--ink-2`** | It is the platform's adoption evidence — a receipt, quoted with a rule on the left. Receipts are not chrome. |
+| `.snip-bar .lang`, `.snip-bar .snote` | `--ink-3` | **→ `--ink-2`** | 10px at 4.68:1 is the smallest, weakest text on the site, and `.snote` carries source receipts (“Path in tarball: …”). |
+| `.plat .adopt` | `--ink-3` | **→ `--ink-2`** | It is the platform’s adoption evidence — a receipt, quoted with a rule on the left. Receipts are not chrome. |
 | `.sysrow .sum` | `--ink-2` | **keep muted** | A 19-row scanning list: the system name is the target, the summary is the preview. Promoting it flattens the row. |
 | `p.lede` | `--ink-2` | **keep muted** | Deck under an `h1` at 16.5px; size and measure carry it. |
 | `.h2-sub` | `--ink-2` | **keep muted** | Genuinely a subtitle for the heading above it — the distinction the `.body-block` comment draws. |
@@ -146,8 +146,8 @@ the promotion for free.
 
 **Where:** the CSS rules named in the table, all in `dashboard/template.html`.
 
-**Why:** with half the site's text set as secondary, "muted" stopped meaning
-"secondary" and started meaning "text".
+**Why:** with half the site’s text set as secondary, “muted” stopped meaning
+“secondary” and started meaning “text”.
 
 **Risk:** CSS only, no markup, no prerender coupling. Both themes: `--ink` is
 `#111` / `#E8E8E8`, so promoted blocks get heavier in dark mode where dense
@@ -176,7 +176,7 @@ untouched.
 `.findings` lists in `VIEWS.insights` (convergence and divergence); CSS rule
 `.findings b`.
 
-**Why:** the nine findings and the convergence/divergence items are the report's
+**Why:** the nine findings and the convergence/divergence items are the report’s
 conclusions, and none of them appear in the outline a screen-reader user or a
 summarizer navigates by — while the markdown twin already publishes them as
 `### {n}. {title}`. Outline: `/` gives h1 → h2 Findings → h3 ×9;
@@ -190,7 +190,7 @@ guard counts headings or `<b>`. Print stylesheet has `.findings li` in its
 
 ### 4. `/systems/` rows: a 300-character link name, and 19 items that are not a list
 
-**What:** each row's accessible name is currently the entire row — name, org,
+**What:** each row’s accessible name is currently the entire row — name, org,
 the full two-line-clamped summary, and both counts — because the whole row is
 one `<a>`. Split the link from the row and make the cohorts real lists:
 
@@ -221,7 +221,7 @@ Rewrite the three sibling selectors that assume a flat container:
 `.sysgroup.mat-ai-native`, plus the 375px overrides that set
 `grid-area: who / cts` and hide `.sum`.
 
-**Why:** every screen-reader link list, and every tab stop on the site's main
+**Why:** every screen-reader link list, and every tab stop on the site’s main
 index, currently announces a paragraph instead of a system name; and the 19
 rows have no item boundaries or count at all, while the cohort labels that
 organise them are invisible to the outline.
@@ -266,9 +266,9 @@ stylesheet indents `dd` by 40px and will otherwise shift every value.
 `.metagrid`, `.metagrid > div`, `.metagrid .k`, `.metagrid .v`, and the 375px
 `.metagrid .v a` tap-target override.
 
-**Why:** on every system page the record's six facts (org, repo, docs, license,
+**Why:** on every system page the record’s six facts (org, repo, docs, license,
 last release, activity) currently reach assistive tech and scrapers as one
-undifferentiated run of text with no association between "License" and "MIT".
+undifferentiated run of text with no association between “License” and “MIT”.
 
 **Risk:** low, but check both themes for the hairline seams (`outline` with
 `-0.5px` offset on the cells) after the element change, and re-check the 5-cell
@@ -314,8 +314,8 @@ untouched). Add `list-style: none; padding: 0` to `.tiles`.
 (plus the 375px two-column override) and the print `break-inside` list.
 
 **Why:** without item boundaries the five headline numbers read as one sentence
-("19 design systems studied + 5 platforms · 168 affordances 16 ship an official
-MCP server of 19 systems …") — the numbers that carry the whole report are the
+(“19 design systems studied + 5 platforms · 168 affordances 16 ship an official
+MCP server of 19 systems …”) — the numbers that carry the whole report are the
 least parseable text on the page.
 
 **Risk:** low; CSS `.tile` selectors are class-based and unaffected.
@@ -325,13 +325,13 @@ least parseable text on the page.
 ### 8. Maturity band headers on the overview are `div`s over a list of links
 
 **What:** `<div class="bhead mat-${k}">` → `<h3 class="bhead mat-${k}">`, with
-`margin: 0` added to the `.spec-band .bhead` rule so the band's coloured strip
+`margin: 0` added to the `.spec-band .bhead` rule so the band’s coloured strip
 does not inherit the global `h3` margin.
 
 **Where:** `VIEWS.overview`, the `<div class="spec-band">` template; CSS
 `.spec-band .bhead` and its four `mat-*` variants.
 
-**Why:** the four bands are the structure of "The maturity spectrum" `h2`, and
+**Why:** the four bands are the structure of “The maturity spectrum” `h2`, and
 each one names the `ul` of systems beneath it — as `div`s, neither the band
 names nor the grouping exist outside the visual.
 
@@ -343,8 +343,8 @@ becomes h2 → h3 ×4, no skip.
 
 ### 9. 147 `region` landmarks on one page
 
-**What:** snippet `<pre>`s ship `role="region" aria-label="… snippet"
-tabindex="0"`. `/techniques/` renders 147 of them; a system page renders 10.
+**What:** snippet `<pre>`s ship `role=”region” aria-label=”… snippet”
+tabindex=”0”`. `/techniques/` renders 147 of them; a system page renders 10.
 Change `role="region"` to `role="group"` in the snippet template — naming still
 works, the landmark list stops being noise. Keep `role="region"` on the matrix
 `.scroller`: there is exactly one per page and it is a genuine landmark.
@@ -401,24 +401,24 @@ edges are invisible to a low-vision reader hunting for the filter box — the on
 thing `/systems/` asks you to use.
 
 **Risk:** dark mode gets visibly harder edges; check `/systems/` and
-`/techniques/` in both themes at 1440 and 375. Do not "fix" the decorative
+`/techniques/` in both themes at 1440 and 375. Do not “fix” the decorative
 hairlines around `.tile`, `.chip`, `details` or table rows on the way past —
 that is a rejected finding (appendix R11) and it is what the hairline art
 direction is made of.
 
 **Priority:** P2.
 
-### 11. The matrix "none" glyph is a hardcoded literal at 1.66:1
+### 11. The matrix “none” glyph is a hardcoded literal at 1.66:1
 
 **What:** `table.mx td .none { color: light-dark(#C9C9C9, #555555) }` becomes
-`color: var(--ink-3)` (5.1:1 light, 5.6:1 dark). Apply the same to the legend's
+`color: var(--ink-3)` (5.1:1 light, 5.6:1 dark). Apply the same to the legend’s
 `·` glyph so cell and legend still match exactly.
 
 **Where:** CSS `table.mx td .none` (and its `::before` content rule) plus the
 `.mx-legend` glyph.
 
-**Why:** "none found" is one of three states in a 19×11 grid, and it is the only
-one a sighted low-vision reader cannot see — an empty cell and a "no" cell look
+**Why:** “none found” is one of three states in a 19×11 grid, and it is the only
+one a sighted low-vision reader cannot see — an empty cell and a “no” cell look
 identical. The sr-only text covers assistive tech; nothing covers the eye. It
 is also the only literal color left in a component rule.
 
@@ -444,7 +444,7 @@ and re-point any adjacent-sibling margin rules (`details + details`) at
 **Where:** `VIEWS.system` (affordances map, techniques map), `VIEWS.techniques`,
 `VIEWS.platforms`; the `.aff` / `.tech-ex` margin rules.
 
-**Why:** "item 3 of 10" while stepping through ten disclosures is a real
+**Why:** “item 3 of 10” while stepping through ten disclosures is a real
 improvement; the `h2` count only tells you the total once.
 
 **Risk:** low but broad — four call sites and the sibling-margin rules. Do it
@@ -471,7 +471,7 @@ both themes and that Windows high-contrast still shows a chevron.
 
 ### 14. `Gaps & open questions` is a hand-numbered list inside one paragraph
 
-**What:** the gaps prose reads "Not confirmed, or absent: (1) … (2) … (3) …"
+**What:** the gaps prose reads “Not confirmed, or absent: (1) … (2) … (3) …”
 inside a single `<p class="body-block gaps">`. Make it an `<ol>` — but only by
 changing the shape of the data (`gaps` becomes an array of strings in
 `data/design-systems.json`, passed through by `build_dashboard.py`), never by
@@ -480,7 +480,7 @@ regex-splitting prose in the view.
 **Where:** `data/design-systems.json` (`gaps`), `scripts/build_dashboard.py`,
 `VIEWS.system` (`.body-block.gaps`), `scripts/build_md.py` (`## Gaps`).
 
-**Why:** these are the report's own open questions, and a reader cannot count
+**Why:** these are the report’s own open questions, and a reader cannot count
 or scan them; a machine consumer cannot enumerate them.
 
 **Risk:** touches the payload, the md mirror and the JSON exports — the widest
@@ -506,8 +506,8 @@ re-open them without new evidence.
   cost all of that and `/matrix/` already provides the tabular view of the same
   systems.
 - **R3. Put an `h3` inside each `<summary>`.** Legal, and it would mirror
-  `build_md.py`'s `### {name}`, but AT announces "heading level 3, collapsed
-  button" and the disclosure already exposes the name. Cost of the double
+  `build_md.py`'s `### {name}`, but AT announces “heading level 3, collapsed
+  button” and the disclosure already exposes the name. Cost of the double
   announcement outweighs the navigation gain.
 - **R4. Wrap cards, bands and disclosure groups in `<section>`.** An unnamed
   section conveys nothing; a heading-named one becomes a `region` landmark, and
@@ -515,7 +515,7 @@ re-open them without new evidence.
 - **R5. `hgroup` around `.eyebrow` + `h1`.** No assistive-tech behaviour
   depends on it; pure markup ceremony.
 - **R6. Breadcrumb `nav` around `.backlink`.** A one-item breadcrumb landmark
-  is noise; the link's text ("← all systems") already says where it goes.
+  is noise; the link’s text (“← all systems”) already says where it goes.
 - **R7. Replace the matrix cell `title` tooltips.** The same text is already in
   the sr-only cell copy, and the row header links to the full record — the
   `title` is redundant, not misleading.
@@ -526,14 +526,14 @@ re-open them without new evidence.
 - **R9. `role="meter"` / `role="img"` on the prevalence bars.** Each
   `.bar-row` already states its label and count as text and the track is
   `aria-hidden`; a widget role would add a value nobody can act on.
-- **R10. `<time datetime>` on the byline and "Last release".** The Article
+- **R10. `<time datetime>` on the byline and “Last release”.** The Article
   JSON-LD already carries machine-readable dates for every page.
 - **R11. Raise the decorative hairlines (`.tile`, `.chip`, `details`, table row
   rules) to 3:1.** Exempt from 1.4.11 as decoration, and the 1.32:1 hairline is
-  the site's art direction. Directive 10 scopes the contrast fix to controls
+  the site’s art direction. Directive 10 scopes the contrast fix to controls
   for exactly this reason.
 - **R12. The count columns lose their units for screen readers.** `.cw` is
-  sr-only-clipped, not `display:none` — "10 affordances" is already announced,
+  sr-only-clipped, not `display:none` — “10 affordances” is already announced,
   and the words become visible copy at 375px.
 - **R13. Make the matrix legend a list.** Three inline items whose meaning is
   their text; a list adds structure without adding information.

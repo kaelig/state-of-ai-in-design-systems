@@ -7,7 +7,7 @@ type: "view"
 id: "methodology"
 caveat_count: 5
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -20,7 +20,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 How the set was picked and what counted as an affordance or a technique. Every number on this site is computed from the records, not typed in.
 
-The data was gathered on 26–27 July 2026 by a team of research agents (Claude Opus 5) coordinated by a lead model (Claude Fable 5). Scout agents mapped the territory first. Then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Everything was checked against primary sources before publication.
+Research agents (Claude Opus 5) gathered the data on 26–27 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.
 
 Inclusion criteria: open source, active within the last six months, and enough public surface to study. The set spans AI-native leaders, large corporate systems and one deliberate public-sector contrast case. Where monorepos are private (Atlassian, Nord, SLDS internals), records rely on published packages and docs, and say so.
 
@@ -34,7 +34,7 @@ Every affordance, technique and capability in the dataset carries the URL of the
 
 ## Caveats (5)
 
-- This is a point-in-time snapshot of the fastest-moving corner of the discipline, taken 26–27 July 2026. Expect drift within weeks.
+- A snapshot taken 26–27 July 2026. The systems described here ship weekly, so expect drift within weeks.
 
 - Snippets are excerpts, capped at 40 lines and sometimes abridged mid-list. Follow the source link before quoting further.
 
@@ -58,4 +58,4 @@ The counts above are computed from the published dataset at build time. Recount 
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

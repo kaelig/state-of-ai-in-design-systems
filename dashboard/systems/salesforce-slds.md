@@ -1,6 +1,6 @@
 ---
-title: "Lightning Design System (SLDS) — AI affordances"
-description: "SLDS is one of the most aggressively AI-instrumented design systems in the study — but almost none of that instrumentation lives in the design system’s own repo…"
+title: "Salesforce Lightning Design System — AI affordances"
+description: "SLDS is one of the most aggressively AI-instrumented design systems in the study, but almost none of that instrumentation lives in the design system’s own repo…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds"
 type: "design-system-record"
@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -20,7 +20,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 > Snapshot of 2026-07-27. Every claim below links to the source URL it was taken from. Check the source before citing.
 
-# Lightning Design System (SLDS) — AI affordances
+# Salesforce Lightning Design System — AI affordances
 
 Salesforce · design-system · NOASSERTION (BSD-3-Clause style Salesforce license); slds-linter ISC; starter kit + sf-skills Apache-2.0 · AI maturity: **ai-native** (AI consumption is a design goal, with dedicated surfaces and staff behind it). 10 affordances, 8 coercion techniques.
 
@@ -31,13 +31,13 @@ Salesforce · design-system · NOASSERTION (BSD-3-Clause style Salesforce licens
 
 ## Summary
 
-SLDS is one of the most aggressively AI-instrumented design systems in the study — but almost none of that instrumentation lives in the design system’s own repo. Salesforce moved AI affordances into the platform tooling layer: the Salesforce DX MCP server (`@salesforce/mcp`) ships an `lwc-experts` toolset with dedicated SLDS tools (`explore_slds_blueprints`, `guide_slds_blueprints`, `explore_slds_styling`, `guide_slds_styling`, `guide_design_general`, `guide_figma_to_lwc_conversion`), and `@salesforce/afv-skills` ships three first-party Agent Skills (`design-systems-slds-apply`, `-validate`, `-slds2-migrate`) with bundled JSON registries of 523 styling hooks / 1,147 utilities / 85 blueprints / 1,732 icons plus `search-*.cjs` scripts the agent is ordered to run before emitting any SLDS artifact. The `@salesforce-ux/slds-linter` CLI closes a real validation loop that skills and rules files mandate. The reference consumer surface is `salesforce-ux/design-system-2-starter-kit`, which carries `.builderrules`, `AGENTS.md`, `CLAUDE.md`, `mcp.json` and local `.agent/skills/`. The gap is the builder side: the public SLDS repos contain zero CLAUDE.md/AGENTS.md/.cursorrules, and SLDS 2 itself is not open source (`design-system-2` is a DOCS_ONLY placeholder), so how the team maintains the system with AI is invisible.
+SLDS is one of the most aggressively AI-instrumented design systems in the study, but almost none of that instrumentation lives in the design system’s own repo. Salesforce moved AI affordances into the platform tooling layer: the Salesforce DX MCP server (`@salesforce/mcp`) ships an `lwc-experts` toolset with dedicated SLDS tools (`explore_slds_blueprints`, `guide_slds_blueprints`, `explore_slds_styling`, `guide_slds_styling`, `guide_design_general`, `guide_figma_to_lwc_conversion`), and `@salesforce/afv-skills` ships three first-party Agent Skills (`design-systems-slds-apply`, `-validate`, `-slds2-migrate`) with bundled JSON registries of 523 styling hooks / 1,147 utilities / 85 blueprints / 1,732 icons plus `search-*.cjs` scripts the agent is ordered to run before emitting any SLDS artifact. The `@salesforce-ux/slds-linter` CLI closes a real validation loop that skills and rules files mandate. The reference consumer surface is `salesforce-ux/design-system-2-starter-kit`, which carries `.builderrules`, `AGENTS.md`, `CLAUDE.md`, `mcp.json` and local `.agent/skills/`. The gap is the builder side: the public SLDS repos contain zero CLAUDE.md/AGENTS.md/.cursorrules, and SLDS 2 itself is not open source (`design-system-2` is a DOCS_ONLY placeholder), so how the team maintains the system with AI is invisible.
 
 ## Maintenance
 
 - Actively maintained: yes
 - Last release: salesforce-ux/design-system (SLDS 1) v2.27.2 — 2025-07-10 (last GitHub release); repo pushed 2026-06-02. @salesforce-ux/slds-linter 1.2.1 — 2026-03-05. @salesforce/afv-skills 1.32.0 — 2026-07-24. design-system-2-starter-kit pushed 2026-07-23.
-- Activity: Two-speed maintenance. The open-source SLDS 1 repo (salesforce-ux/design-system, 3.7k stars) is in maintenance: last tagged release July 2025, repo touched June 2026. All active investment has moved to SLDS 2, whose source is NOT public — salesforce-ux/design-system-2 and salesforce-ux/design-tokens contain only a DOCS_ONLY.md placeholder plus license files. The living, frequently-updated artifacts are the tooling repos: slds-linter, design-system-2-starter-kit (July 2026), and forcedotcom/sf-skills (761 stars, pushed 2026-07-24), which is where the SLDS agent skills are authored.
+- Activity: Two-speed maintenance. The open-source SLDS 1 repo (salesforce-ux/design-system, 3.7k stars) is in maintenance: last tagged release July 2025, repo touched June 2026. All active investment has moved to SLDS 2, whose source is NOT public: salesforce-ux/design-system-2 and salesforce-ux/design-tokens contain only a DOCS_ONLY.md placeholder plus license files. The living, frequently-updated artifacts are the tooling repos: slds-linter, design-system-2-starter-kit (July 2026), and forcedotcom/sf-skills (761 stars, pushed 2026-07-24), which is where the SLDS agent skills are authored.
 
 ## AI affordances (10)
 
@@ -51,7 +51,7 @@ Type: `mcp-server` (MCP server) · Official · Audience: consumers
 
 - Code: https://github.com/salesforcecli/mcp
 
-Notes: This is the primary SLDS-for-agents surface. Note it is owned by the CLI/platform org (salesforcecli/forcedotcom), not by salesforce-ux — the design system team does not ship its own MCP server.
+Notes: This is the primary SLDS-for-agents surface. Note it is owned by the CLI/platform org (salesforcecli/forcedotcom), not by salesforce-ux. The design system team does not ship its own MCP server.
 
 ```markdown
     - `explore_slds_styling`  (NON-GA): Searches for SLDS styling hooks with support for exact lookup, fuzzy matching, prefix search, and wildcard patterns.
@@ -105,13 +105,13 @@ Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball
 
 Type: `cli-scaffolding` (CLI scaffolding) · Official · Audience: consumers
 
-The SLDS team’s own CLI (ISC, v1.2.1, 2026-03-05) wrapping custom ESLint + Stylelint rules for SLDS 2: `slds/class-override`, `slds/lwc-token-to-slds-hook`, `slds/no-hardcoded-values`, `slds/no-deprecated-tokens-slds1`. Supports `--fix` for bulk autofix and SARIF report output. This is the deterministic verifier that both the agent skills and the starter kit’s AGENTS.md force the agent to run after edits — the closest thing to a true validation loop in the SLDS ecosystem.
+The SLDS team’s own CLI (ISC, v1.2.1, 2026-03-05) wrapping custom ESLint + Stylelint rules for SLDS 2: `slds/class-override`, `slds/lwc-token-to-slds-hook`, `slds/no-hardcoded-values`, `slds/no-deprecated-tokens-slds1`. Supports `--fix` for bulk autofix and SARIF report output. This is the deterministic verifier that both the agent skills and the starter kit’s AGENTS.md force the agent to run after edits, the closest thing to a true validation loop in the SLDS ecosystem.
 
 - Docs: https://developer.salesforce.com/docs/platform/slds-linter/overview
 
 - Code: https://github.com/salesforce-ux/slds-linter
 
-Notes: Owned by salesforce-ux (the DS team) — unlike the MCP server. Companion package @salesforce-ux/metadata-slds carries the validation/autofix metadata.
+Notes: Owned by salesforce-ux (the DS team), unlike the MCP server. Companion package @salesforce-ux/metadata-slds carries the validation/autofix metadata.
 
 ````markdown
 ### SLDS linter
@@ -131,7 +131,7 @@ Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-
 
 Type: `agents-md` (AGENTS.md) · Official · Audience: consumers
 
-The SLDS team’s reference agent-facing scaffold (Apache-2.0, pushed 2026-07-23). AGENTS.md (5.4 KB) covers file placement, the linter loop, forbidden patterns, and a routing table pointing the agent at the afv-skills SKILL.md files by exact node_modules path. CLAUDE.md is a single line — `@AGENTS.md` — the import-pointer pattern, so Claude Code and other agents share one source of truth.
+The SLDS team’s reference agent-facing scaffold (Apache-2.0, pushed 2026-07-23). AGENTS.md (5.4 KB) covers file placement, the linter loop, forbidden patterns, and a routing table pointing the agent at the afv-skills SKILL.md files by exact node_modules path. CLAUDE.md is a single line, `@AGENTS.md`, the import-pointer pattern, so Claude Code and other agents share one source of truth.
 
 - Code: https://github.com/salesforce-ux/design-system-2-starter-kit/blob/main/AGENTS.md
 
@@ -190,7 +190,7 @@ Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-design-systems-slds-apply ships offline machine-readable indexes — `assets/hooks-index.json` (523 hooks), `assets/utilities-index.json` (1,147 classes), `assets/blueprints/components/*.yaml` (85 blueprints), `assets/icon-metadata.json` (1,732 icons) — each with a dedicated `scripts/search-*.cjs` lookup. This is the anti-hallucination substrate: the skill forbids emitting any SLDS artifact that a search script hasn’t confirmed exists.
+design-systems-slds-apply ships offline machine-readable indexes: `assets/hooks-index.json` (523 hooks), `assets/utilities-index.json` (1,147 classes), `assets/blueprints/components/*.yaml` (85 blueprints), `assets/icon-metadata.json` (1,732 icons), each with a dedicated `scripts/search-*.cjs` lookup. This is the anti-hallucination substrate: the skill forbids emitting any SLDS artifact that a search script hasn’t confirmed exists.
 
 - Code: https://github.com/forcedotcom/sf-skills/tree/main/skills/design-systems-slds-apply/assets
 
@@ -200,7 +200,7 @@ Notes: Works offline with no MCP server, which makes it the fallback path when t
 
 Type: `mcp-server` (MCP server) · Official · Audience: consumers
 
-An `lwc-experts` MCP tool that converts Figma frames to LWC specs with SLDS guidelines applied and automatic ‘SLDS design system compliance’ validation. Notably it does NOT pair with Figma’s own Dev Mode MCP server in the docs — Salesforce points users at the third-party Framelink MCP server to read Figma files, then hands the result to the Salesforce tool for SLDS conformance.
+An `lwc-experts` MCP tool that converts Figma frames to LWC specs with SLDS guidelines applied and automatic ‘SLDS design system compliance’ validation. It does NOT pair with Figma’s own Dev Mode MCP server in the docs. Salesforce points users at the third-party Framelink MCP server to read Figma files, then hands the result to the Salesforce tool for SLDS conformance.
 
 - Docs: https://developer.salesforce.com/docs/platform/lwc/guide/mcp-design.html
 
@@ -248,7 +248,7 @@ A dedicated ‘AI and SLDS 2’ page exists in the zeroheight-hosted docs at /2e
 
 - Docs: https://www.lightningdesignsystem.com/2e1ef8501/p/52a7c7-ai-and-slds-2
 
-Notes: Unverified content — listed because the page’s existence is confirmed via search indexing, not because its text was read. The SPA also means the whole SLDS 2 docs site is largely opaque to naive agent fetching.
+Notes: Unverified content, listed because the page’s existence is confirmed via search indexing, not because its text was read. The SPA also means the whole SLDS 2 docs site is largely opaque to naive agent fetching.
 
 ## Coercion techniques (8)
 
@@ -277,11 +277,11 @@ If the search returns no match: **do not use the artifact.** Find an alternative
 
 Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball: package/skills/design-systems-slds-apply/SKILL.md
 
-### Explicit Do/Don't prohibition list
+### Explicit Do/Don’t prohibition list
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-The apply skill’s Core Rules are a flat imperative list. Notable: it forbids overriding `.slds-*` at all (forcing custom `my-*`/`c-*` classes instead), bans the private `--slds-s-*` shared hook namespace, bans reassigning hook values (reference-only via var()), and bans deprecated `--lwc-*` tokens. The .builderrules restates the harshest of these — ‘Never use !important. Never override SLDS classes in your CSS.’
+The apply skill’s Core Rules are a flat imperative list. Notable: it forbids overriding `.slds-*` at all (forcing custom `my-*`/`c-*` classes instead), bans the private `--slds-s-*` shared hook namespace, bans reassigning hook values (reference-only via var()), and bans deprecated `--lwc-*` tokens. The .builderrules restates the harshest of these: ‘Never use !important. Never override SLDS classes in your CSS.’
 
 ```markdown
 ### Don't
@@ -319,7 +319,7 @@ Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-The validate skill turns ‘is this on-system?’ into a number: Linter Compliance = 100 − (violations × 10), combined with Theming, Accessibility, Code Quality, and Component Usage. It even specifies a renormalized weighting for when the linter can’t run (no Node, CI sandbox), so the agent can’t silently skip verification and still claim a passing grade — it must mark ‘Linter not run’ in the report header. Step 3 is a ‘Required manual review gate’.
+The validate skill turns ‘is this on-system?’ into a number: Linter Compliance = 100 − (violations × 10), combined with Theming, Accessibility, Code Quality, and Component Usage. It even specifies a renormalized weighting for when the linter can’t run (no Node, CI sandbox), so the agent can’t silently skip verification and still claim a passing grade; it must mark ‘Linter not run’ in the report header. Step 3 is a ‘Required manual review gate’.
 
 ````markdown
 ## Quality Validation Process
@@ -348,7 +348,7 @@ Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball
 
 Category: `scaffolding` (Scaffolding) · all 7 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/scaffolding.md
 
-The same four-rung ladder is restated in three independent places — SKILL.md ‘Component Selection Hierarchy’, .builderrules ‘UI CODE CHECKLIST’ (as a 5-step checkbox list with If YES/If NO branches), and AGENTS.md ‘Engineering habits’. Redundancy across rules file, skill, and MCP tool descriptions is the coercion strategy: whichever context the agent loads, it meets the same ordering.
+The same four-rung ladder is restated in three independent places: SKILL.md ‘Component Selection Hierarchy’, .builderrules ‘UI CODE CHECKLIST’ (as a 5-step checkbox list with If YES/If NO branches), and AGENTS.md ‘Engineering habits’. Redundancy across rules file, skill, and MCP tool descriptions is the coercion strategy: whichever context the agent loads, it meets the same ordering.
 
 ```markdown
 1. **[ ] Search Lightning Base Components index** – Does a component exist for this?
@@ -366,7 +366,7 @@ Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
-Beyond ‘use tokens’, .builderrules polices *semantic correctness* of token usage — a hook must not be repurposed for an unintended CSS property — and demands a fallback value on every var() for backwards compatibility, specifying the Cosmos theme value as the fallback. The ❌/✅ pair is a compact few-shot correction.
+Beyond ‘use tokens’, .builderrules polices *semantic correctness* of token usage (a hook must not be repurposed for an unintended CSS property) and demands a fallback value on every var() for backwards compatibility, specifying the Cosmos theme value as the fallback. The ❌/✅ pair is a compact few-shot correction.
 
 ```markdown
 **Usage Guidelines:**
@@ -380,7 +380,7 @@ Beyond ‘use tokens’, .builderrules polices *semantic correctness* of token u
 
 Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/.builderrules
 
-### Skill routing table — 'do not improvise from memory'
+### Skill routing table — ‘do not improvise from memory’
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
@@ -416,35 +416,35 @@ Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-
 
 ### zeroheight
 
-The entire lightningdesignsystem.com SLDS 2 documentation site is hosted on zeroheight — URLs follow the zeroheight pattern /2e1ef8501/p/- with versioned variants /v//p/.... Confirmed by URL structure and Rails-style response headers (x-request-id, x-runtime, x-rack-cors). Consequence for agents: the docs are client-rendered and return near-empty text to WebFetch, which is likely why the SLDS knowledge layer was relocated into npm-shipped skills and MCP tools.
+The entire lightningdesignsystem.com SLDS 2 documentation site is hosted on zeroheight; URLs follow the zeroheight pattern /2e1ef8501/p/- with versioned variants /v//p/.... Confirmed by URL structure and Rails-style response headers (x-request-id, x-runtime, x-rack-cors). Consequence for agents: the docs are client-rendered and return near-empty text to WebFetch, which is likely why the SLDS knowledge layer was relocated into npm-shipped skills and MCP tools.
 
 Link: https://www.lightningdesignsystem.com/2e1ef8501
 
 ### Storybook (addon-mcp, manifests, AI docs)
 
-The legacy SLDS 1 repo has a full .storybook/ config (addons.js, sldsTheme.js, inject-styling-hooks.js, custom webpack/postcss) used for component examples. No AI-facing Storybook integration (no Storybook MCP addon, no story-based registry for agents) was found — it predates the AI tooling and is part of the maintenance-mode SLDS 1 codebase.
+The legacy SLDS 1 repo has a full .storybook/ config (addons.js, sldsTheme.js, inject-styling-hooks.js, custom webpack/postcss) used for component examples. No AI-facing Storybook integration (no Storybook MCP addon, no story-based registry for agents) was found. It predates the AI tooling and is part of the maintenance-mode SLDS 1 codebase.
 
 Link: https://github.com/salesforce-ux/design-system/tree/master/.storybook
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Salesforce publishes SLDS Figma libraries (SLDS Web Components v2 style guide, SLDS 2 Agentic Experience library for Agentforce UI patterns, RTL library) under the @salesforce Figma community profile. The design-to-code bridge is claimed to rest on styling-hook names being identical between the Figma kit and code. Machine-side, the path is guide_figma_to_lwc_conversion (Beta) in the DX MCP lwc-experts toolset, which Salesforce documents as pairing with the third-party Framelink MCP server to read Figma files — not Figma’s own Dev Mode MCP. No public SLDS Figma Code Connect repository or .figma.ts mappings were found.
+Salesforce publishes SLDS Figma libraries (SLDS Web Components v2 style guide, SLDS 2 Agentic Experience library for Agentforce UI patterns, RTL library) under the @salesforce Figma community profile. The design-to-code bridge is claimed to rest on styling-hook names being identical between the Figma kit and code. Machine-side, the path is guide_figma_to_lwc_conversion (Beta) in the DX MCP lwc-experts toolset, which Salesforce documents as pairing with the third-party Framelink MCP server to read Figma files, not Figma’s own Dev Mode MCP. No public SLDS Figma Code Connect repository or .figma.ts mappings were found.
 
 Link: https://developer.salesforce.com/docs/platform/lwc/guide/mcp-design.html
 
 ## Building the system vs. consuming it
 
-### For consumers (agents building UIs with Lightning Design System (SLDS))
+### For consumers (agents building UIs with Salesforce Lightning Design System)
 
-Very strong and unusually layered, though the layers are owned by three different Salesforce orgs. A consuming agent gets: (1) live MCP tools for blueprint/hook lookup via @salesforce/mcp `lwc-experts`; (2) offline JSON/YAML registries + search scripts bundled in @salesforce/afv-skills, so verification works with no server; (3) a deterministic verifier in @salesforce-ux/slds-linter with --fix and SARIF; (4) a committed reference scaffold (design-system-2-starter-kit) that wires all three together via mcp.json, AGENTS.md, CLAUDE.md, .builderrules and local .agent/skills. Notably absent: no llms.txt or llms-full.txt (both 404), and the docs site is a zeroheight SPA that returns essentially nothing to a plain fetch — so the *documentation* is close to unreadable for agents. Salesforce compensated by moving the entire agent-facing knowledge layer out of the docs site and into npm packages and MCP tools. That is a deliberate architectural choice and arguably the most interesting thing about SLDS’s AI posture.
+Very strong and unusually layered, though the layers are owned by three different Salesforce orgs. A consuming agent gets: (1) live MCP tools for blueprint/hook lookup via @salesforce/mcp `lwc-experts`; (2) offline JSON/YAML registries + search scripts bundled in @salesforce/afv-skills, so verification works with no server; (3) a deterministic verifier in @salesforce-ux/slds-linter with --fix and SARIF; (4) a committed reference scaffold (design-system-2-starter-kit) that wires all three together via mcp.json, AGENTS.md, CLAUDE.md, .builderrules and local .agent/skills. Notably absent: no llms.txt or llms-full.txt (both 404), and the docs site is a zeroheight SPA that returns essentially nothing to a plain fetch, so the *documentation* is close to unreadable for agents. Salesforce compensated by moving the entire agent-facing knowledge layer out of the docs site and into npm packages and MCP tools. That is a deliberate architectural choice and arguably the most interesting thing about SLDS’s AI posture.
 
-### For builders (the Lightning Design System (SLDS) team using AI on the system itself)
+### For builders (the Salesforce Lightning Design System team using AI on the system itself)
 
-Effectively invisible, and that’s a real finding rather than an oversight of the search. Direct probes of salesforce-ux/design-system for AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md and .claude/ all return 404; same for salesforce-ux/slds-linter and forcedotcom/sf-skills. CONTRIBUTING.md in the design system repo predates the AI era. The structural reason is that SLDS 2 — the thing under active development — is closed source: salesforce-ux/design-system-2 and salesforce-ux/design-tokens are DOCS_ONLY.md stubs. So whatever AI-assisted maintenance, codemod, or review tooling the SLDS team runs internally happens in private repos. The one publicly visible builder-side AI artifact is indirect: the SLDS team authored the three design-systems-* skills that live in forcedotcom/sf-skills, which means the team’s system knowledge is now maintained as prompt artifacts on a weekly-ish release cadence rather than only as docs. There are no public AI bots, AI-assisted codemod tooling (the linter’s --fix is rule-based, not LLM-based), or AI-mentioning contribution guidelines.
+Effectively invisible, and that’s a real finding rather than an oversight of the search. Direct probes of salesforce-ux/design-system for AGENTS.md, CLAUDE.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md and .claude/ all return 404; same for salesforce-ux/slds-linter and forcedotcom/sf-skills. CONTRIBUTING.md in the design system repo predates the AI era. The structural reason is that SLDS 2, the thing under active development, is closed source: salesforce-ux/design-system-2 and salesforce-ux/design-tokens are DOCS_ONLY.md stubs. So whatever AI-assisted maintenance, codemod, or review tooling the SLDS team runs internally happens in private repos. The one publicly visible builder-side AI artifact is indirect: the SLDS team authored the three design-systems-* skills that live in forcedotcom/sf-skills, which means the team’s system knowledge is now maintained as prompt artifacts on a weekly-ish release cadence rather than only as docs. There are no public AI bots, AI-assisted codemod tooling (the linter’s --fix is rule-based, not LLM-based), or AI-mentioning contribution guidelines.
 
 ## Gaps
 
-Not confirmed, or not found: (1) No llms.txt or llms-full.txt — https://www.lightningdesignsystem.com/llms.txt, /llms-full.txt, /ai and /docs/mcp all returned HTTP 404. (2) The ‘AI and SLDS 2’ docs page exists (indexed at /2e1ef8501/v/60694/p/52a7c7-ai-and-slds-2) but the zeroheight SPA returned only the title ‘Lightning Design System 2’ to WebFetch, so its content is unread and none of its claims are represented here. (3) No SLDS-specific MCP server exists — all SLDS MCP tools live inside the general-purpose @salesforce/mcp (salesforcecli/mcp), whose src/ tree it was not possible to enumerate via the GitHub contents API (404 on src/tools), so tool descriptions come from the official release notes and developer docs rather than source. (4) No community SLDS MCP server was verified; rrubush/sldsx surfaced in a code search but was not examined. (5) Zero builder-side AI artifacts found in any public salesforce-ux repo — direct 404 probes for AGENTS.md, CLAUDE.md, .cursorrules, .github/copilot-instructions.md on both design-system and slds-linter; forcedotcom/sf-skills likewise has none. Since SLDS 2 source is closed (design-system-2 and design-tokens are DOCS_ONLY stubs), absence of public evidence is not evidence of absence internally. (6) No Figma Code Connect repo, no AI-facing Storybook integration, no Supernova or Knapsack presence found. (7) No AI-assisted codemod: slds-linter --fix is rule-based autofix, not model-driven. (8) The referenced a4d-lwc-rules-no-edit.md global rule (Agentforce Vibes) was named in a Salesforce blog post but its text was not retrieved. (9) .builderrules references ‘the token .mdx files’ and a ‘Lightning Base Components index’ that this study did not locate as standalone published artifacts. (10) Exact artifact counts (523 hooks / 1,147 utilities / 85 blueprints / 1,732 icons) are quoted from the skill’s own table, not independently counted — the bundled hooks-index.json and utilities-index.json are nested objects with 7 top-level keys each, so this study did not verify the leaf counts.
+Not confirmed, or not found: (1) No llms.txt or llms-full.txt: https://www.lightningdesignsystem.com/llms.txt, /llms-full.txt, /ai and /docs/mcp all returned HTTP 404. (2) The ‘AI and SLDS 2’ docs page exists (indexed at /2e1ef8501/v/60694/p/52a7c7-ai-and-slds-2) but the zeroheight SPA returned only the title ‘Lightning Design System 2’ to WebFetch, so its content is unread and none of its claims are represented here. (3) No SLDS-specific MCP server exists; all SLDS MCP tools live inside the general-purpose @salesforce/mcp (salesforcecli/mcp), whose src/ tree it was not possible to enumerate via the GitHub contents API (404 on src/tools), so tool descriptions come from the official release notes and developer docs rather than source. (4) No community SLDS MCP server was verified; rrubush/sldsx surfaced in a code search but was not examined. (5) Zero builder-side AI artifacts found in any public salesforce-ux repo: direct 404 probes for AGENTS.md, CLAUDE.md, .cursorrules, .github/copilot-instructions.md on both design-system and slds-linter; forcedotcom/sf-skills likewise has none. Since SLDS 2 source is closed (design-system-2 and design-tokens are DOCS_ONLY stubs), absence of public evidence is not evidence of absence internally. (6) No Figma Code Connect repo, no AI-facing Storybook integration, no Supernova or Knapsack presence found. (7) No AI-assisted codemod: slds-linter --fix is rule-based autofix, not model-driven. (8) The referenced a4d-lwc-rules-no-edit.md global rule (Agentforce Vibes) was named in a Salesforce blog post but its text was not retrieved. (9) .builderrules references ‘the token .mdx files’ and a ‘Lightning Base Components index’ that this study did not locate as standalone published artifacts. (10) Exact artifact counts (523 hooks / 1,147 utilities / 85 blueprints / 1,732 icons) are quoted from the skill’s own table, not independently counted; the bundled hooks-index.json and utilities-index.json are nested objects with 7 top-level keys each, so this study did not verify the leaf counts.
 
 ## Sources (15)
 
@@ -480,4 +480,4 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt — https://www.li
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -57,19 +57,11 @@
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
-    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds</loc>
-    <lastmod>2026-07-27</lastmod>
-  </url>
-  <url>
     <loc>https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
     <loc>https://state-of-ai-in-design-systems.netlify.app/systems/patternfly</loc>
-    <lastmod>2026-07-27</lastmod>
-  </url>
-  <url>
-    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
@@ -81,15 +73,19 @@
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
+    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds</loc>
+    <lastmod>2026-07-27</lastmod>
+  </url>
+  <url>
     <loc>https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
-    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system</loc>
+    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
-    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft</loc>
+    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>
@@ -98,6 +94,10 @@
   </url>
   <url>
     <loc>https://state-of-ai-in-design-systems.netlify.app/systems/material-ui</loc>
+    <lastmod>2026-07-27</lastmod>
+  </url>
+  <url>
+    <loc>https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft</loc>
     <lastmod>2026-07-27</lastmod>
   </url>
   <url>

@@ -1,6 +1,6 @@
 ---
 title: "PatternFly — AI affordances"
-description: "PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org — it lives in two purpose-built sibling…"
+description: "PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org. It lives in two purpose-built sibling…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/patternfly"
 type: "design-system-record"
@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,13 +31,13 @@ Red Hat · design-system · MIT · AI maturity: **ai-native** (AI consumption is
 
 ## Summary
 
-PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org — it lives in two purpose-built sibling repos. `patternfly/patternfly-mcp` (npm `@patternfly/patternfly-mcp`, v2.1.0, published 2026-07-21) is an official MCP server with a resource-centric `patternfly://` URI architecture (docs, component indexes, and machine-readable JSON Schemas for props), reduced to two tools: `searchPatternFlyDocs` then `usePatternFlyDocs`. `patternfly/ai-helpers` is an official *plugin marketplace* — 8 plugins / 32 skills / several subagents, dual-published for Claude Code and Cursor, with an eval harness (`eval/*/eval.yaml`) run in CI on any skill change and pass-rate thresholds including a hard 1.0 gate that the router must NOT fire on non-PatternFly projects. Notably absent: there is no `llms.txt` or `llms-full.txt` on patternfly.org (both 404), and no root AGENTS.md/CLAUDE.md in patternfly-org or patternfly-react.
+PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org. It lives in two purpose-built sibling repos. `patternfly/patternfly-mcp` (npm `@patternfly/patternfly-mcp`, v2.1.0, published 2026-07-21) is an official MCP server with a resource-centric `patternfly://` URI architecture (docs, component indexes, and machine-readable JSON Schemas for props), reduced to two tools: `searchPatternFlyDocs` then `usePatternFlyDocs`. `patternfly/ai-helpers` is an official *plugin marketplace*: 8 plugins / 32 skills / several subagents, dual-published for Claude Code and Cursor, with an eval harness (`eval/*/eval.yaml`) run in CI on any skill change and pass-rate thresholds including a hard 1.0 gate that the router must NOT fire on non-PatternFly projects. Notably absent: there is no `llms.txt` or `llms-full.txt` on patternfly.org (both 404), and no root AGENTS.md/CLAUDE.md in patternfly-org or patternfly-react.
 
 ## Maintenance
 
 - Actively maintained: yes
 - Last release: @patternfly/patternfly-mcp 2.1.0 published 2026-07-21; patternfly-mcp repo pushed 2026-07-22; ai-helpers pushed 2026-07-21; patternfly-cli pushed 2026-06-19
-- Activity: All three AI repos pushed within days of the July 2026 survey window. ai-helpers created 2025-07-08 (10 stars), patternfly-mcp 3 stars, patternfly-cli 2 stars — low star counts but high commit velocity and Red Hat staffing; both carry SECURITY.md + GOVERNANCE.md.
+- Activity: All three AI repos pushed within days of the July 2026 survey window. ai-helpers created 2025-07-08 (10 stars), patternfly-mcp 3 stars, patternfly-cli 2 stars: low star counts, but high commit velocity and Red Hat staffing; both carry SECURITY.md + GOVERNANCE.md.
 
 ## AI affordances (10)
 
@@ -45,7 +45,7 @@ PatternFly runs one of the most engineered AI programs of any open design system
 
 Type: `mcp-server` (MCP server) · Official · Audience: both
 
-Official MCP server, Node 22+ (pin @1.1.0 for Node 20), stdio + HTTP transports, containerized (podman) option, embeddable via `import { start } from '@patternfly/patternfly-mcp'`, and extensible with sandboxed custom tool plugins (`--tool ./mcp-tools/x.js`). Only two live tools: `searchPatternFlyDocs` (partial match or `*`) and `usePatternFlyDocs` (by `name` OR `urlList`, max 15). `fetchDocs` and `componentSchemas` were removed and folded in — a deliberate tool-surface reduction. Resource layer uses RFC-6570 `patternfly://` URI templates: docs/index, components/index, schemas/{name}, and `patternfly://context`. Binaries: patternfly-mcp / pf-mcp / pfmcp.
+Official MCP server, Node 22+ (pin @1.1.0 for Node 20), stdio + HTTP transports, containerized (podman) option, embeddable via `import { start } from '@patternfly/patternfly-mcp'`, and extensible with sandboxed custom tool plugins (`--tool ./mcp-tools/x.js`). Only two live tools: `searchPatternFlyDocs` (partial match or `*`) and `usePatternFlyDocs` (by `name` OR `urlList`, max 15). `fetchDocs` and `componentSchemas` were removed and folded in, a deliberate tool-surface reduction. Resource layer uses RFC-6570 `patternfly://` URI templates: docs/index, components/index, schemas/{name}, and `patternfly://context`. Binaries: patternfly-mcp / pf-mcp / pfmcp.
 
 - Docs: https://github.com/patternfly/patternfly-mcp/blob/main/docs/usage.md
 
@@ -138,7 +138,7 @@ Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/plugins/rea
 
 Type: `ai-docs-page` (AI docs page) · Official · Audience: consumers
 
-A first-class `AI` docs section with two halves: design guidelines for shipping AI features (AI design principles, legal requirements, transparency notices, iconography, color, chatbot avatars, animation, conversation design — plus a bundled ‘Red Hat AI Ethics and Compliance Checklist.pdf’) and AI-assisted development (Marketplace, PatternFly CLI, PatternFly MCP, rapid prototyping, AI-assisted code migration). Includes Red Hat AI policy obligations for anyone using AI with PatternFly.
+A first-class `AI` docs section with two halves: design guidelines for shipping AI features (AI design principles, legal requirements, transparency notices, iconography, color, chatbot avatars, animation, conversation design, plus a bundled ‘Red Hat AI Ethics and Compliance Checklist.pdf’) and AI-assisted development (Marketplace, PatternFly CLI, PatternFly MCP, rapid prototyping, AI-assisted code migration). Includes Red Hat AI policy obligations for anyone using AI with PatternFly.
 
 - Docs: https://www.patternfly.org/ai/ai-assisted-development/patternfly-mcp
 
@@ -268,7 +268,7 @@ Notes: PatternFly’s bet is entirely on MCP + plugin marketplace, skipping the 
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-The strongest technique found in this study so far: ai-helpers ships an eval harness (`eval//eval.yaml` + case workspaces with fixture .tsx/.scss files and `annotations.yaml`) run by the `Skill Evals` GitHub Action on any PR touching `plugins/*/skills/**`. Judges are Python `check` blocks; thresholds are explicit. Two judges demand a perfect 1.0 pass rate — `routes_to_subskills` and `gate_skip_non_pf`, the latter failing the build if the router mentions any `pf-*` skill inside a non-PatternFly project. MCP is explicitly denied during evals (`deny: mcp__*`) so the harness measures the prompt’s own influence, not retrieval.
+The strongest technique found in this study so far: ai-helpers ships an eval harness (`eval//eval.yaml` + case workspaces with fixture .tsx/.scss files and `annotations.yaml`) run by the `Skill Evals` GitHub Action on any PR touching `plugins/*/skills/**`. Judges are Python `check` blocks; thresholds are explicit. Two judges demand a perfect 1.0 pass rate: `routes_to_subskills` and `gate_skip_non_pf`, the latter failing the build if the router mentions any `pf-*` skill inside a non-PatternFly project. MCP is explicitly denied during evals (`deny: mcp__*`) so the harness measures the prompt’s own influence, not retrieval.
 
 ```yaml
 permissions:
@@ -306,7 +306,7 @@ Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/eval/pf-ass
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
-`pf-assist` is a dispatcher subagent, always-on in any repo with `@patternfly/*` dependencies, that maps observable signals (changed .tsx importing @patternfly/*, Figma URLs in conversation, empty project dir) to a table of specific `/pf-*` sub-skills across four contexts (Validation / Testing / Scaffolding / Design). Its first instruction is a self-disable clause — the behavior the eval suite then enforces at 100%.
+`pf-assist` is a dispatcher subagent, always-on in any repo with `@patternfly/*` dependencies, that maps observable signals (changed .tsx importing @patternfly/*, Figma URLs in conversation, empty project dir) to a table of specific `/pf-*` sub-skills across four contexts (Validation / Testing / Scaffolding / Design). Its first instruction is a self-disable clause, the behavior the eval suite then enforces at 100%.
 
 ```markdown
 # PatternFly assist
@@ -331,7 +331,7 @@ Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/plugins/cod
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-styling-standards.md uses checkmark/cross prohibition pairs against legacy class prefixes (a real failure mode: models trained on PF4/PF5 emit `pf-c-*`), then imposes a strict preference order — component composition first, component props second, utility classes only as a last resort — with wrong-answer examples inline so the model sees the anti-pattern it is likely to produce.
+styling-standards.md uses checkmark/cross prohibition pairs against legacy class prefixes (a real failure mode: models trained on PF4/PF5 emit `pf-c-*`), then imposes a strict preference order (component composition first, component props second, utility classes only as a last resort), with wrong-answer examples inline so the model sees the anti-pattern it is likely to produce.
 
 ````markdown
 ### PatternFly v6 Requirements
@@ -359,7 +359,7 @@ Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/docs/guidel
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-The MCP deliberately collapsed four tools into two and forces a discover-then-fetch sequence, capping `urlList` at 15 to bound context. `usePatternFlyDocs` auto-appends the machine-readable JSON Schema (props, types, validation) whenever it detects a component, fusing prose docs with a hallucination-resistant prop contract. A per-LLM tip in the docs prescribes the lookup order for unknown components, and `patternfly://` URIs are framed as a ‘transitional’ compatibility bridge for clients that cannot read MCP resources — pushing clients toward `resources/read`.
+The MCP deliberately collapsed four tools into two and forces a discover-then-fetch sequence, capping `urlList` at 15 to bound context. `usePatternFlyDocs` auto-appends the machine-readable JSON Schema (props, types, validation) whenever it detects a component, fusing prose docs with a hallucination-resistant prop contract. A per-LLM tip in the docs prescribes the lookup order for unknown components, and `patternfly://` URIs are framed as a ‘transitional’ compatibility bridge for clients that cannot read MCP resources, pushing clients toward `resources/read`.
 
 ```markdown
 ### Context and guidelines
@@ -453,7 +453,7 @@ Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/plugins/rea
 
 Category: `instruction-files` (Instruction files) · all 9 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/instruction-files.md
 
-Two distinct in-house conventions. Consumer skills open with a persona (“You are a Senior Design Systems Engineer specializing in CSS refactoring and Design Token implementation”) to bias the review. Builder guidelines in patternfly-mcp add machine-readable precedence metadata — a `## For Agents` block with `### Processing Priority: Critical - This document should be processed first` — plus behavior rules like sequential processing and mandatory architecture confirmation before implementing.
+Two distinct in-house conventions. Consumer skills open with a persona (“You are a Senior Design Systems Engineer specializing in CSS refactoring and Design Token implementation”) to bias the review. Builder guidelines in patternfly-mcp add machine-readable precedence metadata: a `## For Agents` block with `### Processing Priority: Critical - This document should be processed first`, plus behavior rules like sequential processing and mandatory architecture confirmation before implementing.
 
 ```markdown
 ## For Agents
@@ -483,13 +483,13 @@ Link: https://github.com/patternfly/ai-helpers/tree/main/plugins/design-audit/sk
 
 ### other
 
-Cursor is a first-class distribution target, not an afterthought: `.cursor-plugin/marketplace.json` at the repo root and a `.cursor-plugin/plugin.json` in every plugin, byte-identical to the Claude Code manifests (CLAUDE.md enforces that they never drift), with install demo GIFs for both. No `.cursorrules` or `.cursor/rules/*.mdc` files exist in patternfly-org, patternfly-react, patternfly, patternfly-mcp, or patternfly-cli — distribution is via plugins, not distributed editor rules.
+Cursor is a first-class distribution target, not an afterthought: `.cursor-plugin/marketplace.json` at the repo root and a `.cursor-plugin/plugin.json` in every plugin, byte-identical to the Claude Code manifests (CLAUDE.md enforces that they never drift), with install demo GIFs for both. No `.cursorrules` or `.cursor/rules/*.mdc` files exist in patternfly-org, patternfly-react, patternfly, patternfly-mcp, or patternfly-cli; distribution is via plugins, not distributed editor rules.
 
 Link: https://github.com/patternfly/ai-helpers
 
 ### other
 
-@patternfly/chatbot is a shipped product surface for building AI UIs (dynamic-import-only package, `@patternfly/chatbot/dist/dynamic/Chatbot`), backed by conversation-design docs and chatbot-avatar guidelines on patternfly.org. No Storybook integration found — PatternFly documents components in its own patternfly-org docs site instead.
+@patternfly/chatbot is a shipped product surface for building AI UIs (dynamic-import-only package, `@patternfly/chatbot/dist/dynamic/Chatbot`), backed by conversation-design docs and chatbot-avatar guidelines on patternfly.org. No Storybook integration found; PatternFly documents components in its own patternfly-org docs site instead.
 
 Link: https://www.patternfly.org/ai/guidelines/conversation-design
 
@@ -501,11 +501,11 @@ Very strong and unusually complete. A consumer installs one thing (`/plugin mark
 
 ### For builders (the PatternFly team using AI on the system itself)
 
-Real but deliberately non-standard. There is no CLAUDE.md or AGENTS.md in patternfly-org or patternfly-react — the two biggest repos — so agents working on the docs site or the React library get no repo instructions. The AI-adjacent repos are the opposite: patternfly-cli has a thorough AGENTS.md, ai-helpers has a tight CLAUDE.md, and patternfly-mcp replaces CLAUDE.md with a versioned `guidelines/` tree (agent_behaviors / agent_coding / agent_testing) surfaced through `.claude/skills` and `.agents/skills`, an `.aiignore`, and a documented human ritual: prompt the agent to `review the repo guidelines`. The pf-workshop plugin is explicitly the DS team’s own toolbox and skill incubator (bug triage, release debugging, org version bumps, token builds, quarterly reports, figma-diff), with CONTRIBUTING-SKILLS.md as the promotion path from incubator to consumer plugin, and .coderabbit.yaml for AI code review.
+Real but deliberately non-standard. There is no CLAUDE.md or AGENTS.md in patternfly-org or patternfly-react, the two biggest repos, so agents working on the docs site or the React library get no repo instructions. The AI-adjacent repos are the opposite: patternfly-cli has a thorough AGENTS.md, ai-helpers has a tight CLAUDE.md, and patternfly-mcp replaces CLAUDE.md with a versioned `guidelines/` tree (agent_behaviors / agent_coding / agent_testing) surfaced through `.claude/skills` and `.agents/skills`, an `.aiignore`, and a documented human ritual: prompt the agent to `review the repo guidelines`. The pf-workshop plugin is explicitly the DS team’s own toolbox and skill incubator (bug triage, release debugging, org version bumps, token builds, quarterly reports, figma-diff), with CONTRIBUTING-SKILLS.md as the promotion path from incubator to consumer plugin, and .coderabbit.yaml for AI code review.
 
 ## Gaps
 
-Not confirmed, or contradictory: (1) The `claude mcp add patternfly-mcp` one-liner that circulates elsewhere doesn’t appear verbatim in the docs — README and docs/usage.md document JSON `mcpServers` config, npx, and podman instead; treat the CLI one-liner as unconfirmed phrasing. (2) it was not possible to fetch the actual text of `patternfly://context` (the server’s ‘high-level development rules and accessibility guidelines’ payload) — it is generated at runtime from src/ and the ai-helpers docs tree, so the exact coercion language shipped to models via that resource is unread. (3) Internal contradiction: ai-helpers CLAUDE.md says 'Do not add `mcpServers` to plugin.json files’, yet plugins/patternfly-mcp/.claude-plugin/plugin.json contains an `mcpServers` block and the README claims the MCP ‘is installed automatically when you install any plugin — no extra setup required’. Whether other plugins actually auto-wire the MCP is unverified. (4) this study did not read the a11y and code-review plugins’ skills directories (both only contain `.gitkeep` — a11y has no skills despite being listed, and code-review ships only the pf-assist agent), so the README’s ‘32 skills’ badge is script-generated and may count agents. (5) patternfly.org/ai/* returns 302 (versioned redirect targets not followed), so exact live URLs for the AI pages are inferred from the docs source frontmatter, not confirmed 200s. (6) No search was done for community (non-Red Hat) PatternFly MCP servers; none surfaced in the org-scoped search. (7) No Figma Code Connect or Storybook artifacts found — absence is based on tree greps of patternfly-react/patternfly-org/patternfly, not exhaustive org-wide search.
+Not confirmed, or contradictory: (1) The `claude mcp add patternfly-mcp` one-liner that circulates elsewhere doesn’t appear verbatim in the docs; README and docs/usage.md document JSON `mcpServers` config, npx, and podman instead; treat the CLI one-liner as unconfirmed phrasing. (2) it was not possible to fetch the actual text of `patternfly://context` (the server’s ‘high-level development rules and accessibility guidelines’ payload): it is generated at runtime from src/ and the ai-helpers docs tree, so the exact coercion language shipped to models via that resource is unread. (3) Internal contradiction: ai-helpers CLAUDE.md says 'Do not add `mcpServers` to plugin.json files’, yet plugins/patternfly-mcp/.claude-plugin/plugin.json contains an `mcpServers` block and the README claims the MCP ‘is installed automatically when you install any plugin — no extra setup required’. Whether other plugins actually auto-wire the MCP is unverified. (4) this study did not read the a11y and code-review plugins’ skills directories (both only contain `.gitkeep`: a11y has no skills despite being listed, and code-review ships only the pf-assist agent), so the README’s ‘32 skills’ badge is script-generated and may count agents. (5) patternfly.org/ai/* returns 302 (versioned redirect targets not followed), so exact live URLs for the AI pages are inferred from the docs source frontmatter, not confirmed 200s. (6) No search was done for community (non-Red Hat) PatternFly MCP servers; none surfaced in the org-scoped search. (7) No Figma Code Connect or Storybook artifacts found; absence is based on tree greps of patternfly-react/patternfly-org/patternfly, not exhaustive org-wide search.
 
 ## Sources (15)
 
@@ -541,4 +541,4 @@ Not confirmed, or contradictory: (1) The `claude mcp add patternfly-mcp` one-lin
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

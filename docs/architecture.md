@@ -25,7 +25,7 @@ router alone hands every one of them an empty shell.
 Per-route meta is baked at prerender time rather than computed by an edge
 function, which is why there is no `meta.ts`. There is no SPA fallback either:
 every route is a real file and anything else gets a static 404. A catch-all
-`200` would answer a typo'd mirror URL with the wrong page instead of an honest
+`200` would answer a typo’d mirror URL with the wrong page instead of an honest
 miss.
 
 ## The payload is external
@@ -43,11 +43,11 @@ from the page it mirrors.
 The layer is a 1:1 shadow of the routes (`/systems/ant-design` →
 `/systems/ant-design.md`): 19 system records and 5 platform records in both
 markdown and JSON, 11 technique-category files plus a roll-up, the seven view
-files, 15 `questions/*.md`, and `about/schema.md` so agents don't invent labels.
+files, 15 `questions/*.md`, and `about/schema.md` so agents don’t invent labels.
 Aggregates ship as `llms-full.txt` and four slices, each carrying measured byte
 counts so a model can route on budget.
 
-Category is the retrieval unit for techniques, not the individual technique —
+Category is the retrieval unit for techniques, not the individual technique.
 148 single-technique files would be 148 fetches to answer one question.
 
 `llms.txt` (mirrored at `/.well-known/llms.txt`) is a router, not a dump: a
@@ -75,7 +75,7 @@ measured payoff on sites that answer it is around 99% fewer tokens per fetch.
 on edge kills it.
 
 The SDK is `@modelcontextprotocol/server`, pinned at `2.0.0-beta.5` in
-`package.json` — the 2026-07-28 spec line, taken with its beta churn in exchange
+`package.json`: the 2026-07-28 spec line, taken with its beta churn in exchange
 for being current.
 
 Transport constraints that hold regardless of SDK version:
@@ -94,7 +94,7 @@ Snippet bodies are opt-in through `include:["snippets"]`, and `get_stats`
 carries an `enums` block so agents stop guessing filter values.
 
 Resources are a thin mirror only (`dsai://system/{id}`, `dsai://report/{section}`).
-Tools are the mainstream surface — Context7 and MS Learn ship tools alone. Two
+Tools are the mainstream surface; Context7 and MS Learn ship tools alone. Two
 prompts round it out: `audit-my-design-system` and `find-technique-for`.
 
 Tests drive the exported handler with plain `Request` objects under
@@ -103,12 +103,12 @@ Tests drive the exported handler with plain `Request` objects under
 ## WebMCP, shipped early on purpose
 
 A feature-detected module registers four read-only tools on
-`document.modelContext` — the API moved off `navigator`. Chrome is the only
+`document.modelContext`, since the API moved off `navigator`. Chrome is the only
 implementation, behind an origin trial, and no mainstream agent calls it yet. It
 ships with no polyfill and no origin-trial token: the code checks once and stops.
 
 Every tool sets `readOnlyHint` and `untrustedContentHint`, because the dataset
-quotes text from other people's repositories and an assistant should treat that
+quotes text from other people’s repositories and an assistant should treat that
 as quotation, not as instructions addressed to it.
 
 A report on how design systems talk to machines should try the parts that are

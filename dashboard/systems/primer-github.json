@@ -6,7 +6,7 @@
   "repo_url": "https://github.com/primer/react",
   "docs_url": "https://primer.style",
   "license": "MIT",
-  "summary": "Primer is GitHub’s design system, and it is one of the most thoroughly AI-instrumented systems in the study — in both directions. For consumers it ships an official, versioned MCP server (`@primer/mcp`, 20 tools, v0.5.0) plus a sibling `@primer/brand-mcp`, whose tool descriptions are written as explicit behavioral coercion (“CRITICAL: CALL THIS FIRST”, “REQUIRED FINAL STEP... You cannot complete a task involving CSS without a successful run of this tool”). For builders, primer/react carries a full GitHub-Copilot-native agent stack in `.github/`: `copilot-instructions.md`, five path-scoped `*.instructions.md` files, seven `skills/*/SKILL.md`, two custom `*.agent.md` subagents, and gh-aw agentic workflows for issue triage. Notably there is NO llms.txt, no AGENTS.md and no CLAUDE.md in primer/react — the investment is squarely in MCP plus the GitHub/Copilot instruction-file format.",
+  "summary": "Primer is GitHub’s design system, and it is one of the most thoroughly AI-instrumented systems in the study, in both directions. For consumers it ships an official, versioned MCP server (`@primer/mcp`, 20 tools, v0.5.0) plus a sibling `@primer/brand-mcp`, whose tool descriptions are written as explicit behavioral coercion (“CRITICAL: CALL THIS FIRST”, “REQUIRED FINAL STEP... You cannot complete a task involving CSS without a successful run of this tool”). For builders, primer/react carries a full GitHub-Copilot-native agent stack in `.github/`: `copilot-instructions.md`, five path-scoped `*.instructions.md` files, seven `skills/*/SKILL.md`, two custom `*.agent.md` subagents, and gh-aw agentic workflows for issue triage. There is NO llms.txt, no AGENTS.md and no CLAUDE.md in primer/react; the investment is squarely in MCP plus the GitHub/Copilot instruction-file format.",
   "ai_maturity": "ai-native",
   "maintenance": {
     "actively_maintained": true,
@@ -36,7 +36,7 @@
       "audience": "consumers",
       "description": "First-class docs page under Getting started → Foundations, described in the site nav as ‘Help AI agents use Primer correctly with the Primer Model Context Protocol server.’ Gives VS Code install steps and a generic `.mcp.json` / `.github/mcp.json` block for Copilot CLI, Cursor and other stdio clients, then enumerates all 20 tools.",
       "docs_url": "https://primer.style/product/getting-started/foundations/mcp",
-      "notes": "The only AI-specific page on primer.style. The frequently cited claims https://primer.style/mcp and https://primer.style/guides/ai are FALSE POSITIVES — the docs site is an SPA that returns HTTP 200 with the homepage shell for any unknown path."
+      "notes": "The only AI-specific page on primer.style. The frequently cited claims https://primer.style/mcp and https://primer.style/guides/ai are FALSE POSITIVES: the docs site is an SPA that returns HTTP 200 with the homepage shell for any unknown path."
     },
     {
       "type": "mcp-server",
@@ -83,7 +83,7 @@
       "name": "primer/react .github/agents/*.agent.md (custom subagents)",
       "official": true,
       "audience": "builders",
-      "description": "Two persona-scoped custom agents in the GitHub Copilot `.agent.md` format with declared `tools:` and `skills:` allowlists: `modular-ds-implementer` (builds components against the ‘spectrum of abstraction’ model in contributor-docs/style.md) and `modular-ds-reviewer`. The implementer file is the densest concentration of prohibition language in the system — a long list of ‘Do not …’ rules covering slots, public hooks, `data-component`, and inventing visual styling without a design reference.",
+      "description": "Two persona-scoped custom agents in the GitHub Copilot `.agent.md` format with declared `tools:` and `skills:` allowlists: `modular-ds-implementer` (builds components against the ‘spectrum of abstraction’ model in contributor-docs/style.md) and `modular-ds-reviewer`. The implementer file is the densest concentration of prohibition language in the system: a long list of ‘Do not …’ rules covering slots, public hooks, `data-component`, and inventing visual styling without a design reference.",
       "code_url": "https://github.com/primer/react/tree/main/.github/agents",
       "snippet": {
         "language": "markdown",
@@ -109,7 +109,7 @@
       "name": "primer/primitives AGENTS.md",
       "official": true,
       "audience": "builders",
-      "description": "The token repo (Style Dictionary based) uses the AGENTS.md convention rather than copilot-instructions. Short and imperative: a MANDATORY post-change command chain, a ‘do not edit’ marker on the generated DESIGN_TOKENS_SPEC.md, a REQUIRED pre-read for the W3C token format guide, and — unusually — explicit meta-instructions about how the agent should behave in Plan Mode. Has a dedicated `contributor-docs/agents/` directory.",
+      "description": "The token repo (Style Dictionary based) uses the AGENTS.md convention rather than copilot-instructions. Short and imperative: a MANDATORY post-change command chain, a ‘do not edit’ marker on the generated DESIGN_TOKENS_SPEC.md, a REQUIRED pre-read for the W3C token format guide, and, unusually, explicit meta-instructions about how the agent should behave in Plan Mode. Has a dedicated `contributor-docs/agents/` directory.",
       "code_url": "https://github.com/primer/primitives/blob/main/AGENTS.md",
       "snippet": {
         "language": "markdown",
@@ -122,7 +122,7 @@
       "name": "gh-aw agentic workflows (issue triage + maintenance)",
       "official": true,
       "audience": "builders",
-      "description": "primer/react runs GitHub Agentic Workflows (github/gh-aw v0.83.1): `.github/workflows/issue-triage.md` is a natural-language agent spec compiled by `gh aw compile` into `issue-triage.lock.yml`, with `.github/aw/actions-lock.json` pinning actions. The safety model is declarative — `permissions: read-all` plus a `safe-outputs:` allowlist capping the agent at 1 issue type, 5 labels, 1 comment, and one hand-off assignment to the Copilot coding agent. Sits alongside `accessibility-alt-text-bot.yml`, `lint-autofix.yml` and `copilot-setup-steps.yml`.",
+      "description": "primer/react runs GitHub Agentic Workflows (github/gh-aw v0.83.1): `.github/workflows/issue-triage.md` is a natural-language agent spec compiled by `gh aw compile` into `issue-triage.lock.yml`, with `.github/aw/actions-lock.json` pinning actions. The safety model is declarative: `permissions: read-all` plus a `safe-outputs:` allowlist capping the agent at 1 issue type, 5 labels, 1 comment, and one hand-off assignment to the Copilot coding agent. Sits alongside `accessibility-alt-text-bot.yml`, `lint-autofix.yml` and `copilot-setup-steps.yml`.",
       "code_url": "https://github.com/primer/react/blob/main/.github/workflows/issue-triage.md",
       "snippet": {
         "language": "yaml",
@@ -142,7 +142,7 @@
   ],
   "techniques": [
     {
-      "name": "Hard tool-gated validation loop (\"REQUIRED FINAL STEP\")",
+      "name": "Hard tool-gated validation loop (“REQUIRED FINAL STEP”)",
       "category": "validation-loop",
       "description": "The Primer MCP server ships Stylelint as an MCP tool and writes the tool description as a completion precondition, not a suggestion: the agent is told it literally cannot finish a CSS task without a passing `lint_css` run. The server runs Stylelint with `--fix`, returning autofixed output on success and an explicit ‘❌ Errors without autofix remaining’ block on failure, giving the model a repair signal to loop on. `find_tokens` reinforces it from the other end: ‘After identifying tokens and writing CSS, you MUST validate the result using lint_css.’",
       "snippet": {
@@ -152,9 +152,9 @@
       }
     },
     {
-      "name": "Forced tool ordering (\"CRITICAL: CALL THIS FIRST\")",
+      "name": "Forced tool ordering (“CRITICAL: CALL THIS FIRST”)",
       "category": "tool-gating",
-      "description": "Rather than trusting the model to discover token groups, `get_design_token_specs` asserts primacy in its own description and frames every other search as unreliable without it — ‘You cannot search accurately without this map.’ A cheap way to bootstrap the correct token vocabulary into context before the agent starts guessing names.",
+      "description": "Rather than trusting the model to discover token groups, `get_design_token_specs` asserts primacy in its own description and frames every other search as unreliable without it: ‘You cannot search accurately without this map.’ A cheap way to bootstrap the correct token vocabulary into context before the agent starts guessing names.",
       "snippet": {
         "language": "typescript",
         "source_url": "https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/server.ts",
@@ -174,7 +174,7 @@
     {
       "name": "Named-API prohibitions served over MCP",
       "category": "prohibition",
-      "description": "`primer_coding_guidelines` is a tool that exists solely to inject house rules into the consumer’s agent session. It combines soft ‘Prefer…’ guidance (reuse a Primer component over writing a new one; use existing props over adding styles; use Primer icons over inventing icons) with a hard, named-API blocklist encoding Primer’s live internal migration away from `sx` and `Box` — the exact two APIs a model trained on older Primer code reaches for by default.",
+      "description": "`primer_coding_guidelines` is a tool that exists solely to inject house rules into the consumer’s agent session. It combines soft ‘Prefer…’ guidance (reuse a Primer component over writing a new one; use existing props over adding styles; use Primer icons over inventing icons) with a hard, named-API blocklist encoding Primer’s live internal migration away from `sx` and `Box`, the exact two APIs a model trained on older Primer code reaches for by default.",
       "snippet": {
         "language": "typescript",
         "source_url": "https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/server.ts",
@@ -184,7 +184,7 @@
     {
       "name": "Agent self-propagation via the `init` tool",
       "category": "scaffolding",
-      "description": "Primer’s `init` MCP tool does not just scaffold a project — its final bullet instructs the agent to write agent instructions into the consumer’s repo, so future sessions stay on-system even without the MCP server attached. The design system asks the agent to install the design system’s own guardrails.",
+      "description": "Primer’s `init` MCP tool goes past scaffolding a project: its final bullet instructs the agent to write agent instructions into the consumer’s repo, so future sessions stay on-system even without the MCP server attached. The design system asks the agent to install the design system’s own guardrails.",
       "snippet": {
         "language": "typescript",
         "source_url": "https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/server.ts",
@@ -214,7 +214,7 @@
     {
       "name": "Anti-invention clauses backed by platform-level output caps",
       "category": "prohibition",
-      "description": "Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode — fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.",
+      "description": "Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.",
       "snippet": {
         "language": "markdown",
         "source_url": "https://raw.githubusercontent.com/primer/react/HEAD/.github/workflows/issue-triage.md",
@@ -240,10 +240,10 @@
     }
   ],
   "building_vs_consumption": {
-    "for_consumers": "Strong and unusually opinionated. `@primer/mcp` (20 tools) plus `@primer/brand-mcp` (8 tools) are officially maintained, versioned alongside the libraries, and documented on primer.style with copy-paste `.mcp.json` for Cursor/Copilot CLI and one-click VS Code install badges. The tool descriptions do real work: forced call ordering, a mandatory Stylelint validation loop, semantic color remapping, and a `primer_coding_guidelines` tool that pushes Primer’s live `sx`/`Box` prohibitions into the consumer’s session. Figma Code Connect closes the design-to-code loop. The notable gap is static context: no llms.txt, no llms-full.txt, no published .cursorrules template, no ‘Add to Cursor/Claude’ deep links — Primer bets entirely on MCP, so agents without MCP configured get nothing beyond ordinary HTML docs.",
+    "for_consumers": "Strong and unusually opinionated. `@primer/mcp` (20 tools) plus `@primer/brand-mcp` (8 tools) are officially maintained, versioned alongside the libraries, and documented on primer.style with copy-paste `.mcp.json` for Cursor/Copilot CLI and one-click VS Code install badges. The tool descriptions do real work: forced call ordering, a mandatory Stylelint validation loop, semantic color remapping, and a `primer_coding_guidelines` tool that pushes Primer’s live `sx`/`Box` prohibitions into the consumer’s session. Figma Code Connect closes the design-to-code loop. The notable gap is static context: no llms.txt, no llms-full.txt, no published .cursorrules template, no ‘Add to Cursor/Claude’ deep links. Primer bets entirely on MCP, so agents without MCP configured get nothing beyond ordinary HTML docs.",
     "for_builders": "Equally strong, and committed entirely to GitHub’s own agent-file formats rather than AGENTS.md/CLAUDE.md. primer/react’s `.github/` contains copilot-instructions.md, five path-scoped `*.instructions.md` (including an ADR-backed component-review rubric with stable rule IDs), seven `skills/*/SKILL.md`, and two custom `*.agent.md` subagents with declared tool and skill allowlists. CI runs github/gh-aw agentic workflows (issue-triage compiled from Markdown to a lock file, with `safe-outputs` caps and hand-off to the Copilot coding agent), an accessibility alt-text bot, lint-autofix, and `copilot-setup-steps.yml` to prep the Copilot coding agent environment. Sibling repos differ: primer/primitives uses AGENTS.md with a MANDATORY lint/format/test/build chain and a dedicated `contributor-docs/agents/` directory; primer/brand and primer/view_components use copilot-instructions.md."
   },
-  "gaps": "Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `<!DOCTYPE html>` with content-type text/html and is byte-identical in size to the homepage — it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist — same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons — only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations — `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer — it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.",
+  "gaps": "Absent, probed directly: (1) No llms.txt; https://primer.style/llms.txt is a 404. (2) No llms-full.txt: that URL returns HTTP 200 but the body starts `<!DOCTYPE html>` with content-type text/html and is byte-identical in size to the homepage; it is the SPA catch-all. Any scanner reporting llms-full.txt as present is being fooled by the SPA. (3) The often-cited https://primer.style/mcp and https://primer.style/guides/ai do NOT exist: same SPA-shell false positive; the real page is /product/getting-started/foundations/mcp. (4) primer/react has no AGENTS.md, no CLAUDE.md, no .cursorrules, no .cursor/rules/ (all 404 on raw.githubusercontent.com) and no .claude/ directory. (5) No published Claude Skill or Cursor rules package for consumers, and no ‘Add to Cursor/Claude’ install buttons, only VS Code badges. Not established: whether Primer runs AI-assisted codemods for migrations: `migrating.md`, `migration-status.yml`, `lint-autofix.yml` and eslint-plugin-primer-react migration rules all exist, but this study did not confirm an LLM is in that loop; treat as deterministic codemods unless proven otherwise. Also unverified: real adoption/usage numbers for @primer/mcp, and the contents of four skills this study did not open (changesets, deprecations, feature-flags, slots) plus the modular-ds-reviewer agent. NAME COLLISION: npm `@polygonlabs/primer-mcp` (1.0.0, 2026-06-08) is unrelated to GitHub’s Primer; it targets the Primer blockchain SDK, not the design system. no genuine community MCP server for Primer.",
   "sources": [
     "https://github.com/primer/react",
     "https://raw.githubusercontent.com/primer/react/HEAD/.github/copilot-instructions.md",

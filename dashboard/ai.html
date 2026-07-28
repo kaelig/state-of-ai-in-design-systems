@@ -285,7 +285,13 @@ table.mx thead th { font-size: 10px; letter-spacing: .12em; background: var(--bg
 table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg-raise); border-right: 1px solid var(--line); min-width: 130px; }
 table.mx tbody th.sys { font-family: var(--font-body); font-size: 12.5px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
 table.mx thead th.sys { background: var(--bg-sunk); z-index: 2; }
-table.mx tbody tr:hover td, table.mx tbody tr:hover th.sys { background: var(--bg-sunk); }
+/* Rows are not interactive, so no row hover. A filled cell links to the
+   affordance's own artifact; the anchor fills the cell so the target is the
+   cell, not the 11px dot, and the hover wash stays on that one cell. */
+table.mx td.cl { padding: 0; }
+table.mx td.cl a { display: block; padding: 7px 6px; }
+table.mx td.cl a:hover { background: var(--bg-sunk); }
+table.mx td.cl a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 table.mx td .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
 table.mx td .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
 /* "None found" is one of three states in the grid, so it has to be visible: at
@@ -713,7 +719,7 @@ Then answer using only what you read there, and cite the source URL on each reco
 My question: </code></pre></div>
     </section><section id="mcp">
       <h2>Connect the MCP server</h2>
-      <div class="prose"><p>An MCP server lets an assistant query this dataset directly — search it, pull one system&#39;s record, count things — instead of fetching files and guessing. It lives at https://state-of-ai-in-design-systems.netlify.app/mcp. It is public, read-only, unauthenticated, and built from the same 2026-07-27 snapshot as everything else. Pick your client:</p></div><h3>Claude Code</h3>
+      <div class="prose"><p>An MCP server lets an assistant query this dataset directly — search it, pull one system’s record, count things — instead of fetching files and guessing. It lives at https://state-of-ai-in-design-systems.netlify.app/mcp. It is public, read-only, unauthenticated, and built from the same 2026-07-27 snapshot as everything else. Pick your client:</p></div><h3>Claude Code</h3>
         <p class="h2-sub">Adds it for every project on your machine.</p>
         <div class="snip">
     <div class="snip-bar"><span class="sbleft"><span class="lang">bash</span></span>
@@ -774,7 +780,7 @@ My question: </code></pre></div>
       <div class="prose"><p>The whole dataset, in the shapes people usually want it. CC BY 4.0: use it, credit “State of AI in Design Systems — July 2026, Kaelig Deloumeau-Prigent”.</p></div><ul class="ai-links"><li><a href="https://state-of-ai-in-design-systems.netlify.app/data/design-systems.json" target="_blank" rel="noopener">design-systems.json <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><span class="note">All 19 records, merged.</span></li><li><a href="https://state-of-ai-in-design-systems.netlify.app/data/platforms.json" target="_blank" rel="noopener">platforms.json <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><span class="note">The 5 platform records.</span></li><li><a href="https://state-of-ai-in-design-systems.netlify.app/data/insights.json" target="_blank" rel="noopener">insights.json <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><span class="note">Findings, convergence, divergence, essay, methodology, caveats.</span></li><li><a href="https://state-of-ai-in-design-systems.netlify.app/data/design-system.schema.json" target="_blank" rel="noopener">design-system.schema.json <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><span class="note">The record shape, including the technique taxonomy.</span></li><li><a href="https://state-of-ai-in-design-systems.netlify.app/data/state-of-ai.sqlite" target="_blank" rel="noopener">state-of-ai.sqlite <span aria-hidden="true">↗</span><span class="sr-only">(opens in new tab)</span></a><span class="note">Same data as tables: systems, affordances, techniques, platform_integrations, platforms, platform_capabilities, sources.</span></li></ul>
     </section><section id="webmcp">
       <h2>Tools on the page itself</h2>
-      <div class="prose"><p>This page hands the browser four read-only tools of its own: list_systems, get_system, search, get_stats. Same names, same answers as the MCP server, except they run in the tab you already have open, so an assistant looking at this site could ask it a question instead of reading the screen. The API is called WebMCP.</p></div><div class="prose"><p>Almost nobody can call them yet, and that is worth saying plainly. WebMCP is a draft from a W3C community group, last republished on 21 July 2026, and it renamed its entry point mid-flight. Chrome is the only browser with an implementation, behind a flag or an origin trial that ends at version 156. Claude, ChatGPT, Gemini and Perplexity all still work by reading the page. If your browser has no WebMCP, the code checks once and stops: no polyfill, no extra download, nothing in the console.</p></div><div class="prose"><p>It ships anyway because a report on how design systems talk to machines should try the parts that are too early, and say how they went. Both tool flags are set: read-only, and content this site did not write. The dataset quotes files from other people&#39;s repositories, and an assistant should treat that text as quotation, not as instructions addressed to it.</p></div>
+      <div class="prose"><p>This page hands the browser four read-only tools of its own: list_systems, get_system, search, get_stats. Same names, same answers as the MCP server, except they run in the tab you already have open, so an assistant looking at this site could ask it a question instead of reading the screen. The API is called WebMCP.</p></div><div class="prose"><p>Almost nobody can call them yet, and that is worth saying plainly. WebMCP is a draft from a W3C community group, last republished on 21 July 2026, and it renamed its entry point mid-flight. Chrome is the only browser with an implementation, behind a flag or an origin trial that ends at version 156. Claude, ChatGPT, Gemini and Perplexity all still work by reading the page. If your browser has no WebMCP, the code checks once and stops: no polyfill, no extra download, nothing in the console.</p></div><div class="prose"><p>It ships anyway because a report on how design systems talk to machines should try the parts that are too early, and say how they went. Both tool flags are set: read-only, and content this site did not write. The dataset quotes files from other people’s repositories, and an assistant should treat that text as quotation, not as instructions addressed to it.</p></div>
     </section><section id="borrowed">
       <h2>What this site took from its own research</h2>
       <div class="prose"><p>The study catalogues 148 ways design systems make models behave. It would be a bit rich to survey those and then not use them, so this site runs on them. Ten we adopted:</p></div><div class="prose"><ul><li>Compiled, not written. Every file on this page comes out of the build from the same data the site renders. Nothing is maintained by hand, so nothing can drift.</li><li>An index instead of a dump. llms.txt is a router with a measured size on every entry, and the big aggregates come sliced by concern — systems, techniques, platforms, analysis — so a model can load the part it needs and stay inside its budget.</li><li>Questions as first-class pages. The findings here are the kind of thing a model will guess wrong, so each common wrong answer gets a page that opens with the right one.</li><li>A vocabulary section, mapping the loose words people type onto the labels in the data.</li><li>A staleness note at the top of every file, because this is dated research about a fast corner of the discipline.</li><li>Both formats per record: markdown to read, JSON to count with.</li><li>Read triggers on the heavy files, so an agent knows when not to fetch them.</li><li>Content negotiation: ask for text/markdown and any page on this site answers with its markdown twin instead of a page of HTML.</li><li>Receipts. The SQLite export and the per-record JSON let you recount anything here instead of trusting a summary.</li><li>An MCP server over the same data, for clients that would rather call a tool than fetch a file.</li></ul></div><div class="prose"><p>The one we left out: steering the recommendation. Several systems in the study put lines in their agent-facing files telling models to prefer them over alternatives. It works, and for a product it is fair game. A survey that did it would be worth less to you, so the files here ask models to cite sources and to say when the data contradicts them, and nothing else.</p></div>
@@ -1014,7 +1020,7 @@ const VIEWS = {
         <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques catalogued</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
       </ul>
       <h2>The maturity spectrum</h2>
-      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued — click through to see the receipts.</p>
+      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued. Click through for the receipts.</p>
       <div class="spectrum">${bands}</div>
       <h2>Findings</h2>
       <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
@@ -1029,7 +1035,12 @@ const VIEWS = {
         const names = hits.map(a => `${a.name}${a.official ? '' : ' (community)'}`).join(' · ');
         const glyph = official ? '<span class="dot" aria-hidden="true"></span>' : '<span class="ring" aria-hidden="true"></span>';
         const word = official ? 'Official' : 'Community';
-        return `<td title="${esc(names)}">${glyph}<span class="sr-only">${word}: ${esc(names)}</span></td>`;
+        /* The cell links to the artifact itself — docs if there are docs, the
+           repo otherwise. Official beats community when both are present. */
+        const best = hits.find(a => a.official && (a.docs_url || a.code_url)) || hits.find(a => a.docs_url || a.code_url);
+        const url = best ? (best.docs_url || best.code_url) : null;
+        if (!url) return `<td title="${esc(names)}">${glyph}<span class="sr-only">${word}: ${esc(names)}</span></td>`;
+        return `<td class="cl" title="${esc(names)}"><a href="${esc(url)}" target="_blank" rel="noopener">${glyph}<span class="sr-only">${word}: ${esc(names)} (opens in new tab)</span></a></td>`;
       }).join('');
       return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
     };
@@ -1043,11 +1054,11 @@ const VIEWS = {
         + sys.map(row).join('') + '</tbody>';
     }).join('');
     return `<p class="eyebrow">Comparison</p><h1>The affordance matrix</h1>
-      <p class="lede">What each system actually ships for AI consumption and building. Hover a cell for names; click a system for snippets and links.</p>
+      <p class="lede">What each system actually ships for AI consumption and building. A filled cell links to the artifact itself — the docs page or the repo. A system name goes to its full record.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
-        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they're official or community-built.</caption>
+        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
         ${groups}</table></div><span class="fade fade-l" aria-hidden="true"></span><span class="fade fade-r" aria-hidden="true"></span></div>
       <h2>Affordance prevalence</h2>

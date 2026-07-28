@@ -8,7 +8,7 @@ id: "prohibition"
 technique_count: 25
 system_count: 18
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,13 +23,13 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Explicit negative rules aimed at the model: never invent components, no raw colour values, no inline styles.
 
-Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System (ADS / Atlaskit)](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
 ## Authoritative export allow-list with named anti-examples
 
 Ant Design · full record: https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md
 
-Rather than describing components, copilot-instructions.md enumerates the complete set of legal top-level exports and then names the specific components models are known to invent — Container, Stack, Heading, Box, Sidebar, Navbar, IconButton — as explicitly non-existent. It also points at `components/index.ts` as the machine-checkable source of truth and bans importing icons from `antd`. The single most transferable trick in the system.
+Rather than describing components, copilot-instructions.md enumerates the complete set of legal top-level exports and then names the specific components models are known to invent (Container, Stack, Heading, Box, Sidebar, Navbar, IconButton) as explicitly non-existent. It also points at `components/index.ts` as the machine-checkable source of truth and bans importing icons from `antd`. The single most transferable trick in the system.
 
 ```markdown
 The following are the **only** top-level exports of `antd`. Do **not** invent components outside this list (e.g. `antd` does not export `Container`, `Stack`, `Heading`, `Box`, `Sidebar`, `Navbar`, `IconButton`, etc.).
@@ -57,9 +57,9 @@ CLAUDE.md splits the repo into two opposing import regimes and states each as a 
 
 Source: https://raw.githubusercontent.com/ant-design/ant-design/HEAD/CLAUDE.md
 
-## Mandatory accessibility gate ('You MUST call this')
+## Mandatory accessibility gate (‘You MUST call this’)
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
 `ads_get_a11y_guidelines` is the only tool in the set written as an obligation rather than an affordance, and it pre-empts the model’s parametric knowledge: ‘DO NOT rely on generic web accessibility advice alone—ADS conventions may differ.’ It also splits jurisdiction between org-wide standards (Context Engine `get_accessibility_docs`) and ADS-specific patterns.
 
@@ -76,11 +76,11 @@ DO NOT rely on generic web accessibility advice alone—ADS conventions may diff
 
 Source: https://mcp.atlassian.com/v1/ads/public/mcp
 
-## DESIGN.md 'drift pattern' table — an explicit anti-AI-slop prohibition list
+## DESIGN.md ‘drift pattern’ table — an explicit anti-AI-slop prohibition list
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
-The most quotable artifact in the whole system: a two-column Do/Don’t table introduced as ‘Each line is a drift pattern to correct on sight’. It targets the exact failure modes of unguided LLM UI generation by name — gradient-filled text via `background-clip: text`, glass cards and `backdrop-filter` blur stacks ‘as generic polish’, the ‘Default “hero metric” template’, ‘Repeated identical tiles (icon + heading + body + CTA × N) as the only layout’, Unicode/emoji glyphs standing in for icons, and even competitor default fonts (‘Inter / Geist / SF Pro / Roboto in product’). It also disambiguates accent vs semantic token misuse, which is the classic token-drift error.
+The most quotable artifact in the whole system: a two-column Do/Don’t table introduced as ‘Each line is a drift pattern to correct on sight’. It targets the exact failure modes of unguided LLM UI generation by name: gradient-filled text via `background-clip: text`, glass cards and `backdrop-filter` blur stacks ‘as generic polish’, the ‘Default “hero metric” template’, ‘Repeated identical tiles (icon + heading + body + CTA × N) as the only layout’, Unicode/emoji glyphs standing in for icons, and even competitor default fonts (‘Inter / Geist / SF Pro / Roboto in product’). It also disambiguates accent vs semantic token misuse, which is the classic token-drift error.
 
 ```markdown
 ## Do's and Don'ts
@@ -148,7 +148,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra
 
 daisyUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md
 
-The usage rules are a tight funnel: only daisyUI classes or Tailwind utilities are permitted (rule 6), custom CSS is discouraged (rule 7), and the override path is a ranked ladder — daisyUI class → Tailwind utility → `!` important as an explicitly ‘last resort ... used sparingly’ (rule 3). Rule 12 is a rare and very on-the-nose anti-AI-slop constraint: prefer `btn` over `btn btn-primary` unless the user asked, which directly attacks the everything-is-purple-and-primary tell. Rule 11 outsources visual judgement to a named book.
+The usage rules are a tight funnel: only daisyUI classes or Tailwind utilities are permitted (rule 6), custom CSS is discouraged (rule 7), and the override path is a ranked ladder: daisyUI class → Tailwind utility → `!` important as an explicitly ‘last resort ... used sparingly’ (rule 3). Rule 12 is a rare and very on-the-nose anti-AI-slop constraint: prefer `btn` over `btn btn-primary` unless the user asked, which directly attacks the everything-is-purple-and-primary tell. Rule 11 outsources visual judgement to a named book.
 
 ```markdown
 6. Only allowed class names are existing daisyUI class names or Tailwind CSS utility classes.
@@ -162,7 +162,7 @@ The usage rules are a tight funnel: only daisyUI classes or Tailwind utilities a
 
 Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/usage/SKILL.md
 
-## "STOP. What you remember is WRONG" — weight-invalidation preamble
+## “STOP. What you remember is WRONG” — weight-invalidation preamble
 
 HeroUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
@@ -184,31 +184,11 @@ parts.push(
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts
 
-## Explicit Do/Don't prohibition list
-
-Lightning Design System (SLDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
-
-The apply skill’s Core Rules are a flat imperative list. Notable: it forbids overriding `.slds-*` at all (forcing custom `my-*`/`c-*` classes instead), bans the private `--slds-s-*` shared hook namespace, bans reassigning hook values (reference-only via var()), and bans deprecated `--lwc-*` tokens. The .builderrules restates the harshest of these — ‘Never use !important. Never override SLDS classes in your CSS.’
-
-```markdown
-### Don't
-
-- Hard-code colors, spacing, or typography values
-- Override `.slds-*` classes directly
-- Use deprecated `--lwc-*` tokens as primary values
-- Use `--slds-s-*` (shared) hooks -- they are private/internal
-- Reassign hook values -- only reference them with `var()`
-- Use color alone to convey meaning
-- Invent hook names by interpolating patterns from other families (see Naming Traps below)
-```
-
-Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball: package/skills/design-systems-slds-apply/SKILL.md
-
 ## ALWAYS/NEVER prefix prohibitions + ordered escalation ladder
 
 PatternFly · full record: https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md
 
-styling-standards.md uses checkmark/cross prohibition pairs against legacy class prefixes (a real failure mode: models trained on PF4/PF5 emit `pf-c-*`), then imposes a strict preference order — component composition first, component props second, utility classes only as a last resort — with wrong-answer examples inline so the model sees the anti-pattern it is likely to produce.
+styling-standards.md uses checkmark/cross prohibition pairs against legacy class prefixes (a real failure mode: models trained on PF4/PF5 emit `pf-c-*`), then imposes a strict preference order (component composition first, component props second, utility classes only as a last resort), with wrong-answer examples inline so the model sees the anti-pattern it is likely to produce.
 
 ````markdown
 ### PatternFly v6 Requirements
@@ -249,59 +229,11 @@ Use components and patterns only from these two Figma files:
 
 Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/plugins/design-guide/skills/pf-figma-design-mode/references/approved-sources.md
 
-## Named-package prohibition to kill stale-training imports
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-Because @shopify/polaris (React) dominates pre-2026 training data, the skill names the exact wrong packages and forbids them — closing the highest-probability failure mode for a deprecated-then-replaced design system. It also states the correct alternative (globally registered custom elements, no import at all).
-
-````markdown
-## Imports
-
-App Home extensions use `@shopify/app-bridge-types` for App Bridge APIs and `@shopify/polaris-types` for Polaris component types. Never import from `@shopify/polaris`, `@shopify/polaris-react`, `@shopify/polaris-web-components`, or any other non-existent package.
-
-```ts
-import { useAppBridge } from "@shopify/app-bridge-react";
-```
-
-### Polaris web components (`s-page`, `s-badge`, etc.)
-
-Polaris web components are custom HTML elements with an `s-` prefix. These are globally registered and require **no import statement**. Use them directly as JSX tags:
-
-```tsx
-// No import needed — s-page, s-badge, s-button, s-box, etc. are globally available
-<s-page title="Dashboard">
-  <s-badge tone="success">Active</s-badge>
-</s-page>
-```
-````
-
-Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
-
-## Deliberate crawler starvation for the deprecated surface
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-Rather than publish llms.txt for Polaris React, Shopify blocks AI crawlers outright and marks the deprecation loudly in the README that agents WILL still read via GitHub. Combined with the named-package prohibition in the skill, it is a two-sided campaign to evict the old API from model context.
-
-```markdown
-# Polaris React (⚠️ Deprecated)
-
-The **Shopify Polaris React library** is deprecated.  
-We are no longer accepting contributions or feature requests in this repository.
-
-On October 1, 2025, we released our [Polaris Web Components](https://shopify.dev/docs/api/app-home/polaris-web-components) for Shopify app development. We encourage Shopify App developers to adopt Polaris Web Components for new development.
-
-This repository will remain available for historical purposes, but it will not receive updates or maintenance.
-```
-
-Source: https://raw.githubusercontent.com/Shopify/polaris/HEAD/README.md
-
 ## Named-API prohibitions served over MCP
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-`primer_coding_guidelines` is a tool that exists solely to inject house rules into the consumer’s agent session. It combines soft ‘Prefer…’ guidance (reuse a Primer component over writing a new one; use existing props over adding styles; use Primer icons over inventing icons) with a hard, named-API blocklist encoding Primer’s live internal migration away from `sx` and `Box` — the exact two APIs a model trained on older Primer code reaches for by default.
+`primer_coding_guidelines` is a tool that exists solely to inject house rules into the consumer’s agent session. It combines soft ‘Prefer…’ guidance (reuse a Primer component over writing a new one; use existing props over adding styles; use Primer icons over inventing icons) with a hard, named-API blocklist encoding Primer’s live internal migration away from `sx` and `Box`, the exact two APIs a model trained on older Primer code reaches for by default.
 
 ```typescript
 ## Authoring & Using Components
@@ -326,7 +258,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/packages/mcp/src/ser
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode — fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
+Across contributor agent files and the CI triage agent, Primer repeatedly writes negative constraints against the model’s strongest failure mode: fabricating structure. The triage bot may only apply labels that already exist and may never close an issue; the implementer agent may not invent visual styling without a design reference and may not add slot machinery ‘by default’. Crucially the prohibition is also enforced at the platform layer via gh-aw `safe-outputs` maxima, not just in the prompt.
 
 ```markdown
 Base every decision only on what the issue and its comments actually say. Do not invent
@@ -365,11 +297,11 @@ The skill names competing libraries explicitly rather than saying ‘stay on-sys
 
 Source: https://react-spectrum.adobe.com/.well-known/skills/react-spectrum-s2/SKILL.md
 
-## Anti-"reinvent the component" clauses with named failure modes
+## Anti-“reinvent the component” clauses with named failure modes
 
 React Spectrum / Spectrum 2 (S2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md
 
-Instead of a generic ‘reuse components’, the skill enumerates the exact hand-rolled shapes LLMs produce — card divs, wrapper spans around collection items, an overflow div around a virtualized list, a custom empty-state div, a separate spinner — and forbids each with the mechanical reason it breaks.
+Instead of a generic ‘reuse components’, the skill enumerates the exact hand-rolled shapes LLMs produce (card divs, wrapper spans around collection items, an overflow div around a virtualized list, a custom empty-state div, a separate spinner) and forbids each with the mechanical reason it breaks.
 
 ```markdown
 ### Don't reinvent `Card` / `CardView`
@@ -384,7 +316,27 @@ For grids of objects/files/products/people, use `CardView` plus a prescribed var
 
 Source: https://react-spectrum.adobe.com/.well-known/skills/react-spectrum-s2/SKILL.md
 
-## Hard prohibition list ('Critical Rules … always enforced')
+## Explicit Do/Don’t prohibition list
+
+Salesforce Lightning Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
+
+The apply skill’s Core Rules are a flat imperative list. Notable: it forbids overriding `.slds-*` at all (forcing custom `my-*`/`c-*` classes instead), bans the private `--slds-s-*` shared hook namespace, bans reassigning hook values (reference-only via var()), and bans deprecated `--lwc-*` tokens. The .builderrules restates the harshest of these: ‘Never use !important. Never override SLDS classes in your CSS.’
+
+```markdown
+### Don't
+
+- Hard-code colors, spacing, or typography values
+- Override `.slds-*` classes directly
+- Use deprecated `--lwc-*` tokens as primary values
+- Use `--slds-s-*` (shared) hooks -- they are private/internal
+- Reassign hook values -- only reference them with `var()`
+- Use color alone to convey meaning
+- Invent hook names by interpolating patterns from other families (see Naming Traps below)
+```
+
+Source: https://www.npmjs.com/package/@salesforce/afv-skills — Path in tarball: package/skills/design-systems-slds-apply/SKILL.md
+
+## Hard prohibition list (‘Critical Rules … always enforced’)
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
@@ -420,11 +372,59 @@ These rules are **always enforced**. Each links to a file with Incorrect/Correct
 
 Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.md
 
+## Named-package prohibition to kill stale-training imports
+
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
+Because @shopify/polaris (React) dominates pre-2026 training data, the skill names the exact wrong packages and forbids them, closing the highest-probability failure mode for a deprecated-then-replaced design system. It also states the correct alternative (globally registered custom elements, no import at all).
+
+````markdown
+## Imports
+
+App Home extensions use `@shopify/app-bridge-types` for App Bridge APIs and `@shopify/polaris-types` for Polaris component types. Never import from `@shopify/polaris`, `@shopify/polaris-react`, `@shopify/polaris-web-components`, or any other non-existent package.
+
+```ts
+import { useAppBridge } from "@shopify/app-bridge-react";
+```
+
+### Polaris web components (`s-page`, `s-badge`, etc.)
+
+Polaris web components are custom HTML elements with an `s-` prefix. These are globally registered and require **no import statement**. Use them directly as JSX tags:
+
+```tsx
+// No import needed — s-page, s-badge, s-button, s-box, etc. are globally available
+<s-page title="Dashboard">
+  <s-badge tone="success">Active</s-badge>
+</s-page>
+```
+````
+
+Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
+
+## Deliberate crawler starvation for the deprecated surface
+
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
+Rather than publish llms.txt for Polaris React, Shopify blocks AI crawlers outright and marks the deprecation loudly in the README that agents WILL still read via GitHub. Combined with the named-package prohibition in the skill, it is a two-sided campaign to evict the old API from model context.
+
+```markdown
+# Polaris React (⚠️ Deprecated)
+
+The **Shopify Polaris React library** is deprecated.  
+We are no longer accepting contributions or feature requests in this repository.
+
+On October 1, 2025, we released our [Polaris Web Components](https://shopify.dev/docs/api/app-home/polaris-web-components) for Shopify app development. We encourage Shopify App developers to adopt Polaris Web Components for new development.
+
+This repository will remain available for historical purposes, but it will not receive updates or maintenance.
+```
+
+Source: https://raw.githubusercontent.com/Shopify/polaris/HEAD/README.md
+
 ## Hard CSS prohibitions in contributor docs (builder-side)
 
 Cloudscape Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
 
-docs/STYLING.md is written as absolute negative rules with the reason attached — the shape that survives an LLM’s summarization. ‘Use logical properties only — no left/right/top/bottom/width/height’, ‘No descendant combinators’, ‘Root elements must not have outer margins’. This is the real rulebook AGENTS.md routes agents to, rather than being inlined in AGENTS.md itself.
+docs/STYLING.md is written as absolute negative rules with the reason attached, the shape that survives an LLM’s summarization. ‘Use logical properties only — no left/right/top/bottom/width/height’, ‘No descendant combinators’, ‘Root elements must not have outer margins’. This is the real rulebook AGENTS.md routes agents to, rather than being inlined in AGENTS.md itself.
 
 ```markdown
 # Styling
@@ -441,11 +441,11 @@ Prefer design tokens and custom CSS properties over hardcoded values (colors, sp
 
 Source: https://raw.githubusercontent.com/cloudscape-design/components/HEAD/docs/STYLING.md
 
-## 'Never X — use Y' escape-hatch closing in satellite repos
+## ‘Never X — use Y’ escape-hatch closing in satellite repos
 
 Cloudscape Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
 
-The chart-components AGENTS.md spends its single content bullet on one absolute prohibition with a named replacement — the classic pattern for keeping a model off an API it will otherwise reach for by habit (Highcharts’ well-documented `series.data`). Everything else is delegated upward to the main repo’s guide.
+The chart-components AGENTS.md spends its single content bullet on one absolute prohibition with a named replacement, the classic pattern for keeping a model off an API it will otherwise reach for by habit (Highcharts’ well-documented `series.data`). Everything else is delegated upward to the main repo’s guide.
 
 ```markdown
 ## Conventions
@@ -459,9 +459,43 @@ Never access `series.data` directly — use `getSeriesData()` from `src/internal
 
 Source: https://raw.githubusercontent.com/cloudscape-design/chart-components/HEAD/AGENTS.md
 
-## "Source of truth, not existing code" — overriding the repo itself
+## FAQ-as-prohibition: negative answers hoisted to the top of llms.txt
 
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
+
+Instead of writing rules about what agents must not do, Mantine front-loads llms.txt with a large FAQ block (sourced from help.mantine.dev) whose entries are literally refusals. The verdict sits in the link description, so a model that only reads the index and never fetches the linked .md still absorbs the constraint: “No, Astro does not support React context”; “No, Mantine is a React library and does not support other frameworks/libraries”; “No, it is not safe and will not work with future versions of Mantine” (private CSS variables); “Nested styles are supported only in CSS files”; “SegmentedControl cannot be used without a value”. Prohibition smuggled into an index of URLs, targeting exactly the hallucinations LLMs make about Mantine.
+
+```markdown
+- [Can I use Mantine with Astro?](https://mantine.dev/llms/q-can-i-use-mantine-with-astro.md): No, Astro does not support React context
+- [Can I use Mantine with Vue/Svelte/Angular/etc.?](https://mantine.dev/llms/q-vue-svelte-angular.md): No, Mantine is a React library and does not support other frameworks/libraries
+- [Can I use nested inline styles with Mantine components?](https://mantine.dev/llms/q-nested-inline-styles.md): Nested styles are supported only in CSS files
+- [Can I use private CSS variables to style components?](https://mantine.dev/llms/q-private-css-variables.md): No, it is not safe and will not work with future versions of Mantine.
+- [Can I use SegmentedControl with empty value?](https://mantine.dev/llms/q-segmented-control-no-value.md): SegmentedControl cannot be used without a value
+- [Can I use Mantine with Emotion/styled-components/tailwindcss?](https://mantine.dev/llms/q-third-party-styles.md): Learn about limitations of third-party styles
+```
+
+Source: https://mantine.dev/llms.txt
+
+## “using ONLY the URLs present in the returned content” — closed-world retrieval rule
+
+Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
+
+The docs page hands users a copy-paste rule file (suggested location `.github/instructions/mui.md`, explicitly reusable in any IDE) that forces a loop: call useMuiDocs, then fetchDocs restricted to URLs the previous tool returned, repeat until saturated, and only then answer. The capitalised ONLY is the coercive core: it forbids the agent from inventing or guessing doc URLs, which is the exact hallucination mode the page complains about.
+
+```text
+## Use the mui-mcp server to answer any MUI questions --
+
+- 1. call the "useMuiDocs" tool to fetch the docs of the package relevant in the question
+- 2. call the "fetchDocs" tool to fetch any additional docs if needed using ONLY the URLs present in the returned content.
+- 3. repeat steps 1-2 until you have fetched all relevant docs for the given question
+- 4. use the fetched content to answer the question
+```
+
+Source: https://mui.com/material-ui/getting-started/mcp.md
+
+## “Source of truth, not existing code” — overriding the repo itself
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
 
 The single most transferable trick in the file. Fluent UI’s monorepo is 74+ v9 packages sitting next to a large v8 legacy tree, so RAG-over-the-repo and pattern-matching from neighbours actively produce wrong output. AGENTS.md pre-empts that by ranking the instruction file ABOVE the codebase, then names the contaminated directories explicitly so the agent can’t rationalize its way back in.
 
@@ -481,41 +515,7 @@ from existing code without verifying they match these instructions.
 
 Source: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
 
-## FAQ-as-prohibition: negative answers hoisted to the top of llms.txt
-
-Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
-
-Instead of writing rules about what agents must not do, Mantine front-loads llms.txt with a large FAQ block (sourced from help.mantine.dev) whose entries are literally refusals — and the verdict sits in the link description, so a model that only reads the index and never fetches the linked .md still absorbs the constraint: “No, Astro does not support React context”; “No, Mantine is a React library and does not support other frameworks/libraries”; “No, it is not safe and will not work with future versions of Mantine” (private CSS variables); “Nested styles are supported only in CSS files”; “SegmentedControl cannot be used without a value”. Prohibition smuggled into an index of URLs, targeting exactly the hallucinations LLMs make about Mantine.
-
-```markdown
-- [Can I use Mantine with Astro?](https://mantine.dev/llms/q-can-i-use-mantine-with-astro.md): No, Astro does not support React context
-- [Can I use Mantine with Vue/Svelte/Angular/etc.?](https://mantine.dev/llms/q-vue-svelte-angular.md): No, Mantine is a React library and does not support other frameworks/libraries
-- [Can I use nested inline styles with Mantine components?](https://mantine.dev/llms/q-nested-inline-styles.md): Nested styles are supported only in CSS files
-- [Can I use private CSS variables to style components?](https://mantine.dev/llms/q-private-css-variables.md): No, it is not safe and will not work with future versions of Mantine.
-- [Can I use SegmentedControl with empty value?](https://mantine.dev/llms/q-segmented-control-no-value.md): SegmentedControl cannot be used without a value
-- [Can I use Mantine with Emotion/styled-components/tailwindcss?](https://mantine.dev/llms/q-third-party-styles.md): Learn about limitations of third-party styles
-```
-
-Source: https://mantine.dev/llms.txt
-
-## "using ONLY the URLs present in the returned content" — closed-world retrieval rule
-
-Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
-
-The docs page hands users a copy-paste rule file (suggested location `.github/instructions/mui.md`, explicitly reusable in any IDE) that forces a loop: call useMuiDocs, then fetchDocs restricted to URLs the previous tool returned, repeat until saturated, and only then answer. The capitalised ONLY is the coercive core — it forbids the agent from inventing or guessing doc URLs, which is the exact hallucination mode the page complains about.
-
-```text
-## Use the mui-mcp server to answer any MUI questions --
-
-- 1. call the "useMuiDocs" tool to fetch the docs of the package relevant in the question
-- 2. call the "fetchDocs" tool to fetch any additional docs if needed using ONLY the URLs present in the returned content.
-- 3. repeat steps 1-2 until you have fetched all relevant docs for the given question
-- 4. use the fetched content to answer the question
-```
-
-Source: https://mui.com/material-ui/getting-started/mcp.md
-
-## Per-component Do/Don't blocks that route the model to the correct sibling component
+## Per-component Do/Don’t blocks that route the model to the correct sibling component
 
 Nord Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md
 
@@ -541,7 +541,7 @@ Source: https://nordhealth.design/.well-known/skills/nord/references/components/
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-The emilycryan Claude skill opens with a four-line Core Behavior block using the strongest available form — ‘Always’ / ‘Do not invent’. Contrast with uswds-mcp’s graduated preference language. Both are community-authored; USWDS itself publishes no such constraint anywhere.
+The emilycryan Claude skill opens with a four-line Core Behavior block using the strongest available form: ‘Always’ / ‘Do not invent’. Contrast with uswds-mcp’s graduated preference language. Both are community-authored; USWDS itself publishes no such constraint anywhere.
 
 ```markdown
 ## Core Behavior
@@ -557,4 +557,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

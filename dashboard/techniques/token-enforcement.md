@@ -8,7 +8,7 @@ id: "token-enforcement"
 technique_count: 13
 system_count: 11
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,11 +23,11 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Rules and types that force design tokens over raw values, so the token vocabulary is the only sanctioned styling channel.
 
-Systems represented here: [Atlassian Design System (ADS / Atlaskit)](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Atlassian Design System](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
-## `ads_plan` as the default one-shot discovery call, with full-catalog dumps demoted to 'last resort'
+## `ads_plan` as the default one-shot discovery call, with full-catalog dumps demoted to ‘last resort’
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
 Token budget is treated as a first-class design constraint. `ads_plan` fans out to token/icon/component/atlaskit searches in one call and is positioned as ‘the default way to discover’; it even coaches recall behaviour (‘Prefer supplying **multiple** terms per non-empty array... broader queries improve recall’) and requires at least one non-empty array. Symmetrically, all three `ads_get_all_*` tools are labelled ‘Last resort’ and ‘**very large** output’ so a model does not burn its window enumerating catalogs. Blog-reported effect of the structured-content work: ‘26% reduction in AI tooling calls, with 16% reduction in AI token usage’.
 
@@ -49,9 +49,9 @@ Source: https://mcp.atlassian.com/v1/ads/public/mcp
 
 ## AI-provenance marking: `.ai-non-final` message-ID suffix
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
-The bundled i18n playbook (`ads_i18n_conversion_guide`) forces agents to tag their own output so humans can find it later. Verbatim from the guide payload in dist/cjs/tools/i18n-conversion/guide.js: '**CRITICAL: ai-non-final Suffix**: ALL new message IDs MUST end with `.ai-non-final` suffix. This applies to ALL newly created messages, regardless of whether existing messages in the file have this suffix. Format: `{message-key}.ai-non-final`. Example: `applinks.administration.list.applinks-table.system-label.ai-non-final`. This suffix indicates the message is AI-generated and may need review before finalization.‘ The same guide fences scope aggressively — ’**CRITICAL: ONLY CONVERT STRINGS WITH ESLINT-DISABLE**: You MUST **ONLY** convert strings that have eslint-disable comments for @atlassian/i18n/no-literal-string-in-jsx’, ‘Do NOT modify files outside the provided scope’, and ‘Do NOT modify pre-existing messages that were already in the codebase, even if they have poor descriptions’ — turning an existing lint suppression into the authoritative worklist so the agent cannot expand its own blast radius.
+The bundled i18n playbook (`ads_i18n_conversion_guide`) forces agents to tag their own output so humans can find it later. Verbatim from the guide payload in dist/cjs/tools/i18n-conversion/guide.js: '**CRITICAL: ai-non-final Suffix**: ALL new message IDs MUST end with `.ai-non-final` suffix. This applies to ALL newly created messages, regardless of whether existing messages in the file have this suffix. Format: `{message-key}.ai-non-final`. Example: `applinks.administration.list.applinks-table.system-label.ai-non-final`. This suffix indicates the message is AI-generated and may need review before finalization.‘ The same guide fences scope aggressively: ’**CRITICAL: ONLY CONVERT STRINGS WITH ESLINT-DISABLE**: You MUST **ONLY** convert strings that have eslint-disable comments for @atlassian/i18n/no-literal-string-in-jsx’, ‘Do NOT modify files outside the provided scope’, and ‘Do NOT modify pre-existing messages that were already in the codebase, even if they have poor descriptions’. That turns an existing lint suppression into the authoritative worklist, so the agent cannot expand its own blast radius.
 
 ```markdown
 **CRITICAL: ai-non-final Suffix**: ALL new message IDs MUST end with `.ai-non-final` suffix. This applies to ALL newly created messages, regardless of whether existing messages in the file have this suffix. Format: `{message-key}.ai-non-final`. Example: `applinks.administration.list.applinks-table.system-label.ai-non-final`. This suffix indicates the message is AI-generated and may need review before finalization.
@@ -59,7 +59,7 @@ The bundled i18n playbook (`ads_i18n_conversion_guide`) forces agents to tag the
 
 Source: https://unpkg.com/@atlaskit/ads-mcp@1.7.1/dist/cjs/tools/i18n-conversion/guide.js
 
-## Output-suppression protocol: 'Received the necessary context.'
+## Output-suppression protocol: ‘Received the necessary context.’
 
 Carbon Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md
 
@@ -110,7 +110,7 @@ intentional and should not shift with color mode.
 
 Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra-ui-builder/SKILL.md
 
-## Unsolicited-trigger framing: "the mandatory UI library", fires "even if the user does not explicitly ask"
+## Unsolicited-trigger framing: “the mandatory UI library”, fires “even if the user does not explicitly ask”
 
 daisyUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md
 
@@ -130,7 +130,7 @@ description: Official daisyUI component library skill. The mandatory UI library 
 
 Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/SKILL.md
 
-## Semantic-token enforcement — "Don't use raw colors"
+## Semantic-token enforcement — “Don’t use raw colors”
 
 HeroUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
@@ -155,29 +155,11 @@ The skill supplies a variant-intent table (primary = 1 per context, tertiary = d
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md
 
-## Semantic-token enforcement with wrong/right exemplars
-
-Lightning Design System (SLDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
-
-Beyond ‘use tokens’, .builderrules polices *semantic correctness* of token usage — a hook must not be repurposed for an unintended CSS property — and demands a fallback value on every var() for backwards compatibility, specifying the Cosmos theme value as the fallback. The ❌/✅ pair is a compact few-shot correction.
-
-```markdown
-**Usage Guidelines:**
-- Global styling hooks are CSS variables: `background: var(--slds-g-color-surface-1, #fff);`
-- **Always provide a fallback value** for backwards compatibility
-- Use the Cosmos theme value as the fallback (reference the token .mdx files)
-- **Semantic Usage Only:** Never use a hook for an unintended purpose
-  - ❌ WRONG: `width: var(--slds-g-radius-border-circle)`
-  - ✅ CORRECT: `background-color: var(--slds-g-color-surface-1, #fff)`
-```
-
-Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/.builderrules
-
 ## Token enforcement: semantic colors only, never the raw Tailwind palette
 
 Nuxt UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md
 
-The same prohibition is repeated in three independent channels — the consumer skill’s core rules, the skill’s design-system reference, and the builders’ AGENTS.md (twice: once in Key Conventions, once in the PR-review checklist). The reference file additionally supplies a decision matrix so the model has a legitimate token to reach for in every situation, closing the escape hatch that usually drives models back to `text-gray-500`.
+The same prohibition is repeated in three independent channels: the consumer skill’s core rules, the skill’s design-system reference, and the builders’ AGENTS.md (twice: once in Key Conventions, once in the PR-review checklist). The reference file additionally supplies a decision matrix so the model has a legitimate token to reach for in every situation, closing the escape hatch that usually drives models back to `text-gray-500`.
 
 ```markdown
 # Design System
@@ -223,27 +205,29 @@ CRITICAL RULES for \`cssVariables\`:
 
 Source: https://raw.githubusercontent.com/nuxt/ui/v4/docs/server/api/ai.post.ts
 
-## Numbered "Critical Rules (never violate)" with token enforcement at #1
+## Semantic-token enforcement with wrong/right exemplars
 
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+Salesforce Lightning Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
 
-Five hard prohibitions, each phrased as ‘Never X. Always Y.’ plus a link to the deep-dive doc. Rule 1 is the classic design-system coercion: no hardcoded colors, spacing or typography — always `tokens` from `@fluentui/react-theme`. Rule 4 encodes the package-layering invariant (‘react-button must not depend on react-menu’) that agents routinely violate. Rule 5 forces a release-process side effect (`yarn beachball change`) the model would otherwise skip.
+Beyond ‘use tokens’, .builderrules polices *semantic correctness* of token usage (a hook must not be repurposed for an unintended CSS property) and demands a fallback value on every var() for backwards compatibility, specifying the Cosmos theme value as the fallback. The ❌/✅ pair is a compact few-shot correction.
 
 ```markdown
-1. **Never hardcode colors, spacing, or typography values.** Always use design tokens from `@fluentui/react-theme`.
-2. **Never use `React.FC`.** Always use `ForwardRefComponent` with `React.forwardRef`.
-3. **Never access `window`, `document`, or `navigator` directly.** In v9 components, use `useFluent_unstable()` to get `targetDocument` and `targetDocument.defaultView` instead of `document`/`window`.
-4. **Never add dependencies between component packages.** `react-button` must not depend on `react-menu`.
-5. **Never skip beachball change files** for published package changes. Run `yarn beachball change`.
+**Usage Guidelines:**
+- Global styling hooks are CSS variables: `background: var(--slds-g-color-surface-1, #fff);`
+- **Always provide a fallback value** for backwards compatibility
+- Use the Cosmos theme value as the fallback (reference the token .mdx files)
+- **Semantic Usage Only:** Never use a hook for an unintended purpose
+  - ❌ WRONG: `width: var(--slds-g-radius-border-circle)`
+  - ✅ CORRECT: `background-color: var(--slds-g-color-surface-1, #fff)`
 ```
 
-Source: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
+Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/.builderrules
 
 ## Harness-level enforcement: formatting as a hook, not an instruction
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-Rather than trusting the model to run the formatter, .claude/settings.json makes it automatic: every Write or Edit fires a shell hook that extracts the touched file path and runs `npm run format:write:files` on it. Scoped (only the changed file), bounded (30s timeout) and non-blocking (`2>/dev/null || true`) so a formatter failure never derails the session. Combined with the AGENTS.md checklist this is belt-and-braces — the deterministic layer handles what must never be forgotten, the prose layer handles what needs judgement.
+Rather than trusting the model to run the formatter, .claude/settings.json makes it automatic: every Write or Edit fires a shell hook that extracts the touched file path and runs `npm run format:write:files` on it. Scoped (only the changed file), bounded (30s timeout) and non-blocking (`2>/dev/null || true`) so a formatter failure never derails the session. Combined with the AGENTS.md checklist this is belt-and-braces: the deterministic layer handles what must never be forgotten, the prose layer handles what needs judgement.
 
 ```json
 "PostToolUse": [
@@ -262,11 +246,27 @@ Rather than trusting the model to run the formatter, .claude/settings.json makes
 
 Source: https://raw.githubusercontent.com/mantinedev/mantine/master/.claude/settings.json
 
+## Numbered “Critical Rules (never violate)” with token enforcement at #1
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+
+Five hard prohibitions, each phrased as ‘Never X. Always Y.’ plus a link to the deep-dive doc. Rule 1 is the classic design-system coercion: no hardcoded colors, spacing or typography, always `tokens` from `@fluentui/react-theme`. Rule 4 encodes the package-layering invariant (‘react-button must not depend on react-menu’) that agents routinely violate. Rule 5 forces a release-process side effect (`yarn beachball change`) the model would otherwise skip.
+
+```markdown
+1. **Never hardcode colors, spacing, or typography values.** Always use design tokens from `@fluentui/react-theme`.
+2. **Never use `React.FC`.** Always use `ForwardRefComponent` with `React.forwardRef`.
+3. **Never access `window`, `document`, or `navigator` directly.** In v9 components, use `useFluent_unstable()` to get `targetDocument` and `targetDocument.defaultView` instead of `document`/`window`.
+4. **Never add dependencies between component packages.** `react-button` must not depend on `react-menu`.
+5. **Never skip beachball change files** for published package changes. Run `yarn beachball change`.
+```
+
+Source: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
+
 ## Private-API prohibition: component properties over CSS custom properties, never `--_n-*`
 
 Nord Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md
 
-The strongest single constraint in the corpus, a WARNING callout in the Web Components guide (inherited by nord-full’s references/docs/developer/web-components.md). It establishes an API hierarchy the model must respect — component properties first, public custom properties second, the `--_n-` private tier explicitly off-limits. Transferable pattern: give the private tier a visually distinct prefix so a model can pattern-match the prohibition instead of memorising a list.
+The strongest single constraint in the corpus, a WARNING callout in the Web Components guide (inherited by nord-full’s references/docs/developer/web-components.md). It establishes an API hierarchy the model must respect: component properties first, public custom properties second, the `--_n-` private tier explicitly off-limits. Transferable pattern: give the private tier a visually distinct prefix so a model can pattern-match the prohibition instead of memorising a list.
 
 ```markdown
 > [!WARNING]
@@ -283,7 +283,7 @@ Source: https://nordhealth.design/raw/docs/developer/web-components.md
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-Rather than an absolute ban on custom CSS (which models violate and then rationalize), uswds-mcp’s skill sets a preference order plus a bounded, named exception — ‘small, documented, and subordinate’. Worth contrasting with the community Claude skill, which uses the blunter absolute prohibition form.
+Rather than an absolute ban on custom CSS (which models violate and then rationalize), uswds-mcp’s skill sets a preference order plus a bounded, named exception: ‘small, documented, and subordinate’. Worth contrasting with the community Claude skill, which uses the blunter absolute prohibition form.
 
 ```markdown
 - Prefer USWDS design tokens, Sass settings, and utilities over custom CSS.
@@ -297,4 +297,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

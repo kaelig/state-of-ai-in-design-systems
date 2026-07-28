@@ -284,7 +284,13 @@ table.mx thead th { font-size: 10px; letter-spacing: .12em; background: var(--bg
 table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg-raise); border-right: 1px solid var(--line); min-width: 130px; }
 table.mx tbody th.sys { font-family: var(--font-body); font-size: 12.5px; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
 table.mx thead th.sys { background: var(--bg-sunk); z-index: 2; }
-table.mx tbody tr:hover td, table.mx tbody tr:hover th.sys { background: var(--bg-sunk); }
+/* Rows are not interactive, so no row hover. A filled cell links to the
+   affordance's own artifact; the anchor fills the cell so the target is the
+   cell, not the 11px dot, and the hover wash stays on that one cell. */
+table.mx td.cl { padding: 0; }
+table.mx td.cl a { display: block; padding: 7px 6px; }
+table.mx td.cl a:hover { background: var(--bg-sunk); }
+table.mx td.cl a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 table.mx td .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
 table.mx td .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
 /* "None found" is one of three states in the grid, so it has to be visible: at
@@ -922,7 +928,7 @@ const VIEWS = {
         <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques catalogued</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
       </ul>
       <h2>The maturity spectrum</h2>
-      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued — click through to see the receipts.</p>
+      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued. Click through for the receipts.</p>
       <div class="spectrum">${bands}</div>
       <h2>Findings</h2>
       <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
@@ -937,7 +943,12 @@ const VIEWS = {
         const names = hits.map(a => `${a.name}${a.official ? '' : ' (community)'}`).join(' · ');
         const glyph = official ? '<span class="dot" aria-hidden="true"></span>' : '<span class="ring" aria-hidden="true"></span>';
         const word = official ? 'Official' : 'Community';
-        return `<td title="${esc(names)}">${glyph}<span class="sr-only">${word}: ${esc(names)}</span></td>`;
+        /* The cell links to the artifact itself — docs if there are docs, the
+           repo otherwise. Official beats community when both are present. */
+        const best = hits.find(a => a.official && (a.docs_url || a.code_url)) || hits.find(a => a.docs_url || a.code_url);
+        const url = best ? (best.docs_url || best.code_url) : null;
+        if (!url) return `<td title="${esc(names)}">${glyph}<span class="sr-only">${word}: ${esc(names)}</span></td>`;
+        return `<td class="cl" title="${esc(names)}"><a href="${esc(url)}" target="_blank" rel="noopener">${glyph}<span class="sr-only">${word}: ${esc(names)} (opens in new tab)</span></a></td>`;
       }).join('');
       return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
     };
@@ -951,11 +962,11 @@ const VIEWS = {
         + sys.map(row).join('') + '</tbody>';
     }).join('');
     return `<p class="eyebrow">Comparison</p><h1>The affordance matrix</h1>
-      <p class="lede">What each system actually ships for AI consumption and building. Hover a cell for names; click a system for snippets and links.</p>
+      <p class="lede">What each system actually ships for AI consumption and building. A filled cell links to the artifact itself — the docs page or the repo. A system name goes to its full record.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
-        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they're official or community-built.</caption>
+        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
         ${groups}</table></div><span class="fade fade-l" aria-hidden="true"></span><span class="fade fade-r" aria-hidden="true"></span></div>
       <h2>Affordance prevalence</h2>

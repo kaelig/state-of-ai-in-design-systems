@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,13 +31,13 @@ Chakra UI (Segun Adebayo / Chakra Systems) · component-library · MIT · AI mat
 
 ## Summary
 
-Chakra UI is one of the most AI-invested open-source React component libraries: it ships an official MCP server (`@chakra-ui/react-mcp`, 10 tools, developed in-tree at apps/mcp), six curated llms.txt variants sliced by concern (components / styling / theming / charts / v3-migration) so agents with small context windows load only what they need, and — unusually — three first-party Claude Code Skills (`chakra-ui-builder`, `chakra-ui-migrate`, `chakra-ui-refactor`) installable via `npx skills add`, with progressive-disclosure reference files including a decision tree over all ~114 components. On the building side the team runs committed Claude Code subagents (`.claude/agents/github-issue-triage.md` on Opus, `.claude/agents/ark-ui-version-bumper.md` on Haiku) plus slash commands for changelog and PR review. The main weakness is the consumer-side prohibition surface: the skills are advisory (“prefer semantic tokens”, “avoid deep nesting”) rather than hard-gated — no linter loop on the build path, no machine-readable component registry, no forced MCP call before generation. The repo’s own CLAUDE.md is a stale (Sept 2025) narrative “learning document” rather than an enforced contributor rules file.
+Chakra UI is one of the most AI-invested open-source React component libraries: it ships an official MCP server (`@chakra-ui/react-mcp`, 10 tools, developed in-tree at apps/mcp), six curated llms.txt variants sliced by concern (components / styling / theming / charts / v3-migration) so agents with small context windows load only what they need, and, unusually, three first-party Claude Code Skills (`chakra-ui-builder`, `chakra-ui-migrate`, `chakra-ui-refactor`) installable via `npx skills add`, with progressive-disclosure reference files including a decision tree over all ~114 components. On the building side the team runs committed Claude Code subagents (`.claude/agents/github-issue-triage.md` on Opus, `.claude/agents/ark-ui-version-bumper.md` on Haiku) plus slash commands for changelog and PR review. The main weakness is the consumer-side prohibition surface: the skills are advisory (“prefer semantic tokens”, “avoid deep nesting”) rather than hard-gated: no linter loop on the build path, no machine-readable component registry, no forced MCP call before generation. The repo’s own CLAUDE.md is a stale (Sept 2025) narrative “learning document” rather than an enforced contributor rules file.
 
 ## Maintenance
 
 - Actively maintained: yes
 - Last release: @chakra-ui/react 3.36.1 — 2026-07-19 (npm registry `time` field); @chakra-ui/react-mcp 2.1.1 — 2025-11-03
-- Activity: Very active. Commits within days of the July 2026 research date (2026-07-25 `fix(tree-view)`, 2026-07-25 `fix: missing type="button" on Tag, ActionBar, Dialog, Drawer triggers (#10908)`). Steady v3 minor cadence: 3.32.0 (Feb 2026) → 3.36.1 (Jul 2026). Renovate configured (renovate.json), changesets-based releases. The MCP server package has not been republished since Nov 2025 even though its source lives in the same monorepo — a mild staleness signal for the AI surface specifically.
+- Activity: Very active. Commits within days of the July 2026 research date (2026-07-25 `fix(tree-view)`, 2026-07-25 `fix: missing type="button" on Tag, ActionBar, Dialog, Drawer triggers (#10908)`). Steady v3 minor cadence: 3.32.0 (Feb 2026) → 3.36.1 (Jul 2026). Renovate configured (renovate.json), changesets-based releases. The MCP server package has not been republished since Nov 2025 even though its source lives in the same monorepo, a mild staleness signal for the AI surface specifically.
 
 ## AI affordances (8)
 
@@ -87,13 +87,13 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/apps/mcp/src/
 
 Type: `claude-skill` (Agent skill) · Official · Audience: consumers
 
-Three first-party Agent Skills in the monorepo’s top-level skills/ directory, documented on the site and installable with `npx skills add https://github.com/chakra-ui/chakra-ui/tree/main/skills`. The builder skill uses progressive disclosure: SKILL.md is the always-loaded spine and three reference files load on demand — references/theming.md (defineConfig/createSystem, tokens, recipes, typegen), references/charts.md (useChart, Recharts integration), and references/component-decision-tree.md, which the README describes as covering ‘all ~114 Chakra components with head-to-head comparisons’. Skill frontmatter descriptions are deliberately over-triggered with casual phrasings (‘make me a login form’, ‘add my brand colors’, ‘chakra-ify this’) so the skill fires without the user naming it. chakra-ui-refactor doubles as a review rubric with fixed dimensions (Accessibility / Responsiveness / Chakra API correctness / Token and style usage / Component structure / Maintainability).
+Three first-party Agent Skills in the monorepo’s top-level skills/ directory, documented on the site and installable with `npx skills add https://github.com/chakra-ui/chakra-ui/tree/main/skills`. The builder skill uses progressive disclosure: SKILL.md is the always-loaded spine and three reference files load on demand: references/theming.md (defineConfig/createSystem, tokens, recipes, typegen), references/charts.md (useChart, Recharts integration), and references/component-decision-tree.md, which the README describes as covering ‘all ~114 Chakra components with head-to-head comparisons’. Skill frontmatter descriptions are deliberately over-triggered with casual phrasings (‘make me a login form’, ‘add my brand colors’, ‘chakra-ify this’) so the skill fires without the user naming it. chakra-ui-refactor doubles as a review rubric with fixed dimensions (Accessibility / Responsiveness / Chakra API correctness / Token and style usage / Component structure / Maintainability).
 
 - Docs: https://chakra-ui.com/docs/get-started/ai/skills
 
 - Code: https://github.com/chakra-ui/chakra-ui/tree/main/skills
 
-Notes: The most distinctive affordance in the survey set — very few component libraries ship maintained Agent Skills with on-demand reference bundles.
+Notes: The most distinctive affordance in the survey set. Very few component libraries ship maintained Agent Skills with on-demand reference bundles.
 
 ```markdown
 For deeper theming work — defining brand color tokens, semantic tokens with dark
@@ -147,11 +147,11 @@ https://chakra-ui.com/llms.txt (1.1 KB index) points at llms-full.txt (verified 
 
 Source: https://chakra-ui.com/llms.txt
 
-### Dedicated "AI" docs section (get-started/ai/*)
+### Dedicated “AI” docs section (get-started/ai/*)
 
 Type: `ai-docs-page` (AI docs page) · Official · Audience: consumers
 
-The docs site carries a first-class AI section with three pages — mcp-server, skills, and llms — sourced from apps/www/content/docs/get-started/ai/. The skills page documents activation triggers, per-skill output contracts and the reference-file loading model; the mcp-server page gives copy-paste config for six clients plus `claude mcp add chakra-ui -- npx -y @chakra-ui/react-mcp`.
+The docs site carries a first-class AI section with three pages (mcp-server, skills, and llms) sourced from apps/www/content/docs/get-started/ai/. The skills page documents activation triggers, per-skill output contracts and the reference-file loading model; the mcp-server page gives copy-paste config for six clients plus `claude mcp add chakra-ui -- npx -y @chakra-ui/react-mcp`.
 
 - Docs: https://chakra-ui.com/docs/get-started/ai/skills
 
@@ -183,7 +183,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra
 
 Type: `claude-md` (CLAUDE.md) · Official · Audience: builders
 
-Present at the repo root but atypical: a narrative 'Claude’s Learning Document’ rather than a rules/constraints file. Header reads ‘Last Updated: September 30, 2025’ and it misstates the version as 2.0.0 (repo ships v3.36.x). It has useful architecture orientation — the styled-system file map (system.ts, cva.ts, sva.ts, token-dictionary.ts, breakpoints.ts, conditions.ts, utility.ts, calc.ts), the style resolution flow, canonical pnpm scripts — but also embeds transient session state (‘Current Git Status’, ‘Staged Files (Recent Work)’, ‘Next Steps / Areas to Explore’) long since stale. No prohibitions, no must/never language, no review gates.
+Present at the repo root but atypical: a narrative 'Claude’s Learning Document’ rather than a rules/constraints file. Header reads ‘Last Updated: September 30, 2025’ and it misstates the version as 2.0.0 (repo ships v3.36.x). It has useful architecture orientation: the styled-system file map (system.ts, cva.ts, sva.ts, token-dictionary.ts, breakpoints.ts, conditions.ts, utility.ts, calc.ts), the style resolution flow, canonical pnpm scripts, but it also embeds transient session state (‘Current Git Status’, ‘Staged Files (Recent Work)’, ‘Next Steps / Areas to Explore’) long since stale. No prohibitions, no must/never language, no review gates.
 
 - Code: https://github.com/chakra-ui/chakra-ui/blob/main/CLAUDE.md
 
@@ -228,7 +228,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/CLAUDE.md
 
 Type: `claude-skill` (Agent skill) · Official · Audience: builders
 
-Two committed Claude Code subagents automating real maintainer workflows, with deliberate per-task model selection: github-issue-triage runs on `model: opus` and owns the full loop — reproduce in /apps/compositions/src/examples/, register the repro in a *.stories.tsx, check Storybook on port 6006/6007, drive Chrome MCP to visually confirm, then trace into node_modules through zag.js and ark-ui to root cause and write a changeset. ark-ui-version-bumper runs on the cheaper `model: haiku` and syncs Ark UI versions across the monorepo, extracts a changeset changelog scoped to components Chakra actually wraps, and must leave typecheck and build green.
+Two committed Claude Code subagents automating real maintainer workflows, with deliberate per-task model selection: github-issue-triage runs on `model: opus` and owns the full loop: reproduce in /apps/compositions/src/examples/, register the repro in a *.stories.tsx, check Storybook on port 6006/6007, drive Chrome MCP to visually confirm, then trace into node_modules through zag.js and ark-ui to root cause and write a changeset. ark-ui-version-bumper runs on the cheaper `model: haiku` and syncs Ark UI versions across the monorepo, extracts a changeset changelog scoped to components Chakra actually wraps, and must leave typecheck and build green.
 
 - Code: https://github.com/chakra-ui/chakra-ui/tree/main/.claude/agents
 
@@ -266,7 +266,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/.claude/agent
 
 Type: `other` (Other) · Official · Audience: builders
 
-Three committed Claude Code slash commands in .claude/commands/: ark.md (Ark UI sync workflow), changelog.md (release-notes generation — visible in commit history as `docs: prepare next release changelog`), and github-reviewer.md (AI-assisted PR review). Committed to the repo, so every contributor with Claude Code inherits the maintainers’ workflows.
+Three committed Claude Code slash commands in .claude/commands/: ark.md (Ark UI sync workflow), changelog.md (release-notes generation, visible in commit history as `docs: prepare next release changelog`), and github-reviewer.md (AI-assisted PR review). Committed to the repo, so every contributor with Claude Code inherits the maintainers’ workflows.
 
 - Code: https://github.com/chakra-ui/chakra-ui/tree/main/.claude/commands
 
@@ -276,7 +276,7 @@ Three committed Claude Code slash commands in .claude/commands/: ark.md (Ark UI 
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-Rather than one monolithic dump, Chakra publishes llms-full.txt (~2 MB) plus five narrower slices and explicitly frames the split for limited-context agents. The docs prose does the routing: pick the slice matching the task. Cheap but effective coercion — an agent that loaded llms-v3-migration.txt cannot see v2-shaped or Tailwind-shaped answers.
+Rather than one monolithic dump, Chakra publishes llms-full.txt (~2 MB) plus five narrower slices and explicitly frames the split for limited-context agents. The docs prose does the routing: pick the slice matching the task. Cheap but effective coercion: an agent that loaded llms-v3-migration.txt cannot see v2-shaped or Tailwind-shaped answers.
 
 ```markdown
 Separate docs are available if you have a limited context window.
@@ -361,11 +361,11 @@ intentional and should not shift with color mode.
 
 Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra-ui-builder/SKILL.md
 
-### Progressive disclosure — 'read X before responding'
+### Progressive disclosure — ‘read X before responding’
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-The builder SKILL.md refuses to inline theming, charts and component-selection knowledge; instead it issues explicit read-before-answer directives that pull reference files into context only on matching request types. component-decision-tree.md is the key anti-hallucination device: all ~114 components with head-to-head comparisons (Select vs Combobox vs NativeSelect, Dialog vs Drawer, Tooltip vs HoverCard vs Popover) — exactly where models otherwise invent or misuse APIs.
+The builder SKILL.md refuses to inline theming, charts and component-selection knowledge; instead it issues explicit read-before-answer directives that pull reference files into context only on matching request types. component-decision-tree.md is the key anti-hallucination device: all ~114 components with head-to-head comparisons (Select vs Combobox vs NativeSelect, Dialog vs Drawer, Tooltip vs HoverCard vs Popover), exactly where models otherwise invent or misuse APIs.
 
 ```markdown
 For deeper theming work — defining brand color tokens, semantic tokens with dark
@@ -417,7 +417,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-The strongest enforcement mechanism Chakra ships to consumers. The migrate skill ends with a checkbox list the agent must work through, closing with a literal grep it has to run to prove no v2 imports survive — converting ‘did the migration work’ from a model judgement into a shell command with an observable exit condition.
+The strongest enforcement mechanism Chakra ships to consumers. The migrate skill ends with a checkbox list the agent must work through, closing with a literal grep it has to run to prove no v2 imports survive. That converts ‘did the migration work’ from a model judgement into a shell command with an observable exit condition.
 
 ````markdown
 ## Step 10 — Validation checklist
@@ -472,7 +472,7 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra
 
 Category: `exemplars` (Exemplars) · all 10 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/exemplars.md
 
-The builder skill pins the response shape so agent output is directly pasteable and consistently responsive. Two clauses do real work: banning ‘TODO’ / ‘...rest of component’ placeholders, and mandating base + md breakpoints as a floor unless the request is explicitly desktop-only — a responsive-by-default guarantee models otherwise skip. (Builder-side analogue: the github-issue-triage subagent may not declare a bug reproduced by reasoning alone — it must render the story and look at it via Chrome MCP.)
+The builder skill pins the response shape so agent output is directly pasteable and consistently responsive. Two clauses do real work: banning ‘TODO’ / ‘...rest of component’ placeholders, and mandating base + md breakpoints as a floor unless the request is explicitly desktop-only, a responsive-by-default guarantee models otherwise skip. (Builder-side analogue: the github-issue-triage subagent may not declare a bug reproduced by reasoning alone; it must render the story and look at it via Chrome MCP.)
 
 ```markdown
 ## Output format
@@ -496,27 +496,27 @@ Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/skills/chakra
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Official Chakra UI Figma Kit for v3 is published on Figma Community and the docs carry a get-started/figma page; light and dark mode token sets ship with the kit. Community plugins also exist (Chakra UI Design System plugin, FigPilot design-to-code). No Figma Code Connect definitions were found in the chakra-ui repo — the design↔code bridge is asset-level, not Code-Connect / Dev-Mode-MCP level.
+Official Chakra UI Figma Kit for v3 is published on Figma Community and the docs carry a get-started/figma page; light and dark mode token sets ship with the kit. Community plugins also exist (Chakra UI Design System plugin, FigPilot design-to-code). No Figma Code Connect definitions were found in the chakra-ui repo; the design↔code bridge is asset-level, not Code-Connect / Dev-Mode-MCP level.
 
 Link: https://chakra-ui.com/docs/get-started/figma
 
 ### Storybook (addon-mcp, manifests, AI docs)
 
-Storybook 9.1.8 is used internally for component development and visual testing (.storybook/ at repo root, a dedicated sandbox/storybook-ts environment, *.stories.tsx across packages). It functions as a maintainer/AI-verification surface — the issue-triage subagent must add bug repros as stories and confirm them in a real browser — rather than a public consumer-facing Storybook or a published Storybook MCP integration.
+Storybook 9.1.8 is used internally for component development and visual testing (.storybook/ at repo root, a dedicated sandbox/storybook-ts environment, *.stories.tsx across packages). It functions as a maintainer/AI-verification surface (the issue-triage subagent must add bug repros as stories and confirm them in a real browser) rather than a public consumer-facing Storybook or a published Storybook MCP integration.
 
 ## Building the system vs. consuming it
 
 ### For consumers (agents building UIs with Chakra UI)
 
-Strong and unusually broad. An agent building product UI with Chakra can go through the MCP server (10 tools, npx-installable, documented for VS Code / Cursor / Claude Code / Windsurf / Zed / Codex), through six concern-sliced llms.txt files, or through three installable Claude Code Skills that carry the house style (semantic tokens over hex, colorPalette over colorScheme, Field.Root for every form field, base+md breakpoints minimum, no placeholder code). The skills’ progressive-disclosure references — especially a decision tree over all ~114 components — target the two hardest failure modes for models on this library: picking the wrong component, and regressing to v2 API surface. Coercion strength is medium: the guidance is specific and well written but almost entirely advisory prose. Nothing forces the agent to call an MCP tool before generating, there is no lint/verify loop on the build path (only on migration), and there is no machine-readable component registry an agent could pull canonical source from.
+Strong and unusually broad. An agent building product UI with Chakra can go through the MCP server (10 tools, npx-installable, documented for VS Code / Cursor / Claude Code / Windsurf / Zed / Codex), through six concern-sliced llms.txt files, or through three installable Claude Code Skills that carry the house style (semantic tokens over hex, colorPalette over colorScheme, Field.Root for every form field, base+md breakpoints minimum, no placeholder code). The skills’ progressive-disclosure references, especially a decision tree over all ~114 components, target the two hardest failure modes for models on this library: picking the wrong component, and regressing to v2 API surface. Coercion strength is medium: the guidance is specific and well written but almost entirely advisory prose. Nothing forces the agent to call an MCP tool before generating, there is no lint/verify loop on the build path (only on migration), and there is no machine-readable component registry an agent could pull canonical source from.
 
 ### For builders (the Chakra UI team using AI on the system itself)
 
-Real, committed, and model-cost-aware. The repo carries .claude/agents/ with two production subagents — github-issue-triage on Opus (repro in apps/compositions → Storybook story → Chrome MCP visual confirmation → trace into zag.js/ark-ui → fix + changeset) and ark-ui-version-bumper on Haiku (monorepo-wide version sync, scoped changeset changelog, typecheck+build must stay green) — plus .claude/commands/ with ark, changelog and github-reviewer slash commands, so contributors inherit maintainer workflows automatically. The weak point is CLAUDE.md: a stale September-2025 narrative ‘learning document’ that reports the version as 2.0.0 and still describes a long-merged recipe fix as staged work. There is no AGENTS.md, no .cursorrules, no .github/copilot-instructions.md, and CONTRIBUTING.md does not appear to set AI-contribution policy.
+Real, committed, and model-cost-aware. The repo carries .claude/agents/ with two production subagents: github-issue-triage on Opus (repro in apps/compositions → Storybook story → Chrome MCP visual confirmation → trace into zag.js/ark-ui → fix + changeset) and ark-ui-version-bumper on Haiku (monorepo-wide version sync, scoped changeset changelog, typecheck+build must stay green), plus .claude/commands/ with ark, changelog and github-reviewer slash commands, so contributors inherit maintainer workflows automatically. The weak point is CLAUDE.md: a stale September-2025 narrative ‘learning document’ that reports the version as 2.0.0 and still describes a long-merged recipe fix as staged work. There is no AGENTS.md, no .cursorrules, no .github/copilot-instructions.md, and CONTRIBUTING.md does not appear to set AI-contribution policy.
 
 ## Gaps
 
-Confirmed absent (probed directly, HTTP 404 on raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/): AGENTS.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md. No machine-readable component registry for agents — https://chakra-ui.com/r/index.json and /registry.json both 404; the only /r/ assets are theme-token JSON files (e.g. /r/theme/tokens/cursor.json, 200) tied to the CSS-cursor token docs, not a shadcn-style component registry. No per-page markdown endpoints (docs/components/button.md → 404), so agents must ingest whole llms-*.txt slices. No “Add to Cursor” / one-click MCP install button found on the docs page — installation is copy-paste JSON per editor. MCP transport is documented as stdio-only (apps/mcp/src/http.ts exists in source but no hosted remote endpoint is documented), and @chakra-ui/react-mcp has not been republished since 2025-11-03 despite library releases through 3.36.1 (2026-07-19), so tool coverage may lag recent components. No Figma Code Connect files in the repo; no Supernova / Knapsack / zeroheight integration found. No AI-specific contribution policy located in CONTRIBUTING.md. An npm registry search surfaced no community/third-party Chakra MCP server. Not covered here: the full contents of the three builder reference files (theming.md, charts.md, component-decision-tree.md), the bodies of .claude/commands/*.md, and whether the skills are kept in sync with releases (no changesets observed touching skills/).
+Confirmed absent (probed directly, HTTP 404 on raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/): AGENTS.md, .cursorrules, .cursor/rules/, .github/copilot-instructions.md. No machine-readable component registry for agents: https://chakra-ui.com/r/index.json and /registry.json both 404; the only /r/ assets are theme-token JSON files (e.g. /r/theme/tokens/cursor.json, 200) tied to the CSS-cursor token docs, not a shadcn-style component registry. No per-page markdown endpoints (docs/components/button.md → 404), so agents must ingest whole llms-*.txt slices. No “Add to Cursor” / one-click MCP install button found on the docs page; installation is copy-paste JSON per editor. MCP transport is documented as stdio-only (apps/mcp/src/http.ts exists in source but no hosted remote endpoint is documented), and @chakra-ui/react-mcp has not been republished since 2025-11-03 despite library releases through 3.36.1 (2026-07-19), so tool coverage may lag recent components. No Figma Code Connect files in the repo; no Supernova / Knapsack / zeroheight integration found. No AI-specific contribution policy located in CONTRIBUTING.md. An npm registry search surfaced no community/third-party Chakra MCP server. Not covered here: the full contents of the three builder reference files (theming.md, charts.md, component-decision-tree.md), the bodies of .claude/commands/*.md, and whether the skills are kept in sync with releases (no changesets observed touching skills/).
 
 ## Sources (15)
 
@@ -552,4 +552,4 @@ Confirmed absent (probed directly, HTTP 404 on raw.githubusercontent.com/chakra-
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

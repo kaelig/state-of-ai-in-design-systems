@@ -1,6 +1,6 @@
 ---
-title: "Fluent UI (Fluent 2) — AI affordances"
-description: "Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system — a root…"
+title: "Microsoft Fluent UI — AI affordances"
+description: "Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md…"
 url: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md"
 canonical: "https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft"
 type: "design-system-record"
@@ -11,7 +11,7 @@ ai_maturity: "invested"
 affordance_count: 8
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -20,7 +20,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 > Snapshot of 2026-07-27. Every claim below links to the source URL it was taken from. Check the source before citing.
 
-# Fluent UI (Fluent 2) — AI affordances
+# Microsoft Fluent UI — AI affordances
 
 Microsoft · design-system · MIT (repo license metadata reports NOASSERTION due to bundled third-party notices) · AI maturity: **invested** (official MCP, skills or rules with real engineering behind them). 8 affordances, 8 coercion techniques.
 
@@ -31,7 +31,7 @@ Microsoft · design-system · MIT (repo license metadata reports NOASSERTION due
 
 ## Summary
 
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system — a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server — a Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
+Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated *builder*-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, `.agents/skills/` + `.claude/skills/` with nine executable slash-command skills (scaffolding, token lookup, lint auto-fix loops, Storybook+Playwright visual verification, PR review with confidence scoring, issue triage, Dependabot rollup), a `.github/instructions/copilot.instructions.md` with `applyTo: '**'`, and a `copilot-setup-steps.yml` workflow that pre-provisions the GitHub Copilot coding agent’s container. By contrast, *consumer*-side affordances for React are essentially absent: no llms.txt, no llms-full.txt, no AI docs page on fluent2.microsoft.design, and no published MCP server. A Fluent UI maintainer stated publicly in June 2026 that Microsoft has an MCP “being used internally across Microsoft products” with no public release timeline, leaving the field to community npm servers. The one official consumer MCP is for the *Blazor* flavor (`Microsoft.FluentUI.AspNetCore.McpServer`, 5.0.0-rc), shipped from microsoft/fluentui-blazor. Net: the team has industrialized AI for maintaining the system, and has not yet shipped anything for people building with it.
 
 ## Maintenance
 
@@ -109,7 +109,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skil
 
 Type: `copilot-instructions` (Copilot instructions) · Official · Audience: builders
 
-Path-scoped Copilot instruction file with frontmatter `applyTo: '**'`. Establishes repo topology (Nx, Yarn 4.x, Node ^22, TypeScript strict), then ranks the four product lines with explicit routing verdicts — v9 ‘PRIORITIZE FOR NEW WORK’, v8 ‘MAINTENANCE ONLY’ — and enumerates the exact Nx commands agents must use instead of raw tooling. A second file, dependabot-security-fixes.instructions.md, scopes dependency-security work.
+Path-scoped Copilot instruction file with frontmatter `applyTo: '**'`. Establishes repo topology (Nx, Yarn 4.x, Node ^22, TypeScript strict), then ranks the four product lines with explicit routing verdicts (v9 ‘PRIORITIZE FOR NEW WORK’, v8 ‘MAINTENANCE ONLY’) and enumerates the exact Nx commands agents must use instead of raw tooling. A second file, dependabot-security-fixes.instructions.md, scopes dependency-security work.
 
 - Code: https://github.com/microsoft/fluentui/blob/master/.github/instructions/copilot.instructions.md
 
@@ -186,7 +186,7 @@ The only OFFICIAL Microsoft MCP server for any Fluent UI flavor. Lives at src/To
 
 - Code: https://github.com/microsoft/fluentui-blazor/tree/dev-v5/src/Tools/McpServer
 
-Notes: Release-candidate status as of 5.0.0-rc.1 (Feb 2026). Not present on the `main`/`dev` branches — v5 line only.
+Notes: Release-candidate status as of 5.0.0-rc.1 (Feb 2026). Not present on the `main`/`dev` branches; v5 line only.
 
 ````markdown
 # Fluent UI Blazor MCP Server
@@ -229,7 +229,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui-blazor/dev-v5/src/T
 
 Type: `mcp-server` (MCP server) · Official · Audience: consumers
 
-In GitHub Discussion #35732 (June 2026), Fluent UI maintainer @mainframev responded to a community MCP server announcement by disclosing that Microsoft already operates an MCP for Fluent UI React ‘being used internally across Microsoft products,’ built on current documentation plus additional sources. No public release timeline was given. Recorded here because it is the reason the public React surface has no official MCP — this is a deliberate internal-first posture, not an absence of work.
+In GitHub Discussion #35732 (June 2026), Fluent UI maintainer @mainframev responded to a community MCP server announcement by disclosing that Microsoft already operates an MCP for Fluent UI React ‘being used internally across Microsoft products,’ built on current documentation plus additional sources. No public release timeline was given. Recorded here because it is the reason the public React surface has no official MCP. This is a deliberate internal-first posture, not an absence of work.
 
 - Docs: https://github.com/microsoft/fluentui/discussions/35732
 
@@ -249,7 +249,7 @@ Community npm MCP server for Fluent UI React, announced in microsoft/fluentui Di
 
 Type: `mcp-server` (MCP server) · Community · Audience: consumers
 
-A fragmented long tail: aminvishvam/fluentui-mcp-server (12 tools across 4 categories — custom hooks, style generation, TypeScript interfaces, accessibility compliance checking) and npm `mcp-fluent-ui` 1.0.2 (last published 2025-09-05, likely abandoned). Listed on aggregators such as LobeHub and mcpmarket. None are endorsed by Microsoft.
+A fragmented long tail: aminvishvam/fluentui-mcp-server (12 tools across 4 categories: custom hooks, style generation, TypeScript interfaces, accessibility compliance checking) and npm `mcp-fluent-ui` 1.0.2 (last published 2025-09-05, likely abandoned). Listed on aggregators such as LobeHub and mcpmarket. None are endorsed by Microsoft.
 
 - Code: https://github.com/aminvishvam/fluentui-mcp-server
 
@@ -257,7 +257,7 @@ Notes: Quality unverified; mcp-fluent-ui is ~11 months stale.
 
 ## Coercion techniques (8)
 
-### "Source of truth, not existing code" — overriding the repo itself
+### “Source of truth, not existing code” — overriding the repo itself
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
@@ -279,11 +279,11 @@ from existing code without verifying they match these instructions.
 
 Source: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
 
-### Numbered "Critical Rules (never violate)" with token enforcement at #1
+### Numbered “Critical Rules (never violate)” with token enforcement at #1
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
-Five hard prohibitions, each phrased as ‘Never X. Always Y.’ plus a link to the deep-dive doc. Rule 1 is the classic design-system coercion: no hardcoded colors, spacing or typography — always `tokens` from `@fluentui/react-theme`. Rule 4 encodes the package-layering invariant (‘react-button must not depend on react-menu’) that agents routinely violate. Rule 5 forces a release-process side effect (`yarn beachball change`) the model would otherwise skip.
+Five hard prohibitions, each phrased as ‘Never X. Always Y.’ plus a link to the deep-dive doc. Rule 1 is the classic design-system coercion: no hardcoded colors, spacing or typography, always `tokens` from `@fluentui/react-theme`. Rule 4 encodes the package-layering invariant (‘react-button must not depend on react-menu’) that agents routinely violate. Rule 5 forces a release-process side effect (`yarn beachball change`) the model would otherwise skip.
 
 ```markdown
 1. **Never hardcode colors, spacing, or typography values.** Always use design tokens from `@fluentui/react-theme`.
@@ -299,7 +299,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-The `/lint-check` skill turns the repo’s custom `@fluentui/*` ESLint rules into a machine-readable remediation table (rule name → what it catches → how to fix), then mandates a per-file verify step: apply the fix, re-run lint on that file, repeat. This is the enforcement arm behind AGENTS.md’s prohibitions — the prose bans `React.FC`, and `@fluentui/no-global-react` makes it fail CI, and the skill teaches the agent how to close the loop.
+The `/lint-check` skill turns the repo’s custom `@fluentui/*` ESLint rules into a machine-readable remediation table (rule name → what it catches → how to fix), then mandates a per-file verify step: apply the fix, re-run lint on that file, repeat. This is the enforcement arm behind AGENTS.md’s prohibitions: the prose bans `React.FC`, and `@fluentui/no-global-react` makes it fail CI, and the skill teaches the agent how to close the loop.
 
 ```markdown
 2. **Parse the output** and categorize errors by the custom Fluent UI ESLint rules:
@@ -355,7 +355,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skil
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-`/token-lookup ` gives the model a value-category decision tree (hex → color tokens, px → spacing/font-size/radius, ms → duration), points it at the exact theme source path to grep (`packages/react-components/react-theme/library/src/`), constrains it to `allowed-tools: Read Grep Glob` (read-only — it cannot ‘fix’ anything, only advise), and seeds a few-shot table of common hardcoded→token mappings. Crucially it also handles the failure mode: if no exact match, suggest the closest semantic token AND explain the difference.
+`/token-lookup ` gives the model a value-category decision tree (hex → color tokens, px → spacing/font-size/radius, ms → duration), points it at the exact theme source path to grep (`packages/react-components/react-theme/library/src/`), constrains it to `allowed-tools: Read Grep Glob` (read-only, so it cannot ‘fix’ anything, only advise), and seeds a few-shot table of common hardcoded→token mappings. Crucially it also handles the failure mode: if no exact match, suggest the closest semantic token AND explain the difference.
 
 ````markdown
 ---
@@ -387,7 +387,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skil
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-`/visual-test` closes the see-what-you-built loop. It pins an exact tool version (`npx -y @playwright/cli@0.1.1`) so nothing is installed globally, and hard-constrains the agent to boot only the per-component stories package via the nx `storybook` target — because the full Storybook would drag in 74 packages. It even encodes a temporal caveat about workspace snapshots older than April 2026, and an explicit stop-and-ask branch when the stories package doesn’t exist.
+`/visual-test` closes the see-what-you-built loop. It pins an exact tool version (`npx -y @playwright/cli@0.1.1`) so nothing is installed globally, and hard-constrains the agent to boot only the per-component stories package via the nx `storybook` target, because the full Storybook would drag in 74 packages. It even encodes a temporal caveat about workspace snapshots older than April 2026, and an explicit stop-and-ask branch when the stories package doesn’t exist.
 
 ````markdown
 ## Critical: use the per-component Storybook only
@@ -431,7 +431,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skil
 
 Category: `registry-metadata` (Registry metadata) · all 9 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/registry-metadata.md
 
-`/review-pr` refuses to run a uniform checklist. It first classifies the PR from changed-file globs and branch prefixes into six types, each with an explicit check scope, then suppresses rule families by directory — v9 pattern checks are skipped for `packages/react/` (v8 maintenance) and React checks skipped for `packages/web-components/`. This prevents the review agent from generating the false positives that would otherwise train maintainers to ignore it. Output is a merge-readiness confidence score.
+`/review-pr` refuses to run a uniform checklist. It first classifies the PR from changed-file globs and branch prefixes into six types, each with an explicit check scope, then suppresses rule families by directory: v9 pattern checks are skipped for `packages/react/` (v8 maintenance) and React checks skipped for `packages/web-components/`. This prevents the review agent from generating the false positives that would otherwise train maintainers to ignore it. Output is a merge-readiness confidence score.
 
 ```markdown
 ## Phase 2: Classify PR Type
@@ -454,7 +454,7 @@ Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skil
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Official Fluent 2 UI kits published on Figma Community (Microsoft Fluent 2 Web, Fluent 2 iOS, Fluent Android, Fluent system iconography). The Web kit was refactored so components use Figma variables aligned to code tokens, and Microsoft has described an internal Figma plug-in that replaces the native properties panel so designers assign tokens rather than raw colors/stroke-widths. this study found NO evidence of Figma Code Connect (`*.figma.tsx` files) in microsoft/fluentui, and no Dev Mode MCP guidance in the docs — treat Code Connect as unconfirmed/absent.
+Official Fluent 2 UI kits published on Figma Community (Microsoft Fluent 2 Web, Fluent 2 iOS, Fluent Android, Fluent system iconography). The Web kit was refactored so components use Figma variables aligned to code tokens, and Microsoft has described an internal Figma plug-in that replaces the native properties panel so designers assign tokens rather than raw colors/stroke-widths. this study found NO evidence of Figma Code Connect (`*.figma.tsx` files) in microsoft/fluentui, and no Dev Mode MCP guidance in the docs; treat Code Connect as unconfirmed or absent.
 
 Link: https://www.figma.com/community/file/836828295772957889/microsoft-fluent-2-web
 
@@ -466,23 +466,23 @@ Link: https://github.com/microsoft/fluentui/tree/master/.storybook
 
 ### other
 
-Nx workspace with custom plugins (`tools/workspace-plugin/`) providing the `react-component` and `react-library` generators; API Extractor generates `api.md` files as machine-readable API surface; Beachball manages change files and releases. The root AGENTS.md carries an Nx-managed auto-updated block instructing agents to use `nx_workspace`, `nx_project_details` and `nx_docs` MCP tools — i.e. Fluent UI inherits the Nx MCP server as a builder-side affordance.
+Nx workspace with custom plugins (`tools/workspace-plugin/`) providing the `react-component` and `react-library` generators; API Extractor generates `api.md` files as machine-readable API surface; Beachball manages change files and releases. The root AGENTS.md carries an Nx-managed auto-updated block instructing agents to use `nx_workspace`, `nx_project_details` and `nx_docs` MCP tools, so Fluent UI inherits the Nx MCP server as a builder-side affordance.
 
 Link: https://raw.githubusercontent.com/microsoft/fluentui/master/AGENTS.md
 
 ## Building the system vs. consuming it
 
-### For consumers (agents building UIs with Fluent UI (Fluent 2))
+### For consumers (agents building UIs with Microsoft Fluent UI)
 
-Thin, and notably thinner than Fluent UI’s stature would suggest. No llms.txt or llms-full.txt on fluent2.microsoft.design (every path returns the same Astro SPA shell — this study confirmed /llms.txt, /llms-full.txt, /ai, /docs/mcp and a deliberately fake path all return byte-identical HTML, so those 200s are a catch-all, not content). No llms.txt on react.fluentui.dev (genuine 404). No AI/MCP/Copilot mention anywhere on fluent2.microsoft.design/get-started/develop. No official React MCP server, no `@fluentui/mcp` on npm, no ‘Add to Cursor’ buttons, no distributed .cursorrules template for consumers, no published component registry for agents, no consumer-facing Claude skill. The one official artifact is the Blazor MCP server (`Microsoft.FluentUI.AspNetCore.McpServer`, rc, dotnet tool `fluentui-mcp`, 142+ components, 5 tools) — a different platform from the flagship React library. React consumers are served by community MCP servers (blendsdk/fluentui-mcp on npm, aminvishvam/fluentui-mcp-server) whose existence a maintainer implicitly acknowledged as filling a real gap while noting Microsoft runs an equivalent internally. There is a `packages/cra-template` and `starter-templates/` for scaffolding, but neither is AI-aware.
+Thin, and notably thinner than Fluent UI’s stature would suggest. No llms.txt or llms-full.txt on fluent2.microsoft.design (every path returns the same Astro SPA shell; this study confirmed /llms.txt, /llms-full.txt, /ai, /docs/mcp and a deliberately fake path all return byte-identical HTML, so those 200s are a catch-all, not content). No llms.txt on react.fluentui.dev (genuine 404). No AI/MCP/Copilot mention anywhere on fluent2.microsoft.design/get-started/develop. No official React MCP server, no `@fluentui/mcp` on npm, no ‘Add to Cursor’ buttons, no distributed .cursorrules template for consumers, no published component registry for agents, no consumer-facing Claude skill. The one official artifact is the Blazor MCP server (`Microsoft.FluentUI.AspNetCore.McpServer`, rc, dotnet tool `fluentui-mcp`, 142+ components, 5 tools), a different platform from the flagship React library. React consumers are served by community MCP servers (blendsdk/fluentui-mcp on npm, aminvishvam/fluentui-mcp-server) whose existence a maintainer implicitly acknowledged as filling a real gap while noting Microsoft runs an equivalent internally. There is a `packages/cra-template` and `starter-templates/` for scaffolding, but neither is AI-aware.
 
-### For builders (the Fluent UI (Fluent 2) team using AI on the system itself)
+### For builders (the Microsoft Fluent UI team using AI on the system itself)
 
-Deep and unusually operational — among the strongest builder-side setups in this study. Four layers: (1) instruction files — AGENTS.md at root with ‘source of truth over existing code’ framing, five numbered never-violate rules, a canonical v9 component template, an anti-pattern blocklist, and a package-map for the 74+ package tree; CLAUDE.md is a one-line redirect to it; `.github/instructions/copilot.instructions.md` with `applyTo: '**'` plus a scoped dependabot-security-fixes instruction file. (2) Executable skills — nine SKILL.md files mirrored into `.agents/skills/` and `.claude/skills/`, covering scaffolding (v9-component), token remediation (token-lookup), lint auto-fix loops (lint-check), visual verification via Storybook+Playwright (visual-test), change-file generation (change), package introspection (package-info), PR review with confidence scoring (review-pr), issue triage (triage-issues), and Dependabot batching (dependabot-rollup). (3) Agent infrastructure — `copilot-setup-steps.yml` pre-provisions the Copilot coding agent’s container with Node 22 + immutable yarn install; `.github/triage-bot.config.json` and `issues.yml`/`pr-housekeeping.yml` workflows automate queue hygiene. (4) Curated deep-dive docs written for agents to follow the links: docs/architecture/{component-patterns,design-tokens,layers}.md, docs/workflows/{contributing,testing}.md, docs/team-routing.md, docs/quality-grades.md, docs/tech-debt-tracker.md. The `.agents/` + `.claude/` duplication signals deliberate multi-vendor portability rather than betting on one assistant.
+Deep and unusually operational, among the strongest builder-side setups in this study. Four layers. (1) Instruction files: AGENTS.md at root with ‘source of truth over existing code’ framing, five numbered never-violate rules, a canonical v9 component template, an anti-pattern blocklist, and a package-map for the 74+ package tree; CLAUDE.md is a one-line redirect to it; `.github/instructions/copilot.instructions.md` with `applyTo: '**'` plus a scoped dependabot-security-fixes instruction file. (2) Executable skills: nine SKILL.md files mirrored into `.agents/skills/` and `.claude/skills/`, covering scaffolding (v9-component), token remediation (token-lookup), lint auto-fix loops (lint-check), visual verification via Storybook+Playwright (visual-test), change-file generation (change), package introspection (package-info), PR review with confidence scoring (review-pr), issue triage (triage-issues), and Dependabot batching (dependabot-rollup). (3) Agent infrastructure: `copilot-setup-steps.yml` pre-provisions the Copilot coding agent’s container with Node 22 + immutable yarn install; `.github/triage-bot.config.json` and `issues.yml`/`pr-housekeeping.yml` workflows automate queue hygiene. (4) Curated deep-dive docs written for agents to follow the links: docs/architecture/{component-patterns,design-tokens,layers}.md, docs/workflows/{contributing,testing}.md, docs/team-routing.md, docs/quality-grades.md, docs/tech-debt-tracker.md. The `.agents/` + `.claude/` duplication signals deliberate multi-vendor portability rather than betting on one assistant.
 
 ## Gaps
 
-Not confirmed, or not found: (1) No llms.txt or llms-full.txt anywhere. fluent2.microsoft.design returns HTTP 200 with an identical Astro SPA shell for /llms.txt, /llms-full.txt, /ai, /docs/mcp, /mcp AND for a nonsense control path — a catch-all router, not real files. react.fluentui.dev/llms.txt is a hard 404. Anyone scanning by status code will produce a false positive here. (2) No official Fluent UI React MCP server exists publicly; the maintainer statement about an internal one (Discussion #35732, June 2026) is a claim in a GitHub comment, with no artifact, no timeline, and no way to verify scope. (3) No Figma Code Connect found — GitHub code search for `*.figma.tsx` in the repo returned 404/not-found for my token’s search scope, so it was not possible to exhaustively prove absence; no positive evidence in the repo tree or docs either. Treat as ‘no evidence of’, not ‘definitively absent’. (4) this study did not read every one of the nine SKILL.md files end-to-end (change, package-info, and the tails of review-pr/triage-issues/dependabot-rollup were sampled from their heads only), so additional coercion language likely exists beyond what is quoted here. (5) No AI-assisted codemod evidence: `packages/codemods` exists but this study did not confirm any AI/LLM involvement — it appears to be conventional jscodeshift-style tooling, and the v8→v9 migration guidance is documentation, not an agent. (6) `.github/instructions/dependabot-security-fixes.instructions.md` was confirmed to exist but not read. (7) The Blazor MCP server is 5.0.0-rc.1 on a non-default branch (`dev-v5`); it is official but pre-release, and its tool list came partly from a maintainer’s blog post rather than the source. (8) GitHub release tags are batched oddly (latest tags dated 2026-05-26 while npm `latest` for @fluentui/react-components is 9.74.4 published 2026-07-15) — npm is the reliable freshness signal, not GitHub Releases. (9) Community MCP server quality is entirely unassessed; `mcp-fluent-ui` on npm is ~11 months stale and may be abandoned.
+Not confirmed, or not found: (1) No llms.txt or llms-full.txt anywhere. fluent2.microsoft.design returns HTTP 200 with an identical Astro SPA shell for /llms.txt, /llms-full.txt, /ai, /docs/mcp, /mcp AND for a nonsense control path: a catch-all router, not real files. react.fluentui.dev/llms.txt is a hard 404. Anyone scanning by status code will produce a false positive here. (2) No official Fluent UI React MCP server exists publicly; the maintainer statement about an internal one (Discussion #35732, June 2026) is a claim in a GitHub comment, with no artifact, no timeline, and no way to verify scope. (3) No Figma Code Connect found: GitHub code search for `*.figma.tsx` in the repo returned 404/not-found for my token’s search scope, so it was not possible to exhaustively prove absence; no positive evidence in the repo tree or docs either. Treat as ‘no evidence of’, not ‘definitively absent’. (4) this study did not read every one of the nine SKILL.md files end-to-end (change, package-info, and the tails of review-pr/triage-issues/dependabot-rollup were sampled from their heads only), so additional coercion language likely exists beyond what is quoted here. (5) No AI-assisted codemod evidence: `packages/codemods` exists but this study did not confirm any AI/LLM involvement. It appears to be conventional jscodeshift-style tooling, and the v8→v9 migration guidance is documentation, not an agent. (6) `.github/instructions/dependabot-security-fixes.instructions.md` was confirmed to exist but not read. (7) The Blazor MCP server is 5.0.0-rc.1 on a non-default branch (`dev-v5`); it is official but pre-release, and its tool list came partly from a maintainer’s blog post rather than the source. (8) GitHub release tags are batched oddly (latest tags dated 2026-05-26 while npm `latest` for @fluentui/react-components is 9.74.4 published 2026-07-15). npm is the reliable freshness signal, not GitHub Releases. (9) Community MCP server quality is entirely unassessed; `mcp-fluent-ui` on npm is ~11 months stale and may be abandoned.
 
 ## Sources (15)
 
@@ -518,4 +518,4 @@ Not confirmed, or not found: (1) No llms.txt or llms-full.txt anywhere. fluent2.
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

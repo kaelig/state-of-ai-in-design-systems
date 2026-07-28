@@ -8,7 +8,7 @@ id: "scaffolding"
 technique_count: 7
 system_count: 7
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,7 +23,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 CLIs generate the canonical code; the agent runs commands instead of writing component source from scratch.
 
-Systems represented here: [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
+Systems represented here: [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md)
 
 ## Read-the-project-first ordering (inspect before generate)
 
@@ -78,29 +78,11 @@ pnpm build
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/AGENTS.md
 
-## Ordered escalation ladder (LBC → Blueprint → Hook → Custom CSS)
-
-Lightning Design System (SLDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
-
-The same four-rung ladder is restated in three independent places — SKILL.md ‘Component Selection Hierarchy’, .builderrules ‘UI CODE CHECKLIST’ (as a 5-step checkbox list with If YES/If NO branches), and AGENTS.md ‘Engineering habits’. Redundancy across rules file, skill, and MCP tool descriptions is the coercion strategy: whichever context the agent loads, it meets the same ordering.
-
-```markdown
-1. **[ ] Search Lightning Base Components index** – Does a component exist for this?
-          **If YES** → Use it.
-          **If NO** → Proceed to step 2.
-
-2. **[ ] Search SLDS Component Blueprints** – Does a blueprint exist for this?
-          - **Use the MCP tool `explore_slds_blueprints`** to search by name, category, or keyword.
-          **If YES** → Create a new LWC that implements this component blueprint.
-```
-
-Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/.builderrules
-
 ## Agent self-propagation via the `init` tool
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-Primer’s `init` MCP tool does not just scaffold a project — its final bullet instructs the agent to write agent instructions into the consumer’s repo, so future sessions stay on-system even without the MCP server attached. The design system asks the agent to install the design system’s own guardrails.
+Primer’s `init` MCP tool goes past scaffolding a project: its final bullet instructs the agent to write agent instructions into the consumer’s repo, so future sessions stay on-system even without the MCP server attached. The design system asks the agent to install the design system’s own guardrails.
 
 ```typescript
           text: `The getting started documentation for Primer React is included below. It's important that the project:
@@ -137,42 +119,29 @@ This skill does not edit code. Recommend:
 
 Source: https://react-spectrum.adobe.com/.well-known/skills/spectrum-audit/SKILL.md
 
-## Forcing the generator instead of free-hand scaffolding
+## Ordered escalation ladder (LBC → Blueprint → Hook → Custom CSS)
 
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+Salesforce Lightning Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
 
-`/v9-component` never tells the model which files to create. It routes every path through the repo’s own Nx generators (`yarn nx g @fluentui/workspace-plugin:react-component`, `yarn create-package`) and then hands the agent a post-generation checklist (fill in logic per component-patterns.md, add token-based styles, regenerate API docs via `yarn nx run :generate-api`). The generator is the spec; the agent is only allowed to fill the holes.
+The same four-rung ladder is restated in three independent places: SKILL.md ‘Component Selection Hierarchy’, .builderrules ‘UI CODE CHECKLIST’ (as a 5-step checkbox list with If YES/If NO branches), and AGENTS.md ‘Engineering habits’. Redundancy across rules file, skill, and MCP tool descriptions is the coercion strategy: whichever context the agent loads, it meets the same ordering.
 
-````markdown
-Use the `react-component` generator:
+```markdown
+1. **[ ] Search Lightning Base Components index** – Does a component exist for this?
+          **If YES** → Use it.
+          **If NO** → Proceed to step 2.
 
-```bash
-yarn nx g @fluentui/workspace-plugin:react-component --name $ARGUMENTS --project <project-name>
+2. **[ ] Search SLDS Component Blueprints** – Does a blueprint exist for this?
+          - **Use the MCP tool `explore_slds_blueprints`** to search by name, category, or keyword.
+          **If YES** → Create a new LWC that implements this component blueprint.
 ```
 
-Where `<project-name>` is the Nx project (e.g., `react-button`). This generates all required files: component, types, hook, styles, render, index barrel, and conformance test.
+Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/.builderrules
 
-### After scaffolding
-
-1. **Review generated files** against [docs/architecture/component-patterns.md]...
-2. **Add styles** in `use${ARGUMENTS}Styles.styles.ts` using design tokens
-4. **Update API docs** after adding exports:
-   ```bash
-   yarn nx run <project>:generate-api
-   ```
-
-## Critical Rules
-
-- Always use `ForwardRefComponent` with `React.forwardRef` — never `React.FC`
-````
-
-Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/v9-component/SKILL.md
-
-## Paved-road escape hatch: a skill for "I need a component Mantine doesn't have"
+## Paved-road escape hatch: a skill for “I need a component Mantine doesn’t have”
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-The moment an agent decides Mantine lacks a component is the moment it goes off-system. Rather than forbidding that, Mantine ships mantine-custom-components, a skill that intercepts exactly that intent and hands over a complete factory() template wiring Box, useProps, useStyles, createVarsResolver, StylesApiProps, ElementProps, displayName and Component.classes — so a “custom” component is still theme-aware, Styles-API-addressable and registerable via MantineProvider. It embeds a decision table (factory vs polymorphicFactory vs genericFactory) with one of the few directive constraints anywhere in Mantine’s AI surface: “Use polymorphicFactory sparingly — it adds TypeScript overhead and slows IDE autocomplete.”
+The moment an agent decides Mantine lacks a component is the moment it goes off-system. Rather than forbidding that, Mantine ships mantine-custom-components, a skill that intercepts exactly that intent and hands over a complete factory() template wiring Box, useProps, useStyles, createVarsResolver, StylesApiProps, ElementProps, displayName and Component.classes, so a “custom” component is still theme-aware, Styles-API-addressable and registerable via MantineProvider. It embeds a decision table (factory vs polymorphicFactory vs genericFactory) with one of the few directive constraints anywhere in Mantine’s AI surface: “Use polymorphicFactory sparingly — it adds TypeScript overhead and slows IDE autocomplete.”
 
 ````tsx
 const varsResolver = createVarsResolver<MyComponentFactory>((_theme, { radius }) => ({
@@ -208,8 +177,39 @@ Use `polymorphicFactory` sparingly — it adds TypeScript overhead and slows IDE
 
 Source: https://raw.githubusercontent.com/mantinedev/skills/HEAD/skills/mantine-custom-components/SKILL.md
 
+## Forcing the generator instead of free-hand scaffolding
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+
+`/v9-component` never tells the model which files to create. It routes every path through the repo’s own Nx generators (`yarn nx g @fluentui/workspace-plugin:react-component`, `yarn create-package`) and then hands the agent a post-generation checklist (fill in logic per component-patterns.md, add token-based styles, regenerate API docs via `yarn nx run :generate-api`). The generator is the spec; the agent is only allowed to fill the holes.
+
+````markdown
+Use the `react-component` generator:
+
+```bash
+yarn nx g @fluentui/workspace-plugin:react-component --name $ARGUMENTS --project <project-name>
+```
+
+Where `<project-name>` is the Nx project (e.g., `react-button`). This generates all required files: component, types, hook, styles, render, index barrel, and conformance test.
+
+### After scaffolding
+
+1. **Review generated files** against [docs/architecture/component-patterns.md]...
+2. **Add styles** in `use${ARGUMENTS}Styles.styles.ts` using design tokens
+4. **Update API docs** after adding exports:
+   ```bash
+   yarn nx run <project>:generate-api
+   ```
+
+## Critical Rules
+
+- Always use `ForwardRefComponent` with `React.forwardRef` — never `React.FC`
+````
+
+Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/v9-component/SKILL.md
+
 All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

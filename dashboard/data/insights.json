@@ -1,13 +1,13 @@
 {
   "lede": "A field survey of 19 actively maintained open-source design systems and component libraries, plus the five platforms around them. For each one: what it ships so coding agents can build with it (MCP servers, agent skills, llms.txt, editor rules, registries) and the tricks that keep a model using real components and tokens instead of making up its own. Every snippet links to its source.",
-  "insights_lede": "Nineteen records read together: what nearly every team now ships, and what the leading systems do that the rest have not started.",
+  "insights_lede": "Nineteen records read together: what nearly every team now ships, and what the leading systems do that the rest haven’t started.",
   "methodology_lede": "How the set was picked and what counted as an affordance or a technique. Every number on this site is computed from the records, not typed in.",
   "techniques_lede": "Every team here is solving the same problem: a model will happily write plausible code against a component API that doesn’t exist. The 148 techniques catalogued below are the industry’s answers, grouped into 11 categories, from blunt prohibition (“never invent components”) to setups where hallucination stops being possible because the agent has to fetch source it can’t fabricate.",
-  "platforms_lede": "The five platforms in this study’s brief sit in very different places. Figma is the deepest AI surface, a remote MCP server that gets sharper the more Code Connect mappings you feed it. Storybook turned the component workshop into an agent-readable API. Supernova, Knapsack and zeroheight all run remote MCP servers over the design-system content they host, with strikingly little publicly documented adoption so far.",
+  "platforms_lede": "Figma is the deepest AI surface in the study, a remote MCP server that gets sharper the more Code Connect mappings you feed it. Storybook turned the component workshop into an agent-readable API. Supernova, Knapsack and zeroheight all run remote MCP servers over the design-system content they host, and none of them can point to much published adoption yet.",
   "findings": [
     {
       "title": "The machine interface is table stakes: 16 of 19 ship an official MCP server",
-      "body": "Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. The question has shifted from whether to ship a machine interface to how: how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting."
+      "body": "Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. Nobody is still arguing about whether to ship a machine interface. The arguments now are about how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting."
     },
     {
       "title": "2026 is the year of the agent skill",
@@ -26,7 +26,7 @@
       "body": "Mantine regenerates llms.txt, a 4.2MB llms-full.txt and mcp/index.json from the same MDX and docgen data as the human docs, on every release. Cloudscape mirrors every docs page as markdown, exposes typed JSON API definitions per component and regenerates llms.txt daily. HeroUI refreshes its MCP server from docs deploys via repository_dispatch. Hand-written agent docs rot. These can’t."
     },
     {
-      "title": "Consumer-side and builder-side investment are wildly asymmetric, in both directions",
+      "title": "Consumer-side and builder-side investment barely track each other",
       "body": "Fluent UI has the deepest builder-side agent stack in the study (nine executable skills, never-violate rules, lint auto-fix loops, visual verification) and almost nothing for consumers. React Spectrum, shadcn, Polaris and SLDS are the mirror image: heavy consumer investment, no public agent files for contributors. Carbon, HeroUI, Ant Design and Chakra are the few investing seriously on both sides."
     },
     {
@@ -35,11 +35,11 @@
     },
     {
       "title": "Validation loops turn guidelines into gates",
-      "body": "SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. The shared idea: don’t trust generation, check it mechanically, and make the agent fix its own failures."
+      "body": "SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. None of them trust generation. They check it mechanically and make the agent fix what fails."
     },
     {
       "title": "The public sector is sitting this out, so far",
-      "body": "USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. What it added three weeks before this study says a lot: one deliberately vendor-neutral AGENTS.md for contributors, merged 2026-07-06. The AI-affordance race is a private-sector phenomenon for now."
+      "body": "USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. Three weeks before this study it merged a single deliberately vendor-neutral AGENTS.md for contributors, on 2026-07-06. That is the entire federal contribution to date. The AI-affordance race is a private-sector phenomenon for now."
     }
   ],
   "convergence": [
@@ -88,18 +88,18 @@
   ],
   "essay": [
     "Two years ago the question was whether design systems should care about AI consumption at all. That debate is over: of the nineteen systems here, all but one ship official machine-facing affordances, and thirteen treat AI consumption as a core design goal. What’s still contested, and what this study set out to map, is how you make a probabilistic text generator reliably use *your* components and *your* tokens rather than a statistically plausible imitation of them.",
-    "The answers cluster into three generations. The first is documentation reshaped for machines: llms.txt, markdown twins of docs pages, condensed component indexes. Nearly everyone does this now, and the state of the art is no longer writing these files but compiling them from the same sources as the human docs so they can’t drift. The second is instruction: rules files and skills that tell the model what to do and, mostly, what never to do. The best instruction writing reads like policy, not documentation — numbered never-violate rules, allow-lists of exported components written to stop models hallucinating `Box`/`Stack`/`Container` (Ant Design), Incorrect/Correct exemplar pairs (shadcn).",
+    "The answers cluster into three generations. The first is documentation reshaped for machines: llms.txt, markdown twins of docs pages, condensed component indexes. Nearly everyone does this now, and the state of the art is no longer writing these files but compiling them from the same sources as the human docs so they can’t drift. The second is instruction: rules files and skills that tell the model what to do and, mostly, what never to do. The best instruction writing reads like policy rather than documentation: numbered never-violate rules, allow-lists of exported components written to stop models hallucinating `Box`/`Stack`/`Container` (Ant Design), Incorrect/Correct exemplar pairs (shadcn).",
     "The third generation, and the clearest line between the leaders and the pack, is structural coercion: redesigning the task so the model can’t go off-system even if it wants to. Tool-gating makes the agent call an MCP tool or CLI to get component source; Primer writes “CRITICAL: CALL THIS FIRST” straight into its tool descriptions. Scaffolding has the CLI generate canonical code while the agent merely orchestrates (shadcn). Registries resolve real artifacts instead of imagined ones. Validation loops make the agent run linters and audits until they pass (SLDS, Fluent, Polaris). Instruction hopes the model complies. Structure checks.",
-    "One meta-finding deserves emphasis: the design-system team’s own repo is a different battlefield from the consumer’s repo, and investment on the two sides is strikingly uncorrelated. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: teams have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon’s AGENTS.md opens by telling maintainers to keep it short because it’s loaded into every agent’s context. That rigor, the machine interface treated with the same care as the component API, is probably what the next two years of this discipline look like."
+    "The design-system team’s own repo is a different battlefield from the consumer’s repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (React Spectrum, shadcn, SLDS) show no public builder-side agent files at all, while Fluent UI runs the deepest contributor stack in the study behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Carbon’s AGENTS.md opens by telling maintainers to keep it short because it’s loaded into every agent’s context. Give the machine interface the care you already give the component API. That is the part of this worth copying."
   ],
   "methodology": [
-    "The data was gathered on 26–27 July 2026 by a team of research agents (Claude Opus 5) coordinated by a lead model (Claude Fable 5). Scout agents mapped the territory first. Then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Everything was checked against primary sources before publication.",
+    "Research agents (Claude Opus 5) gathered the data on 26–27 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",
     "Inclusion criteria: open source, active within the last six months, and enough public surface to study. The set spans AI-native leaders, large corporate systems and one deliberate public-sector contrast case. Where monorepos are private (Atlassian, Nord, SLDS internals), records rely on published packages and docs, and say so.",
     "AI maturity is a four-step editorial rating applied with one rubric across all systems: **none** (no AI affordances found), **emerging** (llms.txt or an AI docs page, little more), **invested** (official MCP, skills or rules with real engineering behind them), **ai-native** (AI consumption is a core design goal).",
     "The full dataset ships alongside this report as JSON records and a relational SQLite database: systems, affordances, techniques, platform capabilities and sources."
   ],
   "caveats": [
-    "This is a point-in-time snapshot of the fastest-moving corner of the discipline, taken 26–27 July 2026. Expect drift within weeks.",
+    "A snapshot taken 26–27 July 2026. The systems described here ship weekly, so expect drift within weeks.",
     "Snippets are excerpts, capped at 40 lines and sometimes abridged mid-list. Follow the source link before quoting further.",
     "Builder-side findings cover public evidence only. Private monorepos may hold agent tooling this study can’t see; “no public agent files” is not “no AI usage”.",
     "Community tools were checked for existence, not audited for quality or maintenance.",

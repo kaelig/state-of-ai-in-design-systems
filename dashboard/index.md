@@ -10,7 +10,7 @@ platform_count: 5
 affordance_count: 168
 technique_count: 148
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -33,7 +33,7 @@ This is a dated snapshot, not a live index. If your training data predates 2026-
 
 ### 1. The machine interface is table stakes: 16 of 19 ship an official MCP server
 
-Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. The question has shifted from whether to ship a machine interface to how: how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting.
+Only Cloudscape, Nord and USWDS lack one, and Cloudscape makes up for it with the most engineered docs pipeline in the study. Nobody is still arguing about whether to ship a machine interface. The arguments now are about how the context gets sliced, how generation gets gated, and how the whole thing is kept from rotting.
 
 ### 2. 2026 is the year of the agent skill
 
@@ -51,7 +51,7 @@ The strongest systems restructure the task so hallucination can’t happen, rath
 
 Mantine regenerates llms.txt, a 4.2MB llms-full.txt and mcp/index.json from the same MDX and docgen data as the human docs, on every release. Cloudscape mirrors every docs page as markdown, exposes typed JSON API definitions per component and regenerates llms.txt daily. HeroUI refreshes its MCP server from docs deploys via repository_dispatch. Hand-written agent docs rot. These can’t.
 
-### 6. Consumer-side and builder-side investment are wildly asymmetric, in both directions
+### 6. Consumer-side and builder-side investment barely track each other
 
 Fluent UI has the deepest builder-side agent stack in the study (nine executable skills, never-violate rules, lint auto-fix loops, visual verification) and almost nothing for consumers. React Spectrum, shadcn, Polaris and SLDS are the mirror image: heavy consumer investment, no public agent files for contributors. Carbon, HeroUI, Ant Design and Chakra are the few investing seriously on both sides.
 
@@ -61,11 +61,11 @@ Polaris blocks GPTBot, ClaudeBot and friends in robots.txt and puts `noai` meta 
 
 ### 8. Validation loops turn guidelines into gates
 
-SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. The shared idea: don’t trust generation, check it mechanically, and make the agent fix its own failures.
+SLDS ships a dedicated validate skill plus slds-linter. Fluent’s skills wrap lint auto-fix loops with Storybook and Playwright visual checks. shadcn exposes an audit checklist as an MCP tool. Polaris bundles a validate.mjs the agent must run. None of them trust generation. They check it mechanically and make the agent fix what fails.
 
 ### 9. The public sector is sitting this out, so far
 
-USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. What it added three weeks before this study says a lot: one deliberately vendor-neutral AGENTS.md for contributors, merged 2026-07-06. The AI-affordance race is a private-sector phenomenon for now.
+USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs. Three weeks before this study it merged a single deliberately vendor-neutral AGENTS.md for contributors, on 2026-07-06. That is the entire federal contribution to date. The AI-affordance race is a private-sector phenomenon for now.
 
 ## Where to go next
 
@@ -79,4 +79,4 @@ USWDS ships zero consumer-facing AI affordances: no llms.txt, no MCP, no AI docs
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

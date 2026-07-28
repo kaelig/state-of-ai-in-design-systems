@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 9
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,13 +31,13 @@ Saadeghi (open source) · component-library · MIT (library + skill); daisyUI Bl
 
 ## Summary
 
-daisyUI is the most AI-forward system in this study outside of shadcn/ui, and the only one that has turned AI consumption into a commercial product line. Its consumption surface is deep and layered: a single `llms.txt` that is simultaneously a Cursor rule, an agent skill and a docs digest (complete with `alwaysApply: true` frontmatter and “TRIGGER ... even if the user does not explicitly ask” language); an MIT-licensed multi-file skill in `skills/daisyui/` with a “Mandatory reference” routing table; native agent-plugin manifests for Claude Code, Codex, Cursor and Grok Build (plus a generic `.agents/plugins/marketplace.json`); and “Blueprint” 1.5, a paid, license-keyed official MCP server (npm `daisyui-blueprint@1.5.3`) whose marketing copy is an explicit thesis that skills fail because “the model reads a few files, skips the rest, ignores inconvenient rules, and moves on.” Blueprint answers that with six sequenced tools — Setup Expert, Rules Enforcer, Creative Director, Page Architect, Component Syntax Expert, Quality Inspector — three of them labelled “Mandatory” and the last a “Final gate” the agent must pass before it may call the page finished. The builder side is thinner but real: six path-scoped Copilot `*.instructions.md` files that themselves mandate Context7 MCP for syntax lookups, with no CLAUDE.md or AGENTS.md in the repo.
+daisyUI is the most AI-forward system in this study outside of shadcn/ui, and the only one that has turned AI consumption into a commercial product line. Its consumption surface is deep and layered: a single `llms.txt` that is simultaneously a Cursor rule, an agent skill and a docs digest (complete with `alwaysApply: true` frontmatter and “TRIGGER ... even if the user does not explicitly ask” language); an MIT-licensed multi-file skill in `skills/daisyui/` with a “Mandatory reference” routing table; native agent-plugin manifests for Claude Code, Codex, Cursor and Grok Build (plus a generic `.agents/plugins/marketplace.json`); and “Blueprint” 1.5, a paid, license-keyed official MCP server (npm `daisyui-blueprint@1.5.3`) whose marketing copy is an explicit thesis that skills fail because “the model reads a few files, skips the rest, ignores inconvenient rules, and moves on.” Blueprint answers that with six sequenced tools (Setup Expert, Rules Enforcer, Creative Director, Page Architect, Component Syntax Expert, Quality Inspector), three of them labelled “Mandatory” and the last a “Final gate” the agent must pass before it may call the page finished. The builder side is thinner but real: six path-scoped Copilot `*.instructions.md` files that themselves mandate Context7 MCP for syntax lookups, with no CLAUDE.md or AGENTS.md in the repo.
 
 ## Maintenance
 
 - Actively maintained: yes
 - Last release: v5.7.4, 2026-07-25 (v5.7.2/.3/.4 all shipped the same day)
-- Activity: 41,846 stars, MIT, not archived. Last commit 2026-07-27T03:04Z; ≥100 commits in the trailing 90 days (API page cap hit). Blueprint MCP npm package `daisyui-blueprint` created 2025-10-24, 29 versions, latest 1.5.3 published 2026-07-24 — i.e. the AI product ships on the same cadence as the library. Single-maintainer bus factor (Pouya Saadeghi) is the main structural risk.
+- Activity: 41,846 stars, MIT, not archived. Last commit 2026-07-27T03:04Z; ≥100 commits in the trailing 90 days (API page cap hit). Blueprint MCP npm package `daisyui-blueprint` created 2025-10-24, 29 versions, latest 1.5.3 published 2026-07-24, so the AI product ships on the same cadence as the library. Single-maintainer bus factor (Pouya Saadeghi) is the main structural risk.
 
 ## AI affordances (9)
 
@@ -51,7 +51,7 @@ The official daisyUI MCP server, sold as a paid product ($22/mo, $45/quarter, ye
 
 - Code: https://www.npmjs.com/package/daisyui-blueprint
 
-Notes: Source is closed — the npm package has no `repository` field and no license field; tool schemas could not be independently inspected without a license key. Version 1.5 changelog dated July 2026.
+Notes: Source is closed: the npm package has no `repository` field and no license field; tool schemas could not be independently inspected without a license key. Version 1.5 changelog dated July 2026.
 
 ```bash
 claude mcp add daisyui-blueprint --env LICENSE=YOUR_LICENSE_KEY --env EMAIL=YOUR_EMAIL --env FIGMA=YOUR_FIGMA_API_KEY -- npx -y daisyui-blueprint@latest
@@ -180,7 +180,7 @@ Source: https://daisyui.com/skills/
 
 Type: `copilot-instructions` (Copilot instructions) · Official · Audience: builders
 
-The repo has no CLAUDE.md and no AGENTS.md; instead it uses GitHub Copilot’s path-scoped instructions format with six files: code_generation, code_generation_with_git, communication, packages.daisyui, packages.docs, workspace. They encode hard prohibitions (‘Never ever break the code syntax’, ‘Never ever delete files before asking’, ‘Do not add any new package or dependency without asking first’), no-go directories (‘packages/bundle ... Do not read nor write code here’), and — notably — mandate an external MCP server as the source of truth for syntax rather than model memory.
+The repo has no CLAUDE.md and no AGENTS.md; instead it uses GitHub Copilot’s path-scoped instructions format with six files: code_generation, code_generation_with_git, communication, packages.daisyui, packages.docs, workspace. They encode hard prohibitions (‘Never ever break the code syntax’, ‘Never ever delete files before asking’, ‘Do not add any new package or dependency without asking first’), no-go directories (‘packages/bundle ... Do not read nor write code here’), and mandate an external MCP server as the source of truth for syntax rather than model memory.
 
 - Code: https://github.com/saadeghi/daisyui/tree/master/.github/instructions
 
@@ -231,7 +231,7 @@ Notes: Star counts and push dates from GitHub search API on 2026-07-27.
 
 ## Coercion techniques (8)
 
-### "Mandatory MCP workflow" — tool-gated sequential pipeline with a terminal quality gate
+### “Mandatory MCP workflow” — tool-gated sequential pipeline with a terminal quality gate
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
@@ -256,11 +256,11 @@ Every tool has a defined job and a strict execution order. Each tool provides th
 
 Source: https://daisyui.com/blueprint/
 
-### Named the failure mode: "Your LLM ignores the instructions and skills"
+### Named the failure mode: “Your LLM ignores the instructions and skills”
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-daisyUI’s marketing is an unusually explicit, receipts-first critique of the skill/rules paradigm every other system in this study relies on — complete with a mocked-up log of a model reading SKILL.md, truncating two reference files at ‘Lines 1 to 120’, partially ignoring four more and skipping quality-checks.md entirely. It is the clearest articulation in the dataset of *why* prohibition-style instruction files under-perform, and it is used to justify moving enforcement from prose into tool boundaries.
+daisyUI’s marketing is an unusually explicit, receipts-first critique of the skill/rules paradigm every other system in this study relies on, complete with a mocked-up log of a model reading SKILL.md, truncating two reference files at ‘Lines 1 to 120’, partially ignoring four more and skipping quality-checks.md entirely. It is the clearest articulation in the dataset of *why* prohibition-style instruction files under-perform, and it is used to justify moving enforcement from prose into tool boundaries.
 
 ```text
 TRYING TO FIX THE SLOP WITH INSTRUCTIONS?
@@ -285,7 +285,7 @@ Wasted time, wasted effort, wasted tokens
 
 Source: https://daisyui.com/blueprint/
 
-### Unsolicited-trigger framing: "the mandatory UI library", fires "even if the user does not explicitly ask"
+### Unsolicited-trigger framing: “the mandatory UI library”, fires “even if the user does not explicitly ask”
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
@@ -305,11 +305,11 @@ description: Official daisyUI component library skill. The mandatory UI library 
 
 Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/SKILL.md
 
-### "Mandatory reference" routing table with per-file MANDATORY flags
+### “Mandatory reference” routing table with per-file MANDATORY flags
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-The root SKILL.md is a dispatcher, not a document: a table that tells the agent which sub-skill to read for which task, with each row annotated MANDATORY or conditional. It also pre-empts premature component choice (‘Always read multiple candidate component docs before deciding which one to use’) — a cheap, effective guard against the model grabbing the first plausible class name. Sub-skills repeat the enforcement in their own frontmatter (‘description: MANDATORY usage rules for daisyUI 5’, ‘MANDATORY color usage rules for daisyUI 5’).
+The root SKILL.md is a dispatcher, not a document: a table that tells the agent which sub-skill to read for which task, with each row annotated MANDATORY or conditional. It also pre-empts premature component choice (‘Always read multiple candidate component docs before deciding which one to use’), a cheap and effective guard against the model grabbing the first plausible class name. Sub-skills repeat the enforcement in their own frontmatter (‘description: MANDATORY usage rules for daisyUI 5’, ‘MANDATORY color usage rules for daisyUI 5’).
 
 ```markdown
 ## Mandatory reference
@@ -329,7 +329,7 @@ Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/skills/daisyui/S
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
-The usage rules are a tight funnel: only daisyUI classes or Tailwind utilities are permitted (rule 6), custom CSS is discouraged (rule 7), and the override path is a ranked ladder — daisyUI class → Tailwind utility → `!` important as an explicitly ‘last resort ... used sparingly’ (rule 3). Rule 12 is a rare and very on-the-nose anti-AI-slop constraint: prefer `btn` over `btn btn-primary` unless the user asked, which directly attacks the everything-is-purple-and-primary tell. Rule 11 outsources visual judgement to a named book.
+The usage rules are a tight funnel: only daisyUI classes or Tailwind utilities are permitted (rule 6), custom CSS is discouraged (rule 7), and the override path is a ranked ladder: daisyUI class → Tailwind utility → `!` important as an explicitly ‘last resort ... used sparingly’ (rule 3). Rule 12 is a rare and very on-the-nose anti-AI-slop constraint: prefer `btn` over `btn btn-primary` unless the user asked, which directly attacks the everything-is-purple-and-primary tell. Rule 11 outsources visual judgement to a named book.
 
 ```markdown
 6. Only allowed class names are existing daisyUI class names or Tailwind CSS utility classes.
@@ -371,7 +371,7 @@ Source: https://daisyui.com/blueprint/workflow/
 
 Category: `instruction-files` (Instruction files) · all 9 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/instruction-files.md
 
-daisyUI ships a single canonical context file and lets the frontmatter do the format polymorphism: `alwaysApply: true` + `applyTo: "**"` mean the same 79 KB llms.txt is a valid Cursor rule when curl’d to `.cursor/rules/daisyui.mdc`, a valid skill when placed as SKILL.md, and a plain docs digest when fetched by a crawler. It removes the usual drift between a project’s llms.txt and its rules files, at the cost of a large always-on token footprint — which is precisely the cost Blueprint is sold to eliminate (‘90% lower token costs’).
+daisyUI ships a single canonical context file and lets the frontmatter do the format polymorphism: `alwaysApply: true` + `applyTo: "**"` mean the same 79 KB llms.txt is a valid Cursor rule when curl’d to `.cursor/rules/daisyui.mdc`, a valid skill when placed as SKILL.md, and a plain docs digest when fetched by a crawler. It removes the usual drift between a project’s llms.txt and its rules files, at the cost of a large always-on token footprint, which is precisely the cost Blueprint is sold to eliminate (‘90% lower token costs’).
 
 ```text
 daisyui.com/llms.txt file is a compact, text version of daisyUI docs to help AI generate accurate daisyUI code based on your prompt.
@@ -391,7 +391,7 @@ Source: https://daisyui.com/docs/editor/cursor/
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-On the maintainer side, daisyUI’s own Copilot instructions do not ask the model to be careful — they redirect it to a tool. Context7 MCP is named twice as the required lookup path for syntax and package information, paired with ‘do not make up answers’ and ‘Do not guess, do not hallucinate’. Workspace rules add hard directory prohibitions and a dependency-approval gate.
+On the maintainer side, daisyUI’s own Copilot instructions do not ask the model to be careful; they redirect it to a tool. Context7 MCP is named twice as the required lookup path for syntax and package information, paired with ‘do not make up answers’ and ‘Do not guess, do not hallucinate’. Workspace rules add hard directory prohibitions and a dependency-approval gate.
 
 ```markdown
 - `packages/bundle`: This directory contains generated bundle files. Do not read nor write code here.
@@ -411,7 +411,7 @@ Source: https://raw.githubusercontent.com/saadeghi/daisyui/HEAD/.github/instruct
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Blueprint MCP includes a Figma→daisyUI conversion tool that ‘Reads frames, hierarchy, auto layout, type, color, component instances, and a rendered preview before matching daisyUI patterns’, driven by a user-supplied Figma API key (FIGMA env var) with a dedicated /blueprint/figma/ setup guide. This is Figma-to-code via the Figma REST API, NOT Figma Code Connect — no Code Connect mappings were found. A separate ‘Figma Library’ product is linked from site navigation (https://daisyui.com/figma/ returns 404, so the exact URL is unverified).
+Blueprint MCP includes a Figma→daisyUI conversion tool that ‘Reads frames, hierarchy, auto layout, type, color, component instances, and a rendered preview before matching daisyUI patterns’, driven by a user-supplied Figma API key (FIGMA env var) with a dedicated /blueprint/figma/ setup guide. This is Figma-to-code via the Figma REST API, NOT Figma Code Connect; no Code Connect mappings were found. A separate ‘Figma Library’ product is linked from site navigation (https://daisyui.com/figma/ returns 404, so the exact URL is unverified).
 
 Link: https://daisyui.com/blueprint/figma/
 
@@ -425,15 +425,15 @@ Link: https://daisyui.com/blueprint/changelog/
 
 ### For consumers (agents building UIs with daisyUI)
 
-Extremely well served, and tiered by willingness to pay. Free tier: llms.txt (one file, works as Cursor rule / skill / @docs source), the MIT skill in skills/daisyui/ (root router + install/usage/config/colors + ~70 component files), agent plugins for Claude Code / Codex / Cursor / Grok Build, `npx skills add saadeghi/daisyui`, and per-editor setup pages for ten tools. Paid tier: Blueprint MCP ($22/mo → lifetime) for the six-tool enforced workflow, Figma/Tailwind/Bootstrap/screenshot conversion and the Quality Inspector gate; plus Dashboard ($29+) and Charts ($39+) skills. The docs actively steer consumers up this ladder — the skill page recommends MCP over skills, and the plugin page says 'If you already use daisyUI Blueprint MCP server, you don’t need to install this plugin.'
+Extremely well served, and tiered by willingness to pay. Free tier: llms.txt (one file, works as Cursor rule / skill / @docs source), the MIT skill in skills/daisyui/ (root router + install/usage/config/colors + ~70 component files), agent plugins for Claude Code / Codex / Cursor / Grok Build, `npx skills add saadeghi/daisyui`, and per-editor setup pages for ten tools. Paid tier: Blueprint MCP ($22/mo → lifetime) for the six-tool enforced workflow, Figma/Tailwind/Bootstrap/screenshot conversion and the Quality Inspector gate; plus Dashboard ($29+) and Charts ($39+) skills. The docs actively steer consumers up this ladder: the skill page recommends MCP over skills, and the plugin page says 'If you already use daisyUI Blueprint MCP server, you don’t need to install this plugin.'
 
 ### For builders (the daisyUI team using AI on the system itself)
 
-Modest and conventional. No CLAUDE.md, no AGENTS.md, no .cursorrules, no .claude/ directory at the repo root — the entire builder-facing surface is six path-scoped GitHub Copilot instruction files in .github/instructions/ (code_generation, code_generation_with_git, communication, packages.daisyui, packages.docs, workspace), all with `applyTo: "**"`. They are genuinely good instruction files — hard prohibitions, no-go generated directories, a dependency-approval gate, terse-communication rules, and a mandate to use Context7 MCP rather than recall syntax — but there is no AI-assisted DS tooling for maintainers (no LLM-generated docs pipeline, no agentic release notes, no AI triage: the issue-reply workflow is a Handlebars template, and write-release-notes.yml is deterministic). CONTRIBUTING.md contains no AI policy at all — neither encouragement nor a disclosure/prohibition on AI-authored PRs, a notable omission for a 41k-star single-maintainer repo.
+Modest and conventional. No CLAUDE.md, no AGENTS.md, no .cursorrules, no .claude/ directory at the repo root. The entire builder-facing surface is six path-scoped GitHub Copilot instruction files in .github/instructions/ (code_generation, code_generation_with_git, communication, packages.daisyui, packages.docs, workspace), all with `applyTo: "**"`. They are genuinely good instruction files: hard prohibitions, no-go generated directories, a dependency-approval gate, terse-communication rules, and a mandate to use Context7 MCP rather than recall syntax. But there is no AI-assisted DS tooling for maintainers (no LLM-generated docs pipeline, no agentic release notes, no AI triage: the issue-reply workflow is a Handlebars template, and write-release-notes.yml is deterministic). CONTRIBUTING.md contains no AI policy at all: neither encouragement nor a disclosure or prohibition on AI-authored PRs, an odd omission for a 41k-star single-maintainer repo.
 
 ## Gaps
 
-Not confirmed, or not found: (1) Blueprint’s actual MCP tool names, input schemas and prompt text could not be inspected — the npm package `daisyui-blueprint` is closed-source (no repository or license field) and requires a paid LICENSE key, so all six-tool detail here comes from daisyUI’s own marketing and docs pages, not from the server. The ‘168 rules’, ‘211 page architectures’, ‘68 components’ and ‘100/100’ inspection score are vendor claims, unaudited. (2) No /llms-full.txt (404) and no per-page markdown variants (/components/button.md, /docs/mcp.md → 404); docs pages instead link ‘Text version for AI prompts’ to the raw GitHub +page.md source. (3) No Figma Code Connect and no Storybook integration found; the ‘Figma Library’ nav item’s URL was not resolved (https://daisyui.com/figma/ → 404). (4) daisyUI is CSS-class-based, so there is no component registry in the shadcn/ui sense — ‘registry’ here means agent-plugin marketplaces, not installable code. (5) daisyUI’s docs reference a ‘daisyUI GitMCP’ as an option for Cursor; this study did not verify whether that is a first-party endpoint or just gitmcp.io pointed at the repo. (6) Blueprint pricing above the 3-month tier ($22/mo, $45/quarter observed) was truncated in the fetched page; yearly and lifetime tiers are confirmed to exist by the FAQ but their prices are unrecorded. (7) Community MCP star counts are a 2026-07-27 snapshot from the GitHub search API; WebSearch was unavailable during this pass, so community-adoption signal (blog posts, downloads) is thinner than ideal.
+Not confirmed, or not found: (1) Blueprint’s actual MCP tool names, input schemas and prompt text could not be inspected: the npm package `daisyui-blueprint` is closed-source (no repository or license field) and requires a paid LICENSE key, so all six-tool detail here comes from daisyUI’s own marketing and docs pages, not from the server. The ‘168 rules’, ‘211 page architectures’, ‘68 components’ and ‘100/100’ inspection score are vendor claims, unaudited. (2) No /llms-full.txt (404) and no per-page markdown variants (/components/button.md, /docs/mcp.md → 404); docs pages instead link ‘Text version for AI prompts’ to the raw GitHub +page.md source. (3) No Figma Code Connect and no Storybook integration found; the ‘Figma Library’ nav item’s URL was not resolved (https://daisyui.com/figma/ → 404). (4) daisyUI is CSS-class-based, so there is no component registry in the shadcn/ui sense; ‘registry’ here means agent-plugin marketplaces, not installable code. (5) daisyUI’s docs reference a ‘daisyUI GitMCP’ as an option for Cursor; this study did not verify whether that is a first-party endpoint or just gitmcp.io pointed at the repo. (6) Blueprint pricing above the 3-month tier ($22/mo, $45/quarter observed) was truncated in the fetched page; yearly and lifetime tiers are confirmed to exist by the FAQ but their prices are unrecorded. (7) Community MCP star counts are a 2026-07-27 snapshot from the GitHub search API; WebSearch was unavailable during this pass, so community-adoption signal (blog posts, downloads) is thinner than ideal.
 
 ## Sources (15)
 
@@ -469,4 +469,4 @@ Not confirmed, or not found: (1) Blueprint’s actual MCP tool names, input sche
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,13 +31,13 @@ HeroUI Inc · component-library · Apache-2.0 · AI maturity: **ai-native** (AI 
 
 ## Summary
 
-HeroUI (formerly NextUI) is a 30k-star React component library, now shipping v3 on Tailwind CSS v4 + React Aria Components. It is one of the most thoroughly AI-instrumented open-source component libraries in the study: the v3 monorepo ships a top-level `skills/` directory with three installable Agent Skills, a `prompts/` directory of vendor-specific system prompts (v0.dev, bolt.new, universal), four llms.txt variants per platform sliced by context-window budget, an official stdio MCP server (`@heroui/react-mcp`) auto-refreshed from docs deploys via repository_dispatch, and a `curl | bash` installer that writes skills into Claude Code, Cursor, OpenCode and Codex config dirs. On the builder side the repo carries both AGENTS.md and CLAUDE.md, five `.claude/agents/*` subagent definitions, a `.claude/guides/` reference, and a `.claude/hooks.mjs` pre/post-edit hook running prettier, eslint --fix and tsc on every agent edit. The coercion language is unusually blunt — the CLI-injected index literally opens with “STOP. What you remember about HeroUI React v3 is WRONG for this project.”
+HeroUI (formerly NextUI) is a 30k-star React component library, now shipping v3 on Tailwind CSS v4 + React Aria Components. It is one of the most thoroughly AI-instrumented open-source component libraries in the study: the v3 monorepo ships a top-level `skills/` directory with three installable Agent Skills, a `prompts/` directory of vendor-specific system prompts (v0.dev, bolt.new, universal), four llms.txt variants per platform sliced by context-window budget, an official stdio MCP server (`@heroui/react-mcp`) auto-refreshed from docs deploys via repository_dispatch, and a `curl | bash` installer that writes skills into Claude Code, Cursor, OpenCode and Codex config dirs. On the builder side the repo carries both AGENTS.md and CLAUDE.md, five `.claude/agents/*` subagent definitions, a `.claude/guides/` reference, and a `.claude/hooks.mjs` pre/post-edit hook running prettier, eslint --fix and tsc on every agent edit. The coercion language is unusually blunt: the CLI-injected index literally opens with “STOP. What you remember about HeroUI React v3 is WRONG for this project.”
 
 ## Maintenance
 
 - Actively maintained: yes
 - Last release: v3.2.2 (2026-07-07)
-- Activity: Repo pushed 2026-07-26; 30,218 stars; releases roughly monthly through v3 (v3.0.5 May, v3.1.0 May, v3.2.0/3.2.1 June, v3.2.2 July 2026). heroui-cli 3.0.4 published 2026-07-06. The MCP monorepo (heroui-inc/heroui-mcp) is slower: last push 2026-04-16, @heroui/react-mcp 1.1.0 published 2026-02-12 — the MCP surface lags the main library. The older @heroui/mcp package is a stale 1.0.0-alpha.17 from Sept 2025, superseded by @heroui/react-mcp.
+- Activity: Repo pushed 2026-07-26; 30,218 stars; releases roughly monthly through v3 (v3.0.5 May, v3.1.0 May, v3.2.0/3.2.1 June, v3.2.2 July 2026). heroui-cli 3.0.4 published 2026-07-06. The MCP monorepo (heroui-inc/heroui-mcp) is slower: last push 2026-04-16, @heroui/react-mcp 1.1.0 published 2026-02-12, so the MCP surface lags the main library. The older @heroui/mcp package is a stale 1.0.0-alpha.17 from Sept 2025, superseded by @heroui/react-mcp.
 
 ## AI affordances (10)
 
@@ -260,7 +260,7 @@ Source: https://github.com/heroui-inc/heroui/blob/v3/AGENTS.md
 
 Type: `claude-skill` (Agent skill) · Official · Audience: builders
 
-Checked-in Claude Code subagent definitions: docs-curator.md (13 KB, model: opus), heroui-docs-writer.md (16 KB), style-migrator.md (11 KB, .styles.ts → BEM CSS migration), tailwind-v4-css-expert.md, storybook-debugger.md — plus .claude/guides/tailwindcss-v4-css-guide.md as shared curated context. They chain: style-migrator is told to delegate to tailwind-v4-css-expert for validation.
+Checked-in Claude Code subagent definitions: docs-curator.md (13 KB, model: opus), heroui-docs-writer.md (16 KB), style-migrator.md (11 KB, .styles.ts → BEM CSS migration), tailwind-v4-css-expert.md, storybook-debugger.md, plus .claude/guides/tailwindcss-v4-css-guide.md as shared curated context. They chain: style-migrator is told to delegate to tailwind-v4-css-expert for validation.
 
 - Code: https://github.com/heroui-inc/heroui/tree/v3/.claude/agents
 
@@ -322,7 +322,7 @@ Source: https://github.com/heroui-inc/heroui/blob/v3/.claude/hooks.mjs
 
 Type: `mcp-server` (MCP server) · Community · Audience: consumers
 
-Independent community MCP server for HeroUI component context, predating the official one. 17 stars, last pushed 2025-07-20 — effectively dormant and superseded by @heroui/react-mcp.
+Independent community MCP server for HeroUI component context, predating the official one. 17 stars, last pushed 2025-07-20, effectively dormant and superseded by @heroui/react-mcp.
 
 - Code: https://github.com/T-hash06/heroui-mcp
 
@@ -330,7 +330,7 @@ Notes: Listed for completeness; not recommended.
 
 ## Coercion techniques (8)
 
-### "STOP. What you remember is WRONG" — weight-invalidation preamble
+### “STOP. What you remember is WRONG” — weight-invalidation preamble
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
@@ -352,7 +352,7 @@ parts.push(
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui-cli/HEAD/src/helpers/agents-docs/index-and-inject.ts
 
-### Negative exemplars — a labelled "DO NOT DO THIS" code block
+### Negative exemplars — a labelled “DO NOT DO THIS” code block
 
 Category: `exemplars` (Exemplars) · all 10 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/exemplars.md
 
@@ -390,7 +390,7 @@ Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-r
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
-heroui-react deliberately withholds component API detail from SKILL.md and instead hands the agent six node scripts plus a deterministic MDX URL scheme, repeating “Always fetch component docs before implementing.” The skill body stays small (6.5 KB) while every concrete answer must come from a live fetch — the same discipline the MCP server enforces via tools.
+heroui-react deliberately withholds component API detail from SKILL.md and instead hands the agent six node scripts plus a deterministic MDX URL scheme, repeating “Always fetch component docs before implementing.” The skill body stays small (6.5 KB) while every concrete answer must come from a live fetch, the same discipline the MCP server enforces via tools.
 
 ```bash
 **For component details, examples, props, and implementation patterns, always fetch documentation:**
@@ -417,7 +417,7 @@ Component docs: `https://heroui.com/docs/react/components/{component-name}.mdx`
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-react/SKILL.md
 
-### Semantic-token enforcement — "Don't use raw colors"
+### Semantic-token enforcement — “Don’t use raw colors”
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
@@ -486,7 +486,7 @@ Rather than asking the agent to remember to lint, .claude/hooks.mjs runs prettie
 
 Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.claude/hooks.mjs
 
-### Ground-truth-first subagents ("never assume, always verify")
+### Ground-truth-first subagents (“never assume, always verify”)
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
@@ -541,13 +541,13 @@ Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/.github/workflo
 
 ### Figma (Dev Mode MCP server, Code Connect, Figma Make)
 
-Official HeroUI Figma Kit V3 on Figma Community, marketed as a 1:1 match with v3 code (same variants, naming, structure) using Figma variables mapped to code tokens (--accent, --surface, --radius) and Figma slots for composition. No Code Connect (*.figma.tsx) files exist anywhere in the heroui-inc org — code search returned only prose mentions in blog/docs MDX. Figma Dev Mode MCP is not documented as supported.
+Official HeroUI Figma Kit V3 on Figma Community, marketed as a 1:1 match with v3 code (same variants, naming, structure) using Figma variables mapped to code tokens (--accent, --surface, --radius) and Figma slots for composition. No Code Connect (*.figma.tsx) files exist anywhere in the heroui-inc org; code search returned only prose mentions in blog/docs MDX. Figma Dev Mode MCP is not documented as supported.
 
 Link: https://www.figma.com/community/file/1546526812159103429/heroui-figma-kit-v3
 
 ### Storybook (addon-mcp, manifests, AI docs)
 
-Storybook is the internal component-development environment (`pnpm dev`, port 6006); every component ships a .stories.tsx. It is used as an AI substrate on the builder side — docs-curator treats stories as the primary source of truth for docs demos, and a dedicated storybook-debugger subagent exists. No public Storybook-based MCP or addon for consumers.
+Storybook is the internal component-development environment (`pnpm dev`, port 6006); every component ships a .stories.tsx. It is used as an AI substrate on the builder side: docs-curator treats stories as the primary source of truth for docs demos, and a dedicated storybook-debugger subagent exists. No public Storybook-based MCP or addon for consumers.
 
 Link: https://github.com/heroui-inc/heroui/tree/v3/packages/storybook
 
@@ -565,11 +565,11 @@ Exceptionally well served, and deliberately multi-modal so the same guidance lan
 
 ### For builders (the HeroUI team using AI on the system itself)
 
-Also unusually mature for an OSS component library. The repo root carries both AGENTS.md and CLAUDE.md (overlapping; AGENTS.md is the fuller spec), plus `.claude/` with five committed subagent definitions (docs-curator on opus, heroui-docs-writer, style-migrator, tailwind-v4-css-expert, storybook-debugger), a curated `.claude/guides/tailwindcss-v4-css-guide.md`, and `hooks.mjs` enforcing lint/typecheck/protected-file rules on every agent edit. The style-migrator subagent is a genuine AI-assisted migration tool (tailwind-variants .styles.ts → BEM CSS) built for the v2→v3 restyle. Notably absent: any .cursorrules, .cursor/rules/, or .github/copilot-instructions.md, and CONTRIBUTING.md contains zero mentions of AI, agents, Claude, Copilot or skills — the agent tooling is entirely undocumented for outside contributors.
+Also unusually mature for an OSS component library. The repo root carries both AGENTS.md and CLAUDE.md (overlapping; AGENTS.md is the fuller spec), plus `.claude/` with five committed subagent definitions (docs-curator on opus, heroui-docs-writer, style-migrator, tailwind-v4-css-expert, storybook-debugger), a curated `.claude/guides/tailwindcss-v4-css-guide.md`, and `hooks.mjs` enforcing lint/typecheck/protected-file rules on every agent edit. The style-migrator subagent is a genuine AI-assisted migration tool (tailwind-variants .styles.ts → BEM CSS) built for the v2→v3 restyle. Notably absent: any .cursorrules, .cursor/rules/, or .github/copilot-instructions.md, and CONTRIBUTING.md contains zero mentions of AI, agents, Claude, Copilot or skills, so the agent tooling is entirely undocumented for outside contributors.
 
 ## Gaps
 
-1) No Figma Code Connect: despite a 1:1 Figma Kit V3, a GitHub code search across heroui-inc found no *.figma.tsx or Code Connect configuration — only prose mentions in blog/docs MDX. No Figma Dev Mode MCP integration documented. 2) No shadcn-style machine-readable component registry (registry.json returned 0 results org-wide); agents get docs and source via MCP/scripts, not an installable registry. 3) MCP staleness: @heroui/react-mcp last published 2026-02-12 and heroui-inc/heroui-mcp last pushed 2026-04-16 while the library shipped v3.2.2 in July 2026 — the auto-extraction workflow keeps the docs corpus fresh but the server package lags. Legacy @heroui/mcp is stuck at 1.0.0-alpha.17 (Sept 2025) and still surfaces in search. 4) Tooling split-brain: heroui-cli’s agents-md is v3-only while add/init/upgrade still target v2, flagged in a docs Callout. 5) The migration skill points at a preview Vercel URL (heroui-git-docs-migration-heroui.vercel.app) rather than a stable domain, and is marked status: preview. 6) No Supernova / Knapsack / zeroheight presence found. 7) /llms-full.txt is ~7 MB — far beyond most context windows despite the ‘full’ framing; heroui.com/llms.txt serves a JS redirect shell to some clients before resolving to the 76 KB / 517-line index. 8) No AI guidance for external contributors: CONTRIBUTING.md never mentions the .claude/ tooling. 9) No evidence found of AI review bots on PRs or AI-authored codemods beyond the style-migrator subagent. 10) AGENTS.md and CLAUDE.md substantially duplicate each other, a drift risk.
+1) No Figma Code Connect: despite a 1:1 Figma Kit V3, a GitHub code search across heroui-inc found no *.figma.tsx or Code Connect configuration, only prose mentions in blog/docs MDX. No Figma Dev Mode MCP integration documented. 2) No shadcn-style machine-readable component registry (registry.json returned 0 results org-wide); agents get docs and source via MCP/scripts, not an installable registry. 3) MCP staleness: @heroui/react-mcp last published 2026-02-12 and heroui-inc/heroui-mcp last pushed 2026-04-16 while the library shipped v3.2.2 in July 2026. The auto-extraction workflow keeps the docs corpus fresh, but the server package lags. Legacy @heroui/mcp is stuck at 1.0.0-alpha.17 (Sept 2025) and still surfaces in search. 4) Tooling split-brain: heroui-cli’s agents-md is v3-only while add/init/upgrade still target v2, flagged in a docs Callout. 5) The migration skill points at a preview Vercel URL (heroui-git-docs-migration-heroui.vercel.app) rather than a stable domain, and is marked status: preview. 6) No Supernova / Knapsack / zeroheight presence found. 7) /llms-full.txt is ~7 MB, far beyond most context windows despite the ‘full’ framing; heroui.com/llms.txt serves a JS redirect shell to some clients before resolving to the 76 KB / 517-line index. 8) No AI guidance for external contributors: CONTRIBUTING.md never mentions the .claude/ tooling. 9) No evidence found of AI review bots on PRs or AI-authored codemods beyond the style-migrator subagent. 10) AGENTS.md and CLAUDE.md substantially duplicate each other, a drift risk.
 
 ## Sources (15)
 
@@ -605,4 +605,4 @@ Also unusually mature for an OSS component library. The repo root carries both A
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

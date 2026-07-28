@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ IBM · design-system · Apache-2.0 · AI maturity: **ai-native** (AI consumption
 
 ## Summary
 
-Carbon is the most complete AI-affordance stack of any open-source design system I’ve surveyed, and it is built on both sides of the fence. For consumers, IBM ships a hosted remote MCP server (mcp.carbondesignsystem.com/mcp, OAuth via IBMid, four tools: docs_search / code_search / get_charts / labs_search) plus a downloadable `carbon-builder` Agent Skill — a 24 KB SKILL.md with 12 lazy-loaded reference files — with install recipes for Bob, Claude Code, Claude Desktop, Cursor (as an .mdc rule), GitHub Copilot coding agent, and VS Code, alongside an llms.txt, a prompt-engineering page, and a dedicated “Token conservation” docs page. For builders, the monorepo carries a deliberately terse root AGENTS.md (“This file should be as short as possible. More length = more tokens used.”) plus per-package AGENTS.md files, and an AI issue-triage bot (“Bob”) driven by a checked-in prompt and a least-privilege `custom_modes.yaml` with explicit prompt-injection defenses. The notable weakness: the MCP server is closed-source and gated behind IBMid access requests, so non-IBM consumers get llms.txt and the skill but not necessarily the tools the skill mandates.
+Carbon is the most complete AI-affordance stack of any open-source design system I’ve surveyed, and it is built on both sides of the fence. For consumers, IBM ships a hosted remote MCP server (mcp.carbondesignsystem.com/mcp, OAuth via IBMid, four tools: docs_search / code_search / get_charts / labs_search) plus a downloadable `carbon-builder` Agent Skill (a 24 KB SKILL.md with 12 lazy-loaded reference files) with install recipes for Bob, Claude Code, Claude Desktop, Cursor (as an .mdc rule), GitHub Copilot coding agent, and VS Code, alongside an llms.txt, a prompt-engineering page, and a dedicated “Token conservation” docs page. For builders, the monorepo carries a deliberately terse root AGENTS.md (“This file should be as short as possible. More length = more tokens used.”) plus per-package AGENTS.md files, and an AI issue-triage bot (“Bob”) driven by a checked-in prompt and a least-privilege `custom_modes.yaml` with explicit prompt-injection defenses. The notable weakness: the MCP server is closed-source and gated behind IBMid access requests, so non-IBM consumers get llms.txt and the skill but not necessarily the tools the skill mandates.
 
 ## Maintenance
 
@@ -45,13 +45,13 @@ Carbon is the most complete AI-affordance stack of any open-source design system
 
 Type: `mcp-server` (MCP server) · Official · Audience: consumers
 
-IBM-hosted remote MCP server at https://mcp.carbondesignsystem.com/mcp (streamable HTTP), in public preview. Four tools: docs_search, code_search, get_charts, labs_search. Auth is OAuth via IBMid/w3id (or an IBM functional ID) producing a bearer TOKEN plus an X-MCP-Session header; IBMers get credentials instantly, external users must request access and wait for an email activation link. Covers @carbon/react, @carbon/web-components, Carbon for IBM Products, icons/pictograms, @carbon/ai-chat, @carbon/charts and @carbon-labs/*. Carbon TanStack and Carbon Patterns are marked ‘coming soon’. Source is not public — carbon-design-system/carbon-mcp is an issue-tracker/docs repo only (26 stars, no license file, v1.11.0 2026-07-02).
+IBM-hosted remote MCP server at https://mcp.carbondesignsystem.com/mcp (streamable HTTP), in public preview. Four tools: docs_search, code_search, get_charts, labs_search. Auth is OAuth via IBMid/w3id (or an IBM functional ID) producing a bearer TOKEN plus an X-MCP-Session header; IBMers get credentials instantly, external users must request access and wait for an email activation link. Covers @carbon/react, @carbon/web-components, Carbon for IBM Products, icons/pictograms, @carbon/ai-chat, @carbon/charts and @carbon-labs/*. Carbon TanStack and Carbon Patterns are marked ‘coming soon’. Source is not public: carbon-design-system/carbon-mcp is an issue-tracker/docs repo only (26 stars, no license file, v1.11.0 2026-07-02).
 
 - Docs: https://carbondesignsystem.com/developing/carbon-mcp/overview/
 
 - Code: https://github.com/carbon-design-system/carbon-mcp
 
-Notes: No public npm package for Carbon MCP exists (npm registry search for carbon+mcp returns only the normal @carbon/* packages) — remote-hosted only.
+Notes: No public npm package for Carbon MCP exists (npm registry search for carbon+mcp returns only the normal @carbon/* packages). It is remote-hosted only.
 
 ```markdown
 ## MCP tools
@@ -173,7 +173,7 @@ Source: https://carbondesignsystem.com/llms.txt
 
 Type: `ai-docs-page` (AI docs page) · Official · Audience: consumers
 
-Four dedicated docs tabs under /developing/carbon-mcp/. ‘Prompts’ is a prompt-engineering guide with DOs/DON’Ts and a starter template. ‘Token conservation’ is unusual — a whole page arguing that the DS’s job includes lowering the consumer’s AI operating cost, and explaining the mechanisms (lazy-loading skill references, multi-step narrow tool calls, prompt templates that forbid restating tool output, sample prompts with explicit stop conditions).
+Four dedicated docs tabs under /developing/carbon-mcp/. ‘Prompts’ is a prompt-engineering guide with DOs/DON’Ts and a starter template. ‘Token conservation’ is unusual: a whole page arguing that the DS’s job includes lowering the consumer’s AI operating cost, and explaining the mechanisms (lazy-loading skill references, multi-step narrow tool calls, prompt templates that forbid restating tool output, sample prompts with explicit stop conditions).
 
 - Docs: https://carbondesignsystem.com/developing/carbon-mcp/token-conservation/
 
@@ -239,7 +239,7 @@ Source: https://raw.githubusercontent.com/carbon-design-system/carbon/main/AGENT
 
 Type: `agents-md` (AGENTS.md) · Official · Audience: builders
 
-An LLM-backed first-pass triage bot (‘Bob’ — IBM’s internal agent CLI) that comments on newly opened Bug issues. The runtime prompt is version-controlled at .github/prompts/bob-bug-triage.md; the capability envelope is .bob/custom_modes.yaml (groups limited to `read` and `browser`, explicitly never write/execute); the plumbing is .github/workflows/issue-triage.yml, which uses a separate BOB_AUTOMATION GitHub App identity (distinct from CARBON_AUTOMATION) so Bob’s output is attributable, plus BOB_INFERENCE_API_KEY. Notably includes hard prompt-injection defenses and a strict output contract (<100 words, <600 chars, no heading/preamble/code fence).
+An LLM-backed first-pass triage bot (‘Bob’, IBM’s internal agent CLI) that comments on newly opened Bug issues. The runtime prompt is version-controlled at .github/prompts/bob-bug-triage.md; the capability envelope is .bob/custom_modes.yaml (groups limited to `read` and `browser`, explicitly never write/execute); the plumbing is .github/workflows/issue-triage.yml, which uses a separate BOB_AUTOMATION GitHub App identity (distinct from CARBON_AUTOMATION) so Bob’s output is attributable, plus BOB_INFERENCE_API_KEY. Notably includes hard prompt-injection defenses and a strict output contract (<100 words, <600 chars, no heading/preamble/code fence).
 
 - Code: https://github.com/carbon-design-system/carbon/blob/main/.github/prompts/bob-bug-triage.md
 
@@ -322,11 +322,11 @@ jobs:
 
 Source: https://raw.githubusercontent.com/carbon-design-system/carbon/main/.github/workflows/code-connect.yml
 
-### Prompt guidance page (DOs / DON'Ts / starter template / sample prompts)
+### Prompt guidance page (DOs / DON’Ts / starter template / sample prompts)
 
 Type: `prompt-library` (Prompt library) · Official · Audience: consumers
 
-A published prompt-engineering guide that reads like a set of guardrails users are told to paste into their own prompts — enforcing MCP-first behavior, banning Tailwind and ad-hoc values, requiring WCAG 2.2, and instructing the model to say ‘Received the necessary context.’ instead of echoing tool output.
+A published prompt-engineering guide that reads like a set of guardrails users are told to paste into their own prompts, enforcing MCP-first behavior, banning Tailwind and ad-hoc values, requiring WCAG 2.2, and instructing the model to say ‘Received the necessary context.’ instead of echoing tool output.
 
 - Docs: https://carbondesignsystem.com/developing/carbon-mcp/prompts/
 
@@ -361,7 +361,7 @@ Source: https://raw.githubusercontent.com/carbon-design-system/carbon-website/ma
 
 ## Coercion techniques (8)
 
-### MCP-First Rule: 'The MCP index is the authoritative source — not your weights'
+### MCP-First Rule: ‘The MCP index is the authoritative source — not your weights’
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
@@ -414,11 +414,11 @@ Thirteen numbered ‘Hard rules — apply during code generation’. The interes
 
 Source: https://carbondesignsystem.com/developing/carbon-mcp/files/carbon-builder.zip
 
-### Conditional lazy-loading of reference files ('→ Only read when …')
+### Conditional lazy-loading of reference files (‘→ Only read when …’)
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-Every one of the 12 reference docs is linked with an explicit trigger condition appended to the link, so the agent pulls ~10-20 KB of specialist context only on demand rather than the full ~190 KB payload. This is the mechanism the public ‘Token conservation’ docs page is built to explain — a design system treating the consumer’s inference bill as a design constraint.
+Every one of the 12 reference docs is linked with an explicit trigger condition appended to the link, so the agent pulls ~10-20 KB of specialist context only on demand rather than the full ~190 KB payload. This is the mechanism the public ‘Token conservation’ docs page is built to explain: a design system treating the consumer’s inference bill as a design constraint.
 
 ```markdown
 See [references/framework-rules.md](references/framework-rules.md) for the full rule set. → **Only read when** setting up React SCSS baseline, Web Components styling, composing floating UI (Dropdown, ComboBox, Select) inside a Modal, IBM Plex font setup, or resolving component selection (status indicators vs Tag, Tabs vs TabsVertical).
@@ -434,7 +434,7 @@ See [references/error-recovery.md](references/error-recovery.md) → **Only read
 
 Source: https://carbondesignsystem.com/developing/carbon-mcp/files/carbon-builder.zip
 
-### Output-suppression protocol: 'Received the necessary context.'
+### Output-suppression protocol: ‘Received the necessary context.’
 
 Category: `token-enforcement` (Token enforcement) · all 13 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/token-enforcement.md
 
@@ -459,7 +459,7 @@ Source: https://carbondesignsystem.com/developing/carbon-mcp/files/carbon-builde
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-A ‘Result Validation — Critical Items’ checklist framed as ‘the non-obvious failures that slip through most often’ — a post-generation lint pass the model runs against itself. It names exact response fields (use `example_clean`, not `example`), forbids a specific wrong remediation (stub variant → use `requery_hint`, never increase `size`), and encodes silent-failure knowledge like IBM Products’ `pkg.component.X = true` flags and DataTable being absent from the code index.
+A ‘Result Validation — Critical Items’ checklist framed as ‘the non-obvious failures that slip through most often’. It is a post-generation lint pass the model runs against itself. It names exact response fields (use `example_clean`, not `example`), forbids a specific wrong remediation (stub variant → use `requery_hint`, never increase `size`), and encodes silent-failure knowledge like IBM Products’ `pkg.component.X = true` flags and DataTable being absent from the code index.
 
 ```markdown
 ## Result Validation — Critical Items
@@ -551,7 +551,7 @@ Link: https://github.com/carbon-design-system/carbon/blob/main/packages/react/AG
 
 ### other
 
-new.carbondesignsystem.com — a StackBlitz-based sandbox generator. The Bob triage prompt instructs the bot to push reporters toward it when no reproduction URL is supplied, making it part of the AI triage loop rather than just a docs convenience.
+new.carbondesignsystem.com, a StackBlitz-based sandbox generator. The Bob triage prompt instructs the bot to push reporters toward it when no reproduction URL is supplied, making it part of the AI triage loop rather than just a docs convenience.
 
 Link: https://new.carbondesignsystem.com
 
@@ -559,15 +559,15 @@ Link: https://new.carbondesignsystem.com
 
 ### For consumers (agents building UIs with Carbon Design System)
 
-Best-in-class and unusually complete. A hosted remote MCP server with four purpose-built tools, a versioned Agent Skill (carbon-builder v1.1.0) that hard-gates code generation behind those tools, install recipes for six distinct clients including a Cursor deeplink button and an .mdc conversion path, an llms.txt, published prompt guidance, and Figma Code Connect auto-published for both React and Web Components. The skill is the real product here: 24 KB of protocol plus 12 lazily-loaded reference files that encode Carbon’s actual failure modes (icon export names, SCSS vs CSS entry points, compile-time Sass variables in Web Components, IBM Products `pkg` feature flags). The caveat is access: the MCP server is IBMid-gated and closed-source, and non-IBM users must request access and await email activation, so the open-source consumer’s realistic entry point is llms.txt plus the freely downloadable skill — whose central rule instructs the agent to call MCP tools it may not have.
+Best-in-class and unusually complete. A hosted remote MCP server with four purpose-built tools, a versioned Agent Skill (carbon-builder v1.1.0) that hard-gates code generation behind those tools, install recipes for six distinct clients including a Cursor deeplink button and an .mdc conversion path, an llms.txt, published prompt guidance, and Figma Code Connect auto-published for both React and Web Components. The skill is the real product here: 24 KB of protocol plus 12 lazily-loaded reference files that encode Carbon’s actual failure modes (icon export names, SCSS vs CSS entry points, compile-time Sass variables in Web Components, IBM Products `pkg` feature flags). The caveat is access: the MCP server is IBMid-gated and closed-source, and non-IBM users must request access and await email activation, so the open-source consumer’s realistic entry point is llms.txt plus the freely downloadable skill, whose central rule instructs the agent to call MCP tools it may not have.
 
 ### For builders (the Carbon Design System team using AI on the system itself)
 
-Deliberate and token-conscious rather than flashy. The monorepo has no CLAUDE.md, .cursorrules, .cursor/rules/, .claude/, or copilot-instructions.md — instead a single 69-line AGENTS.md that opens with a maintainer-facing directive to keep it short, and which functions as a router into existing human docs (docs/style.md, developer-handbook, ADRs, docs/guides/) plus build-generated machine-readable artifacts (docs/generated/package-structure-graph.json). Three per-package AGENTS.md files add framework-specific conventions and canonical folder-structure diagrams. The same pattern is replicated verbatim across ibm-products, carbon-labs, and carbon-ai-chat (the last adds per-package AGENTS.md, a references/ tree, copilot-instructions.md, and a CLAUDE.md banning Claude co-author trailers). The standout builder-side artifact is ‘Bob’, an LLM bug-triage bot whose prompt, capability envelope, and workflow are all version-controlled, run under a dedicated GitHub App identity distinct from the general automation bot, and are hardened against prompt injection from issue reporters. no evidence of AI-assisted codemods or migration tooling in the repo.
+Deliberate and token-conscious rather than flashy. The monorepo has no CLAUDE.md, .cursorrules, .cursor/rules/, .claude/, or copilot-instructions.md. Instead there is a single 69-line AGENTS.md that opens with a maintainer-facing directive to keep it short, and which functions as a router into existing human docs (docs/style.md, developer-handbook, ADRs, docs/guides/) plus build-generated machine-readable artifacts (docs/generated/package-structure-graph.json). Three per-package AGENTS.md files add framework-specific conventions and canonical folder-structure diagrams. The same pattern is replicated verbatim across ibm-products, carbon-labs, and carbon-ai-chat (the last adds per-package AGENTS.md, a references/ tree, copilot-instructions.md, and a CLAUDE.md banning Claude co-author trailers). The standout builder-side artifact is ‘Bob’, an LLM bug-triage bot whose prompt, capability envelope, and workflow are all version-controlled, run under a dedicated GitHub App identity distinct from the general automation bot, and are hardened against prompt injection from issue reporters. no evidence of AI-assisted codemods or migration tooling in the repo.
 
 ## Gaps
 
-Not confirmed, or not found: (1) Carbon MCP’s server source is NOT public — carbon-design-system/carbon-mcp contains only README/SUPPORT/TERMS_OF_USE and a public/ dir; there is no license file and no npm package (registry search for carbon+mcp returns only regular @carbon/* packages), so tool schemas, ranking, and index contents could not be inspected first-hand. (2) it was not possible to exercise the MCP server — it requires IBMid OAuth plus a bearer token and X-MCP-Session header, and external users go through an access-request queue, so all tool behavior described here is from docs and the skill, not observed. (3) No llms-full.txt (https://carbondesignsystem.com/llms-full.txt returns 404; the 2.8 MB body is the Gatsby SPA 404 shell). (4) No /docs/mcp or /ai path on the docs site; MCP docs live under /developing/carbon-mcp/. (5) No CLAUDE.md, .cursorrules, .cursor/rules/, .claude/, or .github/copilot-instructions.md in the main carbon monorepo (all probed, all 404). (6) No evidence found of AI-assisted codemods or AI-generated migration tooling; docs/guides/ and .github/CONTRIBUTING.md contain no AI/agent/Copilot/LLM policy language, so there appears to be no published contributor policy on AI-generated PRs. (7) No Supernova, Knapsack, or zeroheight integration found. (8) ‘Bob’ is IBM-internal tooling — this study confirmed the checked-in prompt, custom_modes.yaml, and workflow, but the Bob CLI/plugin itself and the model behind BOB_INFERENCE_API_KEY are not public and it was not possible to confirm which model is used. (9) The 12 reference files shipped alongside SKILL.md are listed by size and name only; their contents are not covered here. (10) The carbon-builder skill ZIP is served from the docs site, not from a git repo — no version-controlled home for it, so change history is not auditable.
+Not confirmed, or not found: (1) Carbon MCP’s server source is NOT public: carbon-design-system/carbon-mcp contains only README/SUPPORT/TERMS_OF_USE and a public/ dir; there is no license file and no npm package (registry search for carbon+mcp returns only regular @carbon/* packages), so tool schemas, ranking, and index contents could not be inspected first-hand. (2) it was not possible to exercise the MCP server: it requires IBMid OAuth plus a bearer token and X-MCP-Session header, and external users go through an access-request queue, so all tool behavior described here is from docs and the skill, not observed. (3) No llms-full.txt (https://carbondesignsystem.com/llms-full.txt returns 404; the 2.8 MB body is the Gatsby SPA 404 shell). (4) No /docs/mcp or /ai path on the docs site; MCP docs live under /developing/carbon-mcp/. (5) No CLAUDE.md, .cursorrules, .cursor/rules/, .claude/, or .github/copilot-instructions.md in the main carbon monorepo (all probed, all 404). (6) No evidence found of AI-assisted codemods or AI-generated migration tooling; docs/guides/ and .github/CONTRIBUTING.md contain no AI/agent/Copilot/LLM policy language, so there appears to be no published contributor policy on AI-generated PRs. (7) No Supernova, Knapsack, or zeroheight integration found. (8) ‘Bob’ is IBM-internal tooling; this study confirmed the checked-in prompt, custom_modes.yaml, and workflow, but the Bob CLI/plugin itself and the model behind BOB_INFERENCE_API_KEY are not public and it was not possible to confirm which model is used. (9) The 12 reference files shipped alongside SKILL.md are listed by size and name only; their contents are not covered here. (10) The carbon-builder skill ZIP is served from the docs site, not from a git repo. It has no version-controlled home, so change history is not auditable.
 
 ## Sources (15)
 
@@ -603,4 +603,4 @@ Not confirmed, or not found: (1) Carbon MCP’s server source is NOT public — 
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

@@ -11,7 +11,7 @@ ai_maturity: "ai-native"
 affordance_count: 10
 technique_count: 8
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -31,7 +31,7 @@ shadcn (Vercel) · design-system · MIT · AI maturity: **ai-native** (AI consum
 
 ## Summary
 
-shadcn/ui is the reference case for an AI-native design system: “AI-Ready — Open code for LLMs to read, understand, and improve” is one of its five stated founding principles, and the whole distribution model (flat-file registry JSON + CLI + MCP server) is machine-consumable by construction. As of July 2026 the project ships an official Agent Skill (`skills/shadcn/` in-repo, installed with `npx skills add shadcn/ui`), an official MCP server bundled in the CLI (`npx shadcn@latest mcp`), a Cursor plugin manifest (`.cursor-plugin/plugin.json`) that bundles both skill and MCP server, a curated `llms.txt`, and an eval suite (`skills/shadcn/evals/evals.json`) that regression-tests the skill’s coercive rules. The skill is unusually prescriptive — a “Critical Rules” section of hard prohibitions (“Never use raw `div` with `space-y-*`“, “no manual `dark:` color overrides”, “NEVER fetch raw files from GitHub manually — always use the CLI”) backed by Incorrect/Correct exemplar files. On the builder side the repo is thinner but real: a `.cursor/rules/*.mdc` parity rule, `.claude/settings.local.json`, and a large AI-executed migration skill (`skills/migrate-radix-to-base`, ~180KB of reference tables) used to drive the Radix→Base UI migration.
+shadcn/ui is the reference case for an AI-native design system: “AI-Ready — Open code for LLMs to read, understand, and improve” is one of its five stated founding principles, and the whole distribution model (flat-file registry JSON + CLI + MCP server) is machine-consumable by construction. As of July 2026 the project ships an official Agent Skill (`skills/shadcn/` in-repo, installed with `npx skills add shadcn/ui`), an official MCP server bundled in the CLI (`npx shadcn@latest mcp`), a Cursor plugin manifest (`.cursor-plugin/plugin.json`) that bundles both skill and MCP server, a curated `llms.txt`, and an eval suite (`skills/shadcn/evals/evals.json`) that regression-tests the skill’s coercive rules. The skill is unusually prescriptive: a “Critical Rules” section of hard prohibitions (“Never use raw `div` with `space-y-*`“, “no manual `dark:` color overrides”, “NEVER fetch raw files from GitHub manually — always use the CLI”) backed by Incorrect/Correct exemplar files. On the builder side the repo is thinner but real: a `.cursor/rules/*.mdc` parity rule, `.claude/settings.local.json`, and a large AI-executed migration skill (`skills/migrate-radix-to-base`, ~180KB of reference tables) used to drive the Radix→Base UI migration.
 
 ## Maintenance
 
@@ -51,7 +51,7 @@ Type: `mcp-server` (MCP server) · Official · Audience: consumers
 
 - Code: https://github.com/shadcn-ui/ui/blob/main/packages/shadcn/src/mcp/index.ts
 
-Notes: Ships inside the `shadcn` npm package rather than as a separate MCP package — no extra install step.
+Notes: Ships inside the `shadcn` npm package rather than as a separate MCP package, so there is no extra install step.
 
 ### shadcn Agent Skill (skills/shadcn)
 
@@ -85,13 +85,13 @@ A Cursor plugin manifest at the repo root that bundles BOTH distribution channel
 
 Type: `registry` (Registry) · Official · Audience: consumers
 
-A machine-readable component distribution format (registry.json / registry-item.json JSON Schemas at ui.shadcn.com/schema/) built with `npx shadcn@latest build`, consumed by CLI and MCP alike. Item types include registry:ui, block, hook, theme, style, base, font, file — and the skill notes registries ‘can distribute components, hooks, utilities, design tokens, pages, config files, docs, rules, workflows, templates, MCP files’. A public index of community registries is served at https://ui.shadcn.com/r/registries.json and browsable at /docs/directory; CI validates it (validate-registries.yml).
+A machine-readable component distribution format (registry.json / registry-item.json JSON Schemas at ui.shadcn.com/schema/) built with `npx shadcn@latest build`, consumed by CLI and MCP alike. Item types include registry:ui, block, hook, theme, style, base, font, file, and the skill notes registries ‘can distribute components, hooks, utilities, design tokens, pages, config files, docs, rules, workflows, templates, MCP files’. A public index of community registries is served at https://ui.shadcn.com/r/registries.json and browsable at /docs/directory; CI validates it (validate-registries.yml).
 
 - Docs: https://ui.shadcn.com/docs/registry
 
 Notes: This is the deepest AI affordance: agents resolve `@namespace/item` or `owner/repo/item` addresses to full file contents over HTTP, so component source is fetchable without training-data knowledge.
 
-### shadcn CLI as the agent's action surface
+### shadcn CLI as the agent’s action surface
 
 Type: `cli-scaffolding` (CLI scaffolding) · Official · Audience: consumers
 
@@ -133,7 +133,7 @@ Several third-party MCP servers predate/parallel the official one: Jpisnice/shad
 
 ## Coercion techniques (8)
 
-### Hard prohibition list ('Critical Rules … always enforced')
+### Hard prohibition list (‘Critical Rules … always enforced’)
 
 Category: `prohibition` (Prohibition) · all 25 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/prohibition.md
 
@@ -173,7 +173,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.
 
 Category: `tool-gating` (Tool-gating) · all 20 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/tool-gating.md
 
-The skill repeatedly forbids the model from relying on memory or ad-hoc HTTP, routing every knowledge lookup and every mutation through the CLI. It also refuses to let the agent pick a registry on the user’s behalf, and forbids destructive `--overwrite` without explicit approval — an anti-autonomy guardrail.
+The skill repeatedly forbids the model from relying on memory or ad-hoc HTTP, routing every knowledge lookup and every mutation through the CLI. It also refuses to let the agent pick a registry on the user’s behalf, and forbids destructive `--overwrite` without explicit approval, an anti-autonomy guardrail.
 
 ```markdown
 **When creating, fixing, debugging, or using a component, always run `npx shadcn@latest docs` and fetch the URLs first.** This ensures you're working with the correct API and usage patterns rather than guessing.
@@ -198,7 +198,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.
 
 Category: `curated-context` (Curated context) · all 21 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/curated-context.md
 
-Rather than describing shadcn/ui in the abstract, the skill executes the CLI inside its own body (`!` command interpolation) so the model always sees the real project’s aliases, base library, icon library, Tailwind version and installed components. It then tells the model exactly how to act on each field — e.g. never assume lucide-react, never hardcode `@/`, never create a new CSS file. `allowed-tools` narrows the agent to shadcn CLI invocations only.
+Rather than describing shadcn/ui in the abstract, the skill executes the CLI inside its own body (`!` command interpolation) so the model always sees the real project’s aliases, base library, icon library, Tailwind version and installed components. It then tells the model exactly how to act on each field: never assume lucide-react, never hardcode `@/`, never create a new CSS file. `allowed-tools` narrows the agent to shadcn CLI invocations only.
 
 ````markdown
 ---
@@ -231,7 +231,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-The MCP server exposes a tool whose whole purpose is to make the agent self-review after generating code. The tool description is written as an instruction to the model (‘Make sure to run the tool after all required steps have been completed’), and the returned payload is a markdown checkbox list that pushes the agent into lint/typecheck/browser verification — including chaining to Playwright MCP.
+The MCP server exposes a tool whose whole purpose is to make the agent self-review after generating code. The tool description is written as an instruction to the model (‘Make sure to run the tool after all required steps have been completed’), and the returned payload is a markdown checkbox list that pushes the agent into lint/typecheck/browser verification, including chaining to Playwright MCP.
 
 ```typescript
       {
@@ -271,7 +271,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/packages/shadcn/src/
 
 Category: `exemplars` (Exemplars) · all 10 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/exemplars.md
 
-Every Critical Rule links to a rules/*.md file (styling, forms, composition, icons, chat, base-vs-radix) built almost entirely out of minimal-pair code blocks labelled **Incorrect:** / **Correct:**. This is few-shot conditioning rather than prose policy — the model sees the exact wrong output it is likely to produce next to the sanctioned one.
+Every Critical Rule links to a rules/*.md file (styling, forms, composition, icons, chat, base-vs-radix) built almost entirely out of minimal-pair code blocks labelled **Incorrect:** / **Correct:**. This is few-shot conditioning rather than prose policy: the model sees the exact wrong output it is likely to produce next to the sanctioned one.
 
 ````markdown
 ## Semantic colors
@@ -313,7 +313,7 @@ Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/rules/
 
 Category: `validation-loop` (Validation loop) · all 29 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/validation-loop.md
 
-skills/shadcn/evals/evals.json holds prompt → expectations pairs where each expectation is a restatement of a Critical Rule (‘Uses gap-* instead of space-y-*’, ‘No manual dark: color overrides’). This turns the coercion rules into a regression-testable contract on model output — rare among design systems.
+skills/shadcn/evals/evals.json holds prompt → expectations pairs where each expectation is a restatement of a Critical Rule (‘Uses gap-* instead of space-y-*’, ‘No manual dark: color overrides’). This turns the coercion rules into a regression-testable contract on model output, which is rare among design systems.
 
 ```json
 {
@@ -337,7 +337,7 @@ skills/shadcn/evals/evals.json holds prompt → expectations pairs where each ex
 
 Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/evals/evals.json
 
-### Globbed parity rule for contributors' agents
+### Globbed parity rule for contributors’ agents
 
 Category: `instruction-files` (Instruction files) · all 9 in this category: https://state-of-ai-in-design-systems.netlify.app/techniques/instruction-files.md
 
@@ -431,7 +431,7 @@ Much lighter, and deliberately so. There is no AGENTS.md, CLAUDE.md, .cursorrule
 
 ## Gaps
 
-Not confirmed, or absent: (1) https://ui.shadcn.com/llms-full.txt returns 404, as does /ai — there is no full-text dump, and no per-page `.md` variant; the skill compensates by telling agents to run `npx shadcn@latest docs ` and fetch the returned URLs. (2) No `registry:rule` item type exists in the published registry-item JSON Schema (enum is lib/block/component/ui/hook/theme/page/file/style/base/font/item) — rule and AGENTS.md distribution happens via the generic `registry:file` type as claimed in skills/shadcn/registry.md, which this study did not verify against a live registry that actually ships rules. (3) this study did not verify whether the docs site renders one-click ‘Add to Cursor’ / ‘Install MCP’ deeplink buttons — the mcp.mdx source uses tabbed CLI instructions (`shadcn mcp init --client …`), not deeplinks, so any such buttons are unconfirmed. (4) No AI-authored-PR bot, AI code review bot, or AI mention in CONTRIBUTING.md was found; `.github/workflows` contains no LLM-invoking job. (5) Community MCP servers (Jpisnice, heilgar, magnusrodseth) were confirmed to exist via search results and package listings but this study did not fetch their source or check current maintenance. (6) shadcn CLI download/adoption numbers were not retrieved. (7) Of `skills/shadcn/rules/`, only styling.md was read in full; chat.md, composition.md, forms.md, icons.md, base-vs-radix.md were listed but summarized from the SKILL.md index.
+Not confirmed, or absent: (1) https://ui.shadcn.com/llms-full.txt returns 404, as does /ai. There is no full-text dump, and no per-page `.md` variant; the skill compensates by telling agents to run `npx shadcn@latest docs ` and fetch the returned URLs. (2) No `registry:rule` item type exists in the published registry-item JSON Schema (enum is lib/block/component/ui/hook/theme/page/file/style/base/font/item); rule and AGENTS.md distribution happens via the generic `registry:file` type as claimed in skills/shadcn/registry.md, which this study did not verify against a live registry that actually ships rules. (3) this study did not verify whether the docs site renders one-click ‘Add to Cursor’ / ‘Install MCP’ deeplink buttons; the mcp.mdx source uses tabbed CLI instructions (`shadcn mcp init --client …`), not deeplinks, so any such buttons are unconfirmed. (4) No AI-authored-PR bot, AI code review bot, or AI mention in CONTRIBUTING.md was found; `.github/workflows` contains no LLM-invoking job. (5) Community MCP servers (Jpisnice, heilgar, magnusrodseth) were confirmed to exist via search results and package listings but this study did not fetch their source or check current maintenance. (6) shadcn CLI download/adoption numbers were not retrieved. (7) Of `skills/shadcn/rules/`, only styling.md was read in full; chat.md, composition.md, forms.md, icons.md, base-vs-radix.md were listed but summarized from the SKILL.md index.
 
 ## Sources (15)
 
@@ -467,4 +467,4 @@ Not confirmed, or absent: (1) https://ui.shadcn.com/llms-full.txt returns 404, a
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

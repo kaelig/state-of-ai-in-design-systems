@@ -7,7 +7,7 @@ type: "view"
 id: "systems"
 system_count: 19
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -26,7 +26,7 @@ One line each, alphabetical by record id. Open a record for the full detail: aff
 
 | Ant Design | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md | https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.json |
 
-| Atlassian Design System (ADS / Atlaskit) | ai-native | 8 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.json |
+| Atlassian Design System | ai-native | 8 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.json |
 
 | Carbon Design System | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.json |
 
@@ -36,27 +36,27 @@ One line each, alphabetical by record id. Open a record for the full detail: aff
 
 | HeroUI | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md | https://state-of-ai-in-design-systems.netlify.app/systems/heroui.json |
 
-| Lightning Design System (SLDS) | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md | https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.json |
-
 | Nuxt UI | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md | https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.json |
 
 | PatternFly | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md | https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.json |
-
-| Polaris (Shopify) | ai-native | 7 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md | https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.json |
 
 | Primer | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md | https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.json |
 
 | React Spectrum / Spectrum 2 (S2) | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md | https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.json |
 
+| Salesforce Lightning Design System | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md | https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.json |
+
 | shadcn/ui | ai-native | 10 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md | https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.json |
 
-| Cloudscape Design System | invested | 8 | 7 | https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.json |
+| Shopify Polaris | ai-native | 7 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md | https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.json |
 
-| Fluent UI (Fluent 2) | invested | 8 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md | https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.json |
+| Cloudscape Design System | invested | 8 | 7 | https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.json |
 
 | Mantine | invested | 9 | 7 | https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md | https://state-of-ai-in-design-systems.netlify.app/systems/mantine.json |
 
 | Material UI (MUI) | invested | 8 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md | https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.json |
+
+| Microsoft Fluent UI | invested | 8 | 8 | https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md | https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.json |
 
 | Nord Design System | invested | 7 | 6 | https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md | https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.json |
 
@@ -72,7 +72,7 @@ Ant Design is one of the most AI-invested open-source design systems as of mid-2
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md
 
-### Atlassian Design System (ADS / Atlaskit)
+### Atlassian Design System
 
 ai-native · Atlassian · 8 affordances · 8 techniques
 
@@ -112,14 +112,6 @@ HeroUI (formerly NextUI) is a 30k-star React component library, now shipping v3 
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
-### Lightning Design System (SLDS)
-
-ai-native · Salesforce · 10 affordances · 8 techniques
-
-SLDS is one of the most aggressively AI-instrumented design systems in the study — but almost none of that instrumentation lives in the design system’s own repo.
-
-Full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
-
 ### Nuxt UI
 
 ai-native · NuxtLabs / Nuxt · 10 affordances · 8 techniques
@@ -132,23 +124,15 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.m
 
 ai-native · Red Hat · 10 affordances · 8 techniques
 
-PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org — it lives in two purpose-built sibling repos.
+PatternFly runs one of the most engineered AI programs of any open design system, but almost none of it lives in patternfly-org.
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md
-
-### Polaris (Shopify)
-
-ai-native · Shopify · 7 affordances · 8 techniques
-
-Polaris is the most instructive split-personality case in this study.
-
-Full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
 
 ### Primer
 
 ai-native · GitHub · 10 affordances · 8 techniques
 
-Primer is GitHub’s design system, and it is one of the most thoroughly AI-instrumented systems in the study — in both directions.
+Primer is GitHub’s design system, and it is one of the most thoroughly AI-instrumented systems in the study, in both directions.
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
@@ -160,6 +144,14 @@ React Spectrum S2 is one of the most AI-invested public design systems as of mid
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md
 
+### Salesforce Lightning Design System
+
+ai-native · Salesforce · 10 affordances · 8 techniques
+
+SLDS is one of the most aggressively AI-instrumented design systems in the study, but almost none of that instrumentation lives in the design system’s own repo.
+
+Full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
+
 ### shadcn/ui
 
 ai-native · shadcn (Vercel) · 10 affordances · 8 techniques
@@ -168,6 +160,14 @@ shadcn/ui is the reference case for an AI-native design system: “AI-Ready — 
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
+### Shopify Polaris
+
+ai-native · Shopify · 7 affordances · 8 techniques
+
+Polaris is the most instructive split-personality case in this study.
+
+Full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
 ### Cloudscape Design System
 
 invested · Amazon Web Services (AWS) · 8 affordances · 7 techniques
@@ -175,14 +175,6 @@ invested · Amazon Web Services (AWS) · 8 affordances · 7 techniques
 Cloudscape’s AI story is almost entirely on the CONSUMPTION side, and it is built as a documentation-pipeline problem rather than a tooling problem.
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
-
-### Fluent UI (Fluent 2)
-
-invested · Microsoft · 8 affordances · 8 techniques
-
-Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system — a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills…
-
-Full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
 
 ### Mantine
 
@@ -199,6 +191,14 @@ invested · MUI · 8 affordances · 8 techniques
 Material UI is one of the most heavily invested design systems in AI affordances, on both sides of the fence.
 
 Full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
+
+### Microsoft Fluent UI
+
+invested · Microsoft · 8 affordances · 8 techniques
+
+Fluent UI’s AI story is strikingly lopsided: the React monorepo has one of the most sophisticated builder-side agent setups of any major design system: a root AGENTS.md with numbered “never violate” rules, CLAUDE.md symlinked to it, .agents/skills/ + .claude/skills/ with nine executable slash-command skills…
+
+Full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
 
 ### Nord Design System
 
@@ -218,4 +218,4 @@ Full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

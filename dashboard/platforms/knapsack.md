@@ -9,7 +9,7 @@ id: "knapsack"
 capability_count: 7
 design_systems_with_integration_records: 0
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -27,7 +27,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 ## Summary
 
-Knapsack runs TWO distinct MCP servers and is explicit about the difference. (1) The Knapsack MCP: a per-workspace endpoint at https://mcp.knapsack.cloud/mcp/ exposing your own workspace’s tokens, components, patterns and docs to any MCP client; setup is via the mcp-remote npx shim (requires Node 20+) and browser OAuth; gated behind an “Early Access” workspace flag. (2) A docs-site MCP at https://docs.knapsack.cloud/_mcp/server serving Knapsack’s own product documentation, with one-click “Connect to Claude Code” / “Connect to Cursor” page-action buttons. Knapsack’s docs site (built on Fern) also ships a full llms.txt with an explicit “Instructions for AI Agents” preamble, section-scoped llms.txt (append /llms.txt to any section URL), and per-page Markdown via appending .md — a three-tier retrieval design (llms.txt for whole-site, .md for single page, MCP for interactive). The differentiating builder feature is Data Sources: a contextual data layer wiring Storybook (live component implementation), the Knapsack workspace (tokens/docs/patterns) and Markdown files into MCP, pitched as letting AI “surface inconsistencies, flag drift”. PRICING/AVAILABILITY: Knapsack MCP requires an Early Access flag on the workspace or connection fails; Data Sources is explicitly gated — “Contact your sales partner to discuss unlocking data sources.” Knapsack is enterprise/sales-led with no self-serve public pricing; it raised a $10M Series A (Oct 2025) and positions the “Intelligent Product Engine” with limited beta and GA targeted March 2026. GAPS: no published list of Knapsack MCP tool names (unlike zeroheight and Supernova); no Code Connect-style mapping file; no public AGENTS.md/CLAUDE.md conventions; no customer-named adoption.
+Knapsack runs TWO distinct MCP servers and is explicit about the difference. (1) The Knapsack MCP: a per-workspace endpoint at https://mcp.knapsack.cloud/mcp/ exposing your own workspace’s tokens, components, patterns and docs to any MCP client; setup is via the mcp-remote npx shim (requires Node 20+) and browser OAuth; gated behind an “Early Access” workspace flag. (2) A docs-site MCP at https://docs.knapsack.cloud/_mcp/server serving Knapsack’s own product documentation, with one-click “Connect to Claude Code” / “Connect to Cursor” page-action buttons. Knapsack’s docs site (built on Fern) also ships a full llms.txt with an explicit “Instructions for AI Agents” preamble, section-scoped llms.txt (append /llms.txt to any section URL), and per-page Markdown via appending .md: a three-tier retrieval design (llms.txt for whole-site, .md for single page, MCP for interactive). The differentiating builder feature is Data Sources: a contextual data layer wiring Storybook (live component implementation), the Knapsack workspace (tokens/docs/patterns) and Markdown files into MCP, pitched as letting AI “surface inconsistencies, flag drift”. PRICING/AVAILABILITY: Knapsack MCP requires an Early Access flag on the workspace or connection fails; Data Sources is explicitly gated: “Contact your sales partner to discuss unlocking data sources.” Knapsack is enterprise/sales-led with no self-serve public pricing; it raised a $10M Series A (Oct 2025) and positions the “Intelligent Product Engine” with limited beta and GA targeted March 2026. GAPS: no published list of Knapsack MCP tool names (unlike zeroheight and Supernova); no Code Connect-style mapping file; no public AGENTS.md/CLAUDE.md conventions; no customer-named adoption.
 
 ## Capabilities (7)
 
@@ -35,7 +35,7 @@ Knapsack runs TWO distinct MCP servers and is explicit about the difference. (1)
 
 Audience: consumers
 
-A secure MCP server endpoint per workspace at https://mcp.knapsack.cloud/mcp/, giving MCP-compatible clients read access to workspace design system content and metadata (tokens, components, docs). Knapsack explicitly frames this as “bring-your-own-model” — no lock-in to a single LLM provider. Workspace ID is the path segment between /site/ and /latest in your Knapsack site URL. Note the docs also flag it for enterprise MCP allowlists/registries.
+A secure MCP server endpoint per workspace at https://mcp.knapsack.cloud/mcp/, giving MCP-compatible clients read access to workspace design system content and metadata (tokens, components, docs). Knapsack explicitly frames this as “bring-your-own-model”, with no lock-in to a single LLM provider. Workspace ID is the path segment between /site/ and /latest in your Knapsack site URL. Note the docs also flag it for enterprise MCP allowlists/registries.
 
 Link: https://docs.knapsack.cloud/intelligent-tools
 
@@ -100,7 +100,7 @@ Source: https://docs.knapsack.cloud/intelligent-tools.md
 
 Audience: consumers
 
-Knapsack’s product docs publish an llms.txt that opens by telling agents exactly how to retrieve content in three modalities — .md suffix per page, section-scoped /llms.txt, and the docs MCP server. Every .md page also repeats the same three-line preamble at the top, so any agent that fetches a single page is immediately told about the other two retrieval paths. This is a clean, copyable pattern for a DS docs site.
+Knapsack’s product docs publish an llms.txt that opens by telling agents exactly how to retrieve content in three modalities: .md suffix per page, section-scoped /llms.txt, and the docs MCP server. Every .md page also repeats the same three-line preamble at the top, so any agent that fetches a single page is immediately told about the other two retrieval paths. This is a clean, copyable pattern for a DS docs site.
 
 Link: https://docs.knapsack.cloud/llms.txt
 
@@ -150,7 +150,7 @@ Source: https://docs.knapsack.cloud/intelligent-tools/mcp-server.md
 
 Audience: builders
 
-Knapsack documents when to use each retrieval channel — a rare piece of explicit guidance on machine-readable docs architecture. Also documents provenance: the one-line description in llms.txt comes from each page’s frontmatter `description`, falling back to `subtitle`. Useful precedent for DS teams generating their own llms.txt.
+Knapsack documents when to use each retrieval channel, a rare piece of explicit guidance on machine-readable docs architecture. Also documents provenance: the one-line description in llms.txt comes from each page’s frontmatter `description`, falling back to `subtitle`. Useful precedent for DS teams generating their own llms.txt.
 
 Link: https://docs.knapsack.cloud/intelligent-tools/llms-txt
 
@@ -180,7 +180,7 @@ Source: https://docs.knapsack.cloud/intelligent-tools.md
 
 ## Adoption by design systems
 
-No named design system publicly documents using the Knapsack MCP. Knapsack’s own docs site (docs.knapsack.cloud, Fern-hosted) dogfoods the llms.txt + .md + docs-MCP pattern, and the docs use workspace ID `toby` as the worked example (Knapsack’s own workspace). Press coverage around the Oct 2025 $10M Series A cites anonymized results — a Fortune 500 retailer at ~20% efficiency gain / ~$1M projected annual savings, and a global pharmaceutical company at 30% QA-time reduction / >$10M projected annual savings — but names no design system. Adoption evidence is vendor-side only.
+No named design system publicly documents using the Knapsack MCP. Knapsack’s own docs site (docs.knapsack.cloud, Fern-hosted) dogfoods the llms.txt + .md + docs-MCP pattern, and the docs use workspace ID `toby` as the worked example (Knapsack’s own workspace). Press coverage around the Oct 2025 $10M Series A cites anonymized results: a Fortune 500 retailer at ~20% efficiency gain / ~$1M projected annual savings, and a global pharmaceutical company at 30% QA-time reduction / >$10M projected annual savings, but names no design system. Adoption evidence is vendor-side only.
 
 ## Sources (8)
 
@@ -202,4 +202,4 @@ No named design system publicly documents using the Knapsack MCP. Knapsack’s o
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

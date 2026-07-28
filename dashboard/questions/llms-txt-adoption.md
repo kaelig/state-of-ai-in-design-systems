@@ -6,7 +6,7 @@ canonical: "https://state-of-ai-in-design-systems.netlify.app/questions/llms-txt
 type: "question"
 id: "llms-txt-adoption"
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -18,7 +18,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 # Is llms.txt universal among design systems?
 
 No — 14 of 19 publish one, and 5 do not:
-[Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md).
+[Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md).
 
 It is the most common single affordance after the MCP server, and it is not a tiebreaker: several
 of the systems without one rate ai-native because they invested in tool surfaces instead. Where
@@ -31,4 +31,4 @@ Other questions this report answers, and the index of every file: https://state-
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

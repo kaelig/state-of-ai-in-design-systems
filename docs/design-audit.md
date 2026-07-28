@@ -6,7 +6,7 @@ files it touches, and what it risks.
 
 ## Status
 
-**All 32 shipped**, plus the eight "Considered" decisions held. Verified
+**All 32 shipped**, plus the eight “Considered” decisions held. Verified
 2026-07-27 against `dashboard/template.html`, `scripts/build_dashboard.py`,
 `data/`, and `netlify.toml` — not assumed from the worklist.
 
@@ -22,8 +22,8 @@ any of it.
   route files). Rebuild with `./scripts/build.sh`, then `python3 scripts/check_md_layer.py`
   and `npm test`.
 - All data-derived strings flow through `esc()`/`fmt()`. No research-process meta in anything
-  audience-facing. Copy you author: no AI-writing tells (no em-dash chains, no "not just X but
-  Y", no rule-of-three, no vague modifiers), counts computed not hand-typed.
+  audience-facing. Copy you author: no AI-writing tells (no em-dash chains, no “not just X but
+  Y”, no rule-of-three, no vague modifiers), counts computed not hand-typed.
 - Preserve shipped a11y invariants: sr-only matrix cell text, `aria-current` nav, visible
   `:focus-visible` rings, reduced-motion gating, skip link, `#main` focus on route change.
 - Both themes at every change (tokens only, never literal colors in components); verify 375px;
@@ -35,17 +35,17 @@ any of it.
 
 ---
 
-## P0 — correctness on the site's core promise
+## P0 — correctness on the site’s core promise
 
 ### 1. Fix 7 malformed `source_url` values and gate the build on URL validity
 **What:** `data/design-systems.json` contains 7 source URLs of the form
 `https://www.npmjs.com/package/@salesforce/afv-skills (tarball: package/skills/…/SKILL.md)` —
 the parenthetical is inside the URL string, so the rendered link 404s. Move each parenthetical
-into the record's `notes` (or the snippet's note field) as `Path in tarball: …`, leaving a
+into the record’s `notes` (or the snippet’s note field) as `Path in tarball: …`, leaving a
 clean URL. Then add a validation pass to `scripts/build_dashboard.py`: fail the build (exit 1,
 listing offenders) if any `source_url`, `docs_url`, `code_url`, or `sources[]` entry contains
 whitespace, `(` , a trailing `)`/`]`/`,`, or more than one `http`.
-**Why:** the rail promises "every snippet linked to its source"; dead receipts on the flagship
+**Why:** the rail promises “every snippet linked to its source”; dead receipts on the flagship
 promise outrank any visual work.
 **Where:** `data/design-systems.json` (grep `tarball:`), `scripts/build_dashboard.py`.
 **Risk:** none if notes carry the moved text; validation may surface further latent offenders —
@@ -76,7 +76,7 @@ a. Add `.syslist-head` above the list, same grid as rows, using the `.label` tre
    The last two are right-aligned labels sitting over their number columns (flex, `gap: 14px`,
    each `min-width: 2ch`, right-aligned).
 b. Drop the per-row maturity chip column entirely. Insert a group header row before each
-   maturity cohort (list is already sorted): `AI-native · 13` — uppercase label in the band's
+   maturity cohort (list is already sorted): `AI-native · 13` — uppercase label in the band’s
    `--mat-*-ink` on a `--mat-*` wash strip, full row width, 6px 10px padding, count in
    tabular nums. Maturity `<select>` filtering shows only the matching group; text filtering
    hides groups with zero visible rows. Row grid becomes
@@ -92,17 +92,17 @@ d. Mobile (≤860px): hide `.syslist-head`; spell it out — `10 affordances · 
 e. Numeral-family decision, applied site-wide in the same change: counts render in
    **sans tabular** (`font-variant-numeric: tabular-nums`, Source Sans) at `--ink-2`/`--ink-3`
    — update `.tech-cat .th .n` and any heading counts to match (see #21).
-**Why:** a header row is the list's missing table furniture; grouping removes 19 redundant
+**Why:** a header row is the list’s missing table furniture; grouping removes 19 redundant
 chips (the sort already encodes maturity); words beat a private icon language.
 **Where:** `renderSyslist()`, `.syslist*`/`.sysrow` CSS, mobile query.
 **Risk:** filter interactions with group headers — test: text filter with 1 result, maturity
-filter, both, none. Status line stays "N of 19 systems".
+filter, both, none. Status line stays “N of 19 systems”.
 
 ### 4. Matrix: make it fit, make the sticky header real, fade only when it must scroll
 **What (in this order):**
 a. Let header labels wrap: `table.mx thead th { white-space: normal; line-height: 1.15;
    vertical-align: bottom }` (the global `th, td { white-space: nowrap }` currently forces
-   "Repo agent files" onto one line — that rule stays for `td` only).
+   “Repo agent files” onto one line — that rule stays for `td` only).
 b. Tighten cells: `padding: 7px 6px` (from `8px 10px`).
 c. Apply the same maturity grouping as #3: one group header row per cohort — use multiple
    `<tbody>` elements, each opening with
@@ -131,7 +131,7 @@ in scale order. Band header row: uppercase label (`AI-native`) left + tabular co
 on the `--mat-*` wash with `--mat-*-ink`; definition beneath the header INSIDE the band as
 sentence-case 12px `--ink-3` (no more two-line uppercase shouting); system links wrap below
 (existing `.spec-band li a` treatment). Render **all four** scale steps — an empty step
-(`None · 0`) appears as a header-only band with a short "no systems here in this snapshot"
+(`None · 0`) appears as a header-only band with a short “no systems here in this snapshot”
 line — the page claims an ordinal scale, so show the scale. Remove the 3px `--data-strong`
 top border (it duplicated the sanctioned accent-rule weight in a second color).
 **Why:** band length becomes the chart; mobile and desktop become one layout; the strongest
@@ -159,7 +159,7 @@ not prose — do NOT cap them).
 var(--bg-sunk) }`. Two required companions: shift `.tech-ex .tb` left padding to align the
 body under the title now that the marker slot exists; and **remove** the current
 hover text-recolor to `--accent-ink` (background is the hover signal, matching `.aff`;
-two signals is louder than the component it's matching — and accent implies link).
+two signals is louder than the component it’s matching — and accent implies link).
 **Why:** the clearest interaction inconsistency in the build: identical behavior, one has an
 affordance cue, the other has none.
 **Where:** `.tech-ex` CSS only.
@@ -170,7 +170,7 @@ affordance cue, the other has none.
 `copied` text swap is never announced — and `aria-live` on the button is the wrong container.
 Remove the aria-label; the button reads `copy<span class="sr-only"> snippet</span>`. Add ONE
 document-level `<span role="status" class="sr-only" id="copy-status"></span>`; the click
-handler writes "Copied to clipboard" / "Couldn't copy" there (and clears it after ~2s so
+handler writes “Copied to clipboard” / “Couldn’t copy” there (and clears it after ~2s so
 repeat copies re-announce).
 **Why:** 300+ buttons whose only confirmation is visual.
 **Where:** snippet template + copy handler + one status node in the shell.
@@ -180,7 +180,7 @@ repeat copies re-announce).
 **What:** remove `body { transition: background-color .3s, color .3s }`.
 **Why:** only `body` transitions — every hairline, wash, chip, and snippet ground flips
 instantly, so toggling reads as 300ms of patchwork, and the transition is ungated by
-reduced-motion besides. Instant swap is the only version that can't look wrong. (Deliberate
+reduced-motion besides. Instant swap is the only version that can’t look wrong. (Deliberate
 deviation from kaelig.fr, which transitions a page that is only text.)
 **Where:** one line.
 **Risk:** none.
@@ -200,8 +200,8 @@ data corrupts the page.
 **What:** make the header stack invariant across all views: eyebrow → h1 → lede → byline
 (overview only) → accent rule. Author short ledes (1–2 sentences, plain voice, no AI tells)
 for **Insights** and **Methodology** — the two views a skeptical reader lands on cold, and
-the two with no orientation today. System detail: promote the record's `category`
-("design-system" → "Design system") into the eyebrow slot and move the `← all systems`
+the two with no orientation today. System detail: promote the record’s `category`
+(“design-system” → “Design system”) into the eyebrow slot and move the `← all systems`
 backlink above the eyebrow (mono backlink stops impersonating an eyebrow).
 **Why:** by view five the identical-but-not-quite header reads as generated, not edited.
 **Where:** view fns; two new lede strings in `data/insights.json`.
@@ -222,14 +222,14 @@ prose fields only (summaries, descriptions, notes, findings, essay, ledes, gaps,
 straight `'`/`"` → `’` `‘’` `“”` with standard pairing rules — **skipping** anything inside
 backticks, and never touching `snippet.content`, URLs, or code-ish fields. Log a count of
 replacements per build.
-**Why:** the dataset's own `CAT_DEF` strings use proper quotes while the findings above the
+**Why:** the dataset’s own `CAT_DEF` strings use proper quotes while the findings above the
 fold use straight ones; on a report built on verbatim quotation, mismatched quote marks are
 the most visible typographic tell there is.
 **Where:** build script (single function, unit-tested inline with 5 asserted examples,
 including a backtick-protected case and an apostrophe-in-contraction case).
 **Risk:** false conversions inside prose that quotes code without backticks — the backtick
 skip plus a `[A-Za-z]` adjacency requirement for apostrophes keeps this safe; review the
-build's replacement log once.
+build’s replacement log once.
 
 ---
 
@@ -239,24 +239,24 @@ build's replacement log once.
 **What:** `.tile .d` becomes sans 11.5px `--ink-3`; wrap actual commands in `<code>` (only
 `npx skills add …` qualifies today). Baseline fix: `.tile { display: flex; flex-direction:
 column } .tile .d { margin-top: auto; padding-top: 6px }` so all five third lines align
-regardless of label wrapping. Fold in #31's stat alignment: tile 1's `.d` becomes
+regardless of label wrapping. Fold in #31’s stat alignment: tile 1’s `.d` becomes
 `+ 5 platforms · 168 affordances` (computed).
 ### 15. Platforms view: measure + jump links
 **What:** summaries adopt `--measure-body` + `text-wrap: pretty` (no speculative paragraph
 splitting — the data has no `\n\n`). Under the accent rule, add a jump row of the five
 platform names reusing the `.spec-band li a` treatment linking to the existing card `id`s.
-### 16. Snippet source links: owner/repo, not "source"
+### 16. Snippet source links: owner/repo, not “source”
 **What:** derive link text from `source_url`: for `github.com` / `raw.githubusercontent.com`,
 path segments 1–2 (`shadcn-ui/ui`); otherwise the bare hostname (`ant.design`). Mono 10.5px,
-keep position and ↗ + sr-only "(opens in new tab)". (Basename was prototyped and rejected:
+keep position and ↗ + sr-only “(opens in new tab)”. (Basename was prototyped and rejected:
 62 of 257 snippet URLs end in `SKILL.md`, 26 more in `AGENTS.md` — the least discriminating
 token in the URL.)
 ### 17. Filter empty state: say it once, offer a way back
 **What:** `#syscount` (role=status) keeps the announcement. `#syslist` renders
 `Nothing matches “<query>” at that maturity level.` (esc the query; wording adapts if only
-one filter is active) plus a link-styled `<button>` "Clear filters" (accent underline-on-hover
+one filter is active) plus a link-styled `<button>` “Clear filters” (accent underline-on-hover
 — NOT `.chip`, NOT the square button chrome) that resets both controls, re-renders, and
-returns focus to `#q`. Removes today's duplicated "No systems match." — the string is
+returns focus to `#q`. Removes today’s duplicated “No systems match.” — the string is
 emitted twice in the systems view, once per empty-state branch.
 ### 18. Gaps & platform-integration bodies get body treatment
 **What:** stop rendering primary content as `.h2-sub` chrome — new `.body-block` (14px,
@@ -267,23 +267,23 @@ device, no numerals), rendered via `extLink()` with host in `--ink-3` + path in 
 wrapping allowed, ↗ restored. Remove the 64-char hard truncation.
 ### 20. One h2 size
 **What:** unify h2 at 19px/650 (`.plat h2`, `.tech-cat .th h2` inherit; card-internal
-"Capabilities" becomes a labeled h3). Verify heading order stays h1>h2>h3 on every view.
+“Capabilities” becomes a labeled h3). Verify heading order stays h1>h2>h3 on every view.
 ### 21. One count treatment
 **What:** all counts beside headings/labels render sans tabular `--ink-3` (e.g.
 `Affordances · 10` — drop the 9.5px chip-wrapped `<span class="chip">10</span>` in h2s;
-`12 instances · 5 systems` restyles to match). Same family as #3's numbers and #5's band
+`12 instances · 5 systems` restyles to match). Same family as #3’s numbers and #5’s band
 counts — this is one decision, applied four places.
 ### 22. Anchor the rail foot
 **What:** ≥861px: `.rail { display: flex; flex-direction: column } .rail-foot
 { margin-top: auto }` — the column reads designed instead of ran-out.
 ### 23. Authorship appears once per surface
-**What:** cut the rail-foot "By Kaelig …" line (keep the stats line); keep the overview
+**What:** cut the rail-foot “By Kaelig …” line (keep the stats line); keep the overview
 byline (the editorially correct one) and the site footer attribution.
 ### 24. Print stylesheet finishes the job
 **What:** in `@media print`: `:root { color-scheme: light only }` (dark-mode users currently
 print a black page); `.snip pre { white-space: pre-wrap; overflow: visible }` (snippets are
 currently guillotined at the paper edge); `break-inside: avoid` on `.aff`, `.tile`,
-`.findings li`, `.tech-cat`; `a[href^="http"]::after { content: " (" attr(href) ")";
+`.findings li`, `.tech-cat`; `a[href^=”http”]::after { content: “ (“ attr(href) “)”;
 font-size: 9px; color: var(--ink-3) }` scoped to content areas (not the rail/footer).
 The existing beforeprint details-expansion stays.
 ### 25. Trim the webfont request to the axes actually used
@@ -291,7 +291,7 @@ The existing beforeprint details-expansion stays.
 axis (no italics on the site). Same fonts, same source, smaller and faster; artifact-CSP
 fallback behavior unchanged. (Self-hosting was considered; keeping Google Fonts preserves
 kaelig.fr parity — see C6.)
-### 26. Theme toggle: state that doesn't lie
+### 26. Theme toggle: state that doesn’t lie
 **What:** add `aria-pressed` reflecting dark state (update on toggle + initial load), keep
 `aria-label="Toggle dark mode"`. The fixed circular placement STAYS (kaelig.fr signature —
 see C5).
@@ -311,14 +311,14 @@ silent.
 `preventDefault`, focus `#q`); a subtle `<kbd>/</kbd>` hint sits right-aligned inside the
 input (`aria-hidden`, hidden ≤860px).
 ### 30. `-webkit-line-clamp` gains the standard `line-clamp` companion property.
-### 31. Surface the 168: og-image's "168 AI affordances" appears nowhere on the site — fold
-the number into tile 1's detail line (see #14) so the social card's promise lands.
+### 31. Surface the 168: og-image’s “168 AI affordances” appears nowhere on the site — fold
+the number into tile 1’s detail line (see #14) so the social card’s promise lands.
 ### 32. Response headers in `netlify.toml`: `Referrer-Policy: strict-origin-when-cross-origin`;
 `Cache-Control: public, max-age=3600` for HTML, long-max-age immutable for `og-image.png` /
 `favicon.svg` / `data.js` is NOT safe (data.js changes per build — give it the HTML policy);
 CSP only if the app-script hash can be computed at build time in `build_dashboard.py`
-(`default-src 'self'; script-src 'self' 'sha256-<computed>'; style-src 'self' 'unsafe-inline'
-https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:`),
+(`default-src ‘self’; script-src ‘self’ ‘sha256-<computed>’; style-src ‘self’ ‘unsafe-inline’
+https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src ‘self’ data:`),
 verified in-browser with zero console violations on every route — if the hash automation
 fights the pipeline, ship the other headers and drop CSP rather than shipping a broken one.
 
@@ -328,10 +328,10 @@ fights the pipeline, ship the other headers and drop CSP rather than shipping a 
 
 - **C1 — Icon + tooltip counts.** The shape was 12px stroke glyphs (grid = affordances,
   shield = techniques) plus a legend, a CSS tooltip, and sr-only sentences. A symbol that
-  must be defined before first use is a cipher, not a symbol; it would be the site's second
+  must be defined before first use is a cipher, not a symbol; it would be the site’s second
   tooltip mechanism; and four subsystems to convey two integers is surface area without
   information. The column header + spelled mobile words (#3) carries the same meaning in the
-  site's own voice: hairlines, uppercase labels, words.
+  site’s own voice: hairlines, uppercase labels, words.
 - **C2 — Syntax highlighting in snippets.** No. Multi-language honesty, zero dependencies.
 - **C3 — Max-height on tall snippets.** No — they already live inside collapsed `<details>`.
 - **C4 — Numbered findings.** Keep; the accent `decimal-leading-zero` counter is the best

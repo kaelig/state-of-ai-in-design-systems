@@ -8,7 +8,7 @@ id: "tool-gating"
 technique_count: 20
 system_count: 16
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,9 +23,9 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 The agent has to call a tool — MCP, CLI, search script — to get component source or docs. It cannot answer from its weights, so it cannot hallucinate the API.
 
-Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System (ADS / Atlaskit)](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Atlassian Design System](https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md), [React Spectrum / Spectrum 2 (S2)](https://state-of-ai-in-design-systems.netlify.app/systems/react-spectrum-s2.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
-## "Always query before writing" — forced CLI lookup instead of recall
+## “Always query before writing” — forced CLI lookup instead of recall
 
 Ant Design · full record: https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md
 
@@ -62,7 +62,7 @@ Source: https://raw.githubusercontent.com/ant-design/ant-design-cli/main/skills/
 
 ## Two-tier tool hierarchy: ads_* canonical, atlaskit_* fallback-only
 
-Atlassian Design System (ADS / Atlaskit) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
+Atlassian Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/atlassian-design-system.md
 
 The single strongest coercion device. The server’s `instructions` and README both establish a priority order and then explicitly demote the broader catalog: ‘Do not treat Atlaskit results as equal-priority replacements for ADS components in standard UI decisions.’ Individual tool descriptions reinforce it (‘Prefer ADS resources first for standard UI’). This stops a model from reaching for a deprecated or non-ADS `@atlaskit/*` package just because the search index surfaced it.
 
@@ -90,7 +90,7 @@ equal-priority replacements for ADS components in standard UI decisions.
 
 Source: https://bitbucket.org/atlassian/atlassian-frontend-mirror/raw/HEAD/design-system/ads-mcp/README.md
 
-## MCP-First Rule: 'The MCP index is the authoritative source — not your weights'
+## MCP-First Rule: ‘The MCP index is the authoritative source — not your weights’
 
 Carbon Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md
 
@@ -175,7 +175,7 @@ export const initializeTools = async (
 
 Source: https://raw.githubusercontent.com/chakra-ui/chakra-ui/HEAD/apps/mcp/src/tools/index.ts
 
-## "Mandatory MCP workflow" — tool-gated sequential pipeline with a terminal quality gate
+## “Mandatory MCP workflow” — tool-gated sequential pipeline with a terminal quality gate
 
 daisyUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md
 
@@ -204,7 +204,7 @@ Source: https://daisyui.com/blueprint/
 
 HeroUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
-heroui-react deliberately withholds component API detail from SKILL.md and instead hands the agent six node scripts plus a deterministic MDX URL scheme, repeating “Always fetch component docs before implementing.” The skill body stays small (6.5 KB) while every concrete answer must come from a live fetch — the same discipline the MCP server enforces via tools.
+heroui-react deliberately withholds component API detail from SKILL.md and instead hands the agent six node scripts plus a deterministic MDX URL scheme, repeating “Always fetch component docs before implementing.” The skill body stays small (6.5 KB) while every concrete answer must come from a live fetch, the same discipline the MCP server enforces via tools.
 
 ```bash
 **For component details, examples, props, and implementation patterns, always fetch documentation:**
@@ -253,7 +253,7 @@ Source: https://raw.githubusercontent.com/nuxt/ui/v4/docs/server/api/ai.post.ts
 
 PatternFly · full record: https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md
 
-`pf-assist` is a dispatcher subagent, always-on in any repo with `@patternfly/*` dependencies, that maps observable signals (changed .tsx importing @patternfly/*, Figma URLs in conversation, empty project dir) to a table of specific `/pf-*` sub-skills across four contexts (Validation / Testing / Scaffolding / Design). Its first instruction is a self-disable clause — the behavior the eval suite then enforces at 100%.
+`pf-assist` is a dispatcher subagent, always-on in any repo with `@patternfly/*` dependencies, that maps observable signals (changed .tsx importing @patternfly/*, Figma URLs in conversation, empty project dir) to a table of specific `/pf-*` sub-skills across four contexts (Validation / Testing / Scaffolding / Design). Its first instruction is a self-disable clause, the behavior the eval suite then enforces at 100%.
 
 ```markdown
 # PatternFly assist
@@ -274,57 +274,11 @@ When multiple contexts apply, surface all relevant sub-skills and group findings
 
 Source: https://raw.githubusercontent.com/patternfly/ai-helpers/main/plugins/code-review/agents/pf-assist.md
 
-## Mandatory retrieval before generation ('you cannot trust your trained knowledge')
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-The skill refuses to let the model answer from weights. It explicitly names the failure mode and forces a vector-store lookup keyed on the component tag name (not the user prompt) before any code is written.
-
-````markdown
-## ⚠️ MANDATORY: Search Before Writing Code
-
-Search the vector store to get the detailed context you need: working examples, field and type definitions, valid values, and API-specific patterns. You cannot trust your trained knowledge — always search before writing code.
-
-```
-scripts/search_docs.mjs "<component tag name>" --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
-```
-
-Search for the **component tag name**, not the full user prompt.
-
-For example, if the user asks about form in app home:
-```
-scripts/search_docs.mjs "s-form" --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
-```
-````
-
-Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
-
-## Emoji-escalated imperative in the MCP tool description itself
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-Shopify embeds the coercion in the MCP tool’s own `description` field, so it lands in the model’s tool schema regardless of whether any skill or rules file is loaded. Note the anti-deflection clauses ('DONT ASK THE USER TO DO THIS. DON’T CONTEXT SWITCH’) and the explicit statement of purpose: preventing hallucinated components and props.
-
-```javascript
-    name: "validate_component_codeblocks",
-    description: `🚨 MANDATORY VALIDATION TOOL - MUST BE CALLED WHEN COMPONENTS FROM SHOPIFY PACKAGES ARE USED. DONT ASK THE USER TO DO THIS. DON'T CONTEXT SWITCH.
-
-    This tool MUST be used to validate ALL code blocks containing Shopify components, regardless of size or complexity.
-
-    ⚠️  CRITICAL REQUIREMENTS:
-    - Call this tool IMMEDIATELY after generating ANY Shopify component code
-    - NEVER skip validation, even for simple examples or snippets
-    - ALWAYS use this tool when generating JSX, TSX, or web component code
-    - This validation prevents hallucinated components, props, and prop values
-```
-
-Source: https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3
-
-## Forced tool ordering ("CRITICAL: CALL THIS FIRST")
+## Forced tool ordering (“CRITICAL: CALL THIS FIRST”)
 
 Primer · full record: https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md
 
-Rather than trusting the model to discover token groups, `get_design_token_specs` asserts primacy in its own description and frames every other search as unreliable without it — ‘You cannot search accurately without this map.’ A cheap way to bootstrap the correct token vocabulary into context before the agent starts guessing names.
+Rather than trusting the model to discover token groups, `get_design_token_specs` asserts primacy in its own description and frames every other search as unreliable without it: ‘You cannot search accurately without this map.’ A cheap way to bootstrap the correct token vocabulary into context before the agent starts guessing names.
 
 ```typescript
   'get_design_token_specs',
@@ -367,7 +321,7 @@ Source: https://react-spectrum.adobe.com/.well-known/skills/react-spectrum-s2/SK
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
-The skill repeatedly forbids the model from relying on memory or ad-hoc HTTP, routing every knowledge lookup and every mutation through the CLI. It also refuses to let the agent pick a registry on the user’s behalf, and forbids destructive `--overwrite` without explicit approval — an anti-autonomy guardrail.
+The skill repeatedly forbids the model from relying on memory or ad-hoc HTTP, routing every knowledge lookup and every mutation through the CLI. It also refuses to let the agent pick a registry on the user’s behalf, and forbids destructive `--overwrite` without explicit approval, an anti-autonomy guardrail.
 
 ```markdown
 **When creating, fixing, debugging, or using a component, always run `npx shadcn@latest docs` and fetch the URLs first.** This ensures you're working with the correct API and usage patterns rather than guessing.
@@ -388,31 +342,57 @@ When the user asks to update a component from upstream while keeping their local
 
 Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/SKILL.md
 
-## Recommend-then-apply gating on mutating skills
+## Mandatory retrieval before generation (‘you cannot trust your trained knowledge’)
 
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
 
-Every skill that can change shared state is gated twice: YAML `disable-model-invocation: true` (a human must type the slash command; the model cannot autonomously decide to run it) plus an in-prose approval checkpoint. `/triage-issues` names the mode outright and justifies it with an asymmetric-cost argument; `/dependabot-rollup` enumerates the exact forbidden mutations and refuses to guess at invalid arguments, hard-caps the batch at 11, and requires a temporary git worktree so unrelated local changes survive.
+The skill refuses to let the model answer from weights. It explicitly names the failure mode and forces a vector-store lookup keyed on the component tag name (not the user prompt) before any code is written.
 
-```markdown
-This skill operates in **recommend-then-apply** mode: never mutate issues until the user has approved the batch. A wrong label is cheap to add and annoying to remove, so lean on the approval step.
+````markdown
+## ⚠️ MANDATORY: Search Before Writing Code
 
---- and, from dependabot-rollup/SKILL.md ---
+Search the vector store to get the detailed context you need: working examples, field and type definitions, valid values, and API-specific patterns. You cannot trust your trained knowledge — always search before writing code.
 
-The default operation is read-only: discover candidates, classify them, and present a plan. Never create a branch, merge commits, push, close pull requests, or open a rollup PR until the user explicitly approves the proposed candidates.
-
-Reject an invalid repository name, a `--max` value that is not an integer from 1 through 11, an unknown Git remote, or unknown arguments instead of guessing. The value 11 is an absolute ceiling, not only the default.
-
-Do not require a clean current working tree. Approved rollups must use a temporary Git worktree so unrelated local changes remain untouched.
+```
+scripts/search_docs.mjs "<component tag name>" --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
 ```
 
-Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/dependabot-rollup/SKILL.md
+Search for the **component tag name**, not the full user prompt.
+
+For example, if the user asks about form in app home:
+```
+scripts/search_docs.mjs "s-form" --model YOUR_MODEL_NAME --client-name YOUR_CLIENT_NAME --client-version YOUR_CLIENT_VERSION
+```
+````
+
+Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
+
+## Emoji-escalated imperative in the MCP tool description itself
+
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
+Shopify embeds the coercion in the MCP tool’s own `description` field, so it lands in the model’s tool schema regardless of whether any skill or rules file is loaded. Note the anti-deflection clauses ('DONT ASK THE USER TO DO THIS. DON’T CONTEXT SWITCH’) and the explicit statement of purpose: preventing hallucinated components and props.
+
+```javascript
+    name: "validate_component_codeblocks",
+    description: `🚨 MANDATORY VALIDATION TOOL - MUST BE CALLED WHEN COMPONENTS FROM SHOPIFY PACKAGES ARE USED. DONT ASK THE USER TO DO THIS. DON'T CONTEXT SWITCH.
+
+    This tool MUST be used to validate ALL code blocks containing Shopify components, regardless of size or complexity.
+
+    ⚠️  CRITICAL REQUIREMENTS:
+    - Call this tool IMMEDIATELY after generating ANY Shopify component code
+    - NEVER skip validation, even for simple examples or snippets
+    - ALWAYS use this tool when generating JSX, TSX, or web component code
+    - This validation prevents hallucinated components, props, and prop values
+```
+
+Source: https://www.npmjs.com/package/@shopify/dev-mcp/v/1.14.3
 
 ## Redirectable context source (MANTINE_MCP_DATA_URL)
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base — at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
+The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine.dev/mcp) and MANTINE_MCP_TIMEOUT_MS let a team repoint the agent’s entire knowledge base: at alpha.mantine.dev for pre-release work, at local static files for offline or air-gapped use, or, most interestingly for enterprise design systems, at a fork’s own generated /mcp data. Since the format is just index.json plus per-component JSON produced by a committed script, a company wrapping Mantine can regenerate that payload for their own component set and the official server becomes their server. Documented on the public guide, not just the README.
 
 ```json
 {
@@ -430,7 +410,7 @@ The MCP server hard-codes nothing: MANTINE_MCP_DATA_URL (default https://mantine
 
 Source: https://raw.githubusercontent.com/mantinedev/mantine/master/apps/mantine.dev/src/pages/guides/llms.mdx
 
-## "You must use this tool to answer any questions" — hard tool mandate in the tool description
+## “You must use this tool to answer any questions” — hard tool mandate in the tool description
 
 Material UI (MUI) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md
 
@@ -472,6 +452,26 @@ function isMuiDocsHost(host: string): boolean {
 
 Source: https://raw.githubusercontent.com/mui/mui-x/HEAD/packages/x-agent-tools/src/docs/url-guard.ts
 
+## Recommend-then-apply gating on mutating skills
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+
+Every skill that can change shared state is gated twice: YAML `disable-model-invocation: true` (a human must type the slash command; the model cannot autonomously decide to run it) plus an in-prose approval checkpoint. `/triage-issues` names the mode outright and justifies it with an asymmetric-cost argument; `/dependabot-rollup` enumerates the exact forbidden mutations and refuses to guess at invalid arguments, hard-caps the batch at 11, and requires a temporary git worktree so unrelated local changes survive.
+
+```markdown
+This skill operates in **recommend-then-apply** mode: never mutate issues until the user has approved the batch. A wrong label is cheap to add and annoying to remove, so lean on the approval step.
+
+--- and, from dependabot-rollup/SKILL.md ---
+
+The default operation is read-only: discover candidates, classify them, and present a plan. Never create a branch, merge commits, push, close pull requests, or open a rollup PR until the user explicitly approves the proposed candidates.
+
+Reject an invalid repository name, a `--max` value that is not an integer from 1 through 11, an unknown Git remote, or unknown arguments instead of guessing. The value 11 is an absolute ceiling, not only the default.
+
+Do not require a clean current working tree. Approved rollups must use a temporary Git worktree so unrelated local changes remain untouched.
+```
+
+Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/dependabot-rollup/SKILL.md
+
 ## Query-the-server-before-you-choose (tool gating)
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
@@ -494,4 +494,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

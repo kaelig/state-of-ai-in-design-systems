@@ -8,7 +8,7 @@ id: "registry-metadata"
 technique_count: 9
 system_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,7 +23,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Machine-readable registries describing components, dependencies and files, so agents resolve real artifacts instead of inventing them.
 
-Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [Fluent UI (Fluent 2)](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
+Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [Microsoft Fluent UI](https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Material UI (MUI)](https://state-of-ai-in-design-systems.netlify.app/systems/material-ui.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [Primer](https://state-of-ai-in-design-systems.netlify.app/systems/primer-github.md)
 
 ## Version-pinned knowledge (55+ per-minor offline snapshots)
 
@@ -141,7 +141,7 @@ Source: https://raw.githubusercontent.com/primer/react/HEAD/.github/instructions
 
 Cloudscape Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
 
-Design-system prohibitions are embedded in the generated JSON prop descriptions, so a model reading the machine-readable contract also reads the rule. The Alert `action` region description tells the agent that although any content is technically allowed, only a button is permitted — a UX guideline enforced through the type registry rather than a separate rules file.
+Design-system prohibitions are embedded in the generated JSON prop descriptions, so a model reading the machine-readable contract also reads the rule. The Alert `action` region description tells the agent that although any content is technically allowed, only a button is permitted, a UX guideline enforced through the type registry rather than a separate rules file.
 
 ```json
 "regions": [
@@ -156,34 +156,11 @@ Design-system prohibitions are embedded in the generated JSON prop descriptions,
 
 Source: https://cloudscape.design/components/alert/index.html.json
 
-## PR-type classification table that scopes which rules apply
-
-Fluent UI (Fluent 2) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
-
-`/review-pr` refuses to run a uniform checklist. It first classifies the PR from changed-file globs and branch prefixes into six types, each with an explicit check scope, then suppresses rule families by directory — v9 pattern checks are skipped for `packages/react/` (v8 maintenance) and React checks skipped for `packages/web-components/`. This prevents the review agent from generating the false positives that would otherwise train maintainers to ignore it. Output is a merge-readiness confidence score.
-
-```markdown
-## Phase 2: Classify PR Type
-
-| Type             | Detection                                                            | Check scope                                    |
-| **docs-only**    | All files are `*.md`, `docs/**`, `**/stories/**`, `**/.storybook/**` | Change file only                               |
-| **test-only**    | All files are `*.test.*`, `*.spec.*`, `**/testing/**`                | Change file + test quality                     |
-| **bug-fix**      | Branch starts with `fix/` or title contains "fix"                    | All checks, extra weight on tests              |
-| **feature**      | Branch starts with `feat/` or adds new exports                       | All checks, extra weight on API + patterns     |
-| **refactor**     | No new exports, restructures existing code                           | All checks, extra weight on no behavior change |
-| **config/infra** | Changes to CI, configs, scripts only                                 | Change file + no regressions                   |
-
-For **v8 packages** (`packages/react/`): skip V9 pattern checks — those are maintenance-only with different patterns.
-For **web-components** (`packages/web-components/`): skip React-specific checks.
-```
-
-Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/review-pr/SKILL.md
-
 ## Version-locked AI surface — the MCP server ships with the release
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-The strongest thing Mantine does. @mantine/mcp-server lives inside the main monorepo and publishes on the same semver line as @mantine/core: 9.5.0 hit GitHub at 2026-07-27T07:49Z and npm at 2026-07-27T08:00Z, with a `next` tag (9.4.3-alpha.0) for alpha docs. Because llms.txt, llms-full.txt and /mcp/index.json are all emitted by committed build scripts from the same MDX and docgen props data that produce the human docs, the AI context cannot drift from the library — the classic failure mode of hand-written llms.txt. The docs state it outright: “llms.txt documentation is updated with every Mantine release.”
+The strongest thing Mantine does. @mantine/mcp-server lives inside the main monorepo and publishes on the same semver line as @mantine/core: 9.5.0 hit GitHub at 2026-07-27T07:49Z and npm at 2026-07-27T08:00Z, with a `next` tag (9.4.3-alpha.0) for alpha docs. Because llms.txt, llms-full.txt and /mcp/index.json are all emitted by committed build scripts from the same MDX and docgen props data that produce the human docs, the AI context cannot drift from the library, the classic failure mode of hand-written llms.txt. The docs state it outright: “llms.txt documentation is updated with every Mantine release.”
 
 ```typescript
 interface IndexItem {
@@ -233,8 +210,31 @@ Version 1.0.0 (Material UI v9)
 
 Source: https://raw.githubusercontent.com/mui/material-ui/HEAD/skills/material-ui-styling/AGENTS.md
 
+## PR-type classification table that scopes which rules apply
+
+Microsoft Fluent UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/fluent-ui-microsoft.md
+
+`/review-pr` refuses to run a uniform checklist. It first classifies the PR from changed-file globs and branch prefixes into six types, each with an explicit check scope, then suppresses rule families by directory: v9 pattern checks are skipped for `packages/react/` (v8 maintenance) and React checks skipped for `packages/web-components/`. This prevents the review agent from generating the false positives that would otherwise train maintainers to ignore it. Output is a merge-readiness confidence score.
+
+```markdown
+## Phase 2: Classify PR Type
+
+| Type             | Detection                                                            | Check scope                                    |
+| **docs-only**    | All files are `*.md`, `docs/**`, `**/stories/**`, `**/.storybook/**` | Change file only                               |
+| **test-only**    | All files are `*.test.*`, `*.spec.*`, `**/testing/**`                | Change file + test quality                     |
+| **bug-fix**      | Branch starts with `fix/` or title contains "fix"                    | All checks, extra weight on tests              |
+| **feature**      | Branch starts with `feat/` or adds new exports                       | All checks, extra weight on API + patterns     |
+| **refactor**     | No new exports, restructures existing code                           | All checks, extra weight on no behavior change |
+| **config/infra** | Changes to CI, configs, scripts only                                 | Change file + no regressions                   |
+
+For **v8 packages** (`packages/react/`): skip V9 pattern checks — those are maintenance-only with different patterns.
+For **web-components** (`packages/web-components/`): skip React-specific checks.
+```
+
+Source: https://raw.githubusercontent.com/microsoft/fluentui/master/.agents/skills/review-pr/SKILL.md
+
 All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

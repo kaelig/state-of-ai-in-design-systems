@@ -8,7 +8,7 @@ id: "exemplars"
 technique_count: 10
 system_count: 10
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,7 +23,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 Few-shot incorrect/correct pairs, templates and demo blocks placed where the model will read them.
 
-Systems represented here: [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Lightning Design System (SLDS)](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Carbon Design System](https://state-of-ai-in-design-systems.netlify.app/systems/carbon-design-system.md), [Chakra UI](https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [HeroUI](https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md), [Mantine](https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md), [Salesforce Lightning Design System](https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
 ## Anti-hallucination proof-by-counterexample for icon names
 
@@ -48,7 +48,7 @@ Source: https://carbondesignsystem.com/developing/carbon-mcp/files/carbon-builde
 
 Chakra UI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/chakra-ui.md
 
-The builder skill pins the response shape so agent output is directly pasteable and consistently responsive. Two clauses do real work: banning ‘TODO’ / ‘...rest of component’ placeholders, and mandating base + md breakpoints as a floor unless the request is explicitly desktop-only — a responsive-by-default guarantee models otherwise skip. (Builder-side analogue: the github-issue-triage subagent may not declare a bug reproduced by reasoning alone — it must render the story and look at it via Chrome MCP.)
+The builder skill pins the response shape so agent output is directly pasteable and consistently responsive. Two clauses do real work: banning ‘TODO’ / ‘...rest of component’ placeholders, and mandating base + md breakpoints as a floor unless the request is explicitly desktop-only, a responsive-by-default guarantee models otherwise skip. (Builder-side analogue: the github-issue-triage subagent may not declare a bug reproduced by reasoning alone; it must render the story and look at it via Chrome MCP.)
 
 ```markdown
 ## Output format
@@ -92,7 +92,7 @@ This lets the LLM use maintained daisyUI syntax instead of recalling stale or in
 
 Source: https://daisyui.com/blueprint/workflow/
 
-## Negative exemplars — a labelled "DO NOT DO THIS" code block
+## Negative exemplars — a labelled “DO NOT DO THIS” code block
 
 HeroUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/heroui.md
 
@@ -128,7 +128,7 @@ Source: https://raw.githubusercontent.com/heroui-inc/heroui/HEAD/skills/heroui-r
 
 ## Canonical in-repo exemplar for the pattern models get wrong
 
-Lightning Design System (SLDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
+Salesforce Lightning Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/salesforce-slds.md
 
 Rather than describing modal structure, both AGENTS.md and .builderrules point at a checked-in component and forbid the from-memory alternative. Modals are a known LLM failure case (models reconstruct `slds-modal` markup with wrong ARIA and focus handling), so the rule pins a real file as the template.
 
@@ -140,30 +140,11 @@ Extend `lightning/modal`, following `**src/modules/ui/demoModal/`** as the refer
 
 Source: https://raw.githubusercontent.com/salesforce-ux/design-system-2-starter-kit/HEAD/AGENTS.md
 
-## Inlined prop-complete component catalogue as few-shot exemplars
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-~150 lines of SKILL.md are a dense catalogue of every s-* element written out with all available props and plausible values, so the model has a correct-by-construction prior even before the vector search returns. Paired with explicit ✅/❌ discrimination rules for the two attribute classes that most often break TypeScript.
-
-```markdown
-**Web component attribute rules:**
-
-- Use **camelCase** prop names: `alignItems`, `gridTemplateColumns`, `borderRadius` — NOT hyphenated (`align-items`, `grid-template-columns`)
-- **Boolean attributes** (`disabled`, `loading`, `dismissible`, `checked`, `defaultChecked`, `required`, `removable`, `alpha`, `multiple`) accept shorthand or `{expression}`:
-  - ✅ `<s-button disabled>`, `<s-switch checked={isEnabled} />`, `<s-banner dismissible>`
-- **String keyword attributes** (`padding`, `gap`, `direction`, `tone`, `variant`, `size`, `background`, `alignItems`, `inlineSize`) must be string values — never shorthand or `{true}`:
-  - ✅ `<s-box padding="base">`, `<s-stack gap="loose" direction="block">`, `<s-badge tone="success">`
-  - ❌ `<s-box padding>`, `<s-stack gap={true}>` — boolean shorthand on string props fails TypeScript
-```
-
-Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
-
 ## Incorrect/Correct exemplar pairs as the rule bodies
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
-Every Critical Rule links to a rules/*.md file (styling, forms, composition, icons, chat, base-vs-radix) built almost entirely out of minimal-pair code blocks labelled **Incorrect:** / **Correct:**. This is few-shot conditioning rather than prose policy — the model sees the exact wrong output it is likely to produce next to the sanctioned one.
+Every Critical Rule links to a rules/*.md file (styling, forms, composition, icons, chat, base-vs-radix) built almost entirely out of minimal-pair code blocks labelled **Incorrect:** / **Correct:**. This is few-shot conditioning rather than prose policy: the model sees the exact wrong output it is likely to produce next to the sanctioned one.
 
 ````markdown
 ## Semantic colors
@@ -201,6 +182,25 @@ For positive, negative, or status indicators, use Badge variants, semantic token
 
 Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/skills/shadcn/rules/styling.md
 
+## Inlined prop-complete component catalogue as few-shot exemplars
+
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
+~150 lines of SKILL.md are a dense catalogue of every s-* element written out with all available props and plausible values, so the model has a correct-by-construction prior even before the vector search returns. Paired with explicit ✅/❌ discrimination rules for the two attribute classes that most often break TypeScript.
+
+```markdown
+**Web component attribute rules:**
+
+- Use **camelCase** prop names: `alignItems`, `gridTemplateColumns`, `borderRadius` — NOT hyphenated (`align-items`, `grid-template-columns`)
+- **Boolean attributes** (`disabled`, `loading`, `dismissible`, `checked`, `defaultChecked`, `required`, `removable`, `alpha`, `multiple`) accept shorthand or `{expression}`:
+  - ✅ `<s-button disabled>`, `<s-switch checked={isEnabled} />`, `<s-banner dismissible>`
+- **String keyword attributes** (`padding`, `gap`, `direction`, `tone`, `variant`, `size`, `background`, `alignItems`, `inlineSize`) must be string values — never shorthand or `{true}`:
+  - ✅ `<s-box padding="base">`, `<s-stack gap="loose" direction="block">`, `<s-badge tone="success">`
+  - ❌ `<s-box padding>`, `<s-stack gap={true}>` — boolean shorthand on string props fails TypeScript
+```
+
+Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
+
 ## 181 addressable few-shot exemplars at predictable URLs
 
 Cloudscape Design System · full record: https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md
@@ -221,7 +221,7 @@ Source: https://cloudscape.design/snippets-content/index.md
 
 Mantine · full record: https://state-of-ai-in-design-systems.netlify.app/systems/mantine.md
 
-Every Mantine skill uses the same three-file shape: a short SKILL.md whose YAML description is trigger-heavy (enumerated “Use this skill when: (1)...(6)” clauses naming exact API symbols — useCombobox, Combobox.Target, getInputProps, insertListItem, createVarsResolver — so the skill matcher fires on symbol names appearing in the prompt or the open file), a compact core workflow in the body, and two deep reference files loaded on demand (patterns.md runs 279/310/431 lines across the three skills). Always-on token cost stays tiny while a large exemplar bank sits one file-read away, and each SKILL.md ends with a pointer table telling the agent what each reference contains so it knows when the read is worth paying for.
+Every Mantine skill uses the same three-file shape: a short SKILL.md whose YAML description is trigger-heavy (enumerated “Use this skill when: (1)...(6)” clauses naming exact API symbols (useCombobox, Combobox.Target, getInputProps, insertListItem, createVarsResolver), so the skill matcher fires on symbol names appearing in the prompt or the open file), a compact core workflow in the body, and two deep reference files loaded on demand (patterns.md runs 279/310/431 lines across the three skills). Always-on token cost stays tiny while a large exemplar bank sits one file-read away, and each SKILL.md ends with a pointer table telling the agent what each reference contains so it knows when the read is worth paying for.
 
 ```markdown
 ## References
@@ -236,7 +236,7 @@ Source: https://raw.githubusercontent.com/mantinedev/skills/HEAD/skills/mantine-
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-Because there is no official machine-readable registry, the community skill hard-codes a pinned CDN version and a mandatory HTML shell, then ships a full worked example page (`prototypes/doe-renewable-energy.html`) and `examples/starter.html` as few-shot grounding. Note ‘always use these exact versions’ — pinning to 3.13.0 is a direct consequence of USWDS’s 14-month release gap making version drift a non-issue, but it will silently rot on the next release.
+Because there is no official machine-readable registry, the community skill hard-codes a pinned CDN version and a mandatory HTML shell, then ships a full worked example page (`prototypes/doe-renewable-energy.html`) and `examples/starter.html` as few-shot grounding. Note ‘always use these exact versions’: pinning to 3.13.0 is a direct consequence of USWDS’s 14-month release gap making version drift a non-issue, but it will silently rot on the next release.
 
 ````markdown
 ### CDN links (always use these exact versions)
@@ -261,4 +261,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.

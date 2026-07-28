@@ -8,7 +8,7 @@ id: "instruction-files"
 technique_count: 9
 system_count: 9
 data_collected: "2026-07-26/27"
-generated: "2026-07-27T22:13:09Z"
+generated: "2026-07-28T02:17:18Z"
 report: "State of AI in Design Systems — July 2026"
 author: "Kaelig Deloumeau-Prigent"
 license: "CC-BY-4.0"
@@ -23,7 +23,7 @@ citation: "Deloumeau-Prigent, K. (2026). State of AI in Design Systems. https://
 
 CLAUDE.md, AGENTS.md and editor rules distributed in repos or to consumers, loaded into agent context automatically.
 
-Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Polaris (Shopify)](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
+Systems represented here: [Ant Design](https://state-of-ai-in-design-systems.netlify.app/systems/ant-design.md), [Cloudscape Design System](https://state-of-ai-in-design-systems.netlify.app/systems/cloudscape-design-system.md), [daisyUI](https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md), [Nord Design System](https://state-of-ai-in-design-systems.netlify.app/systems/nord-design-system.md), [Nuxt UI](https://state-of-ai-in-design-systems.netlify.app/systems/nuxt-ui.md), [PatternFly](https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md), [shadcn/ui](https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md), [Shopify Polaris](https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md), [U.S. Web Design System (USWDS)](https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md)
 
 ## One instruction set, many vendors (symlinked .claude / .cursor / AGENTS.md)
 
@@ -41,7 +41,7 @@ Source: https://raw.githubusercontent.com/ant-design/ant-design/HEAD/.github/cop
 
 daisyUI · full record: https://state-of-ai-in-design-systems.netlify.app/systems/daisyui.md
 
-daisyUI ships a single canonical context file and lets the frontmatter do the format polymorphism: `alwaysApply: true` + `applyTo: "**"` mean the same 79 KB llms.txt is a valid Cursor rule when curl’d to `.cursor/rules/daisyui.mdc`, a valid skill when placed as SKILL.md, and a plain docs digest when fetched by a crawler. It removes the usual drift between a project’s llms.txt and its rules files, at the cost of a large always-on token footprint — which is precisely the cost Blueprint is sold to eliminate (‘90% lower token costs’).
+daisyUI ships a single canonical context file and lets the frontmatter do the format polymorphism: `alwaysApply: true` + `applyTo: "**"` mean the same 79 KB llms.txt is a valid Cursor rule when curl’d to `.cursor/rules/daisyui.mdc`, a valid skill when placed as SKILL.md, and a plain docs digest when fetched by a crawler. It removes the usual drift between a project’s llms.txt and its rules files, at the cost of a large always-on token footprint, which is precisely the cost Blueprint is sold to eliminate (‘90% lower token costs’).
 
 ```text
 daisyui.com/llms.txt file is a compact, text version of daisyUI docs to help AI generate accurate daisyUI code based on your prompt.
@@ -73,7 +73,7 @@ Source: https://raw.githubusercontent.com/nuxt/ui/v4/AGENTS.md
 
 PatternFly · full record: https://state-of-ai-in-design-systems.netlify.app/systems/patternfly.md
 
-Two distinct in-house conventions. Consumer skills open with a persona (“You are a Senior Design Systems Engineer specializing in CSS refactoring and Design Token implementation”) to bias the review. Builder guidelines in patternfly-mcp add machine-readable precedence metadata — a `## For Agents` block with `### Processing Priority: Critical - This document should be processed first` — plus behavior rules like sequential processing and mandatory architecture confirmation before implementing.
+Two distinct in-house conventions. Consumer skills open with a persona (“You are a Senior Design Systems Engineer specializing in CSS refactoring and Design Token implementation”) to bias the review. Builder guidelines in patternfly-mcp add machine-readable precedence metadata: a `## For Agents` block with `### Processing Priority: Critical - This document should be processed first`, plus behavior rules like sequential processing and mandatory architecture confirmation before implementing.
 
 ```markdown
 ## For Agents
@@ -93,32 +93,7 @@ Critical - This document should be processed first when working with agent guide
 
 Source: https://raw.githubusercontent.com/patternfly/patternfly-mcp/main/guidelines/agent_behaviors.md
 
-## Disambiguation clause in skill description (routing coercion)
-
-Polaris (Shopify) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
-
-The skill’s `description` frontmatter — the only text a host model sees when deciding which skill to load — contains an explicit tie-break rule claiming the ambiguous word ‘Polaris’ for the web-components surface. A cheap, high-leverage trick for a system whose old meaning still dominates the training corpus.
-
-```yaml
----
-name: shopify-polaris-app-home
-description: "Build your app's primary user interface embedded in the Shopify admin. If the prompt just mentions `Polaris` and you can't tell based off of the context what API they meant, assume they meant this API."
-compatibility: Requires Node.js
-metadata:
-  author: Shopify
-  version: "1.12.1"
-hooks:
-  PostToolUse:
-    - matcher: Skill
-      hooks:
-        - type: command
-          command: 'sh -c ''h="$CLAUDE_PLUGIN_ROOT/scripts/track-telemetry.sh"; if [ -f "$h" ]; then exec bash "$h"; fi'''
----
-```
-
-Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
-
-## Globbed parity rule for contributors' agents
+## Globbed parity rule for contributors’ agents
 
 shadcn/ui · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shadcn-ui.md
 
@@ -145,6 +120,31 @@ After edits, briefly confirm both trees were updated (or state why one side is i
 ```
 
 Source: https://raw.githubusercontent.com/shadcn-ui/ui/main/.cursor/rules/registry-bases-parity.mdc
+
+## Disambiguation clause in skill description (routing coercion)
+
+Shopify Polaris · full record: https://state-of-ai-in-design-systems.netlify.app/systems/shopify-polaris.md
+
+The skill’s `description` frontmatter, the only text a host model sees when deciding which skill to load, contains an explicit tie-break rule claiming the ambiguous word ‘Polaris’ for the web-components surface. A cheap, high-leverage trick for a system whose old meaning still dominates the training corpus.
+
+```yaml
+---
+name: shopify-polaris-app-home
+description: "Build your app's primary user interface embedded in the Shopify admin. If the prompt just mentions `Polaris` and you can't tell based off of the context what API they meant, assume they meant this API."
+compatibility: Requires Node.js
+metadata:
+  author: Shopify
+  version: "1.12.1"
+hooks:
+  PostToolUse:
+    - matcher: Skill
+      hooks:
+        - type: command
+          command: 'sh -c ''h="$CLAUDE_PLUGIN_ROOT/scripts/track-telemetry.sh"; if [ -f "$h" ]; then exec bash "$h"; fi'''
+---
+```
+
+Source: https://raw.githubusercontent.com/Shopify/shopify-ai-toolkit/HEAD/skills/shopify-polaris-app-home/SKILL.md
 
 ## Docs shattered into an agent-routable index
 
@@ -206,7 +206,7 @@ Source: https://nordhealth.design/raw/docs/developer/working-with-ai/skills.md
 
 U.S. Web Design System (USWDS) · full record: https://state-of-ai-in-design-systems.netlify.app/systems/uswds.md
 
-The dominant technique in USWDS’s own AGENTS.md is not prohibiting design decisions — it is pre-empting the specific wrong assumptions an LLM makes about an unusual 2015-era-lineage build. Note the explicit negations: ‘Not direct npm scripts’, ‘Do not assume Vite builds the whole project’, ‘Generated; do not edit’, ‘not Jest/Vitest’. Each one is a correction of a plausible model prior. This is the cheapest, highest-yield agent-file pattern for legacy toolchains, and it costs the team nothing to maintain.
+The dominant technique in USWDS’s own AGENTS.md is not prohibiting design decisions. It pre-empts the specific wrong assumptions an LLM makes about an unusual 2015-era-lineage build. Note the explicit negations: ‘Not direct npm scripts’, ‘Do not assume Vite builds the whole project’, ‘Generated; do not edit’, ‘not Jest/Vitest’. Each one is a correction of a plausible model prior. This is the cheapest, highest-yield agent-file pattern for legacy toolchains, and it costs the team nothing to maintain.
 
 ```markdown
 - **Build**: Gulp 4 (`gulpfile.js`, `tasks/*.js`). Not direct npm scripts. Vite is only for web-components CDN banner (`vite.config.banner.cdn.js`); main lib uses Gulp/Browserify/Uglify. Do not assume Vite builds the whole project.
@@ -223,4 +223,4 @@ All categories: https://state-of-ai-in-design-systems.netlify.app/techniques.md
 
 ---
 
-Generated 2026-07-27T22:13:09Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
+Generated 2026-07-28T02:17:18Z from the State of AI in Design Systems — July 2026 dataset. Index of every machine-readable file: https://state-of-ai-in-design-systems.netlify.app/llms.txt. JSON, SQLite and the MCP endpoint: https://state-of-ai-in-design-systems.netlify.app/ai.md. Kaelig Deloumeau-Prigent, CC BY 4.0.
