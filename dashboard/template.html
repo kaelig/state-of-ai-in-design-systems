@@ -616,6 +616,14 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
    click is not an interaction. */
 .readlist .added { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
   color: var(--ink-3); }
+/* Same breathing room above a jumped-to section that .plat and .tech-cat give
+   theirs. The rail is a sticky left column, and goes static below 860px, so
+   nothing overlays the target — this is spacing, not header clearance. */
+.ai-sec { scroll-margin-top: 16px; }
+/* .jump carries no top margin because on /platforms it follows the accent rule,
+   which brings its own. Here it follows prose, so it needs the gap itself.
+   Scoped rather than added to .jump, which /platforms and .spec-band share. */
+.ai-jump { margin-top: 22px; }
 .ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
 .ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
 .ai-links li:last-child { border-bottom: 1px solid var(--line); }
@@ -1195,11 +1203,19 @@ const VIEWS = {
       return '';
     };
     const [first, ...rest] = c.sections;
+    /* The jump list and the sections are mapped from the same `rest`, so a link
+       cannot outlive the section it points at. `first` is the intro: it renders
+       into the head with no wrapper of its own, so it has nothing to jump to.
+       Markup matches the /platforms list, which is what the delegated
+       a[data-jump] handler claims. */
+    const jump = `<ul class="jump ai-jump" aria-label="Jump to a section">${rest.map(sec =>
+      `<li><a href="#${esc(sec.id)}" data-jump="${esc(sec.id)}">${esc(sec.heading)}</a></li>`).join('')}</ul>`;
     const head = `<p class="eyebrow">For agents</p><h1>${esc(c.title)}</h1>
       <p class="lede">${fmt(first.blocks[0].text)}</p>
       <hr class="accent-rule">
-      ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}`;
-    return head + rest.map(sec => `<section id="${esc(sec.id)}">
+      ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}
+      ${jump}`;
+    return head + rest.map(sec => `<section class="ai-sec" id="${esc(sec.id)}" tabindex="-1">
       <h2>${esc(sec.heading)}</h2>
       ${sec.blocks.map((b, i) => block(b, `ai-${sec.id}-${i}`)).join('')}
     </section>`).join('');
