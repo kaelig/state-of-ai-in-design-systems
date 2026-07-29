@@ -38,13 +38,13 @@ what you read there and cite the source_url on each record. My question: …
 Or connect the MCP server: public, read-only, no auth, a July 2026 snapshot:
 
 ```sh
-claude mcp add --transport http --scope user state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
+claude mcp add --transport http --scope user ds-state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
 ```
 
 ```json
 {
   "mcpServers": {
-    "state-of-ai": {
+    "ds-state-of-ai": {
       "type": "http",
       "url": "https://state-of-ai-in-design-systems.netlify.app/mcp"
     }

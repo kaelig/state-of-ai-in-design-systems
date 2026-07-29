@@ -64,6 +64,7 @@ PUBLIC_SCHEMAS = [
 
 ORIGIN = "https://state-of-ai-in-design-systems.netlify.app"
 MCP_URL = f"{ORIGIN}/mcp"
+MCP_NAME = "ds-state-of-ai"  # the alias every client config registers the server under
 REPO_URL = "https://github.com/kaelig/state-of-ai-in-design-systems"
 DATA_COLLECTED = "2026-07-26/28"
 SNAPSHOT_DATE = "2026-07-28"
@@ -1085,7 +1086,7 @@ def ai_content():
             "label": "Claude Code",
             "lang": "bash",
             "note": "Adds it for every project on your machine.",
-            "code": f"claude mcp add --transport http --scope user state-of-ai {MCP_URL}",
+            "code": f"claude mcp add --transport http --scope user {MCP_NAME} {MCP_URL}",
         },
         {
             "id": "mcp-json",
@@ -1094,7 +1095,7 @@ def ai_content():
             "note": "Save as .mcp.json at the root. The type field is required — a url without a "
             "type is read as a local command and skipped.",
             "code": json.dumps(
-                {"mcpServers": {"state-of-ai": {"type": "http", "url": MCP_URL}}}, indent=2
+                {"mcpServers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2
             ),
         },
         {
@@ -1109,23 +1110,21 @@ def ai_content():
             "label": "Cursor",
             "lang": "json",
             "note": "~/.cursor/mcp.json for all projects, or .cursor/mcp.json for one.",
-            "code": json.dumps({"mcpServers": {"state-of-ai": {"url": MCP_URL}}}, indent=2),
+            "code": json.dumps({"mcpServers": {MCP_NAME: {"url": MCP_URL}}}, indent=2),
         },
         {
             "id": "vscode",
             "label": "VS Code (Copilot agent mode)",
             "lang": "json",
             "note": "Save as .vscode/mcp.json. The top-level key is servers here, not mcpServers.",
-            "code": json.dumps(
-                {"servers": {"state-of-ai": {"type": "http", "url": MCP_URL}}}, indent=2
-            ),
+            "code": json.dumps({"servers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2),
         },
         {
             "id": "generic",
             "label": "Anything else",
             "lang": "json",
             "note": "Windsurf, Zed, LangChain, Semantic Kernel and most frameworks take this shape.",
-            "code": json.dumps({"state-of-ai": {"type": "http", "url": MCP_URL}}, indent=2),
+            "code": json.dumps({MCP_NAME: {"type": "http", "url": MCP_URL}}, indent=2),
         },
     ]
     downloads = [

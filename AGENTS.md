@@ -182,7 +182,7 @@ to learn the filter vocabulary. Snippet bodies are opt-in through `get_snippet`
 so responses stay small.
 
 ```sh
-claude mcp add --transport http --scope user state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
+claude mcp add --transport http --scope user ds-state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
 ```
 
 The site also registers four WebMCP tools in-page via `registerReportTools()` in
