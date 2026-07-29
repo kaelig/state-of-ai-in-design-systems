@@ -262,10 +262,14 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .spec-band .bhead.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
 .spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
-/* One treatment, two users: the spectrum bands and the platforms jump row. */
+/* One treatment, two users: the spectrum bands and the jump rows that /ai,
+   /platforms and /reading all build through jumpList(). */
 .spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
 .spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
-.jump { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+.jump { list-style: none; padding: 0; margin: 22px 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+/* The accent rule already leaves 24px under itself, so a list that follows one
+   needs no gap of its own. A list that follows prose, as /ai's does, needs it. */
+.accent-rule + .jump { margin-top: 0; }
 
 /* font-size here only so `ch` resolves against the body text it caps: the
    hairline then ends exactly where the paragraph does, past the 48px numeral
@@ -527,7 +531,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
    states its own inline inset through --card-pad. The rows are then full width
    by construction — hover and hairlines run edge to edge, the .aff way — with
    no negative margins anywhere. */
-.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 0; margin-bottom: 12px; scroll-margin-top: 16px; }
+.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 0; margin-bottom: 12px; }
 .tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-inline: var(--card-pad); }
 /* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
 .tech-cat > .th h2 { margin: 0; }
@@ -569,7 +573,7 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 
 /* Same construction as .tech-cat: vertical card padding, children own their
    inline inset, capability rows run edge to edge. */
-.plat { --card-pad: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 0; margin-bottom: 14px; scroll-margin-top: 16px; }
+.plat { --card-pad: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 0; margin-bottom: 14px; }
 .plat h2 { margin: 0 var(--card-pad) 6px; }
 /* A card-internal section label that is still a heading in the outline. */
 .plat h3.caps {
@@ -616,14 +620,10 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
    click is not an interaction. */
 .readlist .added { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
   color: var(--ink-3); }
-/* Same breathing room above a jumped-to section that .plat and .tech-cat give
-   theirs. The rail is a sticky left column, and goes static below 860px, so
-   nothing overlays the target — this is spacing, not header clearance. */
-.ai-sec { scroll-margin-top: 16px; }
-/* .jump carries no top margin because on /platforms it follows the accent rule,
-   which brings its own. Here it follows prose, so it needs the gap itself.
-   Scoped rather than added to .jump, which /platforms and .spec-band share. */
-.ai-jump { margin-top: 22px; }
+/* One clearance for every jump target, whichever list points at it. The rail is
+   a sticky left column and goes static below 860px, so nothing overlays a
+   target — this is breathing room, not header clearance. */
+.jump-sec, .plat, .tech-cat { scroll-margin-top: 16px; }
 .ai-links { list-style: none; padding: 0; margin: 16px 0 4px; max-width: var(--measure-body); }
 .ai-links li { border-top: 1px solid var(--line); padding: 10px 0; }
 .ai-links li:last-child { border-bottom: 1px solid var(--line); }
@@ -1117,8 +1117,7 @@ const VIEWS = {
     return `<p class="eyebrow">The tooling layer</p><h1>Platforms</h1>
       <p class="lede">${fmt(DATA.insights.platforms_lede)}</p>
       <hr class="accent-rule">
-      <ul class="jump" aria-label="Jump to a platform">${DATA.platforms.map(p =>
-        `<li><a href="#${esc(p.id)}" data-jump="${esc(p.id)}">${esc(p.name.replace(/\s*\([^()]*\)$/, ''))}</a></li>`).join('')}</ul>
+      ${jumpList(DATA.platforms.map(p => ({ id: p.id, label: p.name.replace(/\s*\([^()]*\)$/, '') })), 'Jump to a platform')}
       ${DATA.platforms.map(p => `<section class="plat" id="${esc(p.id)}" tabindex="-1">
         <h2>${esc(p.name)}</h2>
         ${mirrorLinks('platforms', p.id, p.name)}
@@ -1172,14 +1171,18 @@ const VIEWS = {
       ${r.price ? `<span class="cost">${esc(r.price.amount)} — ${esc(r.price.buys)}</span>` : ''}
       ${r.added_on > founded ? `<span class="added">Added ${esc(longDate(r.added_on))}</span>` : ''}
     </li>`;
-    const groups = (m.reading_kinds || []).filter(k => rs.some(r => r.kind === k)).map(k =>
-      `<section><h2>${esc(KIND[k] || k)}</h2>
+    /* One filtered list feeds the jump links and the sections both, so a link
+       cannot point at a kind that has no entries and was never rendered. */
+    const kinds = (m.reading_kinds || []).filter(k => rs.some(r => r.kind === k));
+    const groups = kinds.map(k =>
+      `<section class="jump-sec" id="${esc(k)}" tabindex="-1"><h2>${esc(KIND[k] || k)}</h2>
         <ul class="readlist">${rs.filter(r => r.kind === k).map(entry).join('')}</ul>
       </section>`).join('');
     return `<p class="eyebrow">Further reading</p><h1>Further reading</h1>
       <p class="lede">${fmt(DATA.insights.reading_lede)}</p>
       <p class="byline">Last updated ${esc(longDate(m.reading_updated))}</p>
       <hr class="accent-rule">
+      ${jumpList(kinds.map(k => ({ id: k, label: KIND[k] || k })), 'Jump to a section')}
       ${groups}
       <div class="prose"><p>Something missing? ${extLink(REPO_URL + '/issues/new?template=reading-suggestion.yml',
         'Suggest it')}. Everything listed gets opened and read first.</p></div>`;
@@ -1203,24 +1206,34 @@ const VIEWS = {
       return '';
     };
     const [first, ...rest] = c.sections;
-    /* The jump list and the sections are mapped from the same `rest`, so a link
+    /* The list and the sections are mapped from the same `rest`, so a link
        cannot outlive the section it points at. `first` is the intro: it renders
-       into the head with no wrapper of its own, so it has nothing to jump to.
-       Markup matches the /platforms list, which is what the delegated
-       a[data-jump] handler claims. */
-    const jump = `<ul class="jump ai-jump" aria-label="Jump to a section">${rest.map(sec =>
-      `<li><a href="#${esc(sec.id)}" data-jump="${esc(sec.id)}">${esc(sec.heading)}</a></li>`).join('')}</ul>`;
+       into the head with no wrapper of its own, so it has nothing to jump to. */
+    const jump = jumpList(rest.map(sec => ({ id: sec.id, label: sec.heading })), 'Jump to a section');
     const head = `<p class="eyebrow">For agents</p><h1>${esc(c.title)}</h1>
       <p class="lede">${fmt(first.blocks[0].text)}</p>
       <hr class="accent-rule">
       ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}
       ${jump}`;
-    return head + rest.map(sec => `<section class="ai-sec" id="${esc(sec.id)}" tabindex="-1">
+    return head + rest.map(sec => `<section class="jump-sec" id="${esc(sec.id)}" tabindex="-1">
       <h2>${esc(sec.heading)}</h2>
       ${sec.blocks.map((b, i) => block(b, `ai-${sec.id}-${i}`)).join('')}
     </section>`).join('');
   },
 };
+
+/* The one jump list on the site. `items` are {id, label}; every id must be on a
+   section that carries .jump-sec (or .plat, which predates the class), so the
+   scroll lands with clearance and focus has somewhere to go. The delegated
+   a[data-jump] handler does both, and its preventDefault is what keeps
+   "#essay" from being read as a route by the hash-routed artifact.
+   Empty in, nothing out: a page whose groups are all filtered away renders no
+   labelled-but-empty list. */
+function jumpList(items, label) {
+  if (!items.length) return '';
+  return `<ul class="jump" aria-label="${esc(label)}">${items.map(i =>
+    `<li><a href="#${esc(i.id)}" data-jump="${esc(i.id)}">${esc(i.label)}</a></li>`).join('')}</ul>`;
+}
 
 /* `anchor` is the id of the section this row summarises, and only /techniques
    passes one — the matrix prevalence bars have nothing to jump to. Bare-hash
