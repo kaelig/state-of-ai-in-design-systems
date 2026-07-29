@@ -159,7 +159,10 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 /* Flex column so the foot can sit at the bottom of the rail instead of wherever
    the nav happens to stop. */
 .rail { border-right: 1px solid var(--line); padding: 24px 0 24px 20px; position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
-.rail-brand { padding-right: 16px; }
+/* The masthead is the way home. It is a whole block, not a run of text, so it
+   drops the shared underline affordance and answers the pointer with ink. */
+.rail-brand { display: block; padding-right: 16px; text-decoration: none; }
+.rail-brand:hover strong { color: var(--accent-ink); }
 .rail-brand .k {
   display: block; font-family: var(--font-display); font-weight: 550; font-size: 10px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
@@ -167,6 +170,7 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 .rail-brand strong {
   display: block; margin-top: 5px; font-family: var(--font-display); font-weight: 700;
   font-size: 16px; line-height: 1.25; letter-spacing: -.02em; color: var(--ink);
+  transition: color .2s ease;
 }
 .navwrap { position: relative; }
 .rail nav { display: flex; flex-direction: column; gap: 2px; margin-top: 26px; margin-left: -20px; }
@@ -752,7 +756,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
 </button>
 <div class="app">
   <aside class="rail">
-    <div class="rail-brand"><span class="k">Field study · July 2026</span><strong>State of AI in Design&nbsp;Systems</strong></div>
+    <!-- href="/" is right for the deployed site and for anyone reading the
+         prerendered HTML; the hash build rewrites it to #/ once the app boots. -->
+    <a class="rail-brand" id="brand" href="/"><span class="k">Field study · July 2026</span><strong>State of AI in Design&nbsp;Systems</strong></a>
     <div class="navwrap"><nav id="nav" aria-label="Sections"></nav></div>
     <!-- The overview byline and the site footer carry the full name; the rail
          has one column of width, so it gives the first name and the link. -->
@@ -1357,6 +1363,9 @@ const VIEW_TITLES = (DATA.meta && DATA.meta.view_titles) || {};
 const NAV_LABEL = {};
 NAV.forEach(([r, l]) => { NAV_LABEL[r] = l; });
 $('#nav').innerHTML = NAV.map(([r, l]) => `<a href="${r === 'overview' ? href() : href(r)}" data-r="${r}">${l}</a>`).join('');
+/* The masthead ships as href="/" so the prerendered HTML is right without JS.
+   Under hash routing that address is not a route, so point it at the real one. */
+$('#brand').setAttribute('href', href());
 /* The provenance clause is per view: every page is fixed at the collection
    window except the reading list, and a page carrying both dates tells the
    reader to pick one. */
