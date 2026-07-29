@@ -105,6 +105,50 @@
     "added_on": "2026-07-28"
   },
   {
+    "id": "context-based-design-systems",
+    "title": "Context-Based Design Systems: A New Model for the AI-Driven Product Lifecycle",
+    "author": "Southleft",
+    "published": "2025-07-03",
+    "kind": "essay",
+    "url": "https://southleft.com/insights/design-systems/context-based-design-systems-a-new-model-for-the-ai-driven-product-lifecycle/",
+    "description": "Names a lifecycle where every phase inherits structured meaning from the one before it, so a component travels with what it means, how it behaves and when it applies rather than only what it looks like. Introduces the context engineer, whose job is the fidelity of that chain rather than the prompts.",
+    "quote": "What's missing isn't data, it's context.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "context-based-design-systems-revisited",
+    "title": "Context-Based Design Systems, Revisited",
+    "author": "Southleft",
+    "published": "2026-05-12",
+    "kind": "essay",
+    "url": "https://southleft.com/insights/design-systems/context-based-design-systems-revisited/",
+    "description": "Returns to that framework a year on and sharpens it against the agentic writing that appeared in between. The disagreement is about the operating model: propose-and-approve puts the agent upstream and the human at the gate, where this keeps the person upstream setting the constraints the agent executes inside. The change it argues actually mattered is designers opening the pull request.",
+    "quote": "The orchestrator is not the reviewer at the gate. The orchestrator is the one driving.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "life-after-the-prototype",
+    "title": "Life After the Prototype",
+    "author": "TJ Pitre, Southleft",
+    "published": "2026-06-22",
+    "kind": "essay",
+    "url": "https://southleft.substack.com/p/life-after-the-prototype",
+    "description": "A sequence for turning a generated prototype into code an engineer will take: a design branch with no path to production, the model pointed at real tokens and components over MCP, the rules written in a file the agent reads every time, generation into Storybook so there is nothing left to invent, then asking the model where it deviated and what it is least confident about. What it reports doubles as an audit of where the system is thin.",
+    "quote": "The prototype was never the hard part. The handshake is.",
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "use-ai-to-need-less-ai",
+    "title": "Use AI to Need Less AI",
+    "author": "TJ Pitre, Southleft",
+    "published": "2026-07-26",
+    "kind": "essay",
+    "url": "https://southleft.substack.com/p/use-ai-to-need-less-ai",
+    "description": "Splits the work into authoring, which is judgment-heavy and happens once, and enforcement, which recurs forever and has to be boring, then surveys what is being built on that split: the DTCG token format, deterministic spec extraction from Figma, a documentation schema, and a set of contract layers that gate a generated component against a machine-readable definition. Discloses that one of them is the author's own.",
+    "quote": "A model can be talked around. A schema can't.",
+    "added_on": "2026-07-28"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
@@ -138,6 +182,34 @@
     "price": {
       "amount": "$599",
       "buys": "lifetime access to 15+ hours of video lessons"
+    },
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "build-scalable-ui-in-figma-and-ai",
+    "title": "Build Scalable UI in Figma & AI — Designers Ready for Agentic Workflows",
+    "author": "Christine Vallaure",
+    "kind": "course",
+    "url": "https://maven.com/moonlearning/figma",
+    "description": "A four-week cohort for designers, with no engineering background assumed. The first three weeks are the file structure an agent reads, components, variants, variables, styles, auto layout and naming, and where each one does and does not map to front-end code. The last week is MCP, Code Connect, design markdown files and skills, ending with building a lightweight agent against the project made during the course.",
+    "quote": "Skip this, and all AI you add is built on sand and useless.",
+    "price": {
+      "amount": "$799",
+      "buys": "a seat in the cohort, with live sessions, lifetime access to the recordings and the Figma practice files"
+    },
+    "added_on": "2026-07-28"
+  },
+  {
+    "id": "figma-handoff-to-ai-agents",
+    "title": "Figma Handoff to AI Agents",
+    "author": "Christine Vallaure, moonlearning",
+    "kind": "course",
+    "url": "https://www.moonlearning.io/agenticdesign",
+    "description": "A self-paced course on getting a Figma file ready for an agent to build from. It opens on what an agent is and what MCP does, then walks variables, styles, components and auto layout through to tokens and CSS, saying what to change in each so a machine reads it the way it was meant. It closes on the context added on top: design markdown, skills and layer mapping.",
+    "quote": "Something that started in enterprise design systems working with AI is now trickling down fast, and it changes what your Figma file is actually for.",
+    "price": {
+      "amount": "29€ a month, or 229€ a year",
+      "buys": "membership access to this course, every other released one, and the Figma source files"
     },
     "added_on": "2026-07-28"
   }
