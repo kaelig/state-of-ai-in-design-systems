@@ -49,7 +49,7 @@
     "platforms_lede": { "$ref": "#/$defs/lede" },
     "reading_lede": {
       "$ref": "#/$defs/lede",
-      "description": "The bar the further-reading list is held to. It is the page lede and the standard a suggestion is judged against, which is why it is one sentence a contributor can read before they send a link."
+      "description": "The further-reading page lede. It says what the list holds and that the list moves, which the other pages do not. The bar a suggestion is judged against is not here: it lives in CONTRIBUTING.md, in the reading-suggestion issue template, and in the closing paragraph of the page itself."
     },
 
     "findings": {

@@ -1014,7 +1014,7 @@ const VIEWS = {
         + sys.map(row).join('') + '</tbody>';
     }).join('');
     return `<p class="eyebrow">Comparison</p><h1>The affordance matrix</h1>
-      <p class="lede">What each system actually ships for AI consumption and building. A filled cell links to the artifact itself — the docs page or the repo. A system name goes to its full record.</p>
+      <p class="lede">Every system against every kind of AI affordance, in one table. A filled cell links to the thing itself, usually a docs page or a repo. Under the table, how many of the ${DATA.meta.counts.systems} systems ship each one.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
@@ -1035,7 +1035,7 @@ const VIEWS = {
     const matOpts = MAT_ORDER.filter(k => matCount[k])
       .map(k => `<option value="${esc(k)}">${esc(MAT[k] || k)} · ${matCount[k]}</option>`).join('');
     return `<p class="eyebrow">Drill down</p><h1>The systems</h1>
-      <p class="lede">Sorted by AI maturity. Each record lists every affordance and technique found, with verbatim snippets and links to source.</p>
+      <p class="lede">All ${DATA.meta.counts.systems} systems, most AI-invested first. Open one to see what it ships for agents and how it keeps models on-system, with quotes from the files. Search or filter to narrow the list.</p>
       <hr class="accent-rule">
       <div class="searchbar">
         <span class="qwrap"><input id="q" type="search" placeholder="Filter by name, org, affordance…" aria-label="Filter systems"><kbd class="qhint" aria-hidden="true">/</kbd></span>

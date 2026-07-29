@@ -1,10 +1,10 @@
 {
-  "lede": "A field survey of {systems} actively maintained open-source design systems and component libraries, plus the {platforms:word} platforms around them. For each one: what it ships so coding agents can build with it (MCP servers, agent skills, llms.txt, editor rules, registries) and the tricks that keep a model using real components and tokens instead of making up its own. Every snippet links to its source.",
-  "insights_lede": "{systems:Word} records read together: what nearly every team now ships, and what the leading systems do that the rest haven't started.",
-  "methodology_lede": "How the set was picked and what counted as an affordance or a technique. Every number on this site is computed from the records, not typed in.",
-  "techniques_lede": "Every team here is solving the same problem: a model will happily write plausible code against a component API that doesn't exist. The {techniques} techniques catalogued below are the industry's answers, grouped into {technique_categories} categories, from blunt prohibition (\"never invent components\") to setups where hallucination stops being possible because the agent has to fetch source it can't fabricate.",
-  "platforms_lede": "Figma is the deepest AI surface in the study, a remote MCP server that gets sharper the more Code Connect mappings you feed it. Storybook turned the component workshop into an agent-readable API. Supernova, Knapsack and zeroheight all run remote MCP servers over the design-system content they host, and none of them can point to much published adoption yet.",
-  "reading_lede": "Work about what happens when a design system meets an AI agent: how systems are built for models to read, whether that works, and whether it should. Everything here was opened and read before it was listed.",
+  "lede": "What {systems} open-source design systems ship so AI agents can build with them, plus the {platforms:word} platforms most of them sit on. This page has the headline counts, where every system landed, and the findings.",
+  "insights_lede": "An essay on what the {systems} records add up to, then the patterns almost every team has landed on, then the places they've bet differently.",
+  "methodology_lede": "How the {systems} systems were picked, and what had to be on a page before it counted as an affordance or a technique. The caveats are at the bottom, and there are a few.",
+  "techniques_lede": "Models invent components that don't exist. This page collects the {techniques} things teams do to stop that, grouped into {technique_categories} kinds, quoted from the files where they wrote them down.",
+  "platforms_lede": "Figma, Storybook, Supernova, Knapsack and zeroheight: the {platforms:word} tools design systems get built and published on. For each one, what it gives an AI agent and how much evidence there is that anyone uses it.",
+  "reading_lede": "Other people's writing, talks and courses on design systems and AI agents. Unlike the rest of the report, this list keeps moving.",
   "findings": [
     {
       "title": "The machine interface is table stakes: {official_mcp} of {systems} ship an official MCP server",

@@ -212,6 +212,7 @@ PROSE_KEYS = frozenset(
         "methodology_lede",
         "techniques_lede",
         "platforms_lede",
+        "reading_lede",
         "essay",
         "methodology",
         "caveats",
