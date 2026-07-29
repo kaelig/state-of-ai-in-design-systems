@@ -90,15 +90,14 @@ May be committed:
 
 - `data/design-systems.json` and `data/insights.json`
 - `netlify/edge-functions/lib/md-routes.ts`, which `build_md.py` generates but which stays tracked because the edge function imports it. Adding a record adds a line there and it must be in the diff.
-- the generator sources you edited during the count resync: `dashboard/template.html`, `scripts/build_dashboard.py`, `scripts/build_md.py`, `netlify/functions/mcp.mjs`, `scripts/og-image.html`
-- `dashboard/og-image.png`, if you re-rendered it
+- the generator sources you edited during the count resync: `dashboard/template.html`, `scripts/build_dashboard.py`, `scripts/build_md.py`, `netlify/functions/mcp.mjs`
 - prose: `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `LICENSE-DATA`, `docs/*.md`, `.github/ISSUE_TEMPLATE/*.yml`
 - `scripts/check_snippets.py`, `scripts/check_house_norms.py`, `scripts/check_hand_counts.py`, `scripts/check_prose_claims.py`, `scripts/verify_claims.py`, `scripts/check.sh`, `.gitignore` and `.claude/commands/system/*.md`, if this run changed them — an `EXCEPTIONS` entry is part of the record's argument and belongs in the same commit
 - `schema/design-system.schema.json` and `types/data.d.ts` together, never one without the other, if the schema moved
 
 Must never be committed:
 
-- anything else under `dashboard/`. Three files in there are source: `template.html`, `favicon.svg` and `og-image.png`. Everything else is generated, gitignored, and rebuilt by Netlify on every deploy.
+- anything else under `dashboard/`. Two files in there are source: `template.html` and `favicon.svg`. Everything else is generated, gitignored, and rebuilt by Netlify on every deploy, the social card included.
 - anything under `build/`, including the snippet cache
 - anything under `.work/`, and `data/critic-review.json` under any circumstances
 - and nothing else at all. If a path is not on the list above, it is not part of this contribution.

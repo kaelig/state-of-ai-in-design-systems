@@ -83,10 +83,10 @@ Netlify runs the same script on every deploy, so what ships is always built from
 
 ## The rules
 
-**Three files in `dashboard/` are source: `template.html`, `favicon.svg` and
-`og-image.png`.** Everything else in there is generated and gitignored, so an
-edit to one is invisible to git and gone at the next build. Edit `data/` for
-facts and `template.html` for markup, CSS and view logic.
+**Two files in `dashboard/` are source: `template.html` and `favicon.svg`.**
+Everything else in there is generated and gitignored, so an edit to one is
+invisible to git and gone at the next build. Edit `data/` for facts and
+`template.html` for markup, CSS and view logic.
 
 **Every claim needs a `source_url`.** Not a citation, and not “the docs say”: a URL
 that loads and shows the thing. This is the whole basis on which anyone trusts

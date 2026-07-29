@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Find every count and every snapshot date typed by hand, and say which are wrong.
 
-compute_counts() fills {placeholder} tokens in data/insights.json and nothing
-else. Every other number on the site, in the meta descriptions, in the MCP tool
-descriptions, in the social card and in the prose was typed by a person, and so
-was every statement of when the data was gathered. Both go stale silently.
+compute_counts() fills {placeholder} tokens in data/insights.json, and draws the
+social card through scripts/build_og.mjs. Every other number on the site, in the
+meta descriptions, in the MCP tool descriptions and in the prose was typed by a
+person, and so was every statement of when the data was gathered. Both go stale
+silently.
 
 Three things make this find what a grep does not:
 
@@ -70,7 +71,7 @@ SKIP = {
     "netlify/edge-functions/lib/md-routes.ts",
     "types/data.d.ts",
 }
-SKIP_PREFIXES = ("build/", "node_modules/", "dashboard/og-image.png", "dashboard/favicon.svg")
+SKIP_PREFIXES = ("build/", "node_modules/", "dashboard/favicon.svg")
 
 WORDS = {
     w: n + 1

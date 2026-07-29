@@ -92,6 +92,7 @@ VIEW_TITLES = {
 # /ai.md render the same words. Written into the payload on the second pass of
 # build.sh, once build_md.py has measured the markdown layer it describes.
 AI_CONTENT = BUILD / "ai-page-content.json"
+OG_IMAGE = BUILD / "og-image.json"
 
 
 def sanitize(items):
@@ -474,6 +475,21 @@ def write_robots():
     (OUT / "robots.txt").write_text(txt, encoding="utf-8")
 
 
+def load_og_image(required):
+    """The social card's filename, which scripts/build_og.mjs hashed from the
+    bytes it drew. Absent on the first pass, where the card has not been
+    rendered yet; required on the second, where the site HTML is final and the
+    tag has to name a file that exists."""
+    if not OG_IMAGE.exists():
+        if required:
+            raise SystemExit(
+                f"{OG_IMAGE} is missing: run scripts/build_og.mjs before "
+                "scripts/build_dashboard.py --final (scripts/build.sh does both)"
+            )
+        return None
+    return json.loads(OG_IMAGE.read_text(encoding="utf-8"))["file"]
+
+
 def load_ai_content(required):
     """The /ai copy blocks, with {md_count} resolved. Absent on the first pass of
     a clean build; required on the second, where the site HTML is final."""
@@ -498,6 +514,7 @@ def main():
     # and robots.txt have been extended by build_md.py, so leave them alone.
     final = "--final" in sys.argv
     ai_page = load_ai_content(final)
+    og_image = load_og_image(final)
     systems = json.load(open(DATA / "design-systems.json"))
     platforms = json.load(open(DATA / "platforms.json"))
     insights = json.load(open(DATA / "insights.json"))
@@ -579,6 +596,16 @@ def main():
     assert HEAD_START in template and HEAD_END in template, "netlify-head markers missing"
     assert DATA_SCRIPT in template, "template is missing the ds-data script line"
     assert '<script id="app">' in template, "template is missing the app script id"
+    assert "__OG_IMAGE__" in template, "template is missing the __OG_IMAGE__ placeholder"
+
+    # The card is drawn from the records and addressed by the hash of its own
+    # bytes, so its filename moves whenever the counts on it do. Substituting it
+    # here reaches every route: prerender.mjs uses dashboard/index.html as the
+    # shell for all 27 of them. On the first pass the card does not exist yet and
+    # the placeholder stands; the pass that writes the final HTML fills it, and
+    # prerender.mjs refuses to ship a file that still carries it.
+    if og_image:
+        template = template.replace("__OG_IMAGE__", og_image)
 
     # Site variant: the payload lives in a shared /data.js, so the 26 prerendered
     # pages stay small and agents reading the HTML don't wade through 700KB of JSON.
@@ -627,6 +654,7 @@ def main():
     print(
         "ai_page: " + (f"{len(ai_page['sections'])} sections" if ai_page else "absent (first pass)")
     )
+    print("og:image: " + (og_image or "placeholder kept (first pass)"))
 
 
 if __name__ == "__main__":

@@ -5,14 +5,17 @@ build/
 # publishes what that writes, so committing it only made a one-line data
 # correction arrive as a 131-file diff.
 #
-# Three files in here are source, not output, and the build does not recreate
+# Two files in here are source, not output, and the build does not recreate
 # them. Use `dashboard/*`, never `dashboard/**` — git cannot re-include a file
 # whose parent directory is excluded, and the negations below would silently
 # stop working.
+#
+# The social card used to be a third. It is generated now, under a name carrying
+# the hash of its own bytes, so `dashboard/*` covers it like everything else the
+# build writes.
 dashboard/*
 !dashboard/template.html
 !dashboard/favicon.svg
-!dashboard/og-image.png
 
 # Dependencies and local tooling state
 node_modules/

@@ -123,20 +123,20 @@ records unbuildable, because the records are what draw it.
 
 ## File changes
 
-| Path                          | Change                                                 |
-| ----------------------------- | ------------------------------------------------------ |
-| `scripts/build_og.mjs`        | New. SVG, rasterise, hash, write.                      |
-| `scripts/build.sh`            | One step between 2 and 3.                              |
-| `scripts/build_dashboard.py`  | Substitute the card filename into both shells.         |
-| `scripts/og-image.html`       | Deleted.                                               |
-| `dashboard/og-image.png`      | `git rm`. Generated and hashed from here on.           |
-| `assets/fonts/`               | New. Variable WOFF2 and `OFL.txt`.                     |
-| `.gitignore`                  | `dashboard/og-image-*.png`.                            |
-| `netlify.toml`                | Immutable header moves to `/og-image-*.png`.           |
-| `package.json`                | `@resvg/resvg-wasm` in devDependencies.                |
-| `AGENTS.md`, `CONTRIBUTING.md`| Three tracked source files under `dashboard/` become two. |
-| `.claude/commands/system/audit-prose.md` | Manual screenshot procedure deleted.        |
-| `.claude/commands/system/ship.md` | Card removed from the commit file list.            |
+| Path                                     | Change                                                    |
+| ---------------------------------------- | --------------------------------------------------------- |
+| `scripts/build_og.mjs`                   | New. SVG, rasterise, hash, write.                         |
+| `scripts/build.sh`                       | One step between 2 and 3.                                 |
+| `scripts/build_dashboard.py`             | Substitute the card filename into both shells.            |
+| `scripts/og-image.html`                  | Deleted.                                                  |
+| `dashboard/og-image.png`                 | `git rm`. Generated and hashed from here on.              |
+| `assets/fonts/`                          | New. Variable WOFF2 and `OFL.txt`.                        |
+| `.gitignore`                             | `dashboard/og-image-*.png`.                               |
+| `netlify.toml`                           | Immutable header moves to `/og-image-*.png`.              |
+| `package.json`                           | `@resvg/resvg-wasm` in devDependencies.                   |
+| `AGENTS.md`, `CONTRIBUTING.md`           | Three tracked source files under `dashboard/` become two. |
+| `.claude/commands/system/audit-prose.md` | Manual screenshot procedure deleted.                      |
+| `.claude/commands/system/ship.md`        | Card removed from the commit file list.                   |
 
 Stale hashed PNGs are swept from `dashboard/` on each build, the way
 `prerender.mjs` already sweeps routes.

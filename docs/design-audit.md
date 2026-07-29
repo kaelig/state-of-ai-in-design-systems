@@ -17,9 +17,9 @@ any of it.
 
 ## Binding constraints for executors
 
-- Edit only `dashboard/template.html`, `scripts/*`, `data/*.json` (data fixes), `netlify.toml`,
-  `scripts/og-image.html`. Never edit build outputs (`index.html`, `artifact.html`, prerendered
-  route files). Rebuild with `./scripts/build.sh`, then `python3 scripts/check_md_layer.py`
+- Edit only `dashboard/template.html`, `scripts/*`, `data/*.json` (data fixes), `netlify.toml`.
+  Never edit build outputs (`index.html`, `artifact.html`, prerendered
+  route files, `og-image-<hash>.png`). Rebuild with `./scripts/build.sh`, then `python3 scripts/check_md_layer.py`
   and `npm test`.
 - All data-derived strings flow through `esc()`/`fmt()`. No research-process meta in anything
   audience-facing. Copy you author: no AI-writing tells (no em-dash chains, no “not just X but

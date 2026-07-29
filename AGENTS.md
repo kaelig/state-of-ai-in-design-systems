@@ -53,6 +53,7 @@ build still needs no Python packages; ruff and mypy are development-only and
 | `scripts/build_dashboard.py`         | Payload, HTML shells, route table, nav.                        |
 | `scripts/build_md.py`                | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
 | `scripts/prerender.mjs`              | One static HTML file per route.                                |
+| `scripts/build_og.mjs`               | The social card, drawn from the same counts as the prose.      |
 | `netlify/functions/mcp.mjs`          | The MCP server at `/mcp`.                                      |
 | `netlify/edge-functions/markdown.ts` | Content negotiation for `Accept: text/markdown`.               |
 | `tests/mcp.test.mjs`                 | The MCP suite.                                                 |
@@ -61,14 +62,19 @@ build still needs no Python packages; ruff and mypy are development-only and
 
 ## Never edit these
 
-`dashboard/` holds three source files — `template.html`, `favicon.svg` and
-`og-image.png` — and 137 generated ones: `index.html`, every
-`<route>/index.html`, every `.md`, every `.json`, `data.js`, `llms*.txt`,
-`sitemap.xml`, and `data/state-of-ai.sqlite`. The generated ones are gitignored,
-so an edit to one shows up nowhere and disappears on the next build.
+`dashboard/` holds two source files — `template.html` and `favicon.svg` — and 138
+generated ones: `index.html`, every `<route>/index.html`, every `.md`, every
+`.json`, `data.js`, `llms*.txt`, `sitemap.xml`, `og-image-<hash>.png`, and
+`data/state-of-ai.sqlite`. The generated ones are gitignored, so an edit to one
+shows up nowhere and disappears on the next build.
 
 `netlify/edge-functions/lib/md-routes.ts` is generated too, by `build_md.py`, and
 is the one generated file still tracked, because the edge function imports it.
+
+`assets/fonts/` is vendored, not authored: three cuts of Hanken Grotesk that
+`build_og.mjs` rasterises the social card with, so the render does not depend on
+Google Fonts answering. `assets/fonts/README.md` says where they came from and
+how to make them again.
 
 To change a page's words, find the source: prose about a system is in
 `data/design-systems.json`, analysis is in `data/insights.json`, and page
@@ -109,6 +115,12 @@ to digits. The keys come from `compute_counts()`: `systems`, `platforms`,
 `official_mcp`, `official_skills`, `llms_txt`, `affordances`, `techniques`,
 `technique_categories`, `ai_native`. An unknown key fails the build, and so does
 a placeholder that survives resolution.
+
+The social card reads the same counts. `scripts/build_og.mjs` draws it, names it
+after the hash of its own bytes, and `build_dashboard.py --final` puts that
+filename in the `og:image` tag; `prerender.mjs` fails the build if the tag names
+a file that is not on disk. The card used to be a screenshot, and it went four
+counts stale without anything noticing, because no check here can read a PNG.
 
 **Data strings reach the DOM through `esc()` or `fmt()`.** Both are defined near
 the top of the script block in `dashboard/template.html`: `esc()` escapes HTML,
@@ -254,8 +266,8 @@ Do not commit the regenerated `dashboard/` output; it is gitignored. Netlify run
 locally is how you check your change, not something you hand in. A data
 correction should be a one-file diff.
 
-Three files under `dashboard/` are source and stay tracked: `template.html`,
-`favicon.svg` and `og-image.png`. The build does not recreate those.
+Two files under `dashboard/` are source and stay tracked: `template.html` and
+`favicon.svg`. The build does not recreate those.
 
 [`docs/architecture.md`](docs/architecture.md) explains why the site is built
 this way: no framework, prerendered routes, the compiled markdown layer, the MCP

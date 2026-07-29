@@ -1,15 +1,14 @@
 ---
-description: Resync every hand-typed count and date, re-check every comparative claim, and re-render the social card after the record set changed
+description: Resync every hand-typed count and date and re-check every comparative claim after the record set changed
 argument-hint: <system-id>
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(python3:*), Bash(./scripts/build.sh:*), Bash(git:*), Bash(cp:*), mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_resize, mcp__plugin_playwright_playwright__browser_take_screenshot, mcp__plugin_playwright_playwright__browser_close
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(python3:*), Bash(./scripts/build.sh:*), Bash(git:*)
 ---
 
 Resync the derived numbers and audit the written analysis for **$1**.
 
 Adding a record changes the totals the whole report quotes. About a dozen places
 type those totals by hand. Separately, the analysis contains enumerations and
-superlatives that a new record can quietly falsify, and the social card is a
-tracked PNG that no script regenerates.
+superlatives that a new record can quietly falsify.
 
 Run this after `/system:verify`, never before. If the record changes afterwards,
 run it again in full: the totals move a second time, and a resync that was
@@ -50,8 +49,8 @@ Places the sweep habitually finds, so you know what you are editing:
 `dashboard/template.html` (four duplicate meta descriptions), the `VIEW_TITLES`
 descriptions in `scripts/build_dashboard.py`, the `/systems.md` label in
 `scripts/build_md.py`, the doc-set description in `netlify/functions/mcp.mjs`,
-`scripts/og-image.html`, `README.md`, `CONTRIBUTING.md`, `AGENTS.md`,
-`LICENSE-DATA`, `.github/ISSUE_TEMPLATE/*.yml`, and the two audits under `docs/`.
+`README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `LICENSE-DATA`,
+`.github/ISSUE_TEMPLATE/*.yml`, and the two audits under `docs/`.
 Trust the sweep over this list. There is no count in the `.rail-foot` sidebar
 line, whatever an earlier version of this command said.
 
@@ -99,28 +98,12 @@ and `data/insights.json`. Revise the record afterwards and the stamp goes stale,
 which is correct: the sentences were true about a different corpus.
 `/system:ship` refuses to commit against a stale one.
 
-## 4. Re-render the social card
+## 4. Rebuild and stamp
 
-`scripts/og-image.html` is source. `dashboard/og-image.png` is a tracked binary
-and nothing in `./scripts/build.sh` regenerates it, so editing the HTML does not
-ship the image and the published card has shipped a version behind before.
-
-If you edited `scripts/og-image.html` in step 2:
-
-1. `browser_resize` to 1200 x 630.
-2. `browser_navigate` to the `file://` URL of `scripts/og-image.html` in this working tree.
-3. `browser_take_screenshot` with `type: "png"`, `scale: "device"`, `filename: "og-image.png"`.
-4. Copy the file the tool wrote (it lands in the MCP output directory, `.playwright-mcp/` by default, which is gitignored) over `dashboard/og-image.png`, then `browser_close`.
-5. Read the PNG back and confirm by eye that the numbers on it are the numbers from step 1.
-
-If the browser tools are not available in this session, say so in the report and
-name the numbers that are now wrong on the card. "The step was skipped" is a
-result. "The og-image was not re-rendered" with no explanation is not.
-
-## 5. Rebuild and stamp
-
-Steps 2 to 4 edited generator sources and prose, and the first build predates
-them.
+Steps 2 and 3 edited generator sources and prose, and the first build predates
+them. The build also redraws the social card: `scripts/build_og.mjs` reads the
+same counts you have been resyncing, so the card is not yours to correct and
+there is no screenshot to take.
 
 ```sh
 ./scripts/build.sh > /tmp/build-$1.log 2>&1; echo "exit=$?"
@@ -151,5 +134,5 @@ record.
 ## Report
 
 Print the nine computed counts, every file you edited with the old and new
-number, every comparative sentence you changed and why, whether the og-image was
-re-rendered and by what, and `next: /system:ship $1`.
+number, every comparative sentence you changed and why, and
+`next: /system:ship $1`.

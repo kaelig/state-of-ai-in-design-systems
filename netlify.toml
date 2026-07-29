@@ -33,13 +33,17 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Cache-Control = "public, max-age=3600"
 
-# Content-addressed by nothing, but changed roughly never, and both are fetched
-# by crawlers and tab bars rather than by readers.
+# The social card is content-addressed: scripts/build_og.mjs names it after the
+# hash of its own bytes, so a year is safe to promise and a corrected card
+# arrives at a URL no crawler has cached. That is the whole reason it is hashed —
+# social caches key on URL, and a redrawn card at a fixed one would never land.
 [[headers]]
-  for = "/og-image.png"
+  for = "/og-image-*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Content-addressed by nothing, but changed roughly never, and fetched by tab
+# bars rather than by readers.
 [[headers]]
   for = "/favicon.svg"
   [headers.values]

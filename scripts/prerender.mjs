@@ -19,6 +19,9 @@ const OUT = join(ROOT, 'dashboard');
 const BUILD = join(ROOT, 'build');
 const ORIGIN = 'https://state-of-ai-in-design-systems.netlify.app';
 
+// Annotated so tsc treats a call as terminating: the og:image check below reads
+// a match die() has already ruled out.
+/** @type {(msg: string) => never} */
 const die = (msg) => {
   console.error('prerender: ' + msg);
   process.exit(1);
@@ -469,9 +472,30 @@ function allHtml(dir, acc = []) {
 }
 for (const f of allHtml(OUT)) {
   const s = readFileSync(f, 'utf8');
-  if (s.includes('__DATA__') || s.includes('__ROUTING__'))
-    die('unsubstituted placeholder in ' + f);
+  for (const p of ['__DATA__', '__ROUTING__', '__OG_IMAGE__'])
+    if (s.includes(p)) die(`unsubstituted ${p} in ${f}`);
 }
+
+// The card is generated and content-addressed, so its name changes with the
+// counts drawn on it. This is what makes a card that disagrees with the records
+// unbuildable: the tag can only name a file scripts/build_og.mjs just wrote from
+// those records, and a stale name is a name with nothing behind it.
+const cardNamedBy = (attr, prop) => {
+  const m = rootHtml.match(
+    new RegExp(`<meta ${attr}="${prop}" content="[^"]*/([^"/]+)">`),
+  );
+  if (!m) die(`index.html has no ${prop} tag to check`);
+  return m[1];
+};
+const ogCard = cardNamedBy('property', 'og:image');
+const twitterCard = cardNamedBy('name', 'twitter:image');
+if (ogCard !== twitterCard)
+  die(`og:image names ${ogCard} but twitter:image names ${twitterCard}`);
+if (!existsSync(join(OUT, ogCard)))
+  die(
+    `og:image names ${ogCard}, which is not in dashboard/. ` +
+      'Run scripts/build_og.mjs before build_dashboard.py --final.',
+  );
 
 console.log(`prerendered ${written.length} files`);
 console.log(`  nav: ${navItems.length} items (${navItems.join(', ')})`);
@@ -489,3 +513,4 @@ console.log(
 console.log(
   '  placeholder scan: clean across ' + allHtml(OUT).length + ' html files',
 );
+console.log(`  og:image: ${ogCard}, present in dashboard/`);
