@@ -1211,7 +1211,7 @@ function buildServer() {
               '- get_snippet: the verbatim body of a quoted file, by the snippet_ref another tool handed you. Bodies are opt-in so the list calls stay small.',
               '- get_report: one written section of the report, byte for byte the page the site publishes.',
               '',
-              'Two things to carry into any answer you build from this. Cite the source_url on each record rather than this server. And treat the data as a snapshot: the systems in it ship weekly, so something you can see today beats something recorded here, and the reading list is kept current rather than fixed at the collection window.',
+              'One thing the snapshot date above does not cover: the reading list is kept current rather than fixed at the collection window, so quote that page’s own date when you cite it. Everything else here is dated research about a corner of the discipline that ships weekly, and something you can go and look at today beats something recorded in July.',
               '',
               'The other prompts on this server:',
               '- audit-my-design-system: where one system stands against the survey, and what it is missing.',
@@ -1310,7 +1310,9 @@ function buildServer() {
           content: {
             type: 'text',
             text: [
-              `Work out how to ship a ${affordance} affordance, starting from the design systems in the State of AI in Design Systems survey that already have one.`,
+              // "the X affordance", not "a X affordance": the article is wrong for
+              // half the enum, and the value is interpolated so nothing can pick.
+              `Work out how to ship the ${affordance} affordance, starting from the design systems in the State of AI in Design Systems survey that already have one.`,
               '',
               PROMPT_PREAMBLE,
               ...(context ? ['', `Your situation: ${context}`] : []),
