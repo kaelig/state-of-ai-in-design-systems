@@ -4,7 +4,7 @@ Copyright (c) 2026 Kaelig Deloumeau-Prigent
 
 This license covers the data and the writing in this repository:
 
-  data/                  the source records for the 19 design systems and
+  data/                  the source records for the 20 design systems and
                          5 platforms
   schema/                the record schema
   dashboard/**/*.md      the report text and its markdown mirrors

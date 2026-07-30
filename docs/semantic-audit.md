@@ -333,9 +333,8 @@ untouched). Add `list-style: none; padding: 0` to `.tiles`.
 (plus the 375px two-column override) and the print `break-inside` list.
 
 **Why:** without item boundaries the five headline numbers read as one sentence
-(“19 design systems studied + 5 platforms · 168 affordances 16 ship an official
-MCP server of 19 systems …”) — the numbers that carry the whole report are the
-least parseable text on the page.
+(“19 design systems studied + 5 platforms · 168 affordances 16 ship an official MCP server of 19 systems …”) <!-- counts-ok: the tiles as they read on 2026-07-27 -->
+— the numbers that carry the whole report are the least parseable text on the page.
 
 **Risk:** low; CSS `.tile` selectors are class-based and unaffected.
 

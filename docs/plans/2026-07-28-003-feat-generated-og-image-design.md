@@ -17,8 +17,8 @@ content-hashed filename, and puts that filename in the `og:image` and
 
 ## Problem
 
-The published card says `19 systems · 5 platforms · 168 AI affordances · 148
-coercion techniques`. Its own source, `scripts/og-image.html`, says `20 · 5 · 178
+The published card says `19 systems · 5 platforms · 168 AI affordances · 148 coercion techniques`. <!-- counts-ok: the card's wrong numbers are the problem being described -->
+Its own source, `scripts/og-image.html`, says `20 · 5 · 178
 · 157`. The records say `20 · 5 · 179 · 157`. Two separate drifts have stacked:
 the PNG was never re-rendered after the source was corrected, and the source has
 since fallen a count behind.

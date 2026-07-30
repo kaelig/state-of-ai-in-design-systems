@@ -2,7 +2,7 @@ blank_issues_enabled: true
 contact_links:
   - name: Read the report
     url: https://state-of-ai-in-design-systems.netlify.app
-    about: The site itself — 19 design systems, 5 platforms, every claim linked to its source.
+    about: The site itself — 20 design systems, 5 platforms, every claim linked to its source.
   - name: Use the report with an AI tool
     url: https://state-of-ai-in-design-systems.netlify.app/ai
     about: Markdown mirrors, llms.txt, the MCP endpoint, the raw JSON and SQLite.

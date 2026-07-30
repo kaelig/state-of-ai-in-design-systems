@@ -103,14 +103,17 @@ Three checks were added to `npm run check` after the records were written, so a
 fresh clone reports work that predates you. Clearing this list is a correction in
 its own right, and each item is small. Do them in this order.
 
-**1. Stale study-size counts.** `python3 scripts/check_hand_counts.py` names
-them. `.github/ISSUE_TEMPLATE/config.yml`, `.github/ISSUE_TEMPLATE/new-system.yml`
-and `LICENSE-DATA` say 19 design systems and there are 20: fix those. The hits in
-`docs/design-audit.md` and `docs/semantic-audit.md` are inside worklist items
-that quote what a surface said at the time. Read each one. If it is quoted
-history, put `counts-ok` in a comment on that line rather than rewriting somebody
-else's record of the past. If it is a live spec for what the site should say,
-update the number.
+**1. Stale study-size counts.** Cleared on 2026-07-30, and the method is the part
+worth keeping. `python3 scripts/check_hand_counts.py` names every stale count.
+Copy that states the size of the study gets the number retyped:
+`.github/ISSUE_TEMPLATE/config.yml`, `.github/ISSUE_TEMPLATE/new-system.yml`,
+`LICENSE-DATA` and `README.md` all needed it. A hit inside a worklist item in
+`docs/` usually does not, because those quote what a surface said at the time.
+Read each one. If it is quoted history, put `counts-ok` in a comment on that line
+rather than rewriting somebody else's record of the past; the sweep matches the
+marker anywhere on the line, so `<!-- counts-ok: why -->` works in markdown. If it
+is a live spec for what the site should say, update the number — `design-audit.md`
+had one of each.
 
 **2. A snippet over the documented budget.** `check_house_norms.py --invariants`
 reports nuxt-ui's technique snippet at 1524 characters against the 1500 the

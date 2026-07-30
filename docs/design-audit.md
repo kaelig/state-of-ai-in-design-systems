@@ -254,7 +254,7 @@ build’s replacement log once.
 `npx skills add …` qualifies today). Baseline fix: `.tile { display: flex; flex-direction:
 column } .tile .d { margin-top: auto; padding-top: 6px }` so all five third lines align
 regardless of label wrapping. Fold in #31’s stat alignment: tile 1’s `.d` becomes
-`+ 5 platforms · 168 affordances` (computed).
+`+ 5 platforms · 179 affordances` (computed).
 
 ### 15. Platforms view: measure + jump links
 
