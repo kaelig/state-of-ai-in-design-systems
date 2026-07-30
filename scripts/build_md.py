@@ -1019,6 +1019,24 @@ def reading_md():
 # names are shared with the MCP server; scripts/prerender.mjs runs the browser
 # module and fails the build if this list and the registered tools disagree.
 WEBMCP_TOOLS = ["list_systems", "get_system", "search", "get_stats"]
+
+# The prompts netlify/functions/mcp.mjs registers, with what each one is for.
+# The page needs the purpose; tests/mcp.test.mjs needs the names, and asserts
+# these against prompts/list, so a prompt registered and not published here
+# fails the suite, and so does one published here and never registered.
+MCP_PROMPTS = [
+    ("start-here", "What the server holds, which tool answers what, and the filter vocabulary."),
+    (
+        "audit-my-design-system",
+        "Where one system stands against the survey, and what it is missing.",
+    ),
+    ("adopt-an-affordance", "Ship one affordance, with the working examples to copy from."),
+    ("build-my-roadmap", "Turn audit findings into sequenced work."),
+    (
+        "find-technique-for",
+        "A model gets your components wrong in one way. Find what others do about it.",
+    ),
+]
 NUMBER_WORD = {
     1: "one",
     2: "two",
@@ -1385,6 +1403,7 @@ def ai_content():
         "mcp_url": MCP_URL,
         "generated": GENERATED,
         "webmcp_tools": WEBMCP_TOOLS,
+        "mcp_prompts": [name for name, _ in MCP_PROMPTS],
         "sections": sections,
     }
 

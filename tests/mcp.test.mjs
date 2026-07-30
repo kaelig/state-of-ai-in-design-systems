@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import handler from '../netlify/functions/mcp.mjs';
 import PAYLOAD from '../build/payload.json' with { type: 'json' };
 import MD_MAP from '../build/md-map.json' with { type: 'json' };
+import AI_PAGE from '../build/ai-page-content.json' with { type: 'json' };
 
 const URL_ = 'https://state-of-ai-in-design-systems.netlify.app/mcp';
 const BOTH = 'application/json, text/event-stream';
@@ -162,10 +163,13 @@ describe('legacy 2025 leg', () => {
 
   test('prompts/list and prompts/get', async () => {
     const { body: listed } = await legacy('prompts/list');
-    assert.deepEqual(listed.result.prompts.map((p) => p.name).sort(), [
-      'audit-my-design-system',
-      'find-technique-for',
-    ]);
+    // The expected names come from the list /ai publishes, not from a literal
+    // here — three copies of the same list is two copies too many, and the copy
+    // that goes stale is always the one nobody is looking at.
+    assert.deepEqual(
+      listed.result.prompts.map((p) => p.name).sort(),
+      [...AI_PAGE.mcp_prompts].sort(),
+    );
     const { body: got } = await legacy('prompts/get', {
       name: 'find-technique-for',
       arguments: { failure: 'the model invents a Box component' },
@@ -336,6 +340,120 @@ describe('prompt surface', () => {
     assert.ok(audit, 'audit-my-design-system was renamed');
     const args = (audit.arguments ?? []).map((a) => a.name).sort();
     assert.deepEqual(args, ['compare_to', 'target']);
+  });
+
+  test('start-here costs nothing to invoke and indexes the whole surface', async () => {
+    const text = promptText(await getPrompt('start-here'), 'start-here');
+    for (const tool of [
+      'get_stats',
+      'list_systems',
+      'get_system',
+      'get_platform',
+      'list_affordances',
+      'list_techniques',
+      'search',
+      'get_snippet',
+      'get_report',
+    ])
+      assert.ok(text.includes(tool), `start-here does not name ${tool}`);
+    for (const prompt of [
+      'audit-my-design-system',
+      'adopt-an-affordance',
+      'build-my-roadmap',
+      'find-technique-for',
+    ])
+      assert.ok(text.includes(prompt), `start-here does not name ${prompt}`);
+    assert.match(text, /source_url/);
+    assert.match(text, /snapshot/i);
+  });
+
+  test('adopt-an-affordance names the affordance it was given', async () => {
+    const text = promptText(
+      await getPrompt('adopt-an-affordance', { affordance: 'llms-txt' }),
+      'adopt-an-affordance',
+    );
+    assert.match(text, /llms-txt/);
+    assert.match(text, /list_affordances/);
+    assert.match(text, /get_snippet/);
+    assert.match(text, /source_url/);
+  });
+
+  test('adopt-an-affordance rejects a type outside the enum at the schema', async () => {
+    const { body } = await getPrompt('adopt-an-affordance', {
+      affordance: 'telepathy',
+    });
+    // Not just "an error": an unregistered prompt errors too, so this test would
+    // pass against a server that had never heard of adopt-an-affordance.
+    assert.match(body.error?.message ?? '', /Invalid arguments for prompt/);
+    assert.match(body.error.message, /affordance/);
+  });
+
+  test('adopt-an-affordance folds context in, and leaves nothing dangling without it', async () => {
+    const withContext = promptText(
+      await getPrompt('adopt-an-affordance', {
+        affordance: 'mcp-server',
+        context: 'two engineers, one internal consumer, closed source',
+      }),
+      'adopt-an-affordance',
+    );
+    assert.match(withContext, /two engineers, one internal consumer/);
+
+    const without = promptText(
+      await getPrompt('adopt-an-affordance', { affordance: 'mcp-server' }),
+      'adopt-an-affordance',
+    );
+    assert.doesNotMatch(without, /undefined|\bnull\b/);
+    assert.doesNotMatch(
+      without,
+      /Your situation:/,
+      'the context clause survived with nothing in it',
+    );
+  });
+
+  test('build-my-roadmap carries the findings and the constraints through', async () => {
+    const findings = 'no llms.txt, no registry, docs are React-only';
+    const both = promptText(
+      await getPrompt('build-my-roadmap', {
+        findings,
+        constraints: 'one engineer, one quarter',
+      }),
+      'build-my-roadmap',
+    );
+    assert.ok(both.includes(findings));
+    assert.match(both, /one engineer, one quarter/);
+
+    const only = promptText(
+      await getPrompt('build-my-roadmap', { findings }),
+      'build-my-roadmap',
+    );
+    assert.ok(only.includes(findings));
+    assert.doesNotMatch(only, /undefined|\bnull\b/);
+    assert.doesNotMatch(
+      only,
+      /Work within:/,
+      'the constraints clause survived with nothing in it',
+    );
+  });
+
+  test('build-my-roadmap needs its findings', async () => {
+    const { body } = await getPrompt('build-my-roadmap', {});
+    assert.match(body.error?.message ?? '', /Invalid arguments for prompt/);
+    assert.match(body.error.message, /findings/);
+  });
+
+  test('every prompt describes itself and takes only the arguments it documents', async () => {
+    const { body } = await legacy('prompts/list');
+    for (const prompt of body.result.prompts) {
+      assert.ok(
+        prompt.description && prompt.description.length > 40,
+        `${prompt.name} description is too thin`,
+      );
+      for (const arg of prompt.arguments ?? [])
+        assert.ok(
+          arg.description,
+          `${prompt.name} argument ${arg.name} is undescribed`,
+        );
+    }
   });
 });
 

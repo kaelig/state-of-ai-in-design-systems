@@ -1183,6 +1183,48 @@ function buildServer() {
   );
 
   // -- prompts ------------------------------------------------------------
+  // Five, and the set is asserted against the list /ai publishes, so a prompt
+  // added here without being published there fails the build.
+  server.registerPrompt(
+    'start-here',
+    {
+      title: 'Start here',
+      description:
+        'Orientation for an agent that has just connected: what this server holds, which tool answers ' +
+        'which kind of question, the filter vocabulary, and what the other prompts are for.',
+      argsSchema: z.object({}),
+    },
+    () => ({
+      messages: [
+        {
+          role: 'user',
+          content: {
+            type: 'text',
+            text: [
+              PROMPT_PREAMBLE,
+              '',
+              'What to call, and when:',
+              '- get_stats: counts, breakdowns, and every value the filters accept. The cheapest first call when you are not sure what to pass.',
+              '- search: when the question is a phrase. Full text across summaries, affordances, techniques, snippet bodies and findings.',
+              '- list_systems, list_affordances, list_techniques: when the question is a filter rather than a phrase. Paginated, descriptions only.',
+              '- get_system, get_platform: one whole record, once you know which one you want.',
+              '- get_snippet: the verbatim body of a quoted file, by the snippet_ref another tool handed you. Bodies are opt-in so the list calls stay small.',
+              '- get_report: one written section of the report, byte for byte the page the site publishes.',
+              '',
+              'Two things to carry into any answer you build from this. Cite the source_url on each record rather than this server. And treat the data as a snapshot: the systems in it ship weekly, so something you can see today beats something recorded here, and the reading list is kept current rather than fixed at the collection window.',
+              '',
+              'The other prompts on this server:',
+              '- audit-my-design-system: where one system stands against the survey, and what it is missing.',
+              '- adopt-an-affordance: ship one affordance, with the working examples to copy from.',
+              '- build-my-roadmap: turn audit findings into sequenced work.',
+              '- find-technique-for: a model gets your components wrong in one specific way, and you want to know what other systems do about it.',
+            ].join('\n'),
+          },
+        },
+      ],
+    }),
+  );
+
   server.registerPrompt(
     'audit-my-design-system',
     {
@@ -1231,6 +1273,102 @@ function buildServer() {
               'Report a coverage table with absent and N/A kept apart, the three gaps that would cost the most,',
               'and for each gap a concrete example from the survey with its source_url. Say plainly when you',
               'could not find something rather than recording it as absent.',
+            ].join('\n'),
+          },
+        },
+      ],
+    }),
+  );
+
+  server.registerPrompt(
+    'adopt-an-affordance',
+    {
+      title: 'Adopt one AI affordance',
+      description:
+        'Gather the working examples of one affordance type from the systems in the survey that already ' +
+        'ship it, and turn them into something you can build.',
+      argsSchema: z.object({
+        // The enum rather than a string, so a client surfaces the valid values
+        // and a wrong one is rejected here instead of returning an empty list.
+        affordance: z
+          .enum(ENUMS.affordance_type)
+          .describe(
+            'The affordance type to adopt, e.g. llms-txt or mcp-server.',
+          ),
+        context: z
+          .string()
+          .optional()
+          .describe(
+            'Optional: who you are building for. Team size, who consumes the system, public or internal.',
+          ),
+      }),
+    },
+    ({ affordance, context }) => ({
+      messages: [
+        {
+          role: 'user',
+          content: {
+            type: 'text',
+            text: [
+              `Work out how to ship a ${affordance} affordance, starting from the design systems in the State of AI in Design Systems survey that already have one.`,
+              '',
+              PROMPT_PREAMBLE,
+              ...(context ? ['', `Your situation: ${context}`] : []),
+              '',
+              `1. Call list_affordances with type "${affordance}" to see everyone who ships one.`,
+              context
+                ? '2. Call get_system on the two or three whose situation is closest to yours, not the two or three with the most impressive version.'
+                : '2. Call get_system on the two or three whose situation is closest to the one you are building for, not the two or three with the most impressive version.',
+              '3. Call get_snippet on their snippet_refs, so you are working from the file itself rather than from a description of it.',
+              '',
+              'Then give me what those systems actually ship, quoted, each with its source_url; one line per',
+              'example on what would have to change for it to work here; and the smallest version worth',
+              'shipping first. If nothing in the survey fits, say so rather than stretching a platform team’s',
+              'answer onto a situation it was never built for.',
+            ].join('\n'),
+          },
+        },
+      ],
+    }),
+  );
+
+  server.registerPrompt(
+    'build-my-roadmap',
+    {
+      title: 'Build a roadmap from audit findings',
+      description:
+        'Turn a set of audit findings into sequenced work, with the survey’s evidence attached to each ' +
+        'item and the dependency order made explicit.',
+      argsSchema: z.object({
+        findings: z
+          .string()
+          .describe('What the audit surfaced. One gap per line is fine.'),
+        constraints: z
+          .string()
+          .optional()
+          .describe('Optional: people, time, horizon.'),
+      }),
+    },
+    ({ findings, constraints }) => ({
+      messages: [
+        {
+          role: 'user',
+          content: {
+            type: 'text',
+            text: [
+              'Turn these findings into sequenced work, with the survey’s evidence attached.',
+              '',
+              'Findings:',
+              findings,
+              ...(constraints ? ['', `Work within: ${constraints}`] : []),
+              '',
+              PROMPT_PREAMBLE,
+              '',
+              '1. For each finding, look for a system that has already solved it. Call search, then get_system or get_snippet, and attach the source_url. Where the survey has nothing to say about a finding, mark it that way rather than inventing an authority for it.',
+              '2. Sequence into now, next and later, with the dependency order stated rather than implied, and name the critical path. Some of that order is not a preference: a query surface built on docs a machine cannot parse ships confusion faster than it ships answers, so the parsing comes first.',
+              '3. For each item, say what an agent can do and what needs a person, and give a done-when somebody else could check. “Improve the docs” is not one. “/llms.txt returns 200 and lists every route” is.',
+              '',
+              'Report the sequence, not an essay. One line of reasoning per item is enough.',
             ].join('\n'),
           },
         },
