@@ -693,14 +693,19 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      meta row has nothing to steer around and takes its full width back. */
   .pagetop { padding-right: 0; }
   .rail-brand { padding-right: 0; }
-  /* One scrollable row of section links, not a wrapping block of pills. */
-  .navwrap { margin-top: 10px; margin-right: -16px; }
+  /* One scrollable row of section links, not a wrapping block of pills. The row
+     bleeds past both of the rail's 16px gutters so links scroll to the screen
+     edge; the label inside the first one still has to land on the masthead's
+     text edge, which is what the 6px below plus the link's own 10px pays for.
+     The desktop rail cancels its own 20px padding on the nav for the same
+     reason — that value is wrong here, so it is restated rather than inherited. */
+  .navwrap { margin-top: 10px; margin-left: -16px; margin-right: -16px; }
   .rail nav {
-    flex-direction: row; flex-wrap: nowrap; gap: 4px; margin-top: 0;
+    flex-direction: row; flex-wrap: nowrap; gap: 4px; margin-top: 0; margin-left: 0;
     overflow-x: auto; -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     /* room for the 2px focus ring at 3px offset — overflow-x:auto also clips vertically */
-    padding: 6px 32px 6px 0;
+    padding: 6px 32px 6px 6px;
   }
   .rail nav::-webkit-scrollbar { display: none; }
   .rail nav a { flex-shrink: 0; border-right: none; padding: 0 10px; min-height: 44px; }
@@ -709,6 +714,14 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
     background: linear-gradient(to right, transparent, var(--bg));
     pointer-events: none;
   }
+  /* In the sidebar the byline is pinned to the bottom of the rail and costs
+     nothing. Flattened into a top bar it costs 48px of header on every page
+     before a word of the article — and the page footer carries the same credit
+     in full. So it stays only where it is the article's own byline: the
+     overview. The condition is the nav's current-page state, which the
+     prerendered HTML already carries, so this holds without JS. */
+  .rail-foot { display: none; }
+  .rail:has(#nav a[data-r="overview"][aria-current="page"]) .rail-foot { display: block; }
   .main { padding: 24px 16px 32px; }
   .twocol { grid-template-columns: 1fr; }
   .spec-band li a, .jump li a { padding: 9px 10px; }
