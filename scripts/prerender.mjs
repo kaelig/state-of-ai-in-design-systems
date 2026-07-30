@@ -117,6 +117,7 @@ try {
     appSrc +
       '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;' +
       ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
+      ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
       ' globalThis.__footHTML = footHTML;',
     ctx,
     { filename: 'app.js' },
@@ -159,8 +160,16 @@ function sub(html, re, replacement, label) {
 
 function navFor(view) {
   const active = view === 'system' ? 'systems' : view;
+  const re = new RegExp(`<a href="([^"]*)" data-r="${active}">`);
+  /* replace() hands back the input untouched when the pattern misses, so an
+     edit to the anchor in template.html could ship every page with no current
+     item and still exit 0. Two things read the attributes this matches: the
+     rail's own current-page styling, and the :has() rule that keeps the byline
+     on the narrow overview. Fail here rather than there. */
+  if (!re.test(NAV_HTML))
+    die(`no nav anchor matched for view "${view}" — the anchor markup moved`);
   return NAV_HTML.replace(
-    new RegExp(`<a href="([^"]*)" data-r="${active}">`),
+    re,
     (m, h) =>
       `<a class="on" aria-current="page" href="${h}" data-r="${active}">`,
   );
@@ -435,6 +444,18 @@ for (const [r] of sandbox.__NAV) {
   if (!routes.some((x) => x.view === r))
     die(`nav item "${r}" has no route in routes.json`);
 }
+// Every nav item carries its icon. One template string builds all nine rows, so
+// a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in nine
+// files, and it degrades quietly: the row still renders, just shorter than its
+// neighbours. Check the map rather than the markup — a missing key still emits
+// an <svg>, it just fills it with the string "undefined", so counting tags
+// reports nine icons for eight glyphs.
+const navIconPaths = sandbox.__NAV_ICON_PATHS || {};
+const iconless = navItems.filter((r) => !navIconPaths[r]);
+if (iconless.length) die(`nav items with no icon: ${iconless.join(', ')}`);
+const navIcons = count(NAV_HTML, '<svg');
+if (navIcons !== navItems.length)
+  die(`nav has ${navItems.length} items but ${navIcons} icons`);
 
 // The /ai page describes tools it registers, so the two must be the same list.
 const aiHtml = read('ai.html');
