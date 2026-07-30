@@ -9,6 +9,11 @@ node_modules/
 .netlify/
 .playwright-mcp/
 
+# Working notes: audits, architecture, and the plans behind each change. Nobody
+# ships these, and a formatting failure in one has already blocked a gate that
+# was otherwise green. Their words matter; their line breaks do not.
+docs/
+
 # Lockfiles are written by their own tools.
 package-lock.json
 deno.lock
