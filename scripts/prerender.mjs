@@ -166,9 +166,14 @@ function navFor(view) {
   );
 }
 
+// Where a route's markdown twin lives. Two things read it: the <link
+// rel="alternate"> below, and the check on the page-level download further
+// down, which is why it is one function and not two expressions.
+const mdFor = (p) => (p === '/' ? '/index.md' : p + '.md');
+
 function page({ path, view, title, description, body, noindex }) {
   const url = ORIGIN + path;
-  const mdHref = path === '/' ? '/index.md' : path + '.md';
+  const mdHref = mdFor(path);
   let h = shell;
   h = sub(
     h,
@@ -314,6 +319,16 @@ for (const r of routes) {
   // The shell alone is ~50KB, so a file-size floor cannot catch an empty view.
   if (body.length < 400)
     die(`${r.path} rendered only ${body.length} chars of view HTML`);
+  // The page-level download names its own twin from the view name, which the
+  // view functions carry as a literal. Rename a route and every one of these
+  // would point at a 404 that loads fine everywhere else on the page, so the
+  // route table gets to say what the file is called, and the file has to exist:
+  // build_md.py wrote the twins at step 2, four steps before this runs.
+  const md = mdFor(r.path);
+  if (!body.includes(`href="${md}" download=`))
+    die(`${r.path} does not offer its markdown twin (expected href="${md}")`);
+  if (!existsSync(join(OUT, md)))
+    die(`${r.path} offers ${md}, which is not on disk`);
   minBody = Math.min(minBody, body.length);
   emit(rel, page({ ...r, body }));
 }

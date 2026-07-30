@@ -468,6 +468,35 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .backlink:hover { color: var(--accent); }
 .dhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
 .dhead h1 { margin: 0; }
+/* The page's meta line: eyebrow at the left, the markdown download hard right,
+   the two sitting on one baseline. It rides here rather than on the title row
+   because a long title and a button competed for the same width, and below
+   about 1300px the button was the one that lost. Eyebrows are two or three
+   words, so nothing competes. */
+/* The gutter keeps the download clear of the theme toggle, which is fixed to the
+   viewport's top-right and is the one thing that reaches as high as this row.
+   The toggle owns the last 60px of the viewport (16 + 44) and wants 12 beyond
+   that; the column already gives up 40 to .main's padding, and once the viewport
+   passes 1344px (the 224px rail plus .main's 1120px cap) the slack on the right
+   covers the rest. So the row asks for whatever those two do not already supply,
+   which is nothing at all on a wide screen: no breakpoint to land wrong, and the
+   download lines up with the content edge everywhere it can. */
+.pagetop {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 6px 16px; flex-wrap: wrap;
+  padding-right: max(0px, 32px - max(0px, 100vw - 1344px));
+}
+/* Small enough to belong to an 11px eyebrow rather than to the title under it,
+   and bordered rather than filled: blue is for interaction here, so it arrives
+   on hover and focus instead of sitting on the page as a call to action. */
+.md-dl {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 5px; padding: 3px 8px;
+  text-decoration: none; white-space: nowrap; position: relative;
+}
+.md-dl:hover { color: var(--accent-ink); border-color: var(--accent); }
+.md-dl .mdi { width: 14px; height: auto; flex: none; }
 /* Same record, machine-readable. Quiet on purpose: this is a footnote for the
    few readers who want the file, not a call to action. Path-routed builds only —
    the artifact has no mirrors to point at. */
@@ -648,6 +677,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Park the toggle in the header space reserved for it instead of letting it
      float over the article column for the whole scroll. */
   .theme-toggle { position: absolute; }
+  /* The toggle is parked in the header now, not floating over the column, so the
+     meta row has nothing to steer around and takes its full width back. */
+  .pagetop { padding-right: 0; }
   .rail-brand { padding-right: 0; }
   /* One scrollable row of section links, not a wrapping block of pills. */
   .navwrap { margin-top: 10px; margin-right: -16px; }
@@ -700,6 +732,12 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Class-based: the sources list carries .links on the .aff-body element itself. */
   .links { gap: 0 16px; margin-top: 4px; }
   .links a { display: inline-block; padding: 12px 0; }
+  /* The download keeps its desktop size: it belongs to an 11px eyebrow, and a
+     finger-sized box there dwarfs the line it sits on. So the hit area is an
+     overlay instead, the same trade the snippet bar makes below — it sits alone
+     at the end of its row, with the eyebrow's text to its left and nothing
+     interactive above or below, so a taller target steals no neighbour's tap. */
+  .md-dl::after { content: ''; position: absolute; inset: -11px -6px; }
   /* Repo / docs links sit alone in their grid cell, so padding cannot steal a neighbour's tap. */
   .metagrid .v a { display: inline-block; padding: 11px 0; }
   /* The snippet bar is the one place that keeps its desktop metrics at every
@@ -722,7 +760,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Beats both theme overrides, so a reader in dark mode does not print a black
      page. Every light-dark() token resolves to its light value from here. */
   :root, :root[data-theme="dark"], :root[data-theme="light"] { color-scheme: light only; }
-  .rail, .theme-toggle, .skip, .qwrap .qhint, .searchbar { display: none; }
+  .rail, .theme-toggle, .skip, .qwrap .qhint, .searchbar, .md-dl { display: none; }
   .app { display: block; }
   .main { padding: 0; max-width: none; }
   .scroller { overflow: visible; }
@@ -929,6 +967,34 @@ function mirrorLinks(kind, id, label) {
     <a href="${esc(base)}.md">markdown<span class="sr-only"> record for ${esc(label)}</span></a>
     <a href="${esc(base)}.json">json<span class="sr-only"> record for ${esc(label)}</span></a></p>`;
 }
+/* The page's own markdown twin, offered as a file. Every route has one:
+   build_md.py writes it, and prerender.mjs already advertises it as
+   <link rel="alternate" type="text/markdown"> deriving the path exactly this
+   way. This is the same offer made to a reader instead of a crawler.
+
+   The view name is passed rather than read off location because prerender.mjs
+   calls the view functions directly with location.pathname frozen at "/", so
+   parse() would name the overview's twin on all 29 routes and nothing would
+   catch it at build time. The check that does catch a wrong name is in
+   prerender.mjs, against the route table.
+
+   Nothing in the single-file artifact, which has no files beside it to link —
+   the same reason mirrorLinks() bails. And the download name is set rather than
+   inherited from the URL: the overview's twin is /index.md, and an index.md
+   sitting in a downloads folder says nothing about what it is. */
+const MD_MARK = '<svg class="mdi" viewBox="0 0 208 128" aria-hidden="true" focusable="false">'
+  + '<rect x="5" y="5" width="198" height="118" ry="10" fill="none" stroke="currentColor" stroke-width="10"/>'
+  + '<path fill="currentColor" d="M30 98V30h20l20 25 20-25h20v68H90V59L70 84 50 59v39zm125 0l-30-33h20V30h20v35h20z"/>'
+  + '</svg>';
+function mdDownload(view, arg) {
+  if (ROUTING !== 'path') return '';
+  const rec = view === 'system';
+  const path = rec ? `/systems/${encodeURIComponent(arg)}.md`
+    : view === 'overview' ? '/index.md' : `/${view}.md`;
+  const name = rec ? `${arg}.md`
+    : view === 'overview' ? 'state-of-ai-in-design-systems.md' : `${view}.md`;
+  return `<a class="md-dl" href="${esc(path)}" download="${esc(name)}">${MD_MARK}Download as md</a>`;
+}
 function matChip(m) { return `<span class="chip mat-${esc(m)}" title="${esc(MAT_DEF[m] || '')}">${esc(MAT[m] || m)}</span>`; }
 function offChip(o) { return o ? '<span class="chip official">official</span>' : '<span class="chip">community</span>'; }
 function audChip(a) { return a ? `<span class="chip">${esc(a)}</span>` : ''; }
@@ -981,7 +1047,7 @@ const VIEWS = {
         <p class="bdef">${esc(MAT_DEF[k])}</p>
         ${body}</div>`;
     }).join('');
-    return `<p class="eyebrow">Field study · data gathered ${esc(m.generated)}</p>
+    return `<div class="pagetop"><p class="eyebrow">Field study · data gathered ${esc(m.generated)}</p>${mdDownload('overview')}</div>
       <h1>How design systems talk to machines</h1>
       <p class="lede">${fmt(DATA.insights.lede)}</p>
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
@@ -1027,7 +1093,7 @@ const VIEWS = {
       return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${MAT[k]} · <span class="gn">${sys.length}</span></span></th></tr>`
         + sys.map(row).join('') + '</tbody>';
     }).join('');
-    return `<p class="eyebrow">Comparison</p><h1>The affordance matrix</h1>
+    return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('matrix')}</div><h1>The affordance matrix</h1>
       <p class="lede">Every system against every kind of AI affordance, in one table. A filled cell links to the thing itself, usually a docs page or a repo. Under the table, how many of the ${DATA.meta.counts.systems} systems ship each one.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
@@ -1048,7 +1114,7 @@ const VIEWS = {
     for (const s of DATA.systems) matCount[s.ai_maturity] = (matCount[s.ai_maturity] || 0) + 1;
     const matOpts = MAT_ORDER.filter(k => matCount[k])
       .map(k => `<option value="${esc(k)}">${esc(MAT[k] || k)} · ${matCount[k]}</option>`).join('');
-    return `<p class="eyebrow">Drill down</p><h1>The systems</h1>
+    return `<div class="pagetop"><p class="eyebrow">Drill down</p>${mdDownload('systems')}</div><h1>The systems</h1>
       <p class="lede">All ${DATA.meta.counts.systems} systems, most AI-invested first. Open one to see what it ships for agents and how it keeps models on-system, with quotes from the files. Search or filter to narrow the list.</p>
       <hr class="accent-rule">
       <div class="searchbar">
@@ -1065,7 +1131,7 @@ const VIEWS = {
     if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href('systems')}">Back to the list of systems</a>.</p>`;
     const m = s.maintenance || {}, b = s.building_vs_consumption || {};
     return `<a class="backlink" href="${href('systems')}">← all systems</a>
-      <p class="eyebrow">${esc(SYS_CATEGORY[s.category] || s.category || 'Record')}</p>
+      <div class="pagetop"><p class="eyebrow">${esc(SYS_CATEGORY[s.category] || s.category || 'Record')}</p>${mdDownload('system', s.id)}</div>
       <div class="dhead"><h1>${esc(s.name)}</h1>${matChip(s.ai_maturity)}</div>
       ${mirrorLinks('systems', s.id, s.name)}
       <p class="detail-sum">${fmt(s.summary)}</p>
@@ -1108,7 +1174,7 @@ const VIEWS = {
       (byCat[t.category] = byCat[t.category] || []).push({ t, sysId: s.id, i });
     }
     const order = Object.keys(CAT_DEF).filter(c => byCat[c]).sort((a, b) => byCat[b].length - byCat[a].length);
-    return `<p class="eyebrow">The playbook</p><h1>How teams coerce models into staying on-system</h1>
+    return `<div class="pagetop"><p class="eyebrow">The playbook</p>${mdDownload('techniques')}</div><h1>How teams coerce models into staying on-system</h1>
       <p class="lede">${fmt(DATA.insights.techniques_lede)}</p>
       <hr class="accent-rule">
       <ul class="bars">${order.map(c => barRow(CAT_LABEL[c], byCat[c].length, DATA.meta.counts.techniques, c)).join('')}</ul>
@@ -1120,7 +1186,7 @@ const VIEWS = {
   },
 
   platforms() {
-    return `<p class="eyebrow">The tooling layer</p><h1>Platforms</h1>
+    return `<div class="pagetop"><p class="eyebrow">The tooling layer</p>${mdDownload('platforms')}</div><h1>Platforms</h1>
       <p class="lede">${fmt(DATA.insights.platforms_lede)}</p>
       <hr class="accent-rule">
       ${jumpList(DATA.platforms.map(p => ({ id: p.id, label: p.name.replace(/\s*\([^()]*\)$/, '') })), 'Jump to a platform')}
@@ -1139,7 +1205,7 @@ const VIEWS = {
   },
 
   insights() {
-    return `<p class="eyebrow">Synthesis</p><h1>Similarities, differences, and what actually works</h1>
+    return `<div class="pagetop"><p class="eyebrow">Synthesis</p>${mdDownload('insights')}</div><h1>Similarities, differences, and what actually works</h1>
       <p class="lede">${fmt(DATA.insights.insights_lede)}</p>
       <hr class="accent-rule">
       <div class="prose">${DATA.insights.essay.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
@@ -1150,7 +1216,7 @@ const VIEWS = {
   },
 
   methodology() {
-    return `<p class="eyebrow">How this was made</p><h1>Methodology</h1>
+    return `<div class="pagetop"><p class="eyebrow">How this was made</p>${mdDownload('methodology')}</div><h1>Methodology</h1>
       <p class="lede">${fmt(DATA.insights.methodology_lede)}</p>
       <hr class="accent-rule">
       <div class="prose">${DATA.insights.methodology.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
@@ -1184,7 +1250,7 @@ const VIEWS = {
       `<section class="jump-sec" id="${esc(k)}" tabindex="-1"><h2>${esc(KIND[k] || k)}</h2>
         <ul class="readlist">${rs.filter(r => r.kind === k).map(entry).join('')}</ul>
       </section>`).join('');
-    return `<p class="eyebrow">Further reading</p><h1>Further reading</h1>
+    return `<div class="pagetop"><p class="eyebrow">Further reading</p>${mdDownload('reading')}</div><h1>Further reading</h1>
       <p class="lede">${fmt(DATA.insights.reading_lede)}</p>
       <p class="byline">Last updated ${esc(longDate(m.reading_updated))}</p>
       <hr class="accent-rule">
@@ -1216,7 +1282,7 @@ const VIEWS = {
        cannot outlive the section it points at. `first` is the intro: it renders
        into the head with no wrapper of its own, so it has nothing to jump to. */
     const jump = jumpList(rest.map(sec => ({ id: sec.id, label: sec.heading })), 'Jump to a section');
-    const head = `<p class="eyebrow">For agents</p><h1>${esc(c.title)}</h1>
+    const head = `<div class="pagetop"><p class="eyebrow">For agents</p>${mdDownload('ai')}</div><h1>${esc(c.title)}</h1>
       <p class="lede">${fmt(first.blocks[0].text)}</p>
       <hr class="accent-rule">
       ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}
