@@ -185,6 +185,16 @@ so responses stay small.
 claude mcp add --transport http --scope user ds-state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
 ```
 
+It also ships five prompts: `start-here` for orientation,
+`audit-my-design-system`, `adopt-an-affordance`, `build-my-roadmap` and
+`find-technique-for`. They carry the controlled vocabulary in their bodies,
+generated from the payload at registration time, so an agent has the filter
+values before its first call. Claude Code exposes them as
+`/mcp__ds-state-of-ai__<name>`; other clients use a prompt picker. The names are
+listed in `MCP_PROMPTS` in `scripts/build_md.py`, published on `/ai`, and
+asserted against `prompts/list` by `tests/mcp.test.mjs` — registering a prompt
+without publishing it fails the suite, and so does the reverse.
+
 The site also registers four WebMCP tools in-page via `registerReportTools()` in
 `template.html`, behind a feature check: `list_systems`, `get_system`, `search`,
 `get_stats`.

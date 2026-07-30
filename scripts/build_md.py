@@ -1280,6 +1280,33 @@ def ai_content():
             ],
         },
         {
+            "id": "prompts",
+            "heading": "Prompts that come with it",
+            "blocks": [
+                {
+                    "type": "prose",
+                    "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts. Each "
+                    f"one is a job people turn up here to do, written out as steps, with the "
+                    f"vocabulary the filters accept already filled in so the assistant is not sent "
+                    f"off to ask what it could have been told.",
+                },
+                {
+                    "type": "list",
+                    "items": [f"`{name}` — {purpose}" for name, purpose in MCP_PROMPTS],
+                },
+                {
+                    "type": "prose",
+                    # Backticks are not decoration here: the invocation carries paired
+                    # double underscores, which a markdown reader of /ai.md would
+                    # otherwise render as bold and hand back a command that fails.
+                    "text": f"In Claude Code these are slash commands: `/mcp__{MCP_NAME}__start-here`, and the "
+                    f"same shape for the other {NUMBER_WORD[len(MCP_PROMPTS) - 1]}. Cursor, VS Code "
+                    f"and the desktop apps list them in a prompt picker instead. A prompt only hands "
+                    f"your assistant instructions; the work and the tool calls are still its own.",
+                },
+            ],
+        },
+        {
             "id": "data",
             "heading": "Download the data",
             "blocks": [

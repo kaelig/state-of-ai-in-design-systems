@@ -324,7 +324,13 @@ emit(
     view: 'system',
     title: 'Not found',
     description: 'That address is not part of this report.',
-    body: VIEWS.system(' not-a-system'),
+    // A sentinel id no record can collide with. Written as an escape on
+    // purpose: as a raw byte it makes this whole file read as binary to
+    // ripgrep, which then skips it in silence. The WebMCP tool-list check
+    // and the og:image check below both went missing from a repo-wide
+    // search that way, and a search that finds nothing reads like proof
+    // that nothing is there.
+    body: VIEWS.system('\u0000not-a-system'),
     noindex: true,
   }),
 );

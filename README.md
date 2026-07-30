@@ -114,7 +114,7 @@ markdown layer, so work through that list rather than trusting the first two.
 | `dashboard/llms.txt` (and `/.well-known/`)                                    | The router: staleness note, retrieval contract, vocabulary, every file with its measured size                              |
 | `dashboard/llms-full.txt`, `llms-{systems,techniques,platforms,insights}.txt` | Concatenated documentation sets, sliced by concern for context budgets                                                     |
 | `dashboard/data/`                                                             | `design-systems.json`, `platforms.json`, `insights.json`, `reading.json`, a JSON Schema for each, and `state-of-ai.sqlite` |
-| `netlify/functions/mcp.mjs`                                                   | The MCP server at `/mcp`: 9 read-only tools, 2 resources, 2 prompts                                                        |
+| `netlify/functions/mcp.mjs`                                                   | The MCP server at `/mcp`: 9 read-only tools, 2 resources, 5 prompts                                                        |
 | `netlify/edge-functions/markdown.ts`                                          | Serves the markdown twin when a client sends `Accept: text/markdown`                                                       |
 | `dashboard/template.html` → `registerReportTools()`                           | WebMCP: 4 page tools behind one feature check                                                                              |
 | `/ai`                                                                         | The page documenting all of the above, mirrored at `/ai.md`                                                                |
