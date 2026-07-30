@@ -588,6 +588,28 @@ const fail = (message) => ({
 const PROVENANCE =
   'Snapshot of 2026-07-28. Cite the source_url on each record, not this server.';
 
+// The block every prompt opens with. An agent that gets the filter vocabulary in
+// the prompt does not have to spend a call discovering it, and cannot spend that
+// call inventing a value no tool accepts. Derived from the payload at
+// registration time, like every other published surface here, so an enum that
+// gains a value changes this text rather than leaving it quietly wrong.
+const PROMPT_PREAMBLE = [
+  `The State of AI in Design Systems survey: ${COUNTS.systems} open-source design systems and ` +
+    `${COUNTS.platforms} platforms, with ${COUNTS.affordances} AI affordances and ` +
+    `${COUNTS.techniques} model-coercion techniques on record. Snapshot of 2026-07-28.`,
+  '',
+  'The filter vocabulary, which every list_* call takes verbatim:',
+  `- affordance_type: ${ENUMS.affordance_type.join(', ')}`,
+  `- technique_category: ${ENUMS.technique_category.join(', ')}`,
+  `- ai_maturity: ${ENUMS.ai_maturity.join(', ')}`,
+  `- category: ${ENUMS.category.join(', ')}`,
+  'Call get_stats for the per-system breakdown and the system ids.',
+  '',
+  'Two rules for whatever you build from this. Cite the source_url on each record, not this',
+  'server. And when you cannot find something, say you could not find it — a lookup that came',
+  'back empty is not evidence that the thing is absent.',
+].join('\n');
+
 function page(items, limit, offset) {
   const start = offset || 0;
   const slice = items.slice(start, start + limit);
@@ -1188,20 +1210,27 @@ function buildServer() {
           content: {
             type: 'text',
             text: [
-              `Audit ${target} against the State of AI in Design Systems survey (snapshot 2026-07-28).`,
+              `Audit ${target} against the State of AI in Design Systems survey.`,
               '',
-              'Work in this order:',
-              '1. Call get_stats to learn the affordance types and the coverage baseline.',
-              `2. Read ${target}: its repo, its docs, and any llms.txt, AGENTS.md, .github/copilot-instructions.md, CLAUDE.md, skill or MCP server it ships.`,
+              PROMPT_PREAMBLE,
+              '',
+              'Work in this order.',
+              '',
+              `1. Read ${target}: its repo, its docs, and any llms.txt, AGENTS.md, .github/copilot-instructions.md, CLAUDE.md, skill or MCP server it ships.`,
               compare_to
-                ? `3. Call get_system with id "${compare_to}" and use it as the benchmark.`
-                : '3. Call list_systems with maturity "ai-native" and pick two comparable systems, then get_system on each.',
-              '4. For every affordance type in the enums, say whether the target ships it, and link the file you checked.',
-              '5. Call list_techniques for the coercion techniques the target lacks, and pull the two or three most transferable snippets with get_snippet.',
+                ? `2. Call get_system with id "${compare_to}" and use it as the benchmark.`
+                : '2. Pick two or three systems to benchmark against, comparable in category, consumer model and team size. Not the most advanced systems in the survey: a five-person library serving one internal app learns very little from a platform team with a public registry. Call list_systems to shortlist, then get_system on each.',
+              '3. For every affordance type above, say whether the target ships it and link the file you checked. Some of these exist to serve external consumers, and a system that has none is not behind for lacking them: a registry, a public MCP server and a scaffolding CLI all assume somebody outside your team builds with your components. Where that is the case, record N/A with the reason instead of a gap. A private single-consumer system scored against affordances aimed at strangers gets a coverage table that measures the wrong thing.',
+              '4. Call list_techniques for the categories the target has nothing in, then get_snippet on the two or three most transferable so you have the verbatim text.',
+              `5. Build one real screen from ${target}'s own docs and whatever context it ships, using only what a model would find, and write down every place you had to guess. This is the step that measures what the documentation does rather than what it contains.`,
               '',
-              'Report: a coverage table, the three gaps that would matter most, and for each gap a concrete',
-              'example from the survey with its source_url. Say plainly when you could not find something',
-              'rather than assuming it is absent.',
+              `Step 5 only means anything from a context that has not read ${target}. By now you have, so running it yourself tests your memory rather than the docs, and the result is provisional. Record it that way when that is what happened.`,
+              '',
+              'If your client can run subagents: steps 1, 3 and 4 fan out cleanly, one agent per affordance type or technique category, and the findings merge. Step 5 does not. It has to go to an agent told nothing but the name of the system and the screen to build, which is also the only way to run it honestly.',
+              '',
+              'Report a coverage table with absent and N/A kept apart, the three gaps that would cost the most,',
+              'and for each gap a concrete example from the survey with its source_url. Say plainly when you',
+              'could not find something rather than recording it as absent.',
             ].join('\n'),
           },
         },

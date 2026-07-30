@@ -79,6 +79,28 @@ const firstText = (result) => result.content.map((c) => c.text ?? '').join('');
 const callJson = async (name, args) =>
   JSON.parse(firstText(await callTool(name, args)));
 
+/** prompts/get, returning the whole JSON-RPC body so the error cases are testable. */
+const getPrompt = (name, args = {}) =>
+  legacy('prompts/get', { name, arguments: args });
+
+function promptText({ body }, name) {
+  assert.ok(
+    body.result,
+    `prompts/get ${name} returned no result: ${JSON.stringify(body).slice(0, 400)}`,
+  );
+  return body.result.messages.map((m) => m.content.text ?? '').join('\n');
+}
+
+// Recomputed from the payload rather than listed here. A prompt that hands the
+// agent a hand-typed vocabulary passes a test that hand-types the same one.
+const uniqSorted = (xs) => [...new Set(xs)].sort();
+const AFFORDANCE_TYPES = uniqSorted(
+  PAYLOAD.systems.flatMap((s) => s.affordances.map((a) => a.type)),
+);
+const TECHNIQUE_CATEGORIES = uniqSorted(
+  PAYLOAD.systems.flatMap((s) => s.techniques.map((t) => t.category)),
+);
+
 // ---------------------------------------------------------------------------
 
 describe('legacy 2025 leg', () => {
@@ -226,6 +248,94 @@ describe('tool surface', () => {
         `${tool.name} does not mention the snapshot date`,
       );
     }
+  });
+});
+
+describe('prompt surface', () => {
+  // The vocabulary is baked into the prompt bodies at registration time, so
+  // these assertions are what stops the baking going stale: add an affordance
+  // type to the data and a prompt that hard-coded the old list fails here.
+  test('the audit prompt hands over the vocabulary instead of sending the agent for it', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', { target: 'acme-ui' }),
+      'audit-my-design-system',
+    );
+    for (const type of AFFORDANCE_TYPES)
+      assert.ok(
+        text.includes(type),
+        `affordance type ${type} not in the prompt`,
+      );
+    for (const category of TECHNIQUE_CATEGORIES)
+      assert.ok(
+        text.includes(category),
+        `technique category ${category} not in the prompt`,
+      );
+    assert.match(
+      text,
+      new RegExp(`${PAYLOAD.systems.length} open-source design systems`),
+    );
+    assert.match(text, new RegExp(`${PAYLOAD.platforms.length} platforms`));
+    assert.doesNotMatch(
+      text,
+      /Call get_stats to learn the affordance types/,
+      'the prompt still sends the agent to discover what it was just handed',
+    );
+  });
+
+  test('the audit prompt names the target and picks comparables on situation, not rank', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', { target: 'acme-ui' }),
+      'audit-my-design-system',
+    );
+    assert.match(text, /acme-ui/);
+    assert.match(text, /comparable/i);
+    assert.match(text, /consumer model/i);
+    assert.doesNotMatch(
+      text,
+      /pick two comparable systems/,
+      'still picking benchmarks by maturity rather than by situation',
+    );
+  });
+
+  test('compare_to replaces the generic branch rather than adding to it', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', {
+        target: 'acme-ui',
+        compare_to: 'shadcn-ui',
+      }),
+      'audit-my-design-system',
+    );
+    assert.match(text, /shadcn-ui/);
+    assert.doesNotMatch(text, /Pick two or three systems to benchmark/);
+  });
+
+  test('the audit prompt separates "we do not ship this" from "this does not apply"', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', { target: 'acme-ui' }),
+      'audit-my-design-system',
+    );
+    assert.match(text, /N\/A/);
+    assert.match(text, /external consumers/i);
+  });
+
+  test('the audit prompt runs a build test and says what an unrun one is worth', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', { target: 'acme-ui' }),
+      'audit-my-design-system',
+    );
+    assert.match(text, /build one/i);
+    assert.match(text, /provisional/i);
+    assert.match(text, /has not read|had not read|knows nothing|told nothing/i);
+  });
+
+  test('the audit prompt keeps its name and its argument schema', async () => {
+    const { body } = await legacy('prompts/list');
+    const audit = body.result.prompts.find(
+      (p) => p.name === 'audit-my-design-system',
+    );
+    assert.ok(audit, 'audit-my-design-system was renamed');
+    const args = (audit.arguments ?? []).map((a) => a.name).sort();
+    assert.deepEqual(args, ['compare_to', 'target']);
   });
 });
 
