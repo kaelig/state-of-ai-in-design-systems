@@ -29,8 +29,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Only the axes the site actually sets: display 550–700, body 400–700, and no
-     italic anywhere. Same families, same source, a fraction of the bytes. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@550..700&family=Source+Sans+3:wght@400..700&display=swap">
+     italic anywhere. Same families, same source, a fraction of the bytes.
+
+     display=block, not swap: swap paints the prose in the metric-matched
+     fallback and then re-wraps it when Source Sans 3 lands. The overrides below
+     hold the headings still, but body copy still moved the page by about 300px,
+     and text that reflows under someone mid-sentence is worse than text that
+     arrives a moment late. block holds the glyphs invisible until the face is
+     ready, so the first paint of a paragraph is its final one. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@550..700&family=Source+Sans+3:wght@400..700&display=block">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
