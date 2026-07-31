@@ -498,7 +498,12 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .linkbtn:hover { text-decoration-color: currentColor; }
 .empty { font-size: 14px; color: var(--ink-2); max-width: var(--measure-body); padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; }
 
-.backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-block; margin-bottom: 6px; }
+.backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+/* 14px against 12px mono, not the rail's 16: this arrow sits beside lowercase
+   text rather than an uppercase label, so it is measured against the x-height
+   next to it. flex: none for the same reason the rail glyphs set it — a
+   squashed arrow is what a tight line gives up first. */
+.backlink svg { width: 14px; height: 14px; flex: none; }
 /* A record summary runs to a paragraph or more. That is body copy, not a lede. */
 .detail-sum { font-size: 16px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
 .backlink:hover { color: var(--accent); }
@@ -777,7 +782,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .searchbar input, .searchbar select { font-size: 16px; }
   /* Finger-sized hit areas for the small mono links and the copy button.
      Real padding, not an overlay, so wrapped rows can never steal each other's taps. */
-  .backlink { display: inline-block; padding: 13px 0; }
+  /* Padding only. The base rule's inline-flex is what puts the arrow on the
+     label's line, and it takes vertical padding just as inline-block did. */
+  .backlink { padding: 13px 0; }
   /* Class-based: the sources list carries .links on the .aff-body element itself. */
   .links { gap: 0 16px; margin-top: 4px; }
   .links a { display: inline-block; padding: 12px 0; }
