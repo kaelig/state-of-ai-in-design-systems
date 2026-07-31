@@ -365,6 +365,35 @@ for (const r of routes) {
   }
 }
 
+// The loop above only knows routes that still exist. Retire a route and its old
+// html/md files sit in dashboard/ untouched, and dashboard/ is what deploys —
+// so on any non-clean tree the dead URL comes back live at 200 instead of the
+// 404 the retirement promised. Sweep the servable surfaces against what this
+// build actually produced: the files written above, build_md.py's map of every
+// markdown twin, and the two non-route html files (artifact.html is
+// build_dashboard.py output; template.html is source and never touched).
+const expected = new Set(written.map(([p]) => p));
+expected.add('artifact.html');
+expected.add('template.html');
+const mdMap = JSON.parse(readFileSync(join(BUILD, 'md-map.json'), 'utf8'));
+for (const p of Object.keys(mdMap)) expected.add(p.replace(/^\//, ''));
+const swept = [];
+(function sweep(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) {
+      sweep(full);
+      if (readdirSync(full).length === 0) rmSync(full, { recursive: true });
+    } else if (/\.(html|md)$/.test(e.name)) {
+      const rel = full.slice(OUT.length + 1);
+      if (!expected.has(rel)) {
+        rmSync(full);
+        swept.push(rel);
+      }
+    }
+  }
+})(OUT);
+
 /* ---------- guard rails: an empty page must never ship quietly ---------- */
 const MIN = 2048;
 const small = written.filter(([, n]) => n <= MIN);
@@ -566,5 +595,10 @@ console.log(
 );
 console.log(
   '  placeholder scan: clean across ' + allHtml(OUT).length + ' html files',
+);
+console.log(
+  swept.length
+    ? `  stale sweep: removed ${swept.sort().join(', ')}`
+    : '  stale sweep: nothing to remove',
 );
 console.log(`  og:image: ${ogCard}, present in dashboard/`);
