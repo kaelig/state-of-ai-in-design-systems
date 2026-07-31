@@ -533,7 +533,10 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 /* A record summary runs to a paragraph or more. That is body copy, not a lede. */
 .detail-sum { font-size: 16px; color: var(--ink); max-width: var(--measure-body); text-wrap: pretty; }
 .backlink:hover { color: var(--accent); }
-.dhead { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+/* Centered, not baselined: the chip is a small bordered box, so its text sits
+   far below its own middle. Put that baseline on the h1's and the chip hangs
+   under the title. Aligning the boxes is what reads as level here. */
+.dhead { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
 .dhead h1 { margin: 0; }
 /* The page's meta line: eyebrow at the left, the markdown download hard right,
    the two sitting on one baseline. It rides here rather than on the title row
