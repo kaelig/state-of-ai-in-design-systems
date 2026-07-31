@@ -286,13 +286,24 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .spectrum { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 8px; }
 .spec-band { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-raise); }
 .spec-band .bhead {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  display: flex; align-items: baseline; gap: 10px;
   padding: 8px 12px; white-space: normal; line-height: 1.5; margin: 0;
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
 }
+/* Sized like the rail glyphs, and centered rather than baseline-aligned: a
+   replaced element's baseline is its bottom margin edge, so left to the row's
+   baseline the glyph would stand its floor on the label's and float a whole cap
+   height above the word it belongs to. */
+.spec-band .bhead .rungs { width: 16px; height: 16px; flex: none; align-self: center; }
+/* The count took the right edge from justify-content: space-between while there
+   were two children. A third would have stranded the label in the middle, so the
+   count claims the free space as a margin instead — which also leaves the glyph
+   sitting against its label, at a gap sized for that pairing rather than for the
+   full width of the band. */
 .spec-band .bhead .bn {
+  margin-left: auto;
   font-family: var(--font-body); font-weight: 600; font-size: 13px;
   letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
 }
@@ -897,6 +908,32 @@ const MAT_DEF = {
   'emerging': 'llms.txt or an AI docs page, little more',
   'none': 'No AI affordances found'
 };
+/* Four rungs ascending left to right, the first N solid and the rest dimmed,
+   where N is the level's position counted up the scale — MAT_ORDER runs
+   descending, so ai-native fills four and none fills one. All four always draw:
+   every glyph is then the same width, so the band headers align down the page,
+   and the reader gets the denominator — emerging reads "two of four" rather
+   than "two bars". Same 24-unit stroked idiom as navIcon, in currentColor so
+   each glyph takes its band's --mat-N-ink with no icon color to keep in sync,
+   and aria-hidden because .bl already names the level.
+   Geometry is the insights nav glyph's: baseline at 20, bars 6 apart, ink from
+   3 to 21. That box is already optically centered, which is why this icon needs
+   none of the corrections the house and the server carry.
+   A dimmed rung sits at .45, which is under the crossover: against the worst of
+   the six band colors it still separates from a solid rung by more (2.6:1) than
+   it separates from the band behind it (2.0:1). Raising it past ~.5 flips that,
+   and the failure it buys is a rung miscounted as filled — a chart that lies,
+   rather than one that is merely hard to read.
+   An unknown key makes indexOf return -1 and the count 5 — a band claiming the
+   full scale, not an empty one, which is the plausible direction to be wrong in
+   and so the one likeliest to survive review. The clamp keeps it inside the
+   four rungs; the vocabulary guard in prerender.mjs is what makes it loud. */
+const RUNG_TOPS = [16, 12, 8, 4];
+const matRungs = k => {
+  const filled = Math.min(RUNG_TOPS.length, Math.max(0, MAT_ORDER.length - MAT_ORDER.indexOf(k)));
+  return `<svg class="rungs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${RUNG_TOPS.map((y, i) =>
+    `<line x1="${3 + i * 6}" y1="20" x2="${3 + i * 6}" y2="${y}"${i < filled ? '' : ' opacity=".45"'}/>`).join('')}</svg>`;
+};
 const TYPE_LABEL = { 'mcp-server':'MCP server','llms-txt':'llms.txt','agents-md':'AGENTS.md','claude-md':'CLAUDE.md','claude-skill':'Agent skill','cursor-rules':'Cursor rules','copilot-instructions':'Copilot instructions','ai-docs-page':'AI docs page','registry':'Registry','cli-scaffolding':'CLI scaffolding','figma-code-connect':'Code Connect','storybook-integration':'Storybook','prompt-library':'Prompt library','codemod-ai':'AI codemod','other':'Other' };
 const CAT_LABEL = { 'prohibition':'Prohibition','tool-gating':'Tool-gating','curated-context':'Curated context','validation-loop':'Validation loop','scaffolding':'Scaffolding','exemplars':'Exemplars','token-enforcement':'Token enforcement','registry-metadata':'Registry metadata','instruction-files':'Instruction files','design-code-mapping':'Design–code mapping','other':'Other' };
 /* A per-system integration heading names the platform, not the id it is keyed
@@ -1115,7 +1152,7 @@ const VIEWS = {
     const bands = MAT_ORDER.filter(k => DATA.systems.some(s => s.ai_maturity === k)).map(k => {
       const sys = DATA.systems.filter(s => s.ai_maturity === k);
       const body = `<ul>${sys.map(s => `<li><a href="${href('systems', s.id)}">${esc(s.name)}</a></li>`).join('')}</ul>`;
-      return `<div class="spec-band"><h3 class="bhead mat-${k}"><span class="bl">${MAT[k]}</span><span class="bn">${sys.length}</span></h3>
+      return `<div class="spec-band"><h3 class="bhead mat-${k}">${matRungs(k)}<span class="bl">${MAT[k]}</span><span class="bn">${sys.length}</span></h3>
         <p class="bdef">${esc(MAT_DEF[k])}</p>
         ${body}</div>`;
     }).join('');
