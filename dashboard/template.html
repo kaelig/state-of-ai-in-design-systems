@@ -227,7 +227,8 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 
 .accent-rule { border: none; height: 3px; width: 4rem; background: var(--accent); margin: 20px 0 24px; }
 
-.eyebrow, .label, .metagrid .k, .twocol .col .t, table.mx thead th {
+.eyebrow, .label, .metagrid .k, .twocol .col .t, table.mx thead th,
+table.mx tr.mx-group th {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
 }
@@ -450,9 +451,8 @@ table.mx tr.mx-group th {
   position: static; text-align: left;
   padding: 20px 6px 8px;
   border-top: 1px solid var(--line-strong);
-  /* The cohort label's voice. Metadata, not a control: no hover, no pointer. */
-  font-family: var(--font-display); font-weight: 550; font-size: 11px;
-  letter-spacing: .14em; text-transform: uppercase;
+  /* The label voice comes from the shared rule above; only the color steps up
+     to --ink. Metadata, not a control: no hover, no pointer. */
   color: var(--ink);
 }
 /* The first cohort opens directly under the header's rule, so it brings no seam
