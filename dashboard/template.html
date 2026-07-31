@@ -440,19 +440,21 @@ table.mx td .none, .mx-legend .none-key {
 /* Cohort break. No band: a rule across the full scroll width, then air, then the
    cohort's name — the same way a section break works in the prose on this site.
    The seam is --line-strong so it outranks the row hairlines it separates, and
-   the air is what actually groups the rows.
+   the air is what actually groups the rows. The seam sits inside the cell here
+   because a table cell cannot hold margin above its own border; /systems, whose
+   header is a real block element, gets the composition this one could not.
    20px, not 26: a break taller than the 34px row it separates stops reading as a
    seam inside one table and starts reading as the gap between three of them. At
    20 the break is under two-thirds of a row, so the cohorts stay sections of a
    single grid across a 20-row scroll, and the label still has more air above it
-   than the 8px below, which is what keeps it attached to the rows it opens. */
+   than the 8px below, which is what keeps it attached to the rows it opens.
+   Only the table mechanics live here. The label's voice is shared with the
+   systems list now that both surfaces break their cohorts the same way — see
+   ".sysgroup, table.mx tr.mx-group th" below. */
 table.mx tr.mx-group th {
   position: static; text-align: left;
   padding: 20px 6px 8px;
   border-top: 1px solid var(--line-strong);
-  font-family: var(--font-display); font-weight: 550; font-size: 11px;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink);
 }
 /* The first cohort opens directly under the header's rule, so it brings no seam
    of its own and sits closer. */
@@ -491,12 +493,14 @@ table.mx tr.mx-group th .gl {
    supposed to recognize is not resolvable anyway. The count is the encoding; the
    tint would have cost the table's single data ink to add a channel that is
    either invisible or wrong. */
-table.mx tr.mx-group .rungs { width: 16px; height: 16px; flex: none; }
-table.mx tr.mx-group .rungs line { stroke: var(--data-strong); }
-table.mx tr.mx-group .rungs line[opacity] { stroke: var(--line-strong); opacity: 1; }
-/* The count is the one number in the row, so it steps back to --ink-3 and drops
-   the tracking that the label needs and a numeral does not. */
-table.mx tr.mx-group th .gn {
+table.mx tr.mx-group .rungs, .sysgroup .rungs { width: 16px; height: 16px; flex: none; }
+table.mx tr.mx-group .rungs line, .sysgroup .rungs line { stroke: var(--data-strong); }
+table.mx tr.mx-group .rungs line[opacity], .sysgroup .rungs line[opacity] { stroke: var(--line-strong); opacity: 1; }
+/* The cohort's own count steps back to --ink-3 and drops the tracking that the
+   label needs and a numeral does not. On /systems that also keeps it clear of the
+   rows' affordance and technique counts, which are --ink-2 in their own right
+   column: the section's tally is quieter than the data it introduces. */
+table.mx tr.mx-group th .gn, .sysgroup .gn {
   font-family: var(--font-body); font-weight: 600; font-size: 12px;
   letter-spacing: normal; text-transform: none;
   font-variant-numeric: tabular-nums; color: var(--ink-3);
@@ -511,8 +515,8 @@ table.mx tr.mx-group th .gn {
   table.mx td .dot, .mx-legend .dot { background: CanvasText; }
   table.mx td .ring, .mx-legend .ring { border-color: CanvasText; }
   table.mx td .none, .mx-legend .none-key { background: GrayText; }
-  table.mx tr.mx-group .rungs line { stroke: CanvasText; }
-  table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
+  table.mx tr.mx-group .rungs line, .sysgroup .rungs line { stroke: CanvasText; }
+  table.mx tr.mx-group .rungs line[opacity], .sysgroup .rungs line[opacity] { stroke: GrayText; }
 }
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
@@ -541,13 +545,17 @@ table.mx tr.mx-group th .gn {
    min-width:2ch alone cannot align a two-digit number under an 11-character
    label; the fixed track does, and 8 and 13 still line up down the list. */
 .syslist-head { margin-top: 18px; }
-.syslist { margin-top: 8px; }
+/* The column labels close on a rule, exactly as the matrix's thead does, and the
+   first cohort measures its own opening space from that rule — so .syslist adds
+   no margin of its own. Labels over a rule, cohort sections between rules, a rule
+   at the bottom: the two surfaces are now the same three-part structure. */
+.syslist { margin-top: 0; }
 .syslist-head, .syslist { --ct-col: 92px; }
 .syslist-head, .sysrow {
   display: grid; grid-template-columns: minmax(190px, 240px) 1fr auto;
   gap: 14px; align-items: center;
 }
-.syslist-head { padding: 0 4px 8px; color: var(--ink-2); }
+.syslist-head { padding: 0 4px 10px; color: var(--ink-2); border-bottom: 1px solid var(--line-strong); }
 /* One cohort = one list. The rows are items, not a flat run of anonymous divs. */
 ul.cohort { list-style: none; margin: 0; padding: 0; }
 .sysrow {
@@ -561,9 +569,22 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .sysrow > .who > a.nm::after { content: ""; position: absolute; inset: 0; }
 .sysrow:has(a.nm:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
 .sysrow a.nm:focus-visible { outline: none; }
-.cohort > .sysrow:last-child { border-bottom: 1px solid var(--line); }
+/* A cohort's last row drops its rule because the next cohort's seam closes the
+   block — the same bookkeeping the matrix does with tbody:last-of-type. The list
+   as a whole still has to end on something, so the final cohort's final row
+   closes on --line-strong, the weight the column labels opened with. */
+.cohort > .sysrow:last-child { border-bottom: none; }
+.syslist > ul.cohort:last-child > .sysrow:last-child { border-bottom: 1px solid var(--line-strong); }
 .cohort > .sysrow:first-child { border-top: none; }
-.sysrow:hover { background: var(--bg-sunk); }
+/* --row-hover, not --bg-sunk: the matrix lights the row the pointer is on with a
+   faint raise, and in dark mode --bg-sunk went the other way — #0A0A0A is darker
+   than the page, so the two surfaces were shading in opposite directions for the
+   same gesture. :active keeps --bg-sunk. The matrix's deeper --cell-hover was the
+   obvious partner for a press, but it never grounds --ink-3 text there, and .org
+   is --ink-3: on --cell-hover that is 4.32:1 in light, under the bar. A press
+   state is not worth a contrast failure, and the shipped ground already clears
+   it at 4.68:1. */
+.sysrow:hover { background: var(--row-hover); }
 .sysrow:hover .nm { color: var(--accent-ink); }
 .sysrow .nm { font-family: var(--font-display); font-weight: 650; font-size: 16px; letter-spacing: -.015em; }
 .sysrow .org { font-size: 12px; color: var(--ink-3); display: block; }
@@ -579,22 +600,34 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 .sysrow .csep { display: none; }
-/* Maturity cohort strip — the systems list's own. The matrix used to share this
-   spec; it now breaks its cohorts with a rule and a rung count instead of a wash,
-   so the two surfaces no longer describe the same object and the selector list
-   stops pretending they do. Metadata, not a control: no hover, no pointer. */
-.sysgroup {
+/* Maturity cohort header — one voice for both surfaces that group by cohort.
+   This selector was split apart when the matrix stopped using a wash; the systems
+   list has now followed it, so the two describe the same object again and the
+   shared rule comes back. Only the box differs: the matrix's lives in a table
+   cell, this one in an <h2>. Metadata, not a control: no hover, no pointer. */
+.sysgroup, table.mx tr.mx-group th {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
-  background: var(--mat-0); color: var(--mat-0-ink);
-  padding: 6px 4px; margin: 18px 0 0;
+  color: var(--ink);
 }
-.syslist > .sysgroup:first-child { margin-top: 0; }
-.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
-.sysgroup.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
-.sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
-.sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
-.sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
+/* The composition the matrix wanted and could not have. A table cell cannot put
+   margin above its own border, so there the order is rule-then-air-then-label.
+   An <h2> can, so here the air sits ABOVE the rule: the gap belongs to the break
+   between cohorts, and the rule reads as the new section's opening bracket with
+   its label hanging directly under it — 28px of clearance above the label
+   against 6px below, which is what pins it to the rows it opens.
+   The break totals 52px against a 66px row, so it stays under the one-row
+   threshold that the matrix's 20px seam was derived from. That threshold is the
+   part of the reasoning that transfers; the 20px number is not, because it was
+   measured against a 34px data row and this list is nearly twice as tall. */
+.sysgroup {
+  display: flex; align-items: center; gap: 8px;
+  margin: 18px 0 0; padding: 10px 4px 6px;
+  border-top: 1px solid var(--line-strong);
+}
+/* The first cohort opens under the column labels' rule, so it brings no seam of
+   its own — the matrix's tbody:first-of-type exception, in block layout. */
+.syslist > .sysgroup:first-child { margin-top: 0; padding-top: 12px; border-top: none; }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 /* 14px against 12px mono, not the rail's 16: this arrow sits beside lowercase
@@ -868,6 +901,13 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* The header row is the desktop definition; on mobile the words move into the
      row itself, placed under the name instead of orphaning to the right. */
   .syslist-head { display: none; }
+  /* With the column labels gone, their rule goes too — so the first cohort has
+     nothing to open under and takes back the seam it gives up on wide screens.
+     Otherwise the list would begin with a floating label and no top edge. */
+  .syslist > .sysgroup:first-child {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--line-strong);
+  }
   .sysrow {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "who" "cts";
@@ -1588,13 +1628,17 @@ function renderSyslist() {
     <span class="who"><a class="nm" href="${href('systems', s.id)}">${esc(s.name)}</a><span class="org">${esc(s.org || '')}</span></span>
     <span class="sum">${fmt(s.summary)}</span>
     <span class="cts"><span class="ct">${(s.affordances || []).length}<span class="cw"> affordances</span></span><span class="csep" aria-hidden="true">·</span><span class="ct">${(s.techniques || []).length}<span class="cw"> techniques</span></span></span></li>`;
-  /* The list is already sorted by maturity, so a cohort strip before each run of
+  /* The list is already sorted by maturity, so a cohort header before each run of
      rows replaces 20 repeated chips. A level with no systems in it renders no
-     header, so the data decides which cohorts appear. */
+     header, so the data decides which cohorts appear.
+     The rung glyph is the same drawing the matrix and the spectrum bands use, and
+     it is aria-hidden because the cohort name beside it already says the level.
+     .gt wraps name, separator and count so the glyph takes one flex gap and the
+     three text parts keep their own spacing — same structure as the matrix. */
   $('#syslist').innerHTML = MAT_ORDER.map(k => {
     const rows = DATA.systems.filter(s => s.ai_maturity === k);
     if (!rows.length) return '';
-    return `<h2 class="sysgroup mat-${k}"><span class="gl">${MAT[k]}</span> · <span class="gn">${rows.length}</span></h2>`
+    return `<h2 class="sysgroup mat-${k}">${matRungs(k)}<span class="gt"><span class="gl">${MAT[k]}</span> · <span class="gn">${rows.length}</span></span></h2>`
       + `<ul class="cohort">${rows.map(row).join('')}</ul>`;
   }).join('');
 }
