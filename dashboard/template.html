@@ -192,6 +192,19 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
    flex-shrink is off because the narrow layout turns this into a scrolling row,
    where a squashed glyph is the first thing to give. */
 .rail nav a svg { width: 16px; height: 16px; flex: none; }
+/* Optical corrections, keyed on data-r so the Feather paths stay verbatim and a
+   future glyph swap is still a one-line diff in NAV_ICON_PATHS.
+   Every icon is drawn to the same 24px box and centres geometrically, which is
+   not the same as centring by weight: the house and the clipboard both hang a
+   heavy horizontal along the bottom and taper to a roof point or a small tab at
+   the top, so the ink reads low in a box that measures centred. The server is
+   two full-width rounded rectangles — roughly twice the stroke length of any
+   other glyph in the row, so at a shared width it reads as the darker one.
+   Nudge the first two up; thin the third rather than shrink it, so the row
+   keeps one icon size. */
+.rail nav a[data-r="overview"] svg,
+.rail nav a[data-r="methodology"] svg { transform: translateY(-1px); }
+.rail nav a[data-r="platforms"] svg { stroke-width: 1.75; }
 .rail nav a:hover { color: var(--ink); background: var(--bg-sunk); }
 .rail nav a.on, .rail nav a[aria-current="page"] { color: var(--accent-ink); border-right-color: var(--accent); background: var(--accent-wash); }
 .rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 13px; color: var(--ink-3); }
