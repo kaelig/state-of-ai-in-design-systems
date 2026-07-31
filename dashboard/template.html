@@ -595,55 +595,6 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
 .sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
 .sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
-.searchbar { display: flex; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
-.searchbar input, .searchbar select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
-.searchbar input { flex: 1; min-width: 0; width: 100%; }
-.searchbar input, .searchbar select { min-height: 40px; }
-/* The native caret sits hard against the border and reads off-center next to the
-   12px text inset. Ours is the site's icon language (1.5px round-cap stroke) at a
-   matching 12px inset, so the field is symmetrical. It is drawn as a mask filled
-   with currentColor rather than a colored data URI: one glyph, both themes, and
-   forced-colors keeps it (a background-image would be dropped there, leaving a
-   field with no affordance). Chrome and Safari render no pseudo-elements on a
-   <select>, hence the wrapper. */
-.searchbar select {
-  appearance: none; -webkit-appearance: none;
-  padding-right: 32px;
-  background-color: var(--bg-raise);
-}
-.selwrap { position: relative; display: inline-flex; color: var(--ink-2); }
-.selwrap select { width: 100%; }
-.selwrap::after {
-  content: ""; position: absolute; right: 12px; top: 50%;
-  width: 12px; height: 12px; margin-top: -6px; pointer-events: none;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / 12px no-repeat;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / 12px no-repeat;
-}
-@media (forced-colors: active) {
-  .selwrap::after { background: CanvasText; }
-}
-/* The "/" hint rides inside the field. Decoration for people who use it, and
-   nothing at all for anyone reading with a screen reader or on a phone. */
-.qwrap { position: relative; display: flex; flex: 1; min-width: 180px; }
-.qwrap .qhint {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  pointer-events: none; font-family: var(--mono); font-size: 11px; line-height: 1;
-  color: var(--ink-3); background: var(--bg-sunk);
-  border: 1px solid var(--line); border-radius: 2px; padding: 3px 6px;
-}
-.qwrap input { padding-right: 34px; }
-.count { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
-/* A control that is a link in everything but element type. Never .chip, never
-   the square button chrome. */
-.linkbtn {
-  font: inherit; font-size: inherit; background: none; border: 0; padding: 0;
-  color: var(--accent-ink); cursor: pointer; text-decoration: underline;
-  text-decoration-color: transparent; text-underline-offset: 3px;
-  text-decoration-thickness: 1.5px; transition: text-decoration-color .2s ease;
-}
-.linkbtn:hover { text-decoration-color: currentColor; }
-.empty { font-size: 14px; color: var(--ink-2); max-width: var(--measure-body); padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 /* 14px against 12px mono, not the rail's 16: this arrow sits beside lowercase
@@ -911,9 +862,6 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .main { padding: 24px 16px 32px; }
   .twocol { grid-template-columns: 1fr; }
   .spec-band li a, .jump li a { padding: 9px 10px; }
-  /* No keyboard, no hint. */
-  .qwrap .qhint { display: none; }
-  .qwrap input { padding-right: 12px; }
   /* One source per row, so the link can own the whole row as its tap target. */
   .srclist li { padding: 0; }
   .srclist a { display: block; padding: 13px 0; }
@@ -936,7 +884,6 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   }
   .sysrow .csep { display: inline; color: var(--ink-3); font-size: 12px; }
   .bar-row, .bar-link { grid-template-columns: 110px 1fr 40px; }
-  .searchbar input, .searchbar select { font-size: 16px; }
   /* Finger-sized hit areas for the small mono links and the copy button.
      Real padding, not an overlay, so wrapped rows can never steal each other's taps. */
   /* Padding only. The base rule's inline-flex is what puts the arrow on the
@@ -1004,7 +951,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Beats both theme overrides, so a reader in dark mode does not print a black
      page. Every light-dark() token resolves to its light value from here. */
   :root, :root[data-theme="dark"], :root[data-theme="light"] { color-scheme: light only; }
-  .rail, .theme-toggle, .skip, .qwrap .qhint, .searchbar, .md-dl { display: none; }
+  .rail, .theme-toggle, .skip, .md-dl { display: none; }
   .app { display: block; }
   .main { padding: 0; max-width: none; }
   .scroller { overflow: visible; }
@@ -1405,21 +1352,9 @@ const VIEWS = {
   },
 
   systems() {
-    /* Only levels that actually have systems, each with its count. A level with
-       nothing in it is a filter that returns nothing, so it is not offered.
-       Counted off DATA.systems, so future data adds its own option. */
-    const matCount = {};
-    for (const s of DATA.systems) matCount[s.ai_maturity] = (matCount[s.ai_maturity] || 0) + 1;
-    const matOpts = MAT_ORDER.filter(k => matCount[k])
-      .map(k => `<option value="${esc(k)}">${esc(MAT[k] || k)} · ${matCount[k]}</option>`).join('');
     return `<div class="pagetop"><p class="eyebrow">Drill down</p>${mdDownload('systems')}</div><h1>The systems</h1>
       <p class="lede">Top open-source design systems that ship agentic tooling, analyzed in depth across multiple dimensions.</p>
       <hr class="accent-rule">
-      <div class="searchbar">
-        <span class="qwrap"><input id="q" type="search" placeholder="Filter by name, org, affordance…" aria-label="Filter systems"><kbd class="qhint" aria-hidden="true">/</kbd></span>
-        <span class="selwrap"><select id="fmat" aria-label="Filter by maturity"><option value="">All maturity levels</option>${matOpts}</select></span>
-      </div>
-      <p class="count" id="syscount" role="status"></p>
       <div class="syslist-head" aria-hidden="true"><span>System</span><span>Summary</span><span class="cts"><span class="ct">Affordances</span><span class="ct">Techniques</span></span></div>
       <div class="syslist" id="syslist"></div>`;
   },
@@ -1645,14 +1580,6 @@ function prevalenceBars() {
 }
 
 function renderSyslist() {
-  const q = ($('#q') ? $('#q').value : '').toLowerCase();
-  const fm = $('#fmat') ? $('#fmat').value : '';
-  const list = DATA.systems.filter(s => {
-    if (fm && s.ai_maturity !== fm) return false;
-    if (!q) return true;
-    const hay = [s.name, s.org, s.summary, ...(s.affordances || []).map(a => a.name + ' ' + a.type)].join(' ').toLowerCase();
-    return hay.includes(q);
-  });
   /* One link per row, and its accessible name is the system name — nothing else.
      The row stays wholly clickable through the link's stretched ::after, so the
      summary and the two counts are plain text instead of 300 characters of link
@@ -1662,24 +1589,14 @@ function renderSyslist() {
     <span class="sum">${fmt(s.summary)}</span>
     <span class="cts"><span class="ct">${(s.affordances || []).length}<span class="cw"> affordances</span></span><span class="csep" aria-hidden="true">·</span><span class="ct">${(s.techniques || []).length}<span class="cw"> techniques</span></span></span></li>`;
   /* The list is already sorted by maturity, so a cohort strip before each run of
-     rows replaces 20 repeated chips. Cohorts with nothing left after filtering
-     do not render a header. */
-  /* Said once, in the list, with a way out. #syscount keeps the announcement;
-     this is the visible copy, and it names what was actually filtered on. */
-  const raw = $('#q') ? $('#q').value : '';
-  const emptyLine = q && fm
-    ? `Nothing matches &ldquo;${esc(raw)}&rdquo; at that maturity level.`
-    : q ? `Nothing matches &ldquo;${esc(raw)}&rdquo;.`
-    : `No systems at that maturity level.`;
+     rows replaces 20 repeated chips. A level with no systems in it renders no
+     header, so the data decides which cohorts appear. */
   $('#syslist').innerHTML = MAT_ORDER.map(k => {
-    const rows = list.filter(s => s.ai_maturity === k);
+    const rows = DATA.systems.filter(s => s.ai_maturity === k);
     if (!rows.length) return '';
     return `<h2 class="sysgroup mat-${k}"><span class="gl">${MAT[k]}</span> · <span class="gn">${rows.length}</span></h2>`
       + `<ul class="cohort">${rows.map(row).join('')}</ul>`;
-  }).join('')
-    || `<p class="empty">${emptyLine} <button type="button" class="linkbtn" id="clearf">Clear filters</button></p>`;
-  const c = $('#syscount');
-  if (c) c.textContent = list.length ? `${list.length} of ${DATA.systems.length} systems` : 'No systems match.';
+  }).join('');
 }
 
 /* A snippet that fits needs neither a tab stop nor a name: only the ones that
@@ -1809,11 +1726,7 @@ function route(opts) {
     nav.scrollLeft = Math.max(0, here.offsetLeft - 12);
   }
 
-  if ($('#q')) {
-    renderSyslist();
-    $('#q').addEventListener('input', renderSyslist);
-    $('#fmat').addEventListener('change', renderSyslist);
-  }
+  if ($('#syslist')) renderSyslist();
   if (view === 'matrix') setupMatrixFades();
   pruneSnippetTabStops();
   window.scrollTo(0, 0);
@@ -1875,15 +1788,6 @@ document.addEventListener('click', e => {
   });
 });
 
-/* Clear filters, from the empty state. Returns focus to the field it emptied. */
-document.addEventListener('click', e => {
-  if (!e.target.closest('#clearf')) return;
-  if ($('#q')) $('#q').value = '';
-  if ($('#fmat')) $('#fmat').value = '';
-  renderSyslist();
-  if ($('#q')) $('#q').focus();
-});
-
 /* Platform jump links. preventDefault keeps the hash-routed artifact from
    treating "#figma" as a route, and moving focus means the keyboard follows. */
 document.addEventListener('click', e => {
@@ -1894,19 +1798,6 @@ document.addEventListener('click', e => {
   e.preventDefault();
   target.scrollIntoView({ block: 'start' });
   target.focus({ preventScroll: true });
-});
-
-/* "/" jumps to the filter, and only when you are not already typing somewhere. */
-document.addEventListener('keydown', e => {
-  if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
-  const t = e.target;
-  if (t && typeof t.closest === 'function'
-      && t.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]')) return;
-  const q = $('#q');
-  if (!q) return;
-  e.preventDefault();
-  q.focus();
-  q.select();
 });
 
 function syncToggle(isDark) {
