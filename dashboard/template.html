@@ -64,11 +64,12 @@
   --bg: light-dark(#FFFFFF, #111111);
   --bg-raise: light-dark(#FFFFFF, #191919);
   --bg-sunk: light-dark(#F5F5F5, #0A0A0A);
-  /* Matrix zebra: bg-raise where it reads (dark), the faintest visible gray
-     where raise equals the page ground (light). The hover wash sits one step
-     deeper than the stripe so it stays legible on striped rows. */
-  --zebra: light-dark(#FAFAFA, #191919);
-  --zebra-hover: light-dark(#ECECEC, #232323);
+  /* Row tracking, not striping. --row-hover is the wash under the row the pointer
+     is on; --cell-hover sits one step deeper, for the one cell that is itself a
+     link. Both are solid, not alpha: the sticky first column paints them over
+     scrolled content, where a translucent wash would show the rows underneath. */
+  --row-hover: light-dark(#F7F7F7, #1A1A1A);
+  --cell-hover: light-dark(#ECECEC, #232323);
   --ink: light-dark(#111111, #E8E8E8);
   --ink-2: light-dark(#555555, #A6A6A6);
   --ink-3: light-dark(#6E6E6E, #919191);
@@ -347,55 +348,172 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .findings h3 { display: block; margin: 0 0 3px; font-family: var(--font-display); font-weight: 650; font-size: 16px; letter-spacing: -.01em; }
 .findings p { color: var(--ink); font-size: 14px; max-width: var(--measure-body); }
 
-/* No frame: zebra rows and the cohort washes give the table its structure, the
-   same naked-list stance as /systems. */
+/* No frame and no fills: the table is built out of hairlines, alignment and one
+   data ink. Every horizontal wash the old grid used — the zebra, the sunk header
+   slab, the cohort bands — is gone, because three stacked fill systems were
+   drawing the structure that 1px of --line can draw on its own.
+   border-collapse is separate, not collapse: a collapsed border belongs to the
+   table, not to the cell, so it stays behind while a sticky row or column slides
+   away from it. Each edge is declared in one direction only (rows carry
+   border-bottom, the frozen column carries border-right), so nothing doubles. */
 .scroller { position: relative; overflow-x: auto; }
 .scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-table.mx { border-collapse: collapse; width: 100%; font-size: 12px; }
-table.mx th, table.mx td { padding: 7px 6px; text-align: center; }
-/* Zebra restarts per cohort: each tbody opens with its strip (child 1), so the
-   even children are always the 1st, 3rd, 5th… system rows of that cohort. */
-table.mx tbody tr:nth-child(even) { background: var(--zebra); }
+table.mx { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 12px; }
+table.mx th, table.mx td { padding: 8px 6px; text-align: center; }
 /* nowrap belongs to the data cells only: on the header row it was forcing
    "Repo agent files" onto one line and pushing the table past its column. */
 table.mx td { white-space: nowrap; }
-/* The header row speaks the shared label voice (the .syslist-head rule above);
-   only the sticky mechanics are its own. */
-table.mx thead th { background: var(--bg-sunk); position: sticky; top: 0; white-space: normal; line-height: 1.15; vertical-align: bottom; }
+/* The header is a line of labels over a rule, not a slab. --bg is a paint job,
+   not a fill: the row is sticky and has to be opaque, so it paints the page's own
+   ground and the rule underneath is the only mark it makes. */
+table.mx thead th {
+  background: var(--bg); position: sticky; top: 0; z-index: 3;
+  white-space: normal; line-height: 1.15; vertical-align: bottom;
+  padding-bottom: 10px; color: var(--ink-2); font-weight: 600;
+  border-bottom: 1px solid var(--line-strong);
+}
 /* Sticky cells can't be transparent — they ride over scrolled content — so
-   each paints its row's own ground explicitly. */
-table.mx th.sys, table.mx td.sys { text-align: left; position: sticky; left: 0; background: var(--bg); min-width: 130px; }
-table.mx tbody tr:nth-child(even) th.sys { background: var(--zebra); }
+   each paints its row's own ground explicitly. The right hairline is what says
+   the column is frozen; it travels with the cell because borders are separate. */
+table.mx th.sys, table.mx td.sys {
+  text-align: left; position: sticky; left: 0;
+  background: var(--bg); min-width: 130px;
+  border-right: 1px solid var(--line);
+}
+/* Corner cell: above the frozen column and inside the sticky header, so it has
+   to outrank both. */
+table.mx thead th.sys { z-index: 4; }
+table.mx tbody th.sys { z-index: 1; }
+/* One hairline per row is the whole tracking system. The last row of a cohort
+   drops its line, because the cohort seam above the next group header closes the
+   block; the last row of the table closes on the stronger of the two weights, so
+   the grid ends on the same rule it started on. */
+table.mx tbody th.sys, table.mx tbody td { border-bottom: 1px solid var(--line); }
+table.mx tbody tr:last-child th.sys, table.mx tbody tr:last-child td { border-bottom: none; }
+table.mx tbody:last-of-type tr:last-child th.sys,
+table.mx tbody:last-of-type tr:last-child td { border-bottom: 1px solid var(--line-strong); }
 /* The system name wears the systems-list row voice — display face, ink, wash on
    hover, accent name — scaled to table density. The anchor fills the cell. */
 table.mx tbody th.sys { padding: 0; font-size: 12px; }
-table.mx tbody th.sys a { display: block; padding: 7px 6px; font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+table.mx tbody th.sys a { display: block; padding: 8px 6px; font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
 /* Room for the longest name on one line; on phones the sticky column would eat
    the screen at that width, so names wrap there instead. */
 @media (min-width: 861px) { table.mx tbody th.sys a { white-space: nowrap; } }
-table.mx tbody th.sys a:hover { background: var(--zebra-hover); color: var(--accent-ink); }
 table.mx tbody th.sys a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-table.mx thead th.sys { background: var(--bg); z-index: 2; }
-/* Rows are not interactive, so no row hover. A filled cell links to the
-   affordance's own artifact; the anchor fills the cell so the target is the
-   cell, not the 11px dot, and the hover wash stays on that one cell. */
+/* Reading a 12-column row is the thing this table asks of people, so the row the
+   pointer is on lights faintly — tracking, not an affordance. The cell that is
+   actually a link lights one step deeper, so "where am I" and "what would I
+   click" stay two different signals instead of one ambiguous one. */
+table.mx tbody tr:hover th.sys, table.mx tbody tr:hover td { background: var(--row-hover); }
+table.mx tbody th.sys a:hover { background: var(--cell-hover); color: var(--accent-ink); }
+/* A filled cell links to the affordance's own artifact; the anchor fills the cell
+   so the target is the cell, not the 10px glyph. */
 table.mx td.cl { padding: 0; }
-table.mx td.cl a { display: block; padding: 7px 6px; }
-table.mx td.cl a:hover { background: var(--zebra-hover); }
+table.mx td.cl a { display: block; padding: 8px 6px; }
+table.mx td.cl a:hover { background: var(--cell-hover); }
 table.mx td.cl a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-table.mx td .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
-table.mx td .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
-/* "None found" is one of three states in the grid, so it has to be visible: at
-   --ink-3 an empty cell and a "no" cell finally look different. Same value on the
-   legend glyph, so cell and key stay identical. */
-table.mx td .none { color: var(--ink-3); }
-table.mx td .none::before { content: "·"; }
-/* Cohort strip: only the table mechanics live here — the strip itself is one
-   spec shared with the systems list, defined next to .sysgroup. */
-table.mx tr.mx-group th { position: static; text-align: left; }
-/* The strip spans the whole scroll width; its label rides sticky so the cohort
-   name stays readable however far the table is scrolled. */
-table.mx tr.mx-group th .gl { position: sticky; left: 6px; display: inline-block; }
+/* Official and community share one footprint and differ only in fill, so the
+   column reads as one rhythm of 10px marks and the eye compares density down a
+   column instead of size. box-sizing: border-box makes the ring's stroke sit
+   inside that footprint rather than adding to it. */
+table.mx td .dot, table.mx td .ring,
+.mx-legend .dot, .mx-legend .ring {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+  vertical-align: -1px;
+}
+table.mx td .dot, .mx-legend .dot { background: var(--data-strong); }
+table.mx td .ring, .mx-legend .ring { border: 2px solid var(--data-strong); }
+/* "None found" is one of three states in the grid, so it has to be visible — and
+   it has to stay quieter than the two states that mean something is there.
+   A 1px dash was the wrong shape for that job: a horizontal mark is directional,
+   so twenty of them down a sparse column snapped into a dotted vertical ladder
+   and read as a column rule, and it echoed the row hairlines besides. A disc is
+   isotropic — repeated, it makes texture rather than a line. At 4px it carries
+   12.6px² of ink against the dot's 78.5, so absence can no longer out-weigh
+   presence in a column, and it is far enough below the 10px marks to be a
+   different class of object rather than a smaller version of one. Same object in
+   the legend, so cell and key are literally the same 4px. */
+table.mx td .none, .mx-legend .none-key {
+  display: inline-block; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--ink-3); vertical-align: 2px;
+}
+/* Cohort break. No band: a rule across the full scroll width, then air, then the
+   cohort's name — the same way a section break works in the prose on this site.
+   The seam is --line-strong so it outranks the row hairlines it separates, and
+   the air is what actually groups the rows.
+   20px, not 26: a break taller than the 34px row it separates stops reading as a
+   seam inside one table and starts reading as the gap between three of them. At
+   20 the break is under two-thirds of a row, so the cohorts stay sections of a
+   single grid across a 20-row scroll, and the label still has more air above it
+   than the 8px below, which is what keeps it attached to the rows it opens. */
+table.mx tr.mx-group th {
+  position: static; text-align: left;
+  padding: 20px 6px 8px;
+  border-top: 1px solid var(--line-strong);
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink);
+}
+/* The first cohort opens directly under the header's rule, so it brings no seam
+   of its own and sits closer. */
+table.mx tbody:first-of-type tr.mx-group th { border-top: none; padding-top: 12px; }
+/* The label rides sticky so the cohort name stays readable however far the table
+   is scrolled. Nothing sits behind it — the group row is a rule and empty space —
+   so it needs no ground of its own.
+   A sticky child inside a static cell paints in DOM order, which put the cohort
+   label — the last thing in the document — on top of the sticky header as it
+   scrolled past. z-index: 0 gives it a stacking level the header's 3 can beat. */
+table.mx tr.mx-group th .gl {
+  position: sticky; left: 6px; z-index: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+/* Maturity is ordinal, so it is counted, not colored: four rungs, the first N
+   filled, N being the level's rank up the scale. A count carries its own
+   denominator — "two of four" — where a wash only says "lighter than the one
+   above", and it survives both themes on a single ink.
+   The unfilled rungs are the scale's track and take --line-strong, the site's
+   hairline weight, instead of the spectrum band's opacity .45. On a plain page
+   ground .45 would have faded to about 1.9:1; --line-strong keeps filled and
+   unfilled 3.7:1 apart in light and 5.0:1 in dark, so the count can be read
+   exactly, while the filled rungs clear 3:1 on the page (6.1:1 / 8.7:1).
+   16px, matching .spec-band .bhead .rungs exactly: if this glyph is the quote
+   from the spectrum, it should be the same drawing at the same size, not a
+   near-miss six percent smaller.
+   Tinting it per cohort with --mat-N-ink was tried and rejected. It clears
+   contrast everywhere — the worst pair is 4.22:1 against the track — but those
+   inks were mixed to sit on their own wash, not on the page, so on --bg the ramp
+   stops being a ramp: 'none' lands at 7.73:1 and 'emerging', the level above it,
+   at 6.98:1. An ordinal scale whose second step is lighter than its first is a
+   chart that lies. It also puts AI-native at 14.34:1 — more than twice the
+   weight of the data marks it introduces — so the band that lacked subtlety
+   returns as a very small, very dark object. And against --data-strong the four
+   tints separate by 1.06 to 2.34:1, so beside the dots the color the reader is
+   supposed to recognize is not resolvable anyway. The count is the encoding; the
+   tint would have cost the table's single data ink to add a channel that is
+   either invisible or wrong. */
+table.mx tr.mx-group .rungs { width: 16px; height: 16px; flex: none; }
+table.mx tr.mx-group .rungs line { stroke: var(--data-strong); }
+table.mx tr.mx-group .rungs line[opacity] { stroke: var(--line-strong); opacity: 1; }
+/* The count is the one number in the row, so it steps back to --ink-3 and drops
+   the tracking that the label needs and a numeral does not. */
+table.mx tr.mx-group th .gn {
+  font-family: var(--font-body); font-weight: 600; font-size: 12px;
+  letter-spacing: normal; text-transform: none;
+  font-variant-numeric: tabular-nums; color: var(--ink-3);
+}
+/* Forced colors drops author backgrounds and borders, which would have taken the
+   dot, the ring, the "none" rule and the rungs with them — the entire table,
+   since every cell's content is one of those four marks. Re-stated in system
+   colors: the data marks are CanvasText, the two that mean "nothing here" and
+   "not reached on the scale" are GrayText, so the three cell states and the rung
+   count all survive. */
+@media (forced-colors: active) {
+  table.mx td .dot, .mx-legend .dot { background: CanvasText; }
+  table.mx td .ring, .mx-legend .ring { border-color: CanvasText; }
+  table.mx td .none, .mx-legend .none-key { background: GrayText; }
+  table.mx tr.mx-group .rungs line { stroke: CanvasText; }
+  table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
+}
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
 .mxwrap { position: relative; }
@@ -410,11 +528,13 @@ table.mx tr.mx-group th .gl { position: sticky; left: 6px; display: inline-block
   .scroller { overflow: visible; }
   .mxwrap .fade { display: none; }
 }
-.mx-legend { display: flex; gap: 18px; align-items: center; font-size: 13px; color: var(--ink-2); margin: 10px 2px 22px; flex-wrap: wrap; }
-.mx-legend .dot, .mx-legend .ring { margin-right: 5px; }
-.mx-legend .none-key { color: var(--ink-3); }
-.mx-legend .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: var(--data-strong); vertical-align: -1px; }
-.mx-legend .ring { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--data-strong); vertical-align: -1px; }
+/* The key reads as one line of specimens rather than three floating pairs: each
+   glyph sits in a fixed 14px track so the three labels start on the same rhythm,
+   and the whole line is 12px --ink-2, the header row's voice, because it is
+   documentation of the table and not part of it. */
+.mx-legend { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--ink-2); margin: 10px 2px 20px; flex-wrap: wrap; }
+.mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
+.mx-legend .dot, .mx-legend .ring, .mx-legend .none-key { flex: none; }
 
 /* One shared width per number column, used by both the header labels and the
    row numbers, so "Affordances" sits exactly over the affordance counts.
@@ -459,21 +579,22 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
   overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 .sysrow .csep { display: none; }
-/* Maturity cohort strip — one spec for both surfaces that group by cohort, the
-   systems list and the matrix. Metadata, not a control: no hover, no pointer.
-   Padding stays per-surface so each strip aligns to its own list's inset. */
-.sysgroup, table.mx tr.mx-group th {
+/* Maturity cohort strip — the systems list's own. The matrix used to share this
+   spec; it now breaks its cohorts with a rule and a rung count instead of a wash,
+   so the two surfaces no longer describe the same object and the selector list
+   stops pretending they do. Metadata, not a control: no hover, no pointer. */
+.sysgroup {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase;
   background: var(--mat-0); color: var(--mat-0-ink);
+  padding: 6px 4px; margin: 18px 0 0;
 }
-.sysgroup { padding: 6px 4px; margin: 18px 0 0; }
 .syslist > .sysgroup:first-child { margin-top: 0; }
-.sysgroup .gn, table.mx tr.mx-group th .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
-.sysgroup.mat-none, table.mx tr.mx-group.mat-none th { background: var(--mat-0); color: var(--mat-0-ink); }
-.sysgroup.mat-emerging, table.mx tr.mx-group.mat-emerging th { background: var(--mat-1); color: var(--mat-1-ink); }
-.sysgroup.mat-invested, table.mx tr.mx-group.mat-invested th { background: var(--mat-2); color: var(--mat-2-ink); }
-.sysgroup.mat-ai-native, table.mx tr.mx-group.mat-ai-native th { background: var(--mat-3); color: var(--mat-3-ink); }
+.sysgroup .gn { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums; }
+.sysgroup.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
+.sysgroup.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
+.sysgroup.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
+.sysgroup.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .searchbar { display: flex; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
 .searchbar input, .searchbar select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
 .searchbar input { flex: 1; min-width: 0; width: 100%; }
@@ -1259,18 +1380,21 @@ const VIEWS = {
       return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
     };
     /* One tbody per maturity cohort, opened by a group header row. The chip that
-       used to sit in every row header says the same thing 20 times. */
+       used to sit in every row header says the same thing 20 times.
+       The rung glyph is the same one the spectrum bands use, so the reader meets
+       one drawing of the scale on the overview and the same drawing here. It is
+       aria-hidden because the cohort name beside it already says the level. */
     const span = MX_COLS.length + 1;
     const groups = MAT_ORDER.map(k => {
       const sys = DATA.systems.filter(s => s.ai_maturity === k);
       if (!sys.length) return '';
-      return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${MAT[k]} · <span class="gn">${sys.length}</span></span></th></tr>`
+      return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${matRungs(k)}<span class="gt">${MAT[k]} · <span class="gn">${sys.length}</span></span></span></th></tr>`
         + sys.map(row).join('') + '</tbody>';
     }).join('');
     return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('matrix')}</div><h1>The affordance matrix</h1>
       <p class="lede">Discover how every system ships AI affordances and tools.</p>
       <hr class="accent-rule">
-      <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
+      <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true"></span>none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
         <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
