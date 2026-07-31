@@ -58,7 +58,6 @@ export const config: Config = {
     '/',
     '/ai',
     '/insights',
-    '/matrix',
     '/methodology',
     '/platforms',
     '/reading',
