@@ -8,6 +8,8 @@ build/
 node_modules/
 .netlify/
 .playwright-mcp/
+.claude/
+.impeccable/
 
 # Working notes: audits, architecture, and the plans behind each change. Nobody
 # ships these, and a formatting failure in one has already blocked a gate that

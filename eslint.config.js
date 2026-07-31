@@ -11,6 +11,8 @@ import prettier from 'eslint-config-prettier';
 export default [
   {
     ignores: [
+      '.claude/skills/impeccable/**',
+      '.impeccable/**',
       'dashboard/**',
       'build/**',
       'node_modules/**',

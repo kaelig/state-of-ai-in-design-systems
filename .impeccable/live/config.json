@@ -1,0 +1,7 @@
+{
+  "files": ["dashboard/**/*.html"],
+  "exclude": ["dashboard/template.html"],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}

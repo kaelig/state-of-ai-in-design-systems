@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-31T13:59:30Z",
+  "title": "Design System: State of AI in Design Systems",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Working Blue",
+        "canonical": "light-dark(#2563EB, #5B9AFF)",
+        "tonalRamp": [
+          "#101E40",
+          "#16306B",
+          "#1D4ED8",
+          "#2563EB",
+          "#5B9AFF",
+          "#93BBFF",
+          "#C7DBFF",
+          "#EFF4FF"
+        ]
+      },
+      "data-strong": {
+        "role": "secondary",
+        "displayName": "Steel",
+        "canonical": "light-dark(#3D6491, #8FB4D9)",
+        "tonalRamp": [
+          "#0E1C2A",
+          "#122C42",
+          "#29465F",
+          "#3D6491",
+          "#6E93BB",
+          "#9FB9D0",
+          "#CBDCEB",
+          "#E2EAF2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "light-dark(#111111, #E8E8E8)",
+        "tonalRamp": [
+          "#0A0A0A",
+          "#111111",
+          "#2A2A2A",
+          "#555555",
+          "#6E6E6E",
+          "#A6A6A6",
+          "#E0E0E0",
+          "#F5F5F5"
+        ]
+      },
+      "mat-3": {
+        "role": "tertiary",
+        "displayName": "Steel Wash 3 (AI-native)",
+        "canonical": "light-dark(#AECCE5, #32485E)",
+        "tonalRamp": [
+          "#1E1E20",
+          "#1F2C39",
+          "#27394C",
+          "#32485E",
+          "#AECCE5",
+          "#CBDCEB",
+          "#E2EAF2",
+          "#F4F4F5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The page h1 only; tightens as it grows, balanced wrapping."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2s. 38px above, 6px below."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "h3s, finding titles, card names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose at 16px/1.5 — 24px leading on the 4px grid. Dense UI prose steps to 14px."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "The one label voice: eyebrows, table headers, column keys, the rail brand. 11px, 550, 0.14em, uppercase."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "URLs, snippets, download affordances, the backlink."
+      }
+    },
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "0.2s ease",
+        "purpose": "Color and border-color transitions on links, controls, and hovers. Never layout, never theme."
+      },
+      {
+        "name": "view-in",
+        "value": "vin 0.18s ease (opacity 0, translateY(3px) to rest)",
+        "purpose": "View entry, gated behind prefers-reduced-motion: no-preference."
+      }
+    ],
+    "breakpoints": [
+      { "name": "tiles-two-up", "value": "540px" },
+      { "name": "rail-flattens", "value": "860px" },
+      { "name": "matrix-unscrolls", "value": "1060px" },
+      { "name": "spectrum-columns", "value": "1080px" },
+      { "name": "toggle-clearance", "value": "1344px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Rail Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Label-voice link with a stroked glyph; current page gets the accent wash and a 2px right rule.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-nav-item\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg>Overview</a><a class=\"ds-nav-item ds-on\" href=\"#\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/></svg>Systems</a></nav>",
+      "css": ".ds-rail { display: flex; flex-direction: column; gap: 2px; width: 224px; } .ds-nav-item { font-family: var(--font-display, 'Hanken Grotesk', system-ui, sans-serif); font-weight: 550; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2, #555); text-decoration: none; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px 0 20px; border-right: 2px solid transparent; } .ds-nav-item svg { width: 16px; height: 16px; flex: none; } .ds-nav-item:hover { color: var(--ink, #111); background: var(--bg-sunk, #F5F5F5); } .ds-nav-item:focus-visible { outline: 2px solid var(--accent, #2563EB); outline-offset: 3px; } .ds-nav-item.ds-on { color: var(--accent-ink, #1D4ED8); border-right-color: var(--accent, #2563EB); background: var(--accent-wash, #EFF4FF); }"
+    },
+    {
+      "name": "Maturity Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pill metadata. Plain chips are bordered and transparent; maturity variants wear a steel wash with its paired ink.",
+      "html": "<div class=\"ds-chip-row\"><span class=\"ds-chip\">MCP</span><span class=\"ds-chip ds-mat-emerging\">Emerging</span><span class=\"ds-chip ds-mat-invested\">Invested</span><span class=\"ds-chip ds-mat-ai-native\">AI-native</span></div>",
+      "css": ".ds-chip-row { display: flex; gap: 6px; flex-wrap: wrap; } .ds-chip { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-display, 'Hanken Grotesk', system-ui, sans-serif); font-weight: 600; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--line, #E0E0E0); background: transparent; color: var(--ink-3, #6E6E6E); white-space: nowrap; } .ds-chip.ds-mat-emerging { background: var(--mat-1, #E2EAF2); color: var(--mat-1-ink, #3F5C77); border-color: transparent; } .ds-chip.ds-mat-invested { background: var(--mat-2, #CBDCEB); color: var(--mat-2-ink, #29465F); border-color: transparent; } .ds-chip.ds-mat-ai-native { background: var(--mat-3, #AECCE5); color: var(--mat-3-ink, #122C42); border-color: transparent; }"
+    },
+    {
+      "name": "Count Tile",
+      "kind": "card",
+      "refersTo": "tile",
+      "description": "Headline count as a whole-card link. The numeral keeps ink — blue is for interaction, the numeral is data.",
+      "html": "<div class=\"ds-tile\"><a href=\"#\"><span class=\"ds-tile-n\">20</span><span class=\"ds-tile-l\">design systems studied</span></a></div>",
+      "css": ".ds-tile { background: var(--bg-raise, #FFF); border: 1px solid var(--line, #E0E0E0); border-radius: 3px; padding: 14px 16px; position: relative; width: 180px; } .ds-tile a { color: inherit; text-decoration: none; } .ds-tile a::after { content: \"\"; position: absolute; inset: 0; } .ds-tile:hover { border-color: var(--line-strong, #C9C9C9); } .ds-tile:hover .ds-tile-l { color: var(--accent-ink, #1D4ED8); } .ds-tile:has(a:focus-visible) { outline: 2px solid var(--accent, #2563EB); outline-offset: -2px; } .ds-tile a:focus-visible { outline: none; } .ds-tile-n { display: block; font-family: var(--font-display, 'Hanken Grotesk', system-ui, sans-serif); font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; } .ds-tile-l { display: block; font-size: 13px; color: var(--ink-2, #555); margin-top: 3px; line-height: 1.4; }"
+    },
+    {
+      "name": "Copy Button",
+      "kind": "button",
+      "refersTo": "button-copy",
+      "description": "Snippet-bar control: mono, bordered in control-line, drawn small with an overlay-extended tap area.",
+      "html": "<button class=\"ds-btn-copy\">Copy</button>",
+      "css": ".ds-btn-copy { font-family: var(--mono, ui-monospace, Menlo, monospace); font-size: 11px; color: var(--ink, #111); background: none; border: 1px solid var(--control-line, #8A8A8A); border-radius: 3px; padding: 5px 9px; cursor: pointer; position: relative; } .ds-btn-copy::after { content: \"\"; position: absolute; inset: -8px 0; } .ds-btn-copy:hover { color: var(--accent-ink, #1D4ED8); border-color: var(--accent, #2563EB); } .ds-btn-copy:focus-visible { outline: 2px solid var(--accent, #2563EB); outline-offset: 3px; }"
+    },
+    {
+      "name": "Correction CTA",
+      "kind": "button",
+      "refersTo": "correct-cta",
+      "description": "The one call to action a record carries: accent-bordered, inverts to filled on hover.",
+      "html": "<a class=\"ds-correct-cta\" href=\"#\">Suggest a correction</a>",
+      "css": ".ds-correct-cta { display: inline-block; border: 1px solid var(--accent, #2563EB); border-radius: 3px; padding: 10px 14px; font-family: var(--font-body, 'Source Sans 3', system-ui, sans-serif); font-size: 13px; font-weight: 600; color: var(--accent-ink, #1D4ED8); text-decoration: none; transition: none; } .ds-correct-cta:hover { background: var(--accent, #2563EB); color: var(--bg, #FFF); } .ds-correct-cta:focus-visible { outline: 2px solid var(--accent, #2563EB); outline-offset: 2px; }"
+    },
+    {
+      "name": "Matrix Marks",
+      "kind": "custom",
+      "refersTo": "chip",
+      "description": "The table's three cell states in one steel ink: dot (official), ring (community), 4px disc (none found).",
+      "html": "<div class=\"ds-mx-legend\"><span><i class=\"ds-dot\"></i> official</span><span><i class=\"ds-ring\"></i> community</span><span><i class=\"ds-none\"></i> none found</span></div>",
+      "css": ".ds-mx-legend { display: flex; gap: 20px; align-items: center; font-family: var(--font-body, 'Source Sans 3', system-ui, sans-serif); font-size: 12px; color: var(--ink-2, #555); } .ds-mx-legend > span { display: inline-flex; align-items: center; gap: 7px; } .ds-dot, .ds-ring { display: inline-block; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; } .ds-dot { background: var(--data-strong, #3D6491); } .ds-ring { border: 2px solid var(--data-strong, #3D6491); } .ds-none { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3, #6E6E6E); }"
+    },
+    {
+      "name": "Disclosure Row",
+      "kind": "custom",
+      "refersTo": "tile",
+      "description": "Details row with a mono +/\u2013 marker and background-only hover; a run of them announces as a list.",
+      "html": "<details class=\"ds-aff\"><summary><span class=\"ds-aff-nm\">Primer MCP server</span><span class=\"ds-chip-inline\">MCP</span></summary><div class=\"ds-aff-body\"><p>Official server exposing component metadata to agents.</p></div></details>",
+      "css": ".ds-aff { border: 1px solid var(--line, #E0E0E0); border-radius: 3px; background: var(--bg-raise, #FFF); overflow: hidden; font-family: var(--font-body, 'Source Sans 3', system-ui, sans-serif); } .ds-aff summary { list-style: none; cursor: pointer; padding: 12px 16px; display: flex; gap: 10px; align-items: center; } .ds-aff summary::-webkit-details-marker { display: none; } .ds-aff summary::before { content: \"+\"; font-family: var(--mono, ui-monospace, Menlo, monospace); color: var(--ink-3, #6E6E6E); width: 14px; } .ds-aff[open] summary::before { content: \"\\2013\"; } .ds-aff summary:hover { background: var(--bg-sunk, #F5F5F5); } .ds-aff summary:focus-visible { outline: 2px solid var(--accent, #2563EB); outline-offset: -2px; } .ds-aff-nm { font-family: var(--font-display, 'Hanken Grotesk', system-ui, sans-serif); font-weight: 650; font-size: 14px; letter-spacing: -.01em; } .ds-chip-inline { font-family: var(--font-display, 'Hanken Grotesk', system-ui, sans-serif); font-weight: 600; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--line, #E0E0E0); color: var(--ink-3, #6E6E6E); } .ds-aff-body { padding: 2px 16px 16px 40px; font-size: 14px; color: var(--ink, #111); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Notebook",
+    "overview": "The site is a researcher's instrument: rules, labels, tabular numerals, and every mark earning its place. Structure is drawn with 1px hairlines and air, never with fills or shadows. The voice is instrumental and exact — optical corrections on nav glyphs, hit areas measured against a 40px floor, breakpoints measured against the data rather than chosen from habit. Color is doctrine, not decoration: blue means \"you can act on this\" and appears nowhere else; data wears a desaturated steel ramp where intensity, not hue, carries importance. Both themes ship through light-dark() on a single token set, and the theme flip is deliberately instant.",
+    "keyCharacteristics": [
+      "Hairlines and alignment draw structure; fills and shadows never do",
+      "Blue is for interaction only; data is steel, quiet by design",
+      "Tabular, lining numerals wherever a count sits beside text",
+      "Two prose measures (62ch ledes, 74ch body); tabular blocks run full width",
+      "Every color pair holds AA 4.5:1, machine-checked in CI",
+      "Print, forced-colors, and reduced-motion are designed states, not fallbacks"
+    ],
+    "rules": [
+      {
+        "name": "The Blue Is for Interaction Rule",
+        "body": "Working Blue marks what a reader can act on, plus a few deliberate editorial accents (title rule, eyebrow, finding numerals). Nothing else gets blue. Its rarity is what makes it legible.",
+        "section": "colors"
+      },
+      {
+        "name": "The Intensity, Not Hue Rule",
+        "body": "Data visualization varies lightness on one steel hue. A second hue in a chart is a bug.",
+        "section": "colors"
+      },
+      {
+        "name": "The Machine-Checked Contrast Rule",
+        "body": "Every fore/back pair is verified to AA 4.5:1 by scripts/check_contrast.js; a new pair joins the check or doesn't ship.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Count Treatment Rule",
+        "body": "Everywhere a number sits beside a heading or label: body sans, tabular lining numerals, ink-3. Counts are quieter than the data they introduce.",
+        "section": "typography"
+      },
+      {
+        "name": "The Fallback Metrics Rule",
+        "body": "Both webfonts have size-adjusted local fallbacks, and font-display: block is a deliberate choice over swap — it prevents 309px of prose reflow.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "If structure needs drawing, 1px of line draws it. Seams that must outrank rows step up to line-strong — weight, never fill, never shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Opaque Sticky Rule",
+        "body": "Anything that rides over scrolled content paints a solid ground. Translucency under a sticky element shows the rows beneath and is a bug.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do draw structure with 1px hairlines, alignment, and air; step up to line-strong only when a seam must outrank rows.",
+      "Do use tabular lining numerals for any number beside text, in body sans at ink-3.",
+      "Do keep every tap target at 44px or extend it with a measured, vertical-only ::after overlay when the drawn control must stay small.",
+      "Do run new color pairs through scripts/check_contrast.js — AA 4.5:1 is machine-enforced, and control edges clear 3:1 on all three grounds.",
+      "Do design print, forced-colors, and reduced-motion states; the site treats each as a first-class rendering.",
+      "Do comment the why in CSS: measured values carry their derivation so the next person can retune."
+    ],
+    "donts": [
+      "Don't put blue on anything a reader cannot act on (the title rule, eyebrow, and finding numerals are the confirmed exceptions).",
+      "Don't add a shadow, a second data hue, or a fill where a hairline already draws the structure.",
+      "Don't animate the theme flip; instant everywhere is the only version that cannot look half-done.",
+      "Don't put translucent grounds under sticky elements — they ride over scrolled content and must be opaque.",
+      "Don't exceed the prose measures or let tabular blocks shrink to them; 62ch/74ch is for prose only.",
+      "Don't swap font-display: block for swap; the fallback metrics and block are tuned together against reflow."
+    ]
+  }
+}

@@ -23,6 +23,8 @@ node_modules/
 deno.lock
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+.impeccable/config.local.json
+.impeccable/hook.cache.json
 
 # Working files behind the dataset, not part of it. What gets published is
 # data/*.json, and every claim in it carries the source URL it came from.
