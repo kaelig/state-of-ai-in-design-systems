@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "dashboard/template.html"
+        ],
+        "createdAt": "2026-07-31T19:41:32.613Z",
+        "reason": "DESIGN.md documents the correction callout's 3px accent left edge as a deliberate edge rule; user confirmed"
+      }
+    ]
+  }
+}
