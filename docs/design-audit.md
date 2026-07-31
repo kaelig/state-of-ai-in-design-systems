@@ -15,6 +15,13 @@ work: it is the argument for why the matrix groups by cohort, why blue is
 reserved, why there is one measure system and not five. Read it before undoing
 any of it.
 
+One move since: on 2026-07-31 the two system indexes merged. The matrix went
+from `/matrix` to `/systems`, retitled “The systems”, and the systems list view
+— the target of directives 3, 17 and 29, filter included — was deleted with its
+`renderSyslist()` and `.syslist*`/`.sysrow` CSS. Matrix directives below
+describe today’s `/systems` page, and the matrix view function is now
+`systems()`.
+
 ## Binding constraints for executors
 
 - Edit only `dashboard/template.html`, `scripts/*`, `data/*.json` (data fixes), `netlify.toml`.
@@ -124,7 +131,7 @@ two `pointer-events: none` overlays (`linear-gradient` to `var(--bg-raise)`), to
 (correct on load and rotate, not only after scroll).
 **Why:** the centerpiece view currently loses its column labels the moment you read row 2, and
 scrolls on desktop only because of a leaked `nowrap`.
-**Where:** matrix view fn + `table.mx`/`.scroller` CSS.
+**Where:** the matrix view fn (now `systems()`) + `table.mx`/`.scroller` CSS.
 **Risk:** sticky + `overflow: visible` interplay; multiple-tbody borders; re-test the sr-only
 cell layer and the horizontal-scroll a11y (`tabindex`/role stay for the <1060 case).
 

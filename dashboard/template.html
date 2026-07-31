@@ -1117,7 +1117,7 @@ function mirrorLinks(kind, id, label) {
 
    The view name is passed rather than read off location because prerender.mjs
    calls the view functions directly with location.pathname frozen at "/", so
-   parse() would name the overview's twin on all 29 routes and nothing would
+   parse() would name the overview's twin on all 28 routes and nothing would
    catch it at build time. The check that does catch a wrong name is in
    prerender.mjs, against the route table.
 

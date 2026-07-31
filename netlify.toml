@@ -23,7 +23,7 @@
 #
 # No Content-Security-Policy. Every inline script would need its hash in the
 # header, and the per-page JSON-LD block is rewritten by scripts/prerender.mjs
-# after scripts/build_dashboard.py has run, so the hashes for 27 routes plus
+# after scripts/build_dashboard.py has run, so the hashes for 28 routes plus
 # artifact.html do not exist at the point the header could be written. A CSP
 # that misses one of them breaks a route silently; the audit prefers none.
 [[headers]]

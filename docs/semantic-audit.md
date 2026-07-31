@@ -16,10 +16,16 @@ Derived 2026-07-27 against a snapshot of `dashboard/` (prerendered routes `/`,
 routes in both themes. Anchors are selectors and exact strings, never line
 numbers: `dashboard/template.html` moves under other work.
 
+Since then (2026-07-31) the two system indexes merged: the matrix moved from
+`/matrix/` to `/systems/`, retitled “The systems”, and the list view that used
+to live at `/systems/` — filter, `#syscount` and all — was deleted. `/matrix/`
+now 404s; anything below said about the matrix describes today’s `/systems/`
+page.
+
 Nothing here is shipped yet. The shipped a11y baseline — matrix caption,
 `scope` row/col/rowgroup headers, sr-only cell text, `aria-current` nav,
 landmarks including `contentinfo`, focus rings, reduced-motion gating, skip
-link, `#syscount` and `#copy-status` status regions — is an invariant, not a
+link, the `#copy-status` status region — is an invariant, not a
 target.
 
 **One number frames the whole presentation half of this document:** across the
@@ -49,12 +55,11 @@ are explicitly left alone.
 - `prerender.mjs` splices by exact match. These strings are load-bearing:
   `<nav id="nav" aria-label="Sections"></nav>`,
   `<div id="view-root"></div>`,
-  `<footer class="foot" id="foot" role="contentinfo"></footer>`,
-  `<div class="syslist" id="syslist"></div>`,
-  `<p class="count" id="syscount" role="status"></p>`. Its guard rails count
-  the literal substrings `class="sysrow"`, `class="sysgroup`,
-  `class="syslist-head"`, `<th scope="row" class="sys">`, `class="mx-group`,
-  `scope="rowgroup"`, `<tbody>`, `<h1>How design systems talk to machines</h1>`
+  `<footer class="foot" id="foot" role="contentinfo"></footer>`. Its guard
+  rails slice `systems.html` at `<table class="mx">` and the overview at
+  `<ul class="tiles">`, and count the literal substrings
+  `<th scope="row" class="sys">`, `class="mx-group`, `scope="rowgroup"`,
+  `<tbody>`, `class="tile"`, `<h1>How design systems talk to machines</h1>`
   and `Use this report with AI tools`. Change markup that contains any of them
   and update `prerender.mjs` in the same commit.
 - The markdown mirrors in `scripts/build_md.py` are generated from the payload,
@@ -90,7 +95,7 @@ treatment exactly as it looks now.
 CSS: `h2` sets `margin: 38px 0 6px` at element specificity and the `.t` rule
 only sets `margin-bottom`, so the cards would gain a 38px gap above their own
 titles. Add `margin: 0 0 6px` to `.twocol .col .t`. The shared label rule
-(`.eyebrow, .label, .syslist-head, .metagrid .k, .twocol .col .t, table.mx thead th`)
+(`.eyebrow, .label, .metagrid .k, .twocol .col .t, table.mx thead th`)
 already matches by class, so the 11px/550/.14em/uppercase treatment survives
 unchanged; so does the `.twocol .col .t { font-size: 10.5px }` override.
 
@@ -142,13 +147,12 @@ the promotion for free.
 | `.snip-bar button .btxt`                                                                                      | `--ink-2`           | **→ `--ink`**   | A control label. Muted control text reads as disabled.                                                                                                                           |
 | `.snip-bar .lang`, `.snip-bar .snote`                                                                         | `--ink-3`           | **→ `--ink-2`** | 10px at 4.68:1 is the smallest, weakest text on the site, and `.snote` carries source receipts (“Path in tarball: …”).                                                           |
 | `.plat .adopt`                                                                                                | `--ink-3`           | **→ `--ink-2`** | It is the platform’s adoption evidence — a receipt, quoted with a rule on the left. Receipts are not chrome.                                                                     |
-| `.sysrow .sum`                                                                                                | `--ink-2`           | **keep muted**  | A 19-row scanning list: the system name is the target, the summary is the preview. Promoting it flattens the row.                                                                |
 | `p.lede`                                                                                                      | `--ink-2`           | **keep muted**  | Deck under an `h1` at 16.5px; size and measure carry it.                                                                                                                         |
 | `.h2-sub`                                                                                                     | `--ink-2`           | **keep muted**  | Genuinely a subtitle for the heading above it — the distinction the `.body-block` comment draws.                                                                                 |
 | `.tech-cat > .def`                                                                                            | `--ink-2`           | **keep muted**  | Same role as `.h2-sub`: it defines the category heading rather than making a claim.                                                                                              |
 | `.aff-body .note`                                                                                             | `--ink-3`           | **keep muted**  | Qualifies `.desc`; the two must not read at the same level.                                                                                                                      |
 | `.ai-links .note`                                                                                             | `--ink-2`           | **keep muted**  | Annotation on a link list.                                                                                                                                                       |
-| `.metagrid .k`, `.sysrow .org`, `.chip` text, `.srclist .h`, rail nav idle items, `.rail-foot`, `footer.foot` | `--ink-2`/`--ink-3` | **keep muted**  | Labels, chrome and metadata. This is what the muted tokens are for, and keeping them muted is what makes the promotions above readable as hierarchy.                             |
+| `.metagrid .k`, `.chip` text, `.srclist .h`, rail nav idle items, `.rail-foot`, `footer.foot` | `--ink-2`/`--ink-3` | **keep muted**  | Labels, chrome and metadata. This is what the muted tokens are for, and keeping them muted is what makes the promotions above readable as hierarchy.                             |
 
 **Where:** the CSS rules named in the table, all in `dashboard/template.html`.
 
@@ -199,61 +203,16 @@ guard counts headings or `<b>`. Print stylesheet has `.findings li` in its
 
 ### 4. `/systems/` rows: a 300-character link name, and 19 items that are not a list
 
-**What:** each row’s accessible name is currently the entire row — name, org,
-the full two-line-clamped summary, and both counts — because the whole row is
-one `<a>`. Split the link from the row and make the cohorts real lists:
+**What it found:** each row’s accessible name was the entire row — name, org,
+the full two-line-clamped summary, and both counts — because the whole row was
+one `<a>`, and the 19 rows had no item boundaries or count at all.
 
-```html
-<h2 class="sysgroup mat-ai-native">
-  <span class="gl">AI-native</span> · <span class="gn">13</span>
-</h2>
-<ul class="cohort">
-  <li class="sysrow">
-    <a class="who" href="${href('systems', s.id)}"
-      ><span class="nm">…</span><span class="org">…</span></a
-    >
-    <span class="sum">…</span>
-    <span class="cts">…</span>
-  </li>
-</ul>
-```
-
-CSS: `.sysrow { position: relative }` and
-`.sysrow > a.who::after { content:""; position:absolute; inset:0 }` keeps the
-whole row clickable; move the hover/active rules from `.sysrow:hover` (already
-correct) and add `.sysrow:has(a:focus-visible)` so the focus ring draws around
-the row, not the name. `ul.cohort { list-style:none; margin:0; padding:0 }`.
-Rewrite the three sibling selectors that assume a flat container:
-`.syslist > .sysrow:last-child` → `.cohort > .sysrow:last-child`,
-`.sysgroup + .sysrow` → `.cohort > .sysrow:first-child`, and keep
-`.syslist > .sysgroup:first-child`. Add `margin: 0` to the `.sysgroup` rule
-(the global `h2` margin would otherwise open a 38px gap above every cohort).
-
-**Where:** `renderSyslist()` (`const row = s => …` and the
-`MAT_ORDER.map(...)` join); CSS block `.syslist-head, .sysrow` through
-`.sysgroup.mat-ai-native`, plus the 375px overrides that set
-`grid-area: who / cts` and hide `.sum`.
-
-**Why:** every screen-reader link list, and every tab stop on the site’s main
-index, currently announces a paragraph instead of a system name; and the 19
-rows have no item boundaries or count at all, while the cohort labels that
-organize them are invisible to the outline.
-
-**Risk:** the highest in this document. `prerender.mjs` counts
-`class="sysrow"` (must stay exactly 19) and `class="sysgroup` (must stay one
-per maturity) inside the slice between `id="syslist"` and `id="foot"` — both
-literals survive if you keep the class attributes written exactly as above, so
-do not reorder them into `class="sysrow mat-…"`. `#syslist` innerHTML is
-rebuilt client-side on every keystroke by the same function, so the `<ul>`
-wrappers must be produced inside `renderSyslist()`, not around `#syslist`
-itself; leave the `<div class="syslist" id="syslist"></div>` splice string
-alone. Keep `.cw` sr-only (it is how the counts get their units) and keep
-`.syslist-head` `aria-hidden`. Re-verify the empty state
-(`<p class="empty">` + `#clearf`) still renders when a filter matches nothing,
-and that `href()` is still the only source of row URLs so hash-mode
-`artifact.html` keeps working.
-
-**Priority:** P1.
+**Resolution — overtaken by the 2026-07-31 merge.** The list view this
+directive rewrote was deleted when the matrix became the `/systems/` page. The
+matrix table already carries what the directive was after: each system’s
+accessible name is the row-header link — the name alone — and the cohorts are
+real `<tbody>` groups labeled by `scope="rowgroup"` strips. Nothing left to
+do.
 
 ---
 
@@ -522,14 +481,13 @@ paragraph alone.
 These came out of the four passes and are deliberately not directives. Do not
 re-open them without new evidence.
 
-- **R1. Add a live region for the systems filter.** Already shipped:
-  `#syscount` is `role="status"` and is rewritten on every keystroke;
-  `#copy-status` covers copy feedback.
-- **R2. Turn `/systems/` into a `<table>`.** Two lenses disagreed; the list
-  wins. The header row labels two numeric columns, the row is a whole-row link,
-  and the list is re-rendered by JS on every keystroke — a 19-row table would
-  cost all of that and `/matrix/` already provides the tabular view of the same
-  systems.
+- **R1. Add a live region for the systems filter.** Was already shipped as
+  `#syscount`; the filter, and the live region with it, went down with the
+  list view in the 2026-07-31 merge. `#copy-status` still covers copy
+  feedback.
+- **R2. Turn `/systems/` into a `<table>`.** Settled by the 2026-07-31 merge
+  rather than by either lens: the list view was deleted, and the matrix — a
+  real `<table>` — is now the `/systems/` page.
 - **R3. Put an `h3` inside each `<summary>`.** Legal, and it would mirror
   `build_md.py`'s `### {name}`, but AT announces “heading level 3, collapsed
   button” and the disclosure already exposes the name. Cost of the double
@@ -574,11 +532,9 @@ are reviewed against each other in one screenshot pass — light and dark, 1440
 and 375. Verify: `./scripts/build.sh`, `python3 scripts/check_md_layer.py`,
 `npm test`, then re-read `/`, `/insights/` and one system page in both themes.
 
-**Commit B — `/systems/` rows (directive 4), alone.** It is the only change
-that touches `renderSyslist()`, client-side re-render, cohort headings, the
-375px grid and two `prerender.mjs` guard-rail counts at once. Land it by itself
-so a guard-rail failure has exactly one suspect. Verify the filter, the empty
-state, keyboard focus on a row, and `artifact.html` in hash mode.
+**Commit B — `/systems/` rows (directive 4).** Closed without a commit: the
+2026-07-31 merge deleted the list view and resolved the directive (see its
+Resolution).
 
 **Commit C — record structure (5, 6, 7).** `dl`, `h3` and `ul` conversions on
 the system detail page and the overview; independent of A and B, and each one
@@ -588,7 +544,7 @@ is a contained markup swap with a matching CSS reset (`dd` margin, `.pi` size,
 **Commit D — non-text and controls (9, 10, 11).** The token addition, the
 `check_contrast.js` extension and the two role changes. Group them because they
 share one verification pass: contrast script, then both themes at 1440 and 375
-on `/systems/`, `/matrix/` and `/techniques/`.
+on `/systems/` and `/techniques/`.
 
 **Commit E — polish (12, 13), and 14 only if the data changes shape.** Do not
 mix 14 into any earlier commit: it is the only directive that touches the
