@@ -436,6 +436,25 @@ const rootHtml = read('index.html');
 if (!rootHtml.includes('<h1>How design systems talk to machines</h1>'))
   die('root index.html is missing the overview h1');
 
+// Every stat tile is a claim, and every claim owes the reader the page that
+// backs it up. Slice the list rather than the document: "tile" also appears in
+// the print rules up in the style block.
+const tilesStart = rootHtml.indexOf('<ul class="tiles">');
+if (tilesStart === -1) die('root index.html is missing the stat tiles');
+const tiles = rootHtml.slice(tilesStart, rootHtml.indexOf('</ul>', tilesStart));
+const nTiles = count(tiles, 'class="tile"');
+const tileHrefs = [...tiles.matchAll(/<a href="([^"]*)"/g)].map((m) => m[1]);
+if (tileHrefs.length !== nTiles)
+  die(
+    `${nTiles} stat tiles carry ${tileHrefs.length} links; every tile needs one`,
+  );
+// Prerendered output is the path-routed variant, so these are route paths. The
+// hash-routed artifact builds from the same source and is not prerendered.
+const routePaths = new Set(routes.map((r) => r.path));
+for (const h of tileHrefs)
+  if (!routePaths.has(h))
+    die(`a stat tile links to "${h}", which is not a route`);
+
 // Every view in routes.json got a file, and the nav offers every one of them.
 const viewRoutes = routes.filter((r) => r.view !== 'system');
 for (const r of viewRoutes) {
@@ -575,6 +594,9 @@ console.log(
 );
 console.log(
   `  /systems sysrows=${nSysrow} (+${nSysGroup} cohort strips)  /matrix system rows=${nRows} in ${nMxBodies} tbodies`,
+);
+console.log(
+  `  stat tiles: ${nTiles}, each linked (${[...new Set(tileHrefs)].sort().join(' ')})`,
 );
 console.log(
   '  placeholder scan: clean across ' + allHtml(OUT).length + ' html files',
