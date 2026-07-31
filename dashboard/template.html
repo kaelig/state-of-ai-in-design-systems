@@ -830,6 +830,37 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
   .aff-body { padding-left: 16px; }
 }
+/* Wide enough, and the spectrum stops being a list and becomes the chart it is
+   named after: three equal columns, bottoms on one line, running emerging to
+   ai-native left to right, so the section's silhouette is the distribution it
+   describes. One system per row is what makes that honest — a column's height
+   is then its count and nothing else, where the wrapped chips below this width
+   measure name length instead. Equal widths are load-bearing, not cosmetic:
+   height can only read as the variable if width is held constant, and sizing
+   the columns by count would give emerging a twentieth of the row, too narrow
+   to fit a single one of these names.
+   Scoped to screen because unscoped min-width queries in this file already
+   reach paper — the two above do, and @media print overrides neither. Three
+   columns is a screen idea; print keeps the stacked bands.
+   row-reverse rather than an order on every band, so the narrow layout keeps
+   the DOM order it ships today. Given wide-ascending and narrow-descending, one
+   source order cannot serve both, and this is the cost that was chosen: above
+   this width keyboard focus crosses the columns right to left, against reading
+   order. Each band is a section carrying its own heading, count and definition,
+   so what is out of order is the climb from one band to the next, not anything
+   within a band.
+   1080 is measured, not chosen: the longest name in the data — Salesforce
+   Lightning Design System, 210px — stops wrapping once the section has 735px,
+   which past the 224px rail and .main's 80px of padding wants a 1039px
+   viewport. Rounded up so the breakpoint is not sitting on the threshold. It is
+   measured against today's longest name, so a longer one arriving in the data
+   is a reason to measure again. Above 1344 the number stops mattering: .main
+   caps at 1120px, so a column never exceeds ~350px however wide the screen. */
+@media screen and (min-width: 1080px) {
+  .spectrum { flex-direction: row-reverse; align-items: flex-end; gap: 14px; }
+  .spec-band { flex: 1 1 0; }
+  .spec-band ul { flex-direction: column; }
+}
 @media print {
   /* Beats both theme overrides, so a reader in dark mode does not print a black
      page. Every light-dark() token resolves to its light value from here. */
