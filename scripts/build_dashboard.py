@@ -46,15 +46,10 @@ VIEW_TITLES = {
         "State of AI in Design Systems · July 2026",
         "A field study of how 20 open-source design systems and 5 platforms make themselves readable to AI agents.",
     ),
-    "matrix": (
-        "/matrix",
-        "The affordance matrix · State of AI in Design Systems",
-        "What each of 20 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries.",
-    ),
     "systems": (
         "/systems",
         "The systems · State of AI in Design Systems",
-        "All 20 systems with their AI maturity and what each one ships. Pick a system to read the full record.",
+        "What each of 20 design systems ships for AI consumption: MCP servers, agent skills, llms.txt, editor rules, registries.",
     ),
     "techniques": (
         "/techniques",
@@ -574,7 +569,7 @@ def main():
         "reading_kinds": reading_kinds,
         "counts": {k: counts[k] for k in META_COUNTS},
         # The client router sets document.title on every in-page navigation.
-        # It reads these so a client-side visit to /matrix gets the same title
+        # It reads these so a client-side visit to /systems gets the same title
         # a crawler gets from the prerendered file, instead of the short nav word.
         "view_titles": {view: title for view, (_p, title, _d) in VIEW_TITLES.items()},
     }

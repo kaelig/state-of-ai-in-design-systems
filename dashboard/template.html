@@ -95,7 +95,7 @@
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --radius: 3px;
   /* Two measures, no more: one for ledes, one for body prose. Tabular blocks
-     (lists, matrix, metagrid) are not prose and stay full-width. */
+     (the matrix, metagrid) are not prose and stay full-width. */
   --measure-lede: 62ch;
   --measure-body: 74ch;
 }
@@ -227,7 +227,7 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 
 .accent-rule { border: none; height: 3px; width: 4rem; background: var(--accent); margin: 20px 0 24px; }
 
-.eyebrow, .label, .syslist-head, .metagrid .k, .twocol .col .t, table.mx thead th {
+.eyebrow, .label, .metagrid .k, .twocol .col .t, table.mx thead th {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
 }
@@ -261,10 +261,9 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; position: relative; }
 /* One anchor over the numeral and the label, stretched to the tile's edges: the
    accessible name stays "20 design systems studied" while the whole card is the
-   target. The .sysrow rows on /systems do this already, for the same reasons.
-   Tiles sit on --bg-raise, so .sysrow's background shift has nowhere to go and
-   the border and the label carry the hover instead. The numeral keeps --ink:
-   blue is for interaction, and the numeral is data. */
+   target. Tiles sit on --bg-raise, so a row-hover background shift has nowhere
+   to go and the border and the label carry the hover instead. The numeral keeps
+   --ink: blue is for interaction, and the numeral is data. */
 .tile > a { color: inherit; text-decoration: none; }
 .tile > a::after { content: ""; position: absolute; inset: 0; }
 .tile:hover { border-color: var(--line-strong); }
@@ -440,21 +439,21 @@ table.mx td .none, .mx-legend .none-key {
 /* Cohort break. No band: a rule across the full scroll width, then air, then the
    cohort's name — the same way a section break works in the prose on this site.
    The seam is --line-strong so it outranks the row hairlines it separates, and
-   the air is what actually groups the rows. The seam sits inside the cell here
-   because a table cell cannot hold margin above its own border; /systems, whose
-   header is a real block element, gets the composition this one could not.
+   the air is what actually groups the rows. The seam sits inside the cell
+   because a table cell cannot hold margin above its own border.
    20px, not 26: a break taller than the 34px row it separates stops reading as a
    seam inside one table and starts reading as the gap between three of them. At
    20 the break is under two-thirds of a row, so the cohorts stay sections of a
    single grid across a 20-row scroll, and the label still has more air above it
-   than the 8px below, which is what keeps it attached to the rows it opens.
-   Only the table mechanics live here. The label's voice is shared with the
-   systems list now that both surfaces break their cohorts the same way — see
-   ".sysgroup, table.mx tr.mx-group th" below. */
+   than the 8px below, which is what keeps it attached to the rows it opens. */
 table.mx tr.mx-group th {
   position: static; text-align: left;
   padding: 20px 6px 8px;
   border-top: 1px solid var(--line-strong);
+  /* The cohort label's voice. Metadata, not a control: no hover, no pointer. */
+  font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink);
 }
 /* The first cohort opens directly under the header's rule, so it brings no seam
    of its own and sits closer. */
@@ -493,14 +492,13 @@ table.mx tr.mx-group th .gl {
    supposed to recognize is not resolvable anyway. The count is the encoding; the
    tint would have cost the table's single data ink to add a channel that is
    either invisible or wrong. */
-table.mx tr.mx-group .rungs, .sysgroup .rungs { width: 16px; height: 16px; flex: none; }
-table.mx tr.mx-group .rungs line, .sysgroup .rungs line { stroke: var(--data-strong); }
-table.mx tr.mx-group .rungs line[opacity], .sysgroup .rungs line[opacity] { stroke: var(--line-strong); opacity: 1; }
+table.mx tr.mx-group .rungs { width: 16px; height: 16px; flex: none; }
+table.mx tr.mx-group .rungs line { stroke: var(--data-strong); }
+table.mx tr.mx-group .rungs line[opacity] { stroke: var(--line-strong); opacity: 1; }
 /* The cohort's own count steps back to --ink-3 and drops the tracking that the
-   label needs and a numeral does not. On /systems that also keeps it clear of the
-   rows' affordance and technique counts, which are --ink-2 in their own right
-   column: the section's tally is quieter than the data it introduces. */
-table.mx tr.mx-group th .gn, .sysgroup .gn {
+   label needs and a numeral does not: the section's tally is quieter than the
+   data it introduces. */
+table.mx tr.mx-group th .gn {
   font-family: var(--font-body); font-weight: 600; font-size: 12px;
   letter-spacing: normal; text-transform: none;
   font-variant-numeric: tabular-nums; color: var(--ink-3);
@@ -515,8 +513,8 @@ table.mx tr.mx-group th .gn, .sysgroup .gn {
   table.mx td .dot, .mx-legend .dot { background: CanvasText; }
   table.mx td .ring, .mx-legend .ring { border-color: CanvasText; }
   table.mx td .none, .mx-legend .none-key { background: GrayText; }
-  table.mx tr.mx-group .rungs line, .sysgroup .rungs line { stroke: CanvasText; }
-  table.mx tr.mx-group .rungs line[opacity], .sysgroup .rungs line[opacity] { stroke: GrayText; }
+  table.mx tr.mx-group .rungs line { stroke: CanvasText; }
+  table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
 }
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
@@ -540,94 +538,7 @@ table.mx tr.mx-group th .gn, .sysgroup .gn {
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
 .mx-legend .dot, .mx-legend .ring, .mx-legend .none-key { flex: none; }
 
-/* One shared width per number column, used by both the header labels and the
-   row numbers, so "Affordances" sits exactly over the affordance counts.
-   min-width:2ch alone cannot align a two-digit number under an 11-character
-   label; the fixed track does, and 8 and 13 still line up down the list. */
-.syslist-head { margin-top: 18px; }
-/* The column labels close on a rule, exactly as the matrix's thead does, and the
-   first cohort measures its own opening space from that rule — so .syslist adds
-   no margin of its own. Labels over a rule, cohort sections between rules, a rule
-   at the bottom: the two surfaces are now the same three-part structure. */
-.syslist { margin-top: 0; }
-.syslist-head, .syslist { --ct-col: 92px; }
-.syslist-head, .sysrow {
-  display: grid; grid-template-columns: minmax(190px, 240px) 1fr auto;
-  gap: 14px; align-items: center;
-}
-.syslist-head { padding: 0 4px 10px; color: var(--ink-2); border-bottom: 1px solid var(--line-strong); }
-/* One cohort = one list. The rows are items, not a flat run of anonymous divs. */
-ul.cohort { list-style: none; margin: 0; padding: 0; }
-.sysrow {
-  padding: 13px 4px; color: var(--ink);
-  border-top: 1px solid var(--line); position: relative;
-}
-/* The name is the only link, so its accessible name is the system name — and its
-   stretched ::after keeps the whole row clickable exactly as when the row itself
-   was the anchor. The ring traces the row, not the four words inside it. */
-.sysrow a.nm { color: inherit; text-decoration: none; }
-.sysrow > .who > a.nm::after { content: ""; position: absolute; inset: 0; }
-.sysrow:has(a.nm:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
-.sysrow a.nm:focus-visible { outline: none; }
-/* A cohort's last row drops its rule because the next cohort's seam closes the
-   block — the same bookkeeping the matrix does with tbody:last-of-type. The list
-   as a whole still has to end on something, so the final cohort's final row
-   closes on --line-strong, the weight the column labels opened with. */
-.cohort > .sysrow:last-child { border-bottom: none; }
-.syslist > ul.cohort:last-child > .sysrow:last-child { border-bottom: 1px solid var(--line-strong); }
-.cohort > .sysrow:first-child { border-top: none; }
-/* --row-hover, not --bg-sunk: the matrix lights the row the pointer is on with a
-   faint raise, and in dark mode --bg-sunk went the other way — #0A0A0A is darker
-   than the page, so the two surfaces were shading in opposite directions for the
-   same gesture. :active keeps --bg-sunk. The matrix's deeper --cell-hover was the
-   obvious partner for a press, but it never grounds --ink-3 text there, and .org
-   is --ink-3: on --cell-hover that is 4.32:1 in light, under the bar. A press
-   state is not worth a contrast failure, and the shipped ground already clears
-   it at 4.68:1. */
-.sysrow:hover { background: var(--row-hover); }
-.sysrow:hover .nm { color: var(--accent-ink); }
-.sysrow .nm { font-family: var(--font-display); font-weight: 650; font-size: 16px; letter-spacing: -.015em; }
-.sysrow .org { font-size: 12px; color: var(--ink-3); display: block; }
-.sysrow .sum { font-size: 13px; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
-.sysrow:active, .spec-band li a:active, .jump li a:active { background: var(--bg-sunk); }
-.cts { display: flex; gap: 14px; justify-content: flex-end; }
-.cts .ct { width: var(--ct-col); text-align: right; white-space: nowrap; }
-.sysrow .cts .ct { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
-/* The header row is the visible definition; the word rides with each number for
-   screen readers, and becomes visible copy on narrow screens. */
-.sysrow .cw {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
-}
-.sysrow .csep { display: none; }
-/* Maturity cohort header — one voice for both surfaces that group by cohort.
-   This selector was split apart when the matrix stopped using a wash; the systems
-   list has now followed it, so the two describe the same object again and the
-   shared rule comes back. Only the box differs: the matrix's lives in a table
-   cell, this one in an <h2>. Metadata, not a control: no hover, no pointer. */
-.sysgroup, table.mx tr.mx-group th {
-  font-family: var(--font-display); font-weight: 550; font-size: 11px;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink);
-}
-/* The composition the matrix wanted and could not have. A table cell cannot put
-   margin above its own border, so there the order is rule-then-air-then-label.
-   An <h2> can, so here the air sits ABOVE the rule: the gap belongs to the break
-   between cohorts, and the rule reads as the new section's opening bracket with
-   its label hanging directly under it — 28px of clearance above the label
-   against 6px below, which is what pins it to the rows it opens.
-   The break totals 52px against a 66px row, so it stays under the one-row
-   threshold that the matrix's 20px seam was derived from. That threshold is the
-   part of the reasoning that transfers; the 20px number is not, because it was
-   measured against a 34px data row and this list is nearly twice as tall. */
-.sysgroup {
-  display: flex; align-items: center; gap: 8px;
-  margin: 18px 0 0; padding: 10px 4px 6px;
-  border-top: 1px solid var(--line-strong);
-}
-/* The first cohort opens under the column labels' rule, so it brings no seam of
-   its own — the matrix's tbody:first-of-type exception, in block layout. */
-.syslist > .sysgroup:first-child { margin-top: 0; padding-top: 12px; border-top: none; }
+.spec-band li a:active, .jump li a:active { background: var(--bg-sunk); }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 /* 14px against 12px mono, not the rail's 16: this arrow sits beside lowercase
@@ -898,31 +809,6 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* One source per row, so the link can own the whole row as its tap target. */
   .srclist li { padding: 0; }
   .srclist a { display: block; padding: 13px 0; }
-  /* The header row is the desktop definition; on mobile the words move into the
-     row itself, placed under the name instead of orphaning to the right. */
-  .syslist-head { display: none; }
-  /* With the column labels gone, their rule goes too — so the first cohort has
-     nothing to open under and takes back the seam it gives up on wide screens.
-     Otherwise the list would begin with a floating label and no top edge. */
-  .syslist > .sysgroup:first-child {
-    margin-top: 10px; padding-top: 10px;
-    border-top: 1px solid var(--line-strong);
-  }
-  .sysrow {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "who" "cts";
-    row-gap: 3px; align-items: start;
-  }
-  .sysrow .who { grid-area: who; }
-  .sysrow .cts { grid-area: cts; justify-content: flex-start; gap: 6px; }
-  .sysrow .sum { display: none; }
-  .cts .ct { width: auto; }
-  .sysrow .cts .ct { color: var(--ink-3); }
-  .sysrow .cw {
-    position: static; width: auto; height: auto; margin: 0;
-    overflow: visible; clip-path: none;
-  }
-  .sysrow .csep { display: inline; color: var(--ink-3); font-size: 12px; }
   .bar-row, .bar-link { grid-template-columns: 110px 1fr 40px; }
   /* Finger-sized hit areas for the small mono links and the copy button.
      Real padding, not an overlay, so wrapped rows can never steal each other's taps. */
@@ -1336,9 +1222,9 @@ const VIEWS = {
       <hr class="accent-rule">
       <ul class="tiles">
         ${statTile(m.counts.systems, 'design systems studied', `+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances`, 'systems')}
-        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, 'matrix')}
-        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', 'matrix')}
-        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', 'matrix')}
+        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, 'systems')}
+        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', 'systems')}
+        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', 'systems')}
         ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, 'techniques')}
       </ul>
       <h2>The maturity spectrum</h2>
@@ -1348,7 +1234,7 @@ const VIEWS = {
       <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
   },
 
-  matrix() {
+  systems() {
     const row = s => {
       const cells = MX_COLS.map(c => {
         const hits = (s.affordances || []).filter(a => c.types.includes(a.type));
@@ -1378,7 +1264,7 @@ const VIEWS = {
       return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${matRungs(k)}<span class="gt">${MAT[k]} · <span class="gn">${sys.length}</span></span></span></th></tr>`
         + sys.map(row).join('') + '</tbody>';
     }).join('');
-    return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('matrix')}</div><h1>The affordance matrix</h1>
+    return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('systems')}</div><h1>The systems</h1>
       <p class="lede">Discover how every system ships AI affordances and tools.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true"></span>none found</span></div>
@@ -1389,14 +1275,6 @@ const VIEWS = {
       <h2>Affordance prevalence</h2>
       <p class="h2-sub">Number of systems (of ${DATA.meta.counts.systems}) shipping each affordance, counting official and community.</p>
       ${prevalenceBars()}`;
-  },
-
-  systems() {
-    return `<div class="pagetop"><p class="eyebrow">Drill down</p>${mdDownload('systems')}</div><h1>The systems</h1>
-      <p class="lede">Top open-source design systems that ship agentic tooling, analyzed in depth across multiple dimensions.</p>
-      <hr class="accent-rule">
-      <div class="syslist-head" aria-hidden="true"><span>System</span><span>Summary</span><span class="cts"><span class="ct">Affordances</span><span class="ct">Techniques</span></span></div>
-      <div class="syslist" id="syslist"></div>`;
   },
 
   system(id) {
@@ -1619,30 +1497,6 @@ function prevalenceBars() {
   return `<ul class="bars">${rows.map(r => barRow(r.label, r.n, total)).join('')}</ul>`;
 }
 
-function renderSyslist() {
-  /* One link per row, and its accessible name is the system name — nothing else.
-     The row stays wholly clickable through the link's stretched ::after, so the
-     summary and the two counts are plain text instead of 300 characters of link
-     name. Keep class="sysrow" written exactly like this: prerender counts it. */
-  const row = s => `<li class="sysrow">
-    <span class="who"><a class="nm" href="${href('systems', s.id)}">${esc(s.name)}</a><span class="org">${esc(s.org || '')}</span></span>
-    <span class="sum">${fmt(s.summary)}</span>
-    <span class="cts"><span class="ct">${(s.affordances || []).length}<span class="cw"> affordances</span></span><span class="csep" aria-hidden="true">·</span><span class="ct">${(s.techniques || []).length}<span class="cw"> techniques</span></span></span></li>`;
-  /* The list is already sorted by maturity, so a cohort header before each run of
-     rows replaces 20 repeated chips. A level with no systems in it renders no
-     header, so the data decides which cohorts appear.
-     The rung glyph is the same drawing the matrix and the spectrum bands use, and
-     it is aria-hidden because the cohort name beside it already says the level.
-     .gt wraps name, separator and count so the glyph takes one flex gap and the
-     three text parts keep their own spacing — same structure as the matrix. */
-  $('#syslist').innerHTML = MAT_ORDER.map(k => {
-    const rows = DATA.systems.filter(s => s.ai_maturity === k);
-    if (!rows.length) return '';
-    return `<h2 class="sysgroup mat-${k}">${matRungs(k)}<span class="gt"><span class="gl">${MAT[k]}</span> · <span class="gn">${rows.length}</span></span></h2>`
-      + `<ul class="cohort">${rows.map(row).join('')}</ul>`;
-  }).join('');
-}
-
 /* A snippet that fits needs neither a tab stop nor a name: only the ones that
    actually scroll sideways are keyboard-operable regions of content. Runs after
    render, in the browser only — the prerender shim's querySelectorAll returns [],
@@ -1693,18 +1547,17 @@ function setupMatrixFades() {
 }
 
 const NAV = [
-  ['overview', 'Overview'], ['matrix', 'Matrix'], ['systems', 'Systems'],
+  ['overview', 'Overview'], ['systems', 'Systems'],
   ['techniques', 'Techniques'], ['platforms', 'Platforms'], ['insights', 'Insights'], ['methodology', 'Methodology'],
   ['reading', 'Reading'], ['ai', 'For agents'],
 ];
 /* One glyph per section, drawn in the same 24px stroked style as the theme
    toggle. Feather (MIT), which is where the moon and the sun came from too.
    Kept beside NAV rather than inside it: prerender.mjs destructures NAV as
-   [route, label] pairs and counts them against routes.json, and a nine-row
-   table stays readable without nine paths threaded through it. */
+   [route, label] pairs and counts them against routes.json, and an eight-row
+   table stays readable without eight paths threaded through it. */
 const NAV_ICON_PATHS = {
   overview: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
-  matrix: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
   systems: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
   techniques: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   platforms: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
@@ -1717,7 +1570,7 @@ const NAV_ICON_PATHS = {
    announced icon would only make every link read its name twice. */
 const navIcon = (r) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${NAV_ICON_PATHS[r]}</svg>`;
 /* Full page titles, from the same build-time table the prerendered <title> tags
-   and the sitemap come from, so an in-page navigation to /matrix leaves the tab
+   and the sitemap come from, so an in-page navigation to /systems leaves the tab
    reading what a crawler sees rather than the one-word nav label. */
 const VIEW_TITLES = (DATA.meta && DATA.meta.view_titles) || {};
 const NAV_LABEL = {};
@@ -1770,8 +1623,7 @@ function route(opts) {
     nav.scrollLeft = Math.max(0, here.offsetLeft - 12);
   }
 
-  if ($('#syslist')) renderSyslist();
-  if (view === 'matrix') setupMatrixFades();
+  if (view === 'systems') setupMatrixFades();
   pruneSnippetTabStops();
   window.scrollTo(0, 0);
   if (opts && opts.focus) {

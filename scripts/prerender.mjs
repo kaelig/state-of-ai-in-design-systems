@@ -121,7 +121,7 @@ const ctx = vm.createContext(sandbox);
 try {
   vm.runInContext(
     appSrc +
-      '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;' +
+      '\n;globalThis.__VIEWS = VIEWS;' +
       ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
       ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
       ' globalThis.__MAT_ORDER = MAT_ORDER;' +
@@ -137,9 +137,7 @@ try {
 }
 
 const VIEWS = sandbox.__VIEWS;
-const renderSyslist = sandbox.__renderSyslist;
-if (!VIEWS || typeof renderSyslist !== 'function')
-  die('VIEWS / renderSyslist not exposed');
+if (!VIEWS) die('VIEWS not exposed');
 
 const NAV_HTML = el('#nav').innerHTML;
 // Per view, not once: the footer names when the page's contents were gathered,
@@ -295,23 +293,7 @@ function render(route) {
   const fn = VIEWS[route.view];
   if (typeof fn !== 'function')
     die(`no view function for "${route.view}" (${route.path})`);
-  let body = fn(route.arg);
-  if (route.view === 'systems') {
-    renderSyslist();
-    const list = el('#syslist').innerHTML;
-    if (!list) die('renderSyslist produced nothing');
-    const n = payload.systems.length;
-    body = body
-      .replace(
-        '<div class="syslist" id="syslist"></div>',
-        `<div class="syslist" id="syslist">${list}</div>`,
-      )
-      .replace(
-        '<p class="count" id="syscount" role="status"></p>',
-        `<p class="count" id="syscount" role="status">${n} of ${n} systems</p>`,
-      );
-  }
-  return body;
+  return fn(route.arg);
 }
 
 const written = [];
@@ -322,9 +304,9 @@ function emit(relPath, html) {
   written.push([relPath, Buffer.byteLength(html)]);
 }
 
-// File-form output (matrix.html, systems/shadcn-ui.html): Netlify serves these
+// File-form output (systems.html, systems/shadcn-ui.html): Netlify serves these
 // extensionless with a 200, so the canonical URL never redirects. Directory
-// form (matrix/index.html) made every canonical 301 to its trailing-slash twin.
+// form (systems/index.html) made every canonical 301 to its trailing-slash twin.
 const relFor = (p) =>
   p === '/' ? 'index.html' : p.replace(/^\//, '') + '.html';
 
@@ -367,7 +349,7 @@ emit(
 );
 
 // Remove any directory-form twin a previous build left behind; with both
-// matrix.html and matrix/index.html on disk, Netlify's resolution is ambiguous.
+// systems.html and systems/index.html on disk, Netlify's resolution is ambiguous.
 for (const r of routes) {
   if (r.path === '/') continue;
   const dirTwin = join(OUT, r.path.replace(/^\//, ''), 'index.html');
@@ -396,39 +378,21 @@ for (const [p] of written)
 const read = (p) => readFileSync(join(OUT, p), 'utf8');
 const count = (s, needle) => s.split(needle).length - 1;
 
-// Counted inside the rendered list only: the app script carries the same class
-// name inside its own template literal.
-const sysHtml = read('systems.html');
-const listStart = sysHtml.indexOf('id="syslist"');
-const sysList = sysHtml.slice(
-  listStart,
-  sysHtml.indexOf('id="foot"', listStart),
-);
-const nSystems = payload.systems.length;
-const nSysrow = count(sysList, 'class="sysrow"');
-if (nSysrow !== nSystems)
-  die(`/systems.html has ${nSysrow} sysrows, expected ${nSystems}`);
-const nSysGroup = count(sysList, 'class="sysgroup');
-const nMaturities = new Set(payload.systems.map((s) => s.ai_maturity)).size;
-if (nSysGroup !== nMaturities)
-  die(`/systems.html has ${nSysGroup} cohort strips, expected ${nMaturities}`);
-if (!sysHtml.includes('class="syslist-head"'))
-  die('/systems.html lost its column header row');
-
-// Group header rows and multiple tbodies now sit between the system rows, so
+// Group header rows and multiple tbodies sit between the system rows, so
 // count the rows that carry a row header and exclude the cohort strips.
-const mxHtml = read('matrix.html');
+const nSystems = payload.systems.length;
+const mxHtml = read('systems.html');
 const mxTable = mxHtml.slice(
   mxHtml.indexOf('<table class="mx">'),
   mxHtml.indexOf('</table>'),
 );
 const nRows = count(mxTable, '<th scope="row" class="sys">');
 if (nRows !== nSystems)
-  die(`/matrix.html has ${nRows} system rows, expected ${nSystems}`);
+  die(`/systems.html has ${nRows} system rows, expected ${nSystems}`);
 const nMxGroups = count(mxTable, 'class="mx-group');
 const nMxBodies = count(mxTable, '<tbody>');
 if (nMxGroups !== nMxBodies)
-  die(`/matrix.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
+  die(`/systems.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
 if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
   die('a matrix cohort strip is missing scope="rowgroup"');
 
@@ -474,12 +438,12 @@ for (const [r] of sandbox.__NAV) {
   if (!routes.some((x) => x.view === r))
     die(`nav item "${r}" has no route in routes.json`);
 }
-// Every nav item carries its icon. One template string builds all nine rows, so
-// a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in nine
+// Every nav item carries its icon. One template string builds all eight rows, so
+// a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in eight
 // files, and it degrades quietly: the row still renders, just shorter than its
 // neighbors. Check the map rather than the markup — a missing key still emits
 // an <svg>, it just fills it with the string "undefined", so counting tags
-// reports nine icons for eight glyphs.
+// reports eight icons for seven glyphs.
 const navIconPaths = sandbox.__NAV_ICON_PATHS || {};
 const iconless = navItems.filter((r) => !navIconPaths[r]);
 if (iconless.length) die(`nav items with no icon: ${iconless.join(', ')}`);
@@ -596,9 +560,7 @@ console.log(
 console.log(
   `  largest:  ${written.reduce((a, b) => (b[1] > a[1] ? b : a)).join('=')} bytes`,
 );
-console.log(
-  `  /systems sysrows=${nSysrow} (+${nSysGroup} cohort strips)  /matrix system rows=${nRows} in ${nMxBodies} tbodies`,
-);
+console.log(`  /systems system rows=${nRows} in ${nMxBodies} tbodies`);
 console.log(
   `  stat tiles: ${nTiles}, each linked (${[...new Set(tileHrefs)].sort().join(' ')})`,
 );
