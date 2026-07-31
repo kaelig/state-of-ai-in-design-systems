@@ -170,8 +170,15 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
    drops the shared underline affordance and answers the pointer with ink. */
 .rail-brand { display: block; padding-right: 16px; text-decoration: none; }
 .rail-brand:hover strong { color: var(--accent-ink); }
+/* Same type as the page eyebrow it sits beside: family, weight, size and
+   tracking all match, so the two read as one line across the rule. The
+   line-height is the one thing that cannot match. The page eyebrow is centered
+   in a flex row against a taller download button, which lands it 1.45px above
+   the rail's padding edge, and this 13.61px box is what pulls the rail's copy
+   down onto it. Tuned against that button: if it changes height, retune here. */
 .rail-brand .k {
-  display: block; font-family: var(--font-display); font-weight: 550; font-size: 10px;
+  display: block; font-family: var(--font-display); font-weight: 550; font-size: 11px;
+  line-height: 13.61px;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
 }
 .rail-brand strong {
@@ -209,7 +216,11 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 .rail nav a.on, .rail nav a[aria-current="page"] { color: var(--accent-ink); border-right-color: var(--accent); background: var(--accent-wash); }
 .rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 13px; color: var(--ink-3); }
 
-.main { padding: 34px 40px 40px; max-width: 1120px; min-width: 0; }
+/* Not the rail's 24px. The row this column opens with centers its eyebrow
+   against a taller download button, so the text lands a few pixels below the
+   padding edge. 18px is what puts that eyebrow on the same line as "Field
+   study" across the rule. */
+.main { padding: 18px 40px 40px; max-width: 1120px; min-width: 0; }
 .view { display: none; }
 .view.on { display: block; }
 
