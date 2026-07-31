@@ -257,7 +257,22 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 26px 0; list-style: none; padding: 0; }
 /* Column + margin-top:auto: the third line sits on one baseline across all five
    tiles however many lines the label above it takes. */
-.tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; }
+.tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; position: relative; }
+/* One anchor over the numeral and the label, stretched to the tile's edges: the
+   accessible name stays "20 design systems studied" while the whole card is the
+   target. The .sysrow rows on /systems do this already, for the same reasons.
+   Tiles sit on --bg-raise, so .sysrow's background shift has nowhere to go and
+   the border and the label carry the hover instead. The numeral keeps --ink:
+   blue is for interaction, and the numeral is data. */
+.tile > a { color: inherit; text-decoration: none; }
+.tile > a::after { content: ""; position: absolute; inset: 0; }
+.tile:hover { border-color: var(--line-strong); }
+.tile:hover .l { color: var(--accent-ink); }
+/* The ring traces the tile, not the two lines of text inside it. Without the
+   override the global :focus-visible rule boxes the anchor at +3px and spills
+   over the tile's own border. */
+.tile:has(a:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tile > a:focus-visible { outline: none; }
 .tile .n { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
 .tile .l { font-size: 13px; color: var(--ink-2); margin-top: 3px; line-height: 1.4; }
 /* Prose stopped wearing mono here: only the tile that quotes an actual command
@@ -1174,6 +1189,23 @@ const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
 
+/* A stat tile is a claim and the page that backs it up. The anchor takes the
+   numeral and the label so its accessible name reads "20 design systems
+   studied"; the detail line stays outside it and is covered by the stretched
+   ::after instead, which keeps `npx skills add …` out of the link text.
+   The route goes through href() because the artifact variant is hash-routed —
+   which is also why none of these can be a #fragment into a matrix column, the
+   way the prevalence bars manage on the path-routed site only. Label and detail
+   are written here, not read from a record, so they carry their own markup. */
+function statTile(n, label, detail, route) {
+  /* The newline between the two divs is load-bearing: it makes the accessible
+     name "20 design systems studied" rather than "20design systems studied"
+     without waiting on a browser to insert the block-level space itself. Two
+     block boxes swallow the whitespace, so nothing moves on screen. */
+  return `<li class="tile"><a href="${href(route)}"><div class="n">${n}</div>\n`
+    + `<div class="l">${label}</div></a><div class="d">${detail}</div></li>`;
+}
+
 /* ---------- views ---------- */
 const VIEWS = {
   overview() {
@@ -1193,11 +1225,11 @@ const VIEWS = {
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
       <hr class="accent-rule">
       <ul class="tiles">
-        <li class="tile"><div class="n">${m.counts.systems}</div><div class="l">design systems studied</div><div class="d">+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances</div></li>
-        <li class="tile"><div class="n">${m.counts.official_mcp}</div><div class="l">ship an official MCP server</div><div class="d">of ${m.counts.systems} systems</div></li>
-        <li class="tile"><div class="n">${m.counts.official_skills}</div><div class="l">ship official agent skills</div><div class="d"><code>npx skills add …</code></div></li>
-        <li class="tile"><div class="n">${m.counts.llms_txt}</div><div class="l">publish llms.txt</div><div class="d">curated context files</div></li>
-        <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques cataloged</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
+        ${statTile(m.counts.systems, 'design systems studied', `+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances`, 'systems')}
+        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, 'matrix')}
+        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', 'matrix')}
+        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', 'matrix')}
+        ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, 'techniques')}
       </ul>
       <h2>The maturity spectrum</h2>
       <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances cataloged. Click through for the receipts.</p>
