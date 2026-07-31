@@ -160,6 +160,17 @@
     "added_on": "2026-07-28"
   },
   {
+    "id": "design-systems-for-the-machines",
+    "title": "WWC26 - Design Systems for the Machines - How to Make AI Understand Your UI",
+    "author": "Jennifer Wjertzoch, on WeAreDevelopers' channel",
+    "published": "2026-07-17",
+    "kind": "talk",
+    "url": "https://www.youtube.com/watch?v=S2Z6jwexHgc",
+    "description": "A WWC26 talk building the case that a design system's real job was always reducing ambiguity, for humans and now for machines too. Walks a demo button through three layers — semantic HTML, ARIA, then a data-* intent attribute and a component manifest — and reruns an accessibility scan and a scripted browser agent against both versions to show what each layer changes. Closes with a four-step plan for a first quarter: audit with an agent, write the conventions into an ADR and ESLint, gate CI on the scan, and test with an agent the way you'd test with a screen reader.",
+    "quote": "The future of design systems is not visual consistency. It's reducing ambiguity for humans and machines alike.",
+    "added_on": "2026-07-31"
+  },
+  {
     "id": "ai-and-design-systems-course",
     "title": "AI & Design Systems",
     "author": "Brad Frost, Ian Frost and TJ Pitre",
