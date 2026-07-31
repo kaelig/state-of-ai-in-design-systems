@@ -252,8 +252,7 @@ h2 { font-family: var(--font-display); font-size: 20px; font-weight: 650; letter
 .pi { font-size: 14px; margin: 14px 0 2px; }
 h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
 /* One count treatment, everywhere a number sits beside a heading or a label:
-   body sans, tabular, --ink-3. Same family as the systems-list numbers and the
-   spectrum band counts. */
+   body sans, tabular, --ink-3. Same family as the matrix cohort counts. */
 .hcount { font-family: var(--font-body); font-weight: 400; font-size: 14px; letter-spacing: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 26px 0; list-style: none; padding: 0; }
@@ -297,46 +296,10 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .chip.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); border-color: transparent; }
 .chip.official { background: var(--mat-1); color: var(--mat-1-ink); border-color: transparent; }
 
-/* Stacked full-width bands: band length is the chart, so the geometry says what
-   the counts say. One layout at every width. */
-.spectrum { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 8px; }
-.spec-band { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-raise); }
-.spec-band .bhead {
-  display: flex; align-items: baseline; gap: 10px;
-  padding: 8px 12px; white-space: normal; line-height: 1.5; margin: 0;
-  font-family: var(--font-display); font-weight: 550; font-size: 11px;
-  letter-spacing: .14em; text-transform: uppercase;
-  background: var(--mat-0); color: var(--mat-0-ink);
-}
-/* Sized like the rail glyphs, and centered rather than baseline-aligned: a
-   replaced element's baseline is its bottom margin edge, so left to the row's
-   baseline the glyph would stand its floor on the label's and float a whole cap
-   height above the word it belongs to. */
-.spec-band .bhead .rungs { width: 16px; height: 16px; flex: none; align-self: center; }
-/* The count took the right edge from justify-content: space-between while there
-   were two children. A third would have stranded the label in the middle, so the
-   count claims the free space as a margin instead — which also leaves the glyph
-   sitting against its label, at a gap sized for that pairing rather than for the
-   full width of the band. */
-.spec-band .bhead .bn {
-  margin-left: auto;
-  font-family: var(--font-body); font-weight: 600; font-size: 13px;
-  letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
-}
-.spec-band .bdef { padding: 10px 12px 0; font-size: 12px; color: var(--ink-3); max-width: var(--measure-body); }
-.spec-band .bhead.mat-none { background: var(--mat-0); color: var(--mat-0-ink); }
-.spec-band .bhead.mat-emerging { background: var(--mat-1); color: var(--mat-1-ink); }
-.spec-band .bhead.mat-invested { background: var(--mat-2); color: var(--mat-2-ink); }
-.spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
-.spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
-/* One treatment, two users: the spectrum bands and the jump rows that /ai,
-   /platforms, /reading and /insights all build through jumpList(). Transparent,
-   not --bg: jump rows sit on the page, where the two are the same paint, but
-   spectrum chips sit on the band's raised card, and in dark a --bg fill recessed
-   them into wells — the elevation code and hover washes own. Letting the ground
-   through keeps the one treatment one drawing on both surfaces in both themes. */
-.spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: transparent; border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
-.spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
+/* Pill rows for the jump lists that /ai, /platforms, /reading and /insights
+   all build through jumpList(). */
+.jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
+.jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
 .jump { list-style: none; padding: 0; margin: 22px 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* The accent rule already leaves 24px under itself, so a list that follows one
    needs no gap of its own. A list that follows prose, as /ai's does, needs it. */
@@ -477,13 +440,10 @@ table.mx tr.mx-group th .gl {
    denominator — "two of four" — where a wash only says "lighter than the one
    above", and it survives both themes on a single ink.
    The unfilled rungs are the scale's track and take --line-strong, the site's
-   hairline weight, instead of the spectrum band's opacity .45. On a plain page
-   ground .45 would have faded to about 1.9:1; --line-strong keeps filled and
-   unfilled 3.7:1 apart in light and 5.0:1 in dark, so the count can be read
-   exactly, while the filled rungs clear 3:1 on the page (6.1:1 / 8.7:1).
-   16px, matching .spec-band .bhead .rungs exactly: if this glyph is the quote
-   from the spectrum, it should be the same drawing at the same size, not a
-   near-miss six percent smaller.
+   hairline weight, instead of the .45 opacity the SVG attribute carries. On a
+   plain page ground .45 would have faded to about 1.9:1; --line-strong keeps
+   filled and unfilled 3.7:1 apart in light and 5.0:1 in dark, so the count can
+   be read exactly, while the filled rungs clear 3:1 on the page (6.1:1 / 8.7:1).
    Tinting it per cohort with --mat-N-ink was tried and rejected. It clears
    contrast everywhere — the worst pair is 4.22:1 against the track — but those
    inks were mixed to sit on their own wash, not on the page, so on --bg the ramp
@@ -519,11 +479,6 @@ table.mx tr.mx-group th .gn {
   table.mx td .none, .mx-legend .none-key { background: GrayText; }
   table.mx tr.mx-group .rungs line { stroke: CanvasText; }
   table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
-  /* The spectrum's band heads quote the same glyph. Its currentColor stroke
-     already follows the forced ink, but forced colors keeps opacity, so the .45
-     dim would survive as a translucent bar a reader could miscount; the track is
-     restated the way the table's is — GrayText at full strength. */
-  .spec-band .rungs line[opacity] { stroke: GrayText; opacity: 1; }
 }
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
@@ -547,7 +502,7 @@ table.mx tr.mx-group th .gn {
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
 .mx-legend .dot, .mx-legend .ring, .mx-legend .none-key { flex: none; }
 
-.spec-band li a:active, .jump li a:active { background: var(--bg-sunk); }
+.jump li a:active { background: var(--bg-sunk); }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 /* 14px against 12px mono, not the rail's 16: this arrow sits beside lowercase
@@ -822,7 +777,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .rail:has(#nav a[data-r="overview"][aria-current="page"]) .rail-foot { display: block; }
   .main { padding: 24px 16px 32px; }
   .twocol { grid-template-columns: 1fr; }
-  .spec-band li a, .jump li a { padding: 9px 10px; }
+  .jump li a { padding: 9px 10px; }
   /* One source per row, so the link can own the whole row as its tap target. */
   .srclist li { padding: 0; }
   .srclist a { display: block; padding: 13px 0; }
@@ -859,37 +814,6 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
   .aff-body { padding-left: 16px; }
 }
-/* Wide enough, and the spectrum stops being a list and becomes the chart it is
-   named after: three equal columns, bottoms on one line, running emerging to
-   ai-native left to right, so the section's silhouette is the distribution it
-   describes. One system per row is what makes that honest — a column's height
-   is then its count and nothing else, where the wrapped chips below this width
-   measure name length instead. Equal widths are load-bearing, not cosmetic:
-   height can only read as the variable if width is held constant, and sizing
-   the columns by count would give emerging a twentieth of the row, too narrow
-   to fit a single one of these names.
-   Scoped to screen because unscoped min-width queries in this file already
-   reach paper — the two above do, and @media print overrides neither. Three
-   columns is a screen idea; print keeps the stacked bands.
-   row-reverse rather than an order on every band, so the narrow layout keeps
-   the DOM order it ships today. Given wide-ascending and narrow-descending, one
-   source order cannot serve both, and this is the cost that was chosen: above
-   this width keyboard focus crosses the columns right to left, against reading
-   order. Each band is a section carrying its own heading, count and definition,
-   so what is out of order is the climb from one band to the next, not anything
-   within a band.
-   1080 is measured, not chosen: the longest name in the data — Salesforce
-   Lightning Design System, 210px — stops wrapping once the section has 735px,
-   which past the 224px rail and .main's 80px of padding wants a 1039px
-   viewport. Rounded up so the breakpoint is not sitting on the threshold. It is
-   measured against today's longest name, so a longer one arriving in the data
-   is a reason to measure again. Above 1344 the number stops mattering: .main
-   caps at 1120px, so a column never exceeds ~350px however wide the screen. */
-@media screen and (min-width: 1080px) {
-  .spectrum { flex-direction: row-reverse; align-items: flex-end; gap: 14px; }
-  .spec-band { flex: 1 1 0; }
-  .spec-band ul { flex-direction: column; }
-}
 @media print {
   /* Beats both theme overrides, so a reader in dark mode does not print a black
      page. Every light-dark() token resolves to its light value from here. */
@@ -902,7 +826,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   a { color: inherit; }
   /* Snippets were guillotined at the paper edge. */
   .snip pre { white-space: pre-wrap; overflow: visible; }
-  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li, .spec-band { break-inside: avoid; }
+  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li { break-inside: avoid; }
   /* URLs only where the content is; the rail is gone and the footer repeats. */
   #view-root a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9px; color: var(--ink-3); }
   /* The snippet-bar link's ::after is a tap overlay on screen. On paper the same
@@ -968,23 +892,21 @@ const MAT_DEF = {
   'emerging': 'llms.txt or an AI docs page, little more',
   'none': 'No AI affordances found'
 };
-/* Four rungs ascending left to right, the first N solid and the rest dimmed,
-   where N is the level's position counted up the scale — MAT_ORDER runs
-   descending, so ai-native fills four and none fills one. All four always draw:
-   every glyph is then the same width, so the band headers align down the page,
-   and the reader gets the denominator — emerging reads "two of four" rather
-   than "two bars". Same 24-unit stroked idiom as navIcon, in currentColor so
-   each glyph takes its band's --mat-N-ink with no icon color to keep in sync,
-   and aria-hidden because .bl already names the level.
+/* Four rungs ascending left to right, the first N solid and the rest the
+   scale's track, where N is the level's position counted up the scale —
+   MAT_ORDER runs descending, so ai-native fills four and none fills one. All
+   four always draw: every glyph is the same width, so the cohort headers align
+   down the table, and the reader gets the denominator — emerging reads "two of
+   four" rather than "two bars". Same 24-unit stroked idiom as navIcon, in
+   currentColor, and aria-hidden because the cohort name beside it already says
+   the level.
    Geometry is the insights nav glyph's: baseline at 20, bars 6 apart, ink from
    3 to 21. That box is already optically centered, which is why this icon needs
    none of the corrections the house and the server carry.
-   A dimmed rung sits at .45, which is under the crossover: against the worst of
-   the six band colors it still separates from a solid rung by more (2.6:1) than
-   it separates from the band behind it (2.0:1). Raising it past ~.5 flips that,
-   and the failure it buys is a rung miscounted as filled — a chart that lies,
-   rather than one that is merely hard to read.
-   An unknown key makes indexOf return -1 and the count 5 — a band claiming the
+   The opacity attribute on the unfilled rungs is the marker the matrix CSS
+   selects them by (line[opacity] restrokes them --line-strong at full
+   strength); the .45 itself is only what an unstyled context would show.
+   An unknown key makes indexOf return -1 and the count 5 — a glyph claiming the
    full scale, not an empty one, which is the plausible direction to be wrong in
    and so the one likeliest to survive review. The clamp keeps it inside the
    four rungs; the vocabulary guard in prerender.mjs is what makes it loud. */
@@ -1134,7 +1056,7 @@ function mirrorLinks(kind, id, label) {
 
    The view name is passed rather than read off location because prerender.mjs
    calls the view functions directly with location.pathname frozen at "/", so
-   parse() would name the overview's twin on all 28 routes and nothing would
+   parse() would name the overview's twin on all 27 routes and nothing would
    catch it at build time. The check that does catch a wrong name is in
    prerender.mjs, against the route table.
 
@@ -1203,55 +1125,27 @@ const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
 
-/* A stat tile is a claim and the page that backs it up. The detail line sits
+/* A stat tile is a claim and the place that backs it up. The detail line sits
    outside the anchor so `npx skills add …` stays out of the link text; the
-   stretched ::after covers it anyway. The route goes through href() because the
-   artifact variant is hash-routed, which is also why none of these can be a
-   #fragment into a matrix column the way the prevalence bars manage on the
-   path-routed site. Label and detail are written here rather than read from a
-   record, so they carry their own markup. */
-function statTile(n, label, detail, route) {
+   stretched ::after covers it anyway. The target arrives already built — a
+   route through href(), or a bare #fragment for a section on this same page.
+   Fragments work under both routings because the hash router only claims
+   "#/"-prefixed hashes and leaves plain anchors to the browser. Label and
+   detail are written here rather than read from a record, so they carry their
+   own markup. */
+function statTile(n, label, detail, target) {
   /* The newline between the two divs is load-bearing: it makes the accessible
      name "20 design systems studied" rather than "20design systems studied"
      without waiting on a browser to insert the block-level space itself. Two
      block boxes swallow the whitespace, so nothing moves on screen. */
-  return `<li class="tile"><a href="${href(route)}"><div class="n">${n}</div>\n`
+  return `<li class="tile"><a href="${target}"><div class="n">${n}</div>\n`
     + `<div class="l">${label}</div></a><div class="d">${detail}</div></li>`;
 }
 
 /* ---------- views ---------- */
 const VIEWS = {
   overview() {
-    const m = DATA.meta, f = DATA.insights.findings;
-    /* Only levels with systems render, same policy as the /systems filter: an
-       empty band is a shelf with nothing on it. Future data brings its band back. */
-    const bands = MAT_ORDER.filter(k => DATA.systems.some(s => s.ai_maturity === k)).map(k => {
-      const sys = DATA.systems.filter(s => s.ai_maturity === k);
-      const body = `<ul>${sys.map(s => `<li><a href="${href('systems', s.id)}">${esc(s.name)}</a></li>`).join('')}</ul>`;
-      return `<div class="spec-band"><h3 class="bhead mat-${k}">${matRungs(k)}<span class="bl">${MAT[k]}</span><span class="bn">${sys.length}</span></h3>
-        <p class="bdef">${esc(MAT_DEF[k])}</p>
-        ${body}</div>`;
-    }).join('');
-    return `<div class="pagetop"><p class="eyebrow">Field study · data gathered ${esc(m.generated)}</p>${mdDownload('overview')}</div>
-      <h1>How design systems talk to machines</h1>
-      <p class="lede">${fmt(DATA.insights.lede)}</p>
-      <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
-      <hr class="accent-rule">
-      <ul class="tiles">
-        ${statTile(m.counts.systems, 'design systems studied', `+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances`, 'systems')}
-        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, 'systems')}
-        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', 'systems')}
-        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', 'systems')}
-        ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, 'techniques')}
-      </ul>
-      <h2>The maturity spectrum</h2>
-      <p class="h2-sub">Systems were placed on a maturity scale at the time the data was collected.</p>
-      <div class="spectrum">${bands}</div>
-      <h2>Findings</h2>
-      <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
-  },
-
-  systems() {
+    const m = DATA.meta;
     const row = s => {
       const cells = MX_COLS.map(c => {
         const hits = (s.affordances || []).filter(a => c.types.includes(a.type));
@@ -1270,10 +1164,9 @@ const VIEWS = {
       return `<tr><th scope="row" class="sys"><a href="${href('systems', s.id)}">${esc(s.name)}</a></th>${cells}</tr>`;
     };
     /* One tbody per maturity cohort, opened by a group header row. The chip that
-       used to sit in every row header says the same thing 20 times.
-       The rung glyph is the same one the spectrum bands use, so the reader meets
-       one drawing of the scale on the overview and the same drawing here. It is
-       aria-hidden because the cohort name beside it already says the level. */
+       used to sit in every row header says the same thing 20 times. The rung
+       glyph counts the level up the four-point scale; it is aria-hidden because
+       the cohort name beside it already says the level. */
     const span = MX_COLS.length + 1;
     const groups = MAT_ORDER.map(k => {
       const sys = DATA.systems.filter(s => s.ai_maturity === k);
@@ -1281,24 +1174,37 @@ const VIEWS = {
       return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${matRungs(k)}<span class="gt">${MAT[k]} · <span class="gn">${sys.length}</span></span></span></th></tr>`
         + sys.map(row).join('') + '</tbody>';
     }).join('');
-    return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('systems')}</div><h1>The systems</h1>
-      <p class="lede">Discover how every system ships AI affordances and tools.</p>
+    return `<div class="pagetop"><p class="eyebrow">Field study · data gathered ${esc(m.generated)}</p>${mdDownload('overview')}</div>
+      <h1>How design systems talk to machines</h1>
+      <p class="lede">${fmt(DATA.insights.lede)}</p>
+      <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
       <hr class="accent-rule">
+      <ul class="tiles">
+        ${statTile(m.counts.systems, 'design systems studied', `+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances`, '#systems')}
+        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, '#systems')}
+        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', '#systems')}
+        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', '#systems')}
+        ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, href('techniques'))}
+      </ul>
+      <section id="systems" tabindex="-1">
+      <h2>The systems</h2>
+      <p class="h2-sub">Discover how every system ships AI affordances and tools.</p>
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true"></span>none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
-        <caption class="sr-only">Which AI affordances each of the ${DATA.meta.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
+        <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
         ${groups}</table></div><span class="fade fade-l" aria-hidden="true"></span><span class="fade fade-r" aria-hidden="true"></span></div>
+      </section>
       <h2>Affordance prevalence</h2>
-      <p class="h2-sub">Number of systems (of ${DATA.meta.counts.systems}) shipping each affordance, counting official and community.</p>
+      <p class="h2-sub">Number of systems (of ${m.counts.systems}) shipping each affordance, counting official and community.</p>
       ${prevalenceBars()}`;
   },
 
   system(id) {
     const s = DATA.systems.find(x => x.id === id);
-    if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href('systems')}">Back to the list of systems</a>.</p>`;
+    if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href()}">Back to the overview</a>.</p>`;
     const m = s.maintenance || {}, b = s.building_vs_consumption || {};
-    return `<a class="backlink" href="${href('systems')}">${BACK_ICON}all systems</a>
+    return `<a class="backlink" href="${href()}">${BACK_ICON}all systems</a>
       <div class="pagetop"><p class="eyebrow">${esc(SYS_CATEGORY[s.category] || s.category || 'Record')}</p>${mdDownload('system', s.id)}</div>
       <div class="dhead"><h1>${esc(s.name)}</h1>${matChip(s.ai_maturity)}</div>
       ${mirrorLinks('systems', s.id, s.name)}
@@ -1372,14 +1278,17 @@ const VIEWS = {
       </section>`).join('')}`;
   },
 
-  /* The three sections are the three things the lede promises, in that order, so
-     the jump rows double as a contents list. The essay ran headingless before
-     this; it needs a heading to be jumped to, and /insights.md already calls it
-     "Essay". */
+  /* The findings lead: they are the study's headline conclusions, they moved
+     here when the overview became the systems table, and /insights.md has
+     always opened with them. The three sections after them are the three
+     things the lede promises, in that order, so the jump rows still read as a
+     contents list. The essay ran headingless before this; it needs a heading
+     to be jumped to, and /insights.md already calls it "Essay". */
   insights() {
     const patterns = xs => `<ol class="findings">${xs.map(x =>
       `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
     const secs = [
+      { id: 'findings', label: 'Findings' },
       { id: 'essay', label: 'Essay' },
       { id: 'convergence', label: 'Convergent patterns' },
       { id: 'divergence', label: 'Divergent bets' },
@@ -1388,6 +1297,9 @@ const VIEWS = {
       <p class="lede">${fmt(DATA.insights.insights_lede)}</p>
       <hr class="accent-rule">
       ${jumpList(secs, 'Jump to a section')}
+      <section class="jump-sec" id="findings" tabindex="-1"><h2>Findings</h2>
+        ${patterns(DATA.insights.findings)}
+      </section>
       <section class="jump-sec" id="essay" tabindex="-1"><h2>Essay</h2>
         <div class="prose">${DATA.insights.essay.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
       </section>
@@ -1564,18 +1476,17 @@ function setupMatrixFades() {
 }
 
 const NAV = [
-  ['overview', 'Overview'], ['systems', 'Systems'],
+  ['overview', 'Overview'],
   ['techniques', 'Techniques'], ['platforms', 'Platforms'], ['insights', 'Insights'], ['methodology', 'Methodology'],
   ['reading', 'Reading'], ['ai', 'For agents'],
 ];
 /* One glyph per section, drawn in the same 24px stroked style as the theme
    toggle. Feather (MIT), which is where the moon and the sun came from too.
    Kept beside NAV rather than inside it: prerender.mjs destructures NAV as
-   [route, label] pairs and counts them against routes.json, and an eight-row
-   table stays readable without eight paths threaded through it. */
+   [route, label] pairs and counts them against routes.json, and a seven-row
+   table stays readable without seven paths threaded through it. */
 const NAV_ICON_PATHS = {
   overview: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
-  systems: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
   techniques: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   platforms: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>',
   insights: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
@@ -1587,8 +1498,8 @@ const NAV_ICON_PATHS = {
    announced icon would only make every link read its name twice. */
 const navIcon = (r) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${NAV_ICON_PATHS[r]}</svg>`;
 /* Full page titles, from the same build-time table the prerendered <title> tags
-   and the sitemap come from, so an in-page navigation to /systems leaves the tab
-   reading what a crawler sees rather than the one-word nav label. */
+   and the sitemap come from, so an in-page navigation to /techniques leaves the
+   tab reading what a crawler sees rather than the one-word nav label. */
 const VIEW_TITLES = (DATA.meta && DATA.meta.view_titles) || {};
 const NAV_LABEL = {};
 NAV.forEach(([r, l]) => { NAV_LABEL[r] = l; });
@@ -1612,6 +1523,7 @@ $('#foot').innerHTML = footHTML(parse().view);
 
 function route(opts) {
   const { view, arg } = parse();
+  route.current = view;
   const fn = VIEWS[view] || VIEWS.overview;
   $('#view-root').innerHTML = `<div class="view on">${fn(arg)}</div>`;
 
@@ -1626,7 +1538,8 @@ function route(opts) {
   document.title = full;
   $('#foot').innerHTML = footHTML(view);
 
-  const navActive = view === 'system' ? 'systems' : (VIEWS[view] ? view : 'overview');
+  /* A system record is a leaf of the overview now that the matrix lives there. */
+  const navActive = view === 'system' ? 'overview' : (VIEWS[view] ? view : 'overview');
   document.querySelectorAll('#nav a').forEach(a => {
     const active = a.dataset.r === navActive;
     a.classList.toggle('on', active);
@@ -1640,7 +1553,7 @@ function route(opts) {
     nav.scrollLeft = Math.max(0, here.offsetLeft - 12);
   }
 
-  if (view === 'systems') setupMatrixFades();
+  if (fn === VIEWS.overview) setupMatrixFades();
   pruneSnippetTabStops();
   window.scrollTo(0, 0);
   if (opts && opts.focus) {
@@ -1674,7 +1587,14 @@ if (ROUTING === 'path') {
   });
   window.addEventListener('popstate', () => route({ focus: true }));
 } else {
-  window.addEventListener('hashchange', () => route({ focus: true }));
+  /* Only "#/"-prefixed hashes are routes. A plain "#systems" is an in-page
+     anchor (the stat tiles use one); re-rendering on it would scroll the reader
+     back to the top of the view they were trying to move within. The one time a
+     plain anchor still routes is when back/forward lands it on a different view
+     than the one on screen — the anchor's scroll is lost, but the page is right. */
+  window.addEventListener('hashchange', () => {
+    if (/^#\//.test(location.hash) || parse().view !== route.current) route({ focus: true });
+  });
 }
 
 /* The announcement lives in one document-level status region, not on 300+

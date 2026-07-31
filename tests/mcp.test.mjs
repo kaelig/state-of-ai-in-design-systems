@@ -543,7 +543,6 @@ describe('markdown is byte-identical to the static mirrors', () => {
 
   test('get_report sections', async () => {
     for (const [section, path] of [
-      ['systems', '/systems.md'],
       ['methodology', '/methodology.md'],
       ['reading', '/reading.md'],
       ['insights', '/insights.md'],
@@ -554,12 +553,13 @@ describe('markdown is byte-identical to the static mirrors', () => {
       assert.equal(md, MD_MAP[path]);
     }
 
-    // The systems section absorbed the matrix: one page, coverage table and all.
-    const systems = firstText(
-      await callTool('get_report', { section: 'systems' }),
+    // The overview absorbed the systems page: the front page carries the
+    // coverage table. The findings live in the insights section.
+    const overview = firstText(
+      await callTool('get_report', { section: 'overview' }),
     );
-    assert.match(systems, /^# The systems$/m);
-    assert.match(systems, /^\|/m, 'the affordance coverage table is missing');
+    assert.match(overview, /^## The systems$/m);
+    assert.match(overview, /^\|/m, 'the affordance coverage table is missing');
   });
 
   test('the reading section dates itself, not the snapshot', async () => {
@@ -629,8 +629,10 @@ describe('markdown is byte-identical to the static mirrors', () => {
     const toc = await callJson('get_report');
     assert.equal(toc.section, 'all');
     assert.ok(toc.sections.some((s) => s.section === 'methodology'));
-    // The matrix merged into systems; no alias survives it.
+    // The matrix merged into systems, then systems into the overview; no alias
+    // survives either move.
     assert.ok(!toc.sections.some((s) => s.section === 'matrix'));
+    assert.ok(!toc.sections.some((s) => s.section === 'systems'));
     assert.equal(
       toc.sections.length,
       Object.keys(MD_MAP).filter(isReportPath).length,
@@ -643,7 +645,6 @@ function isReportPath(path) {
     path.startsWith('/questions/') ||
     [
       '/index.md',
-      '/systems.md',
       '/techniques.md',
       '/platforms.md',
       '/insights.md',

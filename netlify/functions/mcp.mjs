@@ -180,11 +180,10 @@ function tally(items, key) {
 // ---------------------------------------------------------------------------
 
 const FIXED_SECTIONS = [
-  ['overview', '/index.md', 'Overview and headline findings'],
   [
-    'systems',
-    '/systems.md',
-    'All 20 design systems and their affordance coverage, with a link to every record',
+    'overview',
+    '/index.md',
+    'The systems table: all 20 design systems and their affordance coverage, with a link to every record',
   ],
   ['techniques', '/techniques.md', 'The model-coercion technique catalog'],
   ['platforms', '/platforms.md', 'The five platforms'],

@@ -164,7 +164,9 @@ function sub(html, re, replacement, label) {
 }
 
 function navFor(view) {
-  const active = view === 'system' ? 'systems' : view;
+  /* A system record is a leaf of the overview: the matrix that indexes the
+     records lives there, so that is the nav item a record page lights. */
+  const active = view === 'system' ? 'overview' : view;
   const re = new RegExp(`<a href="([^"]*)" data-r="${active}">`);
   /* replace() hands back the input untouched when the pattern misses, so an
      edit to the anchor in template.html could ship every page with no current
@@ -304,9 +306,9 @@ function emit(relPath, html) {
   written.push([relPath, Buffer.byteLength(html)]);
 }
 
-// File-form output (systems.html, systems/shadcn-ui.html): Netlify serves these
-// extensionless with a 200, so the canonical URL never redirects. Directory
-// form (systems/index.html) made every canonical 301 to its trailing-slash twin.
+// File-form output (techniques.html, systems/shadcn-ui.html): Netlify serves
+// these extensionless with a 200, so the canonical URL never redirects. Directory
+// form (techniques/index.html) made every canonical 301 to its trailing-slash twin.
 const relFor = (p) =>
   p === '/' ? 'index.html' : p.replace(/^\//, '') + '.html';
 
@@ -349,7 +351,7 @@ emit(
 );
 
 // Remove any directory-form twin a previous build left behind; with both
-// systems.html and systems/index.html on disk, Netlify's resolution is ambiguous.
+// techniques.html and techniques/index.html on disk, Netlify's resolution is ambiguous.
 for (const r of routes) {
   if (r.path === '/') continue;
   const dirTwin = join(OUT, r.path.replace(/^\//, ''), 'index.html');
@@ -407,27 +409,27 @@ for (const [p] of written)
 const read = (p) => readFileSync(join(OUT, p), 'utf8');
 const count = (s, needle) => s.split(needle).length - 1;
 
-// Group header rows and multiple tbodies sit between the system rows, so
-// count the rows that carry a row header and exclude the cohort strips.
-const nSystems = payload.systems.length;
-const mxHtml = read('systems.html');
-const mxTable = mxHtml.slice(
-  mxHtml.indexOf('<table class="mx">'),
-  mxHtml.indexOf('</table>'),
-);
-const nRows = count(mxTable, '<th scope="row" class="sys">');
-if (nRows !== nSystems)
-  die(`/systems.html has ${nRows} system rows, expected ${nSystems}`);
-const nMxGroups = count(mxTable, 'class="mx-group');
-const nMxBodies = count(mxTable, '<tbody>');
-if (nMxGroups !== nMxBodies)
-  die(`/systems.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
-if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
-  die('a matrix cohort strip is missing scope="rowgroup"');
-
 const rootHtml = read('index.html');
 if (!rootHtml.includes('<h1>How design systems talk to machines</h1>'))
   die('root index.html is missing the overview h1');
+
+// The matrix lives on the overview. Group header rows and multiple tbodies sit
+// between the system rows, so count the rows that carry a row header and
+// exclude the cohort strips.
+const nSystems = payload.systems.length;
+const mxTable = rootHtml.slice(
+  rootHtml.indexOf('<table class="mx">'),
+  rootHtml.indexOf('</table>'),
+);
+const nRows = count(mxTable, '<th scope="row" class="sys">');
+if (nRows !== nSystems)
+  die(`index.html has ${nRows} system rows, expected ${nSystems}`);
+const nMxGroups = count(mxTable, 'class="mx-group');
+const nMxBodies = count(mxTable, '<tbody>');
+if (nMxGroups !== nMxBodies)
+  die(`index.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
+if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
+  die('a matrix cohort strip is missing scope="rowgroup"');
 
 // Every stat tile is a claim, and every claim owes the reader the page that
 // backs it up. Slice the list rather than the document: "tile" also appears in
@@ -445,12 +447,18 @@ if (tileHrefs.length !== nTiles)
   die(
     `${nTiles} stat tiles carry ${tileHrefs.length} links; every tile needs one`,
   );
-// Prerendered output is the path-routed variant, so these are route paths. The
+// Prerendered output is the path-routed variant, so these are route paths —
+// or bare #fragments, which must land on an id in this same document. The
 // hash-routed artifact builds from the same source and is not prerendered.
 const routePaths = new Set(routes.map((r) => r.path));
-for (const h of tileHrefs)
-  if (!routePaths.has(h))
+for (const h of tileHrefs) {
+  if (h.startsWith('#')) {
+    if (!rootHtml.includes(`id="${h.slice(1)}"`))
+      die(`a stat tile links to "${h}" but no element carries that id`);
+  } else if (!routePaths.has(h)) {
     die(`a stat tile links to "${h}", which is not a route`);
+  }
+}
 
 // Every view in routes.json got a file, and the nav offers every one of them.
 const viewRoutes = routes.filter((r) => r.view !== 'system');
@@ -467,12 +475,12 @@ for (const [r] of sandbox.__NAV) {
   if (!routes.some((x) => x.view === r))
     die(`nav item "${r}" has no route in routes.json`);
 }
-// Every nav item carries its icon. One template string builds all eight rows, so
-// a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in eight
+// Every nav item carries its icon. One template string builds all seven rows, so
+// a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in seven
 // files, and it degrades quietly: the row still renders, just shorter than its
 // neighbors. Check the map rather than the markup — a missing key still emits
 // an <svg>, it just fills it with the string "undefined", so counting tags
-// reports eight icons for seven glyphs.
+// reports seven icons for six glyphs.
 const navIconPaths = sandbox.__NAV_ICON_PATHS || {};
 const iconless = navItems.filter((r) => !navIconPaths[r]);
 if (iconless.length) die(`nav items with no icon: ${iconless.join(', ')}`);
@@ -481,13 +489,13 @@ if (navIcons !== navItems.length)
   die(`nav has ${navItems.length} items but ${navIcons} icons`);
 
 // Every maturity level the schema allows has to be one MAT_ORDER knows, because
-// the spectrum's rung glyph counts fill from that array's index. indexOf returns
-// -1 rather than throwing, so a level added to the schema alone renders a glyph
-// claiming the full scale — the top of the scale, not the bottom, and the
-// direction a new tier would plausibly belong in, which is what makes it likely
-// to survive review. Check the vocabulary, not the markup: every band comes off
-// the same template string, so a glyph count can only fail when that string is
-// broken, which the short-body check above already catches.
+// the matrix cohorts' rung glyph counts fill from that array's index. indexOf
+// returns -1 rather than throwing, so a level added to the schema alone renders
+// a glyph claiming the full scale — the top of the scale, not the bottom, and
+// the direction a new tier would plausibly belong in, which is what makes it
+// likely to survive review. Check the vocabulary, not the markup: every cohort
+// strip comes off the same template string, so a glyph count can only fail when
+// that string is broken, which the short-body check above already catches.
 const matOrder = sandbox.__MAT_ORDER;
 if (!Array.isArray(matOrder)) die('MAT_ORDER not exposed');
 const schemaLevels = systemSchema.properties.ai_maturity.enum;
@@ -589,7 +597,7 @@ console.log(
 console.log(
   `  largest:  ${written.reduce((a, b) => (b[1] > a[1] ? b : a)).join('=')} bytes`,
 );
-console.log(`  /systems system rows=${nRows} in ${nMxBodies} tbodies`);
+console.log(`  overview matrix rows=${nRows} in ${nMxBodies} tbodies`);
 console.log(
   `  stat tiles: ${nTiles}, each linked (${[...new Set(tileHrefs)].sort().join(' ')})`,
 );

@@ -12,8 +12,8 @@ Writes into dashboard/:
   systems/<id>.md + .json        20 + 20
   platforms/<id>.md + .json       5 + 5
   techniques/<category>.md       one per category present in the data
-  <view>.md                      index, systems, techniques, platforms,
-                                 insights, methodology, ai
+  <view>.md                      index (carrying the systems table), techniques,
+                                 platforms, insights, methodology, ai
   questions/<slug>.md            the FAQ layer
   about/schema.md, 404.md
   llms.txt + .well-known/llms.txt (identical bytes), llms-full.txt and slices
@@ -170,8 +170,7 @@ CAT_ORDER = [
 ]
 
 VIEW_META = {
-    "/index.md": ("Report overview and headline findings", "overview"),
-    "/systems.md": ("The systems", "systems"),
+    "/index.md": ("Report overview and the systems table", "overview"),
     "/techniques.md": ("Coercion techniques", "techniques"),
     "/platforms.md": ("The 5 platforms", "platforms"),
     "/insights.md": ("Insights: findings, convergence, divergence, essay", "insights"),
@@ -277,7 +276,6 @@ def frontmatter(pairs):
 # Markdown paths that mirror a real HTML route; everything else is its own canonical.
 HTML_TWIN = {
     "/index.md": "/",
-    "/systems.md": "/systems",
     "/techniques.md": "/techniques",
     "/platforms.md": "/platforms",
     "/insights.md": "/insights",
@@ -666,7 +664,7 @@ def index_md():
     p = [
         head(
             path,
-            f"{REPORT} — overview and findings",
+            f"{REPORT} — overview and the systems table",
             one_line(INSIGHTS["lede"]),
             "view",
             id="overview",
@@ -674,6 +672,7 @@ def index_md():
             platform_count=N_PLAT,
             affordance_count=N_AFF,
             technique_count=N_TECH,
+            column_count=len(MX_COLS),
         )
     ]
     p.append(f"# {REPORT}\n")
@@ -691,38 +690,7 @@ def index_md():
         f"from. Cite that, not this page. Do not report a system as lacking something "
         f"without opening its record — absence from a summary is not absence from the data.\n"
     )
-    p.append(f"## The {len(INSIGHTS['findings'])} findings\n")
-    for i, f in enumerate(INSIGHTS["findings"], 1):
-        p.append(f"### {i}. {html_to_md(f['title'])}\n")
-        p.append(html_to_md(f["body"]) + "\n")
-    p.append("## Where to go next\n")
-    p.append(
-        f"- Who ships what, as a table with a link to every record: {U('/systems.md')}\n"
-        f"- The {N_TECH} techniques by category: {U('/techniques.md')}\n"
-        f"- Convergence, divergence and the essay: {U('/insights.md')}\n"
-        f"- How the data was gathered: {U('/methodology.md')}\n"
-        f"- Questions this report answers: {U('/llms.txt')}\n"
-        f"- Entity model and taxonomies: {U('/about/schema.md')}\n"
-    )
-    p.append(foot(path))
-    return render(p)
-
-
-def systems_md():
-    path = "/systems.md"
-    p = [
-        head(
-            path,
-            "The systems",
-            f"{N_SYS} design systems against {len(MX_COLS)} affordance groups, as a table, "
-            f"with a link to every record.",
-            "view",
-            id="systems",
-            system_count=N_SYS,
-            column_count=len(MX_COLS),
-        )
-    ]
-    p.append("# The systems\n")
+    p.append("## The systems\n")
     p.append(
         f"{N_SYS} design systems against {len(MX_COLS)} groups of affordance type. "
         f"A number is how many records of that group the system has; a dash means none "
@@ -752,9 +720,18 @@ def systems_md():
         )
     lines.append("| **Systems with at least one** | — | " + " | ".join(totals) + " | — | — |")
     p.append("\n".join(lines) + "\n")
-    p.append("\n## Affordance types in each group\n")
+    p.append("\n### Affordance types in each group\n")
     for label, types in MX_COLS:
         p.append(f"- **{label}**: " + ", ".join(f"`{t}`" for t in types) + "\n")
+    p.append("## Where to go next\n")
+    p.append(
+        f"- The {len(INSIGHTS['findings'])} findings, convergence, divergence and the essay: "
+        f"{U('/insights.md')}\n"
+        f"- The {N_TECH} techniques by category: {U('/techniques.md')}\n"
+        f"- How the data was gathered: {U('/methodology.md')}\n"
+        f"- Questions this report answers: {U('/llms.txt')}\n"
+        f"- Entity model and taxonomies: {U('/about/schema.md')}\n"
+    )
     p.append(foot(path))
     return render(p)
 
@@ -1045,8 +1022,8 @@ def ai_content():
             "note": f"{len(CATS)} categories covering all {N_TECH} techniques.",
         },
         {
-            "label": "The systems",
-            "url": U("/systems.md"),
+            "label": "The systems table",
+            "url": U("/index.md"),
             "note": "Who ships what, as a plain table, with a link to every record.",
         },
         {
@@ -1967,9 +1944,10 @@ def llms_txt(sizes):
         f"conclusions rather than its raw records. Read when you need an argument, not a fact."
     )
     A(
-        f"- [The systems]({U('/systems.md')}): {N_SYS} systems against "
-        f"{len(MX_COLS)} affordance groups as a table, with a link to every record. Read when "
-        f"comparing systems or answering “who ships X?”.\n"
+        f"- [The systems table]({U('/index.md')}): {N_SYS} systems against "
+        f"{len(MX_COLS)} affordance groups, with a link to every record, on the report's "
+        f"front page beside the findings. Read when comparing systems or answering "
+        f"“who ships X?”.\n"
     )
 
     A("## Documentation sets\n")
@@ -2352,7 +2330,6 @@ def main():
 
     # views
     add("/index.md", index_md())
-    add("/systems.md", systems_md())
     add("/techniques.md", techniques_md())
     add("/platforms.md", platforms_md())
     add("/insights.md", insights_md())
@@ -2371,7 +2348,6 @@ def main():
     tech_paths = ["/techniques.md"] + [f"/techniques/{c}.md" for c in CATS]
     view_paths = [
         "/index.md",
-        "/systems.md",
         "/platforms.md",
         "/insights.md",
         "/methodology.md",
@@ -2417,7 +2393,7 @@ def main():
         "/llms-insights.txt",
         aggregate(
             f"{REPORT} — analysis",
-            ["/index.md", "/insights.md", "/systems.md", "/methodology.md"],
+            ["/index.md", "/insights.md", "/methodology.md"],
             "Findings, convergence, divergence, the essay, the systems table, methodology and "
             "caveats. No raw records.",
         ),
@@ -2481,7 +2457,6 @@ def main():
     # HTML route -> markdown twin, for the negotiation edge function
     html_routes = {"/": "/index.md"}
     for p in (
-        "/systems",
         "/techniques",
         "/platforms",
         "/insights",

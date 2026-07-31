@@ -18,9 +18,8 @@ every snippet linked to its source. Data gathered 26–28 July 2026.
 
 ## Using it
 
-**As a reader**, start at the [overview](https://state-of-ai-in-design-systems.netlify.app)
-for the findings, or [the systems](https://state-of-ai-in-design-systems.netlify.app/systems)
-if you want to see all 20 against each other at once. Every claim links
+**As a reader**, start at the [overview](https://state-of-ai-in-design-systems.netlify.app):
+the findings, and all 20 systems against each other at once. Every claim links
 to the page it came from. Open the link before you cite it. The data is a
 snapshot and the underlying systems keep moving.
 
@@ -106,7 +105,7 @@ markdown layer, so work through that list rather than trusting the first two.
 
 | Path                                                                          | What it is                                                                                                                 |
 | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 28 routes plus a static 404, real HTML for crawlers that don’t run JS                               |
+| `dashboard/index.html` + `dashboard/<route>/index.html`                       | The site, prerendered: 27 routes plus a static 404, real HTML for crawlers that don’t run JS                               |
 | `dashboard/data.js`                                                           | The payload every page loads (`window.DATA`)                                                                               |
 | `dashboard/artifact.html`                                                     | The same site as one file: hash routing, no `<head>` of its own, `noindex`                                                 |
 | `dashboard/**/*.md`                                                           | Markdown twin of every route, plus 15 `questions/*.md` and `about/schema.md`                                               |

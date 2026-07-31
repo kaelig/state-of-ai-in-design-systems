@@ -61,7 +61,6 @@ export const config: Config = {
     '/methodology',
     '/platforms',
     '/reading',
-    '/systems',
     '/systems/*',
     '/techniques',
   ],

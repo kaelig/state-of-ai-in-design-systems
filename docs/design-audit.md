@@ -15,12 +15,14 @@ work: it is the argument for why the matrix groups by cohort, why blue is
 reserved, why there is one measure system and not five. Read it before undoing
 any of it.
 
-One move since: on 2026-07-31 the two system indexes merged. The matrix went
-from `/matrix` to `/systems`, retitled “The systems”, and the systems list view
-— the target of directives 3, 17 and 29, filter included — was deleted with its
-`renderSyslist()` and `.syslist*`/`.sysrow` CSS. Matrix directives below
-describe today’s `/systems` page, and the matrix view function is now
-`systems()`.
+Two moves since, both on 2026-07-31. First the two system indexes merged: the
+matrix went from `/matrix` to `/systems`, retitled “The systems”, and the
+systems list view — the target of directives 3, 17 and 29, filter included —
+was deleted with its `renderSyslist()` and `.syslist*`/`.sysrow` CSS. Then
+`/systems` itself retired: the matrix (legend and prevalence bars with it)
+moved onto the overview in place of the maturity-spectrum bands, which were
+deleted with their `.spectrum`/`.spec-band` CSS. Matrix directives below
+describe the overview’s systems section, built inside `overview()`.
 
 ## Binding constraints for executors
 
