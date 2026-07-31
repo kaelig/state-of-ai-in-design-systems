@@ -128,12 +128,12 @@ flowchart TB
   - **Covers R4, R5.**
   - **Given** a suggestion for a general design-system gallery,
   - **When** the maintainer works through F1,
-  - **Then** it is declined by pointing at the inclusion bar the page already states, not by a case-by-case judgement.
+  - **Then** it is declined by pointing at the inclusion bar the page already states, not by a case-by-case judgment.
 
 ### Scope Boundaries
 
 - Reconciling this report's maturity ratings against the Agent-Ready Design Systems Index. The two count different things over different samples and reach different-looking conclusions, and explaining that is a positioning move this plan deliberately does not make.
-- General design-system galleries, component directories and catalogues of agent-facing files, per R4. Useful to some readers, outside the bar.
+- General design-system galleries, component directories and catalogs of agent-facing files, per R4. Useful to some readers, outside the bar.
 - A tenth MCP tool, per R3.
 - Any acknowledgments or influences framing on `/methodology` or `/insights`.
 - Rating, scoring or ranking the listed works. The list describes; it does not grade.
@@ -381,7 +381,7 @@ Data and schema first, then the entries, then the surfaces that render them. The
 | Schema validation  | `node scripts/validate_data.mjs`    | U1, U2 — four files validate, twelve reading records                                                |
 | Full build         | `./scripts/build.sh`                | U4, U5 — every view body clears 400 characters, no placeholder survives, nav and route counts match |
 | Markdown layer     | `python3 scripts/check_md_layer.py` | U5 — the grep gate finds no process narration in the generated reading files                        |
-| Contrast           | `node scripts/check_contrast.js`    | U4 — any new colour pairing holds AA 4.5:1                                                          |
+| Contrast           | `node scripts/check_contrast.js`    | U4 — any new color pairing holds AA 4.5:1                                                          |
 | MCP suite          | `node --test tests/mcp.test.mjs`    | U6 — the section resolves and the tool count is unchanged                                           |
 | Manual             | `netlify serve`                     | U4 — `/reading` reads correctly in light and dark                                                   |
 

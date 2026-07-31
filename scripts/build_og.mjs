@@ -231,7 +231,7 @@ if (statsWidth > CONTENT)
 
 const rendered = draw(svg).render();
 if (rendered.width !== W || rendered.height !== H)
-  die(`rasterised ${rendered.width}x${rendered.height}, expected ${W}x${H}`);
+  die(`rasterized ${rendered.width}x${rendered.height}, expected ${W}x${H}`);
 const bytes = Buffer.from(rendered.asPng());
 
 /* ---------- write it hashed, and sweep what an earlier build left ---------- */

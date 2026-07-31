@@ -133,7 +133,7 @@ the promotion for free.
 | Component (selector)                                                                                          | Now                 | Ruling          | Reason                                                                                                                                                                           |
 | ------------------------------------------------------------------------------------------------------------- | ------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.twocol .col p`                                                                                              | `--ink-2`           | **→ `--ink`**   | Owner directive; the card body is the finding, not a caption.                                                                                                                    |
-| `.tech-ex .tb p`                                                                                              | `--ink-2`           | **→ `--ink`**   | ~78k characters across `/techniques/`, `/platforms/` and every system page — the single largest body of prose on the site, and the whole point of the technique catalogue.       |
+| `.tech-ex .tb p`                                                                                              | `--ink-2`           | **→ `--ink`**   | ~78k characters across `/techniques/`, `/platforms/` and every system page — the single largest body of prose on the site, and the whole point of the technique catalog.       |
 | `.plat .sum`                                                                                                  | `--ink-2`           | **→ `--ink`**   | The platform’s verdict paragraph, and the first prose under its `h2`.                                                                                                            |
 | `.aff-body p.desc`                                                                                            | `--ink-2`           | **→ `--ink`**   | What the affordance _is_; the reader opened the disclosure to read exactly this.                                                                                                 |
 | `.findings p`                                                                                                 | `--ink-2`           | **→ `--ink`**   | The nine findings are the report’s argument (see directive 3).                                                                                                                   |
@@ -237,7 +237,7 @@ Rewrite the three sibling selectors that assume a flat container:
 **Why:** every screen-reader link list, and every tab stop on the site’s main
 index, currently announces a paragraph instead of a system name; and the 19
 rows have no item boundaries or count at all, while the cohort labels that
-organise them are invisible to the outline.
+organize them are invisible to the outline.
 
 **Risk:** the highest in this document. `prerender.mjs` counts
 `class="sysrow"` (must stay exactly 19) and `class="sysgroup` (must stay one
@@ -343,7 +343,7 @@ untouched). Add `list-style: none; padding: 0` to `.tiles`.
 ### 8. Maturity band headers on the overview are `div`s over a list of links
 
 **What:** `<div class="bhead mat-${k}">` → `<h3 class="bhead mat-${k}">`, with
-`margin: 0` added to the `.spec-band .bhead` rule so the band’s coloured strip
+`margin: 0` added to the `.spec-band .bhead` rule so the band’s colored strip
 does not inherit the global `h3` margin.
 
 **Where:** `VIEWS.overview`, the `<div class="spec-band">` template; CSS
@@ -481,7 +481,7 @@ after directives 1–9 have settled, in its own commit.
 
 **What:** replace the inline SVG `background-image` on `.searchbar select` with
 one that inherits (`stroke="currentColor"` via a masked pseudo-element, or two
-tokenised URIs switched per theme).
+tokenized URIs switched per theme).
 
 **Where:** the `.searchbar select` background-image declaration.
 
@@ -537,7 +537,7 @@ re-open them without new evidence.
 - **R4. Wrap cards, bands and disclosure groups in `<section>`.** An unnamed
   section conveys nothing; a heading-named one becomes a `region` landmark, and
   directive 9 exists because the site has 147 too many of those.
-- **R5. `hgroup` around `.eyebrow` + `h1`.** No assistive-tech behaviour
+- **R5. `hgroup` around `.eyebrow` + `h1`.** No assistive-tech behavior
   depends on it; pure markup ceremony.
 - **R6. Breadcrumb `nav` around `.backlink`.** A one-item breadcrumb landmark
   is noise; the link’s text (“← all systems”) already says where it goes.

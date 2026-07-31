@@ -1,7 +1,7 @@
 # Architecture decisions
 
 Why this site is built the way it is. The goal is narrow: the report should ship
-the affordances it catalogues, so that an agent, or a person driving one, can
+the affordances it catalogs, so that an agent, or a person driving one, can
 read, query and cite the study without scraping a single-page app.
 
 ## No framework

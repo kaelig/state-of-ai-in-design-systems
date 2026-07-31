@@ -53,7 +53,7 @@
             "properties": {
               "language": {
                 "enum": ["json", "markdown", "shell", "text", "ts", "tsx"],
-                "description": "Fence label. Extend the list rather than passing an unlabelled string, so the site can highlight consistently."
+                "description": "Fence label. Extend the list rather than passing an unlabeled string, so the site can highlight consistently."
               },
               "content": {
                 "type": "string",

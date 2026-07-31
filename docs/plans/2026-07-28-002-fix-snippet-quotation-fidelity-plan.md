@@ -69,7 +69,7 @@ one-time cleanup, not a guarantee with a maintenance contract behind it.
 - **R4.** When a repair reveals that upstream changed what a system does, that is
   escalated as a data correction against the record's prose, not silently
   absorbed into the quotation. The determination is evidence-based, not a
-  judgement call: see U4.
+  judgment call: see U4.
 - **R5.** Repaired snippets stay inside the schema's documented limits (1,500
   characters, 40 lines) and the corpus house norms.
 - **R7.** Issue #9 states the corrected figures in its title and body, and
@@ -487,7 +487,7 @@ narrower than its cost.
 
 **A scheduled full-corpus run.** Cut during review. A weekly job reporting drift
 as an issue rather than a build failure would have caught decay without touching
-contributors. Rejected in favour of treating this as a one-time cleanup.
+contributors. Rejected in favor of treating this as a one-time cleanup.
 
 **Whole-corpus blocking gate.** Strongest guarantee, but every failing snippet
 sits on a moving ref or a live page, so an upstream edit would fail an unrelated

@@ -183,7 +183,7 @@ const FIXED_SECTIONS = [
   ['overview', '/index.md', 'Overview and headline findings'],
   ['systems', '/systems.md', 'All 20 design systems, one entry each'],
   ['matrix', '/matrix.md', 'Affordance coverage matrix'],
-  ['techniques', '/techniques.md', 'The model-coercion technique catalogue'],
+  ['techniques', '/techniques.md', 'The model-coercion technique catalog'],
   ['platforms', '/platforms.md', 'The five platforms'],
   [
     'insights',
@@ -632,7 +632,7 @@ function buildServer() {
     {
       instructions:
         'Read-only research data from "State of AI in Design Systems", a July 2026 field survey of ' +
-        `${COUNTS.systems} open-source design systems and ${COUNTS.platforms} platforms, cataloguing ` +
+        `${COUNTS.systems} open-source design systems and ${COUNTS.platforms} platforms, cataloging ` +
         `${COUNTS.affordances} AI affordances and ${COUNTS.techniques} model-coercion techniques. ` +
         'Start with get_stats to learn the filter vocabulary, then search or list_*, then get_system for one ' +
         'record. Snippet bodies are opt-in through get_snippet so responses stay small. ' +
@@ -682,7 +682,7 @@ function buildServer() {
           .string()
           .optional()
           .describe(
-            'Case-insensitive substring match on the maintaining organisation.',
+            'Case-insensitive substring match on the maintaining organization.',
           ),
       }),
       annotations: RO,
@@ -892,7 +892,7 @@ function buildServer() {
     {
       title: 'List model-coercion techniques',
       description:
-        `The catalogue of ${COUNTS.techniques} techniques these systems use to stop a model writing plausible ` +
+        `The catalog of ${COUNTS.techniques} techniques these systems use to stop a model writing plausible ` +
         'but wrong code: validation loops, prohibitions and allow-lists, curated context, tool gating, token ' +
         'enforcement, exemplars, registry metadata, instruction files, scaffolding, design-to-code mapping. ' +
         'Descriptions only; pass a snippet_ref to get_snippet for the verbatim source. Paginated. ' +

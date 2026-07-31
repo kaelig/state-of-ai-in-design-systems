@@ -169,7 +169,7 @@ export interface DesignSystemPlatformRecord {
     url: string;
     snippet?: {
       /**
-       * Fence label. Extend the list rather than passing an unlabelled string, so the site can highlight consistently.
+       * Fence label. Extend the list rather than passing an unlabeled string, so the site can highlight consistently.
        */
       language: 'json' | 'markdown' | 'shell' | 'text' | 'ts' | 'tsx';
       /**

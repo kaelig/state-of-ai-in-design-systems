@@ -826,7 +826,7 @@ own commits, separate from any behavior change, so `git log` stays readable.
   10.0.1, prettier 3.9.6, globals 17.8.0, ajv 8.20.0, json-schema-to-typescript
   15.0.4, @types/node 26.1.2, ruff 0.16.0, mypy 2.3.0.
 - Repository facts: `netlify.toml:8` build command, `netlify.toml:13` esbuild
-  function bundling, 131 tracked files under `dashboard/` totalling 11MB, zero
+  function bundling, 131 tracked files under `dashboard/` totaling 11MB, zero
   JSDoc annotations across `prerender.mjs`, `mcp.mjs` and `mcp.test.mjs`,
   `scripts/check_contrast.js` referenced by `AGENTS.md:113` and run by nothing.
 

@@ -165,10 +165,10 @@
     "author": "Brad Frost, Ian Frost and TJ Pitre",
     "kind": "course",
     "url": "https://aianddesign.systems/",
-    "description": "Six chapters covering AI fundamentals, tooling setup, improving an existing system, and rolling the result out across an organisation. Released iteratively, with live jam sessions and a Slack community alongside.",
+    "description": "Six chapters covering AI fundamentals, tooling setup, improving an existing system, and rolling the result out across an organization. Released iteratively, with live jam sessions and a Slack community alongside.",
     "price": {
       "amount": "$995",
-      "buys": "one licence, with 20+ hours of demos and recorded sessions available so far"
+      "buys": "one license, with 20+ hours of demos and recorded sessions available so far"
     },
     "added_on": "2026-07-28"
   },

@@ -151,7 +151,7 @@ resolve. Use `${DATA.meta.counts.systems}`, which reads the same computed dict.
 listed in `PROSE_KEYS`, and `reading_lede` was never added. The other five ledes
 are in the set. This went unnoticed because the old `reading_lede` contained no
 apostrophe; the new one opens "Other people's", which rendered as a straight
-quote on the one page where every neighbouring string is curled.
+quote on the one page where every neighboring string is curled.
 
 Add `"reading_lede"` to `PROSE_KEYS`, between `platforms_lede` and `essay`.
 

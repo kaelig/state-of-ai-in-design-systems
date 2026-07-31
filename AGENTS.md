@@ -72,7 +72,7 @@ shows up nowhere and disappears on the next build.
 is the one generated file still tracked, because the edge function imports it.
 
 `assets/fonts/` is vendored, not authored: three cuts of Hanken Grotesk that
-`build_og.mjs` rasterises the social card with, so the render does not depend on
+`build_og.mjs` rasterizes the social card with, so the render does not depend on
 Google Fonts answering. `assets/fonts/README.md` says where they came from and
 how to make them again.
 
@@ -140,10 +140,18 @@ three-item flourishes, no “robust” / “seamless” / “comprehensive”, n
 emphasis mid-sentence, no emoji headers. Contractions are fine. Say the specific
 thing.
 
+**US spelling in our own words.** color, behavior, labeled, judgment, catalog,
+license, organization, analyze. This covers everything we write: record prose,
+ledes, findings, schema descriptions, MCP tool text, code comments and these
+docs. It stops at anything we did not write. A `snippet.content`, a quoted
+phrase inside a description, a source title, a URL and a product name keep the
+spelling the source used, even where that is British — zeroheight's article is
+“Optimising your styleguide”, and correcting it would misquote it.
+
 ## Design tokens
 
 The palette is defined once in `:root` in `dashboard/template.html` and every
-colour comes from a token. Use `light-dark()`; both themes ship.
+color comes from a token. Use `light-dark()`; both themes ship.
 
 Surfaces are `--bg`, `--bg-raise`, `--bg-sunk`. Text is `--ink`, `--ink-2`,
 `--ink-3`. Rules are `--line`, `--line-strong`.
@@ -151,7 +159,7 @@ Surfaces are `--bg`, `--bg-raise`, `--bg-sunk`. Text is `--ink`, `--ink-2`,
 **Blue is for interaction.** `--accent` and `--accent-ink` mark links, focus
 rings, hover states and the current nav item, plus a small set of deliberate
 editorial accents (the rule under a page title, the eyebrow, the finding
-numerals). Nothing else gets blue. Data visualisation uses `--mat-0` through
+numerals). Nothing else gets blue. Data visualization uses `--mat-0` through
 `--mat-3` and `--data-strong`, which are deliberately desaturated so a chart
 never reads as a call to action; intensity carries importance, not hue. Every
 pair is checked to AA 4.5:1 by `scripts/check_contrast.js`.

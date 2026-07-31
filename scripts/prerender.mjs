@@ -447,7 +447,7 @@ for (const [r] of sandbox.__NAV) {
 // Every nav item carries its icon. One template string builds all nine rows, so
 // a missing glyph is a missing NAV_ICON_PATHS key rather than a typo in nine
 // files, and it degrades quietly: the row still renders, just shorter than its
-// neighbours. Check the map rather than the markup — a missing key still emits
+// neighbors. Check the map rather than the markup — a missing key still emits
 // an <svg>, it just fills it with the string "undefined", so counting tags
 // reports nine icons for eight glyphs.
 const navIconPaths = sandbox.__NAV_ICON_PATHS || {};

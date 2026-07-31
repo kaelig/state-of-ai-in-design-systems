@@ -191,7 +191,7 @@ def validate_urls(systems, platforms):
 
 # ---------------------------------------------------------------- typography
 #
-# Prose fields only. Names, orgs, ids, languages, licences and every URL field
+# Prose fields only. Names, orgs, ids, languages, licenses and every URL field
 # are absent from this set on purpose, and snippet.content is never touched:
 # the snippets are verbatim quotations of other people's files.
 PROSE_KEYS = frozenset(

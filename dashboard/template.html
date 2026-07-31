@@ -64,7 +64,7 @@
   --bg: light-dark(#FFFFFF, #111111);
   --bg-raise: light-dark(#FFFFFF, #191919);
   --bg-sunk: light-dark(#F5F5F5, #0A0A0A);
-  /* Matrix zebra: bg-raise where it reads (dark), the faintest visible grey
+  /* Matrix zebra: bg-raise where it reads (dark), the faintest visible gray
      where raise equals the page ground (light). The hover wash sits one step
      deeper than the stripe so it stays legible on striped rows. */
   --zebra: light-dark(#FAFAFA, #191919);
@@ -112,7 +112,7 @@ body {
      snippet ground flipped instantly around it. Instant everywhere is the only
      version that cannot look half-done. */
 }
-/* Kill the 300ms tap delay and the grey flash, on controls only. */
+/* Kill the 300ms tap delay and the gray flash, on controls only. */
 a, button, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 a {
   color: var(--accent-ink);
@@ -195,16 +195,16 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
   min-height: 44px; padding: 0 12px 0 20px; border-right: 2px solid transparent;
 }
 /* Stroked in currentColor, so the hover and current-page rules below tint the
-   glyph along with its label and there is no icon colour to keep in sync.
+   glyph along with its label and there is no icon color to keep in sync.
    flex-shrink is off because the narrow layout turns this into a scrolling row,
    where a squashed glyph is the first thing to give. */
 .rail nav a svg { width: 16px; height: 16px; flex: none; }
 /* Optical corrections, keyed on data-r so the Feather paths stay verbatim and a
    future glyph swap is still a one-line diff in NAV_ICON_PATHS.
-   Every icon is drawn to the same 24px box and centres geometrically, which is
+   Every icon is drawn to the same 24px box and centers geometrically, which is
    not the same as centring by weight: the house and the clipboard both hang a
    heavy horizontal along the bottom and taper to a roof point or a small tab at
-   the top, so the ink reads low in a box that measures centred. The server is
+   the top, so the ink reads low in a box that measures centered. The server is
    two full-width rounded rectangles — roughly twice the stroke length of any
    other glyph in the row, so at a shared width it reads as the darker one.
    Nudge the first two up; thin the third rather than shrink it, so the row
@@ -303,7 +303,7 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* One treatment, two users: the spectrum bands and the jump rows that /ai,
-   /platforms and /reading all build through jumpList(). */
+   /platforms, /reading and /insights all build through jumpList(). */
 .spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
 .spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
 .jump { list-style: none; padding: 0; margin: 22px 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -452,10 +452,10 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .searchbar input, .searchbar select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-raise); border: 1px solid var(--control-line); border-radius: var(--radius); padding: 7px 12px; }
 .searchbar input { flex: 1; min-width: 0; width: 100%; }
 .searchbar input, .searchbar select { min-height: 40px; }
-/* The native caret sits hard against the border and reads off-centre next to the
+/* The native caret sits hard against the border and reads off-center next to the
    12px text inset. Ours is the site's icon language (1.5px round-cap stroke) at a
    matching 12px inset, so the field is symmetrical. It is drawn as a mask filled
-   with currentColor rather than a coloured data URI: one glyph, both themes, and
+   with currentColor rather than a colored data URI: one glyph, both themes, and
    forced-colors keeps it (a background-image would be dropped there, leaving a
    field with no affordance). Chrome and Safari render no pseudo-elements on a
    <select>, hence the wrapper. */
@@ -611,13 +611,13 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 .tech-ex > summary { list-style: none; cursor: pointer; padding: 11px var(--card-pad, 2px); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
 .tech-ex > summary::-webkit-details-marker { display: none; }
 /* Same affordance cue as .aff: one marker, and background as the only hover
-   signal. The old text recolour used the interactive blue on something that is
+   signal. The old text recolor used the interactive blue on something that is
    not a link, and doubled a signal the background already carries. */
 .tech-ex > summary::before { content: "+" / ""; font-family: var(--mono); color: var(--ink-3); width: 14px; flex: none; }
 .tech-ex[open] > summary::before { content: "–" / ""; }
 .tech-ex > summary:hover { background: var(--bg-sunk); }
 .tech-ex > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.tech-ex .sysref { font-family: var(--font-display); font-weight: 600; font-size: 12px; /* Data attribution, not a link: the steel data colour, never the interactive blue. */
+.tech-ex .sysref { font-family: var(--font-display); font-weight: 600; font-size: 12px; /* Data attribution, not a link: the steel data color, never the interactive blue. */
   letter-spacing: .02em; color: var(--data-strong); min-width: 110px; }
 /* summary inset + 14px marker + 10px gap: the body starts under the title. */
 .tech-ex .tb { padding: 0 var(--card-pad, 2px) 14px calc(var(--card-pad, 2px) + 24px); }
@@ -785,9 +785,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      finger-sized box there dwarfs the line it sits on. So the hit area is an
      overlay instead, the same trade the snippet bar makes below — it sits alone
      at the end of its row, with the eyebrow's text to its left and nothing
-     interactive above or below, so a taller target steals no neighbour's tap. */
+     interactive above or below, so a taller target steals no neighbor's tap. */
   .md-dl::after { content: ''; position: absolute; inset: -11px -6px; }
-  /* Repo / docs links sit alone in their grid cell, so padding cannot steal a neighbour's tap. */
+  /* Repo / docs links sit alone in their grid cell, so padding cannot steal a neighbor's tap. */
   .metagrid .v a { display: inline-block; padding: 11px 0; }
   /* The snippet bar is the one place that keeps its desktop metrics at every
      width: the copy button and the source link both draw at desktop size, and
@@ -888,7 +888,7 @@ const CAT_LABEL = { 'prohibition':'Prohibition','tool-gating':'Tool-gating','cur
 /* A per-system integration heading names the platform, not the id it is keyed
    by: 'figma' → 'Figma'. The name comes from the platform's own record, minus
    the parenthetical gloss that belongs on /platforms and reads as a subtitle
-   inside a 14px heading. 'other' has no record, so it is labelled the same way
+   inside a 14px heading. 'other' has no record, so it is labeled the same way
    the technique categories label theirs. */
 const PLAT_LABEL = { 'other': 'Other' };
 const platLabel = id => PLAT_LABEL[id]
@@ -1083,6 +1083,15 @@ function techniqueHTML(t, sysId, i, withSys) {
     </div></details></li>`;
 }
 
+/* The same Feather set and the same attributes as the rail glyphs, drawn rather
+   than typed: a "←" is a font glyph, so its weight and its height above the
+   baseline are whatever the mono face happens to ship, and it announces itself
+   as text before the label gets a chance to. Stroked in currentColor so the
+   hover rule tints the arrow with its label. */
+const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
+  + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+  + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
+
 /* ---------- views ---------- */
 const VIEWS = {
   overview() {
@@ -1106,10 +1115,10 @@ const VIEWS = {
         <li class="tile"><div class="n">${m.counts.official_mcp}</div><div class="l">ship an official MCP server</div><div class="d">of ${m.counts.systems} systems</div></li>
         <li class="tile"><div class="n">${m.counts.official_skills}</div><div class="l">ship official agent skills</div><div class="d"><code>npx skills add …</code></div></li>
         <li class="tile"><div class="n">${m.counts.llms_txt}</div><div class="l">publish llms.txt</div><div class="d">curated context files</div></li>
-        <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques catalogued</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
+        <li class="tile"><div class="n">${m.counts.techniques}</div><div class="l">coercion techniques cataloged</div><div class="d">${TECH_CAT_COUNT} categories</div></li>
       </ul>
       <h2>The maturity spectrum</h2>
-      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances catalogued. Click through for the receipts.</p>
+      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances cataloged. Click through for the receipts.</p>
       <div class="spectrum">${bands}</div>
       <h2>Findings</h2>
       <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
@@ -1143,7 +1152,7 @@ const VIEWS = {
         + sys.map(row).join('') + '</tbody>';
     }).join('');
     return `<div class="pagetop"><p class="eyebrow">Comparison</p>${mdDownload('matrix')}</div><h1>The affordance matrix</h1>
-      <p class="lede">Every system against every kind of AI affordance, in one table. A filled cell links to the thing itself, usually a docs page or a repo. Under the table, how many of the ${DATA.meta.counts.systems} systems ship each one.</p>
+      <p class="lede">Discover how every system ships AI affordances and tools.</p>
       <hr class="accent-rule">
       <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true">·</span> none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
@@ -1164,7 +1173,7 @@ const VIEWS = {
     const matOpts = MAT_ORDER.filter(k => matCount[k])
       .map(k => `<option value="${esc(k)}">${esc(MAT[k] || k)} · ${matCount[k]}</option>`).join('');
     return `<div class="pagetop"><p class="eyebrow">Drill down</p>${mdDownload('systems')}</div><h1>The systems</h1>
-      <p class="lede">All ${DATA.meta.counts.systems} systems, most AI-invested first. Open one to see what it ships for agents and how it keeps models on-system, with quotes from the files. Search or filter to narrow the list.</p>
+      <p class="lede">Top open-source design systems that ship agentic tooling, analyzed in depth across multiple dimensions.</p>
       <hr class="accent-rule">
       <div class="searchbar">
         <span class="qwrap"><input id="q" type="search" placeholder="Filter by name, org, affordance…" aria-label="Filter systems"><kbd class="qhint" aria-hidden="true">/</kbd></span>
@@ -1179,7 +1188,7 @@ const VIEWS = {
     const s = DATA.systems.find(x => x.id === id);
     if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href('systems')}">Back to the list of systems</a>.</p>`;
     const m = s.maintenance || {}, b = s.building_vs_consumption || {};
-    return `<a class="backlink" href="${href('systems')}">← all systems</a>
+    return `<a class="backlink" href="${href('systems')}">${BACK_ICON}all systems</a>
       <div class="pagetop"><p class="eyebrow">${esc(SYS_CATEGORY[s.category] || s.category || 'Record')}</p>${mdDownload('system', s.id)}</div>
       <div class="dhead"><h1>${esc(s.name)}</h1>${matChip(s.ai_maturity)}</div>
       ${mirrorLinks('systems', s.id, s.name)}
@@ -1253,15 +1262,31 @@ const VIEWS = {
       </section>`).join('')}`;
   },
 
+  /* The three sections are the three things the lede promises, in that order, so
+     the jump rows double as a contents list. The essay ran headingless before
+     this; it needs a heading to be jumped to, and /insights.md already calls it
+     "Essay". */
   insights() {
+    const patterns = xs => `<ol class="findings">${xs.map(x =>
+      `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
+    const secs = [
+      { id: 'essay', label: 'Essay' },
+      { id: 'convergence', label: 'Convergent patterns' },
+      { id: 'divergence', label: 'Divergent bets' },
+    ];
     return `<div class="pagetop"><p class="eyebrow">Synthesis</p>${mdDownload('insights')}</div><h1>Similarities, differences, and what actually works</h1>
       <p class="lede">${fmt(DATA.insights.insights_lede)}</p>
       <hr class="accent-rule">
-      <div class="prose">${DATA.insights.essay.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
-      <h2>Convergent patterns</h2>
-      <ol class="findings">${DATA.insights.convergence.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>
-      <h2>Divergent bets</h2>
-      <ol class="findings">${DATA.insights.divergence.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
+      ${jumpList(secs, 'Jump to a section')}
+      <section class="jump-sec" id="essay" tabindex="-1"><h2>Essay</h2>
+        <div class="prose">${DATA.insights.essay.map(p => `<p>${fmt(p)}</p>`).join('')}</div>
+      </section>
+      <section class="jump-sec" id="convergence" tabindex="-1"><h2>Convergent patterns</h2>
+        ${patterns(DATA.insights.convergence)}
+      </section>
+      <section class="jump-sec" id="divergence" tabindex="-1"><h2>Divergent bets</h2>
+        ${patterns(DATA.insights.divergence)}
+      </section>`;
   },
 
   methodology() {
@@ -1349,14 +1374,14 @@ const VIEWS = {
    a[data-jump] handler does both, and its preventDefault is what keeps
    "#essay" from being read as a route by the hash-routed artifact.
    Empty in, nothing out: a page whose groups are all filtered away renders no
-   labelled-but-empty list. */
+   labeled-but-empty list. */
 function jumpList(items, label) {
   if (!items.length) return '';
   return `<ul class="jump" aria-label="${esc(label)}">${items.map(i =>
     `<li><a href="#${esc(i.id)}" data-jump="${esc(i.id)}">${esc(i.label)}</a></li>`).join('')}</ul>`;
 }
 
-/* `anchor` is the id of the section this row summarises, and only /techniques
+/* `anchor` is the id of the section this row summarizes, and only /techniques
    passes one — the matrix prevalence bars have nothing to jump to. Bare-hash
    hrefs are left alone by the path router's delegated click handler (it only
    claims hrefs starting with "/"), so the browser does the jump. The hash-routed

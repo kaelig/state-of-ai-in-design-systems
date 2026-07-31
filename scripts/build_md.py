@@ -111,7 +111,7 @@ CAT_LABEL = {
     "other": "Other",
 }
 CAT_DEF = {
-    "prohibition": "Explicit negative rules aimed at the model: never invent components, no raw colour values, no inline styles.",
+    "prohibition": "Explicit negative rules aimed at the model: never invent components, no raw color values, no inline styles.",
     "tool-gating": "The agent has to call a tool — MCP, CLI, search script — to get component source or docs. It cannot answer from its weights, so it cannot hallucinate the API.",
     "curated-context": "Docs condensed and structured for context windows: llms.txt, llms-full.txt, per-page markdown mirrors, machine-readable component indexes.",
     "validation-loop": "Linters, type checks and audit tools the agent is told to run, turning “follow the system” into a feedback loop with failures it has to fix.",
@@ -1356,7 +1356,7 @@ def ai_content():
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"The study catalogues {N_TECH} ways design systems make models behave. It would "
+                    "text": f"The study catalogs {N_TECH} ways design systems make models behave. It would "
                     f"be a bit rich to survey those and then not use them, so this site runs on them. "
                     f"{NUMBER_WORD[len(borrowed)].capitalize()} we adopted:",
                 },
@@ -1706,7 +1706,7 @@ techniques across {len(TOKEN_TECH_SYS)} systems are token enforcement, and they 
 the raw value fail rather than by asking the model not to write it.
 
 The recurring moves are a typed token vocabulary the compiler checks, a lint rule that rejects
-literal colours and spacing, and a token lookup exposed as a tool so the agent has to ask what
+literal colors and spacing, and a token lookup exposed as a tool so the agent has to ask what
 “danger red” is called instead of guessing. Design-to-code adds a second path:
 {len(BY_CAT.get("design-code-mapping", []))} design-code-mapping techniques across
 {len(DCM_SYS)} systems tie Figma nodes to real components with real props. See
@@ -1886,7 +1886,7 @@ def size_label(n):
 
 
 def token_label(n):
-    """Rough estimate: bytes / 4. Labelled with a tilde everywhere it is printed."""
+    """Rough estimate: bytes / 4. Labeled with a tilde everywhere it is printed."""
     t = n / 4
     return f"~{t / 1000:.0f}k tokens" if t >= 1000 else f"~{t:.0f} tokens"
 

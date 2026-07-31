@@ -145,7 +145,7 @@ def absence_faults(compute_counts):
     patternfly's llms.txt affordance records that both files 404. compute_counts
     counts any affordance of type llms-txt as a system that publishes one, so the
     report states a number that is one too high and no check sees it. The fix is
-    a field the counter honours, not a sentence in a command file.
+    a field the counter honors, not a sentence in a command file.
     """
     probe = [
         {

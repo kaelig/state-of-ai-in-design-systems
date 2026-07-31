@@ -171,7 +171,7 @@ Both run unchanged against
 
 ## How it was made
 
-Every record was catalogued against a fixed schema, quoting files verbatim, with
+Every record was cataloged against a fixed schema, quoting files verbatim, with
 each claim linked to the page it was taken from. Open the link and you can check
 the claim yourself. The
 [methodology page](https://state-of-ai-in-design-systems.netlify.app/methodology)

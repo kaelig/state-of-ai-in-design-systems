@@ -64,7 +64,7 @@ give the same guarantee without the manual step.
 
 `build_dashboard.py` already writes `build/payload.json` with a `counts` block on
 its first pass. A new `scripts/build_og.mjs` reads the four counts it needs from
-there, builds the card as SVG, rasterises it with `@resvg/resvg-wasm`, hashes the
+there, builds the card as SVG, rasterizes it with `@resvg/resvg-wasm`, hashes the
 PNG bytes, and writes `dashboard/og-image-<hash8>.png` alongside
 `build/og-image.json` naming the file it wrote.
 
@@ -83,7 +83,7 @@ picks up the filename. No new sequencing is introduced.
 
 Only the stats line varies. The eyebrow, the title, the rule and the byline are
 fixed, so the title's two lines are written as two literal lines rather than
-wrapped by a layout engine. Colours carry over from `scripts/og-image.html`
+wrapped by a layout engine. Colors carry over from `scripts/og-image.html`
 unchanged, so the published card differs from today's only in its numbers.
 
 ### The font
@@ -95,7 +95,7 @@ the card uses without weight-matching logic in the generator.
 
 Vendoring rather than fetching is what makes the render deterministic: the build
 stops depending on `fonts.gstatic.com` being reachable, and an upstream revision
-of the font can no longer reflow the card with no commit behind it. Rasterising
+of the font can no longer reflow the card with no commit behind it. Rasterizing
 text into a PNG does not distribute the font, so nothing the site publishes
 carries an OFL obligation. Committing the file does, and `OFL.txt` satisfies it.
 It scopes to that one asset the way `LICENSE-DATA` scopes to `data/`, and leaves
@@ -125,7 +125,7 @@ records unbuildable, because the records are what draw it.
 
 | Path                                     | Change                                                    |
 | ---------------------------------------- | --------------------------------------------------------- |
-| `scripts/build_og.mjs`                   | New. SVG, rasterise, hash, write.                         |
+| `scripts/build_og.mjs`                   | New. SVG, rasterize, hash, write.                         |
 | `scripts/build.sh`                       | One step between 2 and 3.                                 |
 | `scripts/build_dashboard.py`             | Substitute the card filename into both shells.            |
 | `scripts/og-image.html`                  | Deleted.                                                  |

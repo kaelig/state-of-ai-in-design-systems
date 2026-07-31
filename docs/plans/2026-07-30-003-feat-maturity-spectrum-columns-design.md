@@ -21,7 +21,7 @@ ai-native first.
 
 ## Problem
 
-The spectrum is the overview's one piece of data visualisation, and it currently
+The spectrum is the overview's one piece of data visualization, and it currently
 carries its numbers twice in the same channel: a numeral in each band header, and
 band height, which grows as the chip list wraps. The CSS says as much — "band
 length is the chart, so the geometry says what the counts say."
@@ -33,7 +33,7 @@ occupy the same two rows. The geometry tracks name length as much as count.
 
 Stacked full width, the three bands also read as a list rather than a scale.
 Nothing in the layout says ai-native is further along than emerging; the reader
-gets that from the words and from the `--mat-0..3` colour ramp, and has to hold
+gets that from the words and from the `--mat-0..3` color ramp, and has to hold
 the ordering in their head. For a section titled "The maturity spectrum", the
 spectrum itself is the one thing not drawn.
 
@@ -48,7 +48,7 @@ Two alternatives were weighed and rejected in the brainstorm.
 Distinct metaphor glyphs per level — a seedling, a gear, a chip — were the first
 instinct, and they match the nav, where every icon is its own Feather object. But
 nothing about a gear says "more than a seedling". The ordering would live only in
-the column order and the colour, so the glyph would sit outside the encoding
+the column order and the color, so the glyph would sit outside the encoding
 instead of reinforcing it, and "invested" has no obvious object anyway.
 
 Sizing each column proportionally to its count was the other. It fails on the
@@ -83,13 +83,13 @@ band for it — `none` holds zero systems today and the spectrum only renders le
 that have systems.
 
 The bars stroke in `currentColor`, so each glyph inherits its band's
-`--mat-N-ink` and there is no icon colour to keep in sync with the ramp.
+`--mat-N-ink` and there is no icon color to keep in sync with the ramp.
 
 Two values are deliberately left to implementation and set by looking at the
 result at 16px against an 11px uppercase label, the way the nav icons were: the
 bar geometry (x positions, heights, baseline) and the opacity of the unfilled
 rungs. The unfilled rungs have to stay visible enough to read as a denominator
-and faint enough not to be miscounted as filled, and that is a judgement about
+and faint enough not to be miscounted as filled, and that is a judgment about
 rendered pixels in both themes, not a number worth fixing in a spec.
 
 ### The header
@@ -203,7 +203,7 @@ drift from the first.
 the DOM at ai-native → invested → emerging while the eye reads the reverse, so
 keyboard focus traverses the columns right to left. This was raised in the
 brainstorm with the alternative — ascending at every width, DOM and visual order
-agreeing — and the reversal-on-wide-only behaviour was chosen with the cost
+agreeing — and the reversal-on-wide-only behavior was chosen with the cost
 stated. The tradeoff is forced: given wide ascending and narrow descending, one
 source order cannot match both.
 

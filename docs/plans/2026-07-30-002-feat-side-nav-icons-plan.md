@@ -31,8 +31,8 @@ verification pass across both themes and both nav layouts.
 
 The rail nav is nine uppercase 12px labels in a vertical stack
 (`dashboard/template.html:183-191`). Every row looks identical until you read
-it, so returning to a section means re-reading the list rather than recognising
-a shape. The active row is marked by colour, a right border, and a wash — good
+it, so returning to a section means re-reading the list rather than recognizing
+a shape. The active row is marked by color, a right border, and a wash — good
 signal, but only after you have located the row.
 
 The nav is generated, not hand-authored. A `NAV` array of `[route, label]` pairs
@@ -53,8 +53,8 @@ with one silent failure mode along the way.
 - **R1.** Every rail nav item renders an icon alongside its existing text label.
 - **R2.** Icons are decorative. The visible label stays, the accessible name of
   each link is unchanged, and the icon is hidden from assistive technology.
-- **R3.** Icons inherit the anchor's colour, so the default, hover, and
-  active/`aria-current` states tint the icon without new colour rules or new
+- **R3.** Icons inherit the anchor's color, so the default, hover, and
+  active/`aria-current` states tint the icon without new color rules or new
   tokens.
 - **R4.** No new network request. Icons ship inline in the document, matching
   the existing theme-toggle convention.
@@ -153,7 +153,7 @@ implementer's call; the glyph and its reason are the decision.
 
 **Attribution:** the existing moon and sun are Feather-derived (MIT). Whether
 the new glyphs are drawn fresh in the same style or adapted from Feather, add a
-single comment above `NAV_ICON` naming the source and its licence. The repo
+single comment above `NAV_ICON` naming the source and its license. The repo
 ships no such note today; this is the moment to add one rather than deepening an
 undocumented dependency.
 
@@ -171,9 +171,9 @@ confirmation:
   in-page jump lists, and footer are untouched).
 - **A3.** Sizing lands around 16px in a 24px viewBox at the existing 12px label
   size, with the anchor's existing 44px min-height and `align-items: center`
-  doing the vertical alignment. Exact size is an implementation judgement made
+  doing the vertical alignment. Exact size is an implementation judgment made
   against the running page, not a plan decision.
-- **A4.** Icons carry no independent opacity or colour. If the stroked glyph
+- **A4.** Icons carry no independent opacity or color. If the stroked glyph
   reads too heavy next to 550-weight 12px uppercase text, reducing icon opacity
   in the resting state is an acceptable in-unit adjustment — but it must not
   drop the active-state icon below the label's own contrast.
@@ -203,16 +203,16 @@ its label, tinted by `currentColor`, in both nav layouts and both themes.
    Match the theme-toggle attribute set exactly: `viewBox="0 0 24 24"`,
    `fill="none"`, `stroke="currentColor"`, `stroke-width="2"`,
    `stroke-linecap="round"`, `stroke-linejoin="round"`, `aria-hidden="true"`.
-   Prepend the licence/source comment described under Icon Assignment.
+   Prepend the license/source comment described under Icon Assignment.
 2. Change the anchor template on the `$('#nav').innerHTML = …` line so the icon
    markup is emitted immediately after the opening `<a …>` tag, followed by the
    label wrapped in a `<span>` so the flex row has two children to space. Leave
    the `href` and `data-r` attributes, their order, and the surrounding
    whitespace exactly as they are (KTD3).
 3. Add a `gap` to `.rail nav a` and a sizing rule for its `svg` child — fixed
-   width and height, `flex: none` so a long label cannot squash it. No colour
+   width and height, `flex: none` so a long label cannot squash it. No color
    declaration: `currentColor` already inherits the hover and
-   `aria-current` colours from the existing rules on lines 190-191.
+   `aria-current` colors from the existing rules on lines 190-191.
 4. Confirm the narrow-screen block (`max-width: 860px`) needs no icon-specific
    rule beyond what step 3 adds. `.rail nav a` there only overrides `padding`,
    `border-right`, and `flex-shrink`, so the gap and svg sizing carry over.
@@ -235,11 +235,11 @@ its label, tinted by `currentColor`, in both nav layouts and both themes.
   "Overview"; the accessible name of the link is still "Overview" alone, with no
   icon contribution.
 - Wide viewport, `/matrix`: the Matrix anchor's icon renders in the accent ink
-  colour, matching its label, while the other eight icons render in `--ink-2`.
+  color, matching its label, while the other eight icons render in `--ink-2`.
 - Hover a non-active anchor: the icon darkens to `--ink` in step with the label,
   from `currentColor` inheritance and no separate hover rule.
 - Dark theme: all nine icons render at the dark-theme ink values with no
-  hardcoded stroke colour leaking through.
+  hardcoded stroke color leaking through.
 - Narrow viewport (≤860px): the nav is still one horizontally scrolling row,
   each pill shows icon + label, nothing wraps, and no icon is squashed below its
   declared width.
@@ -249,7 +249,7 @@ its label, tinted by `currentColor`, in both nav layouts and both themes.
   anchor, and the icon is inside it.
 
 **Verification:** the rail shows nine icon+label rows at wide and narrow widths
-in both themes; the active item's icon and label share one colour; screen-reader
+in both themes; the active item's icon and label share one color; screen-reader
 link names are unchanged.
 
 ---
@@ -331,7 +331,7 @@ source, and that the repository's own gate agrees.
 1. Run `npm run check` — it is the full CI sequence (eslint, prettier, tsc,
    generated types, ruff, mypy, deno, contrast, build, tests, markdown-layer
    self-check) and it must pass end to end. Prettier and eslint both read
-   `dashboard/template.html`'s neighbours, so formatting drift surfaces here.
+   `dashboard/template.html`'s neighbors, so formatting drift surfaces here.
 2. Serve the built site and inspect the rail at a wide width and below 860px, in
    both themes, on at least three routes including `/` and one `/systems/<id>`
    detail page.
@@ -347,8 +347,8 @@ correctness is asserted, and U2 put the guard there.
 **Test scenarios:**
 
 - `npm run check` exits zero.
-- The contrast check passes — expected, since no new colour token is introduced,
-  but it is the check that would catch an icon-specific colour slipping in.
+- The contrast check passes — expected, since no new color token is introduced,
+  but it is the check that would catch an icon-specific color slipping in.
 - No console error or warning on any of the three inspected routes.
 - `git status` shows only `dashboard/template.html` and `scripts/prerender.mjs`
   as tracked modifications; the regenerated `dashboard/` output stays untracked
@@ -376,7 +376,7 @@ and the build assertion that keeps the prerendered active state honest.
 ### Deferred to Follow-Up Work
 
 - Icons in the in-page jump lists (`.jump`, `.spec-band`) if the rail treatment
-  proves useful there. Separate change, separate judgement.
+  proves useful there. Separate change, separate judgment.
 - A shared icon registry, if a third surface ever needs the same glyphs. Two
   call sites do not justify an abstraction.
 
@@ -388,7 +388,7 @@ and the build assertion that keeps the prerendered active state honest.
   attributes breaks the prerendered active state silently. KTD3 avoids touching
   them and U2 makes the failure loud. This is the one risk worth real care.
 - **Nine stroked glyphs at 16px can read as noise** next to nine uppercase
-  labels. Mitigation is A4: adjust resting-state icon opacity, not colour, and
+  labels. Mitigation is A4: adjust resting-state icon opacity, not color, and
   keep the active state at full strength.
 - **Narrow-screen scroll length grows** by roughly 26px per item. Accepted under
   KTD5; the row already scrolls and has a fade affordance
@@ -417,7 +417,7 @@ and the build assertion that keeps the prerendered active state honest.
 1. All nine rail nav items render a decorative inline SVG icon beside their
    label, in both nav layouts and both themes (R1, R2, R6).
 2. Icons tint with the anchor through `currentColor` in default, hover, and
-   active states, with no new colour rule or token (R3).
+   active states, with no new color rule or token (R3).
 3. Nothing new is fetched (R4).
 4. The prerender pipeline validates the nav count *and* proves the active-anchor
    rewrite landed and every nav item has an icon (R5).

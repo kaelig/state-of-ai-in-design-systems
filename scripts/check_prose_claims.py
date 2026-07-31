@@ -20,7 +20,7 @@ true about the old corpus.
 
 Exit status is 1 when a stamp is missing, stale, or does not cover every claim.
 Without a stamp argument this only reports, because which sentences are worth
-rewriting is a judgement and a checker cannot make it.
+rewriting is a judgment and a checker cannot make it.
 """
 
 import argparse

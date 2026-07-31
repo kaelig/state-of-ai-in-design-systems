@@ -1,10 +1,10 @@
 {
-  "lede": "What {systems} open-source design systems ship so AI agents can build with them, plus the {platforms:word} platforms most of them sit on. This page has the headline counts, where every system landed, and the findings.",
-  "insights_lede": "An essay on what the {systems} records add up to, then the patterns almost every team has landed on, then the places they've bet differently.",
-  "methodology_lede": "How the {systems} systems were picked, and what had to be on a page before it counted as an affordance or a technique. The caveats are at the bottom, and there are a few.",
-  "techniques_lede": "Models invent components that don't exist. This page collects the {techniques} things teams do to stop that, grouped into {technique_categories} kinds, quoted from the files where they wrote them down.",
-  "platforms_lede": "Figma, Storybook, Supernova, Knapsack and zeroheight: the {platforms:word} tools design systems get built and published on. For each one, what it gives an AI agent and how much evidence there is that anyone uses it.",
-  "reading_lede": "Other people's writing, talks and courses on design systems and AI agents. Unlike the rest of the report, this list keeps moving.",
+  "lede": "A study of the current state of the art in how open-source design systems implement and distribute agentic tooling for contribution and consumption.",
+  "insights_lede": "An essay on what the state of the art tells us, the patterns almost every team has landed on, and the places they've bet differently on.",
+  "methodology_lede": "How the systems were picked, and what had to be on a page before it counted as an affordance or a technique. Find caveats at the end (and there are a few).",
+  "techniques_lede": "Agents hallucinate components and design tokens that don't exist. Here are all the things design system teams do to stop that.",
+  "platforms_lede": "How major tools help design systems get built and published.",
+  "reading_lede": "Other people's writing, talks and courses on design systems and AI agents.",
   "findings": [
     {
       "title": "The machine interface is table stakes: {official_mcp} of {systems} ship an official MCP server",
@@ -94,7 +94,7 @@
     "The design-system team's own repo is a different battlefield from the consumer's repo, and investment on the two sides barely correlates. Some of the most consumer-invested systems (SLDS, Polaris, React Spectrum) put almost nothing public on the builder side, while Fluent UI runs one of the two deepest contributor stacks behind a thin consumer surface. A quieter trend connects the leaders: they have started treating agent files as versioned, evaluated software. shadcn ships evals for its skill. Mantine version-locks its MCP server to each release. Atlassian published benchmark numbers. Astryx runs a nightly benchmark against a competitor and publishes the nights it loses. Carbon's AGENTS.md opens by telling maintainers to keep it short because it's loaded into every agent's context. Give the machine interface the care you already give the component API. That is the part of this worth copying."
   ],
   "methodology": [
-    "Research agents (Claude Opus 5) gathered the data on 26–28 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system catalogued affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",
+    "Research agents (Claude Opus 5) gathered the data on 26–28 July 2026, coordinated by a lead model (Claude Fable 5). Scouts mapped the territory, then one researcher per system cataloged affordances and coercion techniques against a fixed schema, quoting files verbatim and linking every claim to its source. Every claim was checked against its primary source before publication.",
     "Inclusion criteria: open source, active within the last six months, and enough public surface to study. The set spans AI-native leaders, large corporate systems and one deliberate public-sector contrast case. Where monorepos are private (Atlassian, Nord, SLDS internals), records rely on published packages and docs, and say so.",
     "AI maturity is a four-step editorial rating applied with one rubric across all systems: **none** (no AI affordances found), **emerging** (llms.txt or an AI docs page, little more), **invested** (official MCP, skills or rules with real engineering behind them), **ai-native** (AI consumption is a core design goal).",
     "The full dataset ships alongside this report as JSON records and a relational SQLite database: systems, affordances, techniques, platform capabilities and sources."

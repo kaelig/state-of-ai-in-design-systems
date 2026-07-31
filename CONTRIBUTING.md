@@ -24,7 +24,7 @@ specific page, not the site root. For a file in a repo, a permalink pinned to a
 commit or tag is best, because `main` moves.
 
 If you maintain the system in question, say so in the issue. It doesn’t waive the
-source requirement, but it tells us how to weigh a judgement call.
+source requirement, but it tells us how to weigh a judgment call.
 
 ### 2. Suggest a system
 
@@ -110,7 +110,7 @@ record string straight into an HTML template is how a stray `<` in somebody’s
 docs quietly breaks a page.
 
 **Blue means interactive.** The palette reserves blue for things you can click,
-focus or tab to. If you’re adding colour to something that isn’t interactive,
+focus or tab to. If you’re adding color to something that isn’t interactive,
 it isn’t blue.
 
 ## Where the data lives

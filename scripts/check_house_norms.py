@@ -9,7 +9,7 @@ snippet is over the budget the schema documents, no duplicate ids, and the
 cohort blocks run in the order dashboard/template.html renders them. These run
 in `npm run check`.
 
-NORMS are measured from the other records and are judgement calls. Nothing here
+NORMS are measured from the other records and are judgment calls. Nothing here
 hard-codes a threshold, so the shape of the study defines the shape of a new
 entry. A deviation is a decision to write down, not an error, which is why norms
 are not in the gate.

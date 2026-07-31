@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="State of AI in Design Systems">
   <!-- The affordance matrix in miniature: filled dots, one ring, on the slate
-       data wash. Site colours: mat-2 ground and ink, per theme. -->
+       data wash. Site colors: mat-2 ground and ink, per theme. -->
   <style>
     .g { fill: #CBDCEB; } .d { fill: #29465F; } .r { fill: none; stroke: #29465F; stroke-width: 1.8; }
     @media (prefers-color-scheme: dark) {

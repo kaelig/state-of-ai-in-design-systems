@@ -138,7 +138,7 @@ def _substitution(page, seg, finding, view):
     if view != 0:
         return False, f"matches only in derived view {view}, not the bytes the page served"
     if len(hits) != 1:
-        return False, f"{len(hits)} page lines match after squashing; which one is a judgement"
+        return False, f"{len(hits)} page lines match after squashing; which one is a judgment"
     span = _span(page, seg, finding.at)
     if span and not span[0] <= hits[0] <= span[1]:
         return (
