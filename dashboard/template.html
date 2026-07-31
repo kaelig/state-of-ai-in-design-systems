@@ -330,8 +330,12 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 .spec-band .bhead.mat-ai-native { background: var(--mat-3); color: var(--mat-3-ink); }
 .spec-band ul { list-style: none; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* One treatment, two users: the spectrum bands and the jump rows that /ai,
-   /platforms, /reading and /insights all build through jumpList(). */
-.spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
+   /platforms, /reading and /insights all build through jumpList(). Transparent,
+   not --bg: jump rows sit on the page, where the two are the same paint, but
+   spectrum chips sit on the band's raised card, and in dark a --bg fill recessed
+   them into wells — the elevation code and hover washes own. Letting the ground
+   through keeps the one treatment one drawing on both surfaces in both themes. */
+.spec-band li a, .jump li a { font-size: 13px; border: 1px solid var(--line); background: transparent; border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
 .spec-band li a:hover, .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
 .jump { list-style: none; padding: 0; margin: 22px 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* The accent rule already leaves 24px under itself, so a list that follows one
@@ -515,6 +519,11 @@ table.mx tr.mx-group th .gn {
   table.mx td .none, .mx-legend .none-key { background: GrayText; }
   table.mx tr.mx-group .rungs line { stroke: CanvasText; }
   table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
+  /* The spectrum's band heads quote the same glyph. Its currentColor stroke
+     already follows the forced ink, but forced colors keeps opacity, so the .45
+     dim would survive as a translucent bar a reader could miscount; the track is
+     restated the way the table's is — GrayText at full strength. */
+  .spec-band .rungs line[opacity] { stroke: GrayText; opacity: 1; }
 }
 /* Edge fades belong to the wrapper, not the scroller: inside it they would
    scroll away with the content. They only exist while the table can scroll. */
@@ -885,7 +894,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   a { color: inherit; }
   /* Snippets were guillotined at the paper edge. */
   .snip pre { white-space: pre-wrap; overflow: visible; }
-  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li { break-inside: avoid; }
+  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li, .spec-band { break-inside: avoid; }
   /* URLs only where the content is; the rail is gone and the footer repeats. */
   #view-root a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9px; color: var(--ink-3); }
   /* The snippet-bar link's ::after is a tap overlay on screen. On paper the same
@@ -1228,7 +1237,7 @@ const VIEWS = {
         ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, 'techniques')}
       </ul>
       <h2>The maturity spectrum</h2>
-      <p class="h2-sub">Every system placed on one ordinal scale. Placement is editorial, based on the affordances cataloged. Click through for the receipts.</p>
+      <p class="h2-sub">Systems were placed on a maturity scale at the time the data was collected.</p>
       <div class="spectrum">${bands}</div>
       <h2>Findings</h2>
       <ol class="findings">${f.map(x => `<li><h3>${esc(x.title)}</h3><p>${fmt(x.body)}</p></li>`).join('')}</ol>`;
