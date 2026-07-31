@@ -4,7 +4,6 @@ export const MD_TWINS: Record<string, string> = {
   "/": "/index.md",
   "/ai": "/ai.md",
   "/insights": "/insights.md",
-  "/matrix": "/matrix.md",
   "/methodology": "/methodology.md",
   "/platforms": "/platforms.md",
   "/reading": "/reading.md",

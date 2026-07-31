@@ -12,7 +12,7 @@ Writes into dashboard/:
   systems/<id>.md + .json        20 + 20
   platforms/<id>.md + .json       5 + 5
   techniques/<category>.md       one per category present in the data
-  <view>.md                      index, matrix, systems, techniques, platforms,
+  <view>.md                      index, systems, techniques, platforms,
                                  insights, methodology, ai
   questions/<slug>.md            the FAQ layer
   about/schema.md, 404.md
@@ -171,8 +171,7 @@ CAT_ORDER = [
 
 VIEW_META = {
     "/index.md": ("Report overview and headline findings", "overview"),
-    "/matrix.md": ("The affordance matrix", "matrix"),
-    "/systems.md": ("The 20 design systems", "systems"),
+    "/systems.md": ("The systems", "systems"),
     "/techniques.md": ("Coercion techniques", "techniques"),
     "/platforms.md": ("The 5 platforms", "platforms"),
     "/insights.md": ("Insights: findings, convergence, divergence, essay", "insights"),
@@ -278,7 +277,6 @@ def frontmatter(pairs):
 # Markdown paths that mirror a real HTML route; everything else is its own canonical.
 HTML_TWIN = {
     "/index.md": "/",
-    "/matrix.md": "/matrix",
     "/systems.md": "/systems",
     "/techniques.md": "/techniques",
     "/platforms.md": "/platforms",
@@ -699,8 +697,7 @@ def index_md():
         p.append(html_to_md(f["body"]) + "\n")
     p.append("## Where to go next\n")
     p.append(
-        f"- Every system, one line each: {U('/systems.md')}\n"
-        f"- Who ships what, as a table: {U('/matrix.md')}\n"
+        f"- Who ships what, as a table with a link to every record: {U('/systems.md')}\n"
         f"- The {N_TECH} techniques by category: {U('/techniques.md')}\n"
         f"- Convergence, divergence and the essay: {U('/insights.md')}\n"
         f"- How the data was gathered: {U('/methodology.md')}\n"
@@ -716,78 +713,47 @@ def systems_md():
     p = [
         head(
             path,
-            f"The {N_SYS} design systems",
-            "Every system in the study with its AI maturity, affordance count and technique count.",
+            "The systems",
+            f"{N_SYS} design systems against {len(MX_COLS)} affordance groups, as a table, "
+            f"with a link to every record.",
             "view",
             id="systems",
-            system_count=N_SYS,
-        )
-    ]
-    p.append(f"# The {N_SYS} design systems\n")
-    p.append(
-        "One line each, alphabetical by record id. Open a record for the full detail: "
-        "affordances with verbatim snippets, techniques, platform integrations, gaps and "
-        "sources. Each has a JSON twin with the same content typed.\n"
-    )
-    p.append("| System | Maturity | Affordances | Techniques | Record | JSON |\n")
-    p.append("|---|---|---:|---:|---|---|\n")
-    for s in SYSTEMS:
-        p.append(
-            f"| {cell(s['name'])} | {s['ai_maturity']} | {len(s['affordances'])} | "
-            f"{len(s['techniques'])} | {U('/systems/' + s['id'] + '.md')} | "
-            f"{U('/systems/' + s['id'] + '.json')} |\n"
-        )
-    p.append("\n## Summaries\n")
-    for s in SYSTEMS:
-        p.append(f"### {s['name']}\n")
-        p.append(
-            f"{s['ai_maturity']} · {s['org']} · {len(s['affordances'])} affordances · "
-            f"{len(s['techniques'])} techniques\n"
-        )
-        p.append(first_sentence(s["summary"], 320) + "\n")
-        p.append(f"Full record: {U('/systems/' + s['id'] + '.md')}\n")
-    p.append(foot(path))
-    return render(p)
-
-
-def matrix_md():
-    path = "/matrix.md"
-    p = [
-        head(
-            path,
-            "The affordance matrix",
-            f"{N_SYS} design systems against {len(MX_COLS)} affordance groups, as a table.",
-            "view",
-            id="matrix",
             system_count=N_SYS,
             column_count=len(MX_COLS),
         )
     ]
-    p.append("# The affordance matrix\n")
+    p.append("# The systems\n")
     p.append(
         f"{N_SYS} design systems against {len(MX_COLS)} groups of affordance type. "
         f"A number is how many records of that group the system has; a dash means none "
-        f"were found. Read when comparing systems or answering “who ships X?”.\n"
+        f"were found. Read when comparing systems or answering “who ships X?”. The last "
+        f"two columns link each system's full record — affordances with verbatim snippets, "
+        f"techniques, platform integrations, gaps and sources — and its JSON twin with the "
+        f"same content typed.\n"
     )
-    hdr = "| System | Maturity | " + " | ".join(c[0] for c in MX_COLS) + " |"
-    sep = "|---|---|" + "---|" * len(MX_COLS)
+    hdr = "| System | Maturity | " + " | ".join(c[0] for c in MX_COLS) + " | Record | JSON |"
+    sep = "|---|---|" + "---|" * len(MX_COLS) + "---|---|"
     p.append(hdr + "\n" + sep + "\n")
     for s in SYSTEMS:
         cells = []
         for _, types in MX_COLS:
             n = sum(1 for a in s["affordances"] if a["type"] in types)
             cells.append(str(n) if n else "—")
-        p.append(f"| {cell(s['name'])} | {s['ai_maturity']} | " + " | ".join(cells) + " |\n")
+        p.append(
+            f"| {cell(s['name'])} | {s['ai_maturity']} | "
+            + " | ".join(cells)
+            + f" | {U('/systems/' + s['id'] + '.md')} "
+            + f"| {U('/systems/' + s['id'] + '.json')} |\n"
+        )
     totals = []
     for _, types in MX_COLS:
         totals.append(
             str(sum(1 for s in SYSTEMS if any(a["type"] in types for a in s["affordances"])))
         )
-    p.append("| **Systems with at least one** | — | " + " | ".join(totals) + " |\n")
+    p.append("| **Systems with at least one** | — | " + " | ".join(totals) + " | — | — |\n")
     p.append("\n## Affordance types in each group\n")
     for label, types in MX_COLS:
         p.append(f"- **{label}**: " + ", ".join(f"`{t}`" for t in types) + "\n")
-    p.append(f"\nPer-system detail: {U('/systems.md')}\n")
     p.append(foot(path))
     return render(p)
 
@@ -1078,9 +1044,9 @@ def ai_content():
             "note": f"{len(CATS)} categories covering all {N_TECH} techniques.",
         },
         {
-            "label": "The affordance matrix",
-            "url": U("/matrix.md"),
-            "note": "Who ships what, as a plain table.",
+            "label": "The systems",
+            "url": U("/systems.md"),
+            "note": "Who ships what, as a plain table, with a link to every record.",
         },
         {
             "label": "Everything in one file",
@@ -2000,11 +1966,10 @@ def llms_txt(sizes):
         f"conclusions rather than its raw records. Read when you need an argument, not a fact."
     )
     A(
-        f"- [The affordance matrix]({U('/matrix.md')}): {N_SYS} systems against "
-        f"{len(MX_COLS)} affordance groups as a table. Read when comparing systems or answering "
-        f"“who ships X?”."
+        f"- [The systems]({U('/systems.md')}): {N_SYS} systems against "
+        f"{len(MX_COLS)} affordance groups as a table, with a link to every record. Read when "
+        f"comparing systems or answering “who ships X?”.\n"
     )
-    A(f"- [Every system, one line each]({U('/systems.md')})\n")
 
     A("## Documentation sets\n")
     A(
@@ -2387,7 +2352,6 @@ def main():
     # views
     add("/index.md", index_md())
     add("/systems.md", systems_md())
-    add("/matrix.md", matrix_md())
     add("/techniques.md", techniques_md())
     add("/platforms.md", platforms_md())
     add("/insights.md", insights_md())
@@ -2406,7 +2370,6 @@ def main():
     tech_paths = ["/techniques.md"] + [f"/techniques/{c}.md" for c in CATS]
     view_paths = [
         "/index.md",
-        "/matrix.md",
         "/systems.md",
         "/platforms.md",
         "/insights.md",
@@ -2453,9 +2416,9 @@ def main():
         "/llms-insights.txt",
         aggregate(
             f"{REPORT} — analysis",
-            ["/index.md", "/insights.md", "/matrix.md", "/methodology.md"],
-            "Findings, convergence, divergence, the essay, the matrix, methodology and caveats. "
-            "No raw records.",
+            ["/index.md", "/insights.md", "/systems.md", "/methodology.md"],
+            "Findings, convergence, divergence, the essay, the systems table, methodology and "
+            "caveats. No raw records.",
         ),
     )
     add(
@@ -2517,7 +2480,6 @@ def main():
     # HTML route -> markdown twin, for the negotiation edge function
     html_routes = {"/": "/index.md"}
     for p in (
-        "/matrix",
         "/systems",
         "/techniques",
         "/platforms",
