@@ -26,7 +26,7 @@ new-system suggestions through the issue templates.
 ## Product Purpose
 
 A field survey of how 20 actively maintained open-source design systems make
-themselves legible to machines, plus the 5 platforms around them. For each
+themselves legible to machines, plus the 6 platforms around them. For each
 system: what it ships so coding agents can build with it, and the techniques
 that keep a model using real components and tokens instead of inventing its
 own. Covers both directions: AI for consumption (agents building UIs with the

@@ -105,6 +105,117 @@
     ]
   },
   {
+    "id": "penpot",
+    "name": "Penpot (MCP server, penpot-ai-kit, native design tokens)",
+    "summary": "Penpot is the open-source design platform: MPL-2.0, self-hostable, and per its own llms.txt \"a Digital Public Good, free to use, and self-hostable.\" Its AI surface is read-write by architecture. The official MCP server implements no canvas operations itself; it drives a dedicated Penpot MCP Plugin over WebSocket, and the model works by writing and executing code against the Penpot Plugin API. CONSUMPTION: @penpot/mcp on npm (`npx -y @penpot/mcp@latest`, streamable HTTP on port 4401 plus a legacy SSE endpoint), or a hosted remote endpoint at https://<your-penpot-domain>/mcp/stream keyed by a per-user MCP token — design.penpot.app on the SaaS, the same path on a self-hosted instance, so the whole agent-plus-design-tool loop can run on infrastructure you control. Four core tools (execute_code, high_level_overview, penpot_api_info, export_shape) plus import_image in local mode. On top of the server, penpot-ai-kit ships twelve first-party agent skills with a router, machine-readable autofix policies, eval fixtures and a .well-known/agent-skills discovery index. Native design tokens follow the W3C DTCG draft format with JSON import and export and a programmable tokens API. BUILDING: Penpot builds Penpot with agents. The monorepo's AGENTS.md bans pushing and amending pushed commits, stops the agent until it has read the per-module Serena memories (55 files at the pinned commit), ships an OpenCode workbench, and mandates an `AI-assisted-by:` commit trailer. GAPS: llms-full.txt is a 506-byte stub ending \"_No content sections available yet._\"; help.penpot.app, where the substantive docs live, has no llms.txt (404), and the marketing /ai pages have no markdown twins; the hosted MCP is per-user, so there is nothing to connect to without an account; penpot-ai-kit declares CC BY 4.0 only in README prose with no LICENSE file, so GitHub reports no license; the earlier penpot-mcp repo is archived by README banner while its GitHub archived flag is unset (checked 2026-07-31); and the in-repo doc for the multi-user mode says that mode is \"under development and not yet fully integrated.\"",
+    "capabilities": [
+      {
+        "title": "Official MCP server (@penpot/mcp) — read-write, drives a plugin over WebSocket",
+        "description": "The server communicates with a dedicated Penpot MCP Plugin over WebSocket, and the model carries out tasks by writing code against the Penpot Plugin API; execute_code's tool description (in ExecuteCodeTool.ts) hands it a persistent `storage` object so it can build up a code library across calls. Installed locally with `npx -y @penpot/mcp@latest`, versioned in lockstep with Penpot releases (npm `latest` sat at 2.15.4 with 2.17.0 on the `next` dist-tag when checked, 2026-07-31). The earlier standalone penpot-mcp repository carries an archive banner dated 2026-02-03 pointing at the monorepo, though its GitHub archived flag is unset.",
+        "audience": "both",
+        "url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/README.md",
+        "snippet": {
+          "language": "markdown",
+          "content": "creation of design elements.  The MCP server communicates with Penpot\nvia the dedicated **Penpot MCP Plugin**,\nwhich connects to the MCP server via WebSocket.  \nThis enables the LLM to carry out tasks in the context of a design file by \nexecuting code that leverages the Penpot Plugin API.\nThe LLM is free to write and execute arbitrary code snippets\nwithin the Penpot Plugin environment to accomplish its tasks.",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/README.md"
+        }
+      },
+      {
+        "title": "Four core tools, read from source: execute_code, high_level_overview, penpot_api_info, export_shape",
+        "description": "The registration in PenpotMcpServer.ts matches the help-center docs exactly: four core tools, import_image added only when file-system access is enabled (local mode), and five more behind a devenv flag, including a CLJS REPL and a Taiga issue reader. penpot_api_info serves Plugin API documentation to the model on demand and high_level_overview returns static instructions on using the Penpot tools and API. The docs note that remote mode limits export_shape and drops local-path import_image.",
+        "audience": "both",
+        "url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/packages/server/src/PenpotMcpServer.ts",
+        "snippet": {
+          "language": "ts",
+          "content": "    private initTools(): ToolInfo[] {\n        const toolInstances: Tool<any>[] = [\n            new ExecuteCodeTool(this),\n            new HighLevelOverviewTool(this),\n            new PenpotApiInfoTool(this, this.apiDocs),\n            new ExportShapeTool(this),\n        ];\n        if (this.isFileSystemAccessEnabled()) {\n            toolInstances.push(new ImportImageTool(this));\n        }",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/packages/server/src/PenpotMcpServer.ts"
+        }
+      },
+      {
+        "title": "Hosted remote MCP per user, or local on port 4401",
+        "description": "Remote MCP is enabled per account (Your account → Integrations → MCP Server) and served at https://<your-penpot-domain>/mcp/stream?userToken=<MCP key>: design.penpot.app on the hosted SaaS, the same path on a self-hosted instance. Local mode runs streamable HTTP at http://localhost:4401/mcp with a legacy SSE endpoint alongside; stdio-only clients go through the mcp-remote proxy. The in-repo doc for the multi-user mode says that mode is \"under development and not yet fully integrated.\"",
+        "audience": "consumers",
+        "url": "https://help.penpot.app/mcp/",
+        "snippet": {
+          "language": "markdown",
+          "content": "By default, the server runs on port 4401 and provides:\n\n- **Modern Streamable HTTP endpoint**: `http://localhost:4401/mcp`\n- **Legacy SSE endpoint**: `http://localhost:4401/sse`",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/README.md"
+        }
+      },
+      {
+        "title": "penpot-ai-kit: twelve agent skills with a router, autofix policies, evals and a lockfile",
+        "description": "First-party skills package (namespace app.penpot.skills, v0.3.0) whose manifest says it is \"Grounded in the real Penpot MCP surface (4 core tools, plus import_image in local mode).\" Twelve skills cover screen building, component factories, token and accessibility audits, Figma migration, handoff docs and a router; the kit's AGENTS.md tells the model to ignore instructions naming tools that do not exist. policies/modes.json codifies a human-approval boundary, evals/ ships golden tests for the kit's own doctrine, skills.lock pins content by sha256, and .well-known/agent-skills/index.json implements the Agent Skills Discovery convention. License caveat: the README declares CC BY 4.0, but there is no LICENSE file and GitHub's license detection reports none.",
+        "audience": "both",
+        "url": "https://raw.githubusercontent.com/penpot/penpot-ai-kit/a333fbbea692d95a724a14db38697c73f80e8300/README.md",
+        "snippet": {
+          "language": "json",
+          "content": "  \"neverAutofix\": [\n    \"any geometry change (position, size, layout)\",\n    \"creating, deleting, or restructuring variants or components\",\n    \"detach() on a component instance\",\n    \"creating a new token (propose; human approves name/value/tier)\",\n    \"deleting or renaming shared library assets\",\n    \"any token swap that is a near-match rather than an exact equality\"\n  ],\n  \"rule\": \"Auto-fix is opt-in per change type, never per skill wholesale. When in doubt, downgrade to Apply-with-review.\"",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot-ai-kit/a333fbbea692d95a724a14db38697c73f80e8300/policies/modes.json"
+        }
+      },
+      {
+        "title": "llms.txt on both marketing domains; llms-full.txt is an empty stub",
+        "description": "penpot.app/llms.txt and penpot.dev/llms.txt served byte-identical 2,710-byte indexes on 2026-07-31 (Product, AI Workflows, Ecosystem, Buyer Research, About, plus an Optional tail) whose AI Workflows section points at the /ai/mcp-server and /ai/ai-workflows pages. The index calls llms-full.txt the \"Full content reference for AI systems\", but that file is a 506-byte stub whose last line reads \"_No content sections available yet._\" — a status-code sweep would score it as present. The docs site help.penpot.app, where the substantive MCP and tokens documentation lives, has no llms.txt at all (404 on 2026-07-31), and the marketing pages have no markdown twins and ignore Accept: text/markdown.",
+        "audience": "consumers",
+        "url": "https://penpot.dev/llms.txt",
+        "snippet": {
+          "language": "markdown",
+          "content": "# Penpot — Full Reference for AI Systems\n\n> Penpot is the open-source design platform for teams building digital products at scale. It connects design, code, and AI workflows through open standards, self-hosting options, design systems capabilities, and open API integrations. Penpot is a Digital Public Good, free to use, and self-hostable.\n\nSource: https://penpot.dev/llms.txt\nFull reference: https://penpot.dev/llms-full.txt\nHelp Center: https://help.penpot.app/\n\n_No content sections available yet._",
+          "source_url": "https://penpot.dev/llms-full.txt"
+        }
+      },
+      {
+        "title": "First-party agent docs: setup for four clients, a write-access warning, three prompting guides",
+        "description": "help.penpot.app/mcp/ documents installing \"the Penpot MCP server with any AI agent or LLM you trust\", with per-client setup for Cursor, Claude Code, VS Code/Copilot and Codex/OpenCode, and an explicit advisory that because agents \"can read and modify your Penpot file structure (components, styles, tokens, pages, layers, etc.)\" you can automate both creative and maintenance work. Three companion guides go past setup into practice: good prompting for design, structuring design files so agents can read them, and reducing LLM context-token spend (that last one is about token budgets, not design tokens).",
+        "audience": "consumers",
+        "url": "https://help.penpot.app/mcp/"
+      },
+      {
+        "title": "Native W3C DTCG design tokens with a programmable tokens API",
+        "description": "Penpot's design tokens \"adhere to the Design Tokens Format Module and its definitions, a draft by the W3C DTCG\", with sets, themes, aliases, equations and JSON import and export (single file, multi-file with $themes.json/$metadata.json, or ZIP). The format work grew out of a partnership with Tokens Studio, documented from Tokens Studio's side. The Plugin API exposes the same tokens programmatically: Library.tokens is a TokenCatalog with addSet and addTheme, and shapes take applyToken, so an agent driving the MCP server can create and apply real tokens instead of hardcoding values. The tokens user guide itself contains no AI prose and still said the plugins tokens API was \"coming soon\" on 2026-07-31, after it had shipped.",
+        "audience": "both",
+        "url": "https://help.penpot.app/user-guide/design-systems/design-tokens/",
+        "snippet": {
+          "language": "ts",
+          "content": "  /**\n   * A catalog of Design Tokens in the library.\n   *\n   * See `TokenCatalog` type to see usage.\n   */\n  readonly tokens: TokenCatalog;",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot/5e5465a0fe8a18b4425247255f7899daa2aacd4e/plugins/libs/plugin-types/index.d.ts"
+        }
+      },
+      {
+        "title": "How Penpot builds Penpot: AGENTS.md contract, Serena memory graph, OpenCode workbench",
+        "description": "This is Penpot's own team building Penpot, not a design-system team working inside it, so builders is the nearest audience label rather than an exact fit; it is recorded because it shows the platform vendor runs agent-native development. The monorepo's root AGENTS.md is an operational contract: never push or amend pushed commits, never pipe test output through filters, and a hard stop until the agent has read the core Serena memory of every module it touches. The memory graph holds 55 memory files at the pinned commit, 52 of them in per-module folders; .opencode/ adds a permission-scoped commit subagent, two commands, a plugin registering penpot-psql and paren-repair tools, and 13 skills, five of them wired to those memories; and the commit-format memory mandates an `AI-assisted-by: model-name` trailer. CONTRIBUTING.md will not accept \"AI-generated code without human review.\" There is no CLAUDE.md, Cursor rule or Copilot instruction file anywhere in the tree; Penpot standardized on AGENTS.md.",
+        "audience": "builders",
+        "url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/AGENTS.md",
+        "snippet": {
+          "language": "markdown",
+          "content": "**STOP: Do not proceed until you have read the core memory of every affected module.**\nSkipping this step is the #1 cause of incorrect or incomplete work.",
+          "source_url": "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/AGENTS.md"
+        }
+      }
+    ],
+    "adoption_by_design_systems": "No design system in the study documents Penpot support in its own materials, and the check was shallow: Ant Design's resources page was fetched in full with zero Penpot mentions, Nord publishes no resources index (the /resources/ URL 404s) and its resources/support page, which does read to a plain fetch, has zero Penpot mentions, and the rest were not probed. The visible adoption runs in the other direction: Penpot's own hub hosts community-authored libraries recreating well-known systems, including a \"Material Design 3\" library credited to an individual author rather than Google and an \"Ant Design System (Free version)\", plus 116 plugins (the hub's machine-readable listing, fetched 2026-07-31) including AI assistants (Penpot AVA controls the canvas through natural language against any OpenAI-compatible API) and design-token tooling (DTCG Token Import, Design Tokens Export & Deploy). Treat adoption by the study's systems as undocumented rather than absent.",
+    "sources": [
+      "https://penpot.dev/llms.txt",
+      "https://penpot.dev/llms-full.txt",
+      "https://penpot.dev/ai/mcp-server",
+      "https://penpot.dev/ai/ai-workflows",
+      "https://help.penpot.app/mcp/",
+      "https://help.penpot.app/user-guide/design-systems/design-tokens/",
+      "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/README.md",
+      "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/packages/server/src/PenpotMcpServer.ts",
+      "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/AGENTS.md",
+      "https://raw.githubusercontent.com/penpot/penpot-ai-kit/a333fbbea692d95a724a14db38697c73f80e8300/README.md",
+      "https://raw.githubusercontent.com/penpot/penpot-ai-kit/a333fbbea692d95a724a14db38697c73f80e8300/skills.json",
+      "https://raw.githubusercontent.com/penpot/penpot-ai-kit/a333fbbea692d95a724a14db38697c73f80e8300/policies/modes.json",
+      "https://raw.githubusercontent.com/penpot/penpot/5e5465a0fe8a18b4425247255f7899daa2aacd4e/plugins/libs/plugin-types/index.d.ts",
+      "https://registry.npmjs.org/@penpot%2fmcp",
+      "https://penpot.app/penpothub/plugins",
+      "https://tokens.studio/blog/tokens-studio-penpot-bringing-native-open-standard-design-tokens-to-everyone",
+      "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/LICENSE",
+      "https://raw.githubusercontent.com/penpot/penpot/3fc5360df5491aee9870d0980a0338bf17d17bef/mcp/packages/server/src/tools/ExecuteCodeTool.ts"
+    ]
+  },
+  {
     "id": "storybook",
     "name": "Storybook (addon-mcp, manifests, AI docs)",
     "summary": "Storybook 10 turned the component workshop into an agent-readable API. The pieces: (1) MANIFESTS: `/manifests/components.json` and `/manifests/docs.json`, auto-generated from static analysis of CSF files plus react-docgen prop extraction, containing per-component name, description, path, import statement, props with JSDoc descriptions, and per-story rendered snippets. Manifests evaluate the *final rendered story* with args/decorators applied, so an agent sees real usage, not abstractions. (2) MCP SERVER: `npx storybook add @storybook/addon-mcp` serves an MCP endpoint at http://localhost:6006/mcp with three toolsets: `docs` (list-all-documentation, get-documentation, get-documentation-for-story), `dev` (get-changed-stories, get-storybook-story-instructions, preview-stories, the last of which renders story previews inline via MCP Apps), and `test` (run-story-tests, which returns a11y results and 'instructs the agent to interpret the results and resolve any issues found', creating an explicit 'self-healing loop'). Toolsets are individually togglable in .storybook/main.ts. (3) COMPOSITION: a composed Storybook's manifests are automatically merged into MCP responses, so one endpoint can front a multi-repo design system. (4) SHARING: Chromatic auto-publishes the docs toolset at `https://main--<appid>.chromatic.com/mcp` (private if the Storybook is private); or self-host with the `@storybook/mcp` tmcp-based library (Node 20+, needs components.json). (5) DOCS-AS-CONTEXT: storybook.js.org serves llms.txt and llms-full.txt, and any docs URL accepts a `.md` suffix with `?renderer=`, `?language=`, `?codeOnly=true`, and `?version=` query params. CONSTRAINTS: the addon/manifests are in 'preview' and 'the API may change'; the docs toolset is React-only today (Vue, Angular, Web Components, Svelte planned) because manifest generation is React-only; the manifest schema is explicitly 'not yet stable and should not be considered a public API'. Chromatic publishing requires Storybook 10.3+. Dev and test toolsets only work against a locally running Storybook; they cannot be published.",

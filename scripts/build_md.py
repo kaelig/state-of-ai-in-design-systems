@@ -10,7 +10,7 @@ before scripts/prerender.mjs.
 
 Writes into dashboard/:
   systems/<id>.md + .json        20 + 20
-  platforms/<id>.md + .json       5 + 5
+  platforms/<id>.md + .json       6 + 6
   techniques/<category>.md       one per category present in the data
   <view>.md                      index (carrying the systems table), techniques,
                                  platforms, insights, methodology, ai
@@ -172,7 +172,7 @@ CAT_ORDER = [
 VIEW_META = {
     "/index.md": ("Report overview and the systems table", "overview"),
     "/techniques.md": ("Coercion techniques", "techniques"),
-    "/platforms.md": ("The 5 platforms", "platforms"),
+    "/platforms.md": ("The 6 platforms", "platforms"),
     "/insights.md": ("Insights: findings, convergence, divergence, essay", "insights"),
     "/methodology.md": ("Methodology and caveats", "methodology"),
     "/reading.md": ("Further reading on AI and design systems", "reading"),
@@ -388,7 +388,7 @@ CATS = [c for c in CAT_ORDER if c in BY_CAT] + [c for c in BY_CAT if c not in CA
 
 
 def has_type(s, *types):
-    return any(a["type"] in types for a in s["affordances"])
+    return any(a["type"] in types for a in s["affordances"] if a.get("present", True))
 
 
 def has_official(s, type_):
@@ -705,7 +705,7 @@ def index_md():
     for s in SYSTEMS:
         cells = []
         for _, types in MX_COLS:
-            n = sum(1 for a in s["affordances"] if a["type"] in types)
+            n = sum(1 for a in s["affordances"] if a["type"] in types and a.get("present", True))
             cells.append(str(n) if n else "—")
         lines.append(
             f"| {cell(s['name'])} | {s['ai_maturity']} | "
@@ -716,7 +716,13 @@ def index_md():
     totals = []
     for _, types in MX_COLS:
         totals.append(
-            str(sum(1 for s in SYSTEMS if any(a["type"] in types for a in s["affordances"])))
+            str(
+                sum(
+                    1
+                    for s in SYSTEMS
+                    if any(a["type"] in types for a in s["affordances"] if a.get("present", True))
+                )
+            )
         )
     lines.append("| **Systems with at least one** | — | " + " | ".join(totals) + " | — | — |")
     p.append("\n".join(lines) + "\n")

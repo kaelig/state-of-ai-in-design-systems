@@ -28,7 +28,7 @@ source requirement, but it tells us how to weigh a judgment call.
 
 ### 2. Suggest a system
 
-20 systems and 5 platforms are in. The bar is: open source, active in the last
+20 systems and 6 platforms are in. The bar is: open source, active in the last
 six months, and enough public surface to study. That last one rejects most
 suggestions. A system whose monorepo is private can still qualify on published
 packages and docs, but somebody has to be able to read something.

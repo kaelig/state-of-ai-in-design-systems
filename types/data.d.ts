@@ -63,6 +63,10 @@ export interface DesignSystemAIAffordancesRecord {
      */
     official: boolean;
     /**
+     * false when this records that the artifact does not exist. Defaults to true. Excluded from the counts.
+     */
+    present?: boolean;
+    /**
      * consumers = people/agents building UIs WITH the system; builders = the DS team maintaining the system itself
      */
     audience: 'consumers' | 'builders' | 'both';

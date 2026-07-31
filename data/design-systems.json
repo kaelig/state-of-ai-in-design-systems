@@ -2174,6 +2174,7 @@
         "type": "llms-txt",
         "name": "llms.txt / llms-full.txt",
         "official": false,
+        "present": false,
         "audience": "consumers",
         "description": "NOT PRESENT. https://www.patternfly.org/llms.txt and /llms-full.txt both return 404 (S3 NoSuchKey), as do /mcp and /ai (the AI section lives at versioned paths and 302-redirects from /ai/...). No llms.txt in patternfly-org, patternfly-react, patternfly, or patternfly-mcp repo roots.",
         "notes": "PatternFly's bet is entirely on MCP + plugin marketplace, skipping the llms.txt convention."

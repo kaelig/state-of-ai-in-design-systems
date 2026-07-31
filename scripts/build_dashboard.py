@@ -44,7 +44,7 @@ VIEW_TITLES = {
     "overview": (
         "/",
         "State of AI in Design Systems · July 2026",
-        "A field study of how 20 open-source design systems and 5 platforms make themselves readable to AI agents.",
+        "A field study of how 20 open-source design systems and 6 platforms make themselves readable to AI agents.",
     ),
     "techniques": (
         "/techniques",
@@ -334,7 +334,11 @@ def compute_counts(systems, platforms):
     same figure on a tile cannot drift apart."""
 
     def systems_with(pred):
-        return sum(1 for s in systems if any(pred(a) for a in s.get("affordances", [])))
+        return sum(
+            1
+            for s in systems
+            if any(pred(a) for a in s.get("affordances", []) if a.get("present", True))
+        )
 
     return {
         "systems": len(systems),

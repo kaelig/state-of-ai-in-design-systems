@@ -18,15 +18,26 @@
       "type": "string",
       "description": "kebab-case slug, e.g. 'shadcn-ui'"
     },
-    "name": { "type": "string" },
-    "org": { "type": "string", "description": "Maintaining org/company" },
+    "name": {
+      "type": "string"
+    },
+    "org": {
+      "type": "string",
+      "description": "Maintaining org/company"
+    },
     "category": {
       "enum": ["design-system", "component-library", "headless-library"],
       "description": "design-system = tokens+components+guidelines under a brand; component-library = reusable components without a single brand mandate"
     },
-    "repo_url": { "type": "string" },
-    "docs_url": { "type": "string" },
-    "license": { "type": "string" },
+    "repo_url": {
+      "type": "string"
+    },
+    "docs_url": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
     "maintenance": {
       "type": "object",
       "properties": {
@@ -38,7 +49,9 @@
           "type": "string",
           "description": "commit cadence, open development signals"
         },
-        "actively_maintained": { "type": "boolean" }
+        "actively_maintained": {
+          "type": "boolean"
+        }
       }
     },
     "ai_maturity": {
@@ -71,17 +84,27 @@
               "other"
             ]
           },
-          "name": { "type": "string" },
+          "name": {
+            "type": "string"
+          },
           "official": {
             "type": "boolean",
             "description": "shipped by the DS team vs community"
+          },
+          "present": {
+            "type": "boolean",
+            "description": "false when this records that the artifact does not exist. Defaults to true. Excluded from the counts."
           },
           "audience": {
             "enum": ["consumers", "builders", "both"],
             "description": "consumers = people/agents building UIs WITH the system; builders = the DS team maintaining the system itself"
           },
-          "description": { "type": "string" },
-          "docs_url": { "type": "string" },
+          "description": {
+            "type": "string"
+          },
+          "docs_url": {
+            "type": "string"
+          },
           "code_url": {
             "type": "string",
             "description": "link to the actual source (prefer raw.githubusercontent / permalink)"
@@ -89,15 +112,21 @@
           "snippet": {
             "type": "object",
             "properties": {
-              "language": { "type": "string" },
+              "language": {
+                "type": "string"
+              },
               "content": {
                 "type": "string",
                 "description": "verbatim excerpt, <= 40 lines / 1500 chars"
               },
-              "source_url": { "type": "string" }
+              "source_url": {
+                "type": "string"
+              }
             }
           },
-          "notes": { "type": "string" }
+          "notes": {
+            "type": "string"
+          }
         }
       }
     },
@@ -108,7 +137,9 @@
         "type": "object",
         "required": ["name", "category", "description"],
         "properties": {
-          "name": { "type": "string" },
+          "name": {
+            "type": "string"
+          },
           "category": {
             "enum": [
               "prohibition",
@@ -125,13 +156,21 @@
             ],
             "description": "prohibition = explicit negative rules ('never invent components'); tool-gating = agent must call MCP/CLI to obtain source, cannot hallucinate it; curated-context = llms.txt-style condensed docs sized for context windows; validation-loop = linters/type-checkers the agent runs for feedback (e.g. slds-linter); scaffolding = CLIs generate the correct code, agent orchestrates; exemplars = few-shot examples/templates in agent-readable form; token-enforcement = rules/types that force design tokens over raw values; registry-metadata = machine-readable component registry with deps/props; instruction-files = CLAUDE.md/AGENTS.md/rules distributed to repos; design-code-mapping = Figma Code Connect-style node-to-component mapping"
           },
-          "description": { "type": "string" },
+          "description": {
+            "type": "string"
+          },
           "snippet": {
             "type": "object",
             "properties": {
-              "language": { "type": "string" },
-              "content": { "type": "string" },
-              "source_url": { "type": "string" }
+              "language": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              }
             }
           }
         }
@@ -153,8 +192,12 @@
               "other"
             ]
           },
-          "description": { "type": "string" },
-          "url": { "type": "string" }
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
         }
       }
     },
@@ -175,7 +218,12 @@
       "type": "string",
       "description": "what could not be confirmed; open questions"
     },
-    "sources": { "type": "array", "items": { "type": "string" } },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "summary": {
       "type": "string",
       "description": "2-4 sentence editorial summary for the dashboard"

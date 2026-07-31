@@ -1,7 +1,7 @@
 # State of AI in Design Systems — July 2026
 
 A field survey of how 20 actively maintained open-source design systems make
-themselves legible to machines, plus the five platforms around them.
+themselves legible to machines, plus the six platforms around them.
 
 For each system: what it ships so coding agents can build with it (MCP servers,
 agent skills, `llms.txt`, editor rules, component registries) and the techniques
@@ -11,7 +11,7 @@ system) and AI for **building** (the team using AI to maintain the system itself
 
 **Read it: <https://state-of-ai-in-design-systems.netlify.app>**
 
-20 design systems · 5 platforms · 179 affordances · 157 coercion techniques ·
+20 design systems · 6 platforms · 179 affordances · 157 coercion techniques ·
 every snippet linked to its source. Data gathered 26–28 July 2026.
 
 ![The report’s overview page: five headline counts, systems placed on a maturity spectrum, and the numbered findings below.](docs/screenshot.png)

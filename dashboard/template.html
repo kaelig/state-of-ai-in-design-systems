@@ -6,14 +6,14 @@
 <title>State of AI in Design Systems · July 2026</title>
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
-<meta name="description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta name="description" content="How 20 open-source design systems and 6 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta name="author" content="Kaelig Deloumeau-Prigent">
 <!-- netlify-head:start -->
 <link rel="canonical" href="https://state-of-ai-in-design-systems.netlify.app/">
 <meta property="og:site_name" content="State of AI in Design Systems">
 <meta property="og:type" content="website">
 <meta property="og:title" content="State of AI in Design Systems · July 2026">
-<meta property="og:description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta property="og:description" content="How 20 open-source design systems and 6 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta property="og:url" content="https://state-of-ai-in-design-systems.netlify.app/">
 <meta property="og:image" content="https://state-of-ai-in-design-systems.netlify.app/__OG_IMAGE__">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="State of AI in Design Systems — a field study by Kaelig Deloumeau-Prigent">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="State of AI in Design Systems · July 2026">
-<meta name="twitter:description" content="How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
+<meta name="twitter:description" content="How 20 open-source design systems and 6 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta name="twitter:image" content="https://state-of-ai-in-design-systems.netlify.app/__OG_IMAGE__">
 <meta name="twitter:creator" content="@kaelig">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -43,7 +43,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "State of AI in Design Systems · July 2026",
-  "description": "How 20 open-source design systems and 5 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.",
+  "description": "How 20 open-source design systems and 6 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.",
   "author": {
     "@type": "Person",
     "name": "Kaelig Deloumeau-Prigent",
@@ -1148,7 +1148,7 @@ const VIEWS = {
     const m = DATA.meta;
     const row = s => {
       const cells = MX_COLS.map(c => {
-        const hits = (s.affordances || []).filter(a => c.types.includes(a.type));
+        const hits = (s.affordances || []).filter(a => c.types.includes(a.type) && a.present !== false);
         if (!hits.length) return '<td><span class="none" aria-hidden="true"></span><span class="sr-only">None found</span></td>';
         const official = hits.some(a => a.official);
         const names = hits.map(a => `${a.name}${a.official ? '' : ' (community)'}`).join(' · ');
@@ -1420,7 +1420,7 @@ function barRow(label, n, total, anchor) {
 function prevalenceBars() {
   const total = DATA.systems.length;
   const rows = MX_COLS.filter(c => c.key !== 'misc').map(c => {
-    const n = DATA.systems.filter(s => (s.affordances || []).some(a => c.types.includes(a.type))).length;
+    const n = DATA.systems.filter(s => (s.affordances || []).some(a => c.types.includes(a.type) && a.present !== false)).length;
     return { label: c.label, n };
   }).sort((a, b) => b.n - a.n);
   return `<ul class="bars">${rows.map(r => barRow(r.label, r.n, total)).join('')}</ul>`;
@@ -1690,7 +1690,7 @@ function registerReportTools(DATA) {
   const line = s => ({
     id: s.id, name: s.name, org: s.org, category: s.category, ai_maturity: s.ai_maturity,
     docs_url: s.docs_url, repo_url: s.repo_url, summary: s.summary,
-    affordance_types: uniq((s.affordances || []).map(a => a.type)),
+    affordance_types: uniq((s.affordances || []).filter(a => a.present !== false).map(a => a.type)),
     counts: { affordances: (s.affordances || []).length, techniques: (s.techniques || []).length },
   });
   const out = v => JSON.stringify({ source: 'State of AI in Design Systems, July 2026', note: SNAPSHOT, ...v });
@@ -1714,7 +1714,7 @@ function registerReportTools(DATA) {
         let rows = systems;
         if (a.maturity) rows = rows.filter(s => s.ai_maturity === a.maturity);
         if (a.category) rows = rows.filter(s => s.category === a.category);
-        if (a.has_affordance) rows = rows.filter(s => (s.affordances || []).some(x => x.type === a.has_affordance));
+        if (a.has_affordance) rows = rows.filter(s => (s.affordances || []).some(x => x.type === a.has_affordance && x.present !== false));
         return out({ total: rows.length, of: systems.length, systems: rows.map(line) });
       },
     },

@@ -103,7 +103,7 @@ the repository's split between MIT code and CC BY 4.0 data alone.
 
 ## Guards
 
-`20 systems · 5 platforms · 179 AI affordances · 157 coercion techniques` at 26px
+`20 systems · 5 platforms · 179 AI affordances · 157 coercion techniques` at 26px <!-- counts-ok: the card spec as designed on 2026-07-28; the card reads live counts at build -->
 leaves modest headroom in the 1040px content box. The generator measures the
 rendered stats line and fails the build when it exceeds the box, so a fourth
 digit or a longer noun cannot silently clip. Whether the measurement comes from

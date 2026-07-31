@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        The study covers 20 design systems and 5 platforms. It isn’t meant to be
+        The study covers 20 design systems and 6 platforms. It isn’t meant to be
         every system that exists. It’s meant to be a defensible sample of the
         ones doing something about AI.
 

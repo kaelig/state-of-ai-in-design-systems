@@ -147,7 +147,7 @@ describe('validate_data rejects bad records', () => {
   test('the record id appears in the message, so the failure is findable', () => {
     const { code, out } = runAgainst((dir) =>
       edit(dir, 'data/platforms.json', (d) => {
-        d[2].capabilities[0].audience = 'nobody';
+        d.find((p) => p.id === 'supernova').capabilities[0].audience = 'nobody';
       }),
     );
     assert.equal(code, 1);
