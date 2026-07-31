@@ -1189,14 +1189,13 @@ const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
 
-/* A stat tile is a claim and the page that backs it up. The anchor takes the
-   numeral and the label so its accessible name reads "20 design systems
-   studied"; the detail line stays outside it and is covered by the stretched
-   ::after instead, which keeps `npx skills add …` out of the link text.
-   The route goes through href() because the artifact variant is hash-routed —
-   which is also why none of these can be a #fragment into a matrix column, the
-   way the prevalence bars manage on the path-routed site only. Label and detail
-   are written here, not read from a record, so they carry their own markup. */
+/* A stat tile is a claim and the page that backs it up. The detail line sits
+   outside the anchor so `npx skills add …` stays out of the link text; the
+   stretched ::after covers it anyway. The route goes through href() because the
+   artifact variant is hash-routed, which is also why none of these can be a
+   #fragment into a matrix column the way the prevalence bars manage on the
+   path-routed site. Label and detail are written here rather than read from a
+   record, so they carry their own markup. */
 function statTile(n, label, detail, route) {
   /* The newline between the two divs is load-bearing: it makes the accessible
      name "20 design systems studied" rather than "20design systems studied"

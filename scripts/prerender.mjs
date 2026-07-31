@@ -443,7 +443,11 @@ const tilesStart = rootHtml.indexOf('<ul class="tiles">');
 if (tilesStart === -1) die('root index.html is missing the stat tiles');
 const tiles = rootHtml.slice(tilesStart, rootHtml.indexOf('</ul>', tilesStart));
 const nTiles = count(tiles, 'class="tile"');
-const tileHrefs = [...tiles.matchAll(/<a href="([^"]*)"/g)].map((m) => m[1]);
+// Anchored to the tile that opens it, not to any anchor in the slice, so a link
+// that later appears inside a detail line cannot pass for a tile's own.
+const tileHrefs = [...tiles.matchAll(/class="tile"><a href="([^"]*)"/g)].map(
+  (m) => m[1],
+);
 if (tileHrefs.length !== nTiles)
   die(
     `${nTiles} stat tiles carry ${tileHrefs.length} links; every tile needs one`,
