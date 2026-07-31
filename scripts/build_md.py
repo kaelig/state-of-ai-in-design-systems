@@ -733,24 +733,25 @@ def systems_md():
     )
     hdr = "| System | Maturity | " + " | ".join(c[0] for c in MX_COLS) + " | Record | JSON |"
     sep = "|---|---|" + "---|" * len(MX_COLS) + "---|---|"
-    p.append(hdr + "\n" + sep + "\n")
+    lines = [hdr, sep]
     for s in SYSTEMS:
         cells = []
         for _, types in MX_COLS:
             n = sum(1 for a in s["affordances"] if a["type"] in types)
             cells.append(str(n) if n else "—")
-        p.append(
+        lines.append(
             f"| {cell(s['name'])} | {s['ai_maturity']} | "
             + " | ".join(cells)
             + f" | {U('/systems/' + s['id'] + '.md')} "
-            + f"| {U('/systems/' + s['id'] + '.json')} |\n"
+            + f"| {U('/systems/' + s['id'] + '.json')} |"
         )
     totals = []
     for _, types in MX_COLS:
         totals.append(
             str(sum(1 for s in SYSTEMS if any(a["type"] in types for a in s["affordances"])))
         )
-    p.append("| **Systems with at least one** | — | " + " | ".join(totals) + " | — | — |\n")
+    lines.append("| **Systems with at least one** | — | " + " | ".join(totals) + " | — | — |")
+    p.append("\n".join(lines) + "\n")
     p.append("\n## Affordance types in each group\n")
     for label, types in MX_COLS:
         p.append(f"- **{label}**: " + ", ".join(f"`{t}`" for t in types) + "\n")
