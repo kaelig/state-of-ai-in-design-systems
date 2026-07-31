@@ -662,17 +662,25 @@ table.mx tr.mx-group th .gn {
 .snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
 .snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
-/* Cards that hold .tech-ex rows carry vertical padding only, and each child
-   states its own inline inset through --card-pad. The rows are then full width
-   by construction — hover and hairlines run edge to edge, the .aff way — with
-   no negative margins anywhere. */
-.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 16px 0; margin-bottom: 12px; }
-.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-inline: var(--card-pad); }
+/* Cards that hold .tech-ex rows carry no vertical padding of their own — each
+   child states its own inline inset through --card-pad, and the rows are full
+   width by construction, hover and hairlines running edge to edge, the .aff
+   way. Without a header, the first row sits flush on the card's own top
+   border, so its border-top is dropped below: the card's border already
+   draws that line, and stacking the two produced a visible 2px edge. With a
+   header, .th carries its own top margin instead, since there's no row
+   border there to double up against. overflow: hidden clips the first and
+   last row's square corners to the card's own radius, the same as .aff — with
+   the rows now flush to all four edges, the row's hover wash and the open
+   .tb background would otherwise square off past the rounded corner. */
+.tech-cat { --card-pad: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); margin-bottom: 12px; overflow: hidden; }
+.tech-cat > .th { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 16px var(--card-pad) 0; }
 /* h2 keeps the one h2 size (19px) it has everywhere else; h3 stays a step down. */
 .tech-cat > .th h2 { margin: 0; }
 .tech-cat > .th h3 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; }
 .tech-cat > .th .n { font-family: var(--font-body); font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .tech-cat > .def { font-size: 13px; color: var(--ink-2); margin: 6px var(--card-pad) 10px; max-width: var(--measure-body); }
+.tech-cat .exlist > li:first-child > .tech-ex { border-top: none; }
 .tech-ex { border-top: 1px solid var(--line); }
 .tech-ex > summary { list-style: none; cursor: pointer; padding: 11px var(--card-pad, 2px); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
 .tech-ex > summary::-webkit-details-marker { display: none; }
