@@ -547,7 +547,14 @@ ul.cohort { list-style: none; margin: 0; padding: 0; }
 /* Separators are drawn on the cells, not by a background showing through a 1px
    gap: with auto-fit columns an unfilled last row turned that background into a
    solid gray slab at every width where the grid didn't divide evenly. */
-.metagrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 18px 0; }
+/* The frame is an inset outline, not a border. A border sits outside the cells,
+   so at the perimeter it stacked against the inward half of each cell's outline
+   and drew 1.5px where the interior seams drew 1px. An outline pulled a full
+   width inward lands in the band the cells already occupy, so every line in the
+   grid is the same weight. It has to be an outline and not an inset box-shadow:
+   outlines paint after descendants, shadows paint under them, and the cells have
+   opaque backgrounds. */
+.metagrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; background: var(--bg-raise); outline: 1px solid var(--line); outline-offset: -1px; border-radius: var(--radius); overflow: hidden; margin: 18px 0; }
 .metagrid > div { background: var(--bg-raise); padding: 11px 14px; outline: 1px solid var(--line); outline-offset: -0.5px; }
 .metagrid > .wide { grid-column: 1 / -1; }
 .metagrid .k { font-size: 10px; letter-spacing: .12em; color: var(--ink-3); }
