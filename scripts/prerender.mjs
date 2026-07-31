@@ -30,6 +30,12 @@ const die = (msg) => {
 const shell = readFileSync(join(OUT, 'index.html'), 'utf8');
 const payload = JSON.parse(readFileSync(join(BUILD, 'payload.json'), 'utf8'));
 const routes = JSON.parse(readFileSync(join(BUILD, 'routes.json'), 'utf8'));
+// The one source file this step reads that the build did not generate. It is
+// here for the maturity vocabulary check below, which needs the schema's enum
+// and the template's render order in the same place.
+const systemSchema = JSON.parse(
+  readFileSync(join(ROOT, 'schema', 'design-system.schema.json'), 'utf8'),
+);
 
 const open = shell.indexOf('<script id="app">');
 if (open === -1) die('no <script id="app"> in dashboard/index.html');
@@ -118,6 +124,7 @@ try {
       '\n;globalThis.__VIEWS = VIEWS; globalThis.__renderSyslist = renderSyslist;' +
       ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
       ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
+      ' globalThis.__MAT_ORDER = MAT_ORDER;' +
       ' globalThis.__footHTML = footHTML;',
     ctx,
     { filename: 'app.js' },
@@ -456,6 +463,23 @@ if (iconless.length) die(`nav items with no icon: ${iconless.join(', ')}`);
 const navIcons = count(NAV_HTML, '<svg');
 if (navIcons !== navItems.length)
   die(`nav has ${navItems.length} items but ${navIcons} icons`);
+
+// Every maturity level the schema allows has to be one MAT_ORDER knows, because
+// the spectrum's rung glyph counts fill from that array's index. indexOf returns
+// -1 rather than throwing, so a level added to the schema alone renders a glyph
+// claiming the full scale — the top of the scale, not the bottom, and the
+// direction a new tier would plausibly belong in, which is what makes it likely
+// to survive review. Check the vocabulary, not the markup: every band comes off
+// the same template string, so a glyph count can only fail when that string is
+// broken, which the short-body check above already catches.
+const matOrder = sandbox.__MAT_ORDER;
+if (!Array.isArray(matOrder)) die('MAT_ORDER not exposed');
+const schemaLevels = systemSchema.properties.ai_maturity.enum;
+const unknownLevels = schemaLevels.filter((k) => !matOrder.includes(k));
+if (unknownLevels.length)
+  die(
+    `ai_maturity values in the schema with no MAT_ORDER entry: ${unknownLevels.join(', ')}`,
+  );
 
 // The /ai page describes tools it registers, so the two must be the same list.
 const aiHtml = read('ai.html');
