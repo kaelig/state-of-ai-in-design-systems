@@ -76,6 +76,16 @@ is the one generated file still tracked, because the edge function imports it.
 Google Fonts answering. `assets/fonts/README.md` says where they came from and
 how to make them again.
 
+`assets/logos/` is vendored the same way: the three platform marks the
+`simple-icons` package does not carry, isolated by hand from each platform's own
+lockup. `assets/logos/README.md` says where each came from, what was changed,
+and the exact shape a new one has to be in — the build rejects anything else.
+The other three marks come out of `node_modules/simple-icons`, which is the one
+thing in `node_modules` the Python build reads, so `build_dashboard.py` now
+needs `npm install` to have run. Every platform record carries a required `logo`
+naming one source or the other, and a logo that does not resolve fails the
+build.
+
 To change a page's words, find the source: prose about a system is in
 `data/design-systems.json`, analysis is in `data/insights.json`, and page
 scaffolding is in `dashboard/template.html`.

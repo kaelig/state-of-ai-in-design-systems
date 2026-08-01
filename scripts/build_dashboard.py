@@ -8,6 +8,7 @@ consumed by scripts/prerender.mjs (build/payload.json, build/routes.json).
 """
 
 import json
+import os
 import re
 import sys
 from datetime import UTC, datetime
@@ -190,12 +191,24 @@ def validate_urls(systems, platforms):
 ICONS = ROOT / "node_modules" / "simple-icons" / "icons"
 LOGOS = ROOT / "assets" / "logos"
 
-_VIEWBOX = re.compile(r'\bviewBox="([^"]*)"')
+_VIEWBOX = re.compile(r"""\bviewBox\s*=\s*["']([^"']*)["']""")
 _PATH_D = re.compile(r'<path\b[^>]*\bd="([^"]*)"')
-_PAINT = re.compile(r'\b(fill|stroke|style)="([^"]*)"')
-# Neither names a color: one paints nothing, the other defers to the ink of
-# whatever the mark is rendered inside, which is the whole point of R5.
-_SAFE_PAINT = {"none", "currentcolor"}
+# One opening tag: its name, then its attributes, with quoted values allowed to
+# contain the `>` that would otherwise end the tag.
+_TAG = re.compile(r"""<([a-zA-Z]+)((?:[^>"']|"[^"]*"|'[^']*')*)>""")
+_ATTR = re.compile(r"([a-zA-Z:-]+)\s*=")
+
+# What a mark may be made of. This is an allowlist rather than a list of banned
+# colors because of what the resolver keeps: each <path>'s `d` and nothing else.
+# Every other attribute is discarded on the way out, so checking only for a
+# hardcoded fill would police the attributes that get dropped anyway while
+# waving through the ones the extraction silently depends on — a `transform`
+# that draws the mark off-canvas, a `fill-rule` whose holes fill in without it,
+# a `stroke` that renders as a silhouette once this renderer fills it. A
+# <clipPath> is worse than either: never painted in the source, hoisted into the
+# output as ink. Reject all of it, so the file that ships is the file that was
+# drawn.
+_ALLOWED = {"svg": {"viewBox", "xmlns", "role"}, "path": {"d"}, "title": set()}
 
 
 def _logo_faults(svg):
@@ -210,15 +223,20 @@ def _logo_faults(svg):
         faults.append("no viewBox")
     elif box.group(1).split() != ["0", "0", "24", "24"]:
         faults.append(f'viewBox is "{box.group(1)}", not "0 0 24 24"')
-    geometry = _PATH_D.findall(svg)
+
+    for tag, attrs in _TAG.findall(svg):
+        if tag not in _ALLOWED:
+            faults.append(f"<{tag}> is geometry the build cannot carry; flatten it into a <path>")
+            continue
+        for attr in sorted(set(_ATTR.findall(attrs)) - _ALLOWED[tag]):
+            faults.append(f"<{tag}> carries {attr}=, which is dropped when the geometry is taken")
+
+    # An empty `d` is not geometry. It would otherwise satisfy the check below
+    # and ship an <svg> that draws nothing, which reads as a mark that is merely
+    # missing rather than one that is wrong.
+    geometry = [d for d in _PATH_D.findall(svg) if d.strip()]
     if not geometry:
         faults.append("no <path> to draw")
-    for attr, value in _PAINT.findall(svg):
-        if attr == "style":
-            if re.search(r"\b(fill|stroke|color)\b", value, re.I):
-                faults.append(f'style="{value}" paints the mark')
-        elif value.strip().lower() not in _SAFE_PAINT:
-            faults.append(f'{attr}="{value}" hardcodes a color')
     return faults, "".join(f'<path d="{d}"/>' for d in geometry)
 
 
@@ -240,13 +258,25 @@ def resolve_logos(platforms):
         if source == "simple-icons":
             if missing_pkg:
                 continue
-            path, where = ICONS / f"{value}.svg", f"simple-icons slug '{value}'"
+            base, path = ICONS, ICONS / f"{value}.svg"
+            where = f"simple-icons slug '{value}'"
         else:
-            path, where = LOGOS / value, f"vendored '{value}'"
+            base, path = LOGOS, LOGOS / value
+            where = f"vendored '{value}'"
+        # The schema can only say the value is a non-empty string. `..` and a
+        # leading `/` are both strings, and pathlib honors them — an absolute
+        # value discards the base entirely — so the one part of the contract
+        # that says "a file in one of these two directories" is checked here.
+        if not path.resolve().is_relative_to(base.resolve()):
+            faults.append((p["id"], f"{where}: resolves outside {base.relative_to(ROOT)}"))
+            continue
         try:
             svg = path.read_text(encoding="utf-8")
-        except OSError:
-            faults.append((p["id"], f"{where}: nothing at {path.relative_to(ROOT)}"))
+        # Not just OSError: a file that is not UTF-8 raises UnicodeDecodeError,
+        # which is a ValueError, and would otherwise escape as a traceback from
+        # the one function whose whole shape is about naming the bad record.
+        except (OSError, ValueError):
+            faults.append((p["id"], f"{where}: nothing readable at {os.path.relpath(path, ROOT)}"))
             continue
         why, geometry = _logo_faults(svg)
         faults.extend((p["id"], f"{where}: {w}") for w in why)

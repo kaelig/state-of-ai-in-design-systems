@@ -203,7 +203,7 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 /* Optical corrections, keyed on data-r so the Feather paths stay verbatim and a
    future glyph swap is still a one-line diff in NAV_ICON_PATHS.
    Every icon is drawn to the same 24px box and centers geometrically, which is
-   not the same as centring by weight: the house and the clipboard both hang a
+   not the same as centering by weight: the house and the clipboard both hang a
    heavy horizontal along the bottom and taper to a roof point or a small tab at
    the top, so the ink reads low in a box that measures centered. The server is
    two full-width rounded rectangles — roughly twice the stroke length of any
@@ -688,7 +688,7 @@ table.mx tr.mx-group th .gn {
 .plat h2 { margin: 0 var(--card-pad) 6px; }
 /* Inline rather than a flex row, which the other two placements use: a platform
    name runs to "Figma (Dev Mode MCP server, Code Connect, Figma Make)" and wraps
-   below 860px. As a flex item that wrapped text is one tall block, and centring
+   below 860px. As a flex item that wrapped text is one tall block, and centering
    the mark against it parks the glyph halfway down the heading. Inline keeps it
    on the first line where the eye looks for it. 20px against 20px type: these
    are solid glyphs, so they sit heavier than the stroked nav icons and do not
@@ -1532,9 +1532,9 @@ const navIcon = (r) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
    fill="none" would render them as nothing at all.
    An id with no geometry returns nothing, so its heading renders exactly as it
    did before rather than carrying an empty <svg>. That is 'other', which the
-   system schema permits and 17 of the 20 system records use — the common path
-   on a system page, not an edge case. It cannot happen on /platforms, which
-   iterates the records themselves. */
+   system schema permits and most system records use — the common path on a
+   system page, not an edge case. It cannot happen on /platforms, which iterates
+   the records themselves. */
 const LOGO_PATHS = DATA.logos || {};
 const logoIcon = id => LOGO_PATHS[id]
   ? `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${LOGO_PATHS[id]}</svg>`

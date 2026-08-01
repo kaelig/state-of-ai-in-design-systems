@@ -17,14 +17,26 @@ Every file in this directory is the same shape as a Simple Icons file, because
 the build enforces one contract across both sources and refuses to continue on a
 file that breaks it:
 
-- `viewBox="0 0 24 24"`, exactly
-- at least one `<path>`, and nothing that carries a color
-- no `fill`, `stroke`, `style`, `class` or `id` attribute anywhere in the file
+- `viewBox="0 0 24 24"`, exactly, on the root `<svg>`
+- only `<svg>`, `<path>` and `<title>` elements
+- only `viewBox`, `xmlns` and `role` on the `<svg>`; only `d` on a `<path>`
+- at least one `<path>` whose `d` is not empty
+- double-quoted attributes, which is what the extraction reads
 
-The color rule is what makes the marks monochrome by construction rather than by
-convention. The render helper wraps them in `fill="currentColor"`, so each mark
-takes the ink of the heading it sits in and follows the theme without a token of
-its own.
+That attribute list is the whole contract, and it is stricter than "no color"
+for a reason worth knowing before you normalize a fourth mark. The build keeps
+each `<path>`'s `d` and discards everything else, so an attribute it does not
+reject is an attribute it silently deletes: a `transform` draws the mark
+somewhere other than where you see it, a `fill-rule="evenodd"` stops punching
+the holes it punches in your editor, a `stroke` on a hairline glyph comes out as
+a filled silhouette. A `<clipPath>` is worse than any of them — never painted in
+the source, hoisted into the output as ink. Flatten all of it into absolute
+24-unit path coordinates before committing, which is what step 4 below means.
+
+Monochrome then follows by construction rather than by convention: no file
+carries a color because no file carries a paint attribute at all. The render
+helper wraps the geometry in `fill="currentColor"`, so each mark takes the ink of
+the heading it sits in and follows the theme without a token of its own.
 
 ## Where each one came from
 
