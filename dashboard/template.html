@@ -386,37 +386,49 @@ table.mx tbody th.sys a:focus-visible { outline: 2px solid var(--accent); outlin
    click" stay two different signals instead of one ambiguous one. */
 table.mx tbody tr:hover th.sys, table.mx tbody tr:hover td { background: var(--row-hover); }
 table.mx tbody th.sys a:hover { background: var(--cell-hover); color: var(--accent-ink); }
+/* Row height is stated, not inherited from the mark. Derived, it moved three ways
+   at once: a 17px ring made its rows taller than a 9px core's, and an empty cell
+   has no inline content to set a line box at all. 34px is what the old 10px mark
+   computed to (12px text at 1.5, plus the 8px padding above and below), so the
+   rhythm is unchanged while the marks inside it are free to differ. */
+table.mx tbody td { height: 34px; padding: 0 6px; }
 /* A filled cell links to the affordance's own artifact; the anchor fills the cell
-   so the target is the cell, not the 10px glyph. */
+   so the target is the cell, not the glyph. Flex, because the anchor now has to
+   center a mark in a fixed-height box rather than sit on a text baseline. */
 table.mx td.cl { padding: 0; }
-table.mx td.cl a { display: block; padding: 8px 6px; }
+table.mx td.cl a { display: flex; align-items: center; justify-content: center; height: 34px; padding: 0 6px; }
 table.mx td.cl a:hover { background: var(--cell-hover); }
 table.mx td.cl a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-/* Official and community share one footprint and differ only in fill, so the
-   column reads as one rhythm of 10px marks and the eye compares density down a
-   column instead of size. box-sizing: border-box makes the ring's stroke sit
-   inside that footprint rather than adding to it. */
-table.mx td .dot, table.mx td .ring,
-.mx-legend .dot, .mx-legend .ring {
-  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
-  vertical-align: -1px;
+/* The mark is a grammar of two parts, not three symbols to memorise: the dotted
+   RING means community, the solid CORE means official. Core alone, ring alone,
+   ring around core — three states from one rule, learned once and then read.
+   "Both" is the case this replaced outright: the old markup asked
+   hits.some(a => a.official) and stopped looking, so nine cells that hold an
+   official *and* a community artifact drew as plain official. Here the mark
+   composes, so those cells draw themselves — the core is literally the same
+   element nested inside the ring, which is what makes the pair read as
+   composition rather than as two more codes.
+   Dotted, not solid: a broken stroke is the one line quality that already means
+   provisional, and it keeps the ring from competing with the core it surrounds. */
+table.mx td .core, .mx-legend .core {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--data-strong); vertical-align: middle;
 }
-table.mx td .dot, .mx-legend .dot { background: var(--data-strong); }
-table.mx td .ring, .mx-legend .ring { border: 2px solid var(--data-strong); }
-/* "None found" is one of three states in the grid, so it has to be visible — and
-   it has to stay quieter than the two states that mean something is there.
-   A 1px dash was the wrong shape for that job: a horizontal mark is directional,
-   so twenty of them down a sparse column snapped into a dotted vertical ladder
-   and read as a column rule, and it echoed the row hairlines besides. A disc is
-   isotropic — repeated, it makes texture rather than a line. At 4px it carries
-   12.6px² of ink against the dot's 78.5, so absence can no longer out-weigh
-   presence in a column, and it is far enough below the 10px marks to be a
-   different class of object rather than a smaller version of one. Same object in
-   the legend, so cell and key are literally the same 4px. */
-table.mx td .none, .mx-legend .none-key {
-  display: inline-block; width: 4px; height: 4px; border-radius: 50%;
-  background: var(--ink-3); vertical-align: 2px;
+/* border-box keeps the 2px stroke inside the footprint. 17px outer leaves a 13px
+   inner box, so the 9px core clears the stroke by 2px on every side. */
+table.mx td .ring, .mx-legend .ring {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 2px dotted var(--data-strong); vertical-align: middle;
 }
+/* "None found" is drawn as nothing at all. The previous 4px disc existed to make
+   absence visible but quiet; this goes further and makes the grid figure-and-
+   ground, so every mark on it is something that exists and the rare community
+   rings are the only texture in 220 cells. The claim the dot used to carry —
+   that we looked and found nothing, rather than that we never checked — moves to
+   the caption and the legend, which state it once instead of ninety times.
+   Nothing is lost to assistive tech: the cell's sr-only "None found" is separate
+   from the glyph and stays exactly where it was. */
 /* Cohort break. No band: a rule across the full scroll width, then air, then the
    cohort's name — the same way a section break works in the prose on this site.
    The seam is --line-strong so it outranks the row hairlines it separates, and
@@ -481,15 +493,14 @@ table.mx tr.mx-group th .gn {
   font-variant-numeric: tabular-nums; color: var(--ink-3);
 }
 /* Forced colors drops author backgrounds and borders, which would have taken the
-   dot, the ring, the "none" rule and the rungs with them — the entire table,
-   since every cell's content is one of those four marks. Re-stated in system
-   colors: the data marks are CanvasText, the two that mean "nothing here" and
-   "not reached on the scale" are GrayText, so the three cell states and the rung
-   count all survive. */
+   core, the ring and the rungs with them — the entire table, since every mark on
+   it is one of those. Re-stated in system colors: the data marks are CanvasText
+   and the rung that means "not reached on the scale" is GrayText, so both parts
+   of the grammar and the rung count all survive. Absence needs no rule here: it
+   is drawn as nothing, and nothing survives a forced palette intact. */
 @media (forced-colors: active) {
-  table.mx td .dot, .mx-legend .dot { background: CanvasText; }
+  table.mx td .core, .mx-legend .core { background: CanvasText; }
   table.mx td .ring, .mx-legend .ring { border-color: CanvasText; }
-  table.mx td .none, .mx-legend .none-key { background: GrayText; }
   table.mx tr.mx-group .rungs line { stroke: CanvasText; }
   table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
 }
@@ -526,7 +537,14 @@ table.mx tr.mx-group th .gn {
    documentation of the table and not part of it. */
 .mx-legend { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--ink-2); margin: 10px 2px 20px; flex-wrap: wrap; }
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
-.mx-legend .dot, .mx-legend .ring, .mx-legend .none-key { flex: none; }
+.mx-legend .core, .mx-legend .ring { flex: none; }
+/* The key's last item has no swatch, because the state it names has no mark. It
+   says in words what the 4px disc used to say in every empty cell, once instead
+   of ninety times. "Found", not "checked": the corpus's own idiom throughout is
+   evidence of absence — the maturity rubric's lowest step is "no AI affordances
+   found" — and a caption is not the place to quietly upgrade that to a claim of
+   exhaustive coverage. */
+.mx-legend .blank-key { color: var(--ink-3); }
 
 .jump li a:active { background: var(--bg-sunk); }
 
@@ -1183,11 +1201,24 @@ const VIEWS = {
     const row = s => {
       const cells = MX_COLS.map(c => {
         const hits = (s.affordances || []).filter(a => c.types.includes(a.type) && a.present !== false);
-        if (!hits.length) return '<td><span class="none" aria-hidden="true"></span><span class="sr-only">None found</span></td>';
+        /* Absence draws nothing. The sr-only text stays, so the cell still says
+           "None found" to anyone not reading it by eye. */
+        if (!hits.length) return '<td><span class="sr-only">None found</span></td>';
+        /* Asked separately, not as one either/or. The old code took
+           hits.some(a => a.official) as the whole answer, which silently turned
+           every cell holding both an official and a community artifact into a
+           plain official one. */
         const official = hits.some(a => a.official);
+        const community = hits.some(a => !a.official);
         const names = hits.map(a => `${a.name}${a.official ? '' : ' (community)'}`).join(' · ');
-        const glyph = official ? '<span class="dot" aria-hidden="true"></span>' : '<span class="ring" aria-hidden="true"></span>';
-        const word = official ? 'Official' : 'Community';
+        /* Ring means community, core means official, so the mark is assembled
+           from what the cell actually holds rather than chosen from a list of
+           three: a cell with both is the official core inside the community ring. */
+        const core = '<span class="core"></span>';
+        const glyph = community
+          ? `<span class="ring" aria-hidden="true">${official ? core : ''}</span>`
+          : `<span class="core" aria-hidden="true"></span>`;
+        const word = official ? (community ? 'Official and community' : 'Official') : 'Community';
         /* The cell links to the artifact itself — docs if there are docs, the
            repo otherwise. Official beats community when both are present. */
         const best = hits.find(a => a.official && (a.docs_url || a.code_url)) || hits.find(a => a.docs_url || a.code_url);
@@ -1223,9 +1254,9 @@ const VIEWS = {
       <section id="systems" tabindex="-1">
       <h2>The systems</h2>
       <p class="h2-sub">Discover how every system ships AI affordances and tools.</p>
-      <div class="mx-legend"><span><span class="dot" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community-only</span><span><span class="none-key" aria-hidden="true"></span>none found</span></div>
+      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span><span class="blank-key">blank: none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
-        <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
+        <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official, community-built, or both. An empty cell means no such affordance was found.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
         ${groups}</table></div><span class="fade" aria-hidden="true"></span></div>
       </section>
