@@ -250,6 +250,13 @@ h2 { font-family: var(--font-display); font-size: 20px; font-weight: 650; letter
 /* Per-platform verdicts on a system page: a heading in the outline, but sized to
    the paragraph it opens rather than to the section h3s above it. */
 .pi { font-size: 14px; margin: 14px 0 2px; }
+/* The label here is always short — platLabel() strips the parenthetical gloss,
+   leaving "Figma" or "zeroheight" — so a flex row never has to survive a wrap,
+   and it aligns the mark to the label better than a vertical-align guess. An
+   integration naming 'other' has no mark and renders as a one-item row, which
+   is the same box a bare heading was. */
+.pi { display: flex; align-items: center; gap: 7px; }
+.pi svg { width: 16px; height: 16px; flex: none; }
 h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
 /* One count treatment, everywhere a number sits beside a heading or a label:
    body sans, tabular, --ink-3. Same family as the matrix cohort counts. */
@@ -299,6 +306,13 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
 /* Pill rows for the jump lists that /ai, /platforms, /reading and /insights
    all build through jumpList(). */
 .jump li a { font-size: 13px; border: 1px solid var(--line); background: var(--bg); border-radius: 2px; padding: 2px 8px; color: var(--ink); display: inline-block; text-decoration: none; }
+/* Only /platforms passes icons, so only its pills become flex rows; the other
+   three jump lists keep the inline-block above and render unchanged. flex: none
+   because this row wraps, and a pill squeezed at a narrow width would take it
+   out of the glyph before the label. No hover rule: the mark is currentColor,
+   so the existing :hover on the anchor tints it along with the text. */
+.jump li a:has(svg) { display: inline-flex; align-items: center; gap: 6px; }
+.jump li a svg { width: 14px; height: 14px; flex: none; }
 .jump li a:hover { border-color: var(--accent); color: var(--accent-ink); }
 .jump { list-style: none; padding: 0; margin: 22px 0 20px; display: flex; flex-wrap: wrap; gap: 6px; }
 /* The accent rule already leaves 24px under itself, so a list that follows one
@@ -673,6 +687,14 @@ table.mx tr.mx-group th .gn {
    inline inset, capability rows run edge to edge. */
 .plat { --card-pad: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raise); padding: 18px 0; margin-bottom: 14px; }
 .plat h2 { margin: 0 var(--card-pad) 6px; }
+/* Inline rather than a flex row, which the other two placements use: a platform
+   name runs to "Figma (Dev Mode MCP server, Code Connect, Figma Make)" and wraps
+   below 860px. As a flex item that wrapped text is one tall block, and centring
+   the mark against it parks the glyph halfway down the heading. Inline keeps it
+   on the first line where the eye looks for it. 20px against 20px type: these
+   are solid glyphs, so they sit heavier than the stroked nav icons and do not
+   want the nav's 1.33x ratio. */
+.plat h2 svg { width: 20px; height: 20px; vertical-align: -.12em; margin-right: 9px; }
 /* A card-internal section label that is still a heading in the outline. */
 .plat h3.caps {
   font-family: var(--font-display); font-weight: 550; font-size: 11px;
@@ -1229,7 +1251,7 @@ const VIEWS = {
       <p class="h2-sub">How this system keeps models on-system instead of inventing components.</p>
       <div class="tech-cat">${(s.techniques || []).length ? `<ul class="exlist">${s.techniques.map((t, i) => techniqueHTML(t, s.id, i, false)).join('')}</ul>` : ''}</div>
       ${(s.platform_integrations || []).length ? `<h2>Platform integrations</h2>
-        ${s.platform_integrations.map(p => `<h3 class="pi">${esc(platLabel(p.platform))}</h3>
+        ${s.platform_integrations.map(p => `<h3 class="pi">${logoIcon(p.platform)}${esc(platLabel(p.platform))}</h3>
         <p class="body-block">${fmt(p.description)} ${p.url ? extArrow(p.url, `${platLabel(p.platform)} integration`) : ''}</p>`).join('')}` : ''}
       ${s.gaps ? `<h2>Gaps &amp; open questions</h2><p class="body-block gaps">${fmt(s.gaps)}</p>` : ''}
       <h2>Sources</h2>
@@ -1263,9 +1285,9 @@ const VIEWS = {
     return `<div class="pagetop"><p class="eyebrow">The tooling layer</p>${mdDownload('platforms')}</div><h1>Platforms</h1>
       <p class="lede">${fmt(DATA.insights.platforms_lede)}</p>
       <hr class="accent-rule">
-      ${jumpList(DATA.platforms.map(p => ({ id: p.id, label: p.name.replace(/\s*\([^()]*\)$/, '') })), 'Jump to a platform')}
+      ${jumpList(DATA.platforms.map(p => ({ id: p.id, label: p.name.replace(/\s*\([^()]*\)$/, ''), icon: logoIcon(p.id) })), 'Jump to a platform')}
       ${DATA.platforms.map(p => `<section class="plat" id="${esc(p.id)}" tabindex="-1">
-        <h2>${esc(p.name)}</h2>
+        <h2>${logoIcon(p.id)}${esc(p.name)}</h2>
         ${mirrorLinks('platforms', p.id, p.name)}
         <p class="sum">${fmt(p.summary)}</p>
         <h3 class="caps">Capabilities</h3>
@@ -1399,8 +1421,13 @@ const VIEWS = {
    labeled-but-empty list. */
 function jumpList(items, label) {
   if (!items.length) return '';
+  /* i.icon is optional and is the one field here that is not escaped: it is
+     markup the build resolved from an SVG file, not a string off a record.
+     Every field that does come off a record still goes through esc(), and the
+     two are kept apart on the line so that stays visible. Pages that pass plain
+     items — /ai, /insights, /reading — render exactly as they did. */
   return `<ul class="jump" aria-label="${esc(label)}">${items.map(i =>
-    `<li><a href="#${esc(i.id)}" data-jump="${esc(i.id)}">${esc(i.label)}</a></li>`).join('')}</ul>`;
+    `<li><a href="#${esc(i.id)}" data-jump="${esc(i.id)}">${i.icon || ''}${esc(i.label)}</a></li>`).join('')}</ul>`;
 }
 
 /* `anchor` is the id of the section this row summarizes, and only /techniques
@@ -1497,6 +1524,22 @@ const NAV_ICON_PATHS = {
 /* aria-hidden because the label beside it already says the same thing; an
    announced icon would only make every link read its name twice. */
 const navIcon = (r) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${NAV_ICON_PATHS[r]}</svg>`;
+/* Platform marks, keyed by platform id the way NAV_ICON_PATHS is keyed by route,
+   but resolved by the build rather than typed here: three come out of the
+   simple-icons package and three out of assets/logos/, and build_dashboard.py
+   refuses to finish if any of the six cannot be read.
+   Not folded into navIcon, because the two draw in opposite paint models. The
+   nav glyphs are stroked outlines that need fill="none"; these are solid, and
+   fill="none" would render them as nothing at all.
+   An id with no geometry returns nothing, so its heading renders exactly as it
+   did before rather than carrying an empty <svg>. That is 'other', which the
+   system schema permits and 17 of the 20 system records use — the common path
+   on a system page, not an edge case. It cannot happen on /platforms, which
+   iterates the records themselves. */
+const LOGO_PATHS = DATA.logos || {};
+const logoIcon = id => LOGO_PATHS[id]
+  ? `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${LOGO_PATHS[id]}</svg>`
+  : '';
 /* Full page titles, from the same build-time table the prerendered <title> tags
    and the sitemap come from, so an in-page navigation to /techniques leaves the
    tab reading what a crawler sees rather than the one-word nav label. */
