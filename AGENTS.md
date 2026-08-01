@@ -163,6 +163,13 @@ spelling the source used, even where that is British — zeroheight's article is
 The palette is defined once in `:root` in `dashboard/template.html` and every
 color comes from a token. Use `light-dark()`; both themes ship.
 
+Colors are written in `oklch()`. Lightness is the first number, so a ramp reads
+as a ramp in the source: the maturity backgrounds step 23.6 → 28.7 → 33.8 →
+39.3 in dark mode, and a step that goes the wrong way is visible before the
+contrast check runs. `scripts/build_og.mjs` is the one exception and says why in
+a comment — resvg cannot parse `oklch()` and silently rasterizes it black, and
+no check here can read a PNG.
+
 Surfaces are `--bg`, `--bg-raise`, `--bg-sunk`. Text is `--ink`, `--ink-2`,
 `--ink-3`. Rules are `--line`, `--line-strong`.
 

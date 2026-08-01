@@ -2,19 +2,39 @@ import { readFileSync } from 'node:fs';
 // WCAG AA contrast check for the data (maturity) token pairs.
 const PAIRS = {
   light: [
-    ['mat-0', '#F4F4F5', '#52525B'],
-    ['mat-1', '#E2EAF2', '#3F5C77'],
-    ['mat-2', '#CBDCEB', '#29465F'],
-    ['mat-3', '#AECCE5', '#122C42'],
+    ['mat-0', 'oklch(96.7% 0.001 286.4)', 'oklch(44.2% 0.015 285.8)'],
+    ['mat-1', 'oklch(93.3% 0.014 248)', 'oklch(46.3% 0.056 247.4)'],
+    ['mat-2', 'oklch(88.6% 0.028 244.7)', 'oklch(38.3% 0.055 245.9)'],
+    ['mat-3', 'oklch(83.1% 0.048 243.5)', 'oklch(28.4% 0.052 246.5)'],
   ],
   dark: [
-    ['mat-0', '#1E1E20', '#A1A1AA'],
-    ['mat-1', '#1F2C39', '#9FB9D0'],
-    ['mat-2', '#27394C', '#BBD2E6'],
-    ['mat-3', '#32485E', '#D8E7F5'],
+    ['mat-0', 'oklch(23.6% 0.004 286.1)', 'oklch(71.2% 0.013 286.1)'],
+    ['mat-1', 'oklch(28.7% 0.03 248.9)', 'oklch(77.4% 0.044 245.1)'],
+    ['mat-2', 'oklch(33.8% 0.041 250.4)', 'oklch(85.3% 0.037 244.5)'],
+    ['mat-3', 'oklch(39.3% 0.047 249.1)', 'oklch(92.1% 0.025 246.2)'],
   ],
 };
-const srgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+/* The tokens are authored in oklch, so the check reads them in the space the
+   stylesheet declares them in. It converts down to the 8-bit sRGB the browser
+   actually paints before measuring: WCAG luminance is defined on those channels,
+   and quantizing here is what keeps every ratio identical to the hex era, so a
+   change to this file shows up as a changed number rather than as rounding. */
+const srgb = (c) => {
+  const [L, C, H] = c.match(/[\d.]+/g).map(Number);
+  const hr = (H * Math.PI) / 180;
+  const [a, b] = [C * Math.cos(hr), C * Math.sin(hr)];
+  const l = (L / 100 + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m = (L / 100 - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s = (L / 100 - 0.0894841775 * a - 1.291485548 * b) ** 3;
+  return [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+  ].map((v) => {
+    const g = v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+    return Math.round(Math.min(1, Math.max(0, g)) * 255) / 255;
+  });
+};
 const lin = (c) =>
   c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 const lum = (h) => {
@@ -56,16 +76,16 @@ console.log(
    because the copy button's ground is the snippet's. */
 const GROUNDS = {
   light: {
-    'control-line': '#8A8A8A',
-    bg: '#FFFFFF',
-    'bg-raise': '#FFFFFF',
-    'bg-sunk': '#F5F5F5',
+    'control-line': 'oklch(63.3% 0 0)',
+    bg: 'oklch(100% 0 0)',
+    'bg-raise': 'oklch(100% 0 0)',
+    'bg-sunk': 'oklch(97% 0 0)',
   },
   dark: {
-    'control-line': '#6B6B6B',
-    bg: '#111111',
-    'bg-raise': '#191919',
-    'bg-sunk': '#0A0A0A',
+    'control-line': 'oklch(52.8% 0 0)',
+    bg: 'oklch(17.8% 0 0)',
+    'bg-raise': 'oklch(21.3% 0 0)',
+    'bg-sunk': 'oklch(14.5% 0 0)',
   },
 };
 let nonTextFail = 0;

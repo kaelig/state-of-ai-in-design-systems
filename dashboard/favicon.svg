@@ -2,9 +2,9 @@
   <!-- The affordance matrix in miniature: filled dots, one ring, on the slate
        data wash. Site colors: mat-2 ground and ink, per theme. -->
   <style>
-    .g { fill: #CBDCEB; } .d { fill: #29465F; } .r { fill: none; stroke: #29465F; stroke-width: 1.8; }
+    .g { fill: oklch(88.6% 0.028 244.7); } .d { fill: oklch(38.3% 0.055 245.9); } .r { fill: none; stroke: oklch(38.3% 0.055 245.9); stroke-width: 1.8; }
     @media (prefers-color-scheme: dark) {
-      .g { fill: #27394C; } .d { fill: #BBD2E6; } .r { stroke: #BBD2E6; }
+      .g { fill: oklch(33.8% 0.041 250.4); } .d { fill: oklch(85.3% 0.037 244.5); } .r { stroke: oklch(85.3% 0.037 244.5); }
     }
   </style>
   <rect class="g" width="32" height="32" rx="4"/>

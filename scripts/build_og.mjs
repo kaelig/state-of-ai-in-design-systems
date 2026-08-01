@@ -145,10 +145,18 @@ const H = 630;
 const PAD = 80;
 const CONTENT = W - PAD * 2;
 
-const INK = '#111111';
-const MUTED = '#555555';
-const ACCENT = '#2563eb';
-const PAPER = '#ffffff';
+// Hex, and staying hex. The site's tokens are authored in oklch; these four are
+// the same colors, spelled the one way resvg can read. Its parser predates CSS
+// Color 4 and falls back to black on anything it does not recognize, without
+// throwing: `oklch(54.6% 0.215 262.9)`, `color(display-p3 1 0 0)` and the
+// literal string `garbage-not-a-color` all rasterize to the same PNG as
+// `#000000`. Nothing downstream would catch it, for the same reason the card
+// went four counts stale — the build hashes these bytes, it cannot read them.
+// So a migration that sweeps the palette has to stop at this file.
+const INK = '#111111'; // --ink light
+const MUTED = '#555555'; // --ink-2 light
+const ACCENT = '#2563eb'; // --accent light
+const PAPER = '#ffffff'; // --bg light
 
 // Hanken Grotesk is 1000 units per em with ascent 1000 and descent -303, so CSS
 // `line-height: normal` is 1.303em and a baseline sits one em below the top of
