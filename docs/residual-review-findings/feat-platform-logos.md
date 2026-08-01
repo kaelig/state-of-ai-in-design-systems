@@ -72,11 +72,20 @@ again.
 
 ## Smaller notes from the same review
 
-- `jumpList()`'s `i.icon` is the one field in `dashboard/template.html`
-  interpolated without `esc()`. Correctness cleared it — the only caller passes
-  `logoIcon(p.id)`, and `_PATH_D` captures `[^"]*` so no quote can escape the
-  attribute — but the safety lives at the call site, not in the signature.
-  Passing an id instead of markup would move it back into the helper.
+- `jumpList()`'s `i.icon` is interpolated without `esc()`. Correctness cleared
+  it — the only caller passes `logoIcon(p.id)`, and `_PATH_D` captures `[^"]*`
+  so no quote can escape the attribute — but the safety lives at the call site
+  rather than in the signature, and passing an id instead of markup would move
+  it back into the helper. It is not the precedent it first looked like, though:
+  `extLink(url, text)` has taken a trusted-HTML parameter since long before this
+  change, and says so on the line above itself.
+- `logoIcon(p.id)` runs twice per platform on a `/platforms` render, once for
+  the chip and once for the heading. Six platforms and an object lookup; noted
+  and declined.
+- `resolve_logos()` repeats the collect-faults-print-exit shape of
+  `validate_urls()`, which its own comment names as the precedent. Extracting a
+  shared `_fail()` was considered and declined twice on the same grounds: the
+  tuple shapes differ, and each block is about four lines.
 - `simple-icons` went into `dependencies` rather than `devDependencies` even
   though only the build reads it. That matches `ajv` and contradicts
   `@resvg/resvg-wasm`; the repo has no stated convention either way.
