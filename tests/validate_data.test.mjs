@@ -124,6 +124,49 @@ describe('validate_data rejects bad records', () => {
     assert.match(out, /unknown property: pricing/);
   });
 
+  // The logo field is the half of the contract ajv can hold: the build's own
+  // gate reads p["logo"]["source"] unguarded, so if the field ever stopped
+  // being required, step 1 would die with a KeyError instead of naming a record.
+  test('a platform with no logo fails', () => {
+    const { code, out } = runAgainst((dir) =>
+      edit(dir, 'data/platforms.json', (d) => {
+        delete d[0].logo;
+      }),
+    );
+    assert.equal(code, 1);
+    assert.match(out, /platforms\.json/);
+    assert.match(out, /logo/);
+  });
+
+  test('a logo source outside the enum fails, naming the allowed values', () => {
+    const { code, out } = runAgainst((dir) =>
+      edit(dir, 'data/platforms.json', (d) => {
+        d[0].logo.source = 'cdn';
+      }),
+    );
+    assert.equal(code, 1);
+    assert.match(out, /allowed: simple-icons, vendored/);
+  });
+
+  test('an unknown property inside a logo fails', () => {
+    const { code, out } = runAgainst((dir) =>
+      edit(dir, 'data/platforms.json', (d) => {
+        d[0].logo.color = '#000';
+      }),
+    );
+    assert.equal(code, 1);
+    assert.match(out, /unknown property: color/);
+  });
+
+  test('an empty logo value fails rather than reaching the resolver', () => {
+    const { code } = runAgainst((dir) =>
+      edit(dir, 'data/platforms.json', (d) => {
+        d[0].logo.value = '';
+      }),
+    );
+    assert.equal(code, 1);
+  });
+
   test('insights losing a required section fails', () => {
     const { code, out } = runAgainst((dir) =>
       edit(dir, 'data/insights.json', (d) => {
