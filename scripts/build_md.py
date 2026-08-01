@@ -1705,7 +1705,7 @@ def schema_md():
         "`name`, `category`, `description`, `snippet`.\n"
         "- **platform_integration** — a system's recorded relationship with one of the "
         f"{N_PLAT} platforms. Fields: `platform`, `description`, `url`.\n"
-        "- **platform** — one design-system platform. Fields: `name`, `summary`, "
+        "- **platform** — one design-system platform. Fields: `name`, `logo`, `summary`, "
         "`capabilities`, `adoption_by_design_systems`, `sources`.\n"
         "- **snippet** — a verbatim excerpt of a real file: `language`, `content`, `source_url`.\n"
     )

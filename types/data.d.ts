@@ -150,6 +150,19 @@ export interface DesignSystemPlatformRecord {
   id: string;
   name: string;
   /**
+   * Where this platform's mark comes from. The build resolves it to path geometry and stops if it cannot, so a platform whose logo does not resolve never ships. Unlike the rest of this file, it records a presentation choice rather than a sourced claim.
+   */
+  logo: {
+    /**
+     * Which of the two places the build looks. simple-icons reads the package of that name; vendored reads assets/logos/, where the three platforms that package does not carry are kept.
+     */
+    source: 'simple-icons' | 'vendored';
+    /**
+     * The Simple Icons slug, or the file name under assets/logos/ including its extension.
+     */
+    value: string;
+  };
+  /**
    * What the platform is, and what it does about AI consumption.
    */
   summary: string;
