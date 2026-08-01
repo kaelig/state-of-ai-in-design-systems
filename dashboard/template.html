@@ -248,14 +248,13 @@ h2 { font-family: var(--font-display); font-size: 20px; font-weight: 650; letter
 .body-block { font-size: 14px; color: var(--ink); max-width: var(--measure-body); margin: 0 0 8px; text-wrap: pretty; }
 .body-block.gaps { color: var(--ink); }
 /* Per-platform verdicts on a system page: a heading in the outline, but sized to
-   the paragraph it opens rather than to the section h3s above it. */
-.pi { font-size: 14px; margin: 14px 0 2px; }
-/* The label here is always short — platLabel() strips the parenthetical gloss,
-   leaving "Figma" or "zeroheight" — so a flex row never has to survive a wrap,
-   and it aligns the mark to the label better than a vertical-align guess. An
-   integration naming 'other' has no mark and renders as a one-item row, which
-   is the same box a bare heading was. */
-.pi { display: flex; align-items: center; gap: 7px; }
+   the paragraph it opens rather than to the section h3s above it.
+   A flex row rather than an inline mark: the label is always short here, because
+   platLabel() strips the parenthetical gloss down to "Figma" or "zeroheight", so
+   the row never has to survive a wrap and the glyph aligns to the label without a
+   vertical-align guess. An integration naming 'other' has no mark and renders as
+   a one-item row — the same box a bare heading was. */
+.pi { font-size: 14px; margin: 14px 0 2px; display: flex; align-items: center; gap: 7px; }
 .pi svg { width: 16px; height: 16px; flex: none; }
 h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter-spacing: -.015em; margin: 22px 0 8px; }
 /* One count treatment, everywhere a number sits beside a heading or a label:
