@@ -493,14 +493,27 @@ table.mx tr.mx-group th .gn {
   table.mx tr.mx-group .rungs line { stroke: CanvasText; }
   table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
 }
-/* Edge fades belong to the wrapper, not the scroller: inside it they would
-   scroll away with the content. They only exist while the table can scroll. */
+/* The edge fade belongs to the wrapper, not the scroller: inside it it would
+   scroll away with the content, and it only exists while the table can scroll.
+   Right edge only. A matching left fade shipped here and never drew a pixel:
+   the frozen first column is sticky, opaque and at least 130px wide, so nothing
+   vanishes under the left edge — it vanishes under that column, which is where
+   a left-hand affordance would have to live if it is ever wanted.
+   Flush, not inset: the gradient is already full --bg at its outer edge, so a
+   1px inset is no soft tail but a strip of unfaded table, and a dot crossing it
+   reads as a sliver. z-index clears the sticky header (3) and the corner cell
+   (4), which otherwise left the column labels cut clean while the rows under
+   them faded, and stays below the theme toggle's 10. The cross-fade is opacity
+   — paint, not movement, so it sits outside the reduced-motion block — and the
+   state flips only on arriving at the edge, so it runs once per arrival rather
+   than once per scroll event. */
 .mxwrap { position: relative; }
-.mxwrap .fade { position: absolute; top: 0; bottom: 0; width: 28px; pointer-events: none; opacity: 0; }
-.mxwrap .fade-l { left: 1px; background: linear-gradient(to right, var(--bg), transparent); }
-.mxwrap .fade-r { right: 1px; background: linear-gradient(to left, var(--bg), transparent); }
-.mxwrap[data-at-start="false"] .fade-l { opacity: 1; }
-.mxwrap[data-at-end="false"] .fade-r { opacity: 1; }
+.mxwrap .fade {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 28px; z-index: 5;
+  background: linear-gradient(to left, var(--bg), transparent);
+  pointer-events: none; opacity: 0; transition: opacity .12s ease;
+}
+.mxwrap[data-at-end="false"] .fade { opacity: 1; }
 /* The table fits the content column here, so the scroller stops being a scroll
    context and the sticky header finally resolves against the viewport. */
 @media (min-width: 1060px) {
@@ -1214,7 +1227,7 @@ const VIEWS = {
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
         <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official or community-built.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
-        ${groups}</table></div><span class="fade fade-l" aria-hidden="true"></span><span class="fade fade-r" aria-hidden="true"></span></div>
+        ${groups}</table></div><span class="fade" aria-hidden="true"></span></div>
       </section>
       <h2>Affordance prevalence</h2>
       <p class="h2-sub">Number of systems (of ${m.counts.systems}) shipping each affordance, counting official and community.</p>
@@ -1476,8 +1489,8 @@ document.addEventListener('toggle', e => {
   if (d && d.tagName === 'DETAILS' && d.open) pruneSnippetTabStops(d);
 }, true);
 
-/* Edge fades for the matrix while it still has to scroll sideways. Driven by a
-   scroll listener and a ResizeObserver so the state is right on load and on
+/* The matrix's right-edge fade, while it still has to scroll sideways. Driven by
+   a scroll listener and a ResizeObserver so the state is right on load and on
    rotate, not only after the first drag. */
 function setupMatrixFades() {
   const wrap = document.getElementById('mxwrap');
@@ -1488,7 +1501,6 @@ function setupMatrixFades() {
     const max = (sc.scrollWidth || 0) - (sc.clientWidth || 0);
     const x = sc.scrollLeft || 0;
     const scrolls = max > 1;
-    wrap.setAttribute('data-at-start', String(!scrolls || x <= 1));
     wrap.setAttribute('data-at-end', String(!scrolls || x >= max - 1));
   };
   sc.addEventListener('scroll', update, { passive: true });
