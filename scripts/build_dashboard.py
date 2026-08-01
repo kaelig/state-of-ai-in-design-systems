@@ -179,6 +179,93 @@ def validate_urls(systems, platforms):
     return n
 
 
+# --------------------------------------------------------------------- logos
+#
+# Two sources, one contract. `simple-icons` covers three of the six platforms;
+# assets/logos/ holds the three it does not, normalized by hand to the shape its
+# files already have. The contract is checked on both, not just the hand-made
+# three: a Simple Icons file satisfies it by construction today, and the day the
+# package changes its output shape is a day this should say so rather than ship
+# a mark that renders as nothing.
+ICONS = ROOT / "node_modules" / "simple-icons" / "icons"
+LOGOS = ROOT / "assets" / "logos"
+
+_VIEWBOX = re.compile(r'\bviewBox="([^"]*)"')
+_PATH_D = re.compile(r'<path\b[^>]*\bd="([^"]*)"')
+_PAINT = re.compile(r'\b(fill|stroke|style)="([^"]*)"')
+# Neither names a color: one paints nothing, the other defers to the ink of
+# whatever the mark is rendered inside, which is the whole point of R5.
+_SAFE_PAINT = {"none", "currentcolor"}
+
+
+def _logo_faults(svg):
+    """Why this file cannot ship as a monochrome mark, and the geometry if it can.
+
+    Everything here is a question JSON Schema cannot ask. ajv has already proved
+    the `logo` field exists and names one of two sources; whether the thing it
+    names is a 24-unit box drawn without a color is a question about a file."""
+    faults = []
+    box = _VIEWBOX.search(svg)
+    if not box:
+        faults.append("no viewBox")
+    elif box.group(1).split() != ["0", "0", "24", "24"]:
+        faults.append(f'viewBox is "{box.group(1)}", not "0 0 24 24"')
+    geometry = _PATH_D.findall(svg)
+    if not geometry:
+        faults.append("no <path> to draw")
+    for attr, value in _PAINT.findall(svg):
+        if attr == "style":
+            if re.search(r"\b(fill|stroke|color)\b", value, re.I):
+                faults.append(f'style="{value}" paints the mark')
+        elif value.strip().lower() not in _SAFE_PAINT:
+            faults.append(f'{attr}="{value}" hardcodes a color')
+    return faults, "".join(f'<path d="{d}"/>' for d in geometry)
+
+
+def resolve_logos(platforms):
+    """Every record's `logo` as path geometry, keyed by platform id, or stop.
+
+    Kept out of the records on purpose: build_md.py serializes each one verbatim
+    into /platforms/<id>.json and /data/platforms.json, so geometry written onto
+    a record here would land on a published data surface as though it had been
+    authored there. The map mirrors NAV_ICON_PATHS in the template instead."""
+    faults, logos = [], {}
+    # Checked once. A contributor who has not run `npm install` has one problem,
+    # and three missing-file lines would read as a data problem rather than a
+    # setup one. This is the first time the Python build reads node_modules.
+    missing_pkg = not ICONS.is_dir()
+
+    for p in platforms:
+        source, value = p["logo"]["source"], p["logo"]["value"]
+        if source == "simple-icons":
+            if missing_pkg:
+                continue
+            path, where = ICONS / f"{value}.svg", f"simple-icons slug '{value}'"
+        else:
+            path, where = LOGOS / value, f"vendored '{value}'"
+        try:
+            svg = path.read_text(encoding="utf-8")
+        except OSError:
+            faults.append((p["id"], f"{where}: nothing at {path.relative_to(ROOT)}"))
+            continue
+        why, geometry = _logo_faults(svg)
+        faults.extend((p["id"], f"{where}: {w}") for w in why)
+        if not why:
+            logos[p["id"]] = geometry
+
+    if missing_pkg and any(p["logo"]["source"] == "simple-icons" for p in platforms):
+        faults.insert(0, ("—", "the simple-icons package is not installed; run `npm install`"))
+
+    # Every offender in one report, the way validate_urls() does it: someone who
+    # has broken three records learns about three, not about the first one.
+    if faults:
+        print("platform logos that do not resolve:", file=sys.stderr)
+        for pid, why in faults:
+            print(f"  {pid}: {why}", file=sys.stderr)
+        raise SystemExit(1)
+    return logos
+
+
 # ---------------------------------------------------------------- typography
 #
 # Prose fields only. Names, orgs, ids, languages, licenses and every URL field
@@ -520,6 +607,7 @@ def main():
         sanitize(p.get("capabilities", []))
 
     n_records = validate_urls(systems, platforms)
+    logos = resolve_logos(platforms)
 
     # Before the payload is written, so every downstream surface — the site, the
     # markdown twins, the JSON passthroughs, the SQLite export and the MCP
@@ -576,6 +664,9 @@ def main():
     payload = {
         "systems": systems,
         "platforms": platforms,
+        # Beside the records rather than on them: this is resolved geometry, not
+        # an authored field, and the records are serialized verbatim elsewhere.
+        "logos": logos,
         "insights": insights,
         "reading": reading,
         "meta": meta,
