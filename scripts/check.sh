@@ -41,6 +41,21 @@ step "deno (edge functions)"
 deno check --allow-import=edge.netlify.com:443 netlify/edge-functions/markdown.ts
 deno lint --rules-exclude=no-import-prefix netlify/edge-functions/
 
+# Full-repo, not `fallow audit`. The adoption guide's PR gate scopes analysis to
+# files changed against the default branch, which assumes a pull request to diff.
+# This repo ships straight to main, so there is usually no diff to scope to, and
+# at this size the whole graph is analyzed in well under a second. A gate that
+# only ever looked at changed files would also never notice the day an entry
+# point in .fallowrc.jsonc stops matching the script build.sh actually runs.
+#
+# dead-code only. `fallow dupes` and `fallow health` both report against this
+# repo today (one clone group and one cognitive-complexity target, both inside
+# netlify/functions/mcp.mjs), so gating on them would mean shipping a red check
+# or a baseline file to suppress it. Neither is honest. They stay on-demand
+# until the findings are dealt with on their own terms.
+step "dead code"
+npx fallow dead-code
+
 step "contrast"
 node scripts/check_contrast.js
 

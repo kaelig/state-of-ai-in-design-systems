@@ -15,20 +15,23 @@
     "typecheck": "tsc --noEmit",
     "types": "node scripts/generate_types.mjs",
     "types:check": "node scripts/generate_types.mjs --check",
+    "dead-code": "fallow dead-code",
     "check": "./scripts/check.sh"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0-beta.5",
+    "@resvg/resvg-wasm": "2.6.2",
     "ajv": "8.20.0",
-    "simple-icons": "16.27.1"
+    "simple-icons": "16.28.0",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@resvg/resvg-wasm": "2.6.2",
     "@types/node": "26.1.2",
     "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
-    "globals": "17.8.0",
+    "fallow": "3.11.0",
+    "globals": "17.9.0",
     "json-schema-to-typescript": "15.0.4",
     "prettier": "3.9.6",
     "typescript": "7.0.2"
