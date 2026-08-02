@@ -12,7 +12,7 @@
     },
     {
       "title": "2026 is the year of the agent skill",
-      "body": "{official_skills:Word} of {systems:word} ship official agent skills (Cloudscape has none; USWDS has an open issue; Astryx ships no registered skill and generates an AGENTS.md into your repo instead). Distribution has settled on `npx skills add`, and Nord, React Spectrum, Nuxt UI and Atlassian serve skills from well-known discovery endpoints, a pattern that didn't exist a year ago. PatternFly ships 32 consumer skills across 8 plugins. daisyUI sells paid Dashboard and Charts skills next to its free one."
+      "body": "{official_skills:Word} of {systems:word} ship official agent skills (Cloudscape has none; USWDS has an open issue; Astryx ships no registered skill and generates an AGENTS.md into your repo instead). Distribution has settled on `npx skills add`. Nord and React Spectrum go further and serve their skills from a `/.well-known/skills/` manifest on the docs domain itself, a pattern that didn't exist a year ago; Nuxt UI keeps its skill in-repo and installs through the skills.sh CLI, and Atlassian's is published internally, not on the public npm registry. PatternFly ships 32 consumer skills across 8 plugins. daisyUI sells paid Dashboard and Charts skills next to its free one."
     },
     {
       "title": "The frontier: portable design context and published evals",
@@ -50,7 +50,7 @@
     },
     {
       "title": "Official MCP servers, converging on read-only retrieval",
-      "body": "{official_mcp:Word} of {systems:word} systems have an official MCP channel, and nearly all expose the same core shape: search docs, get component docs and examples, list tokens. The variance is in delivery. Bundled in the CLI (shadcn), npm stdio (MUI, Chakra, Mantine, HeroUI, Spectrum, Primer, PatternFly, daisyUI), hosted remote with auth (Carbon, Nuxt UI, Atlassian), hosted remote with neither auth nor a session (Astryx), or owned by the platform org rather than the DS team (SLDS via @salesforce/mcp, Polaris via Shopify's dev MCP)."
+      "body": "{official_mcp:Word} of {systems:word} systems have an official MCP channel, and nearly all expose the same core shape: search docs, get component docs and examples, list tokens. The variance is in delivery. Bundled in the CLI (shadcn, Ant Design's `antd mcp`), npm stdio (MUI, Chakra, Mantine, HeroUI, Spectrum, Primer, PatternFly, daisyUI), hosted remote (Carbon behind OAuth; Nuxt UI, Atlassian and Astryx answer anonymously, Astryx without even a session), owned by the platform org rather than the DS team (SLDS via @salesforce/mcp, Polaris via Shopify's dev MCP), or serving a different platform than the flagship library: Fluent's only public server covers Blazor, and its React MCP runs inside Microsoft, unreleased."
     },
     {
       "title": "Agent skills with progressive disclosure",
@@ -59,13 +59,13 @@
     {
       "title": "Prohibition language that names the hallucination",
       "body": "The most effective negative rules name the exact failure. Ant Design's allow-list exists to stop models hallucinating `Box`/`Stack`/`Container`. shadcn bans raw divs with `space-y-*` and manual `dark:` overrides. Carbon and SLDS both enumerate the components that exist, so anything else is provably invented."
-    },
-    {
-      "title": "Design-to-code grounding via Figma Code Connect",
-      "body": "248 public repos carry @figma/code-connect in package.json. For the systems that invest (Carbon, Primer, Fluent and Spectrum among them), it is the only mechanism in the stack that grounds design-to-code generation in real component imports rather than pixel reconstruction."
     }
   ],
   "divergence": [
+    {
+      "title": "Design-to-code grounding: Figma Code Connect vs. written mapping guides",
+      "body": "248 public repos carry @figma/code-connect in package.json, but in this study only Carbon (~86 `*.figma.tsx` files, auto-published from main) and Primer (52 files and a publish workflow) ship it; no other record found evidence of it. The systems that ground design-to-code without it write the mapping down instead: Spectrum's figma-to-s2 skill carries a Figma-name-to-S2-props table, SLDS leans on styling-hook names matching between its Figma kit and code, and PatternFly wraps the Figma REST API in a builder-side skill. Astryx considered a Figma plugin and closed the proposal with \"Tabling this for now\" (facebook/astryx#569)."
+    },
     {
       "title": "Open discovery vs. walled garden",
       "body": "Nuxt UI publishes an RFC 9727 api-catalog, Link headers and markdown content negotiation so any agent can find everything. Polaris blocks AI crawlers outright and routes all consumption through Shopify's own toolkit, where it enforces the strictest ruleset in the study. The industry hasn't decided whether the machine interface is a public good or a controlled channel."
