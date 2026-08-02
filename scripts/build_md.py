@@ -434,7 +434,9 @@ MATURITY = {
     m: ids_where(lambda s, m=m: s["ai_maturity"] == m)
     for m in ("ai-native", "invested", "emerging", "none")
 }
-WELL_KNOWN = ids_matching(r"well-known/skills")
+# A full URL, not the bare path: nuxt-ui's record mentions the path only to say
+# its .well-known/skills.json returns 404, and a 404 is not serving.
+WELL_KNOWN = ids_matching(r"https://[^\"\s]*\.well-known/skills")
 EVALS = ids_matching(r"\beval")
 BUDGETS = ids_matching(r"token budget|context budget|limited context")
 CRAWLERS = ids_matching(r"crawler")
@@ -1550,12 +1552,12 @@ skills alongside its free one. Detail per system in each record, and in finding 
         "well-known-skills",
         "Do design systems serve agent skills from .well-known?",
         f"A few: {len(WELL_KNOWN)} of {N_SYS} systems serve skills from a well-known endpoint.",
-        f"""A few do: {len(WELL_KNOWN)} of {N_SYS} systems reference a well-known skills endpoint —
-{slinks(WELL_KNOWN)}.
+        f"""A few do: {len(WELL_KNOWN)} of {N_SYS} systems serve skills from a `/.well-known/skills/`
+manifest on their docs domain — {slinks(WELL_KNOWN)}.
 
 It is the newest distribution pattern in the dataset and the least settled: a year before this
 snapshot it did not exist. The mainstream is still `npx skills add` or a skill bundled in the
-system's CLI. If you are choosing today, publishing both costs little. Open those three records for
+system's CLI. If you are choosing today, publishing both costs little. Open those records for
 the exact URLs and the file layout each one serves.""",
     )
 
