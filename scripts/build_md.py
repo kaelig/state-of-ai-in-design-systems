@@ -976,14 +976,17 @@ WEBMCP_TOOLS = ["list_systems", "get_system", "search", "get_stats"]
 # The page needs the purpose; tests/mcp.test.mjs needs the names, and asserts
 # these against prompts/list, so a prompt registered and not published here
 # fails the suite, and so does one published here and never registered.
+# build-my-roadmap leads because it is the reason to connect at all; the rest
+# support it. Order is display order only — tests/mcp.test.mjs sorts both sides
+# before comparing, so moving an entry here cannot break the drift guard.
 MCP_PROMPTS = [
+    ("build-my-roadmap", "Turn what your system is missing into sequenced work."),
     ("start-here", "What the server holds, which tool answers what, and the filter vocabulary."),
     (
         "audit-my-design-system",
         "Where one system stands against the survey, and what it is missing.",
     ),
     ("adopt-an-affordance", "Ship one affordance, with the working examples to copy from."),
-    ("build-my-roadmap", "Turn audit findings into sequenced work."),
     (
         "find-technique-for",
         "A model gets your components wrong in one way. Find what others do about it.",
@@ -1175,10 +1178,11 @@ def ai_content():
                 },
                 {
                     "type": "prose",
-                    "text": "There are three ways to do that, in rising order of effort. Paste a link and a "
-                    "prompt into a chat window. Connect the report to your assistant as something it "
-                    "can query, which is one line of setup. Or download the data and work on it "
-                    "yourself.",
+                    "text": "Three steps below, in rising order of effort. Paste a prompt into a chat window "
+                    "and start asking, which takes nothing. Connect the report to the tool you "
+                    "already use, which is one action in most of them. Then run the roadmap prompt, "
+                    "which reads your own design system against the survey and hands back the gaps "
+                    "in the order worth closing them.",
                 },
                 {
                     "type": "prose",
@@ -1188,7 +1192,7 @@ def ai_content():
         },
         {
             "id": "files",
-            "heading": "Point your AI at the markdown",
+            "heading": "1. Ask a question, with nothing to set up",
             "blocks": [
                 {
                     "type": "prose",
@@ -1214,7 +1218,7 @@ def ai_content():
         },
         {
             "id": "mcp",
-            "heading": "Connect the MCP server",
+            "heading": "2. Connect it to the tool you use",
             "blocks": [
                 {
                     "type": "prose",
@@ -1226,6 +1230,13 @@ def ai_content():
                 {"type": "configs", "items": configs},
                 {
                     "type": "prose",
+                    "text": "ChatGPT is the one client with no path here worth recommending. It can reach an "
+                    "MCP server, but only in developer mode on a paid plan, and on a business account "
+                    "only after an admin allows it. Step 1 above works there today, and every page on "
+                    "this site has an open-in-ChatGPT link that carries the page with it.",
+                },
+                {
+                    "type": "prose",
                     "text": "The tools may change as the report is maintained. Treat it as a way to read this "
                     "study, not as a stable API.",
                 },
@@ -1233,14 +1244,16 @@ def ai_content():
         },
         {
             "id": "prompts",
-            "heading": "Prompts that come with it",
+            "heading": "3. Get a roadmap for your design system",
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts. Each "
-                    f"one is a job people turn up here to do, written out as steps, with the "
-                    f"vocabulary the filters accept already filled in so the assistant is not sent "
-                    f"off to ask what it could have been told.",
+                    "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts, and "
+                    f"`build-my-roadmap` is the one worth connecting for. Tell it what your system "
+                    f"ships and what it does not, and it hands back the gaps in the order worth "
+                    f"closing them, each one carrying the record it came from, so you can go and read "
+                    f"what somebody else did before you commit to it. The other "
+                    f"{NUMBER_WORD[len(MCP_PROMPTS) - 1]} cover the rest of the job:",
                 },
                 {
                     "type": "list",
@@ -1251,8 +1264,8 @@ def ai_content():
                     # Backticks are not decoration here: the invocation carries paired
                     # double underscores, which a markdown reader of /ai.md would
                     # otherwise render as bold and hand back a command that fails.
-                    "text": f"In Claude Code these are slash commands: `/mcp__{MCP_NAME}__start-here`, and the "
-                    f"same shape for the other {NUMBER_WORD[len(MCP_PROMPTS) - 1]}. Cursor, VS Code "
+                    "text": f"In Claude Code these are slash commands: `/mcp__{MCP_NAME}__build-my-roadmap`, "
+                    f"and the same shape for the other {NUMBER_WORD[len(MCP_PROMPTS) - 1]}. Cursor, VS Code "
                     f"and the desktop apps list them in a prompt picker instead. A prompt only hands "
                     f"your assistant instructions; the work and the tool calls are still its own.",
                 },

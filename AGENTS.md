@@ -216,8 +216,10 @@ so responses stay small.
 claude mcp add --transport http --scope user ds-state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
 ```
 
-It also ships five prompts: `start-here` for orientation,
-`audit-my-design-system`, `adopt-an-affordance`, `build-my-roadmap` and
+It also ships five prompts. `build-my-roadmap` leads, because it is the one
+most people connect for: it turns what a system is missing into sequenced
+work, carrying the record behind each item. The other four are `start-here`
+for orientation, `audit-my-design-system`, `adopt-an-affordance` and
 `find-technique-for`. They carry the controlled vocabulary in their bodies,
 generated from the payload at registration time, so an agent has the filter
 values before its first call. Claude Code exposes them as
