@@ -24,7 +24,14 @@
 <meta name="twitter:description" content="How 20 open-source design systems and 6 platforms make themselves legible to AI: MCP servers, agent skills, llms.txt, and the techniques that keep models on-system.">
 <meta name="twitter:image" content="https://state-of-ai-in-design-systems.netlify.app/__OG_IMAGE__">
 <meta name="twitter:creator" content="@kaelig">
+<!-- The SVG is the icon; the .ico is the fallback Safari before 26 needs, and
+     the one a browser asks for on its own when it is looking at /llms.txt or a
+     .md mirror and there is no head to read. The touch icon is what iOS fetches
+     when the site is added to a home screen. scripts/build_favicon.mjs draws
+     all three from the same favicon.svg. -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

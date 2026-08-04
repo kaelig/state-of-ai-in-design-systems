@@ -43,9 +43,22 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # Content-addressed by nothing, but changed roughly never, and fetched by tab
-# bars rather than by readers.
+# bars and home screens rather than by readers. The .ico is the same icon for
+# the browsers that cannot read the .svg, and for the ones looking at a .md or
+# .txt file with no head to declare an icon in; the touch icon is what iOS
+# fetches from the root. scripts/build_favicon.mjs draws both from the .svg.
 [[headers]]
   for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/apple-touch-icon.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
@@ -87,3 +100,9 @@
 # netlify/edge-functions/markdown.ts handles Accept: text/markdown on the HTML
 # routes. Netlify discovers it in netlify/edge-functions/ automatically; the
 # route list is in its exported config.
+#
+# netlify/edge-functions/trailing-punctuation.ts is the one exception to the
+# honest miss above, and it is not a fallback: it only sees paths ending in the
+# punctuation our own llms.txt format leaves stuck to a URL, and it 301s to the
+# same path with that punctuation removed. If the result does not exist either,
+# it 404s like anything else.

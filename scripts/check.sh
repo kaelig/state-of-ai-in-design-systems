@@ -38,8 +38,14 @@ $MYPY
 # import the Netlify edge runtime over https; --rules-exclude drops the rule that
 # forbids exactly that, which Netlify's own contract requires them to do.
 step "deno (edge functions)"
-deno check --allow-import=edge.netlify.com:443 netlify/edge-functions/markdown.ts
+deno check --allow-import=edge.netlify.com:443 \
+  netlify/edge-functions/markdown.ts \
+  netlify/edge-functions/trailing-punctuation.ts
 deno lint --rules-exclude=no-import-prefix netlify/edge-functions/
+# The one edge function with a test. It is Deno rather than node --test because
+# the file under test is TypeScript importing the edge runtime, and it sits in
+# tests/ because Netlify would deploy anything under netlify/edge-functions/.
+deno test --allow-import=edge.netlify.com:443 tests/trailing-punctuation.test.ts
 
 # Full-repo, not `fallow audit`. The adoption guide's PR gate scopes analysis to
 # files changed against the default branch, which assumes a pull request to diff.

@@ -21,3 +21,9 @@ node scripts/build_og.mjs
 python3 scripts/build_dashboard.py --final
 # 5. one static HTML file per route
 node scripts/prerender.mjs
+# 6. the two icons browsers fetch by name, rasterized from dashboard/favicon.svg.
+#    Last because it reads nothing this pipeline writes: the browsers that ask
+#    for /favicon.ico are the ones that cannot read the .svg the head declares,
+#    plus any browser pointed at a .md or llms.txt file, which has no head to
+#    read at all, and /apple-touch-icon.png is what iOS asks for by itself.
+node scripts/build_favicon.mjs

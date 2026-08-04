@@ -39,34 +39,40 @@ build still needs no Python packages; ruff and mypy are development-only and
 
 ## Edit these
 
-| Path                                 | What it is                                                     |
-| ------------------------------------ | -------------------------------------------------------------- |
-| `data/design-systems.json`           | The 20 system records. Facts go here, nowhere else.            |
-| `data/platforms.json`                | The 5 platform records.                                        |
-| `data/insights.json`                 | Findings, essay, methodology, caveats — the written analysis.  |
-| `data/reading.json`                  | The further-reading list. Other people's work, not ours.       |
-| `schema/design-system.schema.json`   | System record schema and controlled vocabularies.              |
-| `schema/platform.schema.json`        | Platform record schema.                                        |
-| `schema/insights.schema.json`        | Shape of the written analysis.                                 |
-| `schema/reading.schema.json`         | Reading-list entry schema.                                     |
-| `dashboard/template.html`            | The entire site: markup, CSS, and one view function per route. |
-| `scripts/build_dashboard.py`         | Payload, HTML shells, route table, nav.                        |
-| `scripts/build_md.py`                | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
-| `scripts/prerender.mjs`              | One static HTML file per route.                                |
-| `scripts/build_og.mjs`               | The social card, drawn from the same counts as the prose.      |
-| `netlify/functions/mcp.mjs`          | The MCP server at `/mcp`.                                      |
-| `netlify/edge-functions/markdown.ts` | Content negotiation for `Accept: text/markdown`.               |
-| `tests/mcp.test.mjs`                 | The MCP suite.                                                 |
-| `scripts/validate_data.mjs`          | Step 0 of the build: records against schemas.                  |
-| `scripts/check.sh`                   | The check sequence CI and `npm run check` both run.            |
+| Path                                             | What it is                                                     |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+| `data/design-systems.json`                       | The 20 system records. Facts go here, nowhere else.            |
+| `data/platforms.json`                            | The 5 platform records.                                        |
+| `data/insights.json`                             | Findings, essay, methodology, caveats — the written analysis.  |
+| `data/reading.json`                              | The further-reading list. Other people's work, not ours.       |
+| `schema/design-system.schema.json`               | System record schema and controlled vocabularies.              |
+| `schema/platform.schema.json`                    | Platform record schema.                                        |
+| `schema/insights.schema.json`                    | Shape of the written analysis.                                 |
+| `schema/reading.schema.json`                     | Reading-list entry schema.                                     |
+| `dashboard/template.html`                        | The entire site: markup, CSS, and one view function per route. |
+| `scripts/build_dashboard.py`                     | Payload, HTML shells, route table, nav.                        |
+| `scripts/build_md.py`                            | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
+| `scripts/prerender.mjs`                          | One static HTML file per route.                                |
+| `scripts/build_og.mjs`                           | The social card, drawn from the same counts as the prose.      |
+| `scripts/build_favicon.mjs`                      | The `.ico` and touch icon, rasterized from `favicon.svg`.      |
+| `netlify/functions/mcp.mjs`                      | The MCP server at `/mcp`.                                      |
+| `netlify/edge-functions/markdown.ts`             | Content negotiation for `Accept: text/markdown`.               |
+| `netlify/edge-functions/trailing-punctuation.ts` | URLs a link parser mangled, redirected to the real path.       |
+| `tests/mcp.test.mjs`                             | The MCP suite.                                                 |
+| `scripts/validate_data.mjs`                      | Step 0 of the build: records against schemas.                  |
+| `scripts/check.sh`                               | The check sequence CI and `npm run check` both run.            |
 
 ## Never edit these
 
 `dashboard/` holds two source files — `template.html` and `favicon.svg` — and 138
 generated ones: `index.html`, every `<route>/index.html`, every `.md`, every
-`.json`, `data.js`, `llms*.txt`, `sitemap.xml`, `og-image-<hash>.png`, and
-`data/state-of-ai.sqlite`. The generated ones are gitignored, so an edit to one
-shows up nowhere and disappears on the next build.
+`.json`, `data.js`, `llms*.txt`, `sitemap.xml`, `og-image-<hash>.png`,
+`favicon.ico`, `apple-touch-icon.png`, and `data/state-of-ai.sqlite`. The
+generated ones are gitignored, so an edit to one shows up nowhere and disappears
+on the next build.
+
+`favicon.ico` and `apple-touch-icon.png` are both drawn from `favicon.svg`,
+which is why the `.svg` is source and the other two are not. Edit the `.svg`.
 
 `netlify/edge-functions/lib/md-routes.ts` is generated too, by `build_md.py`, and
 is the one generated file still tracked, because the edge function imports it.
