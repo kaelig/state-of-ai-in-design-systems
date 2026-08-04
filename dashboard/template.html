@@ -220,6 +220,21 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 .rail nav a[data-r="overview"] svg,
 .rail nav a[data-r="methodology"] svg { transform: translateY(-1px); }
 .rail nav a[data-r="platforms"] svg { stroke-width: 1.75; }
+/* One badge in the whole nav, on the one route that answers in a model's voice.
+   Label voice at 11px — the shared voice for every label on the site — inside
+   the 3px chamfer the Shapes rule gives a rectangle, not a chip's pill: this
+   marks a destination, it is not metadata about one.
+   Border and text ride currentColor for the same reason the glyphs do, so the
+   hover and current-page rules below tint the badge with its row and there is
+   no third color to keep in sync.
+   The 0.14em tracking leaves a letter-space hanging after the I that no letter
+   fills, so the right padding gives it back and the two letters sit centered in
+   the box instead of shoved left. */
+.rail nav a .navtag {
+  font-size: 11px; font-weight: 550; letter-spacing: .14em; line-height: 1;
+  padding: 2px calc(4px - .14em) 2px 4px; flex: none;
+  border: 1px solid currentColor; border-radius: var(--radius);
+}
 .rail nav a:hover { color: var(--ink); background: var(--bg-sunk); }
 .rail nav a.on, .rail nav a[aria-current="page"] { color: var(--accent-ink); border-right-color: var(--accent); background: var(--accent-wash); }
 .rail-foot { margin-top: auto; padding: 28px 16px 0 0; font-size: 13px; color: var(--ink-3); }
@@ -2016,6 +2031,13 @@ const NAV_ICON_PATHS = {
 /* aria-hidden because the label beside it already says the same thing; an
    announced icon would only make every link read its name twice. */
 const navIcon = (r) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${NAV_ICON_PATHS[r]}</svg>`;
+/* A table rather than an `r === 'ai'` test, so a second badged route is a row
+   here and not a second branch. Hidden from the reader for the reason the
+   glyphs are: the link already names a destination that answers as a model, and
+   two spelled-out letters trailing the name would be the only nav item that
+   does not read as a plain noun phrase. */
+const NAV_TAG = { ai: 'AI' };
+const navTag = (r) => NAV_TAG[r] ? `<span class="navtag" aria-hidden="true">${NAV_TAG[r]}</span>` : '';
 /* Platform marks, keyed by platform id the way NAV_ICON_PATHS is keyed by route,
    but resolved by the build rather than typed here: three come out of the
    simple-icons package and three out of assets/logos/, and build_dashboard.py
@@ -2041,7 +2063,7 @@ NAV.forEach(([r, l]) => { NAV_LABEL[r] = l; });
 /* The icon goes inside the anchor and the attributes stay exactly as they were:
    prerender.mjs marks the current page by matching this opening tag, so its
    href and data-r are load-bearing in a second file. */
-$('#nav').innerHTML = NAV.map(([r, l]) => `<a href="${r === 'overview' ? href() : href(r)}" data-r="${r}">${navIcon(r)}<span>${l}</span></a>`).join('');
+$('#nav').innerHTML = NAV.map(([r, l]) => `<a href="${r === 'overview' ? href() : href(r)}" data-r="${r}">${navIcon(r)}<span>${l}</span>${navTag(r)}</a>`).join('');
 /* The masthead ships as href="/" so the prerendered HTML is right without JS.
    Under hash routing that address is not a route, so point it at the real one. */
 $('#brand').setAttribute('href', href());
