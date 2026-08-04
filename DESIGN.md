@@ -267,8 +267,12 @@ against a 40px floor).
   11px mono ink; hover recolors text and border to accent. An `::after`
   overlay extends taps to ~43px, vertical-only so the source link beside it
   never loses a tap.
-- **Correction CTA:** the one call to action a record carries — 1px accent
-  border, `accent-ink` text; hover inverts to filled accent with `bg` text.
+- **Correction CTA:** 1px accent border, `accent-ink` text; hover inverts to
+  filled accent with `bg` text. Two instances ship, and they are the only two
+  calls to action on the site: the correction prompt a record page carries, and
+  the agentic-layer callout that closes the overview. Both are `.correct` —
+  `aside`, `bg-raise`, hairline border, 3px accent left edge — so a third
+  instance means asking whether it earns the pattern, not restyling it.
 - **Focus:** the global 2px accent ring at 3px offset, everywhere.
 
 ### Chips

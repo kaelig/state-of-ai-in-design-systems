@@ -413,6 +413,19 @@ const rootHtml = read('index.html');
 if (!rootHtml.includes('<h1>How design systems talk to machines</h1>'))
   die('root index.html is missing the overview h1');
 
+// The homepage is the only place that advertises the agentic layer above the
+// nav, and nothing else checks it: dashboard/ is excluded from eslint, prettier
+// and the dead-code pass, so this guard is the whole mechanical check on that
+// markup. Assert the landmark and the link, not the copy, so wording stays free.
+if (
+  !rootHtml.includes(
+    '<aside class="correct" aria-label="Read this report with an AI assistant">',
+  )
+)
+  die('root index.html is missing the agentic-layer callout landmark');
+if (!rootHtml.includes('<a href="/ai">Show me how</a>'))
+  die('root index.html callout does not link to /ai');
+
 // The matrix lives on the overview. Group header rows and multiple tbodies sit
 // between the system rows, so count the rows that carry a row header and
 // exclude the cohort strips.

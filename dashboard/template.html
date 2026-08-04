@@ -1203,7 +1203,12 @@ const VIEWS = {
       </section>
       <h2>Affordance prevalence</h2>
       <p class="h2-sub">Number of systems (of ${m.counts.systems}) shipping each affordance, counting official and community.</p>
-      ${prevalenceBars()}`;
+      ${prevalenceBars()}
+      <aside class="correct" aria-label="Read this report with an AI assistant">
+        <p class="t">Ask this study anything</p>
+        <p>Point an AI assistant at this report and it answers from the ${m.counts.systems} records here, with a source link on each one. Connect it to the tool you already use and it will draw up an AI roadmap for your own design system.</p>
+        <a href="${href('ai')}">Show me how</a>
+      </aside>`;
   },
 
   system(id) {
@@ -1384,7 +1389,7 @@ const VIEWS = {
        cannot outlive the section it points at. `first` is the intro: it renders
        into the head with no wrapper of its own, so it has nothing to jump to. */
     const jump = jumpList(rest.map(sec => ({ id: sec.id, label: sec.heading })), 'Jump to a section');
-    const head = `<div class="pagetop"><p class="eyebrow">For agents</p>${mdDownload('ai')}</div><h1>${esc(c.title)}</h1>
+    const head = `<div class="pagetop"><p class="eyebrow">Ask this study</p>${mdDownload('ai')}</div><h1>${esc(c.title)}</h1>
       <p class="lede">${fmt(first.blocks[0].text)}</p>
       <hr class="accent-rule">
       ${first.blocks.slice(1).map((b, i) => block(b, `ai-${first.id}-${i}`)).join('')}
@@ -1488,7 +1493,7 @@ function setupMatrixFades() {
 const NAV = [
   ['overview', 'Overview'],
   ['techniques', 'Techniques'], ['platforms', 'Platforms'], ['insights', 'Insights'], ['methodology', 'Methodology'],
-  ['reading', 'Reading'], ['ai', 'For agents'],
+  ['reading', 'Reading'], ['ai', 'Ask this study'],
 ];
 /* One glyph per section, drawn in the same 24px stroked style as the theme
    toggle. Feather (MIT), which is where the moon and the sun came from too.
