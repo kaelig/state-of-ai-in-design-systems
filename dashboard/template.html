@@ -261,33 +261,6 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
    body sans, tabular, --ink-3. Same family as the matrix cohort counts. */
 .hcount { font-family: var(--font-body); font-weight: 400; font-size: 14px; letter-spacing: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 26px 0; list-style: none; padding: 0; }
-/* Column + margin-top:auto: the third line sits on one baseline across all five
-   tiles however many lines the label above it takes. */
-.tile { background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; position: relative; }
-/* One anchor over the numeral and the label, stretched to the tile's edges: the
-   accessible name stays "20 design systems studied" while the whole card is the
-   target. Tiles sit on --bg-raise, so a row-hover background shift has nowhere
-   to go and the border and the label carry the hover instead. The numeral keeps
-   --ink: blue is for interaction, and the numeral is data. */
-.tile > a { color: inherit; text-decoration: none; }
-.tile > a::after { content: ""; position: absolute; inset: 0; }
-.tile:hover { border-color: var(--line-strong); }
-.tile:hover .l { color: var(--accent-ink); }
-/* The ring traces the tile, not the two lines of text inside it. Without the
-   override the global :focus-visible rule boxes the anchor at +3px and spills
-   over the tile's own border. */
-.tile:has(a:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
-.tile > a:focus-visible { outline: none; }
-.tile .n { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; }
-.tile .l { font-size: 13px; color: var(--ink-2); margin-top: 3px; line-height: 1.4; }
-/* Prose stopped wearing mono here: only the tile that quotes an actual command
-   keeps a monospace run, and it does it with <code>. */
-.tile .d { font-size: 12px; color: var(--ink-3); margin-top: auto; padding-top: 6px; font-variant-numeric: tabular-nums; }
-/* The detail line is a standalone chip, not a run inside a sentence, so it can
-   afford the vertical padding that inline <code> in prose cannot. */
-.tile .d code { padding: 2px 7px; }
-
 /* Pill tags. Rounded on purpose: pills read as metadata, squares stay for buttons and inputs. */
 .chip {
   display: inline-flex; align-items: center; gap: 5px;
@@ -538,14 +511,6 @@ table.mx tr.mx-group th .gn {
 .mx-legend { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--ink-2); margin: 10px 2px 20px; flex-wrap: wrap; }
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
 .mx-legend .core, .mx-legend .ring { flex: none; }
-/* The key's last item has no swatch, because the state it names has no mark. It
-   says in words what the 4px disc used to say in every empty cell, once instead
-   of ninety times. "Found", not "checked": the corpus's own idiom throughout is
-   evidence of absence — the maturity rubric's lowest step is "no AI affordances
-   found" — and a caption is not the place to quietly upgrade that to a claim of
-   exhaustive coverage. */
-.mx-legend .blank-key { color: var(--ink-3); }
-
 .jump li a:active { background: var(--bg-sunk); }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
@@ -860,8 +825,6 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      own padding to absorb that then made the barless-link variant shorter. */
 }
 @media (max-width: 540px) {
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile .n { font-size: 24px; }
   .bar-row, .bar-link { grid-template-columns: 96px 1fr 40px; }
   /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
   .aff-body { padding-left: 16px; }
@@ -878,7 +841,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   a { color: inherit; }
   /* Snippets were guillotined at the paper edge. */
   .snip pre { white-space: pre-wrap; overflow: visible; }
-  .aff, .tile, .findings li, .tech-cat, .plat, .srclist li { break-inside: avoid; }
+  .aff, .findings li, .tech-cat, .plat, .srclist li { break-inside: avoid; }
   /* URLs only where the content is; the rail is gone and the footer repeats. */
   #view-root a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9px; color: var(--ink-3); }
   /* The snippet-bar link's ::after is a tap overlay on screen. On paper the same
@@ -991,9 +954,6 @@ const CAT_DEF = {
   'design-code-mapping': 'Figma Code Connect-style node→component mappings, so design-to-code generation lands on real components with real props.',
   'other': 'Techniques that don’t fit the taxonomy — often the most interesting ones.'
 };
-/* Counted off the records, not off CAT_DEF: the taxonomy dict is editorial copy
-   and drifts. The markdown layer counts the same way, so both surfaces agree. */
-const TECH_CAT_COUNT = new Set(DATA.systems.flatMap(s => (s.techniques || []).map(t => t.category))).size;
 const MX_COLS = [
   { key: 'mcp', label: 'MCP server', types: ['mcp-server'] },
   { key: 'llms', label: 'llms.txt', types: ['llms-txt'] },
@@ -1177,23 +1137,6 @@ const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
 
-/* A stat tile is a claim and the place that backs it up. The detail line sits
-   outside the anchor so `npx skills add …` stays out of the link text; the
-   stretched ::after covers it anyway. The target arrives already built — a
-   route through href(), or a bare #fragment for a section on this same page.
-   Fragments work under both routings because the hash router only claims
-   "#/"-prefixed hashes and leaves plain anchors to the browser. Label and
-   detail are written here rather than read from a record, so they carry their
-   own markup. */
-function statTile(n, label, detail, target) {
-  /* The newline between the two divs is load-bearing: it makes the accessible
-     name "20 design systems studied" rather than "20design systems studied"
-     without waiting on a browser to insert the block-level space itself. Two
-     block boxes swallow the whitespace, so nothing moves on screen. */
-  return `<li class="tile"><a href="${target}"><div class="n">${n}</div>\n`
-    + `<div class="l">${label}</div></a><div class="d">${detail}</div></li>`;
-}
-
 /* ---------- views ---------- */
 const VIEWS = {
   overview() {
@@ -1244,17 +1187,8 @@ const VIEWS = {
       <p class="lede">${fmt(DATA.insights.lede)}</p>
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
       <hr class="accent-rule">
-      <ul class="tiles">
-        ${statTile(m.counts.systems, 'design systems studied', `+ ${m.counts.platforms} platforms · ${m.counts.affordances} affordances`, '#systems')}
-        ${statTile(m.counts.official_mcp, 'ship an official MCP server', `of ${m.counts.systems} systems`, '#systems')}
-        ${statTile(m.counts.official_skills, 'ship official agent skills', '<code>npx skills add …</code>', '#systems')}
-        ${statTile(m.counts.llms_txt, 'publish llms.txt', 'curated context files', '#systems')}
-        ${statTile(m.counts.techniques, 'coercion techniques cataloged', `${TECH_CAT_COUNT} categories`, href('techniques'))}
-      </ul>
       <section id="systems" tabindex="-1">
-      <h2>The systems</h2>
-      <p class="h2-sub">Discover how every system ships AI affordances and tools.</p>
-      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span><span class="blank-key">blank: none found</span></div>
+      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
         <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official, community-built, or both. An empty cell means no such affordance was found.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>

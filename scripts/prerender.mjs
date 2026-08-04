@@ -431,35 +431,6 @@ if (nMxGroups !== nMxBodies)
 if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
   die('a matrix cohort strip is missing scope="rowgroup"');
 
-// Every stat tile is a claim, and every claim owes the reader the page that
-// backs it up. Slice the list rather than the document: "tile" also appears in
-// the print rules up in the style block.
-const tilesStart = rootHtml.indexOf('<ul class="tiles">');
-if (tilesStart === -1) die('root index.html is missing the stat tiles');
-const tiles = rootHtml.slice(tilesStart, rootHtml.indexOf('</ul>', tilesStart));
-const nTiles = count(tiles, 'class="tile"');
-// Anchored to the tile that opens it, not to any anchor in the slice, so a link
-// that later appears inside a detail line cannot pass for a tile's own.
-const tileHrefs = [...tiles.matchAll(/class="tile"><a href="([^"]*)"/g)].map(
-  (m) => m[1],
-);
-if (tileHrefs.length !== nTiles)
-  die(
-    `${nTiles} stat tiles carry ${tileHrefs.length} links; every tile needs one`,
-  );
-// Prerendered output is the path-routed variant, so these are route paths —
-// or bare #fragments, which must land on an id in this same document. The
-// hash-routed artifact builds from the same source and is not prerendered.
-const routePaths = new Set(routes.map((r) => r.path));
-for (const h of tileHrefs) {
-  if (h.startsWith('#')) {
-    if (!rootHtml.includes(`id="${h.slice(1)}"`))
-      die(`a stat tile links to "${h}" but no element carries that id`);
-  } else if (!routePaths.has(h)) {
-    die(`a stat tile links to "${h}", which is not a route`);
-  }
-}
-
 // Every view in routes.json got a file, and the nav offers every one of them.
 const viewRoutes = routes.filter((r) => r.view !== 'system');
 for (const r of viewRoutes) {
@@ -598,9 +569,6 @@ console.log(
   `  largest:  ${written.reduce((a, b) => (b[1] > a[1] ? b : a)).join('=')} bytes`,
 );
 console.log(`  overview matrix rows=${nRows} in ${nMxBodies} tbodies`);
-console.log(
-  `  stat tiles: ${nTiles}, each linked (${[...new Set(tileHrefs)].sort().join(' ')})`,
-);
 console.log(
   '  placeholder scan: clean across ' + allHtml(OUT).length + ' html files',
 );
