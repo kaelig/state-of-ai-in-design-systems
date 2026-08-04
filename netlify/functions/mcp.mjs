@@ -1188,6 +1188,50 @@ function buildServer() {
   // Five, and the set is asserted against the list /ai publishes, so a prompt
   // added here without being published there fails the build.
   server.registerPrompt(
+    'build-my-roadmap',
+    {
+      title: 'Build a roadmap from audit findings',
+      description:
+        'Turn a set of audit findings into sequenced work, with the survey’s evidence attached to each ' +
+        'item and the dependency order made explicit.',
+      argsSchema: z.object({
+        findings: z
+          .string()
+          .describe('What the audit surfaced. One gap per line is fine.'),
+        constraints: z
+          .string()
+          .optional()
+          .describe('Optional: people, time, horizon.'),
+      }),
+    },
+    ({ findings, constraints }) => ({
+      messages: [
+        {
+          role: 'user',
+          content: {
+            type: 'text',
+            text: [
+              'Turn these findings into sequenced work, with the survey’s evidence attached.',
+              '',
+              'Findings:',
+              findings,
+              ...(constraints ? ['', `Work within: ${constraints}`] : []),
+              '',
+              PROMPT_PREAMBLE,
+              '',
+              '1. For each finding, look for a system that has already solved it. Call search, then get_system or get_snippet, and attach the source_url. Where the survey has nothing to say about a finding, mark it that way rather than inventing an authority for it.',
+              '2. Sequence into now, next and later, with the dependency order stated rather than implied, and name the critical path. Some of that order is not a preference: a query surface built on docs a machine cannot parse ships confusion faster than it ships answers, so the parsing comes first.',
+              '3. For each item, say what an agent can do and what needs a person, and give a done-when somebody else could check. “Improve the docs” is not one. “/llms.txt returns 200 and lists every route” is.',
+              '',
+              'Report the sequence, not an essay. One line of reasoning per item is enough.',
+            ].join('\n'),
+          },
+        },
+      ],
+    }),
+  );
+
+  server.registerPrompt(
     'start-here',
     {
       title: 'Start here',
@@ -1329,50 +1373,6 @@ function buildServer() {
               'example on what would have to change for it to work here; and the smallest version worth',
               'shipping first. If nothing in the survey fits, say so rather than stretching a platform team’s',
               'answer onto a situation it was never built for.',
-            ].join('\n'),
-          },
-        },
-      ],
-    }),
-  );
-
-  server.registerPrompt(
-    'build-my-roadmap',
-    {
-      title: 'Build a roadmap from audit findings',
-      description:
-        'Turn a set of audit findings into sequenced work, with the survey’s evidence attached to each ' +
-        'item and the dependency order made explicit.',
-      argsSchema: z.object({
-        findings: z
-          .string()
-          .describe('What the audit surfaced. One gap per line is fine.'),
-        constraints: z
-          .string()
-          .optional()
-          .describe('Optional: people, time, horizon.'),
-      }),
-    },
-    ({ findings, constraints }) => ({
-      messages: [
-        {
-          role: 'user',
-          content: {
-            type: 'text',
-            text: [
-              'Turn these findings into sequenced work, with the survey’s evidence attached.',
-              '',
-              'Findings:',
-              findings,
-              ...(constraints ? ['', `Work within: ${constraints}`] : []),
-              '',
-              PROMPT_PREAMBLE,
-              '',
-              '1. For each finding, look for a system that has already solved it. Call search, then get_system or get_snippet, and attach the source_url. Where the survey has nothing to say about a finding, mark it that way rather than inventing an authority for it.',
-              '2. Sequence into now, next and later, with the dependency order stated rather than implied, and name the critical path. Some of that order is not a preference: a query surface built on docs a machine cannot parse ships confusion faster than it ships answers, so the parsing comes first.',
-              '3. For each item, say what an agent can do and what needs a person, and give a done-when somebody else could check. “Improve the docs” is not one. “/llms.txt returns 200 and lists every route” is.',
-              '',
-              'Report the sequence, not an essay. One line of reasoning per item is enough.',
             ].join('\n'),
           },
         },
