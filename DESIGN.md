@@ -352,6 +352,31 @@ the case the Inputs note anticipates: the edges take `control-line`, not `line`.
 `details` rows with a mono +/– marker, background-only hover (`bg-sunk`),
 inset focus ring. A run of them is a list and announces as one.
 
+### The page menu
+
+Every content route opens with a split control: a `Copy page` half and a
+chevron half, both of them `popovertarget` for the same menu. The menu is a
+native `popover`, so Escape and outside-click dismissal and the top layer come
+from the platform rather than from script — which is what lets the whole thing
+work with JavaScript off, on a site whose readers include crawlers that run
+none. Script only upgrades the left half from "open the menu" into "copy the
+page", so the no-JS failure mode is a working menu, never a dead button.
+
+Rows are a 16px `currentColor` glyph, an `ink` title and an `ink-2` line
+saying what happens, each with real vertical padding rather than an `::after`
+overlay, because stacked rows would have their overlays reach into each other.
+
+**Named rule — the seam belongs to whoever is lit.** In a split control both
+halves draw a full border and the right one pulls back 1px over the seam, so it
+reads as one hairline. Hover, focus, or the menu being open lifts that half a
+layer. Dropping one half's border instead looks identical at rest and fails on
+hover: a button with no left edge has nothing to turn accent.
+
+The open state keys off `:has([popover]:popover-open)`, never
+`[aria-expanded="true"]`. The browser derives that attribute from
+`popovertarget` without writing it to the DOM, and an attribute selector only
+matches an attribute that is really there.
+
 ## Do's and Don'ts
 
 ### Do:

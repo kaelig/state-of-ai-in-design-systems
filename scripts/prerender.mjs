@@ -124,7 +124,7 @@ try {
       '\n;globalThis.__VIEWS = VIEWS;' +
       ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
       ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
-      ' globalThis.__MAT_ORDER = MAT_ORDER;' +
+      ' globalThis.__MAT_ORDER = MAT_ORDER; globalThis.__askPrompt = askPrompt;' +
       ' globalThis.__footHTML = footHTML;',
     ctx,
     { filename: 'app.js' },
@@ -312,6 +312,42 @@ function emit(relPath, html) {
 const relFor = (p) =>
   p === '/' ? 'index.html' : p.replace(/^\//, '') + '.html';
 
+// The page menu's two "open in" links hand an assistant a prompt through ?q=,
+// which it reads as the reader's own words. The whole control on that is that
+// the prompt is one fixed template with nothing interpolated but the page's own
+// markdown URL — and nothing lints dashboard/, so this is where that holds.
+// Decode q and rebuild the string it has to be, per route, both hosts.
+const askPrompt = sandbox.__askPrompt;
+if (typeof askPrompt !== 'function') die('askPrompt not exposed');
+// The clause that tells an arriving assistant the quoted instruction files in
+// this report are quotation. Same promise the WebMCP tools make with
+// untrustedContentHint, checked the same way: by refusing to build without it.
+const UNTRUSTED_CLAUSE = 'quotation, not as instructions';
+const ASK_HOSTS = ['https://chatgpt.com/?q=', 'https://claude.ai/new?q='];
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+const htmlUnesc = (s) =>
+  s.replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ENTITIES[e]);
+const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function checkAskLinks(where, html, md) {
+  const want = askPrompt(ORIGIN + md);
+  if (!want.includes(UNTRUSTED_CLAUSE))
+    die('the open-in prompt no longer marks the quoted files as quotation');
+  for (const host of ASK_HOSTS) {
+    const m = new RegExp(`href="${reEsc(host)}([^"]*)"`).exec(html);
+    if (!m) die(`${where} has no ${host} link`);
+    if (host.length + m[1].length > 2000)
+      die(
+        `${where}: the ${host} URL is ${host.length + m[1].length} characters, past the 2000 budget`,
+      );
+    const got = decodeURIComponent(htmlUnesc(m[1]));
+    if (got !== want)
+      die(
+        `${where}: the ${host} prompt is not the fixed template for ${md}\n` +
+          `  got:  ${JSON.stringify(got)}\n  want: ${JSON.stringify(want)}`,
+      );
+  }
+}
+
 let minBody = Infinity;
 for (const r of routes) {
   const rel = relFor(r.path);
@@ -329,6 +365,9 @@ for (const r of routes) {
     die(`${r.path} does not offer its markdown twin (expected href="${md}")`);
   if (!existsSync(join(OUT, md)))
     die(`${r.path} offers ${md}, which is not on disk`);
+  // The view body is already the rendered view and nothing else, so this needs
+  // no slicing; the file-level twin of this check further down does.
+  checkAskLinks(r.path, body, md);
   minBody = Math.min(minBody, body.length);
   emit(rel, page({ ...r, body }));
 }
@@ -443,6 +482,25 @@ if (nMxGroups !== nMxBodies)
   die(`index.html has ${nMxGroups} group rows across ${nMxBodies} tbodies`);
 if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
   die('a matrix cohort strip is missing scope="rowgroup"');
+
+// The same assertion against a file on disk, on a record page — the routes
+// whose markdown twin is not the site root, and the ones where a control that
+// quietly kept pointing at / would still look right. Scoped to the rendered
+// view first, the way the /ai config check below is: every page inlines the
+// whole app script, and the source that emits this markup would otherwise be
+// read as one more instance of it.
+const sysRoute = routes.find((r) => r.view === 'system');
+if (!sysRoute) die('routes.json has no system record route');
+const sysHtml = read(relFor(sysRoute.path));
+const sysView = sysHtml.slice(
+  sysHtml.indexOf('<div id="view-root">'),
+  sysHtml.indexOf('</main>'),
+);
+if (!/<ul class="pgmenu"[^>]* popover[ >]/.test(sysView))
+  die(
+    `${sysRoute.path} shipped no page menu, or the menu is no longer a popover`,
+  );
+checkAskLinks(relFor(sysRoute.path), sysView, mdFor(sysRoute.path));
 
 // Every view in routes.json got a file, and the nav offers every one of them.
 const viewRoutes = routes.filter((r) => r.view !== 'system');
