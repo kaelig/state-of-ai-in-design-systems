@@ -23,38 +23,30 @@ the findings, and all 20 systems against each other at once. Every claim links
 to the page it came from. Open the link before you cite it. The data is a
 snapshot and the underlying systems keep moving.
 
-**With an AI tool**, don’t scrape the HTML. Every route has a markdown twin and
-every record has a JSON twin, and
+**With an AI tool**, point one at the report and ask it something. Every route
+has a markdown twin and every record has a JSON twin, and
 [`/llms.txt`](https://state-of-ai-in-design-systems.netlify.app/llms.txt)
 indexes all of them with measured file sizes so an agent can budget context
-before fetching. Paste this at an assistant:
+before fetching. Paste this into any chat window and the answers come back
+grounded in the records, with the source link on each:
 
 ```
 Read https://state-of-ai-in-design-systems.netlify.app/llms.txt, then answer from
 what you read there and cite the source_url on each record. My question: …
 ```
 
-Or connect the MCP server: public, read-only, no auth, a July 2026 snapshot:
+Connecting it costs one more step and pays for itself. The server is public,
+read-only and unauthenticated:
 
 ```sh
 claude mcp add --transport http --scope user ds-state-of-ai https://state-of-ai-in-design-systems.netlify.app/mcp
 ```
 
-```json
-{
-  "mcpServers": {
-    "ds-state-of-ai": {
-      "type": "http",
-      "url": "https://state-of-ai-in-design-systems.netlify.app/mcp"
-    }
-  }
-}
-```
-
-`type` is required in Claude Code and VS Code; a `url` without it is read as a
-local command and skipped. VS Code puts servers under `servers`, not
-`mcpServers`. Cursor needs only the `url`. Full instructions with copy-paste
-blocks: [`/ai`](https://state-of-ai-in-design-systems.netlify.app/ai).
+That installs the prompts the server ships, and `build-my-roadmap` is the one
+to run: tell it what your design system has and hasn’t got, and it hands back
+the gaps in the order worth closing them, carrying the record each one came
+from so you can read what somebody else did before committing to it. Setup for
+every other client: [`/ai`](https://state-of-ai-in-design-systems.netlify.app/ai).
 
 **As a contributor**, the report is wrong in places and corrections are welcome.
 [CONTRIBUTING.md](CONTRIBUTING.md) covers how; [AGENTS.md](AGENTS.md) is the same
