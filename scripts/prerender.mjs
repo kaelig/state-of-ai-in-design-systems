@@ -494,6 +494,47 @@ const aiHtml = read('ai.html');
 if (!aiHtml.includes('Use this report with AI tools'))
   die('/ai.html is missing its h1');
 if (!aiHtml.includes('data-copy=')) die('/ai.html has no copy buttons');
+// The install configs become a tab strip in the browser and stay six stacked
+// sections in this file, which is the copy every crawler and every reader
+// without JS gets. Nothing else checks that: dashboard/ is out of eslint,
+// prettier and the dead-code pass, so an enhancement that started hiding panels
+// server-side would ship five missing configs quietly. Count against the
+// payload, never against a typed 6 — the client list is data and grows.
+// Scoped to the rendered view, not to the file: every page carries the whole
+// app script inline, and the source of the branch that emits these panels is a
+// template literal that reads as one more panel to a substring count.
+const aiView = aiHtml.slice(
+  aiHtml.indexOf('<div id="view-root">'),
+  aiHtml.indexOf('</main>'),
+);
+const configBlock = (payload.ai_page.sections || [])
+  .flatMap((s) => s.blocks || [])
+  .find((b) => b.type === 'configs');
+if (!configBlock || !configBlock.items.length)
+  die('payload.ai_page has no configs block to check /ai.html against');
+if (!aiView.includes('<div class="configs" data-configs>'))
+  die('/ai.html is missing the config tab wrapper');
+if (!aiView.includes('data-copy='))
+  die('/ai.html renders no copy buttons in its view body');
+const nConfigPanels = count(aiView, '<div class="config" id="cfgp-');
+if (nConfigPanels !== configBlock.items.length)
+  die(
+    `/ai.html has ${nConfigPanels} config panels, expected ${configBlock.items.length}`,
+  );
+// Same five replacements esc() makes in template.html, so a label carrying an
+// apostrophe is looked for in the form the page actually ships it in.
+const escLike = (s) =>
+  String(s).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[
+        c
+      ],
+  );
+for (const it of configBlock.items) {
+  if (!aiView.includes(`>${escLike(it.label)}</h3>`))
+    die(`/ai.html config panel "${it.label}" lost its heading`);
+}
 const declared = payload.ai_page && payload.ai_page.webmcp_tools;
 if (!declared || !declared.length)
   die('payload.ai_page.webmcp_tools is missing');

@@ -321,6 +321,32 @@ washes the row; the cell that is actually a link darkens one step further —
 `line-strong` seam, air, and a sticky label with counted-not-colored
 maturity rungs. Forced-colors mode restates every mark in system colors.
 
+### Tabs
+
+One strip, on `/ai`, where the MCP install configs collapse to the client the
+reader actually uses. It is the site's first form-adjacent control, so it is
+the case the Inputs note anticipates: the edges take `control-line`, not `line`.
+
+- **Shape:** square with the control chamfer (3px), 13px display type at 600,
+  `ink-2` on `bg`, 1px `control-line` border. Never the pill — that stays for
+  metadata chips.
+- **Selected:** `accent-ink` text and a 2px `accent` rule along the bottom
+  edge, drawn as an `::after`. An edge rule, like the current nav item's right
+  rule and the correction callout's left one; never a fill.
+- **Size:** 44px min-height outright, which is what leaves `::after` free to
+  draw the marker instead of extending a tap area.
+- **Narrow (≤860px):** one non-wrapping scrolling row on the flattened rail's
+  terms — bleeds to the gutters, scrollbar hidden, gradient edge-fade on the
+  wrapper, focus-ring clearance padded in. It never wraps, so nothing below it
+  can lose a tap.
+- **Behavior:** automatic activation (arrow moves focus and swaps the panel in
+  one step), Home/End to the ends, roving tab stop. Right because the panels are
+  prerendered text with nothing to load.
+- **Progressive enhancement:** the strip ships empty and `:empty`-hidden, and
+  the panels ship stacked, each under its own `h3`. The script fills the strip
+  after render and sets `data-tabs="on"`, which is what hides those headings —
+  so print, forced-colors and a no-JS reader all still get six labeled configs.
+
 ### Disclosures
 
 `details` rows with a mono +/– marker, background-only hover (`bg-sunk`),
