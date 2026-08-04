@@ -24,9 +24,11 @@ byte-identical output) and ai-page-content.json (the copy blocks the /ai view
 renders, so the page and /ai.md say the same thing).
 """
 
+import base64
 import json
 import re
 import sqlite3
+import urllib.parse
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -1053,13 +1055,59 @@ def ai_content():
         f"anything you remember contradicts it, say so instead of quietly picking one.\n\n"
         f"My question: "
     )
+    # Both vendors publish an https form beside a custom scheme. Use the https
+    # one: cursor:// and vscode: do nothing at all when the app is not installed,
+    # with no error, while these render a real page. Cursor wants the inner
+    # server object base64'd and nothing else; VS Code wants the whole object
+    # url-encoded and 400s without a name. Base64 first, then url-encode — doing
+    # it the other way round is a documented way to get "not valid JSON" back.
+    cursor_install = "https://cursor.com/install-mcp?name={}&config={}".format(
+        urllib.parse.quote(MCP_NAME, safe=""),
+        urllib.parse.quote(
+            base64.b64encode(json.dumps({"url": MCP_URL}).encode()).decode(), safe=""
+        ),
+    )
+    vscode_install = "https://vscode.dev/redirect/mcp/install?name={}&config={}".format(
+        urllib.parse.quote(MCP_NAME, safe=""),
+        urllib.parse.quote(json.dumps({"type": "http", "url": MCP_URL, "name": MCP_NAME}), safe=""),
+    )
+    # claude-desktop leads: it is the client the designers this page is written
+    # for actually have, and the tab strip opens on whatever comes first here.
     configs = [
+        {
+            "id": "claude-desktop",
+            "label": "Claude Desktop and claude.ai",
+            "lang": "text",
+            "note": "No config file, and no link to click either: it is four steps in the "
+            "settings window.",
+            "code": f"Settings → Connectors → Add custom connector → paste {MCP_URL}",
+        },
         {
             "id": "claude-code",
             "label": "Claude Code",
             "lang": "bash",
             "note": "Adds it for every project on your machine.",
             "code": f"claude mcp add --transport http --scope user {MCP_NAME} {MCP_URL}",
+        },
+        {
+            "id": "cursor",
+            "label": "Cursor",
+            "lang": "json",
+            "note": "One click, or paste this into ~/.cursor/mcp.json for all projects, or "
+            ".cursor/mcp.json for one.",
+            "install_url": cursor_install,
+            "install_label": "Add to Cursor",
+            "code": json.dumps({"mcpServers": {MCP_NAME: {"url": MCP_URL}}}, indent=2),
+        },
+        {
+            "id": "vscode",
+            "label": "VS Code (Copilot agent mode)",
+            "lang": "json",
+            "note": "One click, or save this as .vscode/mcp.json. The top-level key is servers "
+            "here, not mcpServers.",
+            "install_url": vscode_install,
+            "install_label": "Add to VS Code",
+            "code": json.dumps({"servers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2),
         },
         {
             "id": "mcp-json",
@@ -1070,27 +1118,6 @@ def ai_content():
             "code": json.dumps(
                 {"mcpServers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2
             ),
-        },
-        {
-            "id": "claude-desktop",
-            "label": "Claude Desktop and claude.ai",
-            "lang": "text",
-            "note": "No config file needed.",
-            "code": f"Settings → Connectors → Add custom connector → paste {MCP_URL}",
-        },
-        {
-            "id": "cursor",
-            "label": "Cursor",
-            "lang": "json",
-            "note": "~/.cursor/mcp.json for all projects, or .cursor/mcp.json for one.",
-            "code": json.dumps({"mcpServers": {MCP_NAME: {"url": MCP_URL}}}, indent=2),
-        },
-        {
-            "id": "vscode",
-            "label": "VS Code (Copilot agent mode)",
-            "lang": "json",
-            "note": "Save as .vscode/mcp.json. The top-level key is servers here, not mcpServers.",
-            "code": json.dumps({"servers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2),
         },
         {
             "id": "generic",
@@ -1423,6 +1450,8 @@ def ai_md(content, md_count):
                 for it in b["items"]:
                     p.append(f"### {it['label']}\n")
                     p.append(it["note"] + "\n")
+                    if it.get("install_url"):
+                        p.append(f"[{it['install_label']}]({it['install_url']})\n")
                     p.append(fence(it["code"], it.get("lang", "")))
     p.append(foot(path))
     return render(p)

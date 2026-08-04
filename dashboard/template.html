@@ -790,6 +790,9 @@ table.mx tr.mx-group th .gn {
    still there with no JS and on paper, where it is the only thing labeling
    each config. */
 .configs[data-tabs="on"] .config > h3 { display: none; }
+/* Sits between the note and the code block, because the one-click link is the
+   path most people want and the config below it is the fallback. */
+.cfg-install { margin: 0 0 10px; font-size: 14px; }
 .configs[data-tabs="on"] .config > .h2-sub { margin-top: 0; }
 .prose { max-width: var(--measure-body); }
 .prose p { margin: 10px 0; color: var(--ink); font-size: 16px; }
@@ -1458,8 +1461,17 @@ const VIEWS = {
         <div class="tabwrap"><div class="tabstrip"></div></div>
         ${b.items.map((i, n) => {
           const cid = `${key}-${i.id || n}`;
+          /* The install link is its own field, never markdown inside `note`:
+             fmt() rewrites backticks and emphasis and has no link rule, so a
+             [label](url) written there would ship as literal text on the page
+             while working in /ai.md — the two surfaces disagreeing is exactly
+             what the shared block model exists to prevent. */
+          const install = i.install_url
+            ? `<p class="cfg-install">${extLink(i.install_url, esc(i.install_label))}</p>`
+            : '';
           return `<div class="config" id="cfgp-${esc(cid)}" data-config-label="${esc(i.label)}"><h3>${esc(i.label)}</h3>
         <p class="h2-sub">${fmt(i.note)}</p>
+        ${install}
         ${snippetHTML({ language: i.lang, content: i.code }, cid)}</div>`;
         }).join('')}</div>`;
       return '';
