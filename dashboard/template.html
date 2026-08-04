@@ -601,9 +601,7 @@ table.mx tr.mx-group th .gn {
    derives that attribute from popovertarget without writing it into the DOM,
    and an attribute selector only matches an attribute that is really there. */
 .pa-main:hover, .pa-more:hover,
-.pageacts:has([popover]:popover-open) .pa-more { color: var(--accent-ink); }
-.pa-main:hover, .pa-more:hover,
-.pageacts:has([popover]:popover-open) .pa-more { border-color: var(--accent); }
+.pageacts:has([popover]:popover-open) .pa-more { color: var(--accent-ink); border-color: var(--accent); }
 /* Whichever half is hovered, focused or holding the menu open comes forward, so
    the shared seam is drawn by that one and the accent border closes all the way
    round. Without it the neighbour's grey edge paints over it. */
@@ -1340,9 +1338,13 @@ function mdDownload(view, arg) {
    One bubble does both chat rows and one server does both install rows,
    because six near-identical marks would make a reader compare glyphs when the
    words are what tell the rows apart.
-   Restated rather than read out of NAV_ICON_PATHS: that map is keyed by route
-   and declared several hundred lines below this one, and reaching into it from
-   here would put a temporal dead zone between the menu and a blank page. */
+   Two of these are byte-identical to entries in NAV_ICON_PATHS today, and they
+   stay written out here anyway. That map answers "which section is this", these
+   answer "what does this row do", and the marks match by coincidence rather
+   than because they are the same thing. Sharing them would mean redrawing the
+   nav's glyph silently redraws a menu row. (An earlier version of this comment
+   claimed a temporal dead zone; there is none — paIcon only runs inside a view
+   function, and those only run from route(), long after both maps exist.) */
 const PA_ICON_PATHS = {
   copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
@@ -1923,9 +1925,7 @@ function setupConfigTabs() {
        above now says, and it is scoped so the heading comes back on paper and
        wherever this function never ran. */
     wrap.setAttribute('data-tabs', 'on');
-    let at = 0;
     const select = (i, moveFocus) => {
-      at = i;
       tabs.forEach((t, n) => {
         t.setAttribute('aria-selected', String(n === i));
         t.setAttribute('tabindex', n === i ? '0' : '-1');
@@ -1943,6 +1943,10 @@ function setupConfigTabs() {
     });
     strip.addEventListener('keydown', e => {
       const last = tabs.length - 1;
+      /* Read the selection off the DOM rather than keeping a second copy of it
+         in this closure: select() already writes aria-selected, and one of the
+         two would eventually be wrong. */
+      const at = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
       let next = -1;
       if (e.key === 'ArrowRight') next = at === last ? 0 : at + 1;
       else if (e.key === 'ArrowLeft') next = at === 0 ? last : at - 1;
@@ -2170,15 +2174,10 @@ document.addEventListener('click', e => {
   if (!b) return;
   const clip = navigator.clipboard;
   if (b.dataset.copy !== undefined) {
-    const label = b.querySelector('.btxt') || b;
     const pre = document.getElementById('sn-' + b.dataset.copy);
-    if (pre && clip) clip.writeText(pre.textContent).then(() => {
-      label.textContent = 'copied'; say('Copied to clipboard');
-      setTimeout(() => { label.textContent = 'copy'; }, 1200);
-    }).catch(() => {
-      label.textContent = "couldn't copy"; say("Couldn't copy");
-      setTimeout(() => { label.textContent = 'copy'; }, 1500);
-    });
+    if (pre && clip) clip.writeText(pre.textContent)
+      .then(() => copySaid(b, 'copied', 'Copied to clipboard', 1200))
+      .catch(() => copySaid(b, "couldn't copy", "Couldn't copy", 1500));
     return;
   }
   if (!clip) { say("This browser will not let the page copy for you"); return; }

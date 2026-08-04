@@ -190,6 +190,11 @@ well-set survey instrument, not a magazine.
   wrapping.
 - **Headline** (650, 20px): section h2s, 38px above and 6px below.
 - **Title** (650, 16px): h3s, finding titles, card names.
+- **Title, small** (650, 13px): the row titles in the page menu and the label
+  on its Copy page button. The one display-face step below Title, for a title
+  inside a control rather than on the page — a 16px row would make a
+  seven-row menu shout, and the label voice at 11px is for eyebrows, not for
+  something you click.
 - **Body** (400, 16px, 1.5): prose. 24px leading sits on the 4px grid.
   Ledes run 18px `ink-2`; dense UI prose steps to 14px, notes to 13px.
 - **Label** (550, 11px, 0.14em, uppercase): eyebrows, table headers, column

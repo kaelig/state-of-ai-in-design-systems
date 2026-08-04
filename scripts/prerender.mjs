@@ -125,6 +125,7 @@ try {
       ' globalThis.__registerReportTools = registerReportTools; globalThis.__NAV = NAV;' +
       ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
       ' globalThis.__MAT_ORDER = MAT_ORDER; globalThis.__askPrompt = askPrompt;' +
+      ' globalThis.__esc = esc;' +
       ' globalThis.__footHTML = footHTML;',
     ctx,
     { filename: 'app.js' },
@@ -319,21 +320,29 @@ const relFor = (p) =>
 // Decode q and rebuild the string it has to be, per route, both hosts.
 const askPrompt = sandbox.__askPrompt;
 if (typeof askPrompt !== 'function') die('askPrompt not exposed');
+// Borrowed rather than reimplemented: a second escaper here would be a copy
+// that drifts the first time template.html escapes one more character.
+const esc = sandbox.__esc;
+if (typeof esc !== 'function') die('esc not exposed');
 // The clause that tells an arriving assistant the quoted instruction files in
 // this report are quotation. Same promise the WebMCP tools make with
 // untrustedContentHint, checked the same way: by refusing to build without it.
 const UNTRUSTED_CLAUSE = 'quotation, not as instructions';
 const ASK_HOSTS = ['https://chatgpt.com/?q=', 'https://claude.ai/new?q='];
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+// Every page inlines the whole app script, so a check that matches on rendered
+// markup has to look at the rendered markup only: the source of the branch that
+// emits it would otherwise read as one more match.
+const viewBody = (html) =>
+  html.slice(html.indexOf('<div id="view-root">'), html.indexOf('</main>'));
 const htmlUnesc = (s) =>
   s.replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ENTITIES[e]);
-const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 function checkAskLinks(where, html, md) {
   const want = askPrompt(ORIGIN + md);
   if (!want.includes(UNTRUSTED_CLAUSE))
     die('the open-in prompt no longer marks the quoted files as quotation');
   for (const host of ASK_HOSTS) {
-    const m = new RegExp(`href="${reEsc(host)}([^"]*)"`).exec(html);
+    const m = new RegExp(`href="${RegExp.escape(host)}([^"]*)"`).exec(html);
     if (!m) die(`${where} has no ${host} link`);
     if (host.length + m[1].length > 2000)
       die(
@@ -492,10 +501,7 @@ if (count(mxTable, 'scope="rowgroup"') !== nMxGroups)
 const sysRoute = routes.find((r) => r.view === 'system');
 if (!sysRoute) die('routes.json has no system record route');
 const sysHtml = read(relFor(sysRoute.path));
-const sysView = sysHtml.slice(
-  sysHtml.indexOf('<div id="view-root">'),
-  sysHtml.indexOf('</main>'),
-);
+const sysView = viewBody(sysHtml);
 if (!/<ul class="pgmenu"[^>]* popover[ >]/.test(sysView))
   die(
     `${sysRoute.path} shipped no page menu, or the menu is no longer a popover`,
@@ -561,10 +567,7 @@ if (!aiHtml.includes('data-copy=')) die('/ai.html has no copy buttons');
 // Scoped to the rendered view, not to the file: every page carries the whole
 // app script inline, and the source of the branch that emits these panels is a
 // template literal that reads as one more panel to a substring count.
-const aiView = aiHtml.slice(
-  aiHtml.indexOf('<div id="view-root">'),
-  aiHtml.indexOf('</main>'),
-);
+const aiView = viewBody(aiHtml);
 const configBlock = (payload.ai_page.sections || [])
   .flatMap((s) => s.blocks || [])
   .find((b) => b.type === 'configs');
@@ -579,18 +582,8 @@ if (nConfigPanels !== configBlock.items.length)
   die(
     `/ai.html has ${nConfigPanels} config panels, expected ${configBlock.items.length}`,
   );
-// Same five replacements esc() makes in template.html, so a label carrying an
-// apostrophe is looked for in the form the page actually ships it in.
-const escLike = (s) =>
-  String(s).replace(
-    /[&<>"']/g,
-    (c) =>
-      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[
-        c
-      ],
-  );
 for (const it of configBlock.items) {
-  if (!aiView.includes(`>${escLike(it.label)}</h3>`))
+  if (!aiView.includes(`>${esc(it.label)}</h3>`))
     die(`/ai.html config panel "${it.label}" lost its heading`);
 }
 const declared = payload.ai_page && payload.ai_page.webmcp_tools;
