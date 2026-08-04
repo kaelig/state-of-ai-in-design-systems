@@ -268,29 +268,6 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
    body sans, tabular, --ink-3. Same family as the matrix cohort counts. */
 .hcount { font-family: var(--font-body); font-weight: 400; font-size: 14px; letter-spacing: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-/* A hand-lettered hello for one specific set of visitors, deliberately off the
-   DESIGN.md ramp: it is a wave, and it only reads as one by not matching the
-   rest of the page. Comic Sans on Windows, Chalkboard on a Mac, Comic Neue if
-   someone has it, and a generic cursive rather than a fallback to the body face
-   — a straight-faced sans would make the line read as a real announcement.
-   Colors and the border stay on tokens so it survives both themes; it is two
-   places to delete when the greeting has served its purpose, here and the one
-   line at the top of VIEWS.overview. */
-.hello {
-  font-family: 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', Chalkboard, 'Comic Neue', cursive;
-  display: inline-block; font-size: 18px; line-height: 1.3; margin: 0 0 18px;
-  padding: 9px 16px; color: var(--accent-ink); background: var(--bg-raise);
-  border: 2px dashed var(--accent); border-radius: var(--radius);
-  transform: rotate(-1.6deg);
-}
-.hello .wave { display: inline-block; }
-/* The wiggle is the whole joke, so it waits for a hover rather than nagging on
-   load, and it does not happen at all for a reader who asked motion to stop. */
-@media (prefers-reduced-motion: no-preference) {
-  .hello:hover .wave { animation: wave .6s ease-in-out 2; }
-  @keyframes wave { 25% { transform: rotate(18deg); } 75% { transform: rotate(-14deg); } }
-}
-
 /* Pill tags. Rounded on purpose: pills read as metadata, squares stay for buttons and inputs. */
 .chip {
   display: inline-flex; align-items: center; gap: 5px;
@@ -1212,8 +1189,7 @@ const VIEWS = {
       return `<tbody><tr class="mx-group mat-${k}"><th colspan="${span}" scope="rowgroup"><span class="gl">${matRungs(k)}<span class="gt">${MAT[k]} · <span class="gn">${sys.length}</span></span></span></th></tr>`
         + sys.map(row).join('') + '</tbody>';
     }).join('');
-    return `<p class="hello"><span class="wave" aria-hidden="true">👋</span> oh hello there IDS peeps</p>
-      <div class="pagetop"><p class="eyebrow">A report on AI enablement beyond the hype</p>${mdDownload('overview')}</div>
+    return `<div class="pagetop"><p class="eyebrow">A report on AI enablement beyond the hype</p>${mdDownload('overview')}</div>
       <h1>How design systems talk to machines</h1>
       <p class="lede">${fmt(DATA.insights.lede)}</p>
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
