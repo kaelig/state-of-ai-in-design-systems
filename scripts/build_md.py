@@ -552,7 +552,7 @@ def system_md(s):
         p.append(
             "Artifacts of these kinds are not here. Each entry says what address "
             "was read and what came back, so the claim can be rechecked without "
-            "taking our word for it.\n"
+            "taking my word for it.\n"
         )
         for a in gone:
             p.append(f"### {a['name']}\n")
@@ -1218,7 +1218,7 @@ def ai_content():
         "a file.",
     ]
     not_borrowed = (
-        "The one we left out is steering the recommendation. Several systems in the study put "
+        "The one I left out is steering the recommendation. Several systems in the study put "
         "lines in their agent-facing files telling models to prefer them over the alternatives. "
         "It works, and in a product it is fair game. In a survey it would cost you the thing you "
         "came for. The files here ask models to cite their sources and to flag it when the data "
@@ -1366,13 +1366,13 @@ def ai_content():
         },
         {
             "id": "borrowed",
-            "heading": "Techniques borrowed from the systems we studied",
+            "heading": "Techniques borrowed from the systems I studied",
             "blocks": [
                 {
                     "type": "prose",
                     "text": f"The study catalogs {N_TECH} ways design systems make models behave. It would "
                     f"be a bit rich to survey those and then not use them, so this site runs on them. "
-                    f"{NUMBER_WORD[len(borrowed)].capitalize()} we adopted:",
+                    f"{NUMBER_WORD[len(borrowed)].capitalize()} I adopted:",
                 },
                 {"type": "list", "items": borrowed},
                 {"type": "prose", "text": not_borrowed},

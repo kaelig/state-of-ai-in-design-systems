@@ -104,6 +104,6 @@
     "Snippets are excerpts, capped at 40 lines and sometimes abridged mid-list. Follow the source link before quoting further.",
     "Builder-side findings cover public evidence only. Private monorepos may hold agent tooling this study can't see; \"no public agent files\" is not \"no AI usage\".",
     "Community tools were checked for existence, not audited for quality or maintenance.",
-    "Maturity ratings are our judgment against one rubric, not vendor self-reports."
+    "Maturity ratings are my judgment against one rubric, not vendor self-reports."
   ]
 }

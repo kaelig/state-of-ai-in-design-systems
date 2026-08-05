@@ -1987,7 +1987,7 @@ const VIEWS = {
       <p class="h2-sub">Concrete AI-facing artifacts this system ships. Expand for snippets and links.</p>
       ${shippedAff.length ? `<ul class="afflist">${shippedAff.map(([a, i]) => affordanceHTML(a, s.id, i)).join('')}</ul>` : ''}
       ${absentAff.length ? `<h2>Confirmed absent <span class="hcount">· ${absentAff.length}</span></h2>
-      <p class="h2-sub">Artifacts of these kinds are not here. Each one says what address was read and what came back, so you can recheck it without taking our word for it.</p>
+      <p class="h2-sub">Artifacts of these kinds are not here. Each one says what address was read and what came back, so you can recheck it without taking my word for it.</p>
       <ul class="abslist">${absentAff.map(([a]) => absenceHTML(a)).join('')}</ul>` : ''}
       <h2>Coercion techniques <span class="hcount">· ${(s.techniques || []).length}</span></h2>
       <p class="h2-sub">How this system keeps models on-system instead of inventing components.</p>
