@@ -150,12 +150,16 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
 .skip:focus { left: 12px; top: 12px; }
 
 .theme-toggle {
-  position: fixed; top: 16px; right: 16px; z-index: 10;
+  /* 12 rather than 16 on the top: .main pulled its own padding up by 4 to set
+     the page eyebrow on the rail's masthead line, and the toggle rides beside
+     the control that moved with it, so it comes up by the same 4. The right
+     offset is unrelated and stays. Restored to 16 in the flattened header,
+     where the toggle sits inside the rail rather than beside the column. */
+  position: fixed; top: 12px; right: 16px; z-index: 10;
   /* 38, not 44: it shares the top of the page with the Copy page control, and a
      44px disc beside a 28px split button reads as the louder of the two when it
-     is the more incidental. At 38 from the same 16px top the two centers land
-     on 35 together. Still past the 24px AA target floor; the touch context is
-     the flattened header, and the media query keeps 44 there. */
+     is the more incidental. Still past the 24px AA target floor; the touch
+     context is the flattened header, and the media query keeps 44 there. */
   width: 38px; height: 38px; border-radius: 50%;
   /* Opaque: it is fixed, and on narrow screens the column scrolls right underneath it. */
   border: 1px solid var(--control-line); background: var(--bg);
@@ -248,7 +252,9 @@ code { font-family: var(--mono); font-size: .9em; background: var(--bg-sunk); bo
    against a taller download button, so the text lands a few pixels below the
    padding edge. 18px is what puts that eyebrow on the same line as "Field
    study" across the rule. */
-.main { padding: 18px 40px 40px; max-width: 1120px; min-width: 0; }
+/* 14 on top, not 18: it sets the page eyebrow on the same line as the rail's
+   FIELD STUDY masthead across the rule, which .rail-brand .k is cut to meet. */
+.main { padding: 14px 40px 40px; max-width: 1120px; min-width: 0; }
 .view { display: none; }
 .view.on { display: block; }
 
@@ -997,7 +1003,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   /* Park the toggle in the header instead of letting it float over the article
      column for the whole scroll. Full 44px back: there is no control beside it
      to balance against here, and this is the layout that gets thumbs. */
-  .theme-toggle { position: absolute; width: 44px; height: 44px; }
+  .theme-toggle { position: absolute; top: 16px; width: 44px; height: 44px; }
   /* The toggle is parked in the header now, not floating over the column, so the
      meta row has nothing to steer around and takes its full width back.
      It also stacks, with the control on top and both items on the content edge.
