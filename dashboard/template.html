@@ -2483,6 +2483,9 @@ $('#foot').innerHTML = footHTML(parse().view);
 function route(opts) {
   const { view, arg } = parse();
   route.current = view;
+  /* What is on screen, so the popstate listener can tell a move between views
+     from a move within one. */
+  route.path = location.pathname;
   const fn = VIEWS[view] || VIEWS.overview;
   $('#view-root').innerHTML = `<div class="view on">${fn(arg)}</div>`;
 
@@ -2523,6 +2526,16 @@ function route(opts) {
   /* After the prune, never before it: the prune measures, and a hidden panel
      measures 0 and gets skipped. See setupConfigTabs()'s own note. */
   if (fn === VIEWS.ai) setupConfigTabs();
+  /* A hash on a path-routed URL names a section inside the view, not a route:
+     /insights#essay. The prerendered file the server sent already contained
+     that section, so the browser scrolled to it before this script ran — and
+     then the line above replaced #view-root and the scroll went with it.
+     Putting the reader back is this function's job now, not the browser's,
+     which is what makes a link copied out of the address bar worth copying.
+     Falls through to the top when there is no hash, when the hash names
+     something this view does not render, or in the artifact, where the hash is
+     the route and parse() has already read it. */
+  if (ROUTING === 'path' && jumpTo(location.hash.slice(1))) return;
   window.scrollTo(0, 0);
   if (opts && opts.focus) {
     const main = document.getElementById('main');
@@ -2550,10 +2563,31 @@ if (ROUTING === 'path') {
        mirrors, the data downloads), not a route. Let the browser fetch it. */
     if (/\.[a-z0-9]{1,8}$/i.test(a.pathname)) return;
     e.preventDefault();
-    if (a.pathname !== location.pathname) history.pushState(null, '', a.pathname);
+    /* The second clause is for the reader who has jumped to a section and then
+       clicks the nav item for the page they are already on: the pathname
+       matches, but "#essay" is still in the URL, and without clearing it route()
+       would answer a request for the top of the page by scrolling back down. */
+    if (a.pathname !== location.pathname || location.hash) history.pushState(null, '', a.pathname);
     route({ focus: true });
   });
-  window.addEventListener('popstate', () => route({ focus: true }));
+  /* Back and forward across a jump link move the hash and nothing else — same
+     path, same view, the same DOM already on screen. Re-rendering it would cost
+     the reader their place to arrive at the page they are on, so a move within a
+     view only moves the scroll, which is all the browser would have done had the
+     jump been a plain anchor. */
+  window.addEventListener('popstate', () => {
+    if (location.pathname === route.path) {
+      if (jumpTo(location.hash.slice(1))) return;
+      /* Back out of the last jump and the viewport returns to the top, so the
+         focus has to come with it. Left on the section, the next Tab would send
+         a keyboard reader back down to the part of the page they just left. */
+      window.scrollTo(0, 0);
+      const main = document.getElementById('main');
+      if (main) main.focus({ preventScroll: true });
+      return;
+    }
+    route({ focus: true });
+  });
 } else {
   /* Only "#/"-prefixed hashes are routes. A plain "#systems" is an in-page
      anchor (the stat tiles use one); re-rendering on it would scroll the reader
@@ -2664,16 +2698,40 @@ document.addEventListener('click', e => {
     .catch(() => { clearTimeout(bail); done(); copySaid(b, "Couldn't copy", "Couldn't copy the page. Download as md instead.", 2500); });
 });
 
-/* Platform jump links. preventDefault keeps the hash-routed artifact from
-   treating "#figma" as a route, and moving focus means the keyboard follows. */
+/* Landing a reader on a section, from a click, from a back button, or from a
+   pasted URL. All three have to land the same way — scrolled with the clearance
+   .jump-sec carries, and focused, so the next Tab starts from the section
+   instead of the top of the page — so all three come through here. Reports
+   whether it found the id, because route() has somewhere else to go when the
+   hash names a section this view does not render and the click handler does
+   not. Elements without tabindex="-1" (the .tech-cat sections) still scroll;
+   focus() on them is a no-op rather than an error. */
+function jumpTo(id) {
+  const target = id && document.getElementById(id);
+  if (!target) return false;
+  target.scrollIntoView({ block: 'start' });
+  target.focus({ preventScroll: true });
+  return true;
+}
+
+/* Jump-list and platform links. preventDefault keeps the hash-routed artifact
+   from treating "#figma" as a route, and moving focus means the keyboard
+   follows. But cancelling the default also cancels the one thing the browser
+   was doing for free: writing "#figma" into the address bar. On the site, where
+   a bare hash is not a route, this puts it back by hand, with the same history
+   entry a real anchor would have pushed — so the link is copyable and Back
+   returns the reader to where they were reading. The artifact keeps the plain
+   scroll, the way barRow() already withholds its anchors there.
+   Repeat clicks on the same link write nothing, matching a browser, which does
+   not stack duplicate entries for the same URL. */
 document.addEventListener('click', e => {
   const a = e.target.closest('a[data-jump]');
   if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
-  const target = document.getElementById(a.dataset.jump);
-  if (!target) return;
+  const id = a.dataset.jump;
+  if (!document.getElementById(id)) return;
   e.preventDefault();
-  target.scrollIntoView({ block: 'start' });
-  target.focus({ preventScroll: true });
+  if (ROUTING === 'path' && location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+  jumpTo(id);
 });
 
 function syncToggle(isDark) {
