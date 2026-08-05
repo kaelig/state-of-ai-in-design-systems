@@ -1349,7 +1349,7 @@ def ai_content():
         },
         {
             "id": "feedback",
-            "heading": "Corrections",
+            "heading": "Submit corrections",
             "blocks": [
                 {
                     "type": "prose",
