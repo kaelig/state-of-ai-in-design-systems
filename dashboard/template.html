@@ -1431,6 +1431,9 @@ const HL_RULES = {
     ['hl-p', /(?<![^\n])>[ \t]?/y]
   ]
 };
+/* The one place a snippet's label becomes a grammar, so the tokenizer and the
+   DOM pass cannot come to different conclusions about what is modelled. */
+const hlRules = lang => HL_RULES[HL_ALIAS[String(lang || '').toLowerCase()]];
 /* Character by character: try each rule at the cursor, take the first that
    matches, and let everything else pile up into a plain run. A lexer, not a
    parser — it will tell a JSON key from its value and a shell comment from a
@@ -1466,7 +1469,7 @@ function tokenizeCode(src, rules) {
    input exactly, which is what keeps the copy button honest. */
 function highlightCode(src, lang) {
   const s = String(src == null ? '' : src);
-  const rules = HL_RULES[HL_ALIAS[String(lang || '').toLowerCase()]];
+  const rules = hlRules(lang);
   if (!rules) return esc(s);
   return tokenizeCode(s, rules)
     .map(([cls, text]) => cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text))
@@ -2088,7 +2091,7 @@ function highlightSnippets(root) {
     const label = pre.parentNode && pre.parentNode.querySelector('.snip-bar .lang');
     if (!code || !label) return;
     const lang = String(label.textContent || '').trim();
-    if (!HL_RULES[HL_ALIAS[lang.toLowerCase()]]) return;
+    if (!hlRules(lang)) return;
     code.innerHTML = highlightCode(code.textContent, lang);
   });
 }
