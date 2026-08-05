@@ -1,5 +1,5 @@
 {
-  "lede": "A study of the current state of the art in how open-source design systems implement and distribute agentic tooling for DS contribution and consumption.",
+  "lede": "A study of what design systems ship so coding agents can build with them, and the techniques teams use to keep models on real components and tokens.",
   "insights_lede": "An essay on what the state of the art tells us, the patterns almost every team has landed on, and the places they've bet differently on.",
   "methodology_lede": "How the systems were picked, and what had to be on a page before it counted as an affordance or a technique. Find caveats at the end (and there are a few).",
   "techniques_lede": "Agents hallucinate components and design tokens that don't exist. Here are all the things design system teams do to stop that.",
