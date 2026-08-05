@@ -19,16 +19,21 @@ jobs:
     name: check
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Both versions come from the files Netlify itself reads, so CI cannot
       # test one runtime while the deploy uses another.
-      - uses: actions/setup-node@v4
+      #
+      # cache: npm is set explicitly rather than left to the automatic caching
+      # setup-node picks up from a `packageManager` field. package.json has no
+      # such field, and the point of naming it here is that adding one later
+      # cannot quietly change what gets cached.
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version-file: runtime.txt
 
@@ -36,7 +41,19 @@ jobs:
         with:
           deno-version: v2.x
 
-      - uses: astral-sh/setup-uv@v5
+      # Pinned to an exact release, not a major. setup-uv stopped publishing
+      # floating tags at v8 on purpose: a moving @v9 is what a compromised tag
+      # would ride in on. Upgrading is a deliberate edit here.
+      #
+      # cache-dependency-glob points at check.sh because that is where the uv
+      # pins live — `uvx ruff@0.16.0` and `uvx mypy@2.3.0`, written inline
+      # rather than in a lockfile. Left at its default the glob matches
+      # requirements files, this repo has none, and the cache key would never
+      # change: a cache that can go stale without anything invalidating it, and
+      # a warning on every run saying so.
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          cache-dependency-glob: scripts/check.sh
 
       - run: npm ci
 
