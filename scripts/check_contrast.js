@@ -109,7 +109,7 @@ console.log(
 
 /* Syntax tokens, on the one ground a snippet ever has. The two hue tokens are
    checked here; the three roles that reuse --ink, --ink-2 and --ink-3 are
-   checked with them, because a comment at 4.68:1 is the tightest colour on the
+   checked with them, because a comment at 4.68:1 is the tightest color on the
    site and the margin should be visible rather than inferred. */
 const SYNTAX = {
   light: [

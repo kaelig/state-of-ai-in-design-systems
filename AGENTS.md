@@ -191,6 +191,26 @@ Type is `--font-display` (Hanken Grotesk) for headings, `--font-body` (Source
 Sans 3) for prose, `--mono` for code. Prose is capped at `--measure-lede` (62ch)
 or `--measure-body` (74ch); tabular blocks are not prose and stay full width.
 
+**Snippets get four colors, and only some languages get any.** The ink ramp
+carries most of it — `--ink-3` for comments, `--ink-2` for punctuation, `--ink`
+for everything else — and two tokens carry the one distinction it cannot,
+`--syn-str` for values and `--syn-key` for names. Green and plum, not the usual
+ochre and green, which red-green color blindness flattens into a single yellow.
+Both clear AA 4.5:1 on `--bg-sunk` in both themes, and `check_contrast.js` holds
+them there. The `hl-` classes carry color and font-style only; give one a padding
+or a background and the page will move under a reader mid-sentence, because
+highlighting runs after render.
+
+`highlightCode()` in `dashboard/template.html` models seven grammars — `json`,
+`yaml`, `shell`, `ts`, `html`, `css`, `markdown` — reached through an alias map
+that reconciles the thirteen labels the corpus uses, including the `typescript`
+/ `ts` and `bash` / `shell` disagreement between the two datasets. Anything the
+map does not resolve renders plain, which is the right answer for `text` and
+`http` and for any language nothing here can honestly parse. Add a grammar by
+adding a rule list, an alias, a probe in `prerender.mjs`, and tests. Do not
+normalize the labels in `data/` to make this simpler: that moves markdown
+fences, the SQLite export and `md-map.json` with it.
+
 ## Reading it as data
 
 Read the data, don’t scrape the HTML. Every route has a markdown twin and every

@@ -24,6 +24,9 @@ moved onto the overview in place of the maturity-spectrum bands, which were
 deleted with their `.spectrum`/`.spec-band` CSS. Matrix directives below
 describe the overview’s systems section, built inside `overview()`.
 
+One of the eight held decisions has since been reversed: C2, syntax highlighting,
+shipped on 2026-08-05. Its entry below says what changed. Seven are still held.
+
 ## Binding constraints for executors
 
 - Edit only `dashboard/template.html`, `scripts/*`, `data/*.json` (data fixes), `netlify.toml`.
@@ -389,7 +392,21 @@ fights the pipeline, ship the other headers and drop CSP rather than shipping a 
   tooltip mechanism; and four subsystems to convey two integers is surface area without
   information. The column header + spelled mobile words (#3) carries the same meaning in the
   site’s own voice: hairlines, uppercase labels, words.
-- **C2 — Syntax highlighting in snippets.** No. Multi-language honesty, zero dependencies.
+- **C2 — Syntax highlighting in snippets.** Reversed 2026-08-05; it now ships. The two
+  objections were right and are what the implementation had to answer rather than route
+  around. _Zero dependencies_: nothing was installed. The tokenizer is about a hundred lines
+  in `template.html`, an ordered list of sticky patterns per language — a lexer, not a
+  parser, and it says so. _Multi-language honesty_: it models seven grammars and leaves
+  everything else plain, which is the true answer for the 28 snippets labeled `text`, the one
+  `http`, and whatever gets added next that nothing here can parse. Markdown is two thirds of
+  the corpus and was the real question; the rules mark where the headings, fences and links
+  are and leave the prose alone, because coloring somebody else's sentences is exactly the
+  dishonesty this entry was objecting to. What changed since the original No is the third
+  thing: the colors are now provable. `scripts/check_contrast.js` holds both new tokens and
+  the three reused ink roles to AA 4.5:1 on `--bg-sunk` in both themes, and `prerender.mjs`
+  runs the tokenizer at build time, since highlighting is client-side and there is nothing in
+  the written HTML to grep for. No off-the-shelf theme would have passed that bar — none of
+  them gate contrast in CI.
 - **C3 — Max-height on tall snippets.** No — they already live inside collapsed `<details>`.
 - **C4 — Numbered findings.** Keep; the accent `decimal-leading-zero` counter is the best
   editorial detail on the site.

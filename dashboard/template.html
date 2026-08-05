@@ -102,10 +102,10 @@
      so hue is left carrying one distinction: a value from a name. Both sit at
      the same lightness in each theme and at the data tokens' chroma, because a
      snippet is a tabular block and not a call to action. Green and plum rather
-     than the usual ochre and green: red-green colour blindness flattens that
+     than the usual ochre and green: red-green color blindness flattens that
      pair to one yellow, and 152/330 stay apart on the blue-yellow axis it
      leaves intact. Blue is not available here and should not be — it is the
-     interaction colour, and a string is not a link. Both clear AA 4.5:1 on
+     interaction color, and a string is not a link. Both clear AA 4.5:1 on
      --bg-sunk in both themes (scripts/check_contrast.js). */
   --syn-str: light-dark(oklch(45% 0.09 152), oklch(78% 0.09 152));
   --syn-key: light-dark(oklch(45% 0.09 330), oklch(78% 0.09 330));
@@ -838,7 +838,7 @@ table.mx tr.mx-group th .gn {
 .snip-bar button:hover { color: var(--accent-ink); border-color: var(--accent); }
 .snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
 .snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-/* The syntax classes carry colour and nothing else — no padding, no margin, no
+/* The syntax classes carry color and nothing else — no padding, no margin, no
    display, no background. Highlighting runs after render, so a class that moved
    a box would shift the page under a reader already looking at it; that is where
    client-side highlighting normally spends its layout shift, and the usual
@@ -850,8 +850,8 @@ table.mx tr.mx-group th .gn {
 .snip pre .hl-k { color: var(--syn-key); }
 .snip pre .hl-p { color: var(--ink-2); }
 /* Forced colors replaces the author palette outright, so a grammar written only
-   in colour collapses to one colour with nothing left saying what it meant.
-   GrayText is in the system palette and is honoured, so comments keep a signal;
+   in color collapses to one color with nothing left saying what it meant.
+   GrayText is in the system palette and is honored, so comments keep a signal;
    the italic keeps a second one. The rest are CanvasText either way. */
 @media (forced-colors: active) {
   .snip pre .hl-c { color: GrayText; }
@@ -1417,7 +1417,7 @@ const HL_RULES = {
   /* Deliberately thin. Two thirds of the corpus is markdown, and it is other
      people's SKILL.md and llms.txt quoted verbatim — so this marks the
      structure of an instruction file (where the headings are, where a fence
-     starts, what a link points at) and leaves the prose alone. Colouring
+     starts, what a link points at) and leaves the prose alone. Coloring
      somebody's sentences would be the dishonesty the design audit warned
      about. Fenced content is not recursively highlighted; only the delimiter
      line is marked. */
@@ -2072,7 +2072,7 @@ function prevalenceBars() {
   return `<ul class="bars">${rows.map(r => barRow(r.label, r.n, total)).join('')}</ul>`;
 }
 
-/* Colour, in the browser only. Guarded the way pruneSnippetTabStops() is: under
+/* Color, in the browser only. Guarded the way pruneSnippetTabStops() is: under
    the prerender shim querySelectorAll returns [], so this no-ops and the shipped
    HTML keeps the plain escaped block a crawler and a JS-less reader both get.
 
@@ -2370,7 +2370,7 @@ function route(opts) {
   if (fn === VIEWS.overview) setupMatrixFades();
   setupPageActions();
   /* Before the prune, so the prune measures what the reader will actually see.
-     Colour alone cannot change the metrics — the hl- classes carry no box
+     Color alone cannot change the metrics — the hl- classes carry no box
      properties, and a monospace face has one advance width — but the order that
      needs no argument is the one to keep. */
   highlightSnippets();

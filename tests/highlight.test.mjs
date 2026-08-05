@@ -273,10 +273,10 @@ test('html marks tags and attribute values, not attribute names', () => {
 
 test('markdown marks structure and leaves prose alone', () => {
   const src =
-    '# Title\n\nOrdinary prose that must not be coloured.\n\n- item\n\n```json\n{"a": 1}\n```\n';
+    '# Title\n\nOrdinary prose that must not be colored.\n\n- item\n\n```json\n{"a": 1}\n```\n';
   const out = highlightCode(src, 'markdown');
   assert.deepEqual(spansOf(out, 'hl-k'), ['# Title']);
-  assert.ok(out.includes('Ordinary prose that must not be coloured.'));
+  assert.ok(out.includes('Ordinary prose that must not be colored.'));
   assert.ok(!/<span[^>]*>Ordinary/.test(out));
   assert.equal(unwrap(out), src);
 });
@@ -372,6 +372,10 @@ test('a real corpus snippet round-trips under its own label', () => {
    .snip-bar with the language label and a <pre id="sn-…"><code>. Only the parts
    highlightSnippets() actually reaches are modelled. */
 function makeSnippet(lang, content) {
+  /* innerHTML starts null to mean "the pass never wrote here", which is what
+     the unmodelled-language test asserts. Annotated, or the literal null
+     narrows the property to the null type and reading it back is an error. */
+  /** @type {{ textContent: string, innerHTML: string | null }} */
   const code = { textContent: content, innerHTML: null };
   const pre = {
     id: 'sn-x',
@@ -409,7 +413,9 @@ test('a modelled language is written into the code element', () => {
   const { code, root } = makeSnippet('json', '{"a": 1}');
   highlightSnippets(root);
   assert.equal(code.innerHTML, highlightCode('{"a": 1}', 'json'));
-  assert.ok(code.innerHTML.includes('<span class="hl-k">'));
+  /* Optional chaining, not a bare call: innerHTML starts null to mean "never
+     written", which is what the unmodelled-language test below asserts. */
+  assert.ok(code.innerHTML?.includes('<span class="hl-k">'));
 });
 
 test('an unmodelled language is left exactly as it was', () => {
