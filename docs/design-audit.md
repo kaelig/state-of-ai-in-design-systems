@@ -393,20 +393,26 @@ fights the pipeline, ship the other headers and drop CSP rather than shipping a 
   information. The column header + spelled mobile words (#3) carries the same meaning in the
   site’s own voice: hairlines, uppercase labels, words.
 - **C2 — Syntax highlighting in snippets.** Reversed 2026-08-05; it now ships. The two
-  objections were right and are what the implementation had to answer rather than route
-  around. _Zero dependencies_: nothing was installed. The tokenizer is about a hundred lines
-  in `template.html`, an ordered list of sticky patterns per language — a lexer, not a
-  parser, and it says so. _Multi-language honesty_: it models seven grammars and leaves
-  everything else plain, which is the true answer for the 28 snippets labeled `text`, the one
-  `http`, and whatever gets added next that nothing here can parse. Markdown is two thirds of
-  the corpus and was the real question; the rules mark where the headings, fences and links
-  are and leave the prose alone, because coloring somebody else's sentences is exactly the
-  dishonesty this entry was objecting to. What changed since the original No is the third
-  thing: the colors are now provable. `scripts/check_contrast.js` holds both new tokens and
-  the three reused ink roles to AA 4.5:1 on `--bg-sunk` in both themes, and `prerender.mjs`
-  runs the tokenizer at build time, since highlighting is client-side and there is nothing in
-  the written HTML to grep for. No off-the-shelf theme would have passed that bar — none of
-  them gate contrast in CI.
+  objections were right, and answering them is what the implementation had to do rather than
+  route around. On zero dependencies: nothing was installed. The tokenizer is about a hundred
+  lines in `template.html`, an ordered list of sticky patterns per language — a lexer, not a
+  parser, and it says so. On multi-language honesty: it models seven grammars and leaves
+  everything else plain, which is the true answer for the snippets labeled `text`, for the
+  one `http`, and for whatever gets added next that nothing here can parse. Markdown is two
+  thirds of the corpus and was the real question; the rules mark where the headings, fences
+  and links are and leave the prose alone, because coloring somebody else's sentences is
+  exactly the dishonesty this entry was objecting to. What changed since the original No is
+  the third thing: the colors are provable now. `scripts/check_contrast.js` holds both new
+  tokens and the three reused ink roles to AA 4.5:1 on `--bg-sunk` in both themes and reads
+  every literal back out of the stylesheet, and `prerender.mjs` runs the tokenizer at build
+  time, since highlighting is client-side and leaves nothing in the written HTML to grep for.
+  No off-the-shelf theme would have cleared that bar; none of them gate contrast in CI.
+  Review then made the case for the entry a second time: the first version of the string
+  rules could cross a newline, so an apostrophe in a quoted README painted ten lines of
+  somebody's prose as a value — the exact failure this No predicted, arriving through the
+  implementation rather than the idea. Twelve snippets. The guards now assert that no value
+  token crosses a line and that each grammar still produces every class it should, because
+  the round trip and the marked-something count both passed while it was wrong.
 - **C3 — Max-height on tall snippets.** No — they already live inside collapsed `<details>`.
 - **C4 — Numbered findings.** Keep; the accent `decimal-leading-zero` counter is the best
   editorial detail on the site.

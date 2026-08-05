@@ -59,6 +59,7 @@ build still needs no Python packages; ruff and mypy are development-only and
 | `netlify/edge-functions/markdown.ts`             | Content negotiation for `Accept: text/markdown`.               |
 | `netlify/edge-functions/trailing-punctuation.ts` | URLs a link parser mangled, redirected to the real path.       |
 | `tests/mcp.test.mjs`                             | The MCP suite.                                                 |
+| `tests/highlight.test.mjs`                       | The syntax-highlighting suite.                                 |
 | `scripts/validate_data.mjs`                      | Step 0 of the build: records against schemas.                  |
 | `scripts/check.sh`                               | The check sequence CI and `npm run check` both run.            |
 
@@ -203,13 +204,27 @@ highlighting runs after render.
 
 `highlightCode()` in `dashboard/template.html` models seven grammars — `json`,
 `yaml`, `shell`, `ts`, `html`, `css`, `markdown` — reached through an alias map
-that reconciles the thirteen labels the corpus uses, including the `typescript`
-/ `ts` and `bash` / `shell` disagreement between the two datasets. Anything the
-map does not resolve renders plain, which is the right answer for `text` and
-`http` and for any language nothing here can honestly parse. Add a grammar by
-adding a rule list, an alias, a probe in `prerender.mjs`, and tests. Do not
-normalize the labels in `data/` to make this simpler: that moves markdown
-fences, the SQLite export and `md-map.json` with it.
+that reconciles the labels the corpus uses, including the `typescript` / `ts`
+and `bash` / `shell` disagreement between the two datasets. `html` and `css`
+have no records yet and are there for when they do. Anything the map does not
+resolve renders plain, which is the right answer for `text` and `http` and for
+any language nothing here can honestly parse. Do not normalize the labels in
+`data/` to make this tidier: that moves markdown fences, the SQLite export and
+`md-map.json` with it.
+
+Adding a grammar means a rule list and an alias in `template.html`, a probe in
+`scripts/prerender.mjs` naming the classes it must produce, an entry in that
+file's `HL_MUST_RESOLVE`, and tests. Adding a _label_ — the direction the corpus
+actually grows — needs only the alias, and the build says so: an unrecognized
+label in the data fails `prerender.mjs` rather than silently rendering plain.
+
+Every string rule is bounded to a single line. Without that an apostrophe in
+somebody's prose opens a string that closes paragraphs later, and twelve
+snippets shipped exactly that way once. Two guards exist because of it: no value
+token may cross a newline, and each grammar must still produce every class it is
+supposed to. Neither the round-trip check nor a count of highlighted snippets
+can see that failure — the bytes survive and the spans exist, they are just
+wrong.
 
 ## Reading it as data
 

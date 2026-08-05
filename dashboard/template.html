@@ -1333,7 +1333,7 @@ function fmt(s) {
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
 }
 /* Seven grammars, and everything else stays plain. The corpus labels its
-   snippets thirteen ways and the two datasets disagree with each other —
+   snippets a dozen different ways and the two datasets disagree with each other —
    systems say typescript and bash, platforms say ts and shell — so the labels
    are reconciled here at render time rather than in data/, where a rename would
    move markdown fences, the SQLite export and md-map.json with it. A label that
@@ -1358,37 +1358,55 @@ const HL_ALIAS = {
    the first rule that matches wins, which is why strings are listed above
    comment markers — a # inside a quoted scalar is consumed as part of the
    string before the comment rule is ever tried. */
+/* Every quote rule below excludes \n from the run it will cross. Without that
+   one character they are not string rules at all: an apostrophe in somebody's
+   prose opens a string that closes at the next quote fourteen lines later, and
+   the corpus is full of prose. Twelve snippets shipped that way before this was
+   caught — Carbon's YAML went green from "Bob's standard voice" for ten lines.
+   YAML scalars, shell words and JSON strings cannot hold a raw newline in any
+   case, so bounding them to a line is the grammar, not a shortcut.
+
+   Neither guard could see it. The round trip passed because the bytes were all
+   still there, and the build check passed because a span existed. Both ask
+   whether highlighting happened; neither asked whether it was right. The
+   newline assertion over the corpus in tests/highlight.test.mjs is the one that
+   does, and it is there because of this. */
 const HL_RULES = {
   json: [
-    ['hl-k', /"(?:[^"\\]|\\.)*"(?=\s*:)/y],
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-k', /"(?:[^"\\\n]|\\.)*"(?=\s*:)/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
     ['hl-s', /\b(?:true|false|null)\b/y],
     ['hl-s', /-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/y],
     ['hl-p', /[{}[\],:]/y]
   ],
   yaml: [
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
-    ['hl-s', /'(?:[^']|'')*'/y],
-    ['hl-c', /(?<![^\s])#[^\n]*/y],
-    ['hl-k', /(?<![^\s])[A-Za-z_][\w.-]*(?=\s*:(?:\s|$))/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
+    ['hl-s', /'(?:[^'\n]|'')*'/y],
+    ['hl-c', /(?<!\S)#[^\n]*/y],
+    ['hl-k', /(?<!\S)[A-Za-z_][\w.-]*(?=\s*:(?:\s|$))/y],
     ['hl-s', /\b(?:true|false|null|yes|no|on|off)\b/y],
     ['hl-s', /-?\d+(?:\.\d+)?/y],
-    ['hl-p', /(?<![^\s])[-?]|[:,[\]{}|>]/y]
+    ['hl-p', /(?<!\S)[-?]|[:,[\]{}|>]/y]
   ],
   shell: [
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
-    ['hl-s', /'[^']*'/y],
-    ['hl-c', /(?<![^\s])#[^\n]*/y],
-    ['hl-k', /\$\{[^}]*\}|\$[A-Za-z_]\w*/y],
-    ['hl-k', /(?<![^\s])--?[A-Za-z][\w-]*/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
+    ['hl-s', /'[^'\n]*'/y],
+    ['hl-c', /(?<!\S)#[^\n]*/y],
+    ['hl-k', /\$\{[^}\n]*\}|\$[A-Za-z_]\w*/y],
+    ['hl-k', /(?<!\S)--?[A-Za-z][\w-]*/y],
     ['hl-p', /[|&;<>()]/y]
   ],
   ts: [
     ['hl-c', /\/\/[^\n]*/y],
     ['hl-c', /\/\*[\s\S]*?\*\//y],
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
-    ['hl-s', /'(?:[^'\\]|\\.)*'/y],
-    ['hl-s', /`(?:[^`\\]|\\.)*`/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
+    ['hl-s', /'(?:[^'\\\n]|\\.)*'/y],
+    /* The backtick rule is bounded to a line too, which gives up genuine
+       multi-line template literals. Deliberate: every unbalanced backtick in
+       the corpus today is a markdown fence inside a snippet whose label says
+       ts or tsx, and leaving a fence uncolored is honest where painting ten
+       lines of prose as a string is not. */
+    ['hl-s', /`(?:[^`\\\n]|\\.)*`/y],
     ['hl-k', /\b(?:abstract|any|as|async|await|bigint|boolean|break|case|catch|class|const|continue|declare|default|delete|do|else|enum|export|extends|false|finally|for|from|function|get|if|implements|import|in|infer|instanceof|interface|keyof|let|namespace|never|new|null|number|object|of|override|private|protected|public|readonly|return|satisfies|set|static|string|super|switch|symbol|this|throw|true|try|type|typeof|undefined|unknown|var|void|while|yield)\b/y],
     ['hl-s', /\b\d[\w.]*/y],
     ['hl-p', /[{}()[\];,.:?=<>+\-*/%!&|^~]/y]
@@ -1397,14 +1415,14 @@ const HL_RULES = {
     ['hl-c', /<!--[\s\S]*?-->/y],
     ['hl-k', /<!DOCTYPE[^>]*>/iy],
     ['hl-k', /<\/?[A-Za-z][\w:-]*/y],
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
-    ['hl-s', /'[^']*'/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
+    ['hl-s', /'[^'\n]*'/y],
     ['hl-p', /\/?>|[=]/y]
   ],
   css: [
     ['hl-c', /\/\*[\s\S]*?\*\//y],
-    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
-    ['hl-s', /'[^']*'/y],
+    ['hl-s', /"(?:[^"\\\n]|\\.)*"/y],
+    ['hl-s', /'[^'\n]*'/y],
     ['hl-k', /@[\w-]+/y],
     /* Anchored and bounded, both on purpose. Unanchored, this rule re-scans the
        whole of a long unbroken run at every position looking for the colon that
@@ -1419,8 +1437,12 @@ const HL_RULES = {
      structure of an instruction file (where the headings are, where a fence
      starts, what a link points at) and leaves the prose alone. Coloring
      somebody's sentences would be the dishonesty the design audit warned
-     about. Fenced content is not recursively highlighted; only the delimiter
-     line is marked. */
+     about. A fence's contents are not handed to the fenced language's grammar,
+     so a JSON block inside a markdown snippet stays plain — but the markdown
+     rules do keep running through it, so a `#` opening a line inside a fenced
+     shell block reads as a heading. One snippet in the corpus hits that today.
+     Fixing it needs the scanner to carry fence state, which is a parser, and
+     this is not one. */
   markdown: [
     ['hl-p', /(?<![^\n])(?:```|~~~)[^\n]*/y],
     ['hl-p', /(?<![^\n])---(?=\n|$)/y],
@@ -1432,7 +1454,7 @@ const HL_RULES = {
   ]
 };
 /* The one place a snippet's label becomes a grammar, so the tokenizer and the
-   DOM pass cannot come to different conclusions about what is modelled. */
+   DOM pass cannot come to different conclusions about what is modeled. */
 const hlRules = lang => HL_RULES[HL_ALIAS[String(lang || '').toLowerCase()]];
 /* Character by character: try each rule at the cursor, take the first that
    matches, and let everything else pile up into a plain run. A lexer, not a
@@ -1471,6 +1493,15 @@ function highlightCode(src, lang) {
   const s = String(src == null ? '' : src);
   const rules = hlRules(lang);
   if (!rules) return esc(s);
+  /* An opener that never closes — `](`, `${`, `/*`, `<!--` — restarts an
+     unbounded scan at every one of its kind, which is quadratic in the length
+     of the snippet. The schema caps a snippet at 1500 characters and the whole
+     corpus highlights in 35ms, so nothing reaches this. It is here because the
+     cap lives in a Python check that reads only the system records and knows
+     nothing about this function: the two can drift, and when they do the cost
+     lands on the reader's main thread before paint. Over the ceiling a snippet
+     renders plain, which is the answer an unmodeled language already gets. */
+  if (s.length > 20000) return esc(s);
   return tokenizeCode(s, rules)
     .map(([cls, text]) => cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text))
     .join('');
@@ -2081,7 +2112,7 @@ function prevalenceBars() {
 
    Reads textContent, which flattens any spans already there, so calling it twice
    produces the same markup rather than nesting. Writes nothing when the language
-   has no grammar — most of the corpus is labelled text or markdown, and a no-op
+   has no grammar — most of the corpus is labeled text or markdown, and a no-op
    should cost nothing. The <pre>'s id, tabindex, role and label are not touched;
    only the <code> inside it is rewritten. */
 function highlightSnippets(root) {

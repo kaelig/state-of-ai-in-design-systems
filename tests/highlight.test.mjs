@@ -126,19 +126,19 @@ const SAMPLES = {
   shell:
     '# install it\nnpx -y some-cli add --transport http "$HOME/x" | tee out.log\n',
   ts: '// a note\nimport { defineConfig } from "vite";\nexport default defineConfig({ base: `/x/`, n: 42 });\n/* block */\n',
-  html: '<!-- hi -->\n<div class="a" data-x=\'y\'>\n  <a href="https://x">t</a>\n</div>\n',
-  css: '/* c */\n:root { --tok: oklch(45% 0.09 152); }\na:hover { color: #ff0044; margin: 0 4px; }\n',
+  html: '<!DOCTYPE html>\n<!-- hi -->\n<div class="a" data-x=\'y\'>\n  <a href="https://x">t</a>\n</div>\n',
+  css: '/* c */\n@media print {\n  :root { --tok: oklch(45% 0.09 152); }\n}\na:hover { color: #ff0044; margin: 0 4px; }\n',
   markdown:
     '---\ntitle: x\n---\n\n# Heading\n\nSome prose with `inline code` and a [link](https://x).\n\n- one\n- two\n\n```json\n{"a": 1}\n```\n',
 };
 
-test('every modelled grammar round-trips byte for byte', () => {
+test('every modeled grammar round-trips byte for byte', () => {
   for (const [lang, src] of Object.entries(SAMPLES)) {
     assert.equal(unwrap(highlightCode(src, lang)), src, `${lang} round-trip`);
   }
 });
 
-test('every modelled grammar actually marks something', () => {
+test('every modeled grammar actually marks something', () => {
   for (const [lang, src] of Object.entries(SAMPLES)) {
     assert.ok(
       classesIn(highlightCode(src, lang)).length > 0,
@@ -333,29 +333,36 @@ test('a pathological input finishes in bounded time', () => {
   }
 });
 
+/* Every snippet that reaches a <pre> on the site, including the /ai install
+   configs — those are the ones a reader copies and pastes into a client, so a
+   tokenizer that dropped a byte there would break the thing the page exists to
+   hand over. Read from the payload rather than data/, because the /ai blocks
+   are synthesized at build time and live nowhere else. */
+function corpusSnippets() {
+  const out = [];
+  for (const s of payload.systems || []) {
+    for (const a of s.affordances || []) if (a.snippet) out.push(a.snippet);
+    for (const t of s.techniques || []) if (t.snippet) out.push(t.snippet);
+  }
+  for (const p of payload.platforms || []) {
+    for (const c of p.capabilities || []) if (c.snippet) out.push(c.snippet);
+  }
+  for (const sec of (payload.ai_page && payload.ai_page.sections) || []) {
+    for (const b of sec.blocks || []) {
+      if (b.type === 'code') out.push({ language: b.lang, content: b.text });
+      if (b.type === 'configs')
+        for (const i of b.items || [])
+          out.push({ language: i.lang, content: i.code });
+    }
+  }
+  return out;
+}
+
 test('a real corpus snippet round-trips under its own label', () => {
-  const systems = JSON.parse(
-    readFileSync(
-      fileURLToPath(new URL('data/design-systems.json', ROOT)),
-      'utf8',
-    ),
-  );
-  const platforms = JSON.parse(
-    readFileSync(fileURLToPath(new URL('data/platforms.json', ROOT)), 'utf8'),
-  );
-  const snippets = [];
-  for (const s of systems) {
-    for (const a of s.affordances || [])
-      if (a.snippet) snippets.push(a.snippet);
-    for (const t of s.techniques || []) if (t.snippet) snippets.push(t.snippet);
-  }
-  for (const p of platforms) {
-    for (const c of p.capabilities || [])
-      if (c.snippet) snippets.push(c.snippet);
-  }
+  const snippets = corpusSnippets();
   assert.ok(
-    snippets.length > 300,
-    `expected the whole corpus, got ${snippets.length}`,
+    snippets.length > 308,
+    `expected the whole corpus plus the /ai blocks, got ${snippets.length}`,
   );
   for (const sn of snippets) {
     assert.equal(
@@ -370,10 +377,10 @@ test('a real corpus snippet round-trips under its own label', () => {
 
 /* A snippet, shaped the way snippetHTML() builds it: a .snip wrapper holding a
    .snip-bar with the language label and a <pre id="sn-…"><code>. Only the parts
-   highlightSnippets() actually reaches are modelled. */
+   highlightSnippets() actually reaches are modeled. */
 function makeSnippet(lang, content) {
   /* innerHTML starts null to mean "the pass never wrote here", which is what
-     the unmodelled-language test asserts. Annotated, or the literal null
+     the unmodeled-language test asserts. Annotated, or the literal null
      narrows the property to the null type and reading it back is an error. */
   /** @type {{ textContent: string, innerHTML: string | null }} */
   const code = { textContent: content, innerHTML: null };
@@ -409,16 +416,16 @@ test('the pass survives a missing or unusable root', () => {
   );
 });
 
-test('a modelled language is written into the code element', () => {
+test('a modeled language is written into the code element', () => {
   const { code, root } = makeSnippet('json', '{"a": 1}');
   highlightSnippets(root);
   assert.equal(code.innerHTML, highlightCode('{"a": 1}', 'json'));
   /* Optional chaining, not a bare call: innerHTML starts null to mean "never
-     written", which is what the unmodelled-language test below asserts. */
+     written", which is what the unmodeled-language test below asserts. */
   assert.ok(code.innerHTML?.includes('<span class="hl-k">'));
 });
 
-test('an unmodelled language is left exactly as it was', () => {
+test('an unmodeled language is left exactly as it was', () => {
   for (const lang of ['text', 'http', 'sql']) {
     const { code, root } = makeSnippet(lang, '<b>raw</b>');
     highlightSnippets(root);
@@ -469,4 +476,144 @@ test('running the pass twice does not nest spans', () => {
   code.textContent = '{"a": 1}';
   highlightSnippets(root);
   assert.equal(code.innerHTML, once);
+});
+
+/* ---------- what the review found ---------- */
+
+/* The bug this file exists to prevent from coming back. Every quote rule is
+   bounded to one line, because an apostrophe in somebody's prose opened a
+   string that closed fourteen lines later and twelve snippets shipped that way.
+   The round-trip assertions above cannot see it — the bytes are all still
+   there — and neither can a marks-something check, because a runaway span is
+   still a span. */
+const LINE_BOUNDED = ['json', 'yaml', 'shell', 'ts', 'html', 'css'];
+
+test('a value token never crosses a newline in a line-bounded grammar', () => {
+  const prose =
+    "roleDefinition: >-\n  Use Bob's standard voice and tone to provide kind,\n  concise triage for the design system.\n  Answer in full sentences.\n";
+  for (const lang of LINE_BOUNDED) {
+    for (const s of spansOf(highlightCode(prose, lang), 'hl-s')) {
+      assert.ok(
+        !s.includes('\n'),
+        `${lang} ran a value token across a newline: ${JSON.stringify(s.slice(0, 60))}`,
+      );
+    }
+  }
+});
+
+test('an unbalanced backtick does not swallow the rest of a ts snippet', () => {
+  const src = '```json\n{"a": 1}\n```\nmore prose that must stay plain\n';
+  for (const s of spansOf(highlightCode(src, 'ts'), 'hl-s')) {
+    assert.ok(!s.includes('\n'), 'a template literal ran past its line');
+  }
+});
+
+test('no value token crosses a newline anywhere in the corpus', () => {
+  const langs = new Set(
+    Object.keys(HL_ALIAS).filter((l) => LINE_BOUNDED.includes(HL_ALIAS[l])),
+  );
+  for (const sn of corpusSnippets()) {
+    if (!langs.has(String(sn.language || '').toLowerCase())) continue;
+    for (const s of spansOf(highlightCode(sn.content, sn.language), 'hl-s')) {
+      assert.ok(
+        !s.includes('\n'),
+        `a ${sn.language} snippet has a runaway value token: ${JSON.stringify(s.slice(0, 60))}`,
+      );
+    }
+  }
+});
+
+/* unwrap() decodes &amp; last, and that ordering is the whole correctness of
+   this file's central assertion: esc() turns a literal '&lt;' into '&amp;lt;',
+   and only decoding the ampersand after the others recovers it. Flip the order
+   and every round-trip test above still passes while the helper is wrong. */
+test('the round-trip helper decodes entities in the right order', () => {
+  assert.equal(esc('&lt;'), '&amp;lt;');
+  assert.equal(unwrap(esc('&lt;')), '&lt;');
+  assert.equal(unwrap(esc('&amp;')), '&amp;');
+  for (const raw of ['&lt;', '&amp;amp;', 'a & b', '<&>', '&#39;']) {
+    assert.equal(unwrap(esc(raw)), raw, `helper mangled ${raw}`);
+  }
+});
+
+/* The class name is interpolated into the span unescaped. That is safe only
+   while every class is a literal in HL_RULES, so assert the set is closed
+   rather than trusting inspection. */
+test('the token class set is closed', () => {
+  const declared = [
+    ...new Set(
+      Object.values(HL_RULES)
+        .flat()
+        .map(([cls]) => cls),
+    ),
+  ].sort();
+  assert.deepEqual(declared, ['hl-c', 'hl-k', 'hl-p', 'hl-s']);
+});
+
+/* Stronger than "no <script got through": every < in the output must open one
+   of our own tags and every & must open a known entity. This is the shape that
+   catches a future grammar whose class name is computed rather than literal. */
+test('every angle bracket and ampersand in the output is ours', () => {
+  const soup = '<>&"\'\\/*`${}[]#-|:\n\t</span><span class="x">&amp;&#39;&lt;';
+  for (const lang of Object.keys(SAMPLES)) {
+    const out = highlightCode(soup, lang);
+    const skeleton = out
+      .replace(/<span class="hl-[cskp]">/g, '')
+      .replace(/<\/span>/g, '');
+    assert.ok(!skeleton.includes('<'), `${lang} emitted a foreign <`);
+    const stray = skeleton.replace(/&(amp|lt|gt|quot|#39);/g, '');
+    assert.ok(!stray.includes('&'), `${lang} emitted an unknown entity`);
+    assert.equal(unwrap(out), soup, `${lang} round-trip on metacharacter soup`);
+  }
+});
+
+test('json marks punctuation, not only keys and values', () => {
+  const out = highlightCode('{"a": [1, 2]}', 'json');
+  assert.deepEqual(spansOf(out, 'hl-p'), ['{', ':', '[', ',', ']', '}']);
+});
+
+test('ts marks punctuation', () => {
+  const out = highlightCode('const a = f(1);', 'ts');
+  assert.ok(spansOf(out, 'hl-p').includes('='));
+  assert.ok(spansOf(out, 'hl-p').includes(';'));
+});
+
+test('html marks a doctype', () => {
+  const out = highlightCode('<!DOCTYPE html>\n<p>x</p>', 'html');
+  assert.ok(spansOf(out, 'hl-k').includes('&lt;!DOCTYPE html&gt;'));
+});
+
+test('css marks an at-rule', () => {
+  const out = highlightCode('@media print { a { color: red; } }', 'css');
+  assert.ok(spansOf(out, 'hl-k').includes('@media'));
+});
+
+/* The previous version of this test used 'a'.repeat(100000), which is the
+   fastest input the tokenizer can take: no rule matches anywhere, so it
+   exercises only the plain-accumulation branch. The real risk is an opener
+   that never closes, which restarts an unbounded scan at every one of its
+   kind. */
+test('unclosed openers finish in bounded time', () => {
+  const cases = {
+    markdown: '](a',
+    shell: '${a',
+    ts: '/*a',
+    css: '/*a',
+    html: '<!--a',
+    json: '"a',
+    yaml: "'a",
+  };
+  for (const [lang, unit] of Object.entries(cases)) {
+    const big = unit.repeat(Math.ceil(100000 / unit.length));
+    const t0 = process.hrtime.bigint();
+    const out = highlightCode(big, lang);
+    const ms = Number(process.hrtime.bigint() - t0) / 1e6;
+    assert.equal(unwrap(out), big, `${lang} lost bytes on ${unit}`);
+    assert.ok(ms < 1000, `${lang} took ${ms.toFixed(0)}ms on 100k of ${unit}`);
+  }
+});
+
+test('a snippet past the length ceiling renders plain rather than slowly', () => {
+  const huge = '](a'.repeat(20000);
+  assert.equal(highlightCode(huge, 'markdown'), esc(huge));
 });

@@ -151,12 +151,32 @@ const tpl = readFileSync(
   new URL('../dashboard/template.html', import.meta.url),
   'utf8',
 );
+/* Every literal the numbers above depend on, not just the two syntax hues.
+   --ink-3 is the tightest color on the site at 4.68:1 and is used in seventeen
+   rules that have nothing to do with snippets, so the realistic break is
+   somebody lightening it for a footer and this check going on printing PASS
+   against a value the stylesheet no longer holds. --bg-sunk is the ground all
+   ten ratios are measured against, so an edit there moves every one of them. */
+const TOKEN_OF = {
+  'ink (plain)': 'ink',
+  'ink-2 (punctuation)': 'ink-2',
+  'ink-3 (comment)': 'ink-3',
+};
 const declarations = [
   `--control-line: light-dark(${GROUNDS.light['control-line']}, ${GROUNDS.dark['control-line']});`,
-  ...['syn-str', 'syn-key'].map((name) => {
-    const pick = (mode) => SYNTAX[mode].find(([n]) => n === name)[1];
-    return `--${name}: light-dark(${pick('light')}, ${pick('dark')});`;
-  }),
+  `--bg-sunk: light-dark(${GROUNDS.light['bg-sunk']}, ${GROUNDS.dark['bg-sunk']});`,
+  ...SYNTAX.light.map(
+    ([label], i) =>
+      `--${TOKEN_OF[label] || label}: light-dark(${SYNTAX.light[i][1]}, ${SYNTAX.dark[i][1]});`,
+  ),
+  /* And the bindings, because a correct token painted through the wrong role is
+     a color this file measured and the reader never sees. Repoint .hl-s at
+     --accent and every ratio above stays true and every one of them stops
+     describing the page. */
+  '.snip pre .hl-c { color: var(--ink-3); font-style: italic; }',
+  '.snip pre .hl-s { color: var(--syn-str); }',
+  '.snip pre .hl-k { color: var(--syn-key); }',
+  '.snip pre .hl-p { color: var(--ink-2); }',
 ];
 const drifted = declarations.filter((d) => !tpl.includes(d));
 for (const d of declarations) {

@@ -718,38 +718,87 @@ if (typeof highlightCode !== 'function' || !HL_ALIAS || !HL_RULES)
 
 /* One probe per grammar, because the corpus does not carry every language and a
    grammar with no sample would be checked by nothing. */
+/* Each probe names the classes it has to produce, not just that it produced
+   one. "Marked something" is far too weak a claim: deleting every hl-k rule in
+   all seven grammars — the whole --syn-key color, the one distinction hue is
+   left carrying — still leaves strings and punctuation matching, so the old
+   check stayed green and the corpus count only fell from 284 to 279. */
 const HL_PROBES = {
-  json: '{"a": 1, "b": null}',
-  yaml: '# c\na: 1\n',
-  shell: '# c\nrun --flag "$X"\n',
-  ts: '// c\nconst a = "x";\n',
-  html: '<!-- c -->\n<a href="x">t</a>\n',
-  css: '/* c */\na { color: #fff; }\n',
-  markdown: '# H\n\n`code`\n',
+  json: ['{"a": 1, "b": null}', ['hl-k', 'hl-s', 'hl-p']],
+  yaml: ['# c\na: 1\n', ['hl-c', 'hl-k', 'hl-s']],
+  shell: ['# c\nrun --flag "$X"\n', ['hl-c', 'hl-k', 'hl-s']],
+  ts: ['// c\nconst a = "x";\n', ['hl-c', 'hl-k', 'hl-s', 'hl-p']],
+  html: [
+    '<!DOCTYPE html>\n<!-- c -->\n<a href="x">t</a>\n',
+    ['hl-c', 'hl-k', 'hl-s', 'hl-p'],
+  ],
+  css: [
+    '/* c */\n@media print { a { color: #fff; } }\n',
+    ['hl-c', 'hl-k', 'hl-s', 'hl-p'],
+  ],
+  markdown: ['# H\n\n`code`\n', ['hl-k', 'hl-s']],
 };
+
+/* An unpaired quote in somebody's prose is the failure this guard exists for.
+   Every string rule is bounded to one line, so a value token spanning a newline
+   means a rule stopped being a string rule and started eating the document.
+   The round-trip check cannot see it — the bytes are all still there — and the
+   marked-something check cannot either, because a runaway span is still a span.
+   Twelve snippets shipped that way once. */
+const HL_LINE_BOUNDED = ['json', 'yaml', 'shell', 'ts', 'html', 'css'];
+const spanTexts = (html, cls) =>
+  [...html.matchAll(new RegExp(`<span class="${cls}">(.*?)</span>`, 'gs'))].map(
+    (m) => m[1],
+  );
+const runawayIn = (out) => spanTexts(out, 'hl-s').find((t) => t.includes('\n'));
+/* Strip the spans, then hand the entities to htmlUnesc above rather than
+   reversing them again here: ENTITIES is already this file's one copy of the
+   set esc() escapes, and a second hand-written reversal is a second place to
+   get the order wrong. */
 const unhl = (html) =>
-  html
-    .replace(/<span class="hl-[a-z]">/g, '')
-    .replace(/<\/span>/g, '')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&');
+  htmlUnesc(
+    html.replace(/<span class="hl-[a-z]">/g, '').replace(/<\/span>/g, ''),
+  );
 
 const grammars = Object.keys(HL_RULES).sort();
 for (const g of grammars) {
   if (!HL_PROBES[g]) die(`grammar ${g} has no build-time probe`);
 }
-for (const [g, probe] of Object.entries(HL_PROBES)) {
+for (const [g, [probe, want]] of Object.entries(HL_PROBES)) {
   if (!HL_RULES[g])
     die(`no grammar named ${g}; the alias map would fall back to plain`);
   const out = highlightCode(probe, g);
-  if (!out.includes('<span class="hl-'))
-    die(`grammar ${g} marked nothing — it has regressed to plain output`);
+  const got = new Set(
+    [...out.matchAll(/class="(hl-[a-z])"/g)].map((m) => m[1]),
+  );
+  for (const cls of want)
+    if (!got.has(cls)) die(`grammar ${g} no longer produces ${cls}`);
   if (unhl(out) !== probe)
     die(`grammar ${g} did not reproduce its input; the copy button would lie`);
+  const runaway = runawayIn(out);
+  if (runaway)
+    die(
+      `grammar ${g} let a value token cross a newline: ${JSON.stringify(runaway.slice(0, 60))}`,
+    );
 }
+
+/* The one line that decides whether any of this reaches a reader. Nothing else
+   here can see it: the guards below prove the tokenizer computes, the tests
+   call it directly, and fallow walks an import graph the inline app script is
+   not part of. Delete the call, or move it above the render it is supposed to
+   follow, and every check in this repo stays green while every page ships
+   plain. */
+const routeSrc = appSrc.slice(appSrc.indexOf('function route(opts)'));
+const renderAt = routeSrc.indexOf("$('#view-root').innerHTML");
+const callAt = routeSrc.indexOf('highlightSnippets();');
+if (renderAt === -1)
+  die(
+    'route() no longer writes #view-root; the highlight call cannot be placed',
+  );
+if (callAt === -1 || callAt < renderAt)
+  die(
+    'route() does not call highlightSnippets() after the render — highlighting would ship dead',
+  );
 
 /* The alias map is the other silent failure. The two datasets label the same
    language differently — systems say typescript and bash, platforms say ts and
@@ -790,20 +839,86 @@ for (const p of payload.platforms || []) {
   for (const c of p.capabilities || [])
     if (c.snippet) corpusSnippets.push(c.snippet);
 }
-if (corpusSnippets.length < 300)
+/* The /ai blocks belong in here more than any record snippet does: they are the
+   MCP configs a reader copies and pastes into a client, so a tokenizer that
+   dropped a byte would break the thing the page exists to hand over. They reach
+   snippetHTML() and the runtime pass exactly like the rest and were covered by
+   nothing. */
+for (const sec of (payload.ai_page && payload.ai_page.sections) || []) {
+  for (const b of sec.blocks || []) {
+    if (b.type === 'code')
+      corpusSnippets.push({ language: b.lang, content: b.text });
+    if (b.type === 'configs')
+      for (const i of b.items || [])
+        corpusSnippets.push({ language: i.lang, content: i.code });
+  }
+}
+if (corpusSnippets.length < 308)
   die(
-    `only ${corpusSnippets.length} snippets in the payload; expected the whole corpus`,
+    `only ${corpusSnippets.length} snippets in the payload; expected the whole corpus plus the /ai blocks`,
   );
+
+/* A count per language, not one total. The old check only failed at zero, so
+   every markdown snippet on the site — two thirds of the corpus — could go
+   plain and the build would report a smaller number and pass. */
+const HL_FLOOR = {
+  markdown: 195,
+  json: 25,
+  yaml: 11,
+  typescript: 21,
+  javascript: 14,
+  ts: 5,
+  tsx: 3,
+  bash: 6,
+  shell: 1,
+};
+const marked = {};
 let highlighted = 0;
 for (const sn of corpusSnippets) {
   const out = highlightCode(sn.content, sn.language);
   if (unhl(out) !== sn.content)
     die(`a ${sn.language} snippet did not survive highlighting intact`);
-  if (out.includes('<span class="hl-')) highlighted++;
+  const runaway = runawayIn(out);
+  if (
+    runaway &&
+    HL_LINE_BOUNDED.includes(HL_ALIAS[String(sn.language || '').toLowerCase()])
+  )
+    die(
+      `a ${sn.language} snippet has a value token crossing ${runaway.split('\n').length - 1} newline(s): ${JSON.stringify(runaway.slice(0, 60))}`,
+    );
+  if (out.includes('<span class="hl-')) {
+    highlighted++;
+    marked[sn.language] = (marked[sn.language] || 0) + 1;
+  }
 }
-if (!highlighted) die('not one snippet in the corpus came back highlighted');
+for (const [lang, min] of Object.entries(HL_FLOOR)) {
+  if ((marked[lang] || 0) < min)
+    die(
+      `${lang}: ${marked[lang] || 0} snippets marked, expected at least ${min} — a grammar or an alias has regressed`,
+    );
+}
+
+/* Both directions of alias drift. A label the data starts using that resolves
+   to nothing renders plain forever with nobody asked; a label pinned here that
+   stops resolving takes its whole cohort plain. `text` and `http` are plain on
+   purpose and say so. */
+const HL_PLAIN_ON_PURPOSE = new Set(['text', 'http']);
+for (const label of new Set(
+  corpusSnippets.map((s) => String(s.language || '').toLowerCase()),
+)) {
+  if (HL_ALIAS[label]) {
+    if (!HL_MUST_RESOLVE[label])
+      die(
+        `corpus label "${label}" resolves but is not pinned in HL_MUST_RESOLVE`,
+      );
+  } else if (!HL_PLAIN_ON_PURPOSE.has(label)) {
+    die(
+      `corpus label "${label}" resolves to no grammar; add an alias or list it as plain on purpose`,
+    );
+  }
+}
 console.log(
-  `  syntax: ${grammars.length} grammars exercised, ${highlighted}/${corpusSnippets.length} corpus snippets marked`,
+  `  syntax: ${grammars.length} grammars exercised, ${highlighted}/${corpusSnippets.length} snippets marked, floors met`,
 );
 
 function allHtml(dir, acc = []) {
