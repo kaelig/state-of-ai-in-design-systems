@@ -3355,6 +3355,16 @@
         "present": false,
         "audience": "consumers",
         "description": "No Code Connect. The shadcn-ui/ui tree at 47c7f92d carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "agents-md",
+        "name": "AGENTS.md",
+        "official": false,
+        "present": false,
+        "audience": "builders",
+        "description": "No agent instructions of shadcn's own. The only AGENTS.md files in shadcn-ui/ui at 47c7f92d are `templates/next-app/AGENTS.md` and `templates/next-monorepo/AGENTS.md`, and the two are byte-identical, four lines long, and fenced in `<!-- BEGIN:nextjs-agent-rules -->` markers that say who wrote them. What they say is about Next.js: this is not the Next.js you know, the APIs may differ from your training data, read the guides in `node_modules/next/dist/docs/` before writing any code. Neither file mentions shadcn, the registry, or a component. No CLAUDE.md anywhere in the tree.",
+        "code_url": "https://github.com/shadcn-ui/ui/blob/main/templates/next-app/AGENTS.md",
+        "notes": "The files do reach an agent's context, because scaffolding from a template copies them into the consumer's project. They are a framework's notice travelling in a design system's templates, not the design system talking, which is why this is recorded as an absence and not as an affordance."
       }
     ],
     "techniques": [

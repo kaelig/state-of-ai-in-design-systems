@@ -114,16 +114,21 @@ sweep that “fixes” the missing link by supplying a URL makes the report say 
 opposite of what it found. If a record has no link, read its description before
 adding one.
 
-These carry `"present": false`, and there are 34 of them. The description is
+These carry `"present": false`, and there are 35 of them. The description is
 where the evidence goes — the address that was read and what came back, so the
 claim can be rechecked without trusting us — and the matrix draws them as a
 crossed mark, distinct from a cell nothing was established about. Adding one
 means the check has to be conclusive: a 404 at a conventional URL, or a
-repository tree with no file of that shape in it as of the collection window. A
-judgment call is not conclusive, which is why `shadcn-ui` has no absence record
-for repo agent files: `templates/*/AGENTS.md` exist, they are Next.js's own
-injected notice rather than anything shadcn wrote, and that cell is better left
-saying nothing than saying something contestable with the confident mark.
+repository tree with no file of that shape in it as of the collection window.
+
+Where a file of the right shape exists but is not the thing, say so in the
+record rather than leaving the cell blank. `shadcn-ui`'s repo agent files entry
+is the worked example: two `templates/*/AGENTS.md` do exist, so the description
+opens with them, names the `BEGIN:nextjs-agent-rules` fence that says Next.js
+injected them, and points out that neither mentions shadcn. A reader who greps
+the repo finds what the record already told them. What that costs is a longer
+description, and it buys a cell that stops being ambiguous — leaving it blank
+would have hidden a real finding behind a shrug.
 
 An absence is never counted or listed as an affordance. `compute_counts()`,
 `shipped()` in `build_md.py`, `shipped()` in `mcp.mjs`, the `present` column in
