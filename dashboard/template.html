@@ -769,7 +769,11 @@ table.mx tr.mx-group th .gn {
    grid is the same weight. It has to be an outline and not an inset box-shadow:
    outlines paint after descendants, shadows paint under them, and the cells have
    opaque backgrounds. */
-.metagrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; background: var(--bg-raise); outline: 1px solid var(--line); outline-offset: -1px; border-radius: var(--radius); overflow: hidden; margin: 18px 0; }
+/* Three named tracks, not auto-fit: the grid holds exactly three short cells
+   (org, repo, docs) and one full-width row under them. auto-fit would size the
+   tracks off the container and leave the top row a track short of the edge,
+   because the spanning row keeps every track occupied and nothing collapses. */
+.metagrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; background: var(--bg-raise); outline: 1px solid var(--line); outline-offset: -1px; border-radius: var(--radius); overflow: hidden; margin: 18px 0; }
 .metagrid > div { background: var(--bg-raise); padding: 11px 14px; outline: 1px solid var(--line); outline-offset: -0.5px; }
 .metagrid > .wide { grid-column: 1 / -1; }
 .metagrid .k { font-size: 10px; letter-spacing: .12em; color: var(--ink-3); }
@@ -1117,6 +1121,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      own padding to absorb that then made the barless-link variant shorter. */
 }
 @media (max-width: 540px) {
+  /* A third of a 320px screen is not enough for a repo path. One cell per line
+     below here; the .wide row already spans whatever the count is. */
+  .metagrid { grid-template-columns: minmax(0, 1fr); }
   .bar-row, .bar-link { grid-template-columns: 96px 1fr 40px; }
   /* Drop the disclosure indent: 40px of it is a third of a 320px screen. */
   .aff-body { padding-left: 16px; }
@@ -1657,9 +1664,7 @@ const VIEWS = {
         <div><dt class="k">Org</dt><dd class="v">${esc(s.org || '—')}</dd></div>
         <div><dt class="k">Repo</dt><dd class="v">${extLink(s.repo_url, esc((s.repo_url || '').replace('https://github.com/', '')))}</dd></div>
         <div><dt class="k">Docs</dt><dd class="v">${extLink(s.docs_url, esc((s.docs_url || '').replace(/^https?:\/\//, '')))}</dd></div>
-        <div><dt class="k">License</dt><dd class="v">${esc(s.license || '—')}</dd></div>
-        <div><dt class="k">Last release</dt><dd class="v">${fmt(m.last_release || '—')}</dd></div>
-        <div class="wide"><dt class="k">Activity</dt><dd class="v">${fmt(m.activity_note || '—')}</dd></div>
+        <div class="wide"><dt class="k">Release(s) audited</dt><dd class="v">${fmt(m.last_release || '—')}</dd></div>
       </dl>
       <div class="twocol">
         <div class="col"><h2 class="t">For consumers — building with it</h2><p>${fmt(b.for_consumers || '—')}</p></div>

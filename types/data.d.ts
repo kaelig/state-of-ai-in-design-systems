@@ -24,7 +24,7 @@ export interface DesignSystemAIAffordancesRecord {
   license?: string;
   maintenance: {
     /**
-     * version + approx date
+     * the release(s) this record was audited against: version + date, as observed during the collection window
      */
     last_release?: string;
     /**

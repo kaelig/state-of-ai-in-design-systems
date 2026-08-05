@@ -509,7 +509,7 @@ re-open them without new evidence.
 - **R9. `role="meter"` / `role="img"` on the prevalence bars.** Each
   `.bar-row` already states its label and count as text and the track is
   `aria-hidden`; a widget role would add a value nobody can act on.
-- **R10. `<time datetime>` on the byline and “Last release”.** The Article
+- **R10. `<time datetime>` on the byline and “Release(s) audited”.** The Article
   JSON-LD already carries machine-readable dates for every page.
 - **R11. Raise the decorative hairlines (`.tile`, `.chip`, `details`, table row
   rules) to 3:1.** Exempt from 1.4.11 as decoration, and the 1.32:1 hairline is

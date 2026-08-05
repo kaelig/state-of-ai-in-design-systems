@@ -43,7 +43,7 @@
       "properties": {
         "last_release": {
           "type": "string",
-          "description": "version + approx date"
+          "description": "the release(s) this record was audited against: version + date, as observed during the collection window"
         },
         "activity_note": {
           "type": "string",

@@ -506,7 +506,7 @@ def system_md(s):
     p.append("## Maintenance\n")
     p.append(
         f"- Actively maintained: {'yes' if m.get('actively_maintained') else 'no'}\n"
-        f"- Last release: {html_to_md(m.get('last_release')) or 'not recorded'}\n"
+        f"- Release(s) audited: {html_to_md(m.get('last_release')) or 'not recorded'}\n"
         f"- Activity: {html_to_md(m.get('activity_note')) or 'not recorded'}\n"
     )
 
