@@ -106,15 +106,62 @@ console.log(
     ? `${nonTextFail} control-line pair(s) below 3:1`
     : 'All 6 control-line pairs pass 3:1',
 );
-/* The values above are literals, like the --mat-* pairs; this reads the token back
+
+/* Syntax tokens, on the one ground a snippet ever has. The two hue tokens are
+   checked here; the three roles that reuse --ink, --ink-2 and --ink-3 are
+   checked with them, because a comment at 4.68:1 is the tightest colour on the
+   site and the margin should be visible rather than inferred. */
+const SYNTAX = {
+  light: [
+    ['syn-str', 'oklch(45% 0.09 152)'],
+    ['syn-key', 'oklch(45% 0.09 330)'],
+    ['ink (plain)', 'oklch(17.8% 0 0)'],
+    ['ink-2 (punctuation)', 'oklch(45% 0 0)'],
+    ['ink-3 (comment)', 'oklch(53.8% 0 0)'],
+  ],
+  dark: [
+    ['syn-str', 'oklch(78% 0.09 152)'],
+    ['syn-key', 'oklch(78% 0.09 330)'],
+    ['ink (plain)', 'oklch(93.1% 0 0)'],
+    ['ink-2 (punctuation)', 'oklch(72.5% 0 0)'],
+    ['ink-3 (comment)', 'oklch(65.7% 0 0)'],
+  ],
+};
+let synFail = 0;
+console.log('\nSYNTAX (4.5:1 on --bg-sunk)');
+for (const mode of ['light', 'dark']) {
+  for (const [name, ink] of SYNTAX[mode]) {
+    const r = ratio(ink, GROUNDS[mode]['bg-sunk']);
+    const ok = r >= 4.5;
+    if (!ok) synFail++;
+    console.log(
+      `  ${mode.padEnd(5)} ${name.padEnd(21)} ${ink.padEnd(21)} ${r.toFixed(2)}:1  ${ok ? 'PASS' : 'FAIL'}`,
+    );
+  }
+}
+console.log(
+  synFail
+    ? `${synFail} syntax pair(s) below 4.5:1`
+    : 'All 10 syntax pairs pass AA 4.5:1',
+);
+
+/* The values above are literals, like the --mat-* pairs; this reads the tokens back
    out of the template so the two cannot drift apart unnoticed. */
 const tpl = readFileSync(
   new URL('../dashboard/template.html', import.meta.url),
   'utf8',
 );
-const declared = `--control-line: light-dark(${GROUNDS.light['control-line']}, ${GROUNDS.dark['control-line']});`;
-const inSync = tpl.includes(declared);
-console.log(
-  `  token in dashboard/template.html matches: ${inSync ? 'YES' : 'NO — ' + declared + ' not found'}`,
-);
-if (fail || nonTextFail || !inSync) process.exitCode = 1;
+const declarations = [
+  `--control-line: light-dark(${GROUNDS.light['control-line']}, ${GROUNDS.dark['control-line']});`,
+  ...['syn-str', 'syn-key'].map((name) => {
+    const pick = (mode) => SYNTAX[mode].find(([n]) => n === name)[1];
+    return `--${name}: light-dark(${pick('light')}, ${pick('dark')});`;
+  }),
+];
+const drifted = declarations.filter((d) => !tpl.includes(d));
+for (const d of declarations) {
+  console.log(
+    `  token in dashboard/template.html matches: ${tpl.includes(d) ? 'YES' : 'NO — ' + d + ' not found'}`,
+  );
+}
+if (fail || nonTextFail || synFail || drifted.length) process.exitCode = 1;
