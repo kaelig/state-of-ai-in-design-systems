@@ -126,7 +126,9 @@ try {
       ' globalThis.__NAV_ICON_PATHS = NAV_ICON_PATHS;' +
       ' globalThis.__MAT_ORDER = MAT_ORDER; globalThis.__askPrompt = askPrompt;' +
       ' globalThis.__esc = esc;' +
-      ' globalThis.__footHTML = footHTML;',
+      ' globalThis.__footHTML = footHTML;' +
+      ' globalThis.__highlightCode = highlightCode;' +
+      ' globalThis.__HL_ALIAS = HL_ALIAS; globalThis.__HL_RULES = HL_RULES;',
     ctx,
     { filename: 'app.js' },
   );
@@ -699,6 +701,110 @@ for (const t of captured) {
 }
 if (!handle || typeof handle.unregister !== 'function')
   die('registerReportTools returned no handle');
+
+/* Syntax highlighting runs in the browser, so unlike every other assertion here
+   there is nothing in the written HTML to grep for — the shipped files carry the
+   plain block by design. A grammar that quietly stopped matching, or an alias
+   that stopped resolving, would look exactly like a normal build. So run the
+   tokenizer at build time the way the WebMCP tools above are run: exercise every
+   grammar, and require both that it marks something and that concatenating the
+   tokens gives the input back. The second half is the one the copy button and
+   the escaping invariant depend on. */
+const highlightCode = sandbox.__highlightCode;
+const HL_ALIAS = sandbox.__HL_ALIAS;
+const HL_RULES = sandbox.__HL_RULES;
+if (typeof highlightCode !== 'function' || !HL_ALIAS || !HL_RULES)
+  die('the app script exposes no tokenizer');
+
+/* One probe per grammar, because the corpus does not carry every language and a
+   grammar with no sample would be checked by nothing. */
+const HL_PROBES = {
+  json: '{"a": 1, "b": null}',
+  yaml: '# c\na: 1\n',
+  shell: '# c\nrun --flag "$X"\n',
+  ts: '// c\nconst a = "x";\n',
+  html: '<!-- c -->\n<a href="x">t</a>\n',
+  css: '/* c */\na { color: #fff; }\n',
+  markdown: '# H\n\n`code`\n',
+};
+const unhl = (html) =>
+  html
+    .replace(/<span class="hl-[a-z]">/g, '')
+    .replace(/<\/span>/g, '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
+
+const grammars = Object.keys(HL_RULES).sort();
+for (const g of grammars) {
+  if (!HL_PROBES[g]) die(`grammar ${g} has no build-time probe`);
+}
+for (const [g, probe] of Object.entries(HL_PROBES)) {
+  if (!HL_RULES[g])
+    die(`no grammar named ${g}; the alias map would fall back to plain`);
+  const out = highlightCode(probe, g);
+  if (!out.includes('<span class="hl-'))
+    die(`grammar ${g} marked nothing — it has regressed to plain output`);
+  if (unhl(out) !== probe)
+    die(`grammar ${g} did not reproduce its input; the copy button would lie`);
+}
+
+/* The alias map is the other silent failure. The two datasets label the same
+   language differently — systems say typescript and bash, platforms say ts and
+   shell — so dropping one entry sends a whole cohort back to plain with nothing
+   else changing. Name the labels the corpus actually carries. */
+const HL_MUST_RESOLVE = {
+  json: 'json',
+  yaml: 'yaml',
+  yml: 'yaml',
+  markdown: 'markdown',
+  md: 'markdown',
+  typescript: 'ts',
+  ts: 'ts',
+  tsx: 'ts',
+  javascript: 'ts',
+  bash: 'shell',
+  sh: 'shell',
+  shell: 'shell',
+  html: 'html',
+  css: 'css',
+};
+for (const [label, want] of Object.entries(HL_MUST_RESOLVE)) {
+  if (HL_ALIAS[label] !== want)
+    die(
+      `snippet label "${label}" no longer resolves to the ${want} grammar, so those snippets would quietly render plain`,
+    );
+}
+
+/* And the corpus itself, under the labels it actually uses. */
+const corpusSnippets = [];
+for (const s of payload.systems || []) {
+  for (const a of s.affordances || [])
+    if (a.snippet) corpusSnippets.push(a.snippet);
+  for (const t of s.techniques || [])
+    if (t.snippet) corpusSnippets.push(t.snippet);
+}
+for (const p of payload.platforms || []) {
+  for (const c of p.capabilities || [])
+    if (c.snippet) corpusSnippets.push(c.snippet);
+}
+if (corpusSnippets.length < 300)
+  die(
+    `only ${corpusSnippets.length} snippets in the payload; expected the whole corpus`,
+  );
+let highlighted = 0;
+for (const sn of corpusSnippets) {
+  const out = highlightCode(sn.content, sn.language);
+  if (unhl(out) !== sn.content)
+    die(`a ${sn.language} snippet did not survive highlighting intact`);
+  if (out.includes('<span class="hl-')) highlighted++;
+}
+if (!highlighted) die('not one snippet in the corpus came back highlighted');
+console.log(
+  `  syntax: ${grammars.length} grammars exercised, ${highlighted}/${corpusSnippets.length} corpus snippets marked`,
+);
 
 function allHtml(dir, acc = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
