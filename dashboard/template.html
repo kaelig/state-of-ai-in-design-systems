@@ -556,6 +556,16 @@ table.mx tr.mx-group th .gn {
 .mx-legend { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--ink-2); margin: 10px 2px 20px; flex-wrap: wrap; }
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
 .mx-legend .core, .mx-legend .ring { flex: none; }
+/* The key's last item has no swatch, because the state it names has no mark. It
+   says in words what the 4px disc used to say in every empty cell, once instead
+   of ninety times. "Found", not "checked": the corpus's own idiom throughout is
+   evidence of absence — the maturity rubric's lowest step is "no AI affordances
+   found" — and a caption is not the place to quietly upgrade that to a claim of
+   exhaustive coverage. The sr-only caption is not a substitute for this line;
+   it is the same sentence said to a reader who cannot see the grid, and dropping
+   the visible one left absence stated nowhere a sighted reader looks. */
+.mx-legend .blank-key { color: var(--ink-3); }
+
 .jump li a:active { background: var(--bg-sunk); }
 
 .backlink { font-family: var(--mono); font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; margin-bottom: 6px; }
@@ -1839,7 +1849,7 @@ const VIEWS = {
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
       <hr class="accent-rule">
       <section id="systems" tabindex="-1">
-      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span></div>
+      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span><span class="blank-key">blank: none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
         <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official, community-built, or both. An empty cell means no such affordance was found.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
