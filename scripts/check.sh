@@ -2,9 +2,11 @@
 # Everything CI runs, runnable locally. `npm run check` calls this, and
 # .github/workflows/ci.yml calls the same script, so the two cannot drift.
 #
-# Order matters in one place: build/ is gitignored and both the MCP suite and
-# check_md_layer.py read from it, so the build has to come before them. The
-# static checks run first because they fail in seconds.
+# Order matters in one place: build/ is gitignored, so on a clean checkout it
+# does not exist until the build writes it. Everything that reads it — the MCP
+# suite, check_md_layer.py, and the dead-code gate, which has to resolve the
+# build/ JSON those two import — comes after the build. The static checks run
+# first because they fail in seconds.
 set -e
 cd "$(dirname "$0")/.."
 
@@ -47,6 +49,20 @@ deno lint --rules-exclude=no-import-prefix netlify/edge-functions/
 # tests/ because Netlify would deploy anything under netlify/edge-functions/.
 deno test --allow-import=edge.netlify.com:443 tests/trailing-punctuation.test.ts
 
+step "contrast"
+node scripts/check_contrast.js
+
+# Validates every record against its schema as step 0, then generates.
+step "build"
+./scripts/build.sh
+
+# After the build, not with the static checks it otherwise belongs among: the
+# import graph includes netlify/functions/mcp.mjs and tests/mcp.test.mjs, both of
+# which import JSON out of build/. Run before the build and those five imports
+# are unresolved on any clean checkout — green locally, where an earlier build
+# left the directory behind, and red in CI, which has neither the directory nor
+# fallow's cache of a run that once resolved them.
+#
 # Full-repo, not `fallow audit`. The adoption guide's PR gate scopes analysis to
 # files changed against the default branch, which assumes a pull request to diff.
 # This repo ships straight to main, so there is usually no diff to scope to, and
@@ -61,13 +77,6 @@ deno test --allow-import=edge.netlify.com:443 tests/trailing-punctuation.test.ts
 # until the findings are dealt with on their own terms.
 step "dead code"
 npx fallow dead-code
-
-step "contrast"
-node scripts/check_contrast.js
-
-# Validates every record against its schema as step 0, then generates.
-step "build"
-./scripts/build.sh
 
 step "tests"
 npm test

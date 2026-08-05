@@ -23,9 +23,10 @@ netlify serve                       # site + functions + edge functions locally
 `npm run check` is the one to run before proposing a change. It calls
 `scripts/check.sh`, and so does CI, so the two cannot drift. In order: eslint,
 prettier, tsc, the generated types, ruff, mypy, deno over the edge functions, the
-contrast check, the build, the tests, and the markdown-layer self-check. The
-static checks come first because they fail in seconds; the build has to precede
-the tests because `build/` is generated and the tests read from it.
+contrast check, the build, the dead-code gate, the tests, and the markdown-layer
+self-check. The static checks come first because they fail in seconds; the build
+has to precede the tests, the dead-code gate and the markdown-layer check,
+because `build/` is generated and all three read from it.
 
 The build is not quiet either. It validates every record against its schema
 before generating anything, then fails if a route renders empty, if a placeholder
