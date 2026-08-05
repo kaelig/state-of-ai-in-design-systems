@@ -989,11 +989,14 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
 
 @media (max-width: 860px) {
   .app { grid-template-columns: minmax(0, 1fr); }
-  .rail { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 68px 16px 14px; }
-  /* Park the toggle in the header space reserved for it instead of letting it
-     float over the article column for the whole scroll. Full 44px back: there
-     is no control beside it to balance against here, the rail's 68px of top
-     padding is cut for that height, and this is the layout that gets thumbs. */
+  /* 16px on top like every other edge. It used to be 68, a band cleared above
+     the brand so the toggle could have a line to itself, which cost 52px of
+     header on every page before a word of anything. The toggle sits beside the
+     brand now instead of above it. */
+  .rail { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 16px 16px 14px; }
+  /* Park the toggle in the header instead of letting it float over the article
+     column for the whole scroll. Full 44px back: there is no control beside it
+     to balance against here, and this is the layout that gets thumbs. */
   .theme-toggle { position: absolute; width: 44px; height: 44px; }
   /* The toggle is parked in the header now, not floating over the column, so the
      meta row has nothing to steer around and takes its full width back.
@@ -1013,7 +1016,12 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      The 3px baseline nudge goes with it: stacked, the control has its own line
      and there is no eyebrow baseline beside it to meet. */
   .pageacts { margin-left: 0; top: 0; }
-  .rail-brand { padding-right: 0; }
+  /* The brand shares its line with the toggle now, so it has to stop short of
+     it: absolute at right: 16px inside a rail padded 16px, the toggle takes the
+     rightmost 44px of the content box exactly. 56 is that plus a 12px gap.
+     Desktop's 16 is a different number for a different reason — there the
+     toggle is fixed to the viewport, nowhere near this column. */
+  .rail-brand { padding-right: 56px; }
   /* One scrollable row of section links, not a wrapping block of pills. The row
      bleeds past both of the rail's 16px gutters so links scroll to the screen
      edge; the label inside the first one still has to land on the masthead's
