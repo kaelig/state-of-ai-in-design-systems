@@ -984,6 +984,23 @@ table.mx tr.mx-group th .gn {
 .correct a { display: inline-block; border: 1px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--accent-ink); text-decoration: none; }
 .correct a:hover { background: var(--accent); color: var(--bg); }
 .correct a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* A mark only on the button that leaves for GitHub. 15px against 13px text, and
+   the offset centers the box on the label's cap height rather than sitting it on
+   the baseline, where a square glyph reads as having fallen. The ↗ and its
+   spacing are untouched: the link stays inline-block, because inline-flex would
+   make anonymous flex items of the label and the arrow and eat the space
+   between them. */
+.correct a svg { width: 15px; height: 15px; margin-right: 8px; vertical-align: -3px; }
+/* The overview closes on two invitations of equal weight — read the report with
+   a machine, or add a system to it — so they share a row instead of stacking,
+   where the second would read as the afterthought it isn't. The cards hand their
+   own top margin and their measure cap to the grid; the content column is wide
+   enough that each half still lands inside the body measure. Equal heights, with
+   the buttons pushed to the bottom, so the two calls to action sit on one line
+   however long the copy above them runs. */
+.cta-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+.cta-pair .correct { margin-top: 0; max-width: none; display: flex; flex-direction: column; align-items: start; }
+.cta-pair .correct a { margin-top: auto; }
 /* One entry per work. Wider than .ai-links because an entry carries a
    paragraph and sometimes a quotation, not a one-line note. */
 .readlist { list-style: none; padding: 0; margin: 14px 0 30px; max-width: var(--measure-body); }
@@ -1127,6 +1144,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .rail:has(#nav a[data-r="overview"][aria-current="page"]) .rail-foot { display: block; }
   .main { padding: 24px 16px 32px; }
   .twocol { grid-template-columns: 1fr; }
+  .cta-pair { grid-template-columns: 1fr; }
   .jump li a { padding: 9px 10px; }
   /* Six client names do not fit one phone-width row, and a strip that wrapped
      would put a second row of 44px controls under the first — so it stays one
@@ -1839,6 +1857,20 @@ const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
 
+/* GitHub's own mark, the path copied verbatim out of node_modules/simple-icons
+   (CC0), because a brand mark redrawn by hand is a brand mark got wrong. Filled
+   rather than stroked, unlike every Feather glyph on the site, so it takes the
+   button's ink and inverts with it on hover. Inlined here rather than resolved
+   through the platform-logo pipeline in build_dashboard.py: that machinery
+   serves records in data/platforms.json, and this is page furniture. */
+const GITHUB_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+  + '<path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577'
+  + ' 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729'
+  + ' 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93'
+  + ' 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405'
+  + ' 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22'
+  + ' 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
+
 /* ---------- views ---------- */
 const VIEWS = {
   overview() {
@@ -1910,11 +1942,18 @@ const VIEWS = {
       <h2>Affordance prevalence</h2>
       <p class="h2-sub">Number of systems (of ${m.counts.systems}) shipping each affordance, counting official and community.</p>
       ${prevalenceBars()}
-      <aside class="correct" aria-label="Read this report with an AI assistant">
-        <p class="t">Ask this study anything</p>
-        <p>Point an AI assistant at this report and it answers from the ${m.counts.systems} records here, with a source link on each one. Connect it to the tool you already use and it will draw up an AI roadmap for your own design system.</p>
-        <a href="${href('ai')}">Show me how</a>
-      </aside>`;
+      <div class="cta-pair">
+        <aside class="correct" aria-label="Read this report with an AI assistant">
+          <p class="t">Ask this study anything</p>
+          <p>Point an AI assistant at this report and it answers from the ${m.counts.systems} records here, with a source link on each one. Connect it to the tool you already use and it will draw up an AI roadmap for your own design system.</p>
+          <a href="${href('ai')}">Show me how</a>
+        </aside>
+        <aside class="correct" aria-label="Suggest a design system">
+          <p class="t">Want your system in here?</p>
+          <p>Send it over and I'll research it against the same schema as the other ${m.counts.systems}.</p>
+          ${extLink(`${REPO_URL}/issues/new?template=new-system.yml`, GITHUB_ICON + 'Suggest a design system')}
+        </aside>
+      </div>`;
   },
 
   system(id) {
