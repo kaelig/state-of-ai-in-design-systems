@@ -114,6 +114,24 @@ sweep that “fixes” the missing link by supplying a URL makes the report say 
 opposite of what it found. If a record has no link, read its description before
 adding one.
 
+These carry `"present": false`, and there are 34 of them. The description is
+where the evidence goes — the address that was read and what came back, so the
+claim can be rechecked without trusting us — and the matrix draws them as a
+crossed mark, distinct from a cell nothing was established about. Adding one
+means the check has to be conclusive: a 404 at a conventional URL, or a
+repository tree with no file of that shape in it as of the collection window. A
+judgment call is not conclusive, which is why `shadcn-ui` has no absence record
+for repo agent files: `templates/*/AGENTS.md` exist, they are Next.js's own
+injected notice rather than anything shadcn wrote, and that cell is better left
+saying nothing than saying something contestable with the confident mark.
+
+An absence is never counted or listed as an affordance. `compute_counts()`,
+`shipped()` in `build_md.py`, `shipped()` in `mcp.mjs`, the `present` column in
+the SQLite export and the matrix predicate all filter on the same flag, and
+`absence_faults()` in `check_hand_counts.py` fails the build if the counter
+forgets. The records stay in the payload and in `get_system`, because an agent
+asking whether a system ships an llms.txt deserves the answer either way.
+
 The schemas enforce as much of this as a schema can. `scripts/validate_data.mjs`
 runs as step 0 of the build and fails it on a missing `source_url`, an
 out-of-vocabulary value, or a property the schema does not know about. It cannot

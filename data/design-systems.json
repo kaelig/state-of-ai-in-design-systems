@@ -143,6 +143,14 @@
         "docs_url": "https://ant.design/docs/react/mcp",
         "code_url": "https://www.npmjs.com/package/@jzone-mcp/antd-components-mcp",
         "notes": "Predates the official server; official docs still endorse it as an alternative."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The ant-design/ant-design tree at 12522b38 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
       }
     ],
     "techniques": [
@@ -414,6 +422,14 @@
           "source_url": "https://github.com/facebook/astryx/blob/main/.claude/commands/create-component.md"
         },
         "notes": "`.claude/skills/` holds two more maintainer documents, on authoring component docs and on writing the compressed `docsDense` strings the CLI's `--dense` mode serves. Both are plain markdown with no frontmatter, so they are context files rather than registered skills, and nothing loads or gates on them."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The facebook/astryx tree at a03e2286 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
       }
     ],
     "techniques": [
@@ -1149,6 +1165,22 @@
         "audience": "builders",
         "description": "Three committed Claude Code slash commands in .claude/commands/: ark.md (Ark UI sync workflow), changelog.md (release-notes generation, visible in commit history as `docs: prepare next release changelog`), and github-reviewer.md (AI-assisted PR review). Committed to the repo, so every contributor with Claude Code inherits the maintainers' workflows.",
         "code_url": "https://github.com/chakra-ui/chakra-ui/tree/main/.claude/commands"
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The chakra-ui/chakra-ui tree at 065f71ce carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. chakra-ui/chakra-ui at 065f71ce has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -1396,6 +1428,23 @@
         "description": "A cluster of small community MCP servers wrap daisyUI docs, most of them by scraping the official llms.txt. Largest is birdseyevue/daisyui-mcp (77 stars, pushed 2026-07-12): 'A token-friendly local MCP server for DaisyUI component documentation using their public llms.txt.' Others: SidiqHadi/daisyui-mcp (4), ralscha/daisyui-mcp (2, active 2026-07-27), matracey/daisyui-mcp-server (2, 'MCP server for daisyUI React components'), theHamdiz/daisy-days (1). All are small and none is endorsed by the maintainer; the official docs instead point unlicensed users at Context7 or 'daisyUI GitMCP'.",
         "code_url": "https://github.com/birdseyevue/daisyui-mcp",
         "notes": "Star counts and push dates from GitHub search API on 2026-07-27."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The saadeghi/daisyui tree at 4be86ac8 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "agents-md",
+        "name": "AGENTS.md, three of them, one per workspace",
+        "official": true,
+        "audience": "builders",
+        "description": "daisyUI has no root AGENTS.md and three below it, scoped to the Bun workspaces they govern. `packages/AGENTS.md` states the stack and the commands and closes with communication rules aimed squarely at model behavior: do not explain unless asked, do not confirm or deny anything you are not certain of, fact-check your answers. `packages/daisyui/AGENTS.md` is the house style for the CSS itself, including `@apply` over hand-written properties, no `!important` at any cost, and OKLCH for theme colors. `packages/docs/AGENTS.md` covers the SvelteKit site and spends most of its length on one rule an agent breaks easily: every language file for a translation chunk has to keep the same set of keys, so adding a string means adding it everywhere.",
+        "code_url": "https://github.com/saadeghi/daisyui/blob/master/packages/AGENTS.md",
+        "notes": "Builder-facing. The consumer-facing instructions are shipped separately, as the skill and the plugin marketplaces."
       }
     ],
     "techniques": [
@@ -1662,6 +1711,22 @@
         "code_url": "https://github.com/T-hash06/heroui-mcp",
         "description": "Independent community MCP server for HeroUI component context, predating the official one. 17 stars, last pushed 2025-07-20, effectively dormant and superseded by @heroui/react-mcp.",
         "notes": "Listed for completeness; not recommended."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The heroui-inc/heroui tree at 270a475b carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. heroui-inc/heroui at 270a475b has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -1913,6 +1978,22 @@
         "description": "Community/adjacent, NOT Nuxt-UI-specific: a Nuxt module + Vite plugin that exposes the *running local app's* structure to models at http://localhost:3000/__mcp/sse and auto-writes MCP config for VSCode/Cursor/Windsurf/Claude Code. Self-described experimental. Complements the Nuxt UI remote MCP (library knowledge) with project-local knowledge.",
         "code_url": "https://github.com/antfu/nuxt-mcp-dev",
         "notes": "Explicitly marked experimental by its author; not referenced by Nuxt UI docs."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The nuxt/ui tree at 282759e7 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. nuxt/ui at 282759e7 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -2176,8 +2257,24 @@
         "official": false,
         "present": false,
         "audience": "consumers",
-        "description": "NOT PRESENT. https://www.patternfly.org/llms.txt and /llms-full.txt both return 404 (S3 NoSuchKey), as do /mcp and /ai (the AI section lives at versioned paths and 302-redirects from /ai/...). No llms.txt in patternfly-org, patternfly-react, patternfly, or patternfly-mcp repo roots.",
+        "description": "https://www.patternfly.org/llms.txt and /llms-full.txt both return 404 (S3 NoSuchKey), as do /mcp and /ai (the AI section lives at versioned paths and 302-redirects from /ai/...). No llms.txt in patternfly-org, patternfly-react, patternfly, or patternfly-mcp repo roots.",
         "notes": "PatternFly's bet is entirely on MCP + plugin marketplace, skipping the llms.txt convention."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The patternfly/patternfly-org tree at d849cbd7 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. patternfly/patternfly-org at d849cbd7 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -2442,6 +2539,14 @@
         "description": "52 `*.figma.tsx` Code Connect files in primer/react plus `packages/react/figma.config.json`, published by a dedicated `.github/workflows/figma_connect_publish.yml` CI job. primer/brand mirrors the setup. This is what makes Figma Dev Mode MCP return real Primer component code (correct import path and props) instead of generic markup when an agent reads a Primer design.",
         "code_url": "https://github.com/primer/react/blob/main/packages/react/figma.config.json",
         "notes": "Confirmed via GitHub code search: 52 files matching extension:figma.tsx in primer/react."
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms.txt / llms-full.txt",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No llms.txt. https://primer.style/llms.txt returns 404, and /llms-full.txt answers 200 with the docs site's HTML shell rather than a text file, which is a 404 wearing a different status code. Nothing named llms.txt or llms-full.txt in primer/react at f7872333."
       }
     ],
     "techniques": [
@@ -2715,6 +2820,30 @@
           "content": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write|MultiEdit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path // empty' | { read -r f; [[ -n \\\"$f\\\" ]] && oxfmt --no-error-on-unmatched-pattern \\\"$f\\\"; } 2>/dev/null || true\",\n            \"statusMessage\": \"oxfmt\"\n          }\n        ]\n      }\n    ]\n  }\n}",
           "source_url": "https://raw.githubusercontent.com/adobe/react-spectrum/main/.claude/settings.json"
         }
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The adobe/react-spectrum tree at c9d3ad08 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. adobe/react-spectrum at c9d3ad08 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "agents-md",
+        "name": "AGENTS.md",
+        "official": false,
+        "present": false,
+        "audience": "builders",
+        "description": "No agent instruction file at any depth: adobe/react-spectrum at c9d3ad08 has no AGENTS.md and no CLAUDE.md anywhere in the tree."
       }
     ],
     "techniques": [
@@ -2974,6 +3103,22 @@
         "description": "A dedicated 'AI and SLDS 2' page exists in the zeroheight-hosted docs at /2e1ef8501/v/60694/p/52a7c7-ai-and-slds-2, surfaced in search results. It is behind a client-rendered zeroheight SPA and could not be fetched as text, so its content is unverified here.",
         "docs_url": "https://www.lightningdesignsystem.com/2e1ef8501/p/52a7c7-ai-and-slds-2",
         "notes": "Unverified content, listed because the page's existence is confirmed via search indexing, not because its text was read. The SPA also means the whole SLDS 2 docs site is largely opaque to naive agent fetching."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The salesforce-ux/design-system tree at 9bc6a404 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms.txt / llms-full.txt",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No llms.txt. https://www.lightningdesignsystem.com/llms.txt and /llms-full.txt both return 404 from zeroheight, which hosts the docs. Nothing named llms.txt or llms-full.txt in salesforce-ux/design-system at 9bc6a404."
       }
     ],
     "techniques": [
@@ -3202,6 +3347,14 @@
         "audience": "consumers",
         "description": "Several third-party MCP servers predate/parallel the official one: Jpisnice/shadcn-ui-mcp-server (v4 components/blocks/demos across React, Svelte, Vue, React Native), @heilgar/shadcn-ui-mcp-server, @magnusrodseth/shadcn-mcp-server. Largely obsoleted by the official CLI-bundled server, but still widely listed in MCP directories.",
         "code_url": "https://github.com/Jpisnice/shadcn-ui-mcp-server"
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The shadcn-ui/ui tree at 47c7f92d carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
       }
     ],
     "techniques": [
@@ -3439,6 +3592,38 @@
         "docs_url": "https://storybook.polaris.shopify.dev",
         "description": "Storybook for Polaris React, linked from the archived repo README badge. No AI-specific integration (no Storybook MCP, no addon-docs-to-llms pipeline) and it documents the deprecated library.",
         "notes": "No evidence of Storybook being wired into any agent workflow."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The Shopify/polaris tree at 2b1ea886 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. Shopify/polaris at 2b1ea886 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "agents-md",
+        "name": "AGENTS.md",
+        "official": false,
+        "present": false,
+        "audience": "builders",
+        "description": "No agent instruction file at any depth: Shopify/polaris at 2b1ea886 has no AGENTS.md and no CLAUDE.md anywhere in the tree."
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms.txt / llms-full.txt",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No llms.txt. https://shopify.dev/llms.txt returns 404, and so does the same file under the Polaris docs path. Nothing named llms.txt or llms-full.txt in Shopify/polaris at 2b1ea886."
       }
     ],
     "techniques": [
@@ -3670,11 +3855,20 @@
       },
       {
         "type": "figma-code-connect",
-        "name": "Official Figma component library — but NO Code Connect",
+        "name": "Figma Code Connect",
         "official": true,
+        "present": false,
         "audience": "consumers",
-        "docs_url": "https://cloudscape.design/get-started/for-designers/design-resources/",
-        "description": "AWS publishes an official Figma library at figma.com/@cloudscape with all components, variants, and variables (color, text, layer styles), usable as a published library or sticker sheet. However there is NO Figma Code Connect: a GitHub code search for 'code-connect' across org:cloudscape-design returns 0 results, so Figma Dev Mode MCP has no first-party node-to-component binding for Cloudscape."
+        "description": "No Code Connect. A GitHub code search for 'code-connect' across org:cloudscape-design returns nothing, so Figma Dev Mode has no first-party binding from a design node to a Cloudscape component. What AWS does publish is an official Figma library at figma.com/@cloudscape, with every component, its variants and its variables (color, text, layer styles), usable as a published library or as a sticker sheet. That is a designer's artifact, not a machine-readable one.",
+        "docs_url": "https://cloudscape.design/get-started/for-designers/design-resources/"
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. cloudscape-design/components at e9c0c768 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -3920,6 +4114,22 @@
         "code_url": "https://www.npmjs.com/package/mantine-mcp",
         "description": "npm package `mantine-mcp` (latest 1.0.2; 1.0.0 and 1.0.2 both published within 20 minutes on 2026-01-23, nothing since): \"MCP server for Mantine UI component library - provides AI assistants with tools to explore, search, and get documentation for Mantine components and hooks.\" Published about a month before the official @mantine/mcp-server alphas and effectively abandoned after.",
         "notes": "Namespace-confusion risk: `mantine-mcp` vs the official `@mantine/mcp-server`."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The mantinedev/mantine tree at 953192e2 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. mantinedev/mantine at 953192e2 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -4138,12 +4348,21 @@
       },
       {
         "type": "figma-code-connect",
-        "name": "MUI for Figma design kit + Material UI Sync plugin",
+        "name": "Figma Code Connect",
         "official": true,
+        "present": false,
         "audience": "consumers",
         "description": "NOT Code Connect. MUI ships a commercial Figma/Sketch design kit (1,500+ elements, 600+ components) and a free beta Figma plugin, 'Material UI Sync', which generates a Material UI theme file of design tokens and component customizations from Figma, previewable in an embedded Storybook panel inside the plugin. The AI bridge to Figma instead runs through the MCP's generateReactCode `designContext` argument (grounding codegen in a Figma frame). A code search across the whole `mui` GitHub org found zero `figma.config.json` files and zero Code Connect references.",
         "docs_url": "https://mui.com/material-ui/getting-started/design-resources/",
         "notes": "Third-party Figma-to-MUI paths exist (Anima, UXPin Merge, CopyCat) but are community/commercial, not MUI-maintained."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. mui/material-ui at 7fb01101 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
       }
     ],
     "techniques": [
@@ -4379,6 +4598,22 @@
         "description": "A fragmented long tail: aminvishvam/fluentui-mcp-server (12 tools across 4 categories: custom hooks, style generation, TypeScript interfaces, accessibility compliance checking) and npm `mcp-fluent-ui` 1.0.2 (last published 2025-09-05, likely abandoned). Listed on aggregators such as LobeHub and mcpmarket. None are endorsed by Microsoft.",
         "code_url": "https://github.com/aminvishvam/fluentui-mcp-server",
         "notes": "Quality unverified; mcp-fluent-ui is ~11 months stale."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The microsoft/fluentui tree at 4aacb7b8 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms.txt / llms-full.txt",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No llms.txt. https://fluent2.microsoft.design/llms.txt and /llms-full.txt both answer 200, but what they serve is the docs site's Astro HTML shell, not a text file, so a fetcher that trusts the status code gets a page where it expected a context file. Nothing named llms.txt or llms-full.txt in microsoft/fluentui at 4aacb7b8."
       }
     ],
     "techniques": [
@@ -4780,6 +5015,30 @@
         "description": "Two further low-signal projects surfaced: `ctrimm/uswds-local-mcp-server` ('stand up a local mcp server to interact with USWDS', last push 2026-01-04) and `Chris39704/ui_mcp` ('MCP server for the latest MUI, Angular Material, and USWDS documentation and context', last push 2026-03-17). Both 0 stars. Recorded for completeness of the community picture; neither is production-signaling.",
         "code_url": "https://github.com/ctrimm/uswds-local-mcp-server",
         "notes": "Listed together because individually they are noise; collectively they show repeated independent attempts to build the MCP layer GSA has not."
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No Code Connect. The uswds/uswds tree at 6c8bde97 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Cursor rules",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No editor rule files of either convention. uswds/uswds at 6c8bde97 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms.txt / llms-full.txt",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No llms.txt. https://designsystem.digital.gov/llms.txt and /llms-full.txt both return 404. Nothing named llms.txt or llms-full.txt in uswds/uswds at 6c8bde97."
       }
     ],
     "techniques": [

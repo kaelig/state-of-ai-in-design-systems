@@ -439,14 +439,24 @@ table.mx td .ring, .mx-legend .ring {
   width: 17px; height: 17px; border-radius: 50%;
   border: 2px dotted var(--data-strong); vertical-align: middle;
 }
-/* "None found" is drawn as nothing at all. The previous 4px disc existed to make
-   absence visible but quiet; this goes further and makes the grid figure-and-
-   ground, so every mark on it is something that exists and the rare community
-   rings are the only texture in 220 cells. The claim the dot used to carry —
-   that we looked and found nothing, rather than that we never checked — moves to
-   the caption and the legend, which state it once instead of ninety times.
-   Nothing is lost to assistive tech: the cell's sr-only "None found" is separate
-   from the glyph and stays exactly where it was. */
+/* An absence somebody went and confirmed: a 404 at a conventional URL, or a
+   repository tree with no file of that shape in it as of the collection window.
+   Not a disc. The grid's two presence marks are both circles, so a third, smaller
+   circle reads as a lesser amount of the same thing — a weak presence — which is
+   the opposite of what the cell means. The distinction has to be categorical, not
+   one of degree, so the mark leaves the circle family altogether: presence is
+   round, absence is crossed, and no reader has to consult the key to get that a
+   cross means no.
+   Drawn, not typed, for the reason BACK_ICON gives: a "×" is a font glyph, so its
+   weight and its height above the baseline are whatever the face happens to ship.
+   Two hairlines across a 6px span carry about 19px² of ink against the core's 64,
+   so a sparse column still cannot let absence out-weigh presence.
+   What stays blank is now only what nothing was established about, which is what
+   makes the grid figure-and-ground honestly rather than by omission. */
+table.mx td .none, .mx-legend .none-key {
+  display: inline-block; width: 12px; height: 12px; vertical-align: middle;
+  fill: none; stroke: var(--ink-3); stroke-width: 1.5; stroke-linecap: round;
+}
 /* Cohort break. No band: a rule across the full scroll width, then air, then the
    cohort's name — the same way a section break works in the prose on this site.
    The seam is --line-strong so it outranks the row hairlines it separates, and
@@ -511,14 +521,16 @@ table.mx tr.mx-group th .gn {
   font-variant-numeric: tabular-nums; color: var(--ink-3);
 }
 /* Forced colors drops author backgrounds and borders, which would have taken the
-   core, the ring and the rungs with them — the entire table, since every mark on
-   it is one of those. Re-stated in system colors: the data marks are CanvasText
-   and the rung that means "not reached on the scale" is GrayText, so both parts
-   of the grammar and the rung count all survive. Absence needs no rule here: it
-   is drawn as nothing, and nothing survives a forced palette intact. */
+   core, the ring, the confirmed-absence disc and the rungs with them — the entire
+   table, since every mark on it is one of those. Re-stated in system colors: the
+   data marks are CanvasText, and the two that mean "nothing here" and "not
+   reached on the scale" are GrayText, so the cell states and the rung count all
+   survive. The cell that is blank needs no rule: it is drawn as nothing, and
+   nothing survives a forced palette intact. */
 @media (forced-colors: active) {
   table.mx td .core, .mx-legend .core { background: CanvasText; }
   table.mx td .ring, .mx-legend .ring { border-color: CanvasText; }
+  table.mx td .none, .mx-legend .none-key { stroke: GrayText; }
   table.mx tr.mx-group .rungs line { stroke: CanvasText; }
   table.mx tr.mx-group .rungs line[opacity] { stroke: GrayText; }
 }
@@ -549,13 +561,13 @@ table.mx tr.mx-group th .gn {
   .scroller { overflow: visible; }
   .mxwrap .fade { display: none; }
 }
-/* The key reads as one line of specimens rather than three floating pairs: each
-   glyph sits in a fixed 14px track so the three labels start on the same rhythm,
+/* The key reads as one line of specimens rather than four floating pairs: each
+   glyph sits in a fixed 14px track so the labels start on the same rhythm,
    and the whole line is 12px --ink-2, the header row's voice, because it is
    documentation of the table and not part of it. */
 .mx-legend { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--ink-2); margin: 10px 2px 20px; flex-wrap: wrap; }
 .mx-legend > span { display: inline-flex; align-items: center; gap: 7px; }
-.mx-legend .core, .mx-legend .ring { flex: none; }
+.mx-legend .core, .mx-legend .ring, .mx-legend .none-key { flex: none; }
 /* The key's last item has no swatch, because the state it names has no mark. It
    says in words what the 4px disc used to say in every empty cell, once instead
    of ninety times. "Found", not "checked": the corpus's own idiom throughout is
@@ -825,6 +837,18 @@ table.mx tr.mx-group th .gn {
 .aff-body p.desc { font-size: 14px; color: var(--ink); max-width: var(--measure-body); }
 .links { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0 0; font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 .aff-body .note { font-size: 13px; color: var(--ink-3); margin-top: 8px; max-width: var(--measure-body); }
+/* Absences are stated, not opened: there is no snippet to reveal and no link to
+   follow, so the card that exists to hold those would open on the one paragraph
+   already visible. A rule and a line of air instead of a border, because this
+   list is a coda to the affordances above it rather than a second set of them.
+   Everything here is --ink-2 or quieter, one step under the list it follows. */
+.abslist { list-style: none; padding: 0; margin: 0; }
+.abslist li { padding: 12px 0; border-top: 1px solid var(--line); }
+.abslist li:last-child { border-bottom: 1px solid var(--line); }
+.abslist .hd { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.abslist .nm { font-family: var(--font-display); font-weight: 650; font-size: 14px; letter-spacing: -.01em; color: var(--ink-2); }
+.abslist p { font-size: 14px; color: var(--ink-2); max-width: var(--measure-body); margin: 8px 0 0; }
+.abslist .note { font-size: 13px; color: var(--ink-3); }
 .snip { margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-sunk); }
 .snip-bar { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; padding: 5px 10px 5px 12px; border-bottom: 1px solid var(--line); font-family: var(--mono); }
 .snip-bar .sbleft { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; flex: 1 1 auto; min-width: 0; }
@@ -1778,6 +1802,16 @@ function affordanceHTML(a, sysId, i) {
       ${a.notes ? `<p class="note">${fmt(a.notes)}</p>` : ''}
     </div></details></li>`;
 }
+/* No summary to expand, no official/community chip: "community" on a record that
+   documents something's non-existence would be answering a question nobody asked
+   about a thing that is not there. The type chip stays, because which kind of
+   artifact is missing is the whole content of the claim. */
+function absenceHTML(a) {
+  return `<li>
+    <div class="hd"><span class="chip">${esc(TYPE_LABEL[a.type] || a.type)}</span><span class="nm">${fmt(a.name)}</span></div>
+    <p>${fmt(a.description)}</p>
+    ${a.notes ? `<p class="note">${fmt(a.notes)}</p>` : ''}</li>`;
+}
 function techniqueHTML(t, sysId, i, withSys) {
   const id = `${sysId}-t${i}`;
   const sys = withSys ? DATA.systems.find(s => s.id === sysId) : null;
@@ -1794,6 +1828,13 @@ function techniqueHTML(t, sysId, i, withSys) {
    baseline are whatever the mono face happens to ship, and it announces itself
    as text before the label gets a chance to. Stroked in currentColor so the
    hover rule tints the arrow with its label. */
+/* The matrix's confirmed-absence mark. Same reasoning as BACK_ICON below: drawn
+   rather than typed, so its weight and its position on the baseline are ours and
+   not the font's, and so it announces nothing to a screen reader that the cell's
+   own sr-only text is not already saying better. */
+const noneMark = cls => `<svg class="${cls}" viewBox="0 0 12 12" aria-hidden="true">`
+  + '<line x1="3" y1="3" x2="9" y2="9"/><line x1="9" y1="3" x2="3" y2="9"/></svg>';
+
 const BACK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
   + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
   + '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>';
@@ -1804,10 +1845,21 @@ const VIEWS = {
     const m = DATA.meta;
     const row = s => {
       const cells = MX_COLS.map(c => {
-        const hits = (s.affordances || []).filter(a => c.types.includes(a.type) && a.present !== false);
-        /* Absence draws nothing. The sr-only text stays, so the cell still says
-           "None found" to anyone not reading it by eye. */
-        if (!hits.length) return '<td><span class="sr-only">None found</span></td>';
+        const inCol = (s.affordances || []).filter(a => c.types.includes(a.type));
+        const hits = inCol.filter(a => a.present !== false);
+        /* Two ways to hold nothing, and the grid is only worth reading if it tells
+           them apart. A record marked present:false is somebody having gone to the
+           URL or the repository and found nothing there, so the cell draws the
+           disc and hands over the evidence as its tooltip. No record at all is the
+           survey not having established anything either way, and that draws
+           nothing — the state that used to swallow both. */
+        if (!hits.length) {
+          const absent = inCol.filter(a => a.present === false);
+          if (!absent.length) return '<td><span class="sr-only">None found</span></td>';
+          const why = absent.map(a => a.description).join(' ');
+          return `<td title="${esc(why)}">${noneMark('none')}`
+            + `<span class="sr-only">Confirmed absent: ${esc(why)}</span></td>`;
+        }
         /* Asked separately, not as one either/or. The old code took
            hits.some(a => a.official) as the whole answer, which silently turned
            every cell holding both an official and a community artifact into a
@@ -1849,9 +1901,9 @@ const VIEWS = {
       <p class="byline">By <a href="https://www.kaelig.fr">Kaelig Deloumeau-Prigent</a> · data gathered 26–28 July 2026</p>
       <hr class="accent-rule">
       <section id="systems" tabindex="-1">
-      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span><span class="blank-key">blank: none found</span></div>
+      <div class="mx-legend"><span><span class="core" aria-hidden="true"></span>official</span><span><span class="ring" aria-hidden="true"></span>community</span><span><span class="ring" aria-hidden="true"><span class="core"></span></span>both</span><span>${noneMark('none-key')}confirmed absent</span><span class="blank-key">blank: none found</span></div>
       <div class="mxwrap" id="mxwrap"><div class="scroller" tabindex="0" role="region" aria-label="Affordance matrix"><table class="mx">
-        <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official, community-built, or both. An empty cell means no such affordance was found.</caption>
+        <caption class="sr-only">Which AI affordances each of the ${m.counts.systems} design systems ships, and whether they’re official, community-built, or both. A dot marks an absence confirmed against the system’s own repository or docs, and the cell says what was checked. An empty cell means the survey found no such affordance.</caption>
         <thead><tr><th scope="col" class="sys">System</th>${MX_COLS.map(c => `<th scope="col">${esc(c.label)}</th>`).join('')}</tr></thead>
         ${groups}</table></div><span class="fade" aria-hidden="true"></span></div>
       </section>
@@ -1869,6 +1921,13 @@ const VIEWS = {
     const s = DATA.systems.find(x => x.id === id);
     if (!s) return `<h1>Not found</h1><p>There's no system at this address. <a href="${href()}">Back to the overview</a>.</p>`;
     const m = s.maintenance || {}, b = s.building_vs_consumption || {};
+    /* Split, but each entry keeps the index it had in the record, because that
+       index is what a snippet's DOM id is built from. Renumber after filtering
+       and every copy button on the page points at a different snippet than it
+       did, for no reason a reader could see. */
+    const indexed = (s.affordances || []).map((a, i) => [a, i]);
+    const shippedAff = indexed.filter(([a]) => a.present !== false);
+    const absentAff = indexed.filter(([a]) => a.present === false);
     return `<a class="backlink" href="${href()}">${BACK_ICON}all systems</a>
       ${pageTop(SYS_CATEGORY[s.category] || s.category || 'Record', 'system', s.id)}
       <div class="dhead"><h1>${esc(s.name)}</h1>${matChip(s.ai_maturity)}</div>
@@ -1885,9 +1944,12 @@ const VIEWS = {
         <div class="col"><h2 class="t">For consumers — building with it</h2><p>${fmt(b.for_consumers || '—')}</p></div>
         <div class="col"><h2 class="t">For builders — maintaining it</h2><p>${fmt(b.for_builders || '—')}</p></div>
       </div>
-      <h2>Affordances <span class="hcount">· ${(s.affordances || []).length}</span></h2>
+      <h2>Affordances <span class="hcount">· ${shippedAff.length}</span></h2>
       <p class="h2-sub">Concrete AI-facing artifacts this system ships. Expand for snippets and links.</p>
-      ${(s.affordances || []).length ? `<ul class="afflist">${s.affordances.map((a, i) => affordanceHTML(a, s.id, i)).join('')}</ul>` : ''}
+      ${shippedAff.length ? `<ul class="afflist">${shippedAff.map(([a, i]) => affordanceHTML(a, s.id, i)).join('')}</ul>` : ''}
+      ${absentAff.length ? `<h2>Confirmed absent <span class="hcount">· ${absentAff.length}</span></h2>
+      <p class="h2-sub">Artifacts of these kinds are not here. Each one says what address was read and what came back, so you can recheck it without taking our word for it.</p>
+      <ul class="abslist">${absentAff.map(([a]) => absenceHTML(a)).join('')}</ul>` : ''}
       <h2>Coercion techniques <span class="hcount">· ${(s.techniques || []).length}</span></h2>
       <p class="h2-sub">How this system keeps models on-system instead of inventing components.</p>
       <div class="tech-cat">${(s.techniques || []).length ? `<ul class="exlist">${s.techniques.map((t, i) => techniqueHTML(t, s.id, i, false)).join('')}</ul>` : ''}</div>

@@ -54,6 +54,11 @@ const PLATFORM_IDS = PLATFORMS.map((p) => p.id);
 
 const uniqSorted = (xs) => [...new Set(xs)].sort();
 
+/* The affordances a system actually has. A record carrying present:false is a
+   record of something not being there, so it never belongs in a list or a count
+   of what a system ships. Anything here that says "affordances" means these. */
+const shipped = (s) => s.affordances.filter((a) => a.present !== false);
+
 const ENUMS = {
   ai_maturity: uniqSorted(SYSTEMS.map((s) => s.ai_maturity)),
   category: uniqSorted(SYSTEMS.map((s) => s.category)),
@@ -100,6 +105,12 @@ for (const s of SYSTEMS) {
     const ref = a.snippet
       ? registerSnippet('affordance', s.id, s.name, i, a.name, a.snippet)
       : null;
+    // A record marked present:false documents an artifact that is not there. It
+    // stays reachable through get_system, whose description carries the address
+    // that was read and what came back, but it is not something the system
+    // ships, so it is kept out of the index list_affordances pages through and
+    // out of the total get_stats reports.
+    if (a.present === false) return;
     AFFORDANCES.push({
       system_id: s.id,
       system_name: s.name,
@@ -476,9 +487,9 @@ function systemLine(s) {
     license: s.license,
     docs_url: s.docs_url,
     repo_url: s.repo_url,
-    affordance_types: uniqSorted(s.affordances.map((a) => a.type)),
+    affordance_types: uniqSorted(shipped(s).map((a) => a.type)),
     counts: {
-      affordances: s.affordances.length,
+      affordances: shipped(s).length,
       techniques: s.techniques.length,
     },
     headline: firstSentence(s.summary),
@@ -518,6 +529,10 @@ function systemRecord(s, include) {
         docs_url: a.docs_url,
         code_url: a.code_url,
       };
+      // Only ever false, and only on a record documenting an absence. An agent
+      // reading this has to be able to tell "ships one" from "looked, not there"
+      // without parsing prose for a negation.
+      if (a.present === false) out.present = false;
       if (a.notes) out.notes = a.notes;
       if (ref) {
         out.snippet_ref = ref;
@@ -695,7 +710,7 @@ function buildServer() {
       if (category) rows = rows.filter((s) => s.category === category);
       if (has_affordance)
         rows = rows.filter((s) =>
-          s.affordances.some((a) => a.type === has_affordance),
+          shipped(s).some((a) => a.type === has_affordance),
         );
       // Optional in the schema, present on all 20 records today. Without
       // the guard the first record that omits it crashes this filter.

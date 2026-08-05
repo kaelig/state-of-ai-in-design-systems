@@ -394,6 +394,15 @@ direction is made of.
 
 ### 11. The matrix “none” glyph is a hardcoded literal at 1.66:1
 
+**Superseded (2026-08-05).** The directive's premise — that an empty cell and a
+“no” cell look identical — was right, and the fix it proposed was too small: the
+two were identical because the data could not tell them apart either. There are
+now three states rather than two. A cell whose absence was confirmed against the
+system's own repository or docs draws a crossed mark in `var(--ink-3)`, the
+contrast this item asked for; a cell nothing was established about stays blank
+and says so in the key. The `::before` content rule and the `·` legend glyph the
+directive names no longer exist. Nothing below is left to do.
+
 **What:** `table.mx td .none { color: light-dark(#C9C9C9, #555555) }` becomes
 `color: var(--ink-3)` (5.1:1 light, 5.6:1 dark). Apply the same to the legend’s
 `·` glyph so cell and legend still match exactly.

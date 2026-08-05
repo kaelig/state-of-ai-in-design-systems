@@ -389,8 +389,24 @@ for s, t in ALL_TECH:
 CATS = [c for c in CAT_ORDER if c in BY_CAT] + [c for c in BY_CAT if c not in CAT_ORDER]
 
 
+def shipped(s):
+    """The affordances a system actually has.
+
+    An affordance marked present:false is a record of something not being there,
+    so it belongs in the data and in the prose but never in a list or a count of
+    what a system ships. Everything downstream that says "affordances" means this.
+    """
+    return [a for a in s["affordances"] if a.get("present", True)]
+
+
+def absent(s):
+    """The other kind: artifacts looked for at a conventional address and not
+    found there. Each carries what was checked and what answered."""
+    return [a for a in s["affordances"] if a.get("present") is False]
+
+
 def has_type(s, *types):
-    return any(a["type"] in types for a in s["affordances"] if a.get("present", True))
+    return any(a["type"] in types for a in shipped(s))
 
 
 def has_official(s, type_):
@@ -398,7 +414,7 @@ def has_official(s, type_):
         a["type"] == type_
         and a.get("official")
         and not (a.get("name") or "").lower().startswith("planned")
-        for a in s["affordances"]
+        for a in shipped(s)
     )
 
 
@@ -471,7 +487,7 @@ def snippet_block(sn):
 
 
 def system_md(s):
-    aff, tech = s["affordances"], s["techniques"]
+    aff, tech, gone = shipped(s), s["techniques"], absent(s)
     path = f"/systems/{s['id']}.md"
     p = [
         head(
@@ -530,6 +546,21 @@ def system_md(s):
         sb = snippet_block(a.get("snippet"))
         if sb:
             p.append(sb)
+
+    if gone:
+        p.append(f"## Confirmed absent ({len(gone)})\n")
+        p.append(
+            "Artifacts of these kinds are not here. Each entry says what address "
+            "was read and what came back, so the claim can be rechecked without "
+            "taking our word for it.\n"
+        )
+        for a in gone:
+            p.append(f"### {a['name']}\n")
+            p.append(f"Type: `{a['type']}` ({TYPE_LABEL.get(a['type'], a['type'])})\n")
+            if a.get("description"):
+                p.append(html_to_md(a["description"]) + "\n")
+            if a.get("notes"):
+                p.append(f"Notes: {html_to_md(a['notes'])}\n")
 
     p.append(f"## Coercion techniques ({len(tech)})\n")
     for t in tech:
@@ -1478,7 +1509,7 @@ a server. The shape of the {len(MCP_YES)} servers varies more than their existen
 CLI, published as an npm stdio binary, or hosted remotely behind auth. Per-system detail is in each
 record; the delivery split is in {U("/insights.md")}.
 
-Count it yourself: `SELECT count(DISTINCT system_id) FROM affordances WHERE type='mcp-server' AND official=1;`
+Count it yourself: `SELECT count(DISTINCT system_id) FROM affordances WHERE type='mcp-server' AND official=1 AND present=1;`
 against {U("/data/state-of-ai.sqlite")}.""",
     )
 
@@ -1757,7 +1788,7 @@ def schema_md():
     p.append(f"## Affordance types ({len(aff_types)})\n")
     p.append("| `type` | Label | Records |\n|---|---|---:|\n")
     for t in aff_types:
-        n = sum(1 for s in SYSTEMS for a in s["affordances"] if a["type"] == t)
+        n = sum(1 for s in SYSTEMS for a in shipped(s) if a["type"] == t)
         p.append(f"| `{t}` | {TYPE_LABEL.get(t, t)} | {n} |\n")
 
     p.append(f"\n## Technique categories ({len(CATS)})\n")
@@ -1822,7 +1853,7 @@ def schema_md():
         fence(
             "-- Who ships official MCP servers?\n"
             "SELECT s.name, a.name FROM affordances a JOIN systems s ON s.id = a.system_id\n"
-            "WHERE a.type = 'mcp-server' AND a.official = 1;\n\n"
+            "WHERE a.type = 'mcp-server' AND a.official = 1 AND a.present = 1;\n\n"
             "-- All tool-gating tricks, with receipts\n"
             "SELECT s.name, t.name, t.snippet_source_url FROM techniques t\n"
             "JOIN systems s ON s.id = t.system_id WHERE t.category = 'tool-gating';",
@@ -1955,7 +1986,7 @@ def llms_txt(sizes):
     for s in SYSTEMS:
         A(
             f"- [{s['name']}]({U('/systems/' + s['id'] + '.md')}): {s['ai_maturity']}, "
-            f"{len(s['affordances'])} affordances, {len(s['techniques'])} techniques."
+            f"{len(shipped(s))} affordances, {len(s['techniques'])} techniques."
         )
     A("")
 
@@ -2122,9 +2153,9 @@ def build_public_sqlite(dest):
     );
     CREATE TABLE affordances (
       id INTEGER PRIMARY KEY AUTOINCREMENT, system_id TEXT REFERENCES systems(id),
-      type TEXT, name TEXT, official INTEGER, audience TEXT, description TEXT,
-      docs_url TEXT, code_url TEXT, snippet_language TEXT, snippet_content TEXT,
-      snippet_source_url TEXT, notes TEXT
+      type TEXT, name TEXT, official INTEGER, present INTEGER, audience TEXT,
+      description TEXT, docs_url TEXT, code_url TEXT, snippet_language TEXT,
+      snippet_content TEXT, snippet_source_url TEXT, notes TEXT
     );
     CREATE TABLE techniques (
       id INTEGER PRIMARY KEY AUTOINCREMENT, system_id TEXT REFERENCES systems(id),
@@ -2178,14 +2209,18 @@ def build_public_sqlite(dest):
         for a in s.get("affordances", []):
             lang, content, src = sn(a)
             c.execute(
-                "INSERT INTO affordances (system_id,type,name,official,audience,description,"
-                "docs_url,code_url,snippet_language,snippet_content,snippet_source_url,notes) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO affordances (system_id,type,name,official,present,audience,"
+                "description,docs_url,code_url,snippet_language,snippet_content,"
+                "snippet_source_url,notes) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     s["id"],
                     a.get("type"),
                     a.get("name"),
                     1 if a.get("official") else 0,
+                    # rows with present=0 record that the artifact is not there,
+                    # so any count of what a system ships has to filter on it
+                    0 if a.get("present") is False else 1,
                     a.get("audience"),
                     a.get("description"),
                     a.get("docs_url"),

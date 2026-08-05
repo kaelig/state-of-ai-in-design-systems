@@ -469,7 +469,12 @@ def compute_counts(systems, platforms):
             )
         ),
         "llms_txt": systems_with(lambda a: a.get("type") == "llms-txt"),
-        "affordances": sum(len(s.get("affordances", [])) for s in systems),
+        # Not len(affordances): an affordance marked present:false documents that
+        # something does not exist, and a count of what the corpus ships cannot
+        # include the things it went and proved absent.
+        "affordances": sum(
+            1 for s in systems for a in s.get("affordances", []) if a.get("present", True)
+        ),
         "techniques": sum(len(s.get("techniques", [])) for s in systems),
         "technique_categories": len(
             {t.get("category") for s in systems for t in s.get("techniques", [])}

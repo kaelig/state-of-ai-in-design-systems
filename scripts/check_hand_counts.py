@@ -146,6 +146,11 @@ def absence_faults(compute_counts):
     counts any affordance of type llms-txt as a system that publishes one, so the
     report states a number that is one too high and no check sees it. The fix is
     a field the counter honors, not a sentence in a command file.
+
+    `affordances` is in the probe for the same reason and was wrong for longer:
+    the per-type counts learned to skip absences while the total went on summing
+    array lengths, so every documented absence added one to the number the report
+    quotes for how many affordances the corpus found.
     """
     probe = [
         {
@@ -160,7 +165,9 @@ def absence_faults(compute_counts):
         }
     ]
     counts = compute_counts(probe, [])
-    bad = [k for k in ("llms_txt", "official_mcp", "official_skills") if counts[k] != 0]
+    bad = [
+        k for k in ("llms_txt", "official_mcp", "official_skills", "affordances") if counts[k] != 0
+    ]
     if not bad:
         return []
     return [

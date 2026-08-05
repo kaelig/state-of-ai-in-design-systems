@@ -660,7 +660,12 @@ describe('get_stats matches the payload', () => {
   test('counts are strictly equal to counts derived from payload.json', async () => {
     const stats = await callJson('get_stats');
     const systems = PAYLOAD.systems;
-    const affordances = systems.flatMap((s) => s.affordances);
+    // present:false records document that an artifact is not there. They are in
+    // the payload, because a reader asking "does this ship an llms.txt?" deserves
+    // the answer either way, but they are not affordances the corpus found and
+    // the server must not count them as such.
+    const allAffordances = systems.flatMap((s) => s.affordances);
+    const affordances = allAffordances.filter((a) => a.present !== false);
     const techniques = systems.flatMap((s) => s.techniques);
     const capabilities = PAYLOAD.platforms.flatMap((p) => p.capabilities);
 
@@ -672,8 +677,11 @@ describe('get_stats matches the payload', () => {
     assert.equal(stats.counts.findings, PAYLOAD.insights.findings.length);
     assert.equal(
       stats.counts.snippets,
-      [...affordances, ...techniques, ...capabilities].filter((x) => x.snippet)
-        .length,
+      // every snippet stays addressable, including one quoted on a record that
+      // documents an absence, so this counts from the unfiltered set
+      [...allAffordances, ...techniques, ...capabilities].filter(
+        (x) => x.snippet,
+      ).length,
     );
     // The payload's own headline counts must agree too.
     assert.equal(stats.counts.systems, PAYLOAD.meta.counts.systems);
