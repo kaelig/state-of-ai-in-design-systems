@@ -1314,6 +1314,147 @@ function fmt(s) {
     .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
 }
+/* Seven grammars, and everything else stays plain. The corpus labels its
+   snippets thirteen ways and the two datasets disagree with each other —
+   systems say typescript and bash, platforms say ts and shell — so the labels
+   are reconciled here at render time rather than in data/, where a rename would
+   move markdown fences, the SQLite export and md-map.json with it. A label that
+   does not resolve is not an error: it renders plain, which is the honest
+   result for `text`, for `http`, and for anything added later that nothing here
+   can actually parse. */
+const HL_ALIAS = {
+  json: 'json',
+  yaml: 'yaml', yml: 'yaml',
+  shell: 'shell', bash: 'shell', sh: 'shell', zsh: 'shell', console: 'shell',
+  ts: 'ts', typescript: 'ts', tsx: 'ts', js: 'ts', javascript: 'ts', jsx: 'ts', mjs: 'ts',
+  html: 'html', xml: 'html', svg: 'html',
+  css: 'css',
+  markdown: 'markdown', md: 'markdown'
+};
+/* Four classes, because the ink ramp is doing most of the work: hl-c comments,
+   hl-s values (strings, numbers, literals), hl-k names (keys, keywords, tags),
+   hl-p punctuation. Anything unmatched stays unwrapped and inherits --ink.
+
+   Every pattern is sticky, so the scanner anchors it at the cursor instead of
+   letting it float forward and swallow the text in between. Order is meaning:
+   the first rule that matches wins, which is why strings are listed above
+   comment markers — a # inside a quoted scalar is consumed as part of the
+   string before the comment rule is ever tried. */
+const HL_RULES = {
+  json: [
+    ['hl-k', /"(?:[^"\\]|\\.)*"(?=\s*:)/y],
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /\b(?:true|false|null)\b/y],
+    ['hl-s', /-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/y],
+    ['hl-p', /[{}[\],:]/y]
+  ],
+  yaml: [
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /'(?:[^']|'')*'/y],
+    ['hl-c', /(?<![^\s])#[^\n]*/y],
+    ['hl-k', /(?<![^\s])[A-Za-z_][\w.-]*(?=\s*:(?:\s|$))/y],
+    ['hl-s', /\b(?:true|false|null|yes|no|on|off)\b/y],
+    ['hl-s', /-?\d+(?:\.\d+)?/y],
+    ['hl-p', /(?<![^\s])[-?]|[:,[\]{}|>]/y]
+  ],
+  shell: [
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /'[^']*'/y],
+    ['hl-c', /(?<![^\s])#[^\n]*/y],
+    ['hl-k', /\$\{[^}]*\}|\$[A-Za-z_]\w*/y],
+    ['hl-k', /(?<![^\s])--?[A-Za-z][\w-]*/y],
+    ['hl-p', /[|&;<>()]/y]
+  ],
+  ts: [
+    ['hl-c', /\/\/[^\n]*/y],
+    ['hl-c', /\/\*[\s\S]*?\*\//y],
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /'(?:[^'\\]|\\.)*'/y],
+    ['hl-s', /`(?:[^`\\]|\\.)*`/y],
+    ['hl-k', /\b(?:abstract|any|as|async|await|bigint|boolean|break|case|catch|class|const|continue|declare|default|delete|do|else|enum|export|extends|false|finally|for|from|function|get|if|implements|import|in|infer|instanceof|interface|keyof|let|namespace|never|new|null|number|object|of|override|private|protected|public|readonly|return|satisfies|set|static|string|super|switch|symbol|this|throw|true|try|type|typeof|undefined|unknown|var|void|while|yield)\b/y],
+    ['hl-s', /\b\d[\w.]*/y],
+    ['hl-p', /[{}()[\];,.:?=<>+\-*/%!&|^~]/y]
+  ],
+  html: [
+    ['hl-c', /<!--[\s\S]*?-->/y],
+    ['hl-k', /<!DOCTYPE[^>]*>/iy],
+    ['hl-k', /<\/?[A-Za-z][\w:-]*/y],
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /'[^']*'/y],
+    ['hl-p', /\/?>|[=]/y]
+  ],
+  css: [
+    ['hl-c', /\/\*[\s\S]*?\*\//y],
+    ['hl-s', /"(?:[^"\\]|\\.)*"/y],
+    ['hl-s', /'[^']*'/y],
+    ['hl-k', /@[\w-]+/y],
+    /* Anchored and bounded, both on purpose. Unanchored, this rule re-scans the
+       whole of a long unbroken run at every position looking for the colon that
+       is not there, which is quadratic — 100k characters of minified CSS took
+       forty seconds before the lookbehind went in. */
+    ['hl-k', /--[\w-]+|(?<![-\w])[-a-zA-Z]{1,40}(?=\s*:)/y],
+    ['hl-s', /#[0-9a-fA-F]{3,8}\b|-?\d*\.?\d+[a-z%]*/y],
+    ['hl-p', /[{}();:,]/y]
+  ],
+  /* Deliberately thin. Two thirds of the corpus is markdown, and it is other
+     people's SKILL.md and llms.txt quoted verbatim — so this marks the
+     structure of an instruction file (where the headings are, where a fence
+     starts, what a link points at) and leaves the prose alone. Colouring
+     somebody's sentences would be the dishonesty the design audit warned
+     about. Fenced content is not recursively highlighted; only the delimiter
+     line is marked. */
+  markdown: [
+    ['hl-p', /(?<![^\n])(?:```|~~~)[^\n]*/y],
+    ['hl-p', /(?<![^\n])---(?=\n|$)/y],
+    ['hl-k', /(?<![^\n])#{1,6} [^\n]*/y],
+    ['hl-s', /`[^`\n]+`/y],
+    ['hl-s', /\]\([^)\s]*\)/y],
+    ['hl-p', /(?<![^\n])[ \t]*(?:[-*+]|\d+\.)(?=\s)/y],
+    ['hl-p', /(?<![^\n])>[ \t]?/y]
+  ]
+};
+/* Character by character: try each rule at the cursor, take the first that
+   matches, and let everything else pile up into a plain run. A lexer, not a
+   parser — it will tell a JSON key from its value and a shell comment from a
+   flag, and it will not track scope. That is the honest limit of the thing. */
+function tokenizeCode(src, rules) {
+  const out = [];
+  let plain = '';
+  let i = 0;
+  while (i < src.length) {
+    let cls = null, text = '';
+    for (const [c, re] of rules) {
+      re.lastIndex = i;
+      const m = re.exec(src);
+      if (m && m[0]) { cls = c; text = m[0]; break; }
+    }
+    if (cls) {
+      if (plain) { out.push(['', plain]); plain = ''; }
+      out.push([cls, text]);
+      i += text.length;
+    } else {
+      plain += src[i];
+      i++;
+    }
+  }
+  if (plain) out.push(['', plain]);
+  return out;
+}
+/* Tokenizes the raw source and escapes each token on the way out, so no branch
+   here can emit an unescaped run. The other order — tokenizing an already
+   escaped string — puts the grammar in front of &lt; and &#39; where it can
+   split an entity across a span, and the corpus is full of verbatim
+   third-party instruction files. Concatenating the token text reproduces the
+   input exactly, which is what keeps the copy button honest. */
+function highlightCode(src, lang) {
+  const s = String(src == null ? '' : src);
+  const rules = HL_RULES[HL_ALIAS[String(lang || '').toLowerCase()]];
+  if (!rules) return esc(s);
+  return tokenizeCode(s, rules)
+    .map(([cls, text]) => cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text))
+    .join('');
+}
+
 /* ISO date to prose, built from the parts rather than Date.parse so a bare
    YYYY-MM-DD is not read as UTC midnight and shown as the day before. */
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
