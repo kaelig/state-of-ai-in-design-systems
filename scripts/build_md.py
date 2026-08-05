@@ -983,15 +983,18 @@ WEBMCP_TOOLS = ["list_systems", "get_system", "search", "get_stats"]
 # before comparing, so moving an entry here cannot break the drift guard.
 MCP_PROMPTS = [
     ("build-my-roadmap", "Turn what your system is missing into sequenced work."),
-    ("start-here", "What the server holds, which tool answers what, and the filter vocabulary."),
+    (
+        "start-here",
+        "What the server holds, which tool answers what, and the words the filters take.",
+    ),
     (
         "audit-my-design-system",
-        "Where one system stands against the survey, and what it is missing.",
+        "How one system compares with the rest of the survey.",
     ),
-    ("adopt-an-affordance", "Ship one affordance, with the working examples to copy from."),
+    ("adopt-an-affordance", "Ship one affordance, with working examples to copy."),
     (
         "find-technique-for",
-        "A model gets your components wrong in one way. Find what others do about it.",
+        "A model keeps getting one component wrong. Find what other teams did about it.",
     ),
 ]
 NUMBER_WORD = {
@@ -1016,18 +1019,18 @@ def ai_content():
         {
             "label": "llms.txt — the index",
             "url": U("/llms.txt"),
-            "note": "Start here. One page listing every other file, with sizes.",
+            "note": "Start here. Every other file, with its size.",
         },
         {
             "label": "Report overview",
             "url": U("/index.md"),
-            "note": f"The lede and the {len(INSIGHTS['findings'])} findings.",
+            "note": f"The opening summary and all {len(INSIGHTS['findings'])} findings.",
         },
         {
             "label": "One file per design system",
             "url": U("/systems/carbon-design-system.md"),
-            "note": f"Swap the last part for any of the {N_SYS} record ids. Add .json instead of "
-            f".md for the typed version.",
+            "note": f"Swap the last part for any of the {N_SYS} record ids. Change .md to .json for "
+            f"the same record as data.",
         },
         {
             "label": "One file per technique category",
@@ -1037,12 +1040,12 @@ def ai_content():
         {
             "label": "The systems table",
             "url": U("/index.md"),
-            "note": "Who ships what, as a plain table, with a link to every record.",
+            "note": "Who ships what, with a link to every record.",
         },
         {
             "label": "Everything in one file",
             "url": U("/llms-full.txt"),
-            "note": "Only if you have the context window for it.",
+            "note": "Every file above, concatenated. Check its size in llms.txt first.",
         },
     ]
     prompt = (
@@ -1080,22 +1083,21 @@ def ai_content():
             "id": "claude-desktop",
             "label": "Claude Desktop and claude.ai",
             "lang": "text",
-            "note": "No config file, and no link to click either: it is four steps in the "
-            "settings window.",
+            "note": "No config file and no link to click. Four steps in the settings window:",
             "code": f"Settings → Connectors → Add custom connector → paste {MCP_URL}",
         },
         {
             "id": "claude-code",
             "label": "Claude Code",
             "lang": "bash",
-            "note": "Adds it for every project on your machine.",
+            "note": "Installs it for every project on this machine.",
             "code": f"claude mcp add --transport http --scope user {MCP_NAME} {MCP_URL}",
         },
         {
             "id": "cursor",
             "label": "Cursor",
             "lang": "json",
-            "note": "One click, or paste this into ~/.cursor/mcp.json for all projects, or "
+            "note": "One click. Or paste this into ~/.cursor/mcp.json for every project, or "
             ".cursor/mcp.json for one.",
             "install_url": cursor_install,
             "install_label": "Add to Cursor",
@@ -1105,8 +1107,8 @@ def ai_content():
             "id": "vscode",
             "label": "VS Code (Copilot agent mode)",
             "lang": "json",
-            "note": "One click, or save this as .vscode/mcp.json. The top-level key is servers "
-            "here, not mcpServers.",
+            "note": "One click, or save this as .vscode/mcp.json. Watch the top-level key: it is "
+            "servers here, not mcpServers.",
             "install_url": vscode_install,
             "install_label": "Add to VS Code",
             "code": json.dumps({"servers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2),
@@ -1115,8 +1117,8 @@ def ai_content():
             "id": "mcp-json",
             "label": "Any project, checked into the repo",
             "lang": "json",
-            "note": "Save as .mcp.json at the root. The type field is required — a url without a "
-            "type is read as a local command and skipped.",
+            "note": "Save as .mcp.json in the repo root. Keep the type field. Without it a url is "
+            "read as a local command and skipped.",
             "code": json.dumps(
                 {"mcpServers": {MCP_NAME: {"type": "http", "url": MCP_URL}}}, indent=2
             ),
@@ -1166,31 +1168,30 @@ def ai_content():
         },
     ]
     borrowed = [
-        "Compiled, not written. Every file on this page comes out of the build from the same "
-        "data the site renders. Nothing is maintained by hand, so nothing can drift.",
-        "An index instead of a dump. llms.txt is a router with a measured size on every entry, "
-        "and the big aggregates come sliced by concern — systems, techniques, platforms, "
-        "analysis — so a model can load the part it needs and stay inside its budget.",
-        "Questions as first-class pages. The findings here are the kind of thing a model will "
-        "guess wrong, so each common wrong answer gets a page that opens with the right one.",
-        "A vocabulary section, mapping the loose words people type onto the labels in the data.",
-        "A staleness note at the top of every file, because this is dated research about a fast "
-        "corner of the discipline.",
+        "Compiled, not written. Every file here comes out of the build, from the same data the "
+        "pages render. Nothing is hand-maintained, so nothing drifts.",
+        "An index, not a dump. llms.txt lists every file with its measured size, and the large "
+        "aggregates come sliced by concern, so a model can load one part and stay inside its "
+        "budget.",
+        "Questions as pages. Each thing a model tends to get wrong about this data has a page of "
+        "its own, opening with the correct answer.",
+        "A vocabulary section, mapping the words people actually type onto the labels in the data.",
+        "A staleness note at the top of every file. This is dated research about a fast-moving "
+        "subject.",
         "Both formats per record: markdown to read, JSON to count with.",
-        "Read triggers on the heavy files, so an agent knows when not to fetch them.",
-        "Content negotiation: ask for text/markdown and any page on this site answers with its "
-        "markdown twin instead of a page of HTML.",
-        "Receipts. The SQLite export and the per-record JSON let you recount anything here "
-        "instead of trusting a summary.",
+        "Read triggers on the heavy files, so an agent knows when not to fetch one.",
+        "Content negotiation. Ask for text/markdown and any page answers with its markdown twin.",
+        "Receipts. The SQLite export and the per-record JSON let you recount anything here for "
+        "yourself.",
         "An MCP server over the same data, for clients that would rather call a tool than fetch "
         "a file.",
     ]
     not_borrowed = (
-        "The one we left out: steering the recommendation. Several systems in the study put "
-        "lines in their agent-facing files telling models to prefer them over alternatives. It "
-        "works, and for a product it is fair game. A survey that did it would be worth less to "
-        "you, so the files here ask models to cite sources and to say when the data contradicts "
-        "them, and nothing else."
+        "The one we left out is steering the recommendation. Several systems in the study put "
+        "lines in their agent-facing files telling models to prefer them over the alternatives. "
+        "It works, and in a product it is fair game. In a survey it would cost you the thing you "
+        "came for. The files here ask models to cite their sources and to flag it when the data "
+        "contradicts them. That is all they ask."
     )
 
     sections = [
@@ -1200,74 +1201,65 @@ def ai_content():
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"This report is published twice: once as pages for you, once as plain text for "
-                    f"models. Same data, different shape. If you work with an AI assistant, you can "
-                    f"point it at the text version and get answers grounded in the {N_SYS} records "
-                    f"here instead of whatever it half-remembers about design systems.",
+                    "text": f"Everything on this site is published twice: as pages for you, and as plain "
+                    f"text for models. Point an AI assistant at the text version and its answers come "
+                    f"from these {N_SYS} records rather than from memory.",
                 },
                 {
                     "type": "prose",
-                    "text": "Three steps below, in rising order of effort. Paste a prompt into a chat window "
-                    "and start asking, which takes nothing. Connect the report to the tool you "
-                    "already use, which is one action in most of them. Then run the roadmap prompt, "
-                    "which reads your own design system against the survey and hands back the gaps "
-                    "in the order worth closing them.",
-                },
-                {
-                    "type": "prose",
-                    "text": "Nothing below needs a login or an API key. Everything is a URL you can open.",
+                    "text": "None of it needs a login or an API key. Everything below is a URL you can open.",
                 },
             ],
         },
         {
             "id": "files",
-            "heading": "1. Ask a question, with nothing to set up",
+            "heading": "1. Paste a prompt into any chat",
             "blocks": [
                 {
                     "type": "prose",
-                    "text": "Every page on this site has a markdown twin: add .md to the address. The "
-                    f"/systems and /platforms records also have .json twins. There are "
-                    f"{'{md_count}'} markdown files in total, and one file that indexes them all.",
+                    "text": "Paste this into Claude, ChatGPT, Gemini, Cursor, or anything else that can "
+                    "fetch a URL, then type your question at the end.",
+                },
+                {"type": "code", "lang": "text", "label": "Prompt", "text": prompt},
+                {
+                    "type": "prose",
+                    "text": "The prompt points the model at llms.txt, which indexes the "
+                    f"{'{md_count}'} markdown files behind this site and gives the size of each one, "
+                    f"so the model can budget what it loads. To point at a single file instead, add "
+                    f".md to any address on this site, or .json to a system or platform record.",
                 },
                 {"type": "links", "items": md_links},
                 {
                     "type": "prose",
-                    "text": "You can also skip the .md: if your tool asks for text/markdown in its Accept "
-                    "header, this site answers with the markdown twin automatically. Claude Code, "
-                    "Cursor and OpenCode already do.",
+                    "text": "You can skip the extension too. If your tool sends Accept: text/markdown, this "
+                    "site answers with the markdown. Claude Code, Cursor and OpenCode already do.",
                 },
-                {
-                    "type": "prose",
-                    "text": "To use any of this in a chat, paste the prompt below and put your question at "
-                    "the end. It works in Claude, ChatGPT, Gemini, Cursor — anything that can fetch a "
-                    "URL.",
-                },
-                {"type": "code", "lang": "text", "label": "Prompt", "text": prompt},
             ],
         },
         {
             "id": "mcp",
-            "heading": "2. Connect it to the tool you use",
+            "heading": "2. Connect the MCP server",
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"An MCP server lets an assistant query this dataset directly — search it, pull "
-                    f"one system’s record, count things — instead of fetching files and guessing. "
-                    f"It lives at {MCP_URL}. It is public, read-only, unauthenticated, and built from "
-                    f"the same {SNAPSHOT_DATE} snapshot as everything else. Pick your client:",
+                    "text": f"Connect the server and your assistant queries the dataset directly: search "
+                    f"it, pull one system’s record, count across all of them. No files to fetch, no "
+                    f"addresses to guess. The endpoint is {MCP_URL}. It is public and read-only, it "
+                    f"needs no key, and it serves the same {SNAPSHOT_DATE} snapshot as the rest of the "
+                    f"site. Pick your client:",
                 },
                 {"type": "configs", "items": configs},
                 {
                     "type": "prose",
-                    "text": "ChatGPT is the one client with no path here worth recommending. It can reach an "
-                    "MCP server, but only in developer mode on a paid plan, and on a business account "
-                    "only after an admin allows it. Step 1 above works there today, and every page on "
-                    "this site has an open-in-ChatGPT link that carries the page with it.",
+                    "text": "ChatGPT is the exception. It can reach an MCP server, but only in developer "
+                    "mode on a paid plan, and on a business account only after an admin allows it. "
+                    "Step 1 works there today, and every page on this site carries an "
+                    "open-in-ChatGPT link.",
                 },
                 {
                     "type": "prose",
-                    "text": "The tools may change as the report is maintained. Treat it as a way to read this "
-                    "study, not as a stable API.",
+                    "text": "Expect the tool list to change as the report is maintained. This is a way to "
+                    "read the study, not a versioned API.",
                 },
             ],
         },
@@ -1277,12 +1269,11 @@ def ai_content():
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts, and "
-                    f"`build-my-roadmap` is the one worth connecting for. Tell it what your system "
-                    f"ships and what it does not, and it hands back the gaps in the order worth "
-                    f"closing them, each one carrying the record it came from, so you can go and read "
-                    f"what somebody else did before you commit to it. The other "
-                    f"{NUMBER_WORD[len(MCP_PROMPTS) - 1]} cover the rest of the job:",
+                    "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts. "
+                    f"Start with `build-my-roadmap`: tell it what your design system ships and what it "
+                    f"does not, and it returns your gaps in the order it would close them. Each one "
+                    f"carries the record it came from, so you can read how another team did it before "
+                    f"committing. All of them:",
                 },
                 {
                     "type": "list",
@@ -1295,8 +1286,8 @@ def ai_content():
                     # otherwise render as bold and hand back a command that fails.
                     "text": f"In Claude Code these are slash commands: `/mcp__{MCP_NAME}__build-my-roadmap`, "
                     f"and the same shape for the other {NUMBER_WORD[len(MCP_PROMPTS) - 1]}. Cursor, VS Code "
-                    f"and the desktop apps list them in a prompt picker instead. A prompt only hands "
-                    f"your assistant instructions; the work and the tool calls are still its own.",
+                    f"and the desktop apps list them in a prompt picker. A prompt only supplies the "
+                    f"instructions; the tool calls and the reasoning are still your assistant’s.",
                 },
             ],
         },
@@ -1314,39 +1305,37 @@ def ai_content():
         },
         {
             "id": "webmcp",
-            "heading": "Tools on the page itself",
+            "heading": "Tools built into this page",
             "blocks": [
                 {
                     "type": "prose",
-                    "text": f"This page hands the browser {NUMBER_WORD[len(WEBMCP_TOOLS)]} read-only tools of "
-                    f"its own: {', '.join(WEBMCP_TOOLS)}. Same names, same answers as the MCP server, "
-                    f"except they run in the tab you already have open, so an assistant looking at "
-                    f"this site could ask it a question instead of reading the screen. The API is "
-                    f"called WebMCP.",
+                    "text": f"This page registers {NUMBER_WORD[len(WEBMCP_TOOLS)]} read-only tools with the "
+                    f"browser: {', '.join(WEBMCP_TOOLS)}. Same names and same answers as the MCP "
+                    f"server, except they run in the tab you already have open, so an assistant "
+                    f"reading this site can call one instead of parsing the screen. The API is WebMCP.",
                 },
                 {
                     "type": "prose",
-                    "text": "Almost nobody can call them yet, and that is worth saying plainly. WebMCP is a "
-                    "draft from a W3C community group, last republished on 21 July 2026, and it "
-                    "renamed its entry point mid-flight. Chrome is the only browser with an "
-                    "implementation, behind a flag or an origin trial that ends at version 156. "
-                    "Claude, ChatGPT, Gemini and Perplexity all still work by reading the page. If "
-                    "your browser has no WebMCP, the code checks once and stops: no polyfill, no "
-                    "extra download, nothing in the console.",
+                    "text": "Almost nothing can call them yet. WebMCP is a draft from a W3C community group, "
+                    "last republished on 21 July 2026, and it renamed its entry point mid-flight. "
+                    "Chrome is the only browser that implements it, behind a flag or an origin trial "
+                    "that ends at version 156. Claude, ChatGPT, Gemini and Perplexity all still read "
+                    "the page instead. Where there is no WebMCP, the code checks once and stops: no "
+                    "polyfill, no extra download, nothing in the console.",
                 },
                 {
                     "type": "prose",
                     "text": "It ships anyway because a report on how design systems talk to machines should "
-                    "try the parts that are too early, and say how they went. Both tool flags are set: "
+                    "try the parts that are too early and say how they went. Both tool flags are set: "
                     "read-only, and content this site did not write. The dataset quotes files from "
                     "other people’s repositories, and an assistant should treat that text as "
-                    "quotation, not as instructions addressed to it.",
+                    "quotation rather than as instructions addressed to it.",
                 },
             ],
         },
         {
             "id": "borrowed",
-            "heading": "What this site took from its own research",
+            "heading": "Techniques borrowed from the systems we studied",
             "blocks": [
                 {
                     "type": "prose",
@@ -1365,9 +1354,9 @@ def ai_content():
                 {
                     "type": "prose",
                     "text": f"This is a snapshot of {SNAPSHOT_DATE}, and the systems in it ship weekly, so "
-                    f"parts of it are wrong by now. Corrections go to the issue tracker. The one "
-                    f"requirement is a source URL: every claim here links to the page it came from, "
-                    f"and a correction without a link cannot replace one that has a link.",
+                    f"some of it is already wrong. Corrections go to the issue tracker. Bring a source "
+                    f"URL: every claim here links to the page it came from, and a correction without a "
+                    f"link cannot replace one that has a link.",
                 },
                 {
                     "type": "links",
@@ -1392,9 +1381,7 @@ def ai_content():
                 },
                 {
                     "type": "prose",
-                    "text": "From a shell, with no browser. Every system detail page also carries a "
-                    "“Suggest a correction” link that opens the form with the record "
-                    "filled in.",
+                    "text": "Or from a shell, with no browser:",
                 },
                 {
                     "type": "code",
@@ -1408,17 +1395,18 @@ def ai_content():
                 },
                 {
                     "type": "prose",
-                    "text": f"The source is at {REPO_URL}. AGENTS.md there has the field ids, so an agent can "
-                    f"build a prefilled form URL for a person to review before submitting.",
+                    "text": f"Every system page also carries a “Suggest a correction” link that opens the "
+                    f"form with that record filled in. The source is at {REPO_URL}, and AGENTS.md "
+                    f"there lists the field ids, so an agent can build a prefilled form URL for a "
+                    f"person to review before submitting.",
                 },
             ],
         },
     ]
     return {
         "title": VIEW_META["/ai.md"][0],
-        "description": "Read this report with an AI assistant: the markdown twins, a prompt to "
-        "paste, the MCP server, the raw data, and the tools this page registers "
-        "itself.",
+        "description": "Read this report with an AI assistant: a prompt to paste, the MCP server, "
+        "a markdown and JSON twin of every page, and the raw data.",
         "route": "/ai",
         "markdown_url": U("/ai.md"),
         "mcp_url": MCP_URL,
