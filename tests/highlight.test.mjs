@@ -88,7 +88,8 @@ vm.runInContext(
     '\n;globalThis.__highlightCode = highlightCode;' +
     ' globalThis.__esc = esc;' +
     ' globalThis.__HL_ALIAS = HL_ALIAS;' +
-    ' globalThis.__HL_RULES = HL_RULES;',
+    ' globalThis.__HL_RULES = HL_RULES;' +
+    ' globalThis.__highlightSnippets = highlightSnippets;',
   ctx,
   { filename: 'app.js' },
 );
@@ -97,6 +98,7 @@ const {
   __esc: esc,
   __HL_ALIAS: HL_ALIAS,
   __HL_RULES: HL_RULES,
+  __highlightSnippets: highlightSnippets,
 } = sandbox;
 
 /* The invariant the copy button depends on: strip the spans, turn the entities
@@ -362,4 +364,103 @@ test('a real corpus snippet round-trips under its own label', () => {
       `round-trip failed for a ${sn.language} snippet`,
     );
   }
+});
+
+/* ---------- the DOM pass ---------- */
+
+/* A snippet, shaped the way snippetHTML() builds it: a .snip wrapper holding a
+   .snip-bar with the language label and a <pre id="sn-…"><code>. Only the parts
+   highlightSnippets() actually reaches are modelled. */
+function makeSnippet(lang, content) {
+  const code = { textContent: content, innerHTML: null };
+  const pre = {
+    id: 'sn-x',
+    attrs: { tabindex: '0', role: 'group', 'aria-label': `${lang} snippet` },
+    querySelector: (sel) => (sel === 'code' ? code : null),
+  };
+  const label = { textContent: lang };
+  const snip = {
+    querySelector: (sel) => (sel === '.snip-bar .lang' ? label : null),
+  };
+  pre.parentNode = snip;
+  return {
+    code,
+    pre,
+    root: {
+      querySelectorAll: (sel) => (sel === 'pre[id^="sn-"]' ? [pre] : []),
+    },
+  };
+}
+
+test('the pass no-ops under the prerender shim instead of throwing', () => {
+  assert.doesNotThrow(() => highlightSnippets({ querySelectorAll: () => [] }));
+});
+
+test('the pass survives a missing or unusable root', () => {
+  assert.doesNotThrow(() => highlightSnippets());
+  assert.doesNotThrow(() => highlightSnippets(null));
+  assert.doesNotThrow(() => highlightSnippets({}));
+  assert.doesNotThrow(() =>
+    highlightSnippets({ querySelectorAll: 'not a function' }),
+  );
+});
+
+test('a modelled language is written into the code element', () => {
+  const { code, root } = makeSnippet('json', '{"a": 1}');
+  highlightSnippets(root);
+  assert.equal(code.innerHTML, highlightCode('{"a": 1}', 'json'));
+  assert.ok(code.innerHTML.includes('<span class="hl-k">'));
+});
+
+test('an unmodelled language is left exactly as it was', () => {
+  for (const lang of ['text', 'http', 'sql']) {
+    const { code, root } = makeSnippet(lang, '<b>raw</b>');
+    highlightSnippets(root);
+    assert.equal(
+      code.innerHTML,
+      null,
+      `${lang} should not have been rewritten`,
+    );
+  }
+});
+
+test('a snippet with no language label is left alone', () => {
+  const { code, pre, root } = makeSnippet('json', '{"a": 1}');
+  pre.parentNode = { querySelector: () => null };
+  highlightSnippets(root);
+  assert.equal(code.innerHTML, null);
+});
+
+test('a snippet with no code element is skipped without throwing', () => {
+  const { pre, root } = makeSnippet('json', '{"a": 1}');
+  pre.querySelector = () => null;
+  assert.doesNotThrow(() => highlightSnippets(root));
+});
+
+test('the label is matched however the bar cased it', () => {
+  const { code, root } = makeSnippet('  JSON  ', '{"a": 1}');
+  highlightSnippets(root);
+  assert.equal(code.innerHTML, highlightCode('{"a": 1}', 'json'));
+});
+
+test('the pre keeps its id, tab stop, role and label', () => {
+  const { pre, root } = makeSnippet('json', '{"a": 1}');
+  const before = { id: pre.id, ...pre.attrs };
+  highlightSnippets(root);
+  assert.equal(pre.id, before.id);
+  assert.deepEqual(pre.attrs, {
+    tabindex: before.tabindex,
+    role: before.role,
+    'aria-label': before['aria-label'],
+  });
+});
+
+test('running the pass twice does not nest spans', () => {
+  const { code, root } = makeSnippet('json', '{"a": 1}');
+  highlightSnippets(root);
+  const once = code.innerHTML;
+  /* textContent flattens what the first pass wrote, the way a real DOM would. */
+  code.textContent = '{"a": 1}';
+  highlightSnippets(root);
+  assert.equal(code.innerHTML, once);
 });

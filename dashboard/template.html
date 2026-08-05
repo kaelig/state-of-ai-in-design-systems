@@ -838,6 +838,24 @@ table.mx tr.mx-group th .gn {
 .snip-bar button:hover { color: var(--accent-ink); border-color: var(--accent); }
 .snip pre { overflow-x: auto; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.5; tab-size: 2; }
 .snip pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* The syntax classes carry colour and nothing else — no padding, no margin, no
+   display, no background. Highlighting runs after render, so a class that moved
+   a box would shift the page under a reader already looking at it; that is where
+   client-side highlighting normally spends its layout shift, and the usual
+   culprit is a theme hanging padding off the class it adds. Scoped to .snip pre
+   so fmt()'s inline <code> in prose stays out of it. Italic on comments is free:
+   a monospace face has one advance width, so nothing rewraps. */
+.snip pre .hl-c { color: var(--ink-3); font-style: italic; }
+.snip pre .hl-s { color: var(--syn-str); }
+.snip pre .hl-k { color: var(--syn-key); }
+.snip pre .hl-p { color: var(--ink-2); }
+/* Forced colors replaces the author palette outright, so a grammar written only
+   in colour collapses to one colour with nothing left saying what it meant.
+   GrayText is in the system palette and is honoured, so comments keep a signal;
+   the italic keeps a second one. The rest are CanvasText either way. */
+@media (forced-colors: active) {
+  .snip pre .hl-c { color: GrayText; }
+}
 
 /* Cards that hold .tech-ex rows carry no vertical padding of their own — each
    child states its own inline inset through --card-pad, and the rows are full
@@ -2054,6 +2072,27 @@ function prevalenceBars() {
   return `<ul class="bars">${rows.map(r => barRow(r.label, r.n, total)).join('')}</ul>`;
 }
 
+/* Colour, in the browser only. Guarded the way pruneSnippetTabStops() is: under
+   the prerender shim querySelectorAll returns [], so this no-ops and the shipped
+   HTML keeps the plain escaped block a crawler and a JS-less reader both get.
+
+   Reads textContent, which flattens any spans already there, so calling it twice
+   produces the same markup rather than nesting. Writes nothing when the language
+   has no grammar — most of the corpus is labelled text or markdown, and a no-op
+   should cost nothing. The <pre>'s id, tabindex, role and label are not touched;
+   only the <code> inside it is rewritten. */
+function highlightSnippets(root) {
+  const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
+  scope.querySelectorAll('pre[id^="sn-"]').forEach(pre => {
+    const code = pre.querySelector('code');
+    const label = pre.parentNode && pre.parentNode.querySelector('.snip-bar .lang');
+    if (!code || !label) return;
+    const lang = String(label.textContent || '').trim();
+    if (!HL_RULES[HL_ALIAS[lang.toLowerCase()]]) return;
+    code.innerHTML = highlightCode(code.textContent, lang);
+  });
+}
+
 /* A snippet that fits needs neither a tab stop nor a name: only the ones that
    actually scroll sideways are keyboard-operable regions of content. Runs after
    render, in the browser only — the prerender shim's querySelectorAll returns [],
@@ -2330,6 +2369,11 @@ function route(opts) {
 
   if (fn === VIEWS.overview) setupMatrixFades();
   setupPageActions();
+  /* Before the prune, so the prune measures what the reader will actually see.
+     Colour alone cannot change the metrics — the hl- classes carry no box
+     properties, and a monospace face has one advance width — but the order that
+     needs no argument is the one to keep. */
+  highlightSnippets();
   pruneSnippetTabStops();
   /* After the prune, never before it: the prune measures, and a hidden panel
      measures 0 and gets skipped. See setupConfigTabs()'s own note. */
