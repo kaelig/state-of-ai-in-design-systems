@@ -151,6 +151,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No Code Connect. The ant-design/ant-design tree at 12522b38 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook. A complete recursive listing of `master` (4,973 files, not truncated) holds no `.storybook` directory, no `*.stories.*` or `*.story.*` module, and no path containing \"storybook\" at all. Component demos run on dumi, Ant Group's own React docs framework, from an in-repo `.dumi/` theme."
       }
     ],
     "techniques": [
@@ -430,6 +438,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No Code Connect. The facebook/astryx tree at a03e2286 carries no `*.figma.tsx`, no `figma.config.json` and nothing on a `code-connect` path, so Figma Dev Mode has no first-party binding from a design node to a component here."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "apps/storybook",
+        "official": true,
+        "audience": "builders",
+        "description": "The component workbench for the monorepo: `apps/storybook/.storybook/main.ts` and 178 story modules under `apps/storybook/stories/`. The package is private and excluded from releases by a changesets `ignore` rule, so it ships as a site rather than as something a consumer installs.",
+        "code_url": "https://github.com/facebook/astryx/tree/main/apps/storybook/.storybook"
       }
     ],
     "techniques": [
@@ -647,12 +663,12 @@
       },
       {
         "type": "storybook-integration",
-        "name": "design-system/storybook-addon",
+        "name": "@atlaskit/storybook-addon-design-system",
         "official": true,
         "audience": "builders",
-        "description": "A `storybook-addon` package exists under design-system/ in the mirror alongside ads-mcp. Its contents were not inspected in this pass and no AI-specific behavior is claimed.",
-        "code_url": "https://bitbucket.org/atlassian/atlassian-frontend-mirror/src/HEAD/design-system/",
-        "notes": "Listed for completeness; AI relevance unverified."
+        "description": "A published Storybook addon at `design-system/storybook-addon` in the mirror, version 4.0.2, described by its own package.json as a \"Design token storybook addon\". It carries the three standard addon entry points (`manager.js`, `preset.js`, `preview.js`), a `src/` and a `constellation/` docs folder. The addon targets design tokens, not agents.",
+        "code_url": "https://bitbucket.org/atlassian/atlassian-frontend-mirror/src/HEAD/design-system/storybook-addon/",
+        "notes": "Replaces an earlier entry that named the parent directory and left the contents unread."
       }
     ],
     "techniques": [
@@ -926,6 +942,14 @@
           "language": "markdown",
           "source_url": "https://raw.githubusercontent.com/carbon-design-system/carbon-website/main/src/pages/developing/carbon-mcp/prompts.mdx"
         }
+      },
+      {
+        "type": "storybook-integration",
+        "name": "packages/react/.storybook",
+        "official": true,
+        "audience": "both",
+        "description": "The primary developer-facing docs surface. Four configs sit in the tree, `.storybook` and `.storybook-v12` under each of `packages/react` and `packages/web-components`, driving 243 story modules colocated per component. The folder layout is written into `packages/react/AGENTS.md` so agents reproduce it. No Storybook MCP or addon-based AI integration found.",
+        "code_url": "https://github.com/carbon-design-system/carbon/tree/main/packages/react/.storybook"
       }
     ],
     "techniques": [
@@ -1181,6 +1205,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. chakra-ui/chakra-ui at 065f71ce has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": ".storybook (Storybook 9.1.8)",
+        "official": true,
+        "audience": "builders",
+        "description": "Storybook 9.1.8 at the repo root, a second config under `sandbox/storybook-ts`, and 124 story modules across packages. It doubles as the verification surface the agent tooling depends on: the issue-triage subagent has to add a bug repro as a story and confirm it in a real browser before proposing a fix.",
+        "code_url": "https://github.com/chakra-ui/chakra-ui/tree/main/.storybook"
       }
     ],
     "techniques": [
@@ -1445,6 +1477,14 @@
         "description": "daisyUI has no root AGENTS.md and three below it, scoped to the Bun workspaces they govern. `packages/AGENTS.md` states the stack and the commands and closes with communication rules aimed squarely at model behavior: do not explain unless asked, do not confirm or deny anything you are not certain of, fact-check your answers. `packages/daisyui/AGENTS.md` is the house style for the CSS itself, including `@apply` over hand-written properties, no `!important` at any cost, and OKLCH for theme colors. `packages/docs/AGENTS.md` covers the SvelteKit site and spends most of its length on one rule an agent breaks easily: every language file for a translation chunk has to keep the same set of keys, so adding a string means adding it everywhere.",
         "code_url": "https://github.com/saadeghi/daisyui/blob/master/packages/AGENTS.md",
         "notes": "Builder-facing. The consumer-facing instructions are shipped separately, as the skill and the plugin marketplaces."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook. A complete recursive listing of `master` (1,016 files, not truncated) holds no `.storybook` directory, no story module and no path containing \"storybook\", and a GitHub code search for \"storybook\" in the repo returns 0 results. daisyUI ships CSS classes rather than components, and documents them on a SvelteKit site."
       }
     ],
     "techniques": [
@@ -1727,6 +1767,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. heroui-inc/heroui at 270a475b has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "packages/storybook",
+        "official": true,
+        "audience": "builders",
+        "description": "The internal component-development environment (`pnpm dev`, port 6006): `packages/storybook/.storybook/main.ts` and 70 story modules on the `v3` default branch, with four custom addons of its own under `.storybook/addons/` for i18n, react-scan, reduce-motion and strict mode. The docs-curator subagent treats the stories as the source of truth for docs demos.",
+        "code_url": "https://github.com/heroui-inc/heroui/tree/v3/packages/storybook/.storybook"
       }
     ],
     "techniques": [
@@ -1994,6 +2042,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. nuxt/ui at 282759e7 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook. A complete recursive listing of the `v4` default branch (2,151 files, not truncated) holds no `.storybook` directory, no story module and no path containing \"storybook\". Component demos are served by the docs site's own MDC component-example module and by the Nuxt and Vue playgrounds."
       }
     ],
     "techniques": [
@@ -2275,6 +2331,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. patternfly/patternfly-org at d849cbd7 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook in either repo. Complete recursive listings of `main` in patternfly-org (2,434 files) and patternfly-react (3,405 files), neither truncated, hold no `.storybook` directory, no story module and no path containing \"storybook\". Components are documented on patternfly.org, built from the org's own docs framework."
       }
     ],
     "techniques": [
@@ -2547,6 +2611,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No llms.txt. https://primer.style/llms.txt returns 404, and /llms-full.txt answers 200 with the docs site's HTML shell rather than a text file, which is a 404 wearing a different status code. Nothing named llms.txt or llms-full.txt in primer/react at f7872333."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "packages/react/.storybook (MCP endpoint at /mcp)",
+        "official": true,
+        "audience": "both",
+        "description": "The primary component workbench (`npm start`, localhost:6006) with 246 story modules, and a Storybook that agents can query directly: it serves an MCP endpoint at `/mcp` exposing list-all-documentation, get-documentation, get-storybook-story-instructions and preview-stories, registered as `primer-storybook` in the committed `.vscode/mcp.json`. The copilot-instructions forbid answering about components from model memory until that server has been queried.",
+        "code_url": "https://github.com/primer/react/tree/main/packages/react/.storybook"
       }
     ],
     "techniques": [
@@ -2844,6 +2916,14 @@
         "present": false,
         "audience": "builders",
         "description": "No agent instruction file at any depth: adobe/react-spectrum at c9d3ad08 has no AGENTS.md and no CLAUDE.md anywhere in the tree."
+      },
+      {
+        "type": "storybook-integration",
+        "name": ".storybook-s2",
+        "official": true,
+        "audience": "builders",
+        "description": "Two configs in the tree, `.storybook` for v3 and `.storybook-s2` for Spectrum 2, alongside `.chromatic` and a `weekly-chromatic.yml` workflow, driving 579 story modules. Development and visual review only. No addon exposing stories to agents was found.",
+        "code_url": "https://github.com/adobe/react-spectrum/tree/main/.storybook-s2"
       }
     ],
     "techniques": [
@@ -3119,6 +3199,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No llms.txt. https://www.lightningdesignsystem.com/llms.txt and /llms-full.txt both return 404 from zeroheight, which hosts the docs. Nothing named llms.txt or llms-full.txt in salesforce-ux/design-system at 9bc6a404."
+      },
+      {
+        "type": "storybook-integration",
+        "name": ".storybook (SLDS 1)",
+        "official": true,
+        "audience": "builders",
+        "description": "A full config in the legacy SLDS 1 repo, 12 files including `addons.js`, `sldsTheme.js`, `inject-styling-hooks.js` and a custom `webpack.config.js`, driving 88 story modules of component examples. It is a `config.js`-era setup with no `main.js`, predating both the AI tooling and current Storybook, and it sits in the maintenance-mode codebase.",
+        "code_url": "https://github.com/salesforce-ux/design-system/tree/main/.storybook"
       }
     ],
     "techniques": [
@@ -3365,6 +3453,14 @@
         "description": "No agent instructions of shadcn's own. The only AGENTS.md files in shadcn-ui/ui at 47c7f92d are `templates/next-app/AGENTS.md` and `templates/next-monorepo/AGENTS.md`, and the two are byte-identical, four lines long, and fenced in `<!-- BEGIN:nextjs-agent-rules -->` markers that say who wrote them. What they say is about Next.js: this is not the Next.js you know, the APIs may differ from your training data, read the guides in `node_modules/next/dist/docs/` before writing any code. Neither file mentions shadcn, the registry, or a component. No CLAUDE.md anywhere in the tree.",
         "code_url": "https://github.com/shadcn-ui/ui/blob/main/templates/next-app/AGENTS.md",
         "notes": "The files do reach an agent's context, because scaffolding from a template copies them into the consumer's project. They are a framework's notice travelling in a design system's templates, not the design system talking, which is why this is recorded as an absence and not as an affordance."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook. A complete recursive listing of `main` (5,748 files, not truncated) holds no `.storybook` directory, no story module and no path containing \"storybook\". Documentation is a bespoke Next.js app (`apps/v4`) with a live registry preview instead."
       }
     ],
     "techniques": [
@@ -3596,12 +3692,12 @@
       },
       {
         "type": "storybook-integration",
-        "name": "storybook.polaris.shopify.dev",
+        "name": "polaris-react/.storybook",
         "official": true,
         "audience": "both",
-        "docs_url": "https://storybook.polaris.shopify.dev",
-        "description": "Storybook for Polaris React, linked from the archived repo README badge. No AI-specific integration (no Storybook MCP, no addon-docs-to-llms pipeline) and it documents the deprecated library.",
-        "notes": "No evidence of Storybook being wired into any agent workflow."
+        "description": "The config is in the repo at `polaris-react/.storybook/main.js` with 87 story modules and in-repo addons including a grid overlay and a render-performance profiler. The hosted instance at storybook.polaris.shopify.dev, badged from the archived README, now returns 401 to an unauthenticated request; it was reachable during the collection window and documented the deprecated React library. No Storybook MCP and no addon-docs-to-llms pipeline.",
+        "code_url": "https://github.com/Shopify/polaris/tree/main/polaris-react/.storybook",
+        "notes": "The hosted instance was public when the data was gathered and is now behind auth."
       },
       {
         "type": "figma-code-connect",
@@ -3730,8 +3826,8 @@
       },
       {
         "platform": "storybook",
-        "description": "Storybook for Polaris React at storybook.polaris.shopify.dev, badged from the archived repo README. Documents the deprecated library; no agent-facing integration.",
-        "url": "https://storybook.polaris.shopify.dev"
+        "description": "Storybook for Polaris React, configured at `polaris-react/.storybook` and badged from the archived repo README. The hosted instance at storybook.polaris.shopify.dev now returns 401 to an unauthenticated request, so the repo config is what a reader can still check. Documents the deprecated library; no agent-facing integration.",
+        "url": "https://github.com/Shopify/polaris/tree/main/polaris-react/.storybook"
       },
       {
         "platform": "other",
@@ -3879,6 +3975,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. cloudscape-design/components at e9c0c768 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook. A complete recursive listing of `main` (3,705 files, not truncated) holds no `.storybook` directory, no story module and no path containing \"storybook\", matching the 0 hits an org-wide code search returns. Cloudscape runs its own docs site plus an internal `pages/` dev harness."
       }
     ],
     "techniques": [
@@ -4140,6 +4244,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. mantinedev/mantine at 953192e2 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": ".storybook",
+        "official": true,
+        "audience": "builders",
+        "description": "`.storybook/main.ts` at the repo root with 482 story modules, written with the singular `*.story.tsx` convention rather than `*.stories.tsx`. Internal only: storybook.mantine.dev does not resolve, and it is mantine.dev, not Storybook, that generates the llms.txt and the /mcp data.",
+        "code_url": "https://github.com/mantinedev/mantine/tree/master/.storybook"
       }
     ],
     "techniques": [
@@ -4373,6 +4485,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No editor rule files of either convention. mui/material-ui at 7fb01101 has no `.cursorrules` and no `.cursor/` directory, and no `.github/copilot-instructions.md`, `.github/instructions/` or `.github/prompts/` either."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Storybook",
+        "official": true,
+        "present": false,
+        "audience": "builders",
+        "description": "No Storybook for the component library. A complete recursive listing of `master` (41,097 files, not truncated) holds no `.storybook` directory and no story module. Four paths do contain \"storybook\", and none of them is one: two screenshots and an mp4 documenting the Figma sync plugin, and `packages-internal/core-docs/src/svgIcons/StorybookIcon.tsx`, an icon. mui.com's own docs site with live demos is the canonical surface."
       }
     ],
     "techniques": [
@@ -4624,6 +4744,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No llms.txt. https://fluent2.microsoft.design/llms.txt and /llms-full.txt both answer 200, but what they serve is the docs site's Astro HTML shell, not a text file, so a fetcher that trusts the status code gets a page where it expected a context file. Nothing named llms.txt or llms-full.txt in microsoft/fluentui at 4aacb7b8."
+      },
+      {
+        "type": "storybook-integration",
+        "name": "per-component stories packages",
+        "official": true,
+        "audience": "both",
+        "description": "The primary dev and docs surface: 1,763 story modules and six `.storybook` configs, one of them per docsite app. Each component gets its own `react-<component>-stories` package with an nx `storybook` target, and the `/visual-test` agent skill boots exactly that package rather than the full Storybook, then drives it with Playwright for a screenshot feedback loop. StoryWright-driven visual regression runs from the same stories in `pr-vrt.yml`.",
+        "code_url": "https://github.com/microsoft/fluentui/tree/master/.storybook"
       }
     ],
     "techniques": [
@@ -5049,6 +5177,14 @@
         "present": false,
         "audience": "consumers",
         "description": "No llms.txt. https://designsystem.digital.gov/llms.txt and /llms-full.txt both return 404. Nothing named llms.txt or llms-full.txt in uswds/uswds at 6c8bde97."
+      },
+      {
+        "type": "storybook-integration",
+        "name": ".storybook",
+        "official": true,
+        "audience": "builders",
+        "description": "`.storybook/main.js` with 65 story modules in the component packages, used as both the dev environment and the accessibility test harness: `npm start` runs Storybook on :6006 and `npm run test:a11y` drives Playwright and Axe against a built Storybook in `_site/`. There is no public instance; designsystem.digital.gov/storybook/ and uswds.github.io/uswds/ both 404.",
+        "code_url": "https://github.com/uswds/uswds/tree/develop/.storybook"
       }
     ],
     "techniques": [

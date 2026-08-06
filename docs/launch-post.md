@@ -12,7 +12,7 @@ MCP servers, their agent skills, their editor rules: the things a design system
 ships so a coding assistant can build with it instead of inventing its own
 buttons.
 
-The result is a field survey. 179 affordances across those twenty systems and
+The result is a field survey. 187 affordances across those twenty systems and
 the six platforms around them, plus 157 techniques teams use to keep a model on
 real components and real tokens. Every claim links to a page that loads and
 shows the thing. Where a system ships nothing, the record says so, because an

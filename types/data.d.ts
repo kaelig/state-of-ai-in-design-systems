@@ -41,6 +41,9 @@ export interface DesignSystemAIAffordancesRecord {
    * Concrete AI-facing artifacts this system ships
    */
   affordances: {
+    /**
+     * storybook-integration is a presence test, not a judgment: a stories file, a Storybook config, a hosted instance or a published addon all count. Whether that Storybook is reachable by an agent belongs in the description. Every other value names an artifact that is agent-facing by construction.
+     */
     type:
       | 'mcp-server'
       | 'llms-txt'

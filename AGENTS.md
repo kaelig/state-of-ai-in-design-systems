@@ -114,7 +114,7 @@ sweep that “fixes” the missing link by supplying a URL makes the report say 
 opposite of what it found. If a record has no link, read its description before
 adding one.
 
-These carry `"present": false`, and there are 35 of them. The description is
+These carry `"present": false`, and there are 42 of them. The description is
 where the evidence goes — the address that was read and what came back, so the
 claim can be rechecked without trusting us — and the matrix draws them as a
 crossed mark, distinct from a cell nothing was established about. Adding one
