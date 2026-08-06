@@ -819,6 +819,7 @@ const HL_MUST_RESOLVE = {
   shell: 'shell',
   html: 'html',
   css: 'css',
+  text: 'markdown',
 };
 for (const [label, want] of Object.entries(HL_MUST_RESOLVE)) {
   if (HL_ALIAS[label] !== want)
@@ -871,6 +872,10 @@ const HL_FLOOR = {
   tsx: 3,
   bash: 6,
   shell: 1,
+  /* Nine of the thirty `text` snippets, because that grammar marks structure and
+     two thirds of them are prose with none. The floor is what stops the alias
+     from being dropped again, not a claim that the rest failed to highlight. */
+  text: 9,
 };
 const marked = {};
 let highlighted = 0;
@@ -900,9 +905,9 @@ for (const [lang, min] of Object.entries(HL_FLOOR)) {
 
 /* Both directions of alias drift. A label the data starts using that resolves
    to nothing renders plain forever with nobody asked; a label pinned here that
-   stops resolving takes its whole cohort plain. `text` and `http` are plain on
-   purpose and say so. */
-const HL_PLAIN_ON_PURPOSE = new Set(['text', 'http']);
+   stops resolving takes its whole cohort plain. `http` is plain on purpose and
+   says so. */
+const HL_PLAIN_ON_PURPOSE = new Set(['http']);
 for (const label of new Set(
   corpusSnippets.map((s) => String(s.language || '').toLowerCase()),
 )) {

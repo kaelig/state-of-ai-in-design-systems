@@ -1386,8 +1386,15 @@ function fmt(s) {
    are reconciled here at render time rather than in data/, where a rename would
    move markdown fences, the SQLite export and md-map.json with it. A label that
    does not resolve is not an error: it renders plain, which is the honest
-   result for `text`, for `http`, and for anything added later that nothing here
-   can actually parse. */
+   result for `http` and for anything added later that nothing here can actually
+   parse.
+
+   `text` is the exception, and it reads as markdown. A snippet gets that label
+   when the page it came from published one — an unfenced block in a SKILL.md, a
+   docs page, a rules file — not because its author meant "this has no
+   structure". Most of them turn out to be headings, bullets, code spans and link
+   targets, and the markdown grammar marks structure only, so the ones that
+   really are a paragraph of prose come out byte for byte as plain as before. */
 const HL_ALIAS = {
   json: 'json',
   yaml: 'yaml', yml: 'yaml',
@@ -1395,7 +1402,7 @@ const HL_ALIAS = {
   ts: 'ts', typescript: 'ts', tsx: 'ts', js: 'ts', javascript: 'ts', jsx: 'ts', mjs: 'ts',
   html: 'html', xml: 'html', svg: 'html',
   css: 'css',
-  markdown: 'markdown', md: 'markdown'
+  markdown: 'markdown', md: 'markdown', text: 'markdown', plaintext: 'markdown'
 };
 /* Four classes, because the ink ramp is doing most of the work: hl-c comments,
    hl-s values (strings, numbers, literals), hl-k names (keys, keywords, tags),

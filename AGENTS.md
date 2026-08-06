@@ -231,10 +231,19 @@ highlighting runs after render.
 that reconciles the labels the corpus uses, including the `typescript` / `ts`
 and `bash` / `shell` disagreement between the two datasets. `html` and `css`
 have no records yet and are there for when they do. Anything the map does not
-resolve renders plain, which is the right answer for `text` and `http` and for
-any language nothing here can honestly parse. Do not normalize the labels in
-`data/` to make this tidier: that moves markdown fences, the SQLite export and
-`md-map.json` with it.
+resolve renders plain, which is the right answer for `http` and for any language
+nothing here can honestly parse. Do not normalize the labels in `data/` to make
+this tidier: that moves markdown fences, the SQLite export and `md-map.json`
+with it.
+
+`text` and `plaintext` read as markdown. A docs page reaches for that label when
+it never labeled the fence, not to promise the block has no structure, and about
+a third of the corpus's `text` snippets turn out to be instruction files with
+headings, bullets, code spans and links in them. The markdown grammar marks
+structure and leaves prose alone, so the ones that really are a paragraph come
+out identical to the plain rendering they had before. `HL_FLOOR` in
+`prerender.mjs` counts the marked ones and fails the build if the alias is
+dropped again.
 
 Adding a grammar means a rule list and an alias in `template.html`, a probe in
 `scripts/prerender.mjs` naming the classes it must produce, an entry in that

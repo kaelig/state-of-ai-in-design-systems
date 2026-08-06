@@ -397,8 +397,11 @@ fights the pipeline, ship the other headers and drop CSP rather than shipping a 
   route around. On zero dependencies: nothing was installed. The tokenizer is about a hundred
   lines in `template.html`, an ordered list of sticky patterns per language — a lexer, not a
   parser, and it says so. On multi-language honesty: it models seven grammars and leaves
-  everything else plain, which is the true answer for the snippets labeled `text`, for the
-  one `http`, and for whatever gets added next that nothing here can parse. Markdown is two
+  everything else plain, which is the true answer for the one `http` and for whatever gets
+  added next that nothing here can parse. Amended 2026-08-06: `text` now reads as markdown,
+  because that label marks a fence a docs page never labeled rather than a block with no
+  structure in it, and the structure-only rules leave the prose ones as plain as they were.
+  Markdown is two
   thirds of the corpus and was the real question; the rules mark where the headings, fences
   and links are and leave the prose alone, because coloring somebody else's sentences is
   exactly the dishonesty this entry was objecting to. What changed since the original No is

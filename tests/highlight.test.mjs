@@ -165,15 +165,7 @@ test('ampersands, quotes and angle brackets survive a round-trip', () => {
 
 test('an unhighlighted language is exactly esc(src)', () => {
   const src = '<b>GET /x?a=1&b=2</b>';
-  for (const lang of [
-    'text',
-    'http',
-    'sql',
-    'brainfuck',
-    '',
-    null,
-    undefined,
-  ]) {
+  for (const lang of ['http', 'sql', 'brainfuck', '', null, undefined]) {
     const out = highlightCode(src, lang);
     assert.equal(out, esc(src), `expected plain output for ${String(lang)}`);
     assert.ok(
@@ -195,6 +187,30 @@ test('the two datasets’ disagreeing labels resolve to the same grammar', () =>
   assert.equal(highlightCode(md, 'md'), highlightCode(md, 'markdown'));
   const yml = 'a: 1';
   assert.equal(highlightCode(yml, 'yml'), highlightCode(yml, 'yaml'));
+});
+
+/* `text` is what a docs page calls a fence it never labeled, not a promise that
+   the block has no structure — most of the corpus's are instruction files with
+   headings and bullets in them. It reads as markdown, and the two labels have to
+   stay indistinguishable or half of them quietly go back to plain. */
+test('text and plaintext read as markdown', () => {
+  const src = '## Rules\n\n- use `var(--color-*)`\n- see [docs](https://x)\n';
+  assert.equal(highlightCode(src, 'text'), highlightCode(src, 'markdown'));
+  assert.equal(highlightCode(src, 'plaintext'), highlightCode(src, 'markdown'));
+  assert.ok(classesIn(highlightCode(src, 'text')).includes('hl-k'));
+  assert.equal(unwrap(highlightCode(src, 'text')), src);
+});
+
+/* The half of the cohort that really is prose. Marking structure that is not
+   there would be the dishonesty the design audit warned about, so a paragraph
+   has to come out of the markdown grammar exactly as esc() left it. */
+test('a text snippet with no markdown structure is untouched', () => {
+  const prose =
+    'Agents live in the terminal now. Give one a good tool and it uses\n' +
+    'it well. The CLI is the source of truth, and it is 3 - 4 x faster.\n';
+  const out = highlightCode(prose, 'text');
+  assert.equal(out, esc(prose));
+  assert.ok(!out.includes('<span'));
 });
 
 test('language matching is case-insensitive', () => {
@@ -426,7 +442,7 @@ test('a modeled language is written into the code element', () => {
 });
 
 test('an unmodeled language is left exactly as it was', () => {
-  for (const lang of ['text', 'http', 'sql']) {
+  for (const lang of ['http', 'sql']) {
     const { code, root } = makeSnippet(lang, '<b>raw</b>');
     highlightSnippets(root);
     assert.equal(
