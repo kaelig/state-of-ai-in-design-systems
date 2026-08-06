@@ -1273,6 +1273,11 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
 .risk-acts a { border-color: var(--accent); color: var(--accent-ink); }
 .risk-acts button:hover { border-color: var(--line-strong); }
 .risk-acts a:hover { background: var(--bg-sunk); }
+/* 44ch is right on a phone, where the dialog is nearly the full width. Given
+   room it can afford a longer line: the URL stops wrapping mid-package-name and
+   the paragraph settles into three lines instead of five. The breakpoint is the
+   one the rail already switches on. */
+@media (min-width: 861px) { .risk { max-width: 54ch; } }
 </style>
 </head>
 <body>
@@ -1608,6 +1613,16 @@ const NEWTAB = '<span class="sr-only">(opens in new tab)</span>';
 /* text is trusted HTML (already escaped by the caller); label is plain text */
 function extLink(url, text) {
   return `<a href="${esc(url)}" target="_blank" rel="noopener">${text} ${ARROW}${NEWTAB}</a>`;
+}
+/* A metagrid row whose URL the record does not carry. extLink with no url emits
+   an href with an empty value, which is not an inert link: it resolves to the
+   page the reader is on, so clicking "Repo" reloads the record instead of
+   going anywhere.
+   Nord is the case in the corpus — its source repository is private, so there
+   is nothing to link — and the dash is what the Org and Release rows beside it
+   already show for a blank. */
+function metaLink(url, text) {
+  return url ? extLink(url, esc(text)) : '—';
 }
 function extArrow(url, label) {
   return `<a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(label)} (opens in new tab)">${ARROW}</a>`;
@@ -2010,8 +2025,8 @@ const VIEWS = {
       <hr class="accent-rule">
       <dl class="metagrid">
         <div><dt class="k">Org</dt><dd class="v">${esc(s.org || '—')}</dd></div>
-        <div><dt class="k">Repo</dt><dd class="v">${extLink(s.repo_url, esc((s.repo_url || '').replace('https://github.com/', '')))}</dd></div>
-        <div><dt class="k">Docs</dt><dd class="v">${extLink(s.docs_url, esc((s.docs_url || '').replace(/^https?:\/\//, '')))}</dd></div>
+        <div><dt class="k">Repo</dt><dd class="v">${metaLink(s.repo_url, (s.repo_url || '').replace('https://github.com/', ''))}</dd></div>
+        <div><dt class="k">Docs</dt><dd class="v">${metaLink(s.docs_url, (s.docs_url || '').replace(/^https?:\/\//, ''))}</dd></div>
         <div class="wide"><dt class="k">Release(s) audited</dt><dd class="v">${fmt(m.last_release || '—')}</dd></div>
       </dl>
       <div class="twocol">
