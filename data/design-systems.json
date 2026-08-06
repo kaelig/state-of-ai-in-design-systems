@@ -301,7 +301,7 @@
         "audience": "both",
         "description": "Astryx inverts the usual arrangement: the CLI is the canonical docs and the website is downstream of it. Sixteen top-level commands (`init`, `build`, `search`, `docs`, `component`, `hook`, `template`, `layout`, `theme`, `swizzle`, `upgrade`, `discover`, `doctor`, `validate-integration`, `manifest`, plus an undocumented `blog`). `component Button` returns 20,128 bytes of markdown covering anatomy, do/don't guidance, 19 typed props, theming variables and 96 related block templates. Global `--dense` and `--detail full|compact|brief` exist purely to manage context windows. `doctor` and `validate-integration` document their exit codes as \"safe as a CI gate\". Eighteen fully-qualified command paths, counting subcommands like `theme build` and `layout expand`, also emit `{apiVersion, type, data}` envelopes under a global `--json`, gated by an allowlist checked before any side effect so a programmatic caller never gets partial state plus an error. Failures carry a stable `code` and Levenshtein `suggestions`; `astryx manifest --json` is a 23KB self-description of every command, flag and response type, and `@astryxdesign/cli/json` ships an `isError()` type guard.",
         "docs_url": "https://astryx.atmeta.com/docs/cli",
-        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/cli/index.mjs",
+        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/clients/cli/index.mjs",
         "snippet": {
           "language": "text",
           "content": "This is the first in a series on the Astryx CLI. It is the tool an agent uses to build with Astryx or as we like to think of it the interface for the machine. We put a lot of thought into getting it right.\n\n…\n\nAgents live in the terminal now. Give one a good tool and it uses it well. But most tools we hand agents are not good enough. So we made a call that the CLI is the docs. That is where every doc, example, and reference starts. The docs site you are reading is a consumer of the CLI and not the other way around. The CLI is the source of truth. An agent always reads the exact source we wrote and maintain. There is no second copy to fall out of sync. Nothing goes stale.",
@@ -331,11 +331,11 @@
         "audience": "consumers",
         "description": "Rather than publishing a rules file for people to copy, the CLI writes one into the consumer's repo, generated from the installed package version so it matches the API actually present. Targets are picked per tool: `AGENTS.md` by default (\"the tool-agnostic standard most agents read\"), `.claude/CLAUDE.md` for Claude Code, and `--agent all` for every one. The preset list is ordered so the first existing file wins and the last entry is the default, which means `--agent cursor` only updates a `.cursorrules` that is already there and otherwise writes AGENTS.md. The docs page says it produces `.cursorrules`; in a clean project it does not. Content is a three-step discovery workflow, a rules block, a component count and a CLI reference, written between `<!-- ASTRYX:START -->` markers so it can be regenerated in place. The styling rule branches on whether the project runs StyleX, Tailwind or plain CSS, so it never recommends a path that is not compiled in that repo.",
         "docs_url": "https://astryx.atmeta.com/docs/working-with-ai",
-        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs",
+        "code_url": "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs",
         "snippet": {
           "language": "javascript",
           "content": "  lines.push('SETUP (once, in your app entry e.g. main.tsx) — without these, components render unstyled:');\n  lines.push('  import \"@astryxdesign/core/reset.css\";');\n  lines.push('  import \"@astryxdesign/core/astryx.css\";');\n  lines.push('');\n\n  // Workflow — `build` is the front door; discover before writing UI.\n  lines.push(\"WORKFLOW — discover, don't guess. Before writing UI:\");\n  lines.push('1. `astryx build \"<idea>\"` — START HERE: returns a kit (closest [page] + [block]s + [component]s). No args = full playbook.');\n  lines.push('2. `astryx template <name> [--skeleton]` — scaffold the [page]/[block]s it named, or study their layout. Templates are reference code.');\n  lines.push('3. `astryx component <Name>` — props + examples for every component you use.');\n  lines.push('');",
-          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs"
         },
         "notes": "There is no URL at which this file can be read: it exists only after a consumer runs the CLI, so the snippet reproduces generated output and the link points at the generator that emits it. The styling rule shown is the StyleX branch; a Tailwind or plain-CSS project gets a different one. Astryx's own repo has no AGENTS.md for the same reason. The file is small, about 2.4KB: it carries a component count taken from the installed package rather than an allow-list, and delegates the enumeration to `astryx component --list`."
       },
@@ -385,7 +385,7 @@
         "code_url": "https://github.com/facebook/astryx/blob/main/CLAUDE.md",
         "snippet": {
           "language": "text",
-          "content": "Astryx CLI|Run from repo root. Load agent docs before any component work.\nASTRYX=\"node packages/cli/bin/astryx.mjs\"\nBOOTSTRAP (run every branch, <500ms):\n$ASTRYX help # discover all commands and options\n$ASTRYX docs # list available doc topics\n$ASTRYX docs principles --dense # design rules, anti-patterns, xstyle, tokens\n$ASTRYX docs tokens --dense # spacing, color, radius, typography, shadow\n…\n$ASTRYX component --list # all components grouped by category\n$ASTRYX template --list # available page templates\n…\nRULE: always run bootstrap on each branch — docs reflect the branch's actual API\nRULE: always run $ASTRYX component <Name> --dense before modifying a component\nRULE: after @astryxdesign/core bump, always run $ASTRYX upgrade --apply",
+          "content": "Astryx CLI|Run from repo root. Load agent docs before any component work.\nASTRYX=\"node packages/cli/clients/cli/bin/astryx.mjs\"\nBOOTSTRAP (run every branch, <500ms):\n$ASTRYX help # discover all commands and options\n$ASTRYX docs # list available doc topics\n$ASTRYX docs principles --dense # design rules, anti-patterns, xstyle, tokens\n$ASTRYX docs tokens --dense # spacing, color, radius, typography, shadow\n…\n$ASTRYX component --list # all components grouped by category\n$ASTRYX template --list # available page templates\n…\nRULE: always run bootstrap on each branch — docs reflect the branch's actual API\nRULE: always run $ASTRYX component <Name> --dense before modifying a component\nRULE: after @astryxdesign/core bump, always run $ASTRYX upgrade --apply",
           "source_url": "https://github.com/facebook/astryx/blob/main/CLAUDE.md"
         },
         "notes": "The two generated blocks appear to be mirrored into the file by hand: `scan.mjs` writes `CAPABILITIES.md` and `capabilities.json`, and no CI job regenerates or drift-checks the copy inside CLAUDE.md."
@@ -476,7 +476,7 @@
         "snippet": {
           "language": "javascript",
           "content": "  // Self-check — post-generation pass. Validated via vibe tests (internal/vibe-tests/\n  // prompt-purity-test): on complex multi-step UIs the rules above alone still leave raw\n  // CSS in ~11-13% of runs; a re-read-and-fix pass cuts that ~4x at negligible token cost.\n  // The fix names the sanctioned escape hatch for the configured system.",
-          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs"
         }
       },
       {
@@ -496,7 +496,7 @@
         "snippet": {
           "language": "javascript",
           "content": "  lines.push('RULES:');\n  lines.push('- No <div> — components do all layout/spacing. Full page → AppShell; sidebar nav → SideNav.');\n  lines.push('- Frame first: pick the shell (AppShell / Layout+LayoutPanel) and budget regions in px BEFORE writing content (`astryx docs layout`).');\n  lines.push('- Dense data = rows (Table, List/Item) edge-to-edge — never Card-wrapped list items. Card = dashboard widgets, galleries, settings groups only.');\n  lines.push('- Status → StatusDot/Token; Badge only for counts and enumerated states, never decoration.');\n  ...\n  lines.push('- Tokens for every value (`astryx docs tokens`). Brand/accent via `astryx theme` — never override --color-* in :root.');",
-          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs"
         }
       },
       {
@@ -516,7 +516,7 @@
         "snippet": {
           "language": "javascript",
           "content": "/**\n * Agent tool presets — maps tool names to their file search paths.\n * Order matters: first existing file wins, last entry is the default (created if none exist).\n */\nconst AGENT_PRESETS = {\n  claude: [CLAUDE_MD, CLAUDE_DIR_MD],\n  cursor: [CURSOR_RULES, AGENTS_MD],\n  codex: [AGENTS_MD],\n  hermes: [HERMES_DOT_MD, HERMES_MD, AGENTS_MD],\n};",
-          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs"
+          "source_url": "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs"
         }
       },
       {
@@ -567,7 +567,7 @@
       "https://github.com/facebook/astryx/blob/main/CLAUDE.md",
       "https://github.com/facebook/astryx/blob/main/.github/copilot-instructions.md",
       "https://github.com/facebook/astryx/blob/main/apps/docsite/src/app/mcp/route.ts",
-      "https://github.com/facebook/astryx/blob/main/packages/cli/lib/agent-docs/agent-docs.mjs",
+      "https://github.com/facebook/astryx/blob/main/packages/cli/foundation/agent-docs/agent-docs.mjs",
       "https://github.com/facebook/astryx/blob/main/.claude/commands/create-component.md",
       "https://github.com/facebook/astryx/wiki/Vibe-Test-Scores",
       "https://github.com/facebook/astryx/wiki/Vibe-Evaluation",
