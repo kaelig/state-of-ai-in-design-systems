@@ -2834,6 +2834,18 @@ const AT_RISK_HOSTS = new Set([
   'storybook.polaris.shopify.dev',
 ]);
 
+/* A named URL rather than a host, for the case the host rule cannot reach.
+   github.com is deliberately not an at-risk host, but Nord's repository is one
+   address the record keeps even though it does not load: the source went
+   private, github.com/nordhealth/design-system is still the right thing to
+   name, and the record says so in its gaps. Naming it is worth more than a
+   blank, and the interstitial is what stops a reader reading the 404 as a
+   citation that was wrong all along.
+   Matched whole, so a longer URL that merely starts the same is unaffected. */
+const AT_RISK_URLS = new Set([
+  'https://github.com/nordhealth/design-system',
+]);
+
 let riskDialog = null;
 
 /* Built on first use and never at module scope. The prerender sandbox has no
@@ -2888,7 +2900,7 @@ document.addEventListener('click', e => {
   /* The proceed control is itself a link to the at-risk URL. Without this the
      dialog would reopen on top of itself forever. */
   if (!a || a.closest('.risk')) return;
-  if (!AT_RISK_HOSTS.has(a.host)) return;
+  if (!AT_RISK_HOSTS.has(a.host) && !AT_RISK_URLS.has(a.href)) return;
   e.preventDefault();
   const d = riskDialogEl();
   d.querySelector('.risk-url').textContent = a.href;
