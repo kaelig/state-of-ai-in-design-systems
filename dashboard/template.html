@@ -1241,6 +1241,38 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .rail-brand { animation: vin .3s ease; }
   @keyframes vin { from { opacity: 0; transform: translateY(3px); } }
 }
+/* The interstitial for a source that answers a signed-out reader with 401, 403
+   or 404. Same construction as the rest of the page — hairline edge, opaque
+   --bg-raise ground, no shadow — because it is a note about a link, not an
+   alarm. The backdrop is the only scrim on the site and stays light: what is
+   behind it is the sentence the reader was in the middle of, and dimming that
+   to black would read as an error state. */
+/* margin: auto is what centers a modal dialog, and the `* { margin: 0 }` reset
+   above strips it, which parks the dialog in the top-left corner. It has to be
+   put back by name. */
+.risk { max-width: 44ch; margin: auto; padding: 0; color: var(--ink); background: var(--bg-raise);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); }
+/* One flat value rather than light-dark(): the backdrop lives in the top layer,
+   where color-scheme does not reliably reach it, and a light-dark() that fails
+   to resolve renders no scrim at all. Black at .45 works against both themes. */
+.risk::backdrop { background: oklch(0% 0 0 / .45); }
+.risk-in { padding: 20px; }
+.risk h2 { font-family: var(--font-display); font-size: 16px; line-height: 1.3; margin: 0 0 10px; }
+.risk p { font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 0 0 10px; }
+/* The URL is the thing being warned about, so it is shown whole. break-all
+   rather than break-word: a long registry path has no spaces to break at, and
+   without it the dialog grows past the viewport on a phone. */
+.risk-url { font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  word-break: break-all; margin: 0 0 4px; }
+.risk-acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+.risk-acts a, .risk-acts button { font: inherit; font-size: 13px; cursor: pointer;
+  padding: 7px 12px; border-radius: var(--radius); border: 1px solid var(--control-line);
+  background: none; color: var(--ink); text-decoration: none; }
+/* The proceed control is an anchor, not a button, so it inherits the accent the
+   rest of the page gives links and keeps cmd-click working inside the dialog. */
+.risk-acts a { border-color: var(--accent); color: var(--accent-ink); }
+.risk-acts button:hover { border-color: var(--line-strong); }
+.risk-acts a:hover { background: var(--bg-sunk); }
 </style>
 </head>
 <body>
@@ -2760,6 +2792,94 @@ window.addEventListener('beforeprint', () => {
 window.addEventListener('afterprint', () => {
   printRestore.forEach(([d, was]) => { d.open = was; });
   printRestore = [];
+});
+
+/* ---------- at-risk source links ----------
+   A few hosts answer a signed-out reader with 401, 403 or 404 while the claim
+   they back is perfectly sound, and a reader who follows one has no way to tell
+   a permission wall from a citation that was wrong all along. This says which it
+   is before the tab opens.
+
+   Hosts, not exact URLs: the failure is a property of how the host treats an
+   unauthenticated request, so it holds for a URL added tomorrow and needs no
+   list to be kept current. The four here were measured with
+   `python3 scripts/check_snippets.py --links --refresh`: 12 of the 14 npm URLs
+   in the corpus fail signed out, 7 of 7 Figma Community files, and Atlassian's
+   MCP endpoint and Polaris' Storybook both sit behind logins.
+
+   GitHub is deliberately absent. 8 of its 216 URLs fail, and an interstitial in
+   front of all 216 would teach the reader to dismiss it without reading, which
+   costs more than the 8 are worth. Those 8 are stale deep links to files that
+   moved, which is a data defect to fix in the record rather than something to
+   explain away in a dialog. */
+const AT_RISK_HOSTS = new Set([
+  'npmjs.com', 'www.npmjs.com',
+  'figma.com', 'www.figma.com',
+  'mcp.atlassian.com',
+  'storybook.polaris.shopify.dev',
+]);
+
+let riskDialog = null;
+
+/* Built on first use and never at module scope. The prerender sandbox has no
+   HTMLDialogElement and a createElement that returns a stub, so constructing
+   this while the file is evaluated would fail the build across all 29 routes —
+   the same reason navigator.clipboard is only ever read inside its handler. */
+function riskDialogEl() {
+  if (riskDialog) return riskDialog;
+  const d = document.createElement('dialog');
+  d.className = 'risk';
+  /* closedby="any" gives light dismiss declaratively where it is supported. */
+  d.setAttribute('closedby', 'any');
+  d.setAttribute('aria-labelledby', 'risk-title');
+  d.innerHTML = '<div class="risk-in">'
+    + '<h2 id="risk-title">This link may not open for you</h2>'
+    + '<p class="risk-url"></p>'
+    + '<p>The data collected for this study pointed here, and the claim it '
+    + 'backs was read from this address. It may still refuse you: a private npm '
+    + 'package, a library behind a login, or a repository made private since all '
+    + 'answer with 401, 403 or 404.</p>'
+    + '<div class="risk-acts">'
+    + '<button type="button" class="risk-no">Cancel</button>'
+    + '<a class="risk-go" target="_blank" rel="noopener" autofocus>Proceed to the URL</a>'
+    + '</div></div>';
+  d.querySelector('.risk-no').addEventListener('click', () => d.close());
+  /* Proceeding is the reader's decision, so the dialog gets out of the way
+     rather than staying open behind the tab it just opened. */
+  d.querySelector('.risk-go').addEventListener('click', () => d.close());
+  /* Safari has no closedby yet. Without this the backdrop is inert there, and a
+     dialog that only Esc closes is a trap on a touch screen with no Esc key. */
+  if (!('closedBy' in HTMLDialogElement.prototype)) {
+    d.addEventListener('click', ev => {
+      if (ev.target !== d) return;
+      const r = d.getBoundingClientRect();
+      const inside = r.top <= ev.clientY && ev.clientY <= r.top + r.height
+        && r.left <= ev.clientX && ev.clientX <= r.left + r.width;
+      if (!inside) d.close();
+    });
+  }
+  document.body.appendChild(d);
+  riskDialog = d;
+  return d;
+}
+
+document.addEventListener('click', e => {
+  /* Every way a reader asks for a new tab is left alone, in the same order the
+     router tests them: cmd, ctrl, shift and alt clicks, and any button but the
+     primary. Middle click fires auxclick rather than click in current browsers,
+     and the button test covers the ones where it does not. */
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]');
+  /* The proceed control is itself a link to the at-risk URL. Without this the
+     dialog would reopen on top of itself forever. */
+  if (!a || a.closest('.risk')) return;
+  if (!AT_RISK_HOSTS.has(a.host)) return;
+  e.preventDefault();
+  const d = riskDialogEl();
+  d.querySelector('.risk-url').textContent = a.href;
+  const go = d.querySelector('.risk-go');
+  go.href = a.href;
+  d.showModal();
 });
 
 /* ---------- WebMCP ----------
