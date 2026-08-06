@@ -969,9 +969,6 @@ def reading_md():
     ]
     p.append("# Further reading\n")
     p.append(html_to_md(INSIGHTS["reading_lede"]) + "\n")
-    # Same rule as the page: anything added after the list was first published
-    # states when. The founding batch is the baseline and stays unmarked.
-    founded = min(r["added_on"] for r in READING)
     for kind in READING_KINDS:
         group = [r for r in READING if r["kind"] == kind]
         if not group:
@@ -987,8 +984,6 @@ def reading_md():
                 p.append(blockquote(r["quote"]) + "\n")
             if r.get("price"):
                 p.append(f"**{r['price']['amount']}** — {r['price']['buys']}\n")
-            if r["added_on"] > founded:
-                p.append(f"Added {long_date(r['added_on'])}.\n")
     p.append(
         f"## Suggest something\n\nThe bar above is the whole standard. If a work clears it and "
         f"is missing, send it: {REPO_URL}/issues/new?template=reading-suggestion.yml — "

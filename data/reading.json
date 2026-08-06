@@ -40,6 +40,16 @@
     "added_on": "2026-07-28"
   },
   {
+    "id": "ai-ready-design-system-roadmap",
+    "title": "AI-ready Design System Roadmap",
+    "author": "Ilya Greben, Design Systems Surf",
+    "kind": "tool",
+    "url": "https://designsystems.surf/products/ai-ready-roadmap",
+    "description": "An 80-page PDF that walks a system through 20 areas across four stages — Define, Create, Adopt, Evolve. Each area carries checkpoints, the context an AI tool would need to act on it, and a readiness test for whether an agent can apply the decision without filling in the missing logic itself. Drawn from the systems Design Systems Surf has cataloged since 2023. Free, behind a form that asks for an email.",
+    "quote": "An AI-ready design system makes its decisions, semantics, rules, relationships, and constraints explicit enough for AI tools to apply them without inventing missing logic.",
+    "added_on": "2026-08-06"
+  },
+  {
     "id": "design-systems-need-evals",
     "title": "Design systems need evals",
     "author": "Murphy Trueman",

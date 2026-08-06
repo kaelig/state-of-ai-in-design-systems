@@ -1013,10 +1013,6 @@ table.mx tr.mx-group th .gn {
   font-size: 15px; color: var(--ink-2); }
 .readlist .cost { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
   color: var(--ink-2); background: var(--bg-sunk); padding: 2px 7px; border-radius: 3px; }
-/* Quiet on purpose: blue marks interaction on this site, and a date you cannot
-   click is not an interaction. */
-.readlist .added { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 12px;
-  color: var(--ink-3); }
 /* One clearance for every jump target, whichever list points at it. The rail is
    a sticky left column and goes static below 860px, so nothing overlays a
    target — this is breathing room, not header clearance. */
@@ -2091,17 +2087,12 @@ const VIEWS = {
     const rs = DATA.reading || [], m = DATA.meta;
     const KIND = { study: 'Studies, surveys and reports', tool: 'Models and tools',
       essay: 'Essays', talk: 'Talks', course: 'Courses' };
-    /* Anything added after the list was first published states when. It is a
-       record, not a "new" flag, so it is permanent and reads as one — the
-       founding batch is the baseline and stays unmarked. */
-    const founded = rs.reduce((a, r) => r.added_on < a ? r.added_on : a, '9999-99-99');
     const entry = r => `<li>
       <span class="t">${extLink(r.url, esc(r.title))}</span>
       <span class="by">${esc(r.author)}${r.published ? ' · ' + esc(longDate(r.published)) : ''}</span>
       <p>${fmt(r.description)}</p>
       ${r.quote ? `<blockquote>${esc(r.quote)}</blockquote>` : ''}
       ${r.price ? `<span class="cost">${esc(r.price.amount)} — ${esc(r.price.buys)}</span>` : ''}
-      ${r.added_on > founded ? `<span class="added">Added ${esc(longDate(r.added_on))}</span>` : ''}
     </li>`;
     /* One filtered list feeds the jump links and the sections both, so a link
        cannot point at a kind that has no entries and was never rendered. */
