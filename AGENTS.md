@@ -18,6 +18,7 @@ npm install
 npm run check                       # everything CI runs: lint, format, types, build, tests
 ./scripts/build.sh                  # regenerate every published surface
 netlify serve                       # site + functions + edge functions locally
+npm start                           # the same site through the Render server
 ```
 
 `npm run check` is the one to run before proposing a change. It calls
@@ -40,29 +41,31 @@ build still needs no Python packages; ruff and mypy are development-only and
 
 ## Edit these
 
-| Path                                             | What it is                                                     |
-| ------------------------------------------------ | -------------------------------------------------------------- |
-| `data/design-systems.json`                       | The 20 system records. Facts go here, nowhere else.            |
-| `data/platforms.json`                            | The 5 platform records.                                        |
-| `data/insights.json`                             | Findings, essay, methodology, caveats — the written analysis.  |
-| `data/reading.json`                              | The further-reading list. Other people's work, not ours.       |
-| `schema/design-system.schema.json`               | System record schema and controlled vocabularies.              |
-| `schema/platform.schema.json`                    | Platform record schema.                                        |
-| `schema/insights.schema.json`                    | Shape of the written analysis.                                 |
-| `schema/reading.schema.json`                     | Reading-list entry schema.                                     |
-| `dashboard/template.html`                        | The entire site: markup, CSS, and one view function per route. |
-| `scripts/build_dashboard.py`                     | Payload, HTML shells, route table, nav.                        |
-| `scripts/build_md.py`                            | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.       |
-| `scripts/prerender.mjs`                          | One static HTML file per route.                                |
-| `scripts/build_og.mjs`                           | The social card, drawn from the same counts as the prose.      |
-| `scripts/build_favicon.mjs`                      | The `.ico` and touch icon, rasterized from `favicon.svg`.      |
-| `netlify/functions/mcp.mjs`                      | The MCP server at `/mcp`.                                      |
-| `netlify/edge-functions/markdown.ts`             | Content negotiation for `Accept: text/markdown`.               |
-| `netlify/edge-functions/trailing-punctuation.ts` | URLs a link parser mangled, redirected to the real path.       |
-| `tests/mcp.test.mjs`                             | The MCP suite.                                                 |
-| `tests/highlight.test.mjs`                       | The syntax-highlighting suite.                                 |
-| `scripts/validate_data.mjs`                      | Step 0 of the build: records against schemas.                  |
-| `scripts/check.sh`                               | The check sequence CI and `npm run check` both run.            |
+| Path                                             | What it is                                                      |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| `data/design-systems.json`                       | The 20 system records. Facts go here, nowhere else.             |
+| `data/platforms.json`                            | The 5 platform records.                                         |
+| `data/insights.json`                             | Findings, essay, methodology, caveats — the written analysis.   |
+| `data/reading.json`                              | The further-reading list. Other people's work, not ours.        |
+| `schema/design-system.schema.json`               | System record schema and controlled vocabularies.               |
+| `schema/platform.schema.json`                    | Platform record schema.                                         |
+| `schema/insights.schema.json`                    | Shape of the written analysis.                                  |
+| `schema/reading.schema.json`                     | Reading-list entry schema.                                      |
+| `dashboard/template.html`                        | The entire site: markup, CSS, and one view function per route.  |
+| `scripts/build_dashboard.py`                     | Payload, HTML shells, route table, nav.                         |
+| `scripts/build_md.py`                            | Markdown mirrors, JSON twins, llms.txt, sitemap, SQLite.        |
+| `scripts/prerender.mjs`                          | One static HTML file per route.                                 |
+| `scripts/build_og.mjs`                           | The social card, drawn from the same counts as the prose.       |
+| `scripts/build_favicon.mjs`                      | The `.ico` and touch icon, rasterized from `favicon.svg`.       |
+| `netlify/functions/mcp.mjs`                      | The MCP server at `/mcp`.                                       |
+| `netlify/edge-functions/markdown.ts`             | Content negotiation for `Accept: text/markdown`.                |
+| `netlify/edge-functions/trailing-punctuation.ts` | URLs a link parser mangled, redirected to the real path.        |
+| `server/index.mjs`                               | The Render deploy: static publish, `/mcp`, and both edge rules. |
+| `Dockerfile` / `render.yaml`                     | What Render builds and how it runs it.                          |
+| `tests/mcp.test.mjs`                             | The MCP suite.                                                  |
+| `tests/highlight.test.mjs`                       | The syntax-highlighting suite.                                  |
+| `scripts/validate_data.mjs`                      | Step 0 of the build: records against schemas.                   |
+| `scripts/check.sh`                               | The check sequence CI and `npm run check` both run.             |
 
 ## Never edit these
 

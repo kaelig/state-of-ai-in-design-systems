@@ -1,0 +1,25 @@
+# What the build writes, so the image never inherits a stale local build. Same
+# split as .gitignore: dashboard/ holds two source files and 138 generated ones,
+# and `dashboard/*` rather than `dashboard/**` so the negations below work.
+build/
+dashboard/*
+!dashboard/template.html
+!dashboard/favicon.svg
+
+# Installed inside the image against its own Node, not copied from a host that
+# may be on a different platform.
+node_modules/
+.netlify/
+
+# Nothing the build reads.
+.claude/
+.fallow/
+.git/
+.github/
+.impeccable/
+.playwright-mcp/
+.work/
+__pycache__/
+docs/
+tests/
+*.log
