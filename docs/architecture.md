@@ -101,6 +101,25 @@ prompts round it out: `audit-my-design-system` and `find-technique-for`.
 Tests drive the exported handler with plain `Request` objects under
 `node:test`, so there are no ports and no flake.
 
+## A second deploy target, and what it costs
+
+Netlify serves this out of three pieces: a static publish, a Function, and two
+edge functions. Render has the first and neither of the others, so `render.yaml`
+describes a web service and `server/index.mjs` reassembles the pieces in front
+of the same `dashboard/`.
+
+What that server imports rather than reimplements is the part worth protecting.
+The MCP handler is `netlify/functions/mcp.mjs` itself, mounted at the path that
+file's exported config names. The negotiation reads the route table
+`scripts/build_md.py` already generates for the edge function, written a second
+time as JSON because Node cannot import the Deno TypeScript.
+
+Two things are restated: the header table in `netlify.toml`, and the logic of
+the two edge functions. That is the standing cost of the second target, and it
+is the thing to check when either changes. A header rule added to
+`netlify.toml` and not to `server/index.mjs` makes the two deploys answer
+differently, and nothing fails when it happens.
+
 ## WebMCP, shipped early on purpose
 
 A feature-detected module registers four read-only tools on

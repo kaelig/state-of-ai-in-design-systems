@@ -1,0 +1,32 @@
+# Render Blueprint. Point Render at this repository (New > Blueprint, or
+# https://render.com/deploy) and it reads this file; a push to the branch the
+# service tracks deploys.
+#
+# A web service rather than a static site, because /mcp is part of the report,
+# not an extra. Render's static hosting serves files and nothing else, which
+# would drop the MCP server, the Accept: text/markdown negotiation and the
+# trailing-punctuation redirect — three of the four ways an agent reaches this
+# data. server/index.mjs serves the static publish and all three.
+#
+# Docker rather than a native runtime, because the build needs Node 24 and
+# Python 3.12 together and a native runtime pins one language. The Dockerfile
+# says which and why.
+
+services:
+  - type: web
+    name: state-of-ai-in-design-systems
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # The free instance sleeps after 15 minutes idle, and the first request back
+    # pays a cold start. That is the wrong trade for an MCP endpoint an agent
+    # calls mid-task; move to starter if this is the deploy people connect to.
+    plan: free
+    region: oregon
+    healthCheckPath: /llms.txt
+    envVars:
+      # Only read for the canonical Link header on a negotiated markdown
+      # response. Unset, it points at the canonical site, which is what the
+      # prerendered <link rel="canonical"> in every page already says. Set it to
+      # this service's own origin if this deploy is the canonical one.
+      - key: PUBLIC_ORIGIN
+        sync: false

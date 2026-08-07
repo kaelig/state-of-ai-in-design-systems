@@ -145,6 +145,32 @@ To deploy by hand — a preview, or from a branch:
 Build first when you do. `netlify/functions/mcp.mjs` imports two files from
 `build/`, which is generated and not committed.
 
+### On Render
+
+`render.yaml` is a Blueprint. Point Render at the repository and it reads that
+file; a push to the branch the service tracks deploys.
+
+It describes a web service, not a static site, because `/mcp` is part of the
+report rather than an extra. Render's static hosting serves files and nothing
+else, which would drop the MCP server, the `Accept: text/markdown` negotiation
+and the trailing-punctuation redirect. `server/index.mjs` serves the static
+publish and all three: it mounts `netlify/functions/mcp.mjs` at the path that
+file's own exported config names, reads the route table `build_md.py` generates
+for the edge function, and restates the header rules from `netlify.toml`.
+
+The `Dockerfile` is what Render builds, because the pipeline needs Node 24 and
+Python 3.12 together and a native runtime pins one language. It runs the same
+`./scripts/build.sh` and ships the result with a Node process in front of it.
+
+To run that server locally, against a build you already have:
+
+```sh
+./scripts/build.sh && npm start   # http://localhost:8888, /mcp included
+```
+
+`netlify serve` is still the closer match to the Netlify deploy, edge functions
+included. This one is the closer match to the Render deploy.
+
 ## Querying the data
 
 ```sql

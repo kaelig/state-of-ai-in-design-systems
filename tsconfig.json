@@ -35,6 +35,7 @@
     "scripts/**/*.mjs",
     "scripts/**/*.js",
     "netlify/functions/**/*.mjs",
+    "server/**/*.mjs",
     "tests/**/*.mjs",
     "types/**/*.d.ts"
   ],
