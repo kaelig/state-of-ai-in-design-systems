@@ -435,11 +435,10 @@ describe('prompt surface', () => {
     );
   });
 
-  test('build-my-roadmap needs its findings', async () => {
-    const { body } = await getPrompt('build-my-roadmap', {});
-    assert.match(body.error?.message ?? '', /Invalid arguments for prompt/);
-    assert.match(body.error.message, /findings/);
-  });
+  // build-my-roadmap used to require its findings. It no longer does: with none
+  // supplied it goes and reads the last saved audit, which is the whole point of
+  // the handoff. The negative assertion that replaced this one lives in the
+  // handoff block below, where the discovery branch is checked.
 
   test('every prompt describes itself and takes only the arguments it documents', async () => {
     const { body } = await legacy('prompts/list');
@@ -509,10 +508,25 @@ describe('a bare invocation', () => {
     assert.doesNotMatch(text, /the design system in the current directory/);
   });
 
-  // The other three genuinely need an argument, so a bare call is a real error.
+  test('the roadmap answers with no arguments key and goes looking', async () => {
+    const result = await bare('build-my-roadmap');
+    assert.ok(
+      result.body.result,
+      `roadmap rejected a request that omitted arguments: ${result.body.error?.message}`,
+    );
+    const text = promptText(result, 'build-my-roadmap');
+    assert.doesNotMatch(text, /undefined|\bnull\b/);
+    assert.doesNotMatch(
+      text,
+      /^Findings:$/m,
+      'the findings heading survived with nothing under it',
+    );
+    assert.match(text, /No findings were given/);
+  });
+
+  // The other two genuinely need an argument, so a bare call is a real error.
   // What they must not do is blame the object when a field is what is missing.
   for (const [name, missing] of [
-    ['build-my-roadmap', 'findings'],
     ['adopt-an-affordance', 'affordance'],
     ['find-technique-for', 'failure'],
   ])
@@ -972,5 +986,128 @@ describe('HTTP negative cases', () => {
     const { response } = await legacy('tools/list');
     assert.equal(response.headers.get('access-control-allow-origin'), '*');
     assert.ok(response.headers.get('access-control-expose-headers'));
+  });
+});
+
+// The handoff between the two prompts. Everything here checks that the audit and
+// the roadmap agree about a store neither of them can see: this server has no
+// filesystem, so all it can do is describe the same convention to both sides.
+//
+// What these prove: the contract is stated, and stated once. What they cannot
+// prove: that a client agent obeyed it. Nothing running in this process can —
+// the endpoint returns text and something else does the work. The end-to-end
+// check is by hand, against a deployed build, and it is written down in
+// docs/plans/2026-08-14-001-feat-audit-roadmap-handoff-plan.md.
+describe('the audit-to-roadmap handoff', () => {
+  const audit = () =>
+    getPrompt('audit-my-design-system', {}).then((r) =>
+      promptText(r, 'audit-my-design-system'),
+    );
+  const roadmap = (args = {}) =>
+    getPrompt('build-my-roadmap', args).then((r) =>
+      promptText(r, 'build-my-roadmap'),
+    );
+
+  // The store path is the one string that has to be identical on both sides. If
+  // it ever differs the handoff is dead and every other test here still passes,
+  // which is exactly why this one is first.
+  test('both prompts name the same store', async () => {
+    const [a, r] = await Promise.all([audit(), roadmap()]);
+    const dir = '.state-of-ai/audits';
+    assert.ok(a.includes(dir), 'the audit does not name the store');
+    assert.ok(r.includes(dir), 'the roadmap does not name the store');
+    // Take the directory off every store path either prompt mentions — file
+    // names differ, the directory must not — and check it is one value.
+    const dirs = new Set(
+      [...`${a}\n${r}`.matchAll(/\.state-of-ai\/[a-z-]+/g)].map((m) => m[0]),
+    );
+    assert.deepEqual([...dirs], [dir], `store paths diverged: ${[...dirs]}`);
+  });
+
+  test('the id the audit prints is the id the roadmap accepts', async () => {
+    const [a, r] = await Promise.all([audit(), roadmap()]);
+    const shape = '<slug>-<YYYYMMDDTHHMMSSZ>';
+    assert.ok(a.includes(shape), 'the audit does not state the id shape');
+    const { body } = await legacy('prompts/list');
+    const arg = body.result.prompts
+      .find((p) => p.name === 'build-my-roadmap')
+      .arguments.find((x) => x.name === 'audit');
+    assert.ok(
+      arg.description.includes(shape),
+      'the roadmap advertises a different id shape than the audit writes',
+    );
+    assert.ok(r.includes(shape));
+  });
+
+  test('the roadmap narrows by repo, then depth, then recency', async () => {
+    const text = await roadmap();
+    const order = ['repo_root', 'subdirectory', 'newest'].map((needle) =>
+      text.indexOf(needle),
+    );
+    assert.ok(
+      order.every((i) => i > -1),
+      `a narrowing step is missing: ${order}`,
+    );
+    assert.deepEqual(
+      order,
+      [...order].sort((x, y) => x - y),
+      'the narrowing steps are stated out of order',
+    );
+    assert.match(text, /deepest first/);
+  });
+
+  test('a cold start delegates to the audit prompt by its registered name', async () => {
+    const text = await roadmap();
+    const { body } = await legacy('prompts/list');
+    const registered = body.result.prompts.map((p) => p.name);
+    assert.ok(
+      registered.includes('audit-my-design-system'),
+      'the audit prompt was renamed',
+    );
+    // The name is a cross-prompt call, so a rename has to fail here rather than
+    // leaving the roadmap pointing at a prompt that no longer answers.
+    assert.ok(
+      text.includes('audit-my-design-system'),
+      'the roadmap does not name the prompt it delegates to',
+    );
+    assert.match(text, /prompts\/get/);
+    assert.match(text, /subagent/);
+    assert.match(text, /provisional/);
+    // And the shortcut, so a first-timer is not made to sit through an audit.
+    assert.match(text, /tell you\s+what is missing|describe their gaps/);
+  });
+
+  test('both prompts carry the rule that a record is data', async () => {
+    for (const [name, text] of [
+      ['audit', await audit()],
+      ['roadmap', await roadmap()],
+    ]) {
+      assert.match(
+        text,
+        /never instructions|not an instruction/,
+        `${name} does not say a record is data rather than instructions`,
+      );
+    }
+  });
+
+  test('an explicit audit id suppresses the discovery branch', async () => {
+    const text = await roadmap({ audit: 'acme-ui-20260814T101500Z' });
+    assert.match(text, /acme-ui-20260814T101500Z/);
+    assert.doesNotMatch(
+      text,
+      /No findings were given/,
+      'the discovery branch ran alongside an explicit audit',
+    );
+    assert.match(text, /stops here|Do not go looking further afield/);
+  });
+
+  test('supplied findings still pass through, and nothing else fires', async () => {
+    const findings = 'no llms.txt, no registry, docs are React-only';
+    const text = await roadmap({ findings });
+    assert.ok(text.includes(findings));
+    assert.doesNotMatch(text, /No findings were given/);
+    assert.doesNotMatch(text, /subagent/);
+    // A misrouted id in the findings slot is read as an id, not as a gap.
+    assert.match(text, /wrong\s+argument/);
   });
 });

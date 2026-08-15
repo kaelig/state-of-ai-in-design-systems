@@ -95,8 +95,9 @@ Snippet bodies are opt-in through `include:["snippets"]`, and `get_stats`
 carries an `enums` block so agents stop guessing filter values.
 
 Resources are a thin mirror only (`dsai://system/{id}`, `dsai://report/{section}`).
-Tools are the mainstream surface; Context7 and MS Learn ship tools alone. Two
-prompts round it out: `audit-my-design-system` and `find-technique-for`.
+Tools are the mainstream surface; Context7 and MS Learn ship tools alone. Five
+prompts round it out: `build-my-roadmap`, `start-here`, `audit-my-design-system`,
+`adopt-an-affordance` and `find-technique-for`.
 
 Tests drive the exported handler with plain `Request` objects under
 `node:test`, so there are no ports and no flake.

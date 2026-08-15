@@ -274,7 +274,9 @@ record has a JSON twin.
 - `/about/schema.md` — the schema in prose, including the controlled vocabularies.
 - Sending `Accept: text/markdown` to any HTML route returns the markdown twin.
 
-The MCP server at `/mcp` is public, read-only and unauthenticated. Nine tools:
+The MCP server at `/mcp` is public and unauthenticated. It holds no state,
+and its data tools never write; the audit prompt asks your own agent to save
+a record under `.state-of-ai/` in your working directory. Nine tools:
 `get_stats`, `list_systems`, `get_system`, `get_platform`, `list_affordances`,
 `list_techniques`, `search`, `get_snippet`, `get_report`. Start with `get_stats`
 to learn the filter vocabulary. Snippet bodies are opt-in through `get_snippet`
@@ -288,7 +290,9 @@ It also ships five prompts. `build-my-roadmap` leads, because it is the one
 most people connect for: it turns what a system is missing into sequenced
 work, carrying the record behind each item. The other four are `start-here`
 for orientation, `audit-my-design-system`, `adopt-an-affordance` and
-`find-technique-for`. They carry the controlled vocabulary in their bodies,
+`find-technique-for`. Run the audit first and the roadmap finds what it saved
+on its own, in that session or a later one; with no saved audit to find, it
+runs one. They carry the controlled vocabulary in their bodies,
 generated from the payload at registration time, so an agent has the filter
 values before its first call. Claude Code exposes them as
 `/mcp__ds-state-of-ai__<name>`; other clients use a prompt picker. The names are

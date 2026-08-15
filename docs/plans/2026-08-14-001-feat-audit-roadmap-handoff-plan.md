@@ -222,9 +222,6 @@ Out of scope, and deliberately so:
 
 #### Deferred to Follow-Up Work
 
-- Shipping this as an Agent Skill rather than a prompt. A skill can bundle
-  scripts, which would make the persistence contract enforced rather than stated
-  and testable as ordinary code. See KTD1 for why this plan does not.
 - A check that pins the prose call-sites to the argument schema, the way
   `tests/mcp.test.mjs:169-172` pins the prompt name set to `MCP_PROMPTS`. Today
   the argument descriptions drift freely, which is why R14 is manual work.
@@ -238,9 +235,11 @@ Out of scope, and deliberately so:
 ### Key Technical Decisions
 
 - KTD1. **The prompt bodies carry the contract; nothing enforces it.**
-  (session-settled: user-approved — chosen over shipping a local companion that
-  holds a filesystem: a companion is the only way to enforce persistence, and it
-  is a much larger build than the defect warrants.) The endpoint cannot reach the
+  (session-settled: user-directed — chosen over shipping this as an Agent Skill
+  bundling scripts: a skill could enforce the contract rather than state it and
+  would be testable as ordinary code, at the cost of a much larger build and
+  narrower client reach than a prompt every MCP client already lists.) The
+  endpoint cannot reach the
   reader's disk, so the persistence instruction goes in the prompt text and the
   client agent executes it. The honest consequence is that the suite proves the
   contract is *stated*, never that an agent obeyed it, which is why the

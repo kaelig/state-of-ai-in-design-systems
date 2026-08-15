@@ -40,10 +40,10 @@ grounded in the records, with the source link on each, instead of whatever a
 model half-remembers about design systems.
 
 The second is worth the extra step. Connect the server to your tool and run
-`build-my-roadmap`. Tell it what your design system has and hasn't got, and it
-hands back the gaps in the order worth closing them, each one carrying the
-record it came from, so you can go and read what somebody else did before you
-commit to it.
+`audit-my-design-system`, then `build-my-roadmap`. The roadmap finds the
+audit on its own and hands back the gaps in the order worth closing them,
+each one carrying the record it came from, so you can go and read what
+somebody else did before you commit to it.
 
 The data is a snapshot of 26–28 July 2026. The systems in it ship weekly, so
 parts of it are wrong already. Corrections take a source URL and nothing else.

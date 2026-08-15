@@ -1296,10 +1296,11 @@ def ai_content():
                 {
                     "type": "prose",
                     "text": f"Connecting the server also installs {NUMBER_WORD[len(MCP_PROMPTS)]} prompts. "
-                    f"Start with `build-my-roadmap`: tell it what your design system ships and what it "
-                    f"does not, and it returns your gaps in the order it would close them. Each one "
-                    f"carries the record it came from, so you can read how another team did it before "
-                    f"committing. All of them:",
+                    f"Run `audit-my-design-system` first: it finds what your design system ships and "
+                    f"what it does not, and saves the findings. Then run `build-my-roadmap`; it finds "
+                    f"that audit on its own and returns your gaps in the order it would close them. "
+                    f"Each one carries the record it came from, so you can read how another team did "
+                    f"it before committing. All of them:",
                 },
                 {
                     "type": "list",
