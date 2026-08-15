@@ -1253,7 +1253,13 @@ function buildServer() {
       description:
         'Orientation for an agent that has just connected: what this server holds, which tool answers ' +
         'which kind of question, the filter vocabulary, and what the other prompts are for.',
-      argsSchema: z.object({}),
+      // .default({}) rather than a bare z.object({}): params.arguments is
+      // optional on prompts/get, and a bare object schema rejects undefined, so
+      // a client that sent no arguments key got an error from the one prompt
+      // that takes none. The three prompts with a required argument keep the
+      // bare object — a bare invocation of those is a real error, and a default
+      // could not satisfy the required field anyway.
+      argsSchema: z.object({}).default({}),
     },
     () => ({
       messages: [
@@ -1292,53 +1298,67 @@ function buildServer() {
       title: 'Audit a design system against the survey',
       description:
         'Compare a design system against the survey and name what it is missing for AI consumers.',
-      argsSchema: z.object({
-        target: z
-          .string()
-          .describe(
-            'The design system to audit: a repo url, a docs url, or a name.',
-          ),
-        compare_to: z
-          .string()
-          .optional()
-          .describe(
-            'Optional id from this survey to benchmark against, e.g. shadcn-ui.',
-          ),
-      }),
+      argsSchema: z
+        .object({
+          target: z
+            .string()
+            .default('.')
+            .describe(
+              'The design system to audit: a repo url, a docs url, or a name. ' +
+                'Leave it out to audit the current directory.',
+            ),
+          compare_to: z
+            .string()
+            .optional()
+            .describe(
+              'Optional id from this survey to benchmark against, e.g. shadcn-ui.',
+            ),
+          // Spelled at both levels on purpose. An object-level default is handed
+          // back as written and does not run the field defaults over itself, so
+          // .default({}) here would answer a bare invocation with no target at all.
+        })
+        .default({ target: '.' }),
     },
-    ({ target, compare_to }) => ({
-      messages: [
-        {
-          role: 'user',
-          content: {
-            type: 'text',
-            text: [
-              `Audit ${target} against the State of AI in Design Systems survey.`,
-              '',
-              PROMPT_PREAMBLE,
-              '',
-              'Work in this order.',
-              '',
-              `1. Read ${target}: its repo, its docs, and any llms.txt, AGENTS.md, .github/copilot-instructions.md, CLAUDE.md, skill or MCP server it ships.`,
-              compare_to
-                ? `2. Call get_system with id "${compare_to}" and use it as the benchmark.`
-                : '2. Pick two or three systems to benchmark against, comparable in category, consumer model and team size. Not the most advanced systems in the survey: a five-person library serving one internal app learns very little from a platform team with a public registry. Call list_systems to shortlist, then get_system on each.',
-              '3. For every affordance type above, say whether the target ships it and link the file you checked. Some of these exist to serve external consumers, and a system that has none is not behind for lacking them: a registry, a public MCP server and a scaffolding CLI all assume somebody outside your team builds with your components. Where that is the case, record N/A with the reason instead of a gap. A private single-consumer system scored against affordances aimed at strangers gets a coverage table that measures the wrong thing.',
-              '4. Call list_techniques for the categories the target has nothing in, then get_snippet on the two or three most transferable so you have the verbatim text.',
-              `5. Build one real screen from ${target}'s own docs and whatever context it ships, using only what a model would find, and write down every place you had to guess. This is the step that measures what the documentation does rather than what it contains.`,
-              '',
-              `Step 5 only means anything from a context that has not read ${target}. By now you have, so running it yourself tests your memory rather than the docs, and the result is provisional. Record it that way when that is what happened.`,
-              '',
-              'If your client can run subagents: steps 1, 3 and 4 fan out cleanly, one agent per affordance type or technique category, and the findings merge. Step 5 does not. It has to go to an agent told nothing but the name of the system and the screen to build, which is also the only way to run it honestly.',
-              '',
-              'Report a coverage table with absent and N/A kept apart, the three gaps that would cost the most,',
-              'and for each gap a concrete example from the survey with its source_url. Say plainly when you',
-              'could not find something rather than recording it as absent.',
-            ].join('\n'),
+    ({ target, compare_to }) => {
+      // target defaults to '.', which is a path and not a name. Two readings, so
+      // a bare invocation says what it means and a named one is untouched.
+      const subject =
+        target === '.' ? 'the design system in the current directory' : target;
+      const its = target === '.' ? 'its' : `${target}'s`;
+      return {
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Audit ${subject} against the State of AI in Design Systems survey.`,
+                '',
+                PROMPT_PREAMBLE,
+                '',
+                'Work in this order.',
+                '',
+                `1. Read ${subject}: its repo, its docs, and any llms.txt, AGENTS.md, .github/copilot-instructions.md, CLAUDE.md, skill or MCP server it ships.`,
+                compare_to
+                  ? `2. Call get_system with id "${compare_to}" and use it as the benchmark.`
+                  : '2. Pick two or three systems to benchmark against, comparable in category, consumer model and team size. Not the most advanced systems in the survey: a five-person library serving one internal app learns very little from a platform team with a public registry. Call list_systems to shortlist, then get_system on each.',
+                '3. For every affordance type above, say whether the target ships it and link the file you checked. Some of these exist to serve external consumers, and a system that has none is not behind for lacking them: a registry, a public MCP server and a scaffolding CLI all assume somebody outside your team builds with your components. Where that is the case, record N/A with the reason instead of a gap. A private single-consumer system scored against affordances aimed at strangers gets a coverage table that measures the wrong thing.',
+                '4. Call list_techniques for the categories the target has nothing in, then get_snippet on the two or three most transferable so you have the verbatim text.',
+                `5. Build one real screen from ${its} own docs and whatever context it ships, using only what a model would find, and write down every place you had to guess. This is the step that measures what the documentation does rather than what it contains.`,
+                '',
+                `Step 5 only means anything from a context that has not read ${subject}. By now you have, so running it yourself tests your memory rather than the docs, and the result is provisional. Record it that way when that is what happened.`,
+                '',
+                'If your client can run subagents: steps 1, 3 and 4 fan out cleanly, one agent per affordance type or technique category, and the findings merge. Step 5 does not. It has to go to an agent told nothing but the name of the system and the screen to build, which is also the only way to run it honestly.',
+                '',
+                'Report a coverage table with absent and N/A kept apart, the three gaps that would cost the most,',
+                'and for each gap a concrete example from the survey with its source_url. Say plainly when you',
+                'could not find something rather than recording it as absent.',
+              ].join('\n'),
+            },
           },
-        },
-      ],
-    }),
+        ],
+      };
+    },
   );
 
   server.registerPrompt(

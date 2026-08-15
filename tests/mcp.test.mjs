@@ -457,6 +457,74 @@ describe('prompt surface', () => {
   });
 });
 
+// params.arguments is optional in prompts/get. A bare z.object({}) rejects
+// undefined, so every prompt used to answer a spec-legal request with an error —
+// including start-here, which takes no arguments at all and is the first thing
+// an agent calls. getPrompt always sends the key, so these call legacy directly.
+describe('a bare invocation', () => {
+  const bare = (name) => legacy('prompts/get', { name });
+
+  test('start-here answers with no arguments key', async () => {
+    const result = await bare('start-here');
+    assert.ok(
+      result.body.result,
+      `start-here rejected a request that omitted arguments: ${result.body.error?.message}`,
+    );
+    assert.match(promptText(result, 'start-here'), /get_stats/);
+  });
+
+  test('the audit answers with no arguments key, and reads as English', async () => {
+    const result = await bare('audit-my-design-system');
+    assert.ok(
+      result.body.result,
+      `audit rejected a request that omitted arguments: ${result.body.error?.message}`,
+    );
+    const text = promptText(result, 'audit-my-design-system');
+    assert.doesNotMatch(text, /undefined|\bnull\b/);
+    // The default is '.', which is a path. It must not reach the prose as one.
+    assert.doesNotMatch(
+      text,
+      /Audit \. against|Read \. :|Read \.:|from \.'s/,
+      'the bare target default leaked into the sentence',
+    );
+    assert.match(text, /the design system in the current directory/);
+    assert.match(text, /from its own docs/);
+  });
+
+  test('an empty arguments object resolves the same default', async () => {
+    const withEmpty = promptText(
+      await getPrompt('audit-my-design-system', {}),
+      'audit-my-design-system',
+    );
+    assert.match(withEmpty, /the design system in the current directory/);
+  });
+
+  test('a named target is untouched by the default', async () => {
+    const text = promptText(
+      await getPrompt('audit-my-design-system', { target: 'acme-ui' }),
+      'audit-my-design-system',
+    );
+    assert.match(text, /Audit acme-ui against/);
+    assert.match(text, /from acme-ui's own docs/);
+    assert.doesNotMatch(text, /the design system in the current directory/);
+  });
+
+  // The other three genuinely need an argument, so a bare call is a real error.
+  // What they must not do is blame the object when a field is what is missing.
+  for (const [name, missing] of [
+    ['build-my-roadmap', 'findings'],
+    ['adopt-an-affordance', 'affordance'],
+    ['find-technique-for', 'failure'],
+  ])
+    test(`${name} still refuses a bare invocation`, async () => {
+      const { body } = await bare(name);
+      assert.match(body.error?.message ?? '', /Invalid arguments for prompt/);
+      assert.match(body.error.message, new RegExp(name));
+      const { body: empty } = await getPrompt(name, {});
+      assert.match(empty.error?.message ?? '', new RegExp(missing));
+    });
+});
+
 describe('context budget', () => {
   // The failure mode that actually hurts: one call eating the agent's window.
   const MINIMAL = [
