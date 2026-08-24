@@ -159,6 +159,17 @@
     "added_on": "2026-07-28"
   },
   {
+    "id": "uber-base-mcp",
+    "title": "Base MCP: Teaching AI agents to speak the Base Design System",
+    "author": "Ali Asghar Aamir, Uber Design",
+    "published": "2026-08-12",
+    "kind": "essay",
+    "url": "https://uber.design/base-mcp",
+    "description": "A write-up of Base MCP, Uber's internal remote server that connects AI agents to the Base design system so an agent queries current documentation instead of guessing. It exposes 280 documentation pages, 700+ design tokens with light and dark variants, and 3,200+ keyword-searchable icons in filled and outlined variants, alongside pointers to each platform's component implementations, with nothing to install locally and no API keys to manage. Reports 500+ users and 50,000+ tool calls since launch.",
+    "quote": "Base MCP is an internal tool built around one idea: design systems should be machine-readable.",
+    "added_on": "2026-08-24"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
