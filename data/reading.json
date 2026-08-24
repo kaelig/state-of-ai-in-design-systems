@@ -170,6 +170,17 @@
     "added_on": "2026-08-24"
   },
   {
+    "id": "bill-design-system-bilingual",
+    "title": "How We Made Our Design System Bilingual: One Source of Truth for Humans and AI Agents",
+    "author": "David Cai, BILL",
+    "published": "2026-08-17",
+    "kind": "essay",
+    "url": "https://www.bill.com/engineering/how-we-made-our-design-system-bilingual",
+    "description": "A case study on making Trinity, BILL's design system, usable by AI agents without writing a second set of docs. Storybook stays the source of truth, and three things sit on top of it: a CLI that exposes component APIs and design tokens as structured JSON, a hosted MCP server for agent access, and agent skills that enforce compliance. The point is to ground an agent in verified component knowledge so it stops inventing hardcoded hex values or the wrong component. A/B tests are reported to cut token usage by 31–63% per task.",
+    "quote": "Our bet: instead of writing new docs for AI, turn the existing source of truth into a shared interface for humans and agents.",
+    "added_on": "2026-08-24"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
