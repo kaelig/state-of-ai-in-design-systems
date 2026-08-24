@@ -1,5 +1,16 @@
 [
   {
+    "id": "uber-base-mcp",
+    "title": "Base MCP",
+    "author": "Ali Asghar Aamir, Uber Design",
+    "published": "2026-08-12",
+    "kind": "study",
+    "url": "https://uber.design/base-mcp",
+    "description": "Uber's account of an internal remote MCP server that answers an agent's questions about Base from the system's own sources: 280 documentation pages, 700+ tokens across color, typography, spacing and motion in Primitive and Semantic tiers, 3,200+ icons searchable by keyword, and pointers into the platform-specific monorepos so an agent locates an existing component instead of building one. Deployed once for the company rather than installed per machine, and read from the published packages so it follows each Base release rather than going stale. Ranked in the top 1% of MCP servers at Uber since launch, with 500+ users and 50,000+ tool calls. The server is internal; the write-up is the public part.",
+    "quote": "With AI becoming central to how we build, design systems are no longer just resources for humans to reference. They're the knowledge layer that determines whether AI-assisted work stays consistent with our standards or drifts away from them.",
+    "added_on": "2026-08-24"
+  },
+  {
     "id": "agent-ready-design-systems-index",
     "title": "Agent-Ready Design Systems Index",
     "author": "Kiryl Zhukouski, DesignSystems.one",
