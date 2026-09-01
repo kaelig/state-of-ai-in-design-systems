@@ -181,6 +181,17 @@
     "added_on": "2026-08-24"
   },
   {
+    "id": "vercel-design-md",
+    "title": "How our agents build on-brand pages with design.md",
+    "author": "John Phamous, Vercel",
+    "published": "2026-08-31",
+    "kind": "essay",
+    "url": "https://vercel.com/blog/how-our-agents-build-on-brand-pages-with-design-md",
+    "description": "What Vercel gives agents working outside its repositories, where the `product-design` skill and the components it points at are not there to read. Porting that skill into a public prompt failed, because every model interpreted the same description of the visual language differently, so `design.md` was rewritten from scratch against seven frozen scenarios and rerun on Claude Opus 4.8 and Codex with GPT-5.5 after each change. Three layers came out of it: prose judgment in the file, a public stylesheet the agent never reads because it loads at render time, and deterministic checks for the mechanical failures. Over 200 runs went in. A six-page comparison found 39 known failures with the file against 91 without, 57% fewer, and states its own caveats: the checks catch only failures already named, six pages are too few to claim quality, and every page still had at least one failure serious enough to block shipping.",
+    "quote": "Every line of guidance in design.md earned its place through the eval loop.",
+    "added_on": "2026-09-01"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
