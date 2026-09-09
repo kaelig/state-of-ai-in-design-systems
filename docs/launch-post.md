@@ -6,14 +6,14 @@ channel.
 
 ---
 
-For three days at the end of July I read twenty open-source design systems the
+For three days at the end of July I read twenty open-source design systems the <!-- counts-ok -->
 way an agent would. Not their documentation sites. Their llms.txt files, their
 MCP servers, their agent skills, their editor rules: the things a design system
 ships so a coding assistant can build with it instead of inventing its own
 buttons.
 
-The result is a field survey. 187 affordances across those twenty systems and
-the six platforms around them, plus 157 techniques teams use to keep a model on
+The result is a field survey. 187 affordances across those twenty systems and <!-- counts-ok -->
+the six platforms around them, plus 157 techniques teams use to keep a model on <!-- counts-ok -->
 real components and real tokens. Every claim links to a page that loads and
 shows the thing. Where a system ships nothing, the record says so, because an
 absence is a finding too.
