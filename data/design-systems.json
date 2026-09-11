@@ -1332,6 +1332,288 @@
     ]
   },
   {
+    "id": "coinbase-cds",
+    "name": "Coinbase Design System (CDS)",
+    "org": "Coinbase",
+    "category": "design-system",
+    "repo_url": "https://github.com/coinbase/cds",
+    "docs_url": "https://cds.coinbase.com",
+    "license": "Apache-2.0",
+    "summary": "Coinbase open-sourced CDS in November 2024, and ships four agent skills in the public repo, two of which the docs site tells you to install. An MCP server arrives as a transitive dependency of every consuming project at a matching version, so a project on CDS carries the agent surface whether or not anyone goes looking for it. The docs pipeline treats agent-readable output as a build target, with one Nx task emitting a `.txt` twin of every component page and a per-platform `routes.txt` index from the same MDX and TypeScript docgen that renders the site, and a second validating what came out. The coercion is direct: `cds-code` ends with a seven-clause definition of done that rules out raw color values, raw pixel spacing and deprecated imports, and the rules file `cds-mcp-setup` writes into a consumer's repo tells the agent to \"ALWAYS prioritize CDS components over ANY other UI components when a CDS equivalent exists\". The team publishes what that buys, in a graded eval whose coding cohort passes 100% against 75.0% without the skill.",
+    "ai_maturity": "ai-native",
+    "maintenance": {
+      "actively_maintained": true,
+      "last_release": "@coinbase/cds-web 9.26.1, published 2026-09-03; cds-mobile, cds-common and cds-mcp-server ship the same version the same day. No GitHub release or tag exists for it: the only three tags are v9.0.0, ios-v0.0.1 and android-v0.0.1, so npm is the real release channel.",
+      "activity_note": "About 100 commits between 2026-06-11 and 2026-09-03 landing on 45 distinct days, from 8 authors inside that window and 23 contributors over the repo's life. 25 open pull requests and 14 CI workflows. 501 stars, open sourced 2024-11-08, first npm publish 2025-09-30. This record was researched on 2026-09-09, six weeks after the study's July collection window, so its dates run ahead of the rest of the corpus."
+    },
+    "affordances": [
+      {
+        "type": "claude-skill",
+        "name": "cds-code agent skill",
+        "official": true,
+        "audience": "consumers",
+        "description": "The primary consumer skill, v2.2.0, installed with `npx skills add https://github.com/coinbase/cds --skill cds-code`. It has the agent detect whether the project is React or React Native and discover the installed CDS packages before writing anything, restricts imports to what it calls the ONLY ALLOWED PATHS, and ends with a numbered acceptance test. A `guidelines/code-review.md` of 529 lines turns the same rules into an audit mode that emits ESLint-shaped findings, down to a prescribed column format of line and column, rule name, then message.",
+        "docs_url": "https://cds.coinbase.com/getting-started/ai-overview",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/SKILL.md",
+        "snippet": {
+          "language": "markdown",
+          "content": "Your task will be complete if:\n\n1. You performed skill initialization and explicitly identified the specific CDS components you would use\n2. Your changes DO NOT include any raw rgb/hex/etc color values\n3. Your changes DO NOT use any raw pixel values for spacing properties (padding, margin, gap, border radius). Explicit layout dimensions like `width` or `height` set to specific designer-specified values are acceptable.\n4. Your changes DO NOT import any depreacted CDS components or hooks.\n5. Your changes use components' style props (e.g. `font`, `color`, `background`, `textTransform`, `paddingX`, `gap`) instead of customization via inline `style` objects or with CSS classNames.\n6. All import paths are valid CDS package exports, determined in initialization\n7. The project's linting/typechecking/formatting tasks are passing",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/SKILL.md"
+        }
+      },
+      {
+        "type": "claude-skill",
+        "name": "cds-docs agent skill",
+        "official": true,
+        "audience": "consumers",
+        "description": "A retrieval skill that pulls the generated `.txt` documentation into the session. Its instruction is behavioral rather than technical: it tells the model to treat fetched pages as source material it has read and to \"Keep the actual doc page contents to yourself and only share their contents directly to the user if they ask.\" The AI Overview page recommends installing it alongside cds-code. It carries an `evals/` directory, though those evals assert on expected output prose rather than the pass/fail expectation lists cds-code uses.",
+        "docs_url": "https://cds.coinbase.com/getting-started/ai-overview",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-docs/SKILL.md"
+      },
+      {
+        "type": "claude-skill",
+        "name": "cds-design-to-code agent skill",
+        "official": true,
+        "audience": "consumers",
+        "description": "v2.0.0, the Figma-to-CDS skill. It ranks the outputs of Figma's own MCP server by confidence in a table, putting a Code Connect snippet above a screenshot and both above the default HTML and Tailwind classes, and it requires `get_design_context` to be called with `disableCodeConnect: false`. A translation list maps `flex-row` to `HStack` and `flex-col` to `VStack`, and a ten-item final validation checklist closes the run.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-design-to-code/SKILL.md",
+        "snippet": {
+          "language": "markdown",
+          "content": "| Source                          | Confidence | How to use                                                                                                                                                                           |\n| ------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n| `CodeConnectSnippet`            | Highest    | Preserve the component choice. It maps to a real component chosen by the design system team. Keep the composition close to the snippet after fixing imports, props, and data wiring. |\n| Screenshot                      | High       | Use for layout hierarchy, spacing rhythm, and visual intent verification.                                                                                                            |\n| Default HTML / Tailwind classes | Lower      | Structural hints that must be adapted into CDS components. Never ship raw Figma HTML in a CDS app.                                                                                   |",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-design-to-code/SKILL.md"
+        }
+      },
+      {
+        "type": "claude-skill",
+        "name": "cds-accessibility agent skill",
+        "official": true,
+        "audience": "consumers",
+        "description": "An accessibility skill built around a scope limit rather than a checklist: where the published doc is thin it tells the model to \"follow the published doc\" and not to invent a generic ARIA layer, and to escalate instead of authorizing a custom widget spec. Its public availability is ambiguous. The SKILL.md sits in the public repo under Apache-2.0, but the README points installation at Coinbase's internal registry at skills.cbhq.net, and the public AI Overview page never mentions the skill.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-accessibility/SKILL.md"
+      },
+      {
+        "type": "mcp-server",
+        "name": "@coinbase/cds-mcp-server",
+        "official": true,
+        "audience": "consumers",
+        "description": "A stdio MCP server bundled as a dependency of the CDS libraries and versioned with them, at 9.26.1 across 216 published versions as of 2026-09-09, the first on 2025-09-30. It exposes two tools, `list-cds-routes` (taking a `web` or `mobile` platform) and `get-cds-doc` (taking a route ending in `.txt`), and both read the pre-generated docs off disk rather than calling an API. It posts anonymous usage events to api.developer.coinbase.com, which `DISABLE_CDS_MCP_TELEMETRY=1` turns off. There is no hosted HTTP endpoint.",
+        "docs_url": "https://cds.coinbase.com/getting-started/ai-overview",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/server.ts",
+        "snippet": {
+          "language": "typescript",
+          "content": "server.tool(\n  'get-cds-doc',\n  'get a specific cds doc route based on the routes available from list-routes',\n  {\n    route: z\n      .string()\n      .describe(\n        'The route to the CDS docs. The path should always have a <platform>/<route> format and end in .txt',\n      ),\n  } as const,\n  ({ route }) => {",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/server.ts"
+        }
+      },
+      {
+        "type": "ai-docs-page",
+        "name": "AI Overview",
+        "official": true,
+        "audience": "consumers",
+        "description": "The one AI route in the site's sitemap, which listed 180 pages on 2026-09-09. It documents the two skills by install command, the MCP server and its version-matching caveat, the per-page \"View as Markdown\" and \"Copy for LLM\" chips, and the routes indexes, ending with a four-step recipe for pasting an index URL into Cursor's Indexing and Docs settings. It names Cursor, Claude Code, ChatGPT, Claude and Perplexity, and no AI app builder.",
+        "docs_url": "https://cds.coinbase.com/getting-started/ai-overview",
+        "code_url": "https://cds.coinbase.com/llms/web/getting-started/ai-overview.txt"
+      },
+      {
+        "type": "llms-txt",
+        "name": "llms/web/routes.txt and llms/mobile/routes.txt",
+        "official": true,
+        "audience": "consumers",
+        "description": "CDS ships a curated context index in llms.txt shape, with titles, links and one-line descriptions, but at a different address and split by platform: read on 2026-09-09 it carried 173 entries for web and 148 for mobile, each pointing at a `.txt` twin of a docs page. The conventional paths are empty. https://cds.coinbase.com/llms.txt and /llms-full.txt both answered 200 that day with a 312,024-byte Docusaurus shell byte-identical to the site's soft-404 control, and nothing in robots.txt or sitemap.xml points at the real indexes.",
+        "docs_url": "https://cds.coinbase.com/llms/web/routes.txt",
+        "snippet": {
+          "language": "markdown",
+          "content": "# CDS Routes\n\n## Getting Started\n\n- [theming](web/getting-started/theming.txt): The theme contains design tokens like colors, fonts, spacing, and more. The ThemeProvider provides access to these values via CSS Variables for web, and React Context for both web and React Native.\n- [templates](web/getting-started/templates.txt): Get started quickly with pre-built templates for common app architectures. Choose from Next.js, Vite, or Webpack templates, all configured with CDS components and best practices.\n- [styling](web/getting-started/styling.txt): CDS includes powerful and flexible APIs for styling components. Easily access values from the theme, or go rogue with full customization.\n- [playground](web/getting-started/playground.txt)\n- [introduction](web/getting-started/introduction.txt)\n- [installation](web/getting-started/installation.txt): This guide will help you get started with installing CDS in your React project. Follow the instructions below to set up CDS and start building with our cross-platform components.",
+          "source_url": "https://cds.coinbase.com/llms/web/routes.txt"
+        }
+      },
+      {
+        "type": "agents-md",
+        "name": "AGENTS.md, with CLAUDE.md as a one-line include",
+        "official": true,
+        "audience": "builders",
+        "description": "124 lines covering agent guidelines, the validation command to run after writing code for each toolchain, and a rule against using deprecated exports. `CLAUDE.md` is a single line, `@AGENTS.md`, so the two names cannot drift. Precedence is stated rather than implied: a package-level AGENTS.md is authoritative for work in that package, and `packages/cds-ios` and `packages/cds-android` both have one defending the public API surface of a library against a sample app's convenience.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/AGENTS.md",
+        "snippet": {
+          "language": "markdown",
+          "content": "## Agent Guidelines\n\n- NEVER make commits without being instructed to do so directly\n- Never commit secrets or credentials, log restricted PII, or remove or weaken security controls\n- Ask focused clarifying questions when ambiguity would materially change the implementation\n- ALWAYS look for relevant skills and rules you can apply before beginning your work",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/AGENTS.md"
+        }
+      },
+      {
+        "type": "cursor-rules",
+        "name": "Rules written into the consumer's repo by cds-mcp-setup",
+        "official": true,
+        "audience": "consumers",
+        "description": "`npx --package=@coinbase/cds-mcp-server cds-mcp-setup` takes an `--agent` of Claude or Cursor and writes the same rules text two ways: `.cursor/rules/cds.mdc` with MDC frontmatter, or `.claude/rules/cds.md` plus a reference prepended to the consumer's CLAUDE.md. It also merges a `cds` entry into `.cursor/mcp.json` or `.mcp.json`. The repo's own `.cursor/rules/` holds one file, `nx-rules.mdc`, which is generated by Nx Console and describes the monorepo tooling rather than CDS.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/setup.ts"
+      },
+      {
+        "type": "figma-code-connect",
+        "name": "Figma Code Connect",
+        "official": true,
+        "audience": "both",
+        "description": "Two labeled configs, CDS Web and CDS Mobile, glob 124 `*.figma.ts` files (70 web, 54 mobile) that each carry the Figma node id and the source file they map, all resolving to one library file key. The same configs also glob `*.figma.batch.json`, where the icon sets are declared in bulk, so the published mapping count runs well above the file count. `.github/workflows/figma.yml` runs `figma connect publish --dry-run` on pull requests from branches in the repo, skipping forks, and publishes on merge to master, then deploys an audit report checking each component node still carries its GitHub web, GitHub mobile and docs dev resources.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/figma.config.web.json",
+        "docs_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/.github/workflows/figma.yml"
+      },
+      {
+        "type": "storybook-integration",
+        "name": "Hosted Storybook",
+        "official": true,
+        "audience": "builders",
+        "description": "Storybook 9.1.17 on react-vite. The config globs `packages/web` only, so the live index at cds-storybook.coinbase.com held 821 entries drawn from 155 web story files when it was read on 2026-09-09; the repo carries 346 story files in total, and the 188 mobile ones are not built into it. Percy covers visual regression, and the docs site links it from the navbar and the footer.",
+        "docs_url": "https://cds-storybook.coinbase.com/",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/apps/storybook/.storybook/main.ts"
+      },
+      {
+        "type": "codemod-ai",
+        "name": "@coinbase/cds-migrator",
+        "official": true,
+        "audience": "consumers",
+        "description": "`npx @coinbase/cds-migrator`, v1.1.0. The README documents one preset, `v8-to-v9`, and a transform mode that runs named transforms directly with `-t`. It leaves TODO comments where a change needs a person, keeps a `migration.log` and supports `--dry-run`, and its wrapper-package support changes which imports a transform matches without changing the import path written to disk. That non-interactive path is what makes it drivable by an agent rather than only by a person answering prompts.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/packages/migrator/README.md"
+      },
+      {
+        "type": "other",
+        "name": "code-connect-refresh multi-agent workflow",
+        "official": true,
+        "audience": "builders",
+        "description": "A committed 1,126-line Claude Code workflow that generated the Code Connect bindings for all 80 core components by fanning out batches of four subagents, capped at four because of the Figma MCP's 20-calls-per-minute limit. It reads a progress file on startup so a rate-limited run resumes rather than restarts, and posts its summary table to a Linear issue at the end. Its reports carry sections for Figma properties with no code equivalent, so the run feeds fixes back to the design library. A hardcoded absolute path to a maintainer's home directory shows it ran locally, not in CI.",
+        "code_url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/.claude/workflows/code-connect-refresh.js"
+      },
+      {
+        "type": "copilot-instructions",
+        "name": "GitHub Copilot instruction files",
+        "official": false,
+        "present": false,
+        "audience": "consumers",
+        "description": "No instruction files of either GitHub convention. The tree at 8a553e5, 22,078 paths and not truncated, has no `.github/copilot-instructions.md`, no `.github/instructions/`, no `.github/prompts/` and no `.cursorrules`, and each of those raw paths returns 404. The repo does carry `.cursor/rules/nx-rules.mdc`, but it is generated by Nx Console and describes the monorepo tooling rather than CDS. Coinbase distributes its own rules by having `cds-mcp-setup` write them into the consuming repo instead."
+      }
+    ],
+    "techniques": [
+      {
+        "name": "CDS before any other component source",
+        "category": "prohibition",
+        "description": "The rules file the installer drops into a consumer repo opens by ranking CDS above React Native built-ins and HTML elements alike, then makes the research order explicit: check CDS first and call it MANDATORY, consider native components only if nothing fits, and custom implementations only after that. The last clause is the load-bearing one, telling the agent to use CDS even where the surrounding code does not.",
+        "snippet": {
+          "language": "markdown",
+          "content": "- ALWAYS prioritize CDS components over ANY other UI components when a CDS equivalent exists. For React Native this includes React Native built-ins. For web this includes any HTML native elements.\n- NEVER suggest using alternative UI libraries or components without first confirming a CDS component doesn't exist for the use case.\n- ALWAYS use CDS components even if other local components or screens in the codebase are not currently using them - the goal is to standardize on CDS.",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/cds.md"
+        }
+      },
+      {
+        "name": "A seven-clause definition of done",
+        "category": "prohibition",
+        "description": "cds-code ends by restating its constraints as conditions for the task being complete, which is a different move from listing them as guidance up front. Three of the seven are DO NOT clauses, and the spacing one carves out an exception for designer-specified width and height so the prohibition does not overreach. The last two hand the check to tooling, requiring valid export paths and passing lint, typecheck and format. The source's own spelling of \"depreacted\" is quoted as written.",
+        "snippet": {
+          "language": "markdown",
+          "content": "Your task will be complete if:\n\n1. You performed skill initialization and explicitly identified the specific CDS components you would use\n2. Your changes DO NOT include any raw rgb/hex/etc color values\n3. Your changes DO NOT use any raw pixel values for spacing properties (padding, margin, gap, border radius). Explicit layout dimensions like `width` or `height` set to specific designer-specified values are acceptable.\n4. Your changes DO NOT import any depreacted CDS components or hooks.\n5. Your changes use components' style props (e.g. `font`, `color`, `background`, `textTransform`, `paddingX`, `gap`) instead of customization via inline `style` objects or with CSS classNames.\n6. All import paths are valid CDS package exports, determined in initialization\n7. The project's linting/typechecking/formatting tasks are passing",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/SKILL.md"
+        }
+      },
+      {
+        "name": "Citing the compiler error a hardcoded color produces",
+        "category": "token-enforcement",
+        "description": "The code-review guideline forbids hex, rgb and hsl literals and quotes the TypeScript error one produces, naming the semantic tokens to use instead. Telling the model what failure to expect makes the rule checkable rather than stylistic, which matters because neither ESLint plugin in the repo carries a rule against raw colors or non-token spacing.",
+        "snippet": {
+          "language": "markdown",
+          "content": "**Applies to:** web + mobile\n\nHardcoded hex/rgb/hsl literals prevent dark mode and break theming. CDS's type system actively rejects them (`Type '\"#0000ff\"' is not assignable to type 'Color | undefined'`). Use semantic color tokens (`bgPrimary`, `fgMuted`, `fgPositive`, `fgNegative`, etc.) instead.",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/guidelines/code-review.md"
+        }
+      },
+      {
+        "name": "Two tools, the second dependent on the first",
+        "category": "tool-gating",
+        "description": "The whole MCP server is `list-cds-routes` and `get-cds-doc`, and the second tool's description points back at the first, so a model that wants a component's props is told to take a listed route rather than guess a path. The `<platform>/<route>` shape ending in `.txt` is stated in that description and not in the schema, which takes a bare string, so an invented path is not refused at the tool boundary: it passes, misses on the file read, and comes back as an error result. The description also names \"list-routes\" while the tool it refers to is `list-cds-routes`.",
+        "snippet": {
+          "language": "typescript",
+          "content": "server.tool(\n  'get-cds-doc',\n  'get a specific cds doc route based on the routes available from list-routes',\n  {\n    route: z\n      .string()\n      .describe(\n        'The route to the CDS docs. The path should always have a <platform>/<route> format and end in .txt',\n      ),\n  } as const,\n  ({ route }) => {",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/server.ts"
+        }
+      },
+      {
+        "name": "A routes index generated from the same source as the site",
+        "category": "curated-context",
+        "description": "One file per platform indexes four sections: getting started, components, hooks and guides. Every component and hook entry carries a one-line description, while all six guides entries and half the getting-started ones are bare links. The same Nx target emits it and the `.txt` twins from the docs MDX and the TypeScript docgen, so the index cannot drift from the components, and a separate `validate-llm-docs-dist` target checks the output before it ships.",
+        "snippet": {
+          "language": "markdown",
+          "content": "# CDS Routes\n\n## Getting Started\n\n- [theming](web/getting-started/theming.txt): The theme contains design tokens like colors, fonts, spacing, and more. The ThemeProvider provides access to these values via CSS Variables for web, and React Context for both web and React Native.\n- [templates](web/getting-started/templates.txt): Get started quickly with pre-built templates for common app architectures. Choose from Next.js, Vite, or Webpack templates, all configured with CDS components and best practices.\n- [styling](web/getting-started/styling.txt): CDS includes powerful and flexible APIs for styling components. Easily access values from the theme, or go rogue with full customization.\n- [playground](web/getting-started/playground.txt)\n- [introduction](web/getting-started/introduction.txt)\n- [installation](web/getting-started/installation.txt): This guide will help you get started with installing CDS in your React project. Follow the instructions below to set up CDS and start building with our cross-platform components.",
+          "source_url": "https://cds.coinbase.com/llms/web/routes.txt"
+        }
+      },
+      {
+        "name": "An installer that edits the consumer's CLAUDE.md",
+        "category": "instruction-files",
+        "description": "Rather than publishing rules text for a person to paste, CDS ships a command that writes the rules file and then prepends a reference to it at the top of whatever CLAUDE.md it finds, creating one if there is none. It checks for the reference first so a second run is idempotent. The consequence is that the design system's prohibitions load in every session in that repo without anyone remembering to include them.",
+        "snippet": {
+          "language": "typescript",
+          "content": "    const claudeMdPath = path.join(repoRoot, 'CLAUDE.md');\n    const claudeRulesReference = '@.claude/rules/cds.md';\n\n    if (fs.existsSync(claudeMdPath)) {\n      const claudeMdContent = fs.readFileSync(claudeMdPath, 'utf8');\n      if (!claudeMdContent.includes(claudeRulesReference)) {\n        // Add the reference at the beginning of the file\n        const updatedContent = `${claudeRulesReference}\\n\\n${claudeMdContent}`;\n        fs.writeFileSync(claudeMdPath, updatedContent);\n        console.log(`✅ Added CDS rules reference to ${claudeMdPath}`);",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/setup.ts"
+        }
+      },
+      {
+        "name": "Ranking Figma MCP's own outputs by confidence",
+        "category": "design-code-mapping",
+        "description": "The 124 committed `*.figma.ts` bindings are the instrument here, and the ranking is how they get enforced. The design-to-code skill treats what Figma's MCP server returns as evidence of varying quality rather than as an answer, and puts a Code Connect snippet highest because a person on the design system team chose that component. A screenshot is good for layout intent; the default HTML and Tailwind output ranks lowest and must be adapted, never shipped. The mapping decides the component, and the model is left to wire it up.",
+        "snippet": {
+          "language": "markdown",
+          "content": "| Source                          | Confidence | How to use                                                                                                                                                                           |\n| ------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n| `CodeConnectSnippet`            | Highest    | Preserve the component choice. It maps to a real component chosen by the design system team. Keep the composition close to the snippet after fixing imports, props, and data wiring. |\n| Screenshot                      | High       | Use for layout hierarchy, spacing rhythm, and visual intent verification.                                                                                                            |\n| Default HTML / Tailwind classes | Lower      | Structural hints that must be adapted into CDS components. Never ship raw Figma HTML in a CDS app.                                                                                   |",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-design-to-code/SKILL.md"
+        }
+      },
+      {
+        "name": "Publishing the eval that justifies the skill",
+        "category": "validation-loop",
+        "description": "The skill's README carries its own benchmark, iteration 4 dated 2026-07-22. Of a 10-task suite it reports the 8 coding and review tasks separately, at 100% with the skill against 75.0% without, and the widest per-task gaps are a deprecated-component trap at 17% and illustration sizing at 40%. AGENTS.md requires the numbers be written back after any eval run, and the token column is marked unavailable rather than quietly dropped. The grader is Anthropic's skill-creator, vendored into the repo and pinned in `skills-lock.json` by a recorded content hash.",
+        "snippet": {
+          "language": "markdown",
+          "content": "| Metric     | With skill | Without skill | Delta  |\n| ---------- | ---------- | ------------- | ------ |\n| Pass rate  | **100%**   | 75.0%         | +25.0% |\n| Avg time   | 204.4s     | 109.7s        | +94.8s |\n| Avg tokens | n/a        | n/a           | n/a    |\n\nToken counts were unavailable from the Cursor eval runner for this iteration.",
+          "source_url": "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/README.md"
+        }
+      }
+    ],
+    "platform_integrations": [
+      {
+        "platform": "figma",
+        "description": "One library file key, bound to code by 124 component-level Code Connect files plus a batched icon mapping in each of the web and mobile packages, validated on non-fork pull requests. A dev-resources audit checks that each component node in Figma still links back to its docs page, and to its web and mobile sources where those exist, then deploys the drift as an HTML report to GitHub Pages. The binding is per component rather than universal: 89 of the 152 component pages in the sitemap carried a Figma link when the site was read on 2026-09-09, while Box, Table and twelve of the sixteen charts pages carried none, and the getting-started pages never mention Figma at all.",
+        "url": "https://github.com/coinbase/cds/blob/8a553e592884490f47365f0feafba6d5e5971f79/figma.config.web.json"
+      },
+      {
+        "platform": "storybook",
+        "description": "A hosted Storybook at cds-storybook.coinbase.com, 821 entries built from 155 web story files, with Percy visual regression. The skills, the MCP server and the routes indexes never reference it. The docs build does write its URL into a generated directory file, but that file is not served, so an agent reaching CDS through the documented paths never sees it.",
+        "url": "https://cds-storybook.coinbase.com/"
+      },
+      {
+        "platform": "other",
+        "description": "Editor distribution. The docs page walks through adding a routes index to Cursor's Indexing and Docs settings and notes other assistants can be given the same URL, and `cds-mcp-setup` writes editor config directly for Claude and Cursor. A VS Code plugin lives in the monorepo but is marked private and is not published.",
+        "url": "https://cds.coinbase.com/getting-started/ai-overview"
+      }
+    ],
+    "building_vs_consumption": {
+      "for_consumers": "Three ways in, all documented on one page: install cds-code and cds-docs as agent skills, run the MCP server that ships as a dependency of the libraries, or paste a routes index into an editor's docs settings. The install command does more than register a server, writing rules into the repo and referencing them from CLAUDE.md so the prohibitions load every session. The weak point is discovery rather than depth: that one page is in the sitemap, but the routes indexes and the `.txt` twins are not, there is no llms.txt, and robots.txt points at nothing. An agent that scrapes the rendered HTML instead of the `.txt` twin gets the prose and silently loses the entire props table.",
+      "for_builders": "The team runs its own agents against the same repo with a checked-in permission allowlist, an `.mcp.json` pointing at Linear, Figma and CDS itself, and 19 skill entries under `.claude/skills` covering deprecation, breaking-change detection, codemod authoring and lint-rule scaffolding. Two of those are symlinks into `.agents/skills`, one of them Anthropic's skill-creator rather than Coinbase's own work. Several skills end at a lint rule, so the definition of done is machine-checked. Evals are run by a person prompting an agent locally and written back into the skill README; no workflow in CI invokes a model, and there is no AI code-review bot. CONTRIBUTING.md never mentions any of it."
+    },
+    "gaps": "The rules file that cds-mcp-setup installs tells agents to call `get-cds-route`, but the server registers `get-cds-doc`. Both were read in the same session, and the mismatch means the second instruction names a tool that does not exist. Coinbase's own write-up names cds-code and cds-design-to-code as \"our main coding skills\" and says evaluations exist \"for each of our coding skills\", but cds-design-to-code carries no `evals/` directory and no performance section; the two skills that do are cds-code and cds-docs, and cds-accessibility has neither. The eval that is published reports its token column as n/a, because the Cursor runner did not supply counts for that iteration, so the cost side of the skill is unmeasured. The same post's Code Connect claim, that sessions with it set up produced higher quality results and fewer Figma MCP tokens, is given without a magnitude, and no eval for it is published. The CDS Playground it describes is integrated with Coinbase's internal systems and internal agent skills and is never linked; the public docs site has a separate live code playground, and the two should not be read as the same thing. That post is also the one source here a machine cannot read, returning 403 to a plain fetch and to a browser user agent alike, so it was read in a browser. cds-accessibility ships in the public repo under the same license as the rest, but its README points installation at an internal registry at skills.cbhq.net and the AI Overview page never lists it, so whether a consumer outside Coinbase can install it is unresolved. The concatenated full corpus is built as web-complete.md and mobile-complete.md for an internal Slackbot and is not served: /llms/slackbot-docs/ answers with the site shell. Site absences rest on a control rather than a status code, because every unknown path returns 200 with a byte-identical 312,024-byte Docusaurus shell; llms.txt, llms-full.txt, `.md` twins and `Accept: text/markdown` were all matched against it. GitHub reports the license as NOASSERTION because the LICENSE file is the nine-line Apache notice rather than the full body. No tag or GitHub release exists for 9.26.1, so no permalink pins the audited version. The migrator's README and CLI reference both document a `v8-to-v9` preset, but `packages/migrator/src/presets/` at this commit holds `v8-to-v9-web` and `v8-to-v9-mobile` and no `v8-to-v9`, so the documented command matches nothing. No search was made for community CDS MCP servers or skills outside the coinbase org.",
+    "sources": [
+      "https://github.com/coinbase/cds",
+      "https://cds.coinbase.com/getting-started/ai-overview",
+      "https://cds.coinbase.com/llms/web/routes.txt",
+      "https://cds.coinbase.com/llms/web/components/Button.txt",
+      "https://www.coinbase.com/blog/how-coinbase-design-systems-are-powering-the-ai-prototyping-era",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/SKILL.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/README.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-code/guidelines/code-review.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/skills/cds-design-to-code/SKILL.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/server.ts",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/setup.ts",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/packages/mcp-server/src/cds.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/AGENTS.md",
+      "https://raw.githubusercontent.com/coinbase/cds/8a553e592884490f47365f0feafba6d5e5971f79/.claude/workflows/code-connect-refresh.js",
+      "https://registry.npmjs.org/@coinbase/cds-mcp-server"
+    ]
+  },
+  {
     "id": "daisyui",
     "name": "daisyUI",
     "org": "Saadeghi (open source)",

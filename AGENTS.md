@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository is a research report: a July 2026 field survey of how 20
+This repository is a research report: a July 2026 field survey of how 21
 open-source design systems and 6 platforms make themselves usable by AI agents,
 published as a static site with a markdown mirror, a JSON and SQLite export, and
 an MCP server. Facts live in `data/*.json`; everything published is generated

@@ -13,7 +13,7 @@ are resolved case by case, not by rule.
 
 - **Human readers:** designers and engineers working on or evaluating design
   systems, deciding which AI affordances (MCP servers, agent skills, llms.txt,
-  editor rules) to ship or adopt. They read the report, compare the 20 systems,
+  editor rules) to ship or adopt. They read the report, compare the 21 systems,
   and follow source links before citing.
 - **AI agents:** coding assistants and research agents consuming the study as
   data — via `/llms.txt`, per-record markdown/JSON twins, the SQLite export,
@@ -25,7 +25,7 @@ new-system suggestions through the issue templates.
 
 ## Product Purpose
 
-A field survey of how 20 actively maintained open-source design systems make
+A field survey of how 21 actively maintained open-source design systems make
 themselves legible to machines, plus the 6 platforms around them. For each
 system: what it ships so coding agents can build with it, and the techniques
 that keep a model using real components and tokens instead of inventing its

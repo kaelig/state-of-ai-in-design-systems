@@ -13,6 +13,7 @@ export const MD_TWINS: Record<string, string> = {
   "/systems/carbon-design-system": "/systems/carbon-design-system.md",
   "/systems/chakra-ui": "/systems/chakra-ui.md",
   "/systems/cloudscape-design-system": "/systems/cloudscape-design-system.md",
+  "/systems/coinbase-cds": "/systems/coinbase-cds.md",
   "/systems/daisyui": "/systems/daisyui.md",
   "/systems/fluent-ui-microsoft": "/systems/fluent-ui-microsoft.md",
   "/systems/heroui": "/systems/heroui.md",

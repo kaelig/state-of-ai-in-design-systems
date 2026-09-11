@@ -45,12 +45,12 @@ VIEW_TITLES = {
     "overview": (
         "/",
         "State of AI in Design Systems · July 2026",
-        "A field study of how 20 open-source design systems and 6 platforms make themselves readable to AI agents.",
+        "A field study of how 21 open-source design systems and 6 platforms make themselves readable to AI agents.",
     ),
     "techniques": (
         "/techniques",
         "Coercion techniques · State of AI in Design Systems",
-        "157 techniques design systems use to keep models on-system, grouped by category and quoted from the source files.",
+        "165 techniques design systems use to keep models on-system, grouped by category and quoted from the source files.",
     ),
     "platforms": (
         "/platforms",
@@ -60,7 +60,7 @@ VIEW_TITLES = {
     "insights": (
         "/insights",
         "Insights · State of AI in Design Systems",
-        "What the data says: where the 20 systems converge, where they split, and what the leaders do that the rest don't.",
+        "What the data says: where the 21 systems converge, where they split, and what the leaders do that the rest don't.",
     ),
     "methodology": (
         "/methodology",
@@ -403,7 +403,7 @@ def _smarten_selftest():
 
 
 # Prose that opens a sentence with a count wants the word, not the digit
-# ("Sixteen of nineteen systems…"). Past twenty the digits read better anyway,
+# ("Sixteen of nineteen systems…"). Past twenty the digits read better anyway,  # counts-ok
 # and a count that grows past twenty falls back to them on its own.
 NUMBER_WORD = {
     0: "zero",
