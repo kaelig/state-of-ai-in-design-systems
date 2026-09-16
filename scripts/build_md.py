@@ -9,7 +9,7 @@ Runs after scripts/build_dashboard.py (which writes build/payload.json) and
 before scripts/prerender.mjs.
 
 Writes into dashboard/:
-  systems/<id>.md + .json        20 + 20
+  systems/<id>.md + .json        21 + 21
   platforms/<id>.md + .json       6 + 6
   techniques/<category>.md       one per category present in the data
   <view>.md                      index (carrying the systems table), techniques,
@@ -1499,7 +1499,7 @@ def questions():
         f"""No, but almost: {len(MCP_YES)} of the {N_SYS} systems in this study ship an official MCP
 server, and {len(MCP_NO)} do not — {slinks(MCP_NO)}.
 
-Cloudscape covers the same ground with the most engineered docs pipeline in the study, regenerated
+Cloudscape covers the same ground with one of the most engineered docs pipelines in the study, regenerated
 daily with typed JSON per component. Nord and USWDS route agents through published files instead of
 a server. The shape of the {len(MCP_YES)} servers varies more than their existence does: bundled in a
 CLI, published as an npm stdio binary, or hosted remotely behind auth. Per-system detail is in each

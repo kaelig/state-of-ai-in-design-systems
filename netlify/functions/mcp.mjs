@@ -194,7 +194,7 @@ const FIXED_SECTIONS = [
   [
     'overview',
     '/index.md',
-    'The systems table: all 20 design systems and their affordance coverage, with a link to every record',
+    'The systems table: all 21 design systems and their affordance coverage, with a link to every record',
   ],
   ['techniques', '/techniques.md', 'The model-coercion technique catalog'],
   ['platforms', '/platforms.md', 'The six platforms'],

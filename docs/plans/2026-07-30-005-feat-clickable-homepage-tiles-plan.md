@@ -93,7 +93,7 @@ with `::after`.** This is the `.sysrow` pattern at
 contents in an anchor — would pull the `npx skills add …` code chip inside the
 link text and inflate the accessible name with the detail line.
 
-**KTD4. The accessible name is the numeral plus the label**, e.g. "20 design
+**KTD4. The accessible name is the numeral plus the label**, e.g. "20 design <!-- counts-ok -->
 systems studied", with no screen-reader-only destination suffix. The label alone
 ("ship an official MCP server") reads as an instruction rather than a claim. This
 matches `.sysrow`, where the link name is the system name and the destination is
@@ -329,8 +329,8 @@ Recorded because this plan was written headless, without a scoping confirmation.
 **Two tiles land on a page that states a different number for the same
 affordance.** The tiles count officially-shipped affordances; the matrix
 prevalence bars count official and community together, which its own subhead
-says. Measured against today's data: tile 2 says 17 ship an official MCP server
-and the matrix MCP bar reads 19; tile 3 says 17 ship official agent skills and
+says. Measured against today's data: tile 2 says 17 ship an official MCP server <!-- counts-ok -->
+and the matrix MCP bar reads 19; tile 3 says 17 ship official agent skills and <!-- counts-ok -->
 the Agent skill bar reads 18. Tile 4 is clean at 15 and 15.
 
 Nothing here is wrong — the matrix distinguishes official from community with
