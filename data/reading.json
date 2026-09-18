@@ -192,6 +192,17 @@
     "added_on": "2026-09-01"
   },
   {
+    "id": "machine-readable-design-tokens",
+    "title": "Machine-Readable Design Tokens for AI-Ready Component Libraries",
+    "author": "Kelsey Ploransky, Southleft",
+    "published": "2026-09-10",
+    "kind": "essay",
+    "url": "https://southleft.com/insights/design-systems/machine-readable-design-tokens-for-ai-ready-component-libraries/",
+    "description": "Walks the token layers from the angle of what an agent can and cannot infer from a name. Three tiers, primitives holding values, semantic tokens holding roles and component tokens holding a component's states and variants, then a case for role-based names over appearance-based ones, since `color.text.subtle` carries a decision where `gray-2` carries a shade. The weight falls on the `description` field: it should name the backgrounds a token may appear on and the fills it may not, which is guidance an agent cannot get from the value and a reviewer has nothing to check without. Then the checks that catch divergence, linting production components for hard-coded values and deprecated references, checking design files against the published library, and running accessibility and visual regression over affected states and themes, and a six-question audit for tracing one component from Figma through to production. Ends on Altitude, Southleft's own open design system, as the worked example.",
+    "quote": "When the team can't explain when to choose each one, resolve the overlap before asking an agent to use them.",
+    "added_on": "2026-09-16"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
