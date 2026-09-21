@@ -203,6 +203,17 @@
     "added_on": "2026-09-16"
   },
   {
+    "id": "atlassian-ads-cli",
+    "title": "Giving AI agents design system context from the terminal: what we learned building a CLI",
+    "author": "Sudharsanam Narasimhan, Kylor Hall and Michael Abrahamian, Atlassian",
+    "published": "2026-09-16",
+    "kind": "essay",
+    "url": "https://www.atlassian.com/blog/ai-at-work/giving-ai-agents-design-system-context-from-the-terminal-what-we-learned-building-a-cli",
+    "description": "Atlassian's third way of handing its design system to an agent, after the MCP server and the agent skill: a CLI, `@atlaskit/ads-cli`, for anywhere there is a shell but no MCP client. All three read the same structured content through the same handlers, which is why the first version shipped in a week and why none of them drift. The team benchmarked rather than assumed, holding agent, model and task bank fixed and varying only how the skill told the agent to fetch context, and it was the transcripts rather than the dashboard that found the fixes: `npx` costing over 15 seconds of startup per query in their monorepo, round trips a batch command could collapse, and search output that now prints the follow-up command instead of leaving the model to guess. Against the MCP baseline they report sessions 8% faster, 8% fewer tokens, and CLI use overtaking MCP by 60%. The skill now reaches for the CLI first, and the skill itself is not public.",
+    "quote": "a benchmark tells you whether the agent succeeded, whereas the transcript tells you whether it succeeded the way you intended or if it ignored your carefully written instructions and read source files instead.",
+    "added_on": "2026-09-21"
+  },
+  {
     "id": "agentic-design-systems-in-2026-with-brad-frost",
     "title": "Agentic Design Systems in 2026 with Brad Frost",
     "author": "Brad Frost, on Chromatic's channel",
