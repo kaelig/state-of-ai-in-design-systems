@@ -38,7 +38,7 @@ export function Stack({ direction = 'vertical', gap = 'md', align = 'stretch', j
 
 export function Grid({ columns = 3, gap = 'lg', children, className = '' }) {
   return (
-    <div className={`h-grid ${className}`} style={{ '--h-cols': columns, gap: space(gap) }}>
+    <div className={`h-grid ${className}`} style={{ '--h-cols': columns, '--h-gap': space(gap) }}>
       {children}
     </div>
   );

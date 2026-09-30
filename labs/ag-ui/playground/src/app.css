@@ -386,8 +386,9 @@ code {
   color: var(--ink-3);
 }
 .pg-input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ink) 16%, transparent);
   outline-offset: 0;
-  border-color: var(--focus);
+  border-color: var(--ink-2);
 }
 .pg-textarea {
   display: block;
@@ -1237,9 +1238,6 @@ button.pg-finding[aria-pressed='true'] {
 .pg-run-outcome[data-outcome='error'] {
   color: var(--err);
 }
-.pg-run-none {
-  padding: 6px 10px;
-}
 .pg-event-rows {
   margin: 0;
   padding: 2px 0;
@@ -1293,6 +1291,9 @@ button.pg-finding[aria-pressed='true'] {
   font-variant-numeric: tabular-nums;
 }
 
+.pg-activity-latest {
+  margin-left: 8px;
+}
 .pg-activity {
   display: flex;
   flex-direction: column;

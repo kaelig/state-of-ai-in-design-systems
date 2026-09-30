@@ -136,6 +136,8 @@ function EventsTab({ events, running }) {
         >
           {runs.map((run) => {
             const rows = family === 'all' ? run.entries : run.entries.filter(({ entry }) => eventFamily(entry.type) === family);
+            // While filtering, runs with nothing to show stay out of the way.
+            if (!rows.length) return null;
             return (
               <section key={`${run.number}-${run.start}`} className="pg-run" aria-label={`Run ${run.number}`}>
                 <h3 className="pg-run-head pg-small">
@@ -146,15 +148,11 @@ function EventsTab({ events, running }) {
                     {run.outcome ?? (running ? 'running' : 'open')}
                   </span>
                 </h3>
-                {rows.length ? (
-                  <ul className="pg-event-rows">
-                    {rows.map(({ index, entry }) => (
-                      <EventRow key={index} index={index} entry={entry} start={run.start} open={open.has(index)} onToggle={toggle} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="pg-muted pg-small pg-run-none">No {families.find((f) => f.id === family)?.label.toLowerCase() ?? ''} events in this run.</p>
-                )}
+                <ul className="pg-event-rows">
+                  {rows.map(({ index, entry }) => (
+                    <EventRow key={index} index={index} entry={entry} start={run.start} open={open.has(index)} onToggle={toggle} />
+                  ))}
+                </ul>
               </section>
             );
           })}
@@ -188,7 +186,8 @@ const EventRow = memo(function EventRow({ index, entry, start, open, onToggle })
 function StateTab({ snapshot }) {
   const state = snapshot.state ?? {};
   const hasState = state && typeof state === 'object' && Object.keys(state).length > 0;
-  const activities = Object.entries(snapshot.activities ?? {});
+  // Newest first: the last one is the screen on the canvas.
+  const activities = Object.entries(snapshot.activities ?? {}).reverse();
   return (
     <div className="pg-tab-scroll">
       <section className="pg-section">
@@ -205,10 +204,11 @@ function StateTab({ snapshot }) {
         </header>
         <p className="pg-muted pg-small">Built by ACTIVITY_SNAPSHOT and ACTIVITY_DELTA. They live in the thread, not in state, and the client strips them before sending messages back.</p>
         {activities.length ? (
-          activities.map(([id, a]) => (
+          activities.map(([id, a], i) => (
             <div key={id} className="pg-activity">
               <p className="pg-mono pg-small">
                 {a.activityType} <span className="pg-muted">· {id}</span>
+                {i === 0 ? <span className="pg-pill pg-activity-latest">latest</span> : null}
               </p>
               <JsonView value={a.content} maxHeight="360px" label={`${a.activityType} content`} />
             </div>

@@ -35,17 +35,13 @@
 }
 .h-grid {
   display: grid;
-  grid-template-columns: repeat(var(--h-cols, 3), minmax(0, 1fr));
-}
-@container (max-width: 560px) {
-  .h-grid {
-    grid-template-columns: repeat(min(var(--h-cols, 3), 2), minmax(0, 1fr));
-  }
-}
-@container (max-width: 360px) {
-  .h-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
+  gap: var(--h-gap);
+  /* At most --h-cols columns, and fewer whenever a column would drop under
+     9.5rem, so a four-up row of stats reflows instead of crushing its values. */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, max(9.5rem, calc((100% - (var(--h-cols, 3) - 1) * var(--h-gap)) / var(--h-cols, 3)))), 1fr)
+  );
 }
 
 .h-card {
@@ -100,6 +96,9 @@
   border-radius: var(--harbor-radius-md);
   font: inherit;
   font-weight: var(--harbor-font-weight-medium);
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
   cursor: pointer;
   transition:
     background-color 120ms ease-out,
