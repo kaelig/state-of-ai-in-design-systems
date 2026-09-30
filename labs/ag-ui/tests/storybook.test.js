@@ -122,7 +122,7 @@ test('the preset writes stories/generated/<ExportName>.stories.jsx with the tree
     const source = await readFile(file, 'utf8');
     assert.ok(source.includes(`tree: ${JSON.stringify(tree)}`), 'parameters.agui.tree holds the tree verbatim');
     assert.ok(source.includes(`prompt: "a sign up form"`));
-    assert.ok(source.includes(`tags: ['ai-generated', '!manifest'],`), 'tagged for review and kept out of the components manifest');
+    assert.ok(source.includes(`tags: ${JSON.stringify(['ai-generated', '!manifest'])},`), 'tagged for review and kept out of the components manifest');
     const importLine = source.split('\n').find((l) => l.startsWith('import '));
     const imported = importLine?.match(/import \{ (.+) \} from '(.+)';/);
     assert.ok(imported, importLine);
@@ -252,7 +252,7 @@ test('in a static build save_story writes nothing and offers the CSF source inst
   assert.equal(fileName, result.fileName);
   assert.ok(source.includes(JSON.stringify(tree)));
   assert.ok(source.includes("from '../../src/react/index.js'"));
-  assert.ok(source.includes(`tags: ['ai-generated', '!manifest'],`), 'the download is the same file the preset would write');
+  assert.ok(source.includes(`tags: ${JSON.stringify(['ai-generated', '!manifest'])},`), 'the download is the same file the preset would write');
 });
 
 test('the relay sends each logged event to the manager once, batched', async () => {

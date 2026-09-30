@@ -2,7 +2,7 @@
 // during `storybook dev`) and the static-build fallback (which offers it for
 // download), so both produce the same file.
 //
-// On top of treeToCsf it adds two tags to the story's meta:
+// It is treeToCsf with two tags on the story's meta:
 //   - `ai-generated`, the tag Storybook's own agentic setup puts on stories an
 //     agent wrote, "for your review" (https://storybook.js.org/docs/ai/setup);
 //     it lets a reviewer filter them in the sidebar.
@@ -24,12 +24,5 @@ export const GENERATED_TAGS = ['ai-generated', '!manifest'];
  * @param {import('../catalog/index.js').Catalog} [catalog]
  */
 export function generatedCsf(tree, options, catalog = harbor) {
-  const source = treeToCsf(tree, catalog, options);
-  // treeToCsf takes no tags option yet, so the line goes in after the title,
-  // the first property of the meta object it writes. If a later treeToCsf
-  // writes tags itself, it is left alone.
-  if (/^\s{2}tags:/m.test(source)) return source;
-  const withTags = source.replace(/^(export default \{\n\s{2}title: .*,\n)/m, `$1  tags: ${JSON.stringify(GENERATED_TAGS).replace(/"/g, "'").replace(/,/g, ', ')},\n`);
-  if (withTags === source) throw new Error('treeToCsf output changed shape: could not find the meta title line to tag.');
-  return withTags;
+  return treeToCsf(tree, catalog, { ...options, tags: GENERATED_TAGS });
 }
