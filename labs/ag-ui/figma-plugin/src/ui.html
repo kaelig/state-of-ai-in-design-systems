@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Harbor AG-UI</title>
+    <style>
+      :root {
+        --bg: var(--figma-color-bg, #ffffff);
+        --bg-2: var(--figma-color-bg-secondary, #f5f5f5);
+        --text: var(--figma-color-text, #1e1e1e);
+        --text-2: var(--figma-color-text-secondary, #6b6b6b);
+        --border: var(--figma-color-border, #e2e2e2);
+        --brand: var(--figma-color-bg-brand, #0d99ff);
+        --on-brand: var(--figma-color-text-onbrand, #ffffff);
+        --danger: var(--figma-color-text-danger, #d42c2c);
+        --success: var(--figma-color-text-success, #14ae5c);
+        --warning: var(--figma-color-text-warning, #b86200);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 12px;
+        background: var(--bg);
+        color: var(--text);
+        font: 12px/1.45 Inter, system-ui, -apple-system, sans-serif;
+      }
+      h2 {
+        margin: 14px 0 6px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--text-2);
+      }
+      h2:first-of-type { margin-top: 4px; }
+      label { display: block; margin-bottom: 4px; color: var(--text-2); }
+      input, textarea {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+      }
+      textarea { resize: vertical; min-height: 52px; }
+      input:focus, textarea:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
+      .row { display: flex; gap: 6px; align-items: center; }
+      .row > input { flex: 1; }
+      button {
+        padding: 6px 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      button.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+      button:disabled { opacity: 0.45; cursor: default; }
+      button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+      .actions { display: flex; gap: 6px; margin-top: 6px; }
+      .meta { color: var(--text-2); }
+      .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--text-2); margin-right: 4px; }
+      .dot.ok { background: var(--success); }
+      .dot.bad { background: var(--danger); }
+      #review {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid var(--brand);
+        border-radius: 6px;
+        background: var(--bg-2);
+      }
+      #review[hidden] { display: none; }
+      #review p { margin: 0 0 8px; }
+      #log {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        max-height: 250px;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+      }
+      #log li { padding: 5px 8px; border-bottom: 1px solid var(--border); word-break: break-word; }
+      #log li:last-child { border-bottom: 0; }
+      #log .kind { display: inline-block; min-width: 62px; color: var(--text-2); }
+      #log .assistant { background: var(--bg-2); }
+      #log .warn .kind { color: var(--warning); }
+      #log .error .kind { color: var(--danger); }
+      #log .figma .kind { color: var(--brand); }
+      code { font: 11px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+  </head>
+  <body>
+    <h2>Agent</h2>
+    <div class="row">
+      <input id="server" value="http://localhost:8787" aria-label="Agent server URL" />
+      <button id="connect">Connect</button>
+    </div>
+    <p class="meta" id="status"><span class="dot" id="dot"></span><span id="status-text">Not connected</span></p>
+    <div class="row">
+      <span class="meta">Thread</span>
+      <code id="thread"></code>
+      <button id="new-thread" title="Start a new thread and a new frame">New thread</button>
+    </div>
+
+    <h2>Generate</h2>
+    <label for="prompt">Describe a screen</label>
+    <textarea id="prompt" placeholder="A sign-up form with name, email and password">sign up form</textarea>
+    <div class="actions">
+      <button id="generate" class="primary">Generate</button>
+      <button id="cancel" disabled>Cancel</button>
+    </div>
+
+    <div id="review" hidden>
+      <p id="review-message"></p>
+      <label for="notes">Notes, if you reject</label>
+      <input id="notes" placeholder="Make the primary button say “Start trial”" />
+      <div class="actions">
+        <button id="approve" class="primary">Approve</button>
+        <button id="reject">Reject</button>
+      </div>
+    </div>
+
+    <h2>Follow a thread</h2>
+    <label for="follow-id">Mirror a run started elsewhere, e.g. from Storybook</label>
+    <div class="row">
+      <input id="follow-id" placeholder="thread id" />
+      <button id="follow">Follow</button>
+      <button id="unfollow" disabled>Stop</button>
+    </div>
+
+    <h2>Selection</h2>
+    <p class="meta" id="selection">Nothing selected.</p>
+    <button id="send-selection" disabled>Send selection to agent</button>
+
+    <h2>Activity</h2>
+    <ul id="log" aria-live="polite"></ul>
+
+    <script>
+      // Harbor's catalog, tools and context, bundled so the plugin works before
+      // it reaches the server; GET /catalog replaces them when it answers.
+      const HARBOR_BUNDLED = /*@HARBOR_CLIENT_DATA@*/ null;
+    </script>
+    <script>
+      // src/figma/figma-to-tree.js, inlined by build.mjs.
+      /*@FIGMA_TO_TREE@*/
+    </script>
+    <script>
+      // An AG-UI client with no dependencies. @ag-ui/client would need rxjs,
+      // zod and more bundled into this one HTML file, and the lab has no
+      // bundler, so this speaks the protocol directly: POST RunAgentInput,
+      // read `data: <json>` SSE frames, keep messages and state the way
+      // AbstractAgent does, answer frontend tools, resume interrupts.
+      // The iframe has a null origin; the lab server answers with
+      // Access-Control-Allow-Origin: *, and manifest.json allowlists it.
+
+      const $ = (id) => document.getElementById(id);
+      const newId = (prefix) => `${prefix}_${Math.random().toString(36).slice(2, 10)}`;
+      const clone = (v) => (v === undefined ? v : JSON.parse(JSON.stringify(v)));
+      const under = (path, prefix) => path === prefix || String(path).startsWith(prefix + '/');
+      const emptyTree = () => ({ title: '', root: null, nodes: {} });
+      const server = () => $('server').value.replace(/\/+$/, '');
+
+      const session = {
+        threadId: newId('thread'),
+        messages: [],
+        state: {},
+        catalog: HARBOR_BUNDLED.catalog,
+        tools: withDrawTool(HARBOR_BUNDLED.tools),
+        context: HARBOR_BUNDLED.context,
+        interrupt: null,
+        pendingTools: [],
+        run: null,
+        follow: null,
+      };
+      $('thread').textContent = session.threadId;
+
+      function withDrawTool(tools) {
+        const render = tools.find((t) => t.name === 'render_ui');
+        return [
+          ...tools.filter((t) => t.name !== 'draw_in_figma'),
+          {
+            name: 'draw_in_figma',
+            description:
+              'Draw the approved screen in the open Figma file: Harbor components where the file has them, auto-layout frames bound to Harbor variables where it does not. Answers with the frame id and any mapping warnings.',
+            parameters: {
+              type: 'object',
+              properties: {
+                frameName: { type: 'string', description: 'Name for the Figma frame.' },
+                tree: render ? render.parameters : { type: 'object' },
+              },
+              required: ['tree'],
+            },
+          },
+        ];
+      }
+
+      // ------------------------------------------------------------- log
+      const messageEls = new Map();
+      function log(kind, text, cls) {
+        const li = document.createElement('li');
+        li.className = cls || kind;
+        const k = document.createElement('span');
+        k.className = 'kind';
+        k.textContent = kind;
+        li.append(k, document.createTextNode(text));
+        $('log').append(li);
+        while ($('log').children.length > 200) $('log').firstElementChild.remove();
+        $('log').scrollTop = $('log').scrollHeight;
+        return li;
+      }
+      function setStatus(text, state) {
+        $('status-text').textContent = text;
+        $('dot').className = 'dot' + (state ? ' ' + state : '');
+      }
+      function setBusy() {
+        const running = Boolean(session.run);
+        $('generate').disabled = running;
+        $('cancel').disabled = !running;
+        $('approve').disabled = running;
+        $('reject').disabled = running;
+        $('send-selection').disabled = running || !session.selectionCount;
+        $('unfollow').disabled = !session.follow;
+      }
+
+      // ----------------------------------------------- main thread requests
+      let seq = 0;
+      const waiting = new Map();
+      function request(msg) {
+        const requestId = ++seq;
+        parent.postMessage({ pluginMessage: { ...msg, requestId } }, '*');
+        return new Promise((resolve, reject) => waiting.set(requestId, { resolve, reject }));
+      }
+      window.onmessage = (e) => {
+        const m = e.data && e.data.pluginMessage;
+        if (!m) return;
+        if (m.type === 'selection-changed') {
+          session.selectionCount = m.count;
+          $('selection').textContent = m.count ? `${m.count} selected: ${m.names.join(', ')}${m.count > 3 ? '…' : ''}` : 'Nothing selected.';
+          setBusy();
+          return;
+        }
+        const w = m.requestId && waiting.get(m.requestId);
+        if (!w) return;
+        waiting.delete(m.requestId);
+        if (m.type === 'error') w.reject(new Error(m.message));
+        else w.resolve(m);
+      };
+
+      // -------------------------------------------------- canvas syncing
+      // STATE_SNAPSHOT becomes a draw, STATE_DELTA ops are coalesced into
+      // patches, one request to the main thread at a time.
+      const canvas = {
+        ops: [],
+        full: false,
+        timer: null,
+        chain: Promise.resolve(),
+        focus: true,
+        snapshot() {
+          this.full = true;
+          this.ops = [];
+          this.schedule();
+        },
+        delta(ops) {
+          const relevant = ops.filter((op) => under(op.path, '/ui') || under(op.path, '/theme'));
+          if (!relevant.length) return;
+          if (!this.full) this.ops.push(...relevant);
+          this.schedule();
+        },
+        schedule() {
+          if (!this.timer) this.timer = setTimeout(() => this.flush(), 120);
+        },
+        flush() {
+          clearTimeout(this.timer);
+          this.timer = null;
+          this.chain = this.chain.then(() => this.send()).catch((e) => log('figma', e.message, 'error'));
+          return this.chain;
+        },
+        draw() {
+          const tree = session.state.ui || emptyTree();
+          const focus = this.focus;
+          this.focus = false;
+          return request({ type: 'draw', key: session.threadId, frameName: tree.title || 'Harbor screen', tree, theme: session.state.theme || {}, focus });
+        },
+        async send() {
+          if (!this.full && !this.ops.length) return;
+          const full = this.full;
+          const ops = this.ops;
+          this.full = false;
+          this.ops = [];
+          let r = full ? await this.draw() : await request({ type: 'patch', key: session.threadId, ops });
+          if (r.result.needsRedraw) r = await this.draw();
+          report(r.result);
+        },
+      };
+      function report(s) {
+        const parts = [];
+        if (s.created.length) parts.push(`${s.created.length} created`);
+        if (s.updated.length) parts.push(`${s.updated.length} updated`);
+        if (s.removed.length) parts.push(`${s.removed.length} removed`);
+        if (s.variables.variablesCreated) parts.push(`${s.variables.variablesCreated} variables created`);
+        if (parts.length) log('figma', `${s.op}: ${parts.join(', ')}`);
+        for (const w of s.warnings) log('warning', w.message, 'warn');
+      }
+
+      // ------------------------------------------------------ SSE reader
+      async function* readSse(response) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let end;
+          while ((end = buffer.search(/\r?\n\r?\n/)) >= 0) {
+            const frame = buffer.slice(0, end);
+            buffer = buffer.slice(end).replace(/^\r?\n\r?\n/, '');
+            const data = frame
+              .split(/\r?\n/)
+              .filter((line) => line.startsWith('data:'))
+              .map((line) => line.slice(5).replace(/^ /, ''))
+              .join('\n');
+            if (data) yield JSON.parse(data);
+          }
+        }
+      }
+
+      // ---------------------------------------------------- AG-UI events
+      function assistantMessage(id) {
+        let m = session.messages.find((x) => x.id === id);
+        if (!m) session.messages.push((m = { id, role: 'assistant', content: '' }));
+        return m;
+      }
+      function handle(event, own) {
+        switch (event.type) {
+          case 'RUN_STARTED':
+            setStatus(`Running ${event.runId.slice(-8)}`, 'ok');
+            break;
+          case 'TEXT_MESSAGE_START':
+            if (own) assistantMessage(event.messageId);
+            messageEls.set(event.messageId, log('agent', '', 'assistant'));
+            break;
+          case 'TEXT_MESSAGE_CONTENT': {
+            if (own) assistantMessage(event.messageId).content += event.delta;
+            const li = messageEls.get(event.messageId);
+            if (li) li.lastChild.textContent += event.delta;
+            break;
+          }
+          case 'TOOL_CALL_START': {
+            if (own) {
+              const m = assistantMessage(event.parentMessageId || event.toolCallId);
+              m.toolCalls = m.toolCalls || [];
+              m.toolCalls.push({ id: event.toolCallId, type: 'function', function: { name: event.toolCallName, arguments: '' } });
+            }
+            log('tool', `${event.toolCallName} called`);
+            break;
+          }
+          case 'TOOL_CALL_ARGS': {
+            if (!own) break;
+            const call = session.messages.flatMap((m) => m.toolCalls || []).find((c) => c.id === event.toolCallId);
+            if (call) call.function.arguments += event.delta;
+            break;
+          }
+          case 'TOOL_CALL_END': {
+            if (!own) break;
+            const call = session.messages.flatMap((m) => m.toolCalls || []).find((c) => c.id === event.toolCallId);
+            if (call) session.pendingTools.push(call);
+            break;
+          }
+          case 'STEP_STARTED':
+            log('step', event.stepName);
+            break;
+          case 'STATE_SNAPSHOT':
+            session.state = clone(event.snapshot) || {};
+            canvas.snapshot();
+            break;
+          case 'STATE_DELTA':
+            try {
+              session.state = applyJsonPatch(clone(session.state), event.delta);
+              canvas.delta(event.delta);
+            } catch (e) {
+              log('state', `A delta did not apply (${e.message}); redrawing from the next snapshot.`, 'warn');
+            }
+            break;
+          case 'MESSAGES_SNAPSHOT':
+            if (own) session.messages = clone(event.messages);
+            break;
+          case 'CUSTOM':
+            if (/\.validation$/.test(event.name)) {
+              const v = event.value || {};
+              log('validate', v.valid ? `valid, ${v.warnings.length} guideline warning(s)` : `${v.errors.length} contract error(s)`, v.valid ? 'step' : 'warn');
+            }
+            break;
+          case 'RUN_ERROR':
+            log('error', event.message, 'error');
+            break;
+          case 'RUN_FINISHED':
+            setStatus('Idle', 'ok');
+            return event;
+        }
+        return null;
+      }
+
+      // -------------------------------------------------------- running
+      async function runAgent(extra = {}) {
+        if (session.run) return;
+        const controller = new AbortController();
+        session.run = controller;
+        session.pendingTools = [];
+        setBusy();
+        const input = {
+          threadId: session.threadId,
+          runId: newId('run'),
+          state: session.state,
+          messages: session.messages,
+          tools: session.tools,
+          context: session.context,
+          forwardedProps: { mode: 'state' },
+          ...extra,
+        };
+        let finished = null;
+        try {
+          const res = await fetch(`${server()}/agent`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
+            body: JSON.stringify(input),
+            signal: controller.signal,
+          });
+          if (!res.ok) throw new Error(`POST /agent answered ${res.status}: ${(await res.text()).slice(0, 300)}`);
+          for await (const event of readSse(res)) finished = handle(event, true) || finished;
+          await canvas.flush();
+        } catch (e) {
+          if (e.name !== 'AbortError') {
+            log('error', e.message, 'error');
+            setStatus('Run failed', 'bad');
+          }
+        } finally {
+          session.run = null;
+          setBusy();
+        }
+        const outcome = finished && finished.outcome;
+        if (outcome && outcome.type === 'interrupt') showReview(outcome.interrupts[0], true);
+        else if (outcome && outcome.type === 'success' && session.pendingTools.length) {
+          await answerTools();
+          await runAgent();
+        }
+      }
+
+      // The frontend tool: the agent asks, the plugin draws, the answer goes
+      // back as a tool message on the next run.
+      async function answerTools() {
+        const calls = session.pendingTools;
+        session.pendingTools = [];
+        for (const call of calls) {
+          const answer = { id: newId('tool'), role: 'tool', toolCallId: call.id, content: '' };
+          if (call.function.name !== 'draw_in_figma') {
+            answer.content = JSON.stringify({ ok: false, message: `${call.function.name} is not available in Figma.` });
+            answer.error = 'unsupported tool';
+          } else {
+            try {
+              const args = JSON.parse(call.function.arguments || '{}');
+              const r = await request({ type: 'draw', key: session.threadId, frameName: args.frameName || args.tree.title, tree: args.tree, theme: session.state.theme || {}, focus: true });
+              const s = r.result;
+              report(s);
+              answer.content = JSON.stringify({
+                ok: s.ok,
+                message: `Drew "${s.frameName}" in Figma: ${s.created.length} layers created, ${s.updated.length} updated, ${s.removed.length} removed${s.warnings.length ? `, ${s.warnings.length} warning(s)` : ''}.`,
+                frameId: s.frameId,
+                warnings: s.warnings.map((w) => w.message),
+              });
+              parent.postMessage({ pluginMessage: { type: 'notify', message: `Drew "${s.frameName}"` } }, '*');
+            } catch (e) {
+              answer.content = JSON.stringify({ ok: false, message: `Figma could not draw it: ${e.message}` });
+              answer.error = e.message;
+            }
+          }
+          session.messages.push(answer);
+          log('tool', `answered ${call.function.name}`);
+        }
+      }
+
+      function showReview(interrupt, ownRun) {
+        if (!interrupt) return;
+        session.interrupt = ownRun ? interrupt : null;
+        $('review-message').textContent = ownRun ? interrupt.message || 'Approve this screen?' : `Review requested in the client that started this run: ${interrupt.message || ''}`;
+        $('approve').hidden = $('reject').hidden = $('notes').hidden = !ownRun;
+        $('review').hidden = false;
+      }
+      function resolveReview(approved) {
+        const interrupt = session.interrupt;
+        if (!interrupt) return;
+        session.interrupt = null;
+        $('review').hidden = true;
+        const payload = approved ? { approved: true } : { approved: false, notes: $('notes').value.trim() };
+        log('review', approved ? 'approved' : `rejected${payload.notes ? `: ${payload.notes}` : ''}`);
+        runAgent({ resume: [{ interruptId: interrupt.id, status: 'resolved', payload }] });
+      }
+
+      // ------------------------------------------------------ following
+      async function follow() {
+        const id = $('follow-id').value.trim();
+        if (!id) return;
+        stopFollowing();
+        session.threadId = id;
+        session.state = {};
+        canvas.focus = true;
+        $('thread').textContent = id;
+        const controller = new AbortController();
+        session.follow = controller;
+        setBusy();
+        log('follow', `following ${id}`);
+        try {
+          const res = await fetch(`${server()}/threads/${encodeURIComponent(id)}/events`, { headers: { accept: 'text/event-stream' }, signal: controller.signal });
+          if (!res.ok) throw new Error(`GET /threads/${id}/events answered ${res.status}`);
+          for await (const event of readSse(res)) {
+            const finished = handle(event, false);
+            if (finished && finished.outcome && finished.outcome.type === 'interrupt') showReview(finished.outcome.interrupts[0], false);
+          }
+        } catch (e) {
+          if (e.name !== 'AbortError') log('error', e.message, 'error');
+        } finally {
+          if (session.follow === controller) session.follow = null;
+          setBusy();
+        }
+      }
+      function stopFollowing() {
+        if (session.follow) session.follow.abort();
+        session.follow = null;
+        setBusy();
+      }
+
+      // ------------------------------------------------------ selection
+      async function sendSelection() {
+        try {
+          const r = await request({ type: 'read-selection' });
+          const { tree, findings } = figmaNodeToTree(r.node, session.catalog);
+          log('figma', `read "${r.node.name}": ${Object.keys(tree.nodes).length} ${session.catalog.name} nodes, ${findings.length} finding(s)`);
+          for (const f of findings.filter((x) => x.severity !== 'info').slice(0, 8)) log('finding', f.message, 'warn');
+          session.state = { ...session.state, ui: tree };
+          session.messages.push({ id: newId('msg'), role: 'user', content: 'Build this in code' });
+          const context = session.context.filter((c) => c.description !== 'Figma selection');
+          context.push({
+            description: 'Figma selection',
+            value: JSON.stringify({ figmaNodeId: r.node.id, name: r.node.name, findings: findings.map((f) => f.message) }),
+          });
+          session.context = context;
+          await runAgent();
+        } catch (e) {
+          log('error', e.message, 'error');
+        }
+      }
+
+      // --------------------------------------------------------- server
+      async function connect() {
+        try {
+          const [caps, catalog] = await Promise.all([
+            fetch(`${server()}/agent/capabilities`).then((r) => r.json()),
+            fetch(`${server()}/catalog`).then((r) => r.json()),
+          ]);
+          session.catalog = catalog.catalog;
+          session.tools = withDrawTool(catalog.tools);
+          session.context = catalog.context;
+          const name = (caps.identity && caps.identity.name) || 'agent';
+          setStatus(`${name} · ${caps.custom && caps.custom.catalog ? caps.custom.catalog : catalog.catalog.name}`, 'ok');
+        } catch (e) {
+          setStatus(`Cannot reach ${server()} (${e.message}). Run \`npm run agent\` in labs/ag-ui.`, 'bad');
+        }
+      }
+
+      $('connect').onclick = connect;
+      $('generate').onclick = () => {
+        const prompt = $('prompt').value.trim();
+        if (!prompt) return;
+        $('review').hidden = true;
+        session.messages.push({ id: newId('msg'), role: 'user', content: prompt });
+        log('you', prompt);
+        runAgent();
+      };
+      $('cancel').onclick = () => session.run && session.run.abort();
+      $('approve').onclick = () => resolveReview(true);
+      $('reject').onclick = () => resolveReview(false);
+      $('follow').onclick = follow;
+      $('unfollow').onclick = stopFollowing;
+      $('send-selection').onclick = sendSelection;
+      $('new-thread').onclick = () => {
+        stopFollowing();
+        session.threadId = newId('thread');
+        session.messages = [];
+        session.state = {};
+        session.interrupt = null;
+        canvas.focus = true;
+        $('review').hidden = true;
+        $('thread').textContent = session.threadId;
+        log('thread', `new thread ${session.threadId}`);
+      };
+      setBusy();
+      connect();
+    </script>
+  </body>
+</html>

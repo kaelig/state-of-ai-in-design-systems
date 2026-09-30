@@ -1,0 +1,14 @@
+{
+  "name": "Harbor AG-UI",
+  "id": "harbor-ag-ui-lab",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["http://localhost:8787"],
+    "devAllowedDomains": ["http://localhost:8787"],
+    "reasoning": "The plugin is an AG-UI client for the lab's design agent, which runs on this machine (npm run agent, port 8787). It posts runs and reads their event streams."
+  }
+}

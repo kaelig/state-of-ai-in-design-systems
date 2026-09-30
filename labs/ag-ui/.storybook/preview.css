@@ -1,0 +1,20 @@
+/* Harbor paints its own canvas (and its own padding) in the decorator, so the
+   story fills the frame in both color modes instead of sitting in a white
+   margin. The class names are Storybook's layout classes from
+   node_modules/storybook/assets/server/base-preview-head.html (10.6.1). */
+.sb-show-main.sb-main-padded,
+.sb-show-main.sb-main-centered {
+  padding: 0;
+}
+.sb-show-main.sb-main-centered #storybook-root {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.sb-harbor-root {
+  min-height: 100vh;
+}
+.sb-main-centered .sb-harbor-root {
+  display: grid;
+  place-items: center;
+}

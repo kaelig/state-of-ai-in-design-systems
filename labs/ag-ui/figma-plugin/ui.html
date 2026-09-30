@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Harbor AG-UI</title>
+    <style>
+      :root {
+        --bg: var(--figma-color-bg, #ffffff);
+        --bg-2: var(--figma-color-bg-secondary, #f5f5f5);
+        --text: var(--figma-color-text, #1e1e1e);
+        --text-2: var(--figma-color-text-secondary, #6b6b6b);
+        --border: var(--figma-color-border, #e2e2e2);
+        --brand: var(--figma-color-bg-brand, #0d99ff);
+        --on-brand: var(--figma-color-text-onbrand, #ffffff);
+        --danger: var(--figma-color-text-danger, #d42c2c);
+        --success: var(--figma-color-text-success, #14ae5c);
+        --warning: var(--figma-color-text-warning, #b86200);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 12px;
+        background: var(--bg);
+        color: var(--text);
+        font: 12px/1.45 Inter, system-ui, -apple-system, sans-serif;
+      }
+      h2 {
+        margin: 14px 0 6px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--text-2);
+      }
+      h2:first-of-type { margin-top: 4px; }
+      label { display: block; margin-bottom: 4px; color: var(--text-2); }
+      input, textarea {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+      }
+      textarea { resize: vertical; min-height: 52px; }
+      input:focus, textarea:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
+      .row { display: flex; gap: 6px; align-items: center; }
+      .row > input { flex: 1; }
+      button {
+        padding: 6px 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      button.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+      button:disabled { opacity: 0.45; cursor: default; }
+      button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+      .actions { display: flex; gap: 6px; margin-top: 6px; }
+      .meta { color: var(--text-2); }
+      .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--text-2); margin-right: 4px; }
+      .dot.ok { background: var(--success); }
+      .dot.bad { background: var(--danger); }
+      #review {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid var(--brand);
+        border-radius: 6px;
+        background: var(--bg-2);
+      }
+      #review[hidden] { display: none; }
+      #review p { margin: 0 0 8px; }
+      #log {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        max-height: 250px;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+      }
+      #log li { padding: 5px 8px; border-bottom: 1px solid var(--border); word-break: break-word; }
+      #log li:last-child { border-bottom: 0; }
+      #log .kind { display: inline-block; min-width: 62px; color: var(--text-2); }
+      #log .assistant { background: var(--bg-2); }
+      #log .warn .kind { color: var(--warning); }
+      #log .error .kind { color: var(--danger); }
+      #log .figma .kind { color: var(--brand); }
+      code { font: 11px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+  </head>
+  <body>
+    <h2>Agent</h2>
+    <div class="row">
+      <input id="server" value="http://localhost:8787" aria-label="Agent server URL" />
+      <button id="connect">Connect</button>
+    </div>
+    <p class="meta" id="status"><span class="dot" id="dot"></span><span id="status-text">Not connected</span></p>
+    <div class="row">
+      <span class="meta">Thread</span>
+      <code id="thread"></code>
+      <button id="new-thread" title="Start a new thread and a new frame">New thread</button>
+    </div>
+
+    <h2>Generate</h2>
+    <label for="prompt">Describe a screen</label>
+    <textarea id="prompt" placeholder="A sign-up form with name, email and password">sign up form</textarea>
+    <div class="actions">
+      <button id="generate" class="primary">Generate</button>
+      <button id="cancel" disabled>Cancel</button>
+    </div>
+
+    <div id="review" hidden>
+      <p id="review-message"></p>
+      <label for="notes">Notes, if you reject</label>
+      <input id="notes" placeholder="Make the primary button say “Start trial”" />
+      <div class="actions">
+        <button id="approve" class="primary">Approve</button>
+        <button id="reject">Reject</button>
+      </div>
+    </div>
+
+    <h2>Follow a thread</h2>
+    <label for="follow-id">Mirror a run started elsewhere, e.g. from Storybook</label>
+    <div class="row">
+      <input id="follow-id" placeholder="thread id" />
+      <button id="follow">Follow</button>
+      <button id="unfollow" disabled>Stop</button>
+    </div>
+
+    <h2>Selection</h2>
+    <p class="meta" id="selection">Nothing selected.</p>
+    <button id="send-selection" disabled>Send selection to agent</button>
+
+    <h2>Activity</h2>
+    <ul id="log" aria-live="polite"></ul>
+
+    <script>
+      // Harbor's catalog, tools and context, bundled so the plugin works before
+      // it reaches the server; GET /catalog replaces them when it answers.
+      const HARBOR_BUNDLED = {"catalog":{"name":"harbor","version":"1.0.0","description":"Harbor is the sample design system these prototypes use. Every component an agent may place is listed here with its props as JSON Schema, what it may contain, its anatomy, and how it maps to the Figma library.","components":{"Stack":{"description":"Lays its children out in a column or a row with a spacing-token gap. The default layout primitive: reach for it before Grid.","category":"layout","props":{"type":"object","properties":{"direction":{"enum":["vertical","horizontal"],"default":"vertical"},"gap":{"enum":["none","xs","sm","md","lg","xl","2xl"],"default":"md","description":"A space.* token."},"align":{"enum":["start","center","end","stretch"],"default":"stretch"},"justify":{"enum":["start","center","end","space-between"],"default":"start"},"padding":{"enum":["none","xs","sm","md","lg","xl","2xl"],"default":"none"}},"additionalProperties":false},"children":{"kind":"nodes"},"anatomy":["container"],"figma":{"component":null,"autoLayout":{"direction":"direction","gap":"gap","padding":"padding"}}},"Grid":{"description":"Places children in equal-width columns that wrap. Use for tiles, cards and stats.","category":"layout","props":{"type":"object","properties":{"columns":{"type":"integer","minimum":1,"maximum":4,"default":3},"gap":{"enum":["sm","md","lg","xl"],"default":"lg"}},"additionalProperties":false},"children":{"kind":"nodes"},"anatomy":["container","cell"],"figma":{"component":null,"autoLayout":{"direction":"horizontal","wrap":true,"gap":"gap"}}},"Card":{"description":"A bordered surface that groups related content. Holds any components.","category":"container","props":{"type":"object","properties":{"padding":{"enum":["md","lg","xl"],"default":"lg"},"elevation":{"enum":["flat","raised"],"default":"flat"}},"additionalProperties":false},"children":{"kind":"nodes"},"anatomy":["container","content"],"figma":{"component":"Card","properties":{"elevation":"Elevation"}}},"Heading":{"description":"A section or page title. One level 1 heading per screen.","category":"content","props":{"type":"object","properties":{"text":{"type":"string","minLength":1,"maxLength":120},"level":{"type":"integer","minimum":1,"maximum":3,"default":2}},"required":["text"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["text"],"figma":{"component":"Heading","properties":{"level":"Level","text":"Text#1:0"}},"a11y":"Renders h1 to h3. Do not skip levels."},"Text":{"description":"Body copy.","category":"content","props":{"type":"object","properties":{"text":{"type":"string","minLength":1,"maxLength":600},"tone":{"enum":["default","muted"],"default":"default"},"size":{"enum":["sm","md"],"default":"md"}},"required":["text"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["text"],"figma":{"component":"Text","properties":{"tone":"Tone","size":"Size","text":"Text#2:0"}}},"Button":{"description":"Triggers an action. One primary button per group.","category":"action","props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":40},"variant":{"enum":["primary","secondary","ghost"],"default":"primary"},"size":{"enum":["sm","md"],"default":"md"},"fullWidth":{"type":"boolean","default":false},"disabled":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["container","label"],"figma":{"component":"Button","properties":{"variant":"Variant","size":"Size","disabled":"Disabled","label":"Label#3:0"}},"a11y":"Label must describe the action. Disabled buttons stay focusable only when paired with an explanation."},"Badge":{"description":"A short status label.","category":"status","props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":24},"tone":{"enum":["neutral","accent","success","warning","danger"],"default":"neutral"}},"required":["label"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["container","label"],"figma":{"component":"Badge","properties":{"tone":"Tone","label":"Label#4:0"}}},"TextField":{"description":"A labeled single-line text input.","category":"input","props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":60},"placeholder":{"type":"string","maxLength":80},"type":{"enum":["text","email","password","number","search"],"default":"text"},"hint":{"type":"string","maxLength":120},"required":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["label","input","hint"],"figma":{"component":"Text field","properties":{"label":"Label#5:0","placeholder":"Placeholder#5:1","hint":"Hint#5:2"}},"a11y":"The label is always visible. Placeholder never replaces it."},"Checkbox":{"description":"A single yes-or-no choice with a visible label.","category":"input","props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":120},"checked":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["control","label"],"figma":{"component":"Checkbox","properties":{"checked":"Checked","label":"Label#6:0"}}},"Alert":{"description":"A message that needs attention, with an optional title.","category":"status","props":{"type":"object","properties":{"title":{"type":"string","maxLength":60},"text":{"type":"string","minLength":1,"maxLength":240},"tone":{"enum":["info","success","warning","danger"],"default":"info"}},"required":["text"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["container","icon","title","text"],"figma":{"component":"Alert","properties":{"tone":"Tone","title":"Title#7:0","text":"Text#7:1"}},"a11y":"Danger and warning alerts use role=alert; the rest use role=status."},"Avatar":{"description":"A person's initials in a circle.","category":"content","props":{"type":"object","properties":{"name":{"type":"string","minLength":1,"maxLength":60},"size":{"enum":["sm","md","lg"],"default":"md"}},"required":["name"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["container","initials"],"figma":{"component":"Avatar","properties":{"size":"Size","name":"Name#8:0"}}},"Stat":{"description":"A single metric with its label and an optional change.","category":"data","props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":40},"value":{"type":"string","minLength":1,"maxLength":16},"change":{"type":"string","maxLength":12},"trend":{"enum":["up","down","flat"],"default":"flat"}},"required":["label","value"],"additionalProperties":false},"children":{"kind":"none"},"anatomy":["label","value","change"],"figma":{"component":"Stat","properties":{"trend":"Trend","label":"Label#9:0","value":"Value#9:1","change":"Change#9:2"}}},"Divider":{"description":"A horizontal rule between groups.","category":"layout","props":{"type":"object","properties":{},"additionalProperties":false},"children":{"kind":"none"},"anatomy":["rule"],"figma":{"component":"Divider","properties":{}}}}},"tools":[{"name":"render_ui","description":"Render a screen using only harbor components. Pass the complete tree. The client validates it against the design system and answers with any errors to fix.","parameters":{"type":"object","properties":{"title":{"type":"string","description":"A short name for the screen."},"root":{"type":"string","description":"Id of the root node."},"nodes":{"type":"object","description":"Every node, keyed by a short unique id such as \"n1\".","additionalProperties":{"oneOf":[{"type":"object","properties":{"type":{"const":"Stack","description":"Lays its children out in a column or a row with a spacing-token gap. The default layout primitive: reach for it before Grid."},"props":{"type":"object","properties":{"direction":{"enum":["vertical","horizontal"],"default":"vertical"},"gap":{"enum":["none","xs","sm","md","lg","xl","2xl"],"default":"md","description":"A space.* token."},"align":{"enum":["start","center","end","stretch"],"default":"stretch"},"justify":{"enum":["start","center","end","space-between"],"default":"start"},"padding":{"enum":["none","xs","sm","md","lg","xl","2xl"],"default":"none"}},"additionalProperties":false},"children":{"type":"array","items":{"type":"string"},"description":"Ids of child nodes, in order."}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Grid","description":"Places children in equal-width columns that wrap. Use for tiles, cards and stats."},"props":{"type":"object","properties":{"columns":{"type":"integer","minimum":1,"maximum":4,"default":3},"gap":{"enum":["sm","md","lg","xl"],"default":"lg"}},"additionalProperties":false},"children":{"type":"array","items":{"type":"string"},"description":"Ids of child nodes, in order."}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Card","description":"A bordered surface that groups related content. Holds any components."},"props":{"type":"object","properties":{"padding":{"enum":["md","lg","xl"],"default":"lg"},"elevation":{"enum":["flat","raised"],"default":"flat"}},"additionalProperties":false},"children":{"type":"array","items":{"type":"string"},"description":"Ids of child nodes, in order."}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Heading","description":"A section or page title. One level 1 heading per screen."},"props":{"type":"object","properties":{"text":{"type":"string","minLength":1,"maxLength":120},"level":{"type":"integer","minimum":1,"maximum":3,"default":2}},"required":["text"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Text","description":"Body copy."},"props":{"type":"object","properties":{"text":{"type":"string","minLength":1,"maxLength":600},"tone":{"enum":["default","muted"],"default":"default"},"size":{"enum":["sm","md"],"default":"md"}},"required":["text"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Button","description":"Triggers an action. One primary button per group."},"props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":40},"variant":{"enum":["primary","secondary","ghost"],"default":"primary"},"size":{"enum":["sm","md"],"default":"md"},"fullWidth":{"type":"boolean","default":false},"disabled":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Badge","description":"A short status label."},"props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":24},"tone":{"enum":["neutral","accent","success","warning","danger"],"default":"neutral"}},"required":["label"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"TextField","description":"A labeled single-line text input."},"props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":60},"placeholder":{"type":"string","maxLength":80},"type":{"enum":["text","email","password","number","search"],"default":"text"},"hint":{"type":"string","maxLength":120},"required":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Checkbox","description":"A single yes-or-no choice with a visible label."},"props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":120},"checked":{"type":"boolean","default":false}},"required":["label"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Alert","description":"A message that needs attention, with an optional title."},"props":{"type":"object","properties":{"title":{"type":"string","maxLength":60},"text":{"type":"string","minLength":1,"maxLength":240},"tone":{"enum":["info","success","warning","danger"],"default":"info"}},"required":["text"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Avatar","description":"A person's initials in a circle."},"props":{"type":"object","properties":{"name":{"type":"string","minLength":1,"maxLength":60},"size":{"enum":["sm","md","lg"],"default":"md"}},"required":["name"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Stat","description":"A single metric with its label and an optional change."},"props":{"type":"object","properties":{"label":{"type":"string","minLength":1,"maxLength":40},"value":{"type":"string","minLength":1,"maxLength":16},"change":{"type":"string","maxLength":12},"trend":{"enum":["up","down","flat"],"default":"flat"}},"required":["label","value"],"additionalProperties":false}},"required":["type","props"],"additionalProperties":false},{"type":"object","properties":{"type":{"const":"Divider","description":"A horizontal rule between groups."},"props":{"type":"object","properties":{},"additionalProperties":false}},"required":["type","props"],"additionalProperties":false}]}}},"required":["root","nodes"],"additionalProperties":false},"metadata":{"catalog":"harbor@1.0.0"}}],"context":[{"description":"harbor@1.0.0 component catalog","value":"Stack{ direction?: \"vertical\" | \"horizontal\"; gap?: \"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\"; align?: \"start\" | \"center\" | \"end\" | \"stretch\"; justify?: \"start\" | \"center\" | \"end\" | \"space-between\"; padding?: \"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" } [children] // Lays its children out in a column or a row with a spacing-token gap. The default layout primitive: reach for it before Grid.\nGrid{ columns?: 1..4; gap?: \"sm\" | \"md\" | \"lg\" | \"xl\" } [children] // Places children in equal-width columns that wrap. Use for tiles, cards and stats.\nCard{ padding?: \"md\" | \"lg\" | \"xl\"; elevation?: \"flat\" | \"raised\" } [children] // A bordered surface that groups related content. Holds any components.\nHeading{ text: string; level?: 1..3 } // A section or page title. One level 1 heading per screen.\nText{ text: string; tone?: \"default\" | \"muted\"; size?: \"sm\" | \"md\" } // Body copy.\nButton{ label: string; variant?: \"primary\" | \"secondary\" | \"ghost\"; size?: \"sm\" | \"md\"; fullWidth?: boolean; disabled?: boolean } // Triggers an action. One primary button per group.\nBadge{ label: string; tone?: \"neutral\" | \"accent\" | \"success\" | \"warning\" | \"danger\" } // A short status label.\nTextField{ label: string; placeholder?: string; type?: \"text\" | \"email\" | \"password\" | \"number\" | \"search\"; hint?: string; required?: boolean } // A labeled single-line text input.\nCheckbox{ label: string; checked?: boolean } // A single yes-or-no choice with a visible label.\nAlert{ title?: string; text: string; tone?: \"info\" | \"success\" | \"warning\" | \"danger\" } // A message that needs attention, with an optional title.\nAvatar{ name: string; size?: \"sm\" | \"md\" | \"lg\" } // A person's initials in a circle.\nStat{ label: string; value: string; change?: string; trend?: \"up\" | \"down\" | \"flat\" } // A single metric with its label and an optional change.\nDivider{  } // A horizontal rule between groups."}]};
+    </script>
+    <script>
+      // src/figma/figma-to-tree.js, inlined by build.mjs.
+      // Figma -> Harbor UI tree, the reverse of tree-to-figma.js.
+//
+// Three pieces live here, and each runs in a different place:
+//
+//   serializeFigmaNode  runs inside Figma (plugin main thread, or a
+//                       figma_execute / use_figma script) and turns a node
+//                       into plain JSON, because Plugin API nodes cannot
+//                       cross postMessage or a tool result.
+//   figmaNodeToTree     runs anywhere (Node, the plugin UI iframe) and maps
+//                       that JSON onto the catalog: a UI tree plus findings.
+//   applyJsonPatch      RFC 6902, used by the plugin UI to mirror AG-UI
+//                       STATE_DELTA and embedded in every tree-to-figma
+//                       script so patches apply inside Figma.
+//
+// This module has no imports on purpose: figma-plugin/build.mjs inlines its
+// source into the plugin's ui.html (there is no bundler in the lab), and embeds
+// serializeFigmaNode and applyJsonPatch into the plugin's main thread by
+// Function.prototype.toString. Those two therefore use only syntax Figma's
+// QuickJS sandbox accepts: no optional chaining ("Can't use optional chaining
+// (?.) - Figma plugin sandbox doesn't support it", Desktop Bridge code.js,
+// https://github.com/southleft/figma-console-mcp/blob/db1967f479514710acc64be4c527ac033410b772/figma-desktop-bridge/code.js),
+// no nullish coalescing, no object spread, no bare catch, and no references to
+// anything outside the function body.
+
+/**
+ * The JSON shape figmaNodeToTree accepts. It is deliberately small: what a
+ * plugin can read cheaply and what the Harbor mapping needs. serializeFigmaNode
+ * produces it; a Figma Console MCP read (figma_execute returning the same
+ * object) or a hand-written fixture works as well.
+ *
+ * @typedef {{
+ *   id: string,
+ *   name: string,
+ *   type: string,
+ *   visible?: boolean,
+ *   width?: number,
+ *   height?: number,
+ *   children?: SerializedNode[],
+ *   componentProperties?: Record<string, { type: 'VARIANT' | 'TEXT' | 'BOOLEAN' | 'INSTANCE_SWAP' | string, value: string | boolean }>,
+ *   mainComponent?: { id?: string, name: string, key?: string, parent?: { id?: string, name: string, key?: string, type: string } },
+ *   layoutMode?: 'NONE' | 'HORIZONTAL' | 'VERTICAL' | 'GRID',
+ *   layoutWrap?: 'NO_WRAP' | 'WRAP',
+ *   itemSpacing?: number,
+ *   counterAxisSpacing?: number,
+ *   paddingTop?: number, paddingRight?: number, paddingBottom?: number, paddingLeft?: number,
+ *   primaryAxisAlignItems?: string,
+ *   counterAxisAlignItems?: string,
+ *   characters?: string,
+ *   fontSize?: number,
+ *   fontWeight?: number,
+ *   boundVariables?: Record<string, string>,
+ *   pluginData?: { agui?: string, screen?: string, tree?: string },
+ * }} SerializedNode
+ *
+ * `boundVariables` maps a field (`itemSpacing`, `paddingLeft`, `fills`,
+ * `strokes`...) to the bound variable's name, e.g. `space/lg`.
+ * `pluginData` holds the shared plugin data tree-to-figma writes in the `agui`
+ * namespace: `agui` is a node's `{ nodeId, type, props }`, `screen` and `tree`
+ * sit on the screen frame.
+ *
+ * @typedef {{ nodeId?: string, figmaId?: string, path: string, message: string, severity: 'error' | 'warning' | 'info', rule: string }} FigmaFinding
+ */
+
+/** Harbor's space scale in px, used to snap raw spacing back to a token. Kept in step with tokens.json by a test. */
+const DEFAULT_SPACE = { none: 0, xs: 4, sm: 8, md: 12, lg: 16, xl: 24, '2xl': 32 };
+
+/** Harbor's font sizes in px, for telling a Heading from Text when a text layer carries no plugin data. */
+const DEFAULT_FONT_SIZE = { sm: 13, md: 15, lg: 18, xl: 22, '2xl': 28 };
+
+/**
+ * Which text layer inside a primitive carries which prop. tree-to-figma names
+ * those layers after the catalog's anatomy parts, so a designer's edit to the
+ * text on the canvas can be read back into the prop.
+ */
+const TEXT_LAYERS = {
+  Button: { label: 'label' },
+  Badge: { label: 'label' },
+  TextField: { label: 'label', placeholder: 'placeholder', hint: 'hint' },
+  Checkbox: { label: 'label' },
+  Alert: { title: 'title', text: 'text' },
+  Stat: { label: 'label', value: 'value', change: 'change' },
+};
+
+/** `Label#3:0` -> `Label`. Figma suffixes TEXT, BOOLEAN and INSTANCE_SWAP property names with `#<id>`. */
+const stripPropertyId = (/** @type {string} */ name) => String(name).replace(/#[^#]*$/, '');
+
+/**
+ * Apply RFC 6902 operations to `doc`, in place, and return the result (a new
+ * root only when an op targets ""). Throws on a path that does not resolve, so
+ * a caller can fall back to a full redraw rather than draw half a patch.
+ * Self-contained and sandbox-safe: it is embedded into Figma scripts verbatim.
+ * @template T
+ * @param {T} doc
+ * @param {{ op: string, path: string, from?: string, value?: any }[]} ops
+ * @returns {T}
+ */
+function applyJsonPatch(doc, ops) {
+  function parse(path) {
+    if (path === '') return [];
+    if (typeof path !== 'string' || path.charAt(0) !== '/') throw new Error('Not a JSON Pointer: "' + path + '"');
+    return path
+      .slice(1)
+      .split('/')
+      .map(function (s) {
+        return s.replace(/~1/g, '/').replace(/~0/g, '~');
+      });
+  }
+  function clone(v) {
+    return v === undefined ? v : JSON.parse(JSON.stringify(v));
+  }
+  function container(root, segs, path) {
+    var node = root;
+    for (var i = 0; i < segs.length - 1; i++) {
+      if (node === null || typeof node !== 'object' || !Object.prototype.hasOwnProperty.call(node, segs[i])) throw new Error('Path not found: ' + path);
+      node = node[segs[i]];
+    }
+    if (node === null || typeof node !== 'object') throw new Error('Path not found: ' + path);
+    return node;
+  }
+  function index(arr, key, path, forAdd) {
+    if (key === '-' && forAdd) return arr.length;
+    if (!/^(0|[1-9][0-9]*)$/.test(key)) throw new Error('Bad array index in ' + path);
+    var i = Number(key);
+    if (i > arr.length || (!forAdd && i === arr.length)) throw new Error('Index out of range: ' + path);
+    return i;
+  }
+  function get(root, path) {
+    var segs = parse(path);
+    var node = root;
+    for (var i = 0; i < segs.length; i++) {
+      if (node === null || typeof node !== 'object' || !Object.prototype.hasOwnProperty.call(node, segs[i])) throw new Error('Path not found: ' + path);
+      node = node[segs[i]];
+    }
+    return node;
+  }
+  function add(root, path, value) {
+    var segs = parse(path);
+    if (!segs.length) return value;
+    var parent = container(root, segs, path);
+    var key = segs[segs.length - 1];
+    if (Array.isArray(parent)) parent.splice(index(parent, key, path, true), 0, value);
+    else parent[key] = value;
+    return root;
+  }
+  function remove(root, path) {
+    var segs = parse(path);
+    if (!segs.length) throw new Error('Cannot remove the document root.');
+    var parent = container(root, segs, path);
+    var key = segs[segs.length - 1];
+    if (Array.isArray(parent)) return parent.splice(index(parent, key, path, false), 1)[0];
+    if (!Object.prototype.hasOwnProperty.call(parent, key)) throw new Error('Path not found: ' + path);
+    var old = parent[key];
+    delete parent[key];
+    return old;
+  }
+  var root = doc;
+  for (var n = 0; n < ops.length; n++) {
+    var op = ops[n];
+    if (op.op === 'add') root = add(root, op.path, clone(op.value));
+    else if (op.op === 'remove') remove(root, op.path);
+    else if (op.op === 'replace') {
+      if (op.path === '') root = clone(op.value);
+      else {
+        remove(root, op.path);
+        root = add(root, op.path, clone(op.value));
+      }
+    } else if (op.op === 'move') {
+      var moved = remove(root, op.from);
+      root = add(root, op.path, moved);
+    } else if (op.op === 'copy') root = add(root, op.path, clone(get(root, op.from)));
+    else if (op.op === 'test') {
+      if (JSON.stringify(get(root, op.path)) !== JSON.stringify(op.value)) throw new Error('Test failed at ' + op.path);
+    } else throw new Error('Unknown patch op "' + op.op + '"');
+  }
+  return root;
+}
+
+/**
+ * Serialize a Figma node into a SerializedNode. Runs inside Figma. Async
+ * because instances resolve their main component with getMainComponentAsync
+ * (the synchronous `mainComponent` getter is unavailable under
+ * `documentAccess: "dynamic-page"`) and bound variables resolve by id.
+ * Instances are leaves: their insides belong to the component.
+ * @param {any} node a Plugin API SceneNode
+ * @param {{ depth?: number, figma?: any }} [options]
+ * @returns {Promise<SerializedNode>}
+ */
+async function serializeFigmaNode(node, options) {
+  var api = options && options.figma ? options.figma : typeof figma !== 'undefined' ? figma : null;
+  var maxDepth = options && typeof options.depth === 'number' ? options.depth : 24;
+  var names = {};
+  var LAYOUT = ['layoutMode', 'layoutWrap', 'itemSpacing', 'counterAxisSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'primaryAxisAlignItems', 'counterAxisAlignItems'];
+  var BOUND = ['itemSpacing', 'counterAxisSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'topLeftRadius'];
+
+  async function variableName(id) {
+    if (!id || !api || !api.variables) return null;
+    if (Object.prototype.hasOwnProperty.call(names, id)) return names[id];
+    var v = null;
+    try {
+      v = await api.variables.getVariableByIdAsync(id);
+    } catch (e) {
+      v = null;
+    }
+    names[id] = v ? v.name : null;
+    return names[id];
+  }
+  function shared(n, key) {
+    try {
+      return typeof n.getSharedPluginData === 'function' ? n.getSharedPluginData('agui', key) : '';
+    } catch (e) {
+      return '';
+    }
+  }
+  async function paintVariable(paints) {
+    if (!Array.isArray(paints) || !paints.length) return null;
+    var p = paints[0];
+    var alias = p && p.boundVariables && p.boundVariables.color;
+    return alias ? variableName(alias.id) : null;
+  }
+
+  async function visit(n, depth) {
+    var out = { id: n.id, name: n.name, type: n.type };
+    if (n.visible === false) out.visible = false;
+    if (typeof n.width === 'number') {
+      out.width = n.width;
+      out.height = n.height;
+    }
+    var data = {};
+    var agui = shared(n, 'node');
+    if (agui) data.agui = agui;
+    var screen = shared(n, 'screen');
+    if (screen) {
+      data.screen = screen;
+      var tree = shared(n, 'tree');
+      if (tree) data.tree = tree;
+    }
+    if (data.agui || data.screen) out.pluginData = data;
+
+    if (n.layoutMode && n.layoutMode !== 'NONE') {
+      for (var i = 0; i < LAYOUT.length; i++) if (n[LAYOUT[i]] !== undefined) out[LAYOUT[i]] = n[LAYOUT[i]];
+    }
+    var bound = {};
+    var any = false;
+    var bv = n.boundVariables || {};
+    for (var b = 0; b < BOUND.length; b++) {
+      var alias = bv[BOUND[b]];
+      if (alias && alias.id) {
+        var name = await variableName(alias.id);
+        if (name) {
+          bound[BOUND[b]] = name;
+          any = true;
+        }
+      }
+    }
+    var fillVar = await paintVariable(n.fills);
+    if (fillVar) {
+      bound.fills = fillVar;
+      any = true;
+    }
+    var strokeVar = await paintVariable(n.strokes);
+    if (strokeVar) {
+      bound.strokes = strokeVar;
+      any = true;
+    }
+    if (any) out.boundVariables = bound;
+
+    if (n.type === 'TEXT') {
+      out.characters = n.characters;
+      if (typeof n.fontSize === 'number') out.fontSize = n.fontSize;
+      if (typeof n.fontWeight === 'number') out.fontWeight = n.fontWeight;
+    }
+    if (n.type === 'INSTANCE') {
+      var props = {};
+      var cp = n.componentProperties || {};
+      for (var key in cp) {
+        if (Object.prototype.hasOwnProperty.call(cp, key)) props[key] = { type: cp[key].type, value: cp[key].value };
+      }
+      out.componentProperties = props;
+      var main = null;
+      try {
+        main = await n.getMainComponentAsync();
+      } catch (e) {
+        main = null;
+      }
+      if (main) {
+        out.mainComponent = { id: main.id, name: main.name, key: main.key };
+        if (main.parent && main.parent.type === 'COMPONENT_SET') out.mainComponent.parent = { id: main.parent.id, name: main.parent.name, key: main.parent.key, type: main.parent.type };
+      }
+      return out;
+    }
+    if (n.children && depth < maxDepth) {
+      out.children = [];
+      for (var c = 0; c < n.children.length; c++) out.children.push(await visit(n.children[c], depth + 1));
+    }
+    return out;
+  }
+  return visit(node, 0);
+}
+
+/**
+ * A script for Figma Console MCP's `figma_execute` (or Figma's `use_figma`)
+ * that serializes a Harbor screen frame, a node by id, or the current
+ * selection, and returns it. Feed the result to figmaNodeToTree in Node.
+ * @param {{ key?: string, nodeId?: string }} [target] screen key (the AG-UI threadId) or a Figma node id; the selection when omitted
+ * @returns {string}
+ */
+function readFigmaScript(target = {}) {
+  return [
+    '// Harbor: read a Figma node back as JSON (figma-to-tree.js).',
+    `const target = ${JSON.stringify(target)};`,
+    `const serializeFigmaNode = ${serializeFigmaNode.toString()};`,
+    'let node = null;',
+    'if (target.nodeId) node = await figma.getNodeByIdAsync(target.nodeId);',
+    "else if (target.key) node = figma.currentPage.children.find((n) => { try { const s = n.getSharedPluginData('agui', 'screen'); return s && JSON.parse(s).key === target.key; } catch (e) { return false; } }) || null;",
+    'else node = figma.currentPage.selection[0] || null;',
+    "if (!node) return { ok: false, error: 'Nothing to read: no matching node and no selection.' };",
+    'return { ok: true, node: await serializeFigmaNode(node, { figma }) };',
+  ].join('\n');
+}
+
+/**
+ * Map a serialized Figma node onto the catalog. Plugin data written by
+ * tree-to-figma wins for identity (node id, component type), so a frame the
+ * agent drew comes back with the same ids; live values on the canvas win for
+ * props, so a designer's edits come back too, each reported as a finding.
+ * Anything that is not Harbor becomes a finding, never an exception.
+ * @param {SerializedNode} root
+ * @param {{ name: string, components: Record<string, any> }} catalog
+ * @param {{ title?: string, space?: Record<string, number>, fontSize?: Record<string, number> }} [options]
+ * @returns {{ tree: { title: string, root: string | null, nodes: Record<string, { type: string, props: Record<string, any>, children?: string[] }> }, findings: FigmaFinding[] }}
+ */
+function figmaNodeToTree(root, catalog, options = {}) {
+  const space = options.space || DEFAULT_SPACE;
+  const fontSize = options.fontSize || DEFAULT_FONT_SIZE;
+  /** @type {FigmaFinding[]} */
+  const findings = [];
+  /** @type {Record<string, { type: string, props: Record<string, any>, children?: string[] }>} */
+  const nodes = {};
+  const used = new Set();
+  const components = catalog.components;
+
+  // Figma component name or key -> catalog type.
+  const byName = new Map();
+  const byKey = new Map();
+  for (const [type, c] of Object.entries(components)) {
+    if (c.figma?.component) byName.set(c.figma.component.toLowerCase(), type);
+    if (c.figma?.key) byKey.set(c.figma.key, type);
+  }
+  const typeFromLayerName = (/** @type {string} */ name) => {
+    const head = String(name).split(/\s*[·/]\s*/)[0].trim();
+    const hit = Object.keys(components).find((t) => t.toLowerCase() === head.toLowerCase());
+    return hit ?? null;
+  };
+  const note = (/** @type {SerializedNode} */ n, /** @type {Omit<FigmaFinding, 'figmaId' | 'path'> & { path?: string }} */ f) =>
+    findings.push({ figmaId: n.id, path: f.path ?? `/${n.name}`, ...f });
+
+  const parseJson = (/** @type {string | undefined} */ s) => {
+    if (!s) return null;
+    try {
+      return JSON.parse(s);
+    } catch {
+      return null;
+    }
+  };
+  const mintId = (/** @type {SerializedNode} */ n, /** @type {string | undefined} */ preferred) => {
+    let id = preferred && !used.has(preferred) ? preferred : `f${String(n.id).replace(/[^0-9a-z]+/gi, '_')}`;
+    for (let i = 2; used.has(id); i++) id = `${id}_${i}`;
+    used.add(id);
+    return id;
+  };
+  const withDefaults = (/** @type {string} */ type, /** @type {Record<string, any>} */ props) => {
+    const out = {};
+    for (const [k, s] of Object.entries(components[type]?.props?.properties ?? {})) if (s.default !== undefined) out[k] = s.default;
+    return { ...out, ...props };
+  };
+  const nearest = (/** @type {number} */ px, /** @type {string[] | undefined} */ allowed) => {
+    const names = (allowed ?? Object.keys(space)).filter((k) => k in space);
+    let best = names[0];
+    for (const k of names) if (Math.abs(space[k] - px) < Math.abs(space[best] - px)) best = k;
+    return best;
+  };
+  const tokenFor = (/** @type {SerializedNode} */ n, /** @type {string} */ field, /** @type {number | undefined} */ px, /** @type {string[] | undefined} */ allowed) => {
+    const bound = n.boundVariables?.[field];
+    const m = bound && /^space\/(.+)$/.exec(bound);
+    if (m && (!allowed || allowed.includes(m[1]))) return m[1];
+    return typeof px === 'number' ? nearest(px, allowed) : undefined;
+  };
+  const enumOf = (/** @type {string} */ type, /** @type {string} */ prop) => components[type]?.props?.properties?.[prop]?.enum;
+
+  /** Coerce a Figma property value to the prop's schema. */
+  const coerce = (/** @type {Record<string, any>} */ schema, /** @type {any} */ value) => {
+    if (schema?.enum) {
+      const hit = schema.enum.find((/** @type {any} */ e) => String(e).toLowerCase() === String(value).toLowerCase());
+      return hit === undefined ? { ok: false } : { ok: true, value: hit };
+    }
+    if (schema?.type === 'boolean') {
+      if (typeof value === 'boolean') return { ok: true, value };
+      const s = String(value).toLowerCase();
+      if (['true', 'on', 'yes'].includes(s)) return { ok: true, value: true };
+      if (['false', 'off', 'no'].includes(s)) return { ok: true, value: false };
+      return { ok: false };
+    }
+    if (schema?.type === 'integer' || schema?.type === 'number') {
+      const num = Number(value);
+      return Number.isFinite(num) ? { ok: true, value: num } : { ok: false };
+    }
+    return { ok: true, value: String(value) };
+  };
+
+  /** Props from an instance's componentProperties, through the catalog's figma.properties map. */
+  const instanceProps = (/** @type {SerializedNode} */ n, /** @type {string} */ type, /** @type {string} */ nodeId) => {
+    const contract = components[type];
+    const mapping = contract.figma?.properties ?? {};
+    const schema = contract.props?.properties ?? {};
+    const live = n.componentProperties ?? {};
+    const byBase = new Map(Object.keys(live).map((k) => [stripPropertyId(k).toLowerCase(), k]));
+    const claimed = new Set();
+    /** @type {Record<string, any>} */
+    const props = {};
+    for (const [prop, figmaName] of Object.entries(mapping)) {
+      const key = figmaName in live ? figmaName : byBase.get(stripPropertyId(figmaName).toLowerCase());
+      if (!key) {
+        note(n, { nodeId, message: `${type}.${prop} maps to the Figma property "${figmaName}", which this instance does not have.`, severity: 'warning', rule: 'missing-figma-property' });
+        continue;
+      }
+      claimed.add(key);
+      const raw = live[key].value;
+      if (raw === '' && !(contract.props?.required ?? []).includes(prop)) continue;
+      const c = coerce(schema[prop], raw);
+      if (!c.ok) {
+        note(n, { nodeId, message: `${type}.${prop} has no value matching Figma's "${raw}"${schema[prop]?.enum ? ` (expected one of ${schema[prop].enum.join(', ')})` : ''}.`, severity: 'warning', rule: 'unknown-variant-value' });
+        continue;
+      }
+      props[prop] = c.value;
+    }
+    for (const key of Object.keys(live)) {
+      if (!claimed.has(key)) note(n, { nodeId, message: `Figma property "${stripPropertyId(key)}" on ${type} has no ${catalog.name} prop.`, severity: 'info', rule: 'unmapped-figma-property' });
+    }
+    return props;
+  };
+
+  /** Text layers inside a primitive, by name, not crossing into other Harbor nodes. */
+  const findText = (/** @type {SerializedNode} */ n, /** @type {string} */ layer) => {
+    for (const c of n.children ?? []) {
+      if (c.pluginData?.agui) continue;
+      if (c.type === 'TEXT' && c.name === layer) return c;
+      const deeper = c.type !== 'INSTANCE' ? findText(c, layer) : null;
+      if (deeper) return deeper;
+    }
+    return null;
+  };
+
+  /** A designer's edits on the canvas, read back over the props the agent sent. */
+  const liveOverrides = (/** @type {SerializedNode} */ n, /** @type {string} */ type, /** @type {Record<string, any>} */ stored, /** @type {string} */ nodeId) => {
+    /** @type {Record<string, any>} */
+    let live = {};
+    if (n.type === 'INSTANCE') live = instanceProps(n, type, nodeId);
+    else if (n.type === 'TEXT' && (type === 'Heading' || type === 'Text')) live = { text: n.characters };
+    else {
+      for (const [prop, layer] of Object.entries(/** @type {Record<string, Record<string, string>>} */ (TEXT_LAYERS)[type] ?? {})) {
+        const t = findText(n, layer);
+        if (t && typeof t.characters === 'string') live[prop] = t.characters;
+      }
+    }
+    const merged = { ...stored };
+    const before = withDefaults(type, stored);
+    for (const [prop, value] of Object.entries(live)) {
+      if (JSON.stringify(before[prop]) === JSON.stringify(value)) continue;
+      merged[prop] = value;
+      note(n, { nodeId, path: `/nodes/${nodeId}/props/${prop}`, message: `${type}.${prop} was changed in Figma: ${JSON.stringify(before[prop])} -> ${JSON.stringify(value)}.`, severity: 'info', rule: 'figma-edit' });
+    }
+    return merged;
+  };
+
+  /** A text layer with no plugin data: a Heading or Text by size. */
+  const textNode = (/** @type {SerializedNode} */ n) => {
+    const size = n.fontSize ?? fontSize.md;
+    const text = n.characters ?? '';
+    if (size >= fontSize.lg) {
+      const level = size >= (fontSize['2xl'] + fontSize.xl) / 2 ? 1 : size >= (fontSize.xl + fontSize.lg) / 2 ? 2 : 3;
+      return { type: 'Heading', props: { text, level } };
+    }
+    /** @type {Record<string, any>} */
+    const props = { text };
+    if (size <= (fontSize.sm + fontSize.md) / 2) props.size = 'sm';
+    if (/muted/.test(n.boundVariables?.fills ?? '')) props.tone = 'muted';
+    return { type: 'Text', props };
+  };
+
+  /** An auto-layout frame with no plugin data: Grid if it wraps, else Stack. */
+  const layoutNode = (/** @type {SerializedNode} */ n, /** @type {string | null} */ named) => {
+    const pads = [n.paddingTop, n.paddingRight, n.paddingBottom, n.paddingLeft].map((p) => p ?? 0);
+    if (named === 'Card') {
+      /** @type {Record<string, any>} */
+      const props = { padding: tokenFor(n, 'paddingLeft', pads[3], enumOf('Card', 'padding')) };
+      return { type: 'Card', props };
+    }
+    if (named === 'Grid' || (n.layoutMode === 'HORIZONTAL' && n.layoutWrap === 'WRAP')) {
+      const gap = tokenFor(n, 'itemSpacing', n.itemSpacing, enumOf('Grid', 'gap'));
+      const kids = (n.children ?? []).filter((c) => c.visible !== false);
+      let columns = Math.min(4, Math.max(1, kids.length || 1));
+      const cell = kids[0]?.width;
+      if (n.width && cell) columns = Math.min(4, Math.max(1, Math.round((n.width + (n.itemSpacing ?? 0)) / (cell + (n.itemSpacing ?? 0)))));
+      return { type: 'Grid', props: { columns, gap } };
+    }
+    /** @type {Record<string, any>} */
+    const props = {};
+    if (n.layoutMode === 'HORIZONTAL') props.direction = 'horizontal';
+    if (n.layoutMode !== 'HORIZONTAL' && n.layoutMode !== 'VERTICAL') {
+      note(n, { message: `"${n.name}" has no auto layout; read as a vertical Stack, positions are lost.`, severity: 'warning', rule: 'absolute-layout' });
+    }
+    props.gap = tokenFor(n, 'itemSpacing', n.itemSpacing ?? 0, enumOf('Stack', 'gap'));
+    if (new Set(pads).size > 1) note(n, { message: `"${n.name}" has uneven padding (${pads.join('/')}); Harbor's Stack takes one value, using the left.`, severity: 'info', rule: 'uneven-padding' });
+    props.padding = tokenFor(n, 'paddingLeft', pads[3], enumOf('Stack', 'padding'));
+    const justify = { MIN: 'start', CENTER: 'center', MAX: 'end', SPACE_BETWEEN: 'space-between' }[/** @type {string} */ (n.primaryAxisAlignItems)];
+    if (justify) props.justify = justify;
+    const align = { MIN: 'start', CENTER: 'center', MAX: 'end', BASELINE: 'start' }[/** @type {string} */ (n.counterAxisAlignItems)];
+    // A Harbor Stack stretches its children by default, which Figma draws as
+    // MIN alignment plus stretched children; MIN alone reads as the default.
+    if (align && align !== 'start') props.align = align;
+    return { type: 'Stack', props };
+  };
+
+  /**
+   * @param {SerializedNode} n
+   * @returns {string | null} the tree id, or null when the layer is skipped
+   */
+  const convert = (n) => {
+    if (n.visible === false) {
+      note(n, { message: `Hidden layer "${n.name}" was skipped.`, severity: 'info', rule: 'hidden' });
+      return null;
+    }
+    const data = parseJson(n.pluginData?.agui);
+    /** @type {{ type: string, props: Record<string, any> } | null} */
+    let mapped = null;
+    let id;
+
+    if (data && components[data.type]) {
+      id = mintId(n, data.nodeId);
+      mapped = { type: data.type, props: liveOverrides(n, data.type, data.props ?? {}, id) };
+    } else if (n.type === 'INSTANCE') {
+      const main = n.mainComponent;
+      const set = main?.parent?.type === 'COMPONENT_SET' ? main.parent : null;
+      const type = byKey.get(set?.key) ?? byKey.get(main?.key) ?? byName.get(String(set?.name ?? main?.name ?? '').toLowerCase()) ?? null;
+      if (!type) {
+        note(n, { message: `Instance of "${set?.name ?? main?.name ?? 'an unknown component'}" is not a ${catalog.name} component; skipped.`, severity: 'warning', rule: 'unknown-component' });
+        return null;
+      }
+      id = mintId(n);
+      mapped = { type, props: instanceProps(n, type, id) };
+    } else if (n.type === 'TEXT') {
+      id = mintId(n);
+      mapped = textNode(n);
+    } else if (['FRAME', 'COMPONENT', 'GROUP', 'SECTION'].includes(n.type)) {
+      const named = typeFromLayerName(n.name);
+      if (named && components[named].children?.kind === 'none' && !(n.children ?? []).length) {
+        id = mintId(n);
+        mapped = { type: named, props: {} };
+        if (named !== 'Divider') note(n, { nodeId: id, message: `"${n.name}" is named like a ${named} but carries no plugin data or component; its props are defaults.`, severity: 'warning', rule: 'named-only' });
+      } else if (!(n.children ?? []).length && (n.height ?? 99) <= 2) {
+        id = mintId(n);
+        mapped = { type: 'Divider', props: {} };
+      } else {
+        id = mintId(n);
+        mapped = layoutNode(n, named && components[named].children?.kind === 'nodes' ? named : null);
+      }
+    } else {
+      note(n, { message: `${n.type} "${n.name}" has no ${catalog.name} equivalent; skipped.`, severity: 'warning', rule: 'unsupported-node' });
+      return null;
+    }
+
+    const node = /** @type {{ type: string, props: Record<string, any>, children?: string[] }} */ ({ type: mapped.type, props: mapped.props });
+    nodes[id] = node;
+    if (components[mapped.type].children?.kind === 'nodes') {
+      node.children = [];
+      for (const c of n.children ?? []) {
+        const childId = convert(c);
+        if (childId) node.children.push(childId);
+      }
+    } else if (n.type !== 'INSTANCE' && n.type !== 'TEXT' && !data) {
+      // A frame read as a leaf: anything inside it is not carried over.
+      for (const c of n.children ?? []) if (c.type !== 'TEXT') note(c, { message: `"${c.name}" sits inside a ${mapped.type}, which takes no children; dropped.`, severity: 'info', rule: 'leaf-children' });
+    }
+    return id;
+  };
+
+  // A screen frame drawn by tree-to-figma is a wrapper, not a node: its
+  // content is the tree's root, and its title is the tree's title.
+  const screen = parseJson(root.pluginData?.screen);
+  let title = options.title ?? (screen?.title || root.name);
+  let rootId = null;
+  if (screen) {
+    const content = (root.children ?? []).filter((c) => c.visible !== false);
+    const ids = content.map(convert).filter(Boolean);
+    if (ids.length > 1) {
+      rootId = mintId(root, 'screen');
+      nodes[rootId] = { type: 'Stack', props: {}, children: /** @type {string[]} */ (ids) };
+      findings.push({ figmaId: root.id, path: '/root', message: `The frame holds ${ids.length} top-level layers; wrapped them in a Stack.`, severity: 'info', rule: 'wrapped-root' });
+    } else rootId = ids[0] ?? null;
+  } else {
+    rootId = convert(root);
+  }
+  if (!rootId) findings.push({ figmaId: root.id, path: '/root', message: `Nothing in "${root.name}" maps to ${catalog.name}.`, severity: 'error', rule: 'empty' });
+  return { tree: { title, root: rootId, nodes }, findings };
+}
+
+    </script>
+    <script>
+      // An AG-UI client with no dependencies. @ag-ui/client would need rxjs,
+      // zod and more bundled into this one HTML file, and the lab has no
+      // bundler, so this speaks the protocol directly: POST RunAgentInput,
+      // read `data: <json>` SSE frames, keep messages and state the way
+      // AbstractAgent does, answer frontend tools, resume interrupts.
+      // The iframe has a null origin; the lab server answers with
+      // Access-Control-Allow-Origin: *, and manifest.json allowlists it.
+
+      const $ = (id) => document.getElementById(id);
+      const newId = (prefix) => `${prefix}_${Math.random().toString(36).slice(2, 10)}`;
+      const clone = (v) => (v === undefined ? v : JSON.parse(JSON.stringify(v)));
+      const under = (path, prefix) => path === prefix || String(path).startsWith(prefix + '/');
+      const emptyTree = () => ({ title: '', root: null, nodes: {} });
+      const server = () => $('server').value.replace(/\/+$/, '');
+
+      const session = {
+        threadId: newId('thread'),
+        messages: [],
+        state: {},
+        catalog: HARBOR_BUNDLED.catalog,
+        tools: withDrawTool(HARBOR_BUNDLED.tools),
+        context: HARBOR_BUNDLED.context,
+        interrupt: null,
+        pendingTools: [],
+        run: null,
+        follow: null,
+      };
+      $('thread').textContent = session.threadId;
+
+      function withDrawTool(tools) {
+        const render = tools.find((t) => t.name === 'render_ui');
+        return [
+          ...tools.filter((t) => t.name !== 'draw_in_figma'),
+          {
+            name: 'draw_in_figma',
+            description:
+              'Draw the approved screen in the open Figma file: Harbor components where the file has them, auto-layout frames bound to Harbor variables where it does not. Answers with the frame id and any mapping warnings.',
+            parameters: {
+              type: 'object',
+              properties: {
+                frameName: { type: 'string', description: 'Name for the Figma frame.' },
+                tree: render ? render.parameters : { type: 'object' },
+              },
+              required: ['tree'],
+            },
+          },
+        ];
+      }
+
+      // ------------------------------------------------------------- log
+      const messageEls = new Map();
+      function log(kind, text, cls) {
+        const li = document.createElement('li');
+        li.className = cls || kind;
+        const k = document.createElement('span');
+        k.className = 'kind';
+        k.textContent = kind;
+        li.append(k, document.createTextNode(text));
+        $('log').append(li);
+        while ($('log').children.length > 200) $('log').firstElementChild.remove();
+        $('log').scrollTop = $('log').scrollHeight;
+        return li;
+      }
+      function setStatus(text, state) {
+        $('status-text').textContent = text;
+        $('dot').className = 'dot' + (state ? ' ' + state : '');
+      }
+      function setBusy() {
+        const running = Boolean(session.run);
+        $('generate').disabled = running;
+        $('cancel').disabled = !running;
+        $('approve').disabled = running;
+        $('reject').disabled = running;
+        $('send-selection').disabled = running || !session.selectionCount;
+        $('unfollow').disabled = !session.follow;
+      }
+
+      // ----------------------------------------------- main thread requests
+      let seq = 0;
+      const waiting = new Map();
+      function request(msg) {
+        const requestId = ++seq;
+        parent.postMessage({ pluginMessage: { ...msg, requestId } }, '*');
+        return new Promise((resolve, reject) => waiting.set(requestId, { resolve, reject }));
+      }
+      window.onmessage = (e) => {
+        const m = e.data && e.data.pluginMessage;
+        if (!m) return;
+        if (m.type === 'selection-changed') {
+          session.selectionCount = m.count;
+          $('selection').textContent = m.count ? `${m.count} selected: ${m.names.join(', ')}${m.count > 3 ? '…' : ''}` : 'Nothing selected.';
+          setBusy();
+          return;
+        }
+        const w = m.requestId && waiting.get(m.requestId);
+        if (!w) return;
+        waiting.delete(m.requestId);
+        if (m.type === 'error') w.reject(new Error(m.message));
+        else w.resolve(m);
+      };
+
+      // -------------------------------------------------- canvas syncing
+      // STATE_SNAPSHOT becomes a draw, STATE_DELTA ops are coalesced into
+      // patches, one request to the main thread at a time.
+      const canvas = {
+        ops: [],
+        full: false,
+        timer: null,
+        chain: Promise.resolve(),
+        focus: true,
+        snapshot() {
+          this.full = true;
+          this.ops = [];
+          this.schedule();
+        },
+        delta(ops) {
+          const relevant = ops.filter((op) => under(op.path, '/ui') || under(op.path, '/theme'));
+          if (!relevant.length) return;
+          if (!this.full) this.ops.push(...relevant);
+          this.schedule();
+        },
+        schedule() {
+          if (!this.timer) this.timer = setTimeout(() => this.flush(), 120);
+        },
+        flush() {
+          clearTimeout(this.timer);
+          this.timer = null;
+          this.chain = this.chain.then(() => this.send()).catch((e) => log('figma', e.message, 'error'));
+          return this.chain;
+        },
+        draw() {
+          const tree = session.state.ui || emptyTree();
+          const focus = this.focus;
+          this.focus = false;
+          return request({ type: 'draw', key: session.threadId, frameName: tree.title || 'Harbor screen', tree, theme: session.state.theme || {}, focus });
+        },
+        async send() {
+          if (!this.full && !this.ops.length) return;
+          const full = this.full;
+          const ops = this.ops;
+          this.full = false;
+          this.ops = [];
+          let r = full ? await this.draw() : await request({ type: 'patch', key: session.threadId, ops });
+          if (r.result.needsRedraw) r = await this.draw();
+          report(r.result);
+        },
+      };
+      function report(s) {
+        const parts = [];
+        if (s.created.length) parts.push(`${s.created.length} created`);
+        if (s.updated.length) parts.push(`${s.updated.length} updated`);
+        if (s.removed.length) parts.push(`${s.removed.length} removed`);
+        if (s.variables.variablesCreated) parts.push(`${s.variables.variablesCreated} variables created`);
+        if (parts.length) log('figma', `${s.op}: ${parts.join(', ')}`);
+        for (const w of s.warnings) log('warning', w.message, 'warn');
+      }
+
+      // ------------------------------------------------------ SSE reader
+      async function* readSse(response) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let end;
+          while ((end = buffer.search(/\r?\n\r?\n/)) >= 0) {
+            const frame = buffer.slice(0, end);
+            buffer = buffer.slice(end).replace(/^\r?\n\r?\n/, '');
+            const data = frame
+              .split(/\r?\n/)
+              .filter((line) => line.startsWith('data:'))
+              .map((line) => line.slice(5).replace(/^ /, ''))
+              .join('\n');
+            if (data) yield JSON.parse(data);
+          }
+        }
+      }
+
+      // ---------------------------------------------------- AG-UI events
+      function assistantMessage(id) {
+        let m = session.messages.find((x) => x.id === id);
+        if (!m) session.messages.push((m = { id, role: 'assistant', content: '' }));
+        return m;
+      }
+      function handle(event, own) {
+        switch (event.type) {
+          case 'RUN_STARTED':
+            setStatus(`Running ${event.runId.slice(-8)}`, 'ok');
+            break;
+          case 'TEXT_MESSAGE_START':
+            if (own) assistantMessage(event.messageId);
+            messageEls.set(event.messageId, log('agent', '', 'assistant'));
+            break;
+          case 'TEXT_MESSAGE_CONTENT': {
+            if (own) assistantMessage(event.messageId).content += event.delta;
+            const li = messageEls.get(event.messageId);
+            if (li) li.lastChild.textContent += event.delta;
+            break;
+          }
+          case 'TOOL_CALL_START': {
+            if (own) {
+              const m = assistantMessage(event.parentMessageId || event.toolCallId);
+              m.toolCalls = m.toolCalls || [];
+              m.toolCalls.push({ id: event.toolCallId, type: 'function', function: { name: event.toolCallName, arguments: '' } });
+            }
+            log('tool', `${event.toolCallName} called`);
+            break;
+          }
+          case 'TOOL_CALL_ARGS': {
+            if (!own) break;
+            const call = session.messages.flatMap((m) => m.toolCalls || []).find((c) => c.id === event.toolCallId);
+            if (call) call.function.arguments += event.delta;
+            break;
+          }
+          case 'TOOL_CALL_END': {
+            if (!own) break;
+            const call = session.messages.flatMap((m) => m.toolCalls || []).find((c) => c.id === event.toolCallId);
+            if (call) session.pendingTools.push(call);
+            break;
+          }
+          case 'STEP_STARTED':
+            log('step', event.stepName);
+            break;
+          case 'STATE_SNAPSHOT':
+            session.state = clone(event.snapshot) || {};
+            canvas.snapshot();
+            break;
+          case 'STATE_DELTA':
+            try {
+              session.state = applyJsonPatch(clone(session.state), event.delta);
+              canvas.delta(event.delta);
+            } catch (e) {
+              log('state', `A delta did not apply (${e.message}); redrawing from the next snapshot.`, 'warn');
+            }
+            break;
+          case 'MESSAGES_SNAPSHOT':
+            if (own) session.messages = clone(event.messages);
+            break;
+          case 'CUSTOM':
+            if (/\.validation$/.test(event.name)) {
+              const v = event.value || {};
+              log('validate', v.valid ? `valid, ${v.warnings.length} guideline warning(s)` : `${v.errors.length} contract error(s)`, v.valid ? 'step' : 'warn');
+            }
+            break;
+          case 'RUN_ERROR':
+            log('error', event.message, 'error');
+            break;
+          case 'RUN_FINISHED':
+            setStatus('Idle', 'ok');
+            return event;
+        }
+        return null;
+      }
+
+      // -------------------------------------------------------- running
+      async function runAgent(extra = {}) {
+        if (session.run) return;
+        const controller = new AbortController();
+        session.run = controller;
+        session.pendingTools = [];
+        setBusy();
+        const input = {
+          threadId: session.threadId,
+          runId: newId('run'),
+          state: session.state,
+          messages: session.messages,
+          tools: session.tools,
+          context: session.context,
+          forwardedProps: { mode: 'state' },
+          ...extra,
+        };
+        let finished = null;
+        try {
+          const res = await fetch(`${server()}/agent`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
+            body: JSON.stringify(input),
+            signal: controller.signal,
+          });
+          if (!res.ok) throw new Error(`POST /agent answered ${res.status}: ${(await res.text()).slice(0, 300)}`);
+          for await (const event of readSse(res)) finished = handle(event, true) || finished;
+          await canvas.flush();
+        } catch (e) {
+          if (e.name !== 'AbortError') {
+            log('error', e.message, 'error');
+            setStatus('Run failed', 'bad');
+          }
+        } finally {
+          session.run = null;
+          setBusy();
+        }
+        const outcome = finished && finished.outcome;
+        if (outcome && outcome.type === 'interrupt') showReview(outcome.interrupts[0], true);
+        else if (outcome && outcome.type === 'success' && session.pendingTools.length) {
+          await answerTools();
+          await runAgent();
+        }
+      }
+
+      // The frontend tool: the agent asks, the plugin draws, the answer goes
+      // back as a tool message on the next run.
+      async function answerTools() {
+        const calls = session.pendingTools;
+        session.pendingTools = [];
+        for (const call of calls) {
+          const answer = { id: newId('tool'), role: 'tool', toolCallId: call.id, content: '' };
+          if (call.function.name !== 'draw_in_figma') {
+            answer.content = JSON.stringify({ ok: false, message: `${call.function.name} is not available in Figma.` });
+            answer.error = 'unsupported tool';
+          } else {
+            try {
+              const args = JSON.parse(call.function.arguments || '{}');
+              const r = await request({ type: 'draw', key: session.threadId, frameName: args.frameName || args.tree.title, tree: args.tree, theme: session.state.theme || {}, focus: true });
+              const s = r.result;
+              report(s);
+              answer.content = JSON.stringify({
+                ok: s.ok,
+                message: `Drew "${s.frameName}" in Figma: ${s.created.length} layers created, ${s.updated.length} updated, ${s.removed.length} removed${s.warnings.length ? `, ${s.warnings.length} warning(s)` : ''}.`,
+                frameId: s.frameId,
+                warnings: s.warnings.map((w) => w.message),
+              });
+              parent.postMessage({ pluginMessage: { type: 'notify', message: `Drew "${s.frameName}"` } }, '*');
+            } catch (e) {
+              answer.content = JSON.stringify({ ok: false, message: `Figma could not draw it: ${e.message}` });
+              answer.error = e.message;
+            }
+          }
+          session.messages.push(answer);
+          log('tool', `answered ${call.function.name}`);
+        }
+      }
+
+      function showReview(interrupt, ownRun) {
+        if (!interrupt) return;
+        session.interrupt = ownRun ? interrupt : null;
+        $('review-message').textContent = ownRun ? interrupt.message || 'Approve this screen?' : `Review requested in the client that started this run: ${interrupt.message || ''}`;
+        $('approve').hidden = $('reject').hidden = $('notes').hidden = !ownRun;
+        $('review').hidden = false;
+      }
+      function resolveReview(approved) {
+        const interrupt = session.interrupt;
+        if (!interrupt) return;
+        session.interrupt = null;
+        $('review').hidden = true;
+        const payload = approved ? { approved: true } : { approved: false, notes: $('notes').value.trim() };
+        log('review', approved ? 'approved' : `rejected${payload.notes ? `: ${payload.notes}` : ''}`);
+        runAgent({ resume: [{ interruptId: interrupt.id, status: 'resolved', payload }] });
+      }
+
+      // ------------------------------------------------------ following
+      async function follow() {
+        const id = $('follow-id').value.trim();
+        if (!id) return;
+        stopFollowing();
+        session.threadId = id;
+        session.state = {};
+        canvas.focus = true;
+        $('thread').textContent = id;
+        const controller = new AbortController();
+        session.follow = controller;
+        setBusy();
+        log('follow', `following ${id}`);
+        try {
+          const res = await fetch(`${server()}/threads/${encodeURIComponent(id)}/events`, { headers: { accept: 'text/event-stream' }, signal: controller.signal });
+          if (!res.ok) throw new Error(`GET /threads/${id}/events answered ${res.status}`);
+          for await (const event of readSse(res)) {
+            const finished = handle(event, false);
+            if (finished && finished.outcome && finished.outcome.type === 'interrupt') showReview(finished.outcome.interrupts[0], false);
+          }
+        } catch (e) {
+          if (e.name !== 'AbortError') log('error', e.message, 'error');
+        } finally {
+          if (session.follow === controller) session.follow = null;
+          setBusy();
+        }
+      }
+      function stopFollowing() {
+        if (session.follow) session.follow.abort();
+        session.follow = null;
+        setBusy();
+      }
+
+      // ------------------------------------------------------ selection
+      async function sendSelection() {
+        try {
+          const r = await request({ type: 'read-selection' });
+          const { tree, findings } = figmaNodeToTree(r.node, session.catalog);
+          log('figma', `read "${r.node.name}": ${Object.keys(tree.nodes).length} ${session.catalog.name} nodes, ${findings.length} finding(s)`);
+          for (const f of findings.filter((x) => x.severity !== 'info').slice(0, 8)) log('finding', f.message, 'warn');
+          session.state = { ...session.state, ui: tree };
+          session.messages.push({ id: newId('msg'), role: 'user', content: 'Build this in code' });
+          const context = session.context.filter((c) => c.description !== 'Figma selection');
+          context.push({
+            description: 'Figma selection',
+            value: JSON.stringify({ figmaNodeId: r.node.id, name: r.node.name, findings: findings.map((f) => f.message) }),
+          });
+          session.context = context;
+          await runAgent();
+        } catch (e) {
+          log('error', e.message, 'error');
+        }
+      }
+
+      // --------------------------------------------------------- server
+      async function connect() {
+        try {
+          const [caps, catalog] = await Promise.all([
+            fetch(`${server()}/agent/capabilities`).then((r) => r.json()),
+            fetch(`${server()}/catalog`).then((r) => r.json()),
+          ]);
+          session.catalog = catalog.catalog;
+          session.tools = withDrawTool(catalog.tools);
+          session.context = catalog.context;
+          const name = (caps.identity && caps.identity.name) || 'agent';
+          setStatus(`${name} · ${caps.custom && caps.custom.catalog ? caps.custom.catalog : catalog.catalog.name}`, 'ok');
+        } catch (e) {
+          setStatus(`Cannot reach ${server()} (${e.message}). Run \`npm run agent\` in labs/ag-ui.`, 'bad');
+        }
+      }
+
+      $('connect').onclick = connect;
+      $('generate').onclick = () => {
+        const prompt = $('prompt').value.trim();
+        if (!prompt) return;
+        $('review').hidden = true;
+        session.messages.push({ id: newId('msg'), role: 'user', content: prompt });
+        log('you', prompt);
+        runAgent();
+      };
+      $('cancel').onclick = () => session.run && session.run.abort();
+      $('approve').onclick = () => resolveReview(true);
+      $('reject').onclick = () => resolveReview(false);
+      $('follow').onclick = follow;
+      $('unfollow').onclick = stopFollowing;
+      $('send-selection').onclick = sendSelection;
+      $('new-thread').onclick = () => {
+        stopFollowing();
+        session.threadId = newId('thread');
+        session.messages = [];
+        session.state = {};
+        session.interrupt = null;
+        canvas.focus = true;
+        $('review').hidden = true;
+        $('thread').textContent = session.threadId;
+        log('thread', `new thread ${session.threadId}`);
+      };
+      setBusy();
+      connect();
+    </script>
+  </body>
+</html>
