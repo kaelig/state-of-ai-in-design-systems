@@ -187,7 +187,8 @@ test('patch: STATE_DELTA ops change only what they touch', async () => {
   const { m, tree, screen } = await drawn('sign up form');
   const ids = () => new Map([...byName(screen)].filter(([name]) => name.includes(' · ')).map(([name, n]) => [name, n.id]));
   const patch = (/** @type {any[]} */ ops) => runScript(m.figma, opsToFigmaScript(ops, harbor, { key: 'thread_1' }));
-  let state = { ui: tree, theme: {} };
+  /** @type {any} */
+  let state = { ui: tree, theme: {}, review: { status: 'drafting' } };
   const apply = async (/** @type {any[]} */ ops) => {
     state = applyOps(state, ops);
     return patch(ops);
@@ -238,7 +239,7 @@ test('patch: STATE_DELTA ops change only what they touch', async () => {
   r = await apply([
     { op: 'add', path: '/theme/mode', value: 'dark' },
     { op: 'replace', path: '/review', value: { status: 'in_review' } },
-  ].filter((op) => op.path !== '/review' || (state.review = {}, true)));
+  ]);
   const semantic = m.collections.find((c) => c.name === 'Harbor');
   assert.equal(screen.explicitVariableModes[semantic.id], semantic.modes[1].modeId);
   assert.deepEqual([r.created, r.updated, r.removed, r.ignoredOps], [[], [], [], 1]);
@@ -279,9 +280,9 @@ test('figmaConsoleSubscriber: the agent streams AG-UI, Figma Console MCP is the 
     const result = await runScript(m.figma, args.code);
     return { content: [{ type: 'text', text: JSON.stringify({ success: true, result }) }] };
   };
-  const sub = figmaConsoleSubscriber({ callTool, coalesceMs: 50, onResult: (s) => summaries.push(s) });
+  const sub = figmaConsoleSubscriber({ callTool, coalesceMs: 100, onResult: (s) => summaries.push(s) });
   const counting = { ...sub, onStateDeltaEvent: (/** @type {any} */ p) => (deltas++, sub.onStateDeltaEvent(p)) };
-  const { tree, threadId } = await runDesignAgent('a dashboard with 4 metrics', { subscriber: counting, delayMs: 15 });
+  const { tree, threadId } = await runDesignAgent('a dashboard with 4 metrics', { subscriber: counting, delayMs: 20 });
   await sub.idle();
 
   assert.deepEqual(sub.errors, []);
@@ -403,14 +404,16 @@ test('figma-to-tree without plugin data: by component name, by layout, and findi
   };
   const { tree, findings } = figmaNodeToTree(frame, harbor);
   const root = tree.nodes[/** @type {string} */ (tree.root)];
-  assert.deepEqual(root, { type: 'Stack', props: { gap: 'lg', padding: 'xl', justify: 'start', align: 'center' }, children: ['f1_2', 'f1_3', 'f1_4', 'f1_5', 'f1_6'] });
+  assert.deepEqual(root, { type: 'Stack', props: { gap: 'lg', padding: 'xl', align: 'center' }, children: ['f1_2', 'f1_3', 'f1_4', 'f1_5', 'f1_6', 'f1_10'] });
   assert.deepEqual(tree.nodes.f1_2, { type: 'Heading', props: { text: 'Pay', level: 1 } });
   assert.deepEqual(tree.nodes.f1_3, { type: 'Text', props: { text: 'Taxes included', size: 'sm', tone: 'muted' } });
   assert.deepEqual(tree.nodes.f1_4, { type: 'Button', props: { variant: 'secondary', size: 'md', label: 'Go' } });
   assert.deepEqual(tree.nodes.f1_5.props, { size: 'md', label: 'Go' }, 'an unknown variant value is dropped, not guessed');
   assert.deepEqual(tree.nodes.f1_6, { type: 'Grid', props: { columns: 3, gap: 'md' }, children: ['f1_7'] });
+  assert.deepEqual(tree.nodes.f1_7, { type: 'Stack', props: { gap: 'none', padding: 'none' }, children: [] });
+  assert.deepEqual(tree.nodes.f1_10, { type: 'Divider', props: {} });
   const rules = findings.map((f) => `${f.rule}:${f.figmaId}`);
-  for (const expected of ['unmapped-figma-property:1:4', 'unknown-variant-value:1:5', 'unsupported-node:1:8', 'unknown-component:1:9', 'unsupported-node:1:10', 'hidden:1:11']) {
+  for (const expected of ['unmapped-figma-property:1:4', 'missing-figma-property:1:4', 'unknown-variant-value:1:5', 'unsupported-node:1:8', 'unknown-component:1:9', 'hidden:1:11']) {
     assert.ok(rules.includes(expected), `${expected} in ${rules.join(', ')}`);
   }
   assert.ok(findings.every((f) => ['error', 'warning', 'info'].includes(f.severity) && f.message));

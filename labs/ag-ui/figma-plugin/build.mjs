@@ -24,7 +24,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { catalogId, catalogToContext, catalogToTools, harbor } from '../src/catalog/index.js';
-import { checkSandboxScript, writeSandboxSource } from '../src/figma/sandbox-tools.js';
+import { checkSandboxScript, extractSandboxFunctions, writeSandboxSource } from '../src/figma/sandbox-tools.js';
 import { compactCatalog, figmaVariableDefs, jsonForSource } from '../src/figma/tree-to-figma.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -42,7 +42,11 @@ function fill(template, fills) {
   return text;
 }
 
-export async function build(dir = out) {
+/**
+ * @param {string} [dir] where to write code.js, ui.html (and manifest.json when not figma-plugin/)
+ * @param {{ regenerate?: boolean }} [options] regenerate: also rewrite src/figma/sandbox-source.js (off in tests)
+ */
+export async function build(dir = out, { regenerate = true } = {}) {
   const [mainTemplate, uiTemplate, figmaToTree, manifestText] = await Promise.all([
     readFile(join(here, 'src/main.js'), 'utf8'),
     readFile(join(here, 'src/ui.html'), 'utf8'),
@@ -50,7 +54,7 @@ export async function build(dir = out) {
     readFile(join(here, 'manifest.json'), 'utf8'),
   ]);
 
-  const fns = writeSandboxSource();
+  const fns = regenerate ? writeSandboxSource() : extractSandboxFunctions();
   const code = fill(mainTemplate, {
     '/*@HARBOR_DATA@*/ null': jsonForSource({ catalogId: catalogId(harbor), catalog: compactCatalog(harbor), variables: figmaVariableDefs() }),
     '/*@APPLY_JSON_PATCH@*/ null': fns.applyJsonPatch,
