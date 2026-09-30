@@ -30,7 +30,15 @@ export default defineConfig({
     reportCompressedSize: false,
     chunkSizeWarningLimit: 4096,
     rolldownOptions: {
-      output: { codeSplitting: false },
+      output: {
+        codeSplitting: false,
+        // src/figma/tree-to-figma.js ships its Figma runtime as the source text
+        // of a function (Function.prototype.toString), and Figma's plugin
+        // sandbox rejects optional catch bindings, ?. , ?? and object spread.
+        // The default compressor rewrites `catch (e) {}` to `catch {}`, so keep
+        // it from introducing anything newer than ES2017.
+        minify: { compress: { target: 'es2017' }, mangle: true, codegen: true },
+      },
     },
   },
 });

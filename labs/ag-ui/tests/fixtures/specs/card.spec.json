@@ -1,0 +1,41 @@
+{
+  "title": "Card",
+  "anatomy": {
+    "container": { "type": "container", "role": "group" },
+    "content": { "type": "slot" }
+  },
+  "props": {
+    "elevation": {
+      "type": "string",
+      "default": "Flat",
+      "enum": ["Flat", "Raised"],
+      "nullable": false,
+      "$extensions": { "com.figma": { "type": "VARIANT" } }
+    },
+    "padding": {
+      "type": "string",
+      "default": "lg",
+      "enum": ["md", "lg", "xl"],
+      "nullable": false,
+      "$extensions": { "com.figma": { "type": "VARIANT" } }
+    },
+    "content": {
+      "type": "slot",
+      "nullable": false,
+      "minChildren": 1,
+      "maxChildren": 6,
+      "anyOf": ["Stack", "Heading", "Text", "Button", "Stat"],
+      "$extensions": { "com.figma": { "name": "Content" } }
+    }
+  },
+  "default": {
+    "layout": [{ "container": ["content"] }],
+    "elements": {
+      "container": { "children": ["content"] },
+      "content": { "children": { "$binding": "#/props/content" } }
+    }
+  },
+  "metadata": {
+    "source": { "pageId": "0:1", "nodeId": "5:0", "nodeType": "COMPONENT_SET" }
+  }
+}

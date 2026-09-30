@@ -13,7 +13,8 @@
 // (https://storybook.js.org/docs/ai/manifests).
 
 import { useArgs, useGlobals } from 'storybook/preview-api';
-import { DEFAULT_AGENT_URL, Generator, MODES, TRANSPORTS } from '../src/storybook/Generator.jsx';
+import { Generator } from '../src/storybook/Generator.jsx';
+import { DEFAULT_AGENT_URL, MODES, TRANSPORTS } from '../src/storybook/generator-options.js';
 
 export default {
   title: 'AG-UI/Generate',

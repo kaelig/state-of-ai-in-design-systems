@@ -1,0 +1,78 @@
+{
+  "title": "Button",
+  "anatomy": {
+    "container": { "type": "container", "role": "button" },
+    "icon": { "type": "instance", "instanceOf": "Icon" },
+    "label": { "type": "text" }
+  },
+  "props": {
+    "variant": {
+      "type": "string",
+      "default": "Primary",
+      "enum": ["Primary", "Secondary", "Ghost"],
+      "nullable": false,
+      "$extensions": { "com.figma": { "type": "VARIANT" } }
+    },
+    "size": {
+      "type": "string",
+      "default": "md",
+      "enum": ["sm", "md", "lg"],
+      "nullable": false,
+      "$extensions": { "com.figma": { "type": "VARIANT" } }
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "$extensions": { "com.figma": { "type": "VARIANT" } }
+    },
+    "label": {
+      "type": "string",
+      "examples": ["Create account"],
+      "nullable": false,
+      "$extensions": { "com.figma": { "type": "TEXT" } }
+    },
+    "showIcon": {
+      "type": "boolean",
+      "default": false,
+      "$extensions": { "com.figma": { "type": "BOOLEAN", "name": "Show icon" } }
+    },
+    "accessibilityLabel": {
+      "type": "string",
+      "examples": ["Create your account"],
+      "$extensions": { "com.figma": { "type": "TEXT", "source": { "kind": "codeOnlyProp", "layer": "Accessibility label" } } }
+    }
+  },
+  "default": {
+    "layout": [{ "container": ["icon", "label"] }],
+    "elements": {
+      "container": {
+        "children": ["icon", "label"],
+        "styles": {
+          "backgroundColor": {
+            "$token": "Harbor.color.accent.default",
+            "$type": "color",
+            "$extensions": { "com.figma": { "id": "VariableID:1:23", "name": "color/accent/default", "collectionName": "Harbor", "rawValue": "#2B56E1" } }
+          }
+        }
+      },
+      "icon": { "instanceOf": "Icon", "styles": { "visible": { "$binding": "#/props/showIcon" } } },
+      "label": { "content": { "$binding": "#/props/label" } }
+    }
+  },
+  "variants": [
+    {
+      "configuration": { "variant": "Secondary" },
+      "elements": {
+        "container": {
+          "styles": {
+            "backgroundColor": { "$token": "Harbor.color.bg.surface", "$type": "color" }
+          }
+        }
+      }
+    }
+  ],
+  "invalidPropCombinations": [{ "variant": "Ghost", "size": "lg" }, { "showIcon": true, "size": "sm" }],
+  "metadata": {
+    "source": { "pageId": "0:1", "nodeId": "3:0", "nodeType": "COMPONENT_SET" }
+  }
+}
