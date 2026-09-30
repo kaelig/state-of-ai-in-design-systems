@@ -83,6 +83,11 @@ export const DARK_OVERRIDES = {
   'color.accent.hover': 'palette.blue.100',
   'color.accent.subtle': 'palette.gray.700',
   'color.fg.on-accent': 'palette.gray.900',
+  // Status text sits on dark surfaces in dark mode (a Stat's change, a
+  // required marker), so it needs the light steps to keep 4.5:1.
+  'color.success.fg': 'palette.green.300',
+  'color.warning.fg': 'palette.amber.300',
+  'color.danger.fg': 'palette.red.300',
 };
 
 export function darkCss(selector = '[data-harbor-mode="dark"]', prefix = 'harbor') {

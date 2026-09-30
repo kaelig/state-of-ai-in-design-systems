@@ -253,8 +253,14 @@
 .h-alert[data-tone='danger']::before {
   background: var(--harbor-color-danger-fg);
 }
-.harbor[data-harbor-mode='dark'] .h-alert {
-  color: var(--harbor-palette-gray-900);
+/* In dark mode the status tints would sit light-on-light behind the lighter
+   status text, so badges and alerts move onto the subtle surface and keep
+   their tone in the text and the rule. */
+.harbor[data-harbor-mode='dark'] .h-alert,
+.harbor[data-harbor-mode='dark'] .h-badge[data-tone='success'],
+.harbor[data-harbor-mode='dark'] .h-badge[data-tone='warning'],
+.harbor[data-harbor-mode='dark'] .h-badge[data-tone='danger'] {
+  background: var(--harbor-color-bg-subtle);
 }
 .h-alert strong {
   font-weight: var(--harbor-font-weight-bold);
