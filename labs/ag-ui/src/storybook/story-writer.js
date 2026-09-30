@@ -16,8 +16,9 @@ import path from 'node:path';
 // node_modules/storybook/dist/csf/index.js at storybook@10.6.1.
 import { storyNameFromExport, toId } from 'storybook/internal/csf';
 import { harbor } from '../catalog/index.js';
-import { toExportName, treeToCsf } from '../tree/to-code.js';
+import { toExportName } from '../tree/to-code.js';
 import { validateTree } from '../tree/tree.js';
+import { generatedCsf } from './generated-csf.js';
 
 /** A PascalCase JavaScript identifier, which is also a safe file name. */
 const EXPORT_NAME = /^[A-Z][A-Za-z0-9]{0,63}$/;
@@ -61,7 +62,7 @@ export async function writeGeneratedStory(payload, { dir, root = process.cwd(), 
     const storyTitleN = n === 1 ? title : `${title} ${n}`;
     const file = path.resolve(folder, `${exportName}.stories.jsx`);
     if (path.dirname(file) !== folder) throw new SaveStoryError(`Refusing to write outside ${folder}.`);
-    const source = treeToCsf(tree, catalog, { title: storyTitleN, exportName, importFrom: relImport, prompt });
+    const source = generatedCsf(tree, { title: storyTitleN, exportName, importFrom: relImport, prompt }, catalog);
     try {
       await writeFile(file, source, { flag: 'wx' });
     } catch (error) {

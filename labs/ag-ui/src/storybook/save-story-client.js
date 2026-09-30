@@ -16,8 +16,9 @@
 
 import { addons } from 'storybook/preview-api';
 import { harbor, treeSchema } from '../catalog/index.js';
-import { toExportName, treeToCsf } from '../tree/to-code.js';
+import { toExportName } from '../tree/to-code.js';
 import { EVENTS } from './events.js';
+import { generatedCsf } from './generated-csf.js';
 
 /** How long to wait for the preset to answer before assuming it is not there. */
 const TIMEOUT_MS = 8000;
@@ -96,7 +97,7 @@ export function csfForDownload(args, prompt = '') {
   const title = args.title && /^Generated\//.test(args.title) ? args.title : `Generated/${args.tree?.title || exportName}`;
   return {
     fileName: `${exportName}.stories.jsx`,
-    source: treeToCsf(args.tree, harbor, { title, exportName, importFrom: '../../src/react/index.js', prompt }),
+    source: generatedCsf(args.tree, { title, exportName, importFrom: '../../src/react/index.js', prompt }),
   };
 }
 

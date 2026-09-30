@@ -19,7 +19,10 @@ const config = {
   stories: ['../stories/**/*.stories.@(js|jsx)'],
   addons: ['../src/storybook/preset.js'],
   core: { disableTelemetry: true, disableWhatsNewNotifications: true },
-  features: { componentsManifest: true },
+  // sidebarOnboardingChecklist: the "Get started" widget is for new Storybook
+  // users, and in a lab it only pushes the sidebar down (feature flags typed in
+  // node_modules/storybook/dist/chunk-BqJXeo8A.d.ts, StorybookConfigRaw.features).
+  features: { componentsManifest: true, sidebarOnboardingChecklist: false },
   async viteFinal(viteConfig) {
     // @storybook/react-vite adds docgen but not @vitejs/plugin-react
     // (node_modules/@storybook/react-vite/dist/preset.js), so JSX would be
@@ -34,6 +37,12 @@ const config = {
     // The preview chunk carries React, the AG-UI client and Storybook's
     // runtime; for a local tool that size is expected, not a warning.
     viteConfig.build = { ...viteConfig.build, chunkSizeWarningLimit: 1600 };
+    // Vite watches the whole lab. Build output (this Storybook's own, and the
+    // playground's) is not source, and rebuilding it while `storybook dev`
+    // runs should not send hot updates into the preview.
+    const watch = viteConfig.server?.watch ?? {};
+    const ignored = [watch.ignored ?? []].flat();
+    viteConfig.server = { ...viteConfig.server, watch: { ...watch, ignored: [...ignored, '**/storybook-static/**', '**/playground/dist/**'] } };
     return viteConfig;
   },
 };

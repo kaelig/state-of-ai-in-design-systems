@@ -2,7 +2,8 @@
 // catalog, the preset's save_story handler writing to a temp dir, the preview
 // client talking to it over a stand-in channel, the event relay to the panel,
 // and the manifest drift check. The browser half (the generator story, the
-// panel) is exercised by the Playwright run described in the lab README.
+// panel) needs a real Storybook; it is driven with Playwright against both
+// `storybook build` and `storybook dev`, outside this suite.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -121,6 +122,7 @@ test('the preset writes stories/generated/<ExportName>.stories.jsx with the tree
     const source = await readFile(file, 'utf8');
     assert.ok(source.includes(`tree: ${JSON.stringify(tree)}`), 'parameters.agui.tree holds the tree verbatim');
     assert.ok(source.includes(`prompt: "a sign up form"`));
+    assert.ok(source.includes(`tags: ['ai-generated', '!manifest'],`), 'tagged for review and kept out of the components manifest');
     const importLine = source.split('\n').find((l) => l.startsWith('import '));
     const imported = importLine?.match(/import \{ (.+) \} from '(.+)';/);
     assert.ok(imported, importLine);
@@ -250,6 +252,7 @@ test('in a static build save_story writes nothing and offers the CSF source inst
   assert.equal(fileName, result.fileName);
   assert.ok(source.includes(JSON.stringify(tree)));
   assert.ok(source.includes("from '../../src/react/index.js'"));
+  assert.ok(source.includes(`tags: ['ai-generated', '!manifest'],`), 'the download is the same file the preset would write');
 });
 
 test('the relay sends each logged event to the manager once, batched', async () => {
@@ -285,13 +288,16 @@ test('the manifest drift check reports disagreements, not plumbing', () => {
       b: entry('Grid', { columns: { required: false, defaultValue: { value: '3', computed: false } } }),
       c: entry('Heading', { text: { required: false, tsType: { name: 'string' } }, level: { required: false, defaultValue: { value: '2', computed: false } } }),
       d: entry('Carousel', {}),
+      // What Storybook 10.6 emits for a story file with no meta.component.
+      e: { id: 'generated-sign-up-form', name: 'Sign-upform', path: './stories/generated/SignUpForm.stories.jsx', error: { name: 'No component found', message: 'We could not detect the component from your story file.' } },
     },
   };
   const shaped = manifestToCatalog(manifest);
   assert.equal(shaped.components.Grid.props.columns.default, 3);
   const report = compareManifest(manifest);
   assert.equal(report.inSync, false);
-  assert.deepEqual(report.unknown, ['Carousel']);
+  assert.deepEqual(report.unknown, ['Carousel'], 'an error entry is not an unknown component');
+  assert.deepEqual(report.errors, [{ id: 'generated-sign-up-form', path: './stories/generated/SignUpForm.stories.jsx', error: 'No component found' }]);
   assert.ok(report.missing.includes('Stack') && !report.missing.includes('Button'));
   const button = report.components.find((c) => c.type === 'Button');
   assert.deepEqual(button?.defaults, [{ prop: 'variant', catalog: 'primary', manifest: 'secondary' }]);

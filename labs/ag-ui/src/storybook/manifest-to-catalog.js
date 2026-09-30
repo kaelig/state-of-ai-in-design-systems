@@ -28,7 +28,7 @@ const PLUMBING = new Set(['className', 'children', 'onClick', 'style']);
 
 /**
  * @typedef {{ required?: boolean, defaultValue?: { value: string, computed?: boolean }, tsType?: any, type?: any, flowType?: any, description?: string }} DocgenProp
- * @typedef {{ id: string, name: string, path?: string, reactDocgen?: { exportName?: string, displayName?: string, props?: Record<string, DocgenProp> }, stories?: { id: string, name: string, snippet?: string, warning?: string }[] }} ManifestComponent
+ * @typedef {{ id: string, name: string, path?: string, error?: { name?: string, message?: string }, reactDocgen?: { exportName?: string, displayName?: string, props?: Record<string, DocgenProp> }, stories?: { id: string, name: string, snippet?: string, warning?: string }[] }} ManifestComponent
  * @typedef {{ v?: number, components: Record<string, ManifestComponent>, meta?: any }} ComponentsManifest
  */
 
@@ -41,7 +41,16 @@ export function manifestToCatalog(manifest) {
   if (!manifest || typeof manifest.components !== 'object') throw new Error('Not a Storybook components manifest: no `components` object.');
   /** @type {Record<string, { manifestId: string, stories: number, incompleteSnippets: number, props: Record<string, { default?: unknown, required?: boolean, typed: boolean }> }>} */
   const components = {};
+  /** @type {{ id: string, path?: string, error: string }[]} */
+  const errors = [];
   for (const entry of Object.values(manifest.components)) {
+    // An entry Storybook could not resolve to a component (a story file with
+    // no meta.component, say) carries only an error. It is a manifest problem,
+    // not a component the catalog could be compared with.
+    if (entry.error && !entry.reactDocgen) {
+      errors.push({ id: entry.id, path: entry.path, error: entry.error.name ?? String(entry.error.message ?? 'error').split('\n')[0] });
+      continue;
+    }
     const name = entry.reactDocgen?.exportName ?? entry.reactDocgen?.displayName ?? entry.name;
     /** @type {Record<string, { default?: unknown, required?: boolean, typed: boolean }>} */
     const props = {};
@@ -53,7 +62,7 @@ export function manifestToCatalog(manifest) {
     const stories = entry.stories ?? [];
     components[name] = { manifestId: entry.id, stories: stories.length, incompleteSnippets: stories.filter((s) => s.warning).length, props };
   }
-  return { version: manifest.v, docgen: manifest.meta?.docgen, components };
+  return { version: manifest.v, docgen: manifest.meta?.docgen, components, errors };
 }
 
 /**
@@ -92,6 +101,7 @@ export function compareManifest(manifest, catalog = harbor) {
   return {
     catalog: `${catalog.name}@${catalog.version}`,
     manifest: { version: fromManifest.version, docgen: fromManifest.docgen, components: manifestTypes.length },
+    errors: fromManifest.errors,
     // Drift is disagreement. Invisible props (the catalog knows them, the
     // manifest does not) are reported separately: they mean the manifest is
     // thinner than the contract, not that it contradicts it.
@@ -110,6 +120,7 @@ export function formatDrift(report) {
   const lines = [`${report.catalog} vs components manifest (v${report.manifest.version}, ${report.manifest.docgen ?? 'unknown docgen'}, ${report.manifest.components} components)`];
   for (const t of report.missing) lines.push(`  missing   ${t}: in the catalog, but no story declares it as its component`);
   for (const t of report.unknown) lines.push(`  unknown   ${t}: in the manifest, not in the catalog`);
+  for (const e of report.errors) lines.push(`  error     ${e.id} (${e.path ?? 'no path'}): ${e.error}; add meta.component or tag the file !manifest`);
   for (const c of report.components) {
     for (const d of c.defaults) lines.push(`  default   ${c.type}.${d.prop}: catalog ${JSON.stringify(d.catalog)}, component ${JSON.stringify(d.manifest)}`);
     for (const r of c.requiredMismatch) lines.push(`  required  ${c.type}.${r.prop}: catalog ${r.catalog}, manifest ${r.manifest}`);

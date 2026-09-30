@@ -288,7 +288,7 @@ export function Generator({
       <main className="agui-main">
         <div className="agui-canvas-bar">
           <div>
-            <strong>{tree?.title || 'Canvas'}</strong>
+            <strong>{tree?.title || (tree?.root ? 'Untitled screen' : 'Canvas')}</strong>
             <span>{tree?.root ? summarize(tree) : 'Nothing generated yet'}</span>
           </div>
           <RunState snap={snap} review={review} />

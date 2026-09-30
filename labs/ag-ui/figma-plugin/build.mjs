@@ -5,49 +5,31 @@
 //   node figma-plugin/build.mjs --out DIR  write into DIR (tests use this)
 //
 // esbuild is not installed in the lab, and the plugin needs only a handful of
-// functions, so this "bundles" by hand:
+// functions, so this "bundles" by hand, from file text rather than from
+// Function.prototype.toString (a minified build would change that text):
 //   - code.js gets figmaRuntime, serializeFigmaNode and applyJsonPatch as
-//     source text (Function.prototype.toString), plus Harbor's compact catalog
-//     and variable definitions as JSON. Those functions are self-contained by
-//     design; the same text is what figma_execute receives.
-//   - ui.html gets src/figma/figma-to-tree.js inlined with its `export`
-//     keywords removed (the module has no imports, and this checks that), and
-//     the catalog, tools and context the server's GET /catalog would return.
-// Then it checks what it wrote: the main thread parses as a script and avoids
-// syntax Figma's sandbox rejects, no template marker survives, and the
-// manifest has the fields Figma needs.
+//     src/figma/sandbox-tools.js extracts them from src/figma/sandbox.js (it
+//     also regenerates src/figma/sandbox-source.js, the copy the Node side and
+//     browser bundles use), plus Harbor's compact catalog and variable
+//     definitions as JSON.
+//   - ui.html gets applyJsonPatch and src/figma/figma-to-tree.js concatenated,
+//     its one import and re-export line removed, `export` keywords dropped,
+//     and the catalog, tools and context the server's GET /catalog returns.
+// Then it checks what it wrote: code.js passes the sandbox syntax guard and
+// parses, every inline script in ui.html parses, no template marker survives,
+// and the manifest has the fields Figma needs.
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { catalogId, catalogToContext, catalogToTools, harbor } from '../src/catalog/index.js';
-import { applyJsonPatch, serializeFigmaNode } from '../src/figma/figma-to-tree.js';
-import { compactCatalog, figmaRuntime, figmaVariableDefs, jsonForSource, sandboxSource } from '../src/figma/tree-to-figma.js';
+import { checkSandboxScript, writeSandboxSource } from '../src/figma/sandbox-tools.js';
+import { compactCatalog, figmaVariableDefs, jsonForSource } from '../src/figma/tree-to-figma.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outFlag = process.argv.indexOf('--out');
 const out = outFlag > 0 ? resolve(process.argv[outFlag + 1]) : here;
-
-/** Syntax the Figma main-thread sandbox rejects (see the Desktop Bridge's own note on optional chaining). */
-export const SANDBOX_FORBIDDEN = [
-  { re: /\?\./, what: 'optional chaining' },
-  { re: /\?\?/, what: 'nullish coalescing' },
-  { re: /\{\s*\.\.\.|,\s*\.\.\.\w+\s*[,}]/, what: 'object spread' },
-  { re: /catch\s*\{/, what: 'catch without a binding' },
-];
-
-/** @param {string} code @param {string} where */
-export function checkSandboxSyntax(code, where) {
-  for (const { re, what } of SANDBOX_FORBIDDEN) {
-    const m = re.exec(code);
-    if (m) {
-      const line = code.slice(0, m.index).split('\n').length;
-      throw new Error(`${where}:${line} uses ${what}, which Figma's plugin sandbox does not run.`);
-    }
-  }
-  new vm.Script(code, { filename: where });
-}
 
 /** @param {string} template @param {Record<string, string>} fills */
 function fill(template, fills) {
@@ -68,17 +50,27 @@ export async function build(dir = out) {
     readFile(join(here, 'manifest.json'), 'utf8'),
   ]);
 
+  const fns = writeSandboxSource();
   const code = fill(mainTemplate, {
     '/*@HARBOR_DATA@*/ null': jsonForSource({ catalogId: catalogId(harbor), catalog: compactCatalog(harbor), variables: figmaVariableDefs() }),
-    '/*@APPLY_JSON_PATCH@*/ null': sandboxSource(applyJsonPatch),
-    '/*@FIGMA_RUNTIME@*/ null': sandboxSource(figmaRuntime),
-    '/*@SERIALIZE_FIGMA_NODE@*/ null': sandboxSource(serializeFigmaNode),
+    '/*@APPLY_JSON_PATCH@*/ null': fns.applyJsonPatch,
+    '/*@FIGMA_RUNTIME@*/ null': fns.figmaRuntime,
+    '/*@SERIALIZE_FIGMA_NODE@*/ null': fns.serializeFigmaNode,
   });
-  checkSandboxSyntax(code, 'code.js');
+  checkSandboxScript(code, { wrap: false, filename: 'code.js' });
 
-  if (/^\s*import\s/m.test(figmaToTree)) throw new Error('src/figma/figma-to-tree.js must stay import-free to be inlined into ui.html.');
-  const inlined = figmaToTree.replace(/^export\s+(?=(async\s+)?function\b|const\b|let\b|class\b)/gm, '');
-  if (/^export\s/m.test(inlined)) throw new Error('figma-to-tree.js has an export form build.mjs cannot inline.');
+  // figma-to-tree.js may import only the sandbox functions, which are inlined
+  // above it; anything else would need a real bundler.
+  const imports = [...figmaToTree.matchAll(/^import\s.*$/gm)].map((m) => m[0]);
+  if (imports.some((line) => !/from '\.\/sandbox\.js';$/.test(line))) throw new Error(`figma-to-tree.js imports more than ./sandbox.js: ${imports.join(' ')}`);
+  const inlined = [
+    fns.applyJsonPatch,
+    figmaToTree
+      .replace(/^import\s.*$/gm, '')
+      .replace(/^export\s*\{[^}]*\};?$/gm, '')
+      .replace(/^export\s+(?=(async\s+)?function\b|const\b|let\b|class\b)/gm, ''),
+  ].join('\n\n');
+  if (/^(export|import)\s/m.test(inlined)) throw new Error('figma-to-tree.js has an import or export form build.mjs cannot inline.');
   const ui = fill(uiTemplate, {
     '/*@HARBOR_CLIENT_DATA@*/ null': jsonForSource({ catalog: harbor, tools: catalogToTools(harbor), context: catalogToContext(harbor) }),
     '/*@FIGMA_TO_TREE@*/': inlined.replace(/<\/script/gi, '<\\/script'),

@@ -1,26 +1,27 @@
 // Figma -> Harbor UI tree, the reverse of tree-to-figma.js.
 //
-// Three pieces live here, and each runs in a different place:
+// Three pieces, each running in a different place:
 //
 //   serializeFigmaNode  runs inside Figma (plugin main thread, or a
 //                       figma_execute / use_figma script) and turns a node
 //                       into plain JSON, because Plugin API nodes cannot
-//                       cross postMessage or a tool result.
+//                       cross postMessage or a tool result. It lives in
+//                       sandbox.js, which is shipped to Figma as text; its
+//                       source string is SANDBOX_SOURCE.serializeFigmaNode in
+//                       sandbox-source.js, and tree-to-figma.js's
+//                       readFigmaScript wraps it for figma_execute.
 //   figmaNodeToTree     runs anywhere (Node, the plugin UI iframe) and maps
 //                       that JSON onto the catalog: a UI tree plus findings.
-//   applyJsonPatch      RFC 6902, used by the plugin UI to mirror AG-UI
-//                       STATE_DELTA and embedded in every tree-to-figma
-//                       script so patches apply inside Figma.
+//   applyJsonPatch      RFC 6902 (also in sandbox.js), for mirroring AG-UI
+//                       STATE_DELTA in the plugin UI.
 //
-// This module has no imports on purpose: figma-plugin/build.mjs inlines its
-// source into the plugin's ui.html (there is no bundler in the lab), and embeds
-// serializeFigmaNode and applyJsonPatch into the plugin's main thread by
-// Function.prototype.toString. Those two therefore use only syntax Figma's
-// QuickJS sandbox accepts: no optional chaining ("Can't use optional chaining
-// (?.) - Figma plugin sandbox doesn't support it", Desktop Bridge code.js,
-// https://github.com/southleft/figma-console-mcp/blob/db1967f479514710acc64be4c527ac033410b772/figma-desktop-bridge/code.js),
-// no nullish coalescing, no object spread, no bare catch, and no references to
-// anything outside the function body.
+// The only import is ./sandbox.js, which has none: figma-plugin/build.mjs
+// inlines both files into the plugin's ui.html by concatenating their text
+// (the lab has no bundler), so keep it that way.
+
+import { applyJsonPatch, serializeFigmaNode } from './sandbox.js';
+
+export { applyJsonPatch, serializeFigmaNode };
 
 /**
  * The JSON shape figmaNodeToTree accepts. It is deliberately small: what a
@@ -83,240 +84,6 @@ export const TEXT_LAYERS = {
 
 /** `Label#3:0` -> `Label`. Figma suffixes TEXT, BOOLEAN and INSTANCE_SWAP property names with `#<id>`. */
 export const stripPropertyId = (/** @type {string} */ name) => String(name).replace(/#[^#]*$/, '');
-
-/**
- * Apply RFC 6902 operations to `doc`, in place, and return the result (a new
- * root only when an op targets ""). Throws on a path that does not resolve, so
- * a caller can fall back to a full redraw rather than draw half a patch.
- * Self-contained and sandbox-safe: it is embedded into Figma scripts verbatim.
- * @template T
- * @param {T} doc
- * @param {{ op: string, path: string, from?: string, value?: any }[]} ops
- * @returns {T}
- */
-export function applyJsonPatch(doc, ops) {
-  function parse(path) {
-    if (path === '') return [];
-    if (typeof path !== 'string' || path.charAt(0) !== '/') throw new Error('Not a JSON Pointer: "' + path + '"');
-    return path
-      .slice(1)
-      .split('/')
-      .map(function (s) {
-        return s.replace(/~1/g, '/').replace(/~0/g, '~');
-      });
-  }
-  function clone(v) {
-    return v === undefined ? v : JSON.parse(JSON.stringify(v));
-  }
-  function container(root, segs, path) {
-    var node = root;
-    for (var i = 0; i < segs.length - 1; i++) {
-      if (node === null || typeof node !== 'object' || !Object.prototype.hasOwnProperty.call(node, segs[i])) throw new Error('Path not found: ' + path);
-      node = node[segs[i]];
-    }
-    if (node === null || typeof node !== 'object') throw new Error('Path not found: ' + path);
-    return node;
-  }
-  function index(arr, key, path, forAdd) {
-    if (key === '-' && forAdd) return arr.length;
-    if (!/^(0|[1-9][0-9]*)$/.test(key)) throw new Error('Bad array index in ' + path);
-    var i = Number(key);
-    if (i > arr.length || (!forAdd && i === arr.length)) throw new Error('Index out of range: ' + path);
-    return i;
-  }
-  function get(root, path) {
-    var segs = parse(path);
-    var node = root;
-    for (var i = 0; i < segs.length; i++) {
-      if (node === null || typeof node !== 'object' || !Object.prototype.hasOwnProperty.call(node, segs[i])) throw new Error('Path not found: ' + path);
-      node = node[segs[i]];
-    }
-    return node;
-  }
-  function add(root, path, value) {
-    var segs = parse(path);
-    if (!segs.length) return value;
-    var parent = container(root, segs, path);
-    var key = segs[segs.length - 1];
-    if (Array.isArray(parent)) parent.splice(index(parent, key, path, true), 0, value);
-    else parent[key] = value;
-    return root;
-  }
-  function remove(root, path) {
-    var segs = parse(path);
-    if (!segs.length) throw new Error('Cannot remove the document root.');
-    var parent = container(root, segs, path);
-    var key = segs[segs.length - 1];
-    if (Array.isArray(parent)) return parent.splice(index(parent, key, path, false), 1)[0];
-    if (!Object.prototype.hasOwnProperty.call(parent, key)) throw new Error('Path not found: ' + path);
-    var old = parent[key];
-    delete parent[key];
-    return old;
-  }
-  var root = doc;
-  for (var n = 0; n < ops.length; n++) {
-    var op = ops[n];
-    if (op.op === 'add') root = add(root, op.path, clone(op.value));
-    else if (op.op === 'remove') remove(root, op.path);
-    else if (op.op === 'replace') {
-      if (op.path === '') root = clone(op.value);
-      else {
-        remove(root, op.path);
-        root = add(root, op.path, clone(op.value));
-      }
-    } else if (op.op === 'move') {
-      var moved = remove(root, op.from);
-      root = add(root, op.path, moved);
-    } else if (op.op === 'copy') root = add(root, op.path, clone(get(root, op.from)));
-    else if (op.op === 'test') {
-      if (JSON.stringify(get(root, op.path)) !== JSON.stringify(op.value)) throw new Error('Test failed at ' + op.path);
-    } else throw new Error('Unknown patch op "' + op.op + '"');
-  }
-  return root;
-}
-
-/**
- * Serialize a Figma node into a SerializedNode. Runs inside Figma. Async
- * because instances resolve their main component with getMainComponentAsync
- * (the synchronous `mainComponent` getter is unavailable under
- * `documentAccess: "dynamic-page"`) and bound variables resolve by id.
- * Instances are leaves: their insides belong to the component.
- * @param {any} node a Plugin API SceneNode
- * @param {{ depth?: number, figma?: any }} [options]
- * @returns {Promise<SerializedNode>}
- */
-export async function serializeFigmaNode(node, options) {
-  var api = options && options.figma ? options.figma : typeof figma !== 'undefined' ? figma : null;
-  var maxDepth = options && typeof options.depth === 'number' ? options.depth : 24;
-  var names = {};
-  var LAYOUT = ['layoutMode', 'layoutWrap', 'itemSpacing', 'counterAxisSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'primaryAxisAlignItems', 'counterAxisAlignItems'];
-  var BOUND = ['itemSpacing', 'counterAxisSpacing', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'topLeftRadius'];
-
-  async function variableName(id) {
-    if (!id || !api || !api.variables) return null;
-    if (Object.prototype.hasOwnProperty.call(names, id)) return names[id];
-    var v = null;
-    try {
-      v = await api.variables.getVariableByIdAsync(id);
-    } catch (e) {
-      v = null;
-    }
-    names[id] = v ? v.name : null;
-    return names[id];
-  }
-  function shared(n, key) {
-    try {
-      return typeof n.getSharedPluginData === 'function' ? n.getSharedPluginData('agui', key) : '';
-    } catch (e) {
-      return '';
-    }
-  }
-  async function paintVariable(paints) {
-    if (!Array.isArray(paints) || !paints.length) return null;
-    var p = paints[0];
-    var alias = p && p.boundVariables && p.boundVariables.color;
-    return alias ? variableName(alias.id) : null;
-  }
-
-  async function visit(n, depth) {
-    var out = { id: n.id, name: n.name, type: n.type };
-    if (n.visible === false) out.visible = false;
-    if (typeof n.width === 'number') {
-      out.width = n.width;
-      out.height = n.height;
-    }
-    var data = {};
-    var agui = shared(n, 'node');
-    if (agui) data.agui = agui;
-    var screen = shared(n, 'screen');
-    if (screen) {
-      data.screen = screen;
-      var tree = shared(n, 'tree');
-      if (tree) data.tree = tree;
-    }
-    if (data.agui || data.screen) out.pluginData = data;
-
-    if (n.layoutMode && n.layoutMode !== 'NONE') {
-      for (var i = 0; i < LAYOUT.length; i++) if (n[LAYOUT[i]] !== undefined) out[LAYOUT[i]] = n[LAYOUT[i]];
-    }
-    var bound = {};
-    var any = false;
-    var bv = n.boundVariables || {};
-    for (var b = 0; b < BOUND.length; b++) {
-      var alias = bv[BOUND[b]];
-      if (alias && alias.id) {
-        var name = await variableName(alias.id);
-        if (name) {
-          bound[BOUND[b]] = name;
-          any = true;
-        }
-      }
-    }
-    var fillVar = await paintVariable(n.fills);
-    if (fillVar) {
-      bound.fills = fillVar;
-      any = true;
-    }
-    var strokeVar = await paintVariable(n.strokes);
-    if (strokeVar) {
-      bound.strokes = strokeVar;
-      any = true;
-    }
-    if (any) out.boundVariables = bound;
-
-    if (n.type === 'TEXT') {
-      out.characters = n.characters;
-      if (typeof n.fontSize === 'number') out.fontSize = n.fontSize;
-      if (typeof n.fontWeight === 'number') out.fontWeight = n.fontWeight;
-    }
-    if (n.type === 'INSTANCE') {
-      var props = {};
-      var cp = n.componentProperties || {};
-      for (var key in cp) {
-        if (Object.prototype.hasOwnProperty.call(cp, key)) props[key] = { type: cp[key].type, value: cp[key].value };
-      }
-      out.componentProperties = props;
-      var main = null;
-      try {
-        main = await n.getMainComponentAsync();
-      } catch (e) {
-        main = null;
-      }
-      if (main) {
-        out.mainComponent = { id: main.id, name: main.name, key: main.key };
-        if (main.parent && main.parent.type === 'COMPONENT_SET') out.mainComponent.parent = { id: main.parent.id, name: main.parent.name, key: main.parent.key, type: main.parent.type };
-      }
-      return out;
-    }
-    if (n.children && depth < maxDepth) {
-      out.children = [];
-      for (var c = 0; c < n.children.length; c++) out.children.push(await visit(n.children[c], depth + 1));
-    }
-    return out;
-  }
-  return visit(node, 0);
-}
-
-/**
- * A script for Figma Console MCP's `figma_execute` (or Figma's `use_figma`)
- * that serializes a Harbor screen frame, a node by id, or the current
- * selection, and returns it. Feed the result to figmaNodeToTree in Node.
- * @param {{ key?: string, nodeId?: string }} [target] screen key (the AG-UI threadId) or a Figma node id; the selection when omitted
- * @returns {string}
- */
-export function readFigmaScript(target = {}) {
-  return [
-    '// Harbor: read a Figma node back as JSON (figma-to-tree.js).',
-    `const target = ${JSON.stringify(target)};`,
-    `const serializeFigmaNode = ${serializeFigmaNode.toString()};`,
-    'let node = null;',
-    'if (target.nodeId) node = await figma.getNodeByIdAsync(target.nodeId);',
-    "else if (target.key) node = figma.currentPage.children.find((n) => { try { const s = n.getSharedPluginData('agui', 'screen'); return s && JSON.parse(s).key === target.key; } catch (e) { return false; } }) || null;",
-    'else node = figma.currentPage.selection[0] || null;',
-    "if (!node) return { ok: false, error: 'Nothing to read: no matching node and no selection.' };",
-    'return { ok: true, node: await serializeFigmaNode(node, { figma }) };',
-  ].join('\n');
-}
 
 /**
  * Map a serialized Figma node onto the catalog. Plugin data written by
