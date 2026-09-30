@@ -41,6 +41,11 @@
   // reader is Python, so no JavaScript import will ever account for it.
   "ignoreDependencies": ["simple-icons"],
 
+  // labs/ holds prototypes with their own package.json, dependencies and
+  // tests. Nothing in the build or the site imports them, so from this
+  // project's graph every file there looks unreachable.
+  "ignorePatterns": ["labs/**"],
+
   // dev-dependencies-in-production asks whether a `--omit=dev` install would
   // break an import at runtime. Nothing here is ever installed that way and then
   // run: Netlify installs everything and runs scripts/build.sh, and the MCP

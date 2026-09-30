@@ -369,6 +369,16 @@ record in `claim` instead and leave the dropdown for the person submitting. The
 Include a source URL you actually fetched. A correction without one gets a reply
 asking for the link, which costs everybody a round trip.
 
+## Labs
+
+`labs/` holds prototypes that sit beside the report rather than inside it.
+Each lab has its own `package.json`, dependencies, tests and README, and
+nothing in `scripts/build.sh` reads it, so `npm run check` does not cover it
+and eslint, prettier and fallow skip the directory. Run a lab's checks from
+inside it. `labs/ag-ui/` asks whether the AG-UI protocol can carry
+design-system-constrained UI generation between an agent, React, Storybook
+and Figma; its research notes and report live in the same folder.
+
 ## Conventions
 
 Commits are imperative and explain the change, not the process. Branch off

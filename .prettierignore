@@ -26,3 +26,7 @@ types/
 # Written by scripts/build_md.py on every build. Formatting it only makes the
 # next build undo the formatting and fail the check.
 netlify/edge-functions/lib/md-routes.ts
+
+# Prototypes with their own package and conventions. Nothing here is built or
+# published by scripts/build.sh; see labs/*/README.md.
+labs/

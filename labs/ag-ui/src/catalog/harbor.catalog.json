@@ -1,0 +1,221 @@
+{
+  "name": "harbor",
+  "version": "1.0.0",
+  "description": "Harbor is the sample design system these prototypes use. Every component an agent may place is listed here with its props as JSON Schema, what it may contain, its anatomy, and how it maps to the Figma library.",
+  "components": {
+    "Stack": {
+      "description": "Lays its children out in a column or a row with a spacing-token gap. The default layout primitive: reach for it before Grid.",
+      "category": "layout",
+      "props": {
+        "type": "object",
+        "properties": {
+          "direction": { "enum": ["vertical", "horizontal"], "default": "vertical" },
+          "gap": { "enum": ["none", "xs", "sm", "md", "lg", "xl", "2xl"], "default": "md", "description": "A space.* token." },
+          "align": { "enum": ["start", "center", "end", "stretch"], "default": "stretch" },
+          "justify": { "enum": ["start", "center", "end", "space-between"], "default": "start" },
+          "padding": { "enum": ["none", "xs", "sm", "md", "lg", "xl", "2xl"], "default": "none" }
+        },
+        "additionalProperties": false
+      },
+      "children": { "kind": "nodes" },
+      "anatomy": ["container"],
+      "figma": { "component": null, "autoLayout": { "direction": "direction", "gap": "gap", "padding": "padding" } }
+    },
+    "Grid": {
+      "description": "Places children in equal-width columns that wrap. Use for tiles, cards and stats.",
+      "category": "layout",
+      "props": {
+        "type": "object",
+        "properties": {
+          "columns": { "type": "integer", "minimum": 1, "maximum": 4, "default": 3 },
+          "gap": { "enum": ["sm", "md", "lg", "xl"], "default": "lg" }
+        },
+        "additionalProperties": false
+      },
+      "children": { "kind": "nodes" },
+      "anatomy": ["container", "cell"],
+      "figma": { "component": null, "autoLayout": { "direction": "horizontal", "wrap": true, "gap": "gap" } }
+    },
+    "Card": {
+      "description": "A bordered surface that groups related content. Holds any components.",
+      "category": "container",
+      "props": {
+        "type": "object",
+        "properties": {
+          "padding": { "enum": ["md", "lg", "xl"], "default": "lg" },
+          "elevation": { "enum": ["flat", "raised"], "default": "flat" }
+        },
+        "additionalProperties": false
+      },
+      "children": { "kind": "nodes" },
+      "anatomy": ["container", "content"],
+      "figma": { "component": "Card", "properties": { "elevation": "Elevation" } }
+    },
+    "Heading": {
+      "description": "A section or page title. One level 1 heading per screen.",
+      "category": "content",
+      "props": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "level": { "type": "integer", "minimum": 1, "maximum": 3, "default": 2 }
+        },
+        "required": ["text"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["text"],
+      "figma": { "component": "Heading", "properties": { "level": "Level", "text": "Text#1:0" } },
+      "a11y": "Renders h1 to h3. Do not skip levels."
+    },
+    "Text": {
+      "description": "Body copy.",
+      "category": "content",
+      "props": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string", "minLength": 1, "maxLength": 600 },
+          "tone": { "enum": ["default", "muted"], "default": "default" },
+          "size": { "enum": ["sm", "md"], "default": "md" }
+        },
+        "required": ["text"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["text"],
+      "figma": { "component": "Text", "properties": { "tone": "Tone", "size": "Size", "text": "Text#2:0" } }
+    },
+    "Button": {
+      "description": "Triggers an action. One primary button per group.",
+      "category": "action",
+      "props": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 40 },
+          "variant": { "enum": ["primary", "secondary", "ghost"], "default": "primary" },
+          "size": { "enum": ["sm", "md"], "default": "md" },
+          "fullWidth": { "type": "boolean", "default": false },
+          "disabled": { "type": "boolean", "default": false }
+        },
+        "required": ["label"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["container", "label"],
+      "figma": { "component": "Button", "properties": { "variant": "Variant", "size": "Size", "disabled": "Disabled", "label": "Label#3:0" } },
+      "a11y": "Label must describe the action. Disabled buttons stay focusable only when paired with an explanation."
+    },
+    "Badge": {
+      "description": "A short status label.",
+      "category": "status",
+      "props": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 24 },
+          "tone": { "enum": ["neutral", "accent", "success", "warning", "danger"], "default": "neutral" }
+        },
+        "required": ["label"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["container", "label"],
+      "figma": { "component": "Badge", "properties": { "tone": "Tone", "label": "Label#4:0" } }
+    },
+    "TextField": {
+      "description": "A labeled single-line text input.",
+      "category": "input",
+      "props": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 60 },
+          "placeholder": { "type": "string", "maxLength": 80 },
+          "type": { "enum": ["text", "email", "password", "number", "search"], "default": "text" },
+          "hint": { "type": "string", "maxLength": 120 },
+          "required": { "type": "boolean", "default": false }
+        },
+        "required": ["label"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["label", "input", "hint"],
+      "figma": { "component": "Text field", "properties": { "label": "Label#5:0", "placeholder": "Placeholder#5:1", "hint": "Hint#5:2" } },
+      "a11y": "The label is always visible. Placeholder never replaces it."
+    },
+    "Checkbox": {
+      "description": "A single yes-or-no choice with a visible label.",
+      "category": "input",
+      "props": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "checked": { "type": "boolean", "default": false }
+        },
+        "required": ["label"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["control", "label"],
+      "figma": { "component": "Checkbox", "properties": { "checked": "Checked", "label": "Label#6:0" } }
+    },
+    "Alert": {
+      "description": "A message that needs attention, with an optional title.",
+      "category": "status",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "maxLength": 60 },
+          "text": { "type": "string", "minLength": 1, "maxLength": 240 },
+          "tone": { "enum": ["info", "success", "warning", "danger"], "default": "info" }
+        },
+        "required": ["text"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["container", "icon", "title", "text"],
+      "figma": { "component": "Alert", "properties": { "tone": "Tone", "title": "Title#7:0", "text": "Text#7:1" } },
+      "a11y": "Danger and warning alerts use role=alert; the rest use role=status."
+    },
+    "Avatar": {
+      "description": "A person's initials in a circle.",
+      "category": "content",
+      "props": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+          "size": { "enum": ["sm", "md", "lg"], "default": "md" }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["container", "initials"],
+      "figma": { "component": "Avatar", "properties": { "size": "Size", "name": "Name#8:0" } }
+    },
+    "Stat": {
+      "description": "A single metric with its label and an optional change.",
+      "category": "data",
+      "props": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string", "minLength": 1, "maxLength": 40 },
+          "value": { "type": "string", "minLength": 1, "maxLength": 16 },
+          "change": { "type": "string", "maxLength": 12 },
+          "trend": { "enum": ["up", "down", "flat"], "default": "flat" }
+        },
+        "required": ["label", "value"],
+        "additionalProperties": false
+      },
+      "children": { "kind": "none" },
+      "anatomy": ["label", "value", "change"],
+      "figma": { "component": "Stat", "properties": { "trend": "Trend", "label": "Label#9:0", "value": "Value#9:1", "change": "Change#9:2" } }
+    },
+    "Divider": {
+      "description": "A horizontal rule between groups.",
+      "category": "layout",
+      "props": { "type": "object", "properties": {}, "additionalProperties": false },
+      "children": { "kind": "none" },
+      "anatomy": ["rule"],
+      "figma": { "component": "Divider", "properties": {} }
+    }
+  }
+}

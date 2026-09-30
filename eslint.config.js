@@ -19,6 +19,8 @@ export default [
       '.netlify/**',
       'netlify/edge-functions/**',
       'types/**',
+      // Prototypes with their own package, JSX and browser code; see labs/*/README.md.
+      'labs/**',
     ],
   },
   js.configs.recommended,
