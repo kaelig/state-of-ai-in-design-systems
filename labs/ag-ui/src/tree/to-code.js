@@ -55,7 +55,10 @@ export function usedComponents(/** @type {import('./tree.js').UITree} */ tree) {
  * generator, diffed, or sent back to Figma without parsing JSX.
  * @param {import('./tree.js').UITree} tree
  * @param {import('../catalog/index.js').Catalog} catalog
- * @param {{ title?: string, exportName?: string, importFrom?: string, prompt?: string }} [options]
+ * @param {{ title?: string, exportName?: string, importFrom?: string, prompt?: string, tags?: string[] }} [options]
+ *   `tags` lands on the meta; Storybook's agentic setup marks agent-written
+ *   stories 'ai-generated', and '!manifest' keeps a component-less story out
+ *   of /manifests/components.json.
  */
 export function treeToCsf(tree, catalog, options = {}) {
   const exportName = options.exportName ?? toExportName(tree.title || 'Generated');
@@ -67,7 +70,7 @@ export function treeToCsf(tree, catalog, options = {}) {
 import { ${usedComponents(tree).join(', ')} } from '${importFrom}';
 
 export default {
-  title: ${JSON.stringify(title)},
+  title: ${JSON.stringify(title)},${options.tags?.length ? `\n  tags: ${JSON.stringify(options.tags)},` : ''}
   parameters: {
     layout: 'padded',
     agui: {

@@ -85,6 +85,10 @@ export function createSession({ agent, catalog = harbor, tools = [], handlers = 
     ...handlers,
   };
   const allTools = [...catalogToTools(catalog), ...tools];
+  // The options of the last send, reused when an interrupt is resumed so the
+  // resumed run keeps its mode, pace and review setting.
+  /** @type {Record<string, any>} */
+  let lastProps = {};
 
   const log = (/** @type {any} */ event) => {
     const entry = { at: event.timestamp ?? Date.now(), type: event.type, summary: summarize(event), event };
@@ -207,6 +211,7 @@ export function createSession({ agent, catalog = harbor, tools = [], handlers = 
       if (snap.interrupt) await session.resume({ approved: false }, 'cancelled');
       agent.messages = [...agent.messages, { id: `user_${crypto.randomUUID().slice(0, 8)}`, role: 'user', content: prompt }];
       set({ draftTree: null, validation: null, messages: agent.messages });
+      lastProps = props;
       await drive({ forwardedProps: props });
     },
     /**
@@ -218,7 +223,7 @@ export function createSession({ agent, catalog = harbor, tools = [], handlers = 
       const interrupt = snap.interrupt;
       if (!interrupt) return;
       set({ interrupt: null });
-      await drive({ resume: [{ interruptId: interrupt.id, status, ...(status === 'resolved' ? { payload } : {}) }] });
+      await drive({ forwardedProps: lastProps, resume: [{ interruptId: interrupt.id, status, ...(status === 'resolved' ? { payload } : {}) }] });
     },
     /** Tear down the running request, if any. */
     abort() {

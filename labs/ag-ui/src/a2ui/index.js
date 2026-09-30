@@ -82,10 +82,15 @@ export function treeToA2uiOperations(tree, { surfaceId, catalogId, theme }) {
     if (node.children) c.children = node.children.filter((k) => tree.nodes[k]).map(ids);
     components.push(c);
   });
-  return [
+  /** @type {Record<string, any>[]} */
+  const ops = [
     { version: A2UI_VERSION, createSurface: { surfaceId, catalogId, ...(theme ? { theme } : {}) } },
     { version: A2UI_VERSION, updateComponents: { surfaceId, components } },
   ];
+  // A2UI surfaces have no title. The screen's name travels in the data model,
+  // where a renderer that does not bind to it simply ignores it.
+  if (tree.title) ops.push({ version: A2UI_VERSION, updateDataModel: { surfaceId, path: '/title', value: tree.title } });
+  return ops;
 }
 
 /** A2UI wants the root to be "root"; rename it, and anything already called that. */
@@ -128,6 +133,9 @@ export function a2uiOperationsToTree(operations, surfaceId) {
       for (const { id, component, children, ...props } of op.updateComponents.components ?? []) {
         tree.nodes[id] = { type: component, props, ...(Array.isArray(children) ? { children } : {}) };
       }
+    }
+    if (op.updateDataModel?.surfaceId === sid && op.updateDataModel.path === '/title' && typeof op.updateDataModel.value === 'string') {
+      tree.title = op.updateDataModel.value;
     }
     if (op.deleteSurface?.surfaceId === sid) {
       tree.nodes = {};

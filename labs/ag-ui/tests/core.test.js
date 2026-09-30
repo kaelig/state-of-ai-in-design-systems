@@ -188,3 +188,16 @@ test('A2UI: findings become VALIDATION_FAILED errors with JSON Pointer paths', (
 function validateAgainst(cat, component) {
   return new Ajv({ strict: false }).compile(cat.components[component.component])(component);
 }
+
+test('A2UI: the screen title survives the round trip through the data model', () => {
+  const { tree } = plan('pricing');
+  const ops = treeToA2uiOperations(tree, { surfaceId: 's', catalogId: 'c' });
+  assert.deepEqual(ops.at(-1), { version: 'v0.9', updateDataModel: { surfaceId: 's', path: '/title', value: 'Pricing' } });
+  assert.equal(a2uiOperationsToTree(ops).tree.title, 'Pricing');
+});
+
+test('CSF export carries tags on the meta when asked', () => {
+  const csf = treeToCsf(plan('pricing').tree, harbor, { tags: ['ai-generated', '!manifest'] });
+  assert.match(csf, /title: "Generated\/Pricing",\n  tags: \["ai-generated","!manifest"\],/);
+  assert.doesNotMatch(treeToCsf(plan('pricing').tree, harbor), /tags:/);
+});

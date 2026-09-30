@@ -152,3 +152,15 @@ test('per-send options hold for the automatic tool-answer rounds', async () => {
   const { snap } = await runPrompt('pricing', { mode: 'tool', review: false });
   assert.equal(snap.interrupt, null);
 });
+
+test('resuming a review keeps the options the screen was sent with', async () => {
+  /** @type {any[]} */
+  const seen = [];
+  const agent = new DesignAgent({ defaults: fast });
+  agent.use((input, next) => (seen.push(input.forwardedProps), next.run(input)));
+  const session = createSession({ agent, handlers: { export_code: () => ({ ok: true }) }, tools: [{ name: 'export_code', description: 'x', parameters: {} }] });
+  await session.send('pricing', { mode: 'a2ui', delayMs: 0 });
+  await session.resume({ approved: true });
+  assert.ok(seen.length >= 3);
+  for (const props of seen) assert.equal(props.mode, 'a2ui');
+});
