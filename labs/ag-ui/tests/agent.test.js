@@ -164,3 +164,27 @@ test('resuming a review keeps the options the screen was sent with', async () =>
   assert.ok(seen.length >= 3);
   for (const props of seen) assert.equal(props.mode, 'a2ui');
 });
+
+test('a screen sent from Figma is kept, streamed to code surfaces and checked against the catalog', async () => {
+  // What the Figma plugin sends for "Send selection to agent": the frame as a
+  // tree in state, with a component Harbor does not have.
+  const fromFigma = {
+    title: 'Checkout',
+    root: 'f1',
+    nodes: {
+      f1: { type: 'Stack', props: { gap: 'lg' }, children: ['f2', 'f3', 'f4'] },
+      f2: { type: 'Heading', props: { text: 'Checkout', level: 1 } },
+      f3: { type: 'Carousel', props: {} },
+      f4: { type: 'Button', props: { label: 'Pay now' } },
+    },
+  };
+  const agent = new DesignAgent({ defaults: fast, initialState: { ui: fromFigma } });
+  const session = createSession({ agent });
+  await session.send('Build this in code');
+  const tree = session.currentTree();
+  assert.equal(tree?.title, 'Checkout');
+  assert.deepEqual(Object.keys(tree?.nodes ?? {}), ['f1', 'f2', 'f3', 'f4']);
+  assert.equal(tree?.nodes.f4.props.label, 'Pay now');
+  assert.equal(tree?.nodes.f3.type, 'Stack', 'the unknown Carousel is repaired to a catalog component');
+  assert.match(String(session.snapshot.messages.find((m) => /Caught 1 contract error/.test(String(m.content)))?.content), /"Carousel" is not a harbor component/);
+});

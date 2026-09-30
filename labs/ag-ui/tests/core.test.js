@@ -201,3 +201,16 @@ test('CSF export carries tags on the meta when asked', () => {
   assert.match(csf, /title: "Generated\/Pricing",\n  tags: \["ai-generated","!manifest"\],/);
   assert.doesNotMatch(treeToCsf(plan('pricing').tree, harbor), /tags:/);
 });
+
+test('slot rules from a Specs export are enforced: allowed types, min and max', () => {
+  const catalog = structuredClone(harbor);
+  catalog.components.Card.children = { kind: 'nodes', allowed: ['Stack'], min: 1, max: 1 };
+  const tree = { root: 'c', nodes: { c: { type: 'Card', props: {}, children: ['t', 's'] }, t: { type: 'Text', props: { text: 'x' } }, s: { type: 'Stack', props: {}, children: [] } } };
+  const messages = validateTree(tree, catalog).errors.map((e) => e.message);
+  assert.ok(messages.some((m) => /Card takes only Stack; "t" is a Text/.test(m)), messages.join('\n'));
+  assert.ok(messages.some((m) => /at most 1 child component\./.test(m)));
+  const empty = { root: 'c', nodes: { c: { type: 'Card', props: {}, children: [] } } };
+  assert.ok(validateTree(empty, catalog).errors.some((e) => /at least 1 child component\./.test(e.message)));
+  // Harbor's own catalog has no slot limits, so every recipe still passes.
+  assert.equal(validateTree(plan('pricing').tree, harbor).valid, true);
+});

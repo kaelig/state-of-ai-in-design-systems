@@ -9,7 +9,7 @@ import tokens from './tokens.json' with { type: 'json' };
 export { harbor, tokens };
 
 /**
- * @typedef {{ kind: 'nodes' | 'none', allowed?: string[] }} ChildrenRule
+ * @typedef {{ kind: 'nodes' | 'none', allowed?: string[], min?: number, max?: number }} ChildrenRule
  * @typedef {{
  *   description: string,
  *   category: string,

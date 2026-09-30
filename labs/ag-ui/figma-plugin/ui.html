@@ -548,6 +548,9 @@ function figmaNodeToTree(root, catalog, options = {}) {
     } else if (n.type === 'TEXT') {
       id = mintId(n);
       mapped = textNode(n);
+    } else if (n.type === 'LINE' || (n.type === 'RECTANGLE' && (n.height ?? 99) <= 2)) {
+      id = mintId(n);
+      mapped = { type: 'Divider', props: {} };
     } else if (['FRAME', 'COMPONENT', 'GROUP', 'SECTION'].includes(n.type)) {
       const named = typeFromLayerName(n.name);
       if (named && components[named].children?.kind === 'none' && !(n.children ?? []).length) {

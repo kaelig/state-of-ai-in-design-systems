@@ -118,6 +118,17 @@ export function validateTree(tree, catalog) {
     if (contract.children.kind === 'none' && node.children?.length) {
       add({ nodeId: id, path: `/nodes/${id}/children`, message: `${node.type} cannot contain other components.`, rule: 'children' });
     }
+    // Slot rules, as a Specs 2 export declares them: which components a slot
+    // takes and how many.
+    const kids = (node.children ?? []).filter((c) => tree.nodes[c]);
+    const { allowed, min, max } = contract.children;
+    if (allowed) {
+      for (const c of kids) {
+        if (!allowed.includes(tree.nodes[c].type)) add({ nodeId: c, path: `/nodes/${id}/children`, message: `${node.type} takes only ${allowed.join(', ')}; "${c}" is a ${tree.nodes[c].type}.`, rule: 'children' });
+      }
+    }
+    if (min !== undefined && kids.length < min) add({ nodeId: id, path: `/nodes/${id}/children`, message: `${node.type} needs at least ${min} child component${min === 1 ? '' : 's'}.`, rule: 'children' });
+    if (max !== undefined && kids.length > max) add({ nodeId: id, path: `/nodes/${id}/children`, message: `${node.type} takes at most ${max} child component${max === 1 ? '' : 's'}.`, rule: 'children' });
     for (const child of node.children ?? []) {
       if (!tree.nodes[child]) add({ nodeId: id, path: `/nodes/${id}/children`, message: `Child "${child}" does not exist.`, rule: 'shape' });
       else if (parents.has(child)) add({ nodeId: child, path: `/nodes/${child}`, message: `"${child}" has two parents.`, rule: 'shape' });

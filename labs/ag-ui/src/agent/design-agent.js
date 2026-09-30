@@ -28,7 +28,7 @@ import { Observable } from 'rxjs';
 import { A2UI_ACTIVITY_TYPE, A2UI_OPERATIONS_KEY, a2uiCatalogId, treeToA2uiOperations } from '../a2ui/index.js';
 import { catalogId, harbor } from '../catalog/index.js';
 import { applyOps, emptyTree, summarize, treeToOps, validateTree } from '../tree/tree.js';
-import { injectMistake, plan, repair, themeIntent } from './recipes.js';
+import { RECIPES, injectMistake, plan, repair, themeIntent } from './recipes.js';
 
 /**
  * @typedef {import('@ag-ui/core').RunAgentInput} RunAgentInput
@@ -57,8 +57,25 @@ export const EXPORT_TOOLS = ['save_story', 'draw_in_figma', 'export_code'];
 const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
 const uid = (/** @type {string} */ prefix) => `${prefix}_${crypto.randomUUID().slice(0, 8)}`;
 
-/** The offline planner, wrapped to the Planner signature. */
-export const scriptedPlanner = /** @type {Planner} */ (async ({ prompt }) => plan(prompt));
+/** "Build this in code", "use the selection": the prompt points at the screen it came with. */
+const POINTS_AT_CURRENT = /\b(this|these|selection|selected|current|existing|as is)\b/i;
+
+/**
+ * The offline planner, wrapped to the Planner signature. When a surface sends
+ * a screen in state (the Figma plugin's "Send selection to agent") and the
+ * prompt points at it rather than asking for a new kind of screen, the screen
+ * is kept as sent; the agent still validates it against the catalog, which is
+ * the point of sending a Figma frame to a code agent.
+ */
+export const scriptedPlanner = /** @type {Planner} */ (
+  async ({ prompt, state }) => {
+    const sent = state?.ui;
+    if (sent?.root && sent.nodes?.[sent.root] && POINTS_AT_CURRENT.test(prompt) && !RECIPES.some((r) => r.match.test(prompt))) {
+      return { recipe: 'coded version of the screen you sent', tree: structuredClone(sent) };
+    }
+    return plan(prompt);
+  }
+);
 
 export class DesignAgent extends AbstractAgent {
   /**
