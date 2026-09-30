@@ -50,12 +50,13 @@ export default {
     delayMs: 45,
     agentUrl: DEFAULT_AGENT_URL,
   },
-  render: function Render(args) {
+  render: function Render(args, context) {
     const [, updateArgs] = useArgs();
     const [globals, updateGlobals] = useGlobals();
     return (
       <Generator
         {...args}
+        sessionKey={context.id}
         theme={{ mode: globals.harborMode, density: globals.harborDensity }}
         onArgsChange={updateArgs}
         onThemeChange={updateGlobals}

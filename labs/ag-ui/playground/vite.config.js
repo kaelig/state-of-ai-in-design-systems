@@ -5,8 +5,11 @@
 //   npx vite playground            dev server
 //   npx vite build playground      writes playground/dist/index.html
 
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
+import Ajv from 'ajv';
+import standaloneCode from 'ajv/dist/standalone/index.js';
 import { defineConfig } from 'vite';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
@@ -14,7 +17,7 @@ const here = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   root: here,
   base: './',
-  plugins: [react(), singleFile()],
+  plugins: [react(), precompiledAjv(), singleFile()],
   server: {
     // The playground imports the lab's src/ from one level up.
     fs: { allow: [fileURLToPath(new URL('..', import.meta.url))] },
@@ -94,6 +97,66 @@ function singleFile() {
 
       html.source = source;
       for (const name of inlined) delete bundle[name];
+    },
+  };
+}
+
+/**
+ * Ajv compiles each schema with `new Function`, which a page served under a
+ * Content-Security-Policy without 'unsafe-eval' refuses; every contract check
+ * then fails. For the build, swap the `ajv` import in src/tree/tree.js for
+ * validators generated ahead of time from harbor.catalog.json with Ajv's
+ * standalone mode: the same Ajv, the same options, no eval at runtime. The
+ * dev server keeps real Ajv.
+ * @returns {import('vite').Plugin}
+ */
+function precompiledAjv() {
+  const SHIM = '\0playground-precompiled-ajv';
+  const catalogFile = fileURLToPath(new URL('../src/catalog/harbor.catalog.json', import.meta.url));
+  return {
+    name: 'playground-precompiled-ajv',
+    enforce: 'pre',
+    apply: 'build',
+    resolveId(id, importer) {
+      if (id === 'ajv' && importer && !importer.includes('node_modules')) return SHIM;
+      return null;
+    },
+    load(id) {
+      if (id !== SHIM) return null;
+      this.addWatchFile(catalogFile);
+      const catalog = JSON.parse(readFileSync(catalogFile, 'utf8'));
+      // Keep these options in step with the `new Ajv(...)` in src/tree/tree.js.
+      const ajv = new Ajv({ allErrors: true, strict: false, code: { source: true, esm: true } });
+      /** @type {Record<string, string>} */
+      const refs = {};
+      /** @type {[string, string][]} */
+      const keys = [];
+      for (const [type, contract] of Object.entries(catalog.components)) {
+        const name = `validate_${type.replace(/\W/g, '_')}`;
+        ajv.addSchema(structuredClone(contract.props), `harbor:${type}`);
+        refs[name] = `harbor:${type}`;
+        keys.push([JSON.stringify(contract.props), name]);
+      }
+      let code = standaloneCode(ajv, refs).replace(/^"use strict";/, '');
+      // Standalone output still require()s Ajv's small runtime helpers; hoist them to imports.
+      /** @type {string[]} */
+      const imports = [];
+      code = code.replace(/require\("([^"]+)"\)/g, (_m, spec) => {
+        const local = `__ajvRuntime${imports.length}`;
+        imports.push(`import * as ${local} from ${JSON.stringify(spec)};`);
+        return local;
+      });
+      return `${imports.join('\n')}
+${code}
+const byKey = new Map([${keys.map(([k, n]) => `[${JSON.stringify(k)}, ${n}]`).join(', ')}]);
+export default class PrecompiledAjv {
+  compile(schema) {
+    const validate = byKey.get(JSON.stringify(schema));
+    if (!validate) throw new Error('This build only carries validators precompiled from harbor.catalog.json. Rebuild the playground after changing the catalog.');
+    return validate;
+  }
+}
+`;
     },
   };
 }

@@ -25,7 +25,85 @@ import './generator.css';
 const uid = () => crypto.randomUUID().slice(0, 8);
 
 /**
+ * @typedef {{
+ *   key: string,
+ *   transport: string,
+ *   agentUrl: string,
+ *   agent: import('@ag-ui/client').AbstractAgent,
+ *   session: import('../agent/session.js').Session,
+ *   threadId: string,
+ *   sessionId: string,
+ *   lastPrompt: string,
+ *   reports: any[],
+ *   agentTheme: { mode: string, density: string } | null,
+ *   autoRan: boolean,
+ *   dispose: () => void,
+ * }} Bundle
+ */
+
+/**
+ * Sessions live outside React, keyed by story. During `storybook dev` the
+ * story remounts whenever Storybook re-imports its CSF module, and saving a
+ * story is exactly what triggers that: the new file changes the story index,
+ * and a module that has been hot-updated before comes back as a fresh instance.
+ * Keeping the session here (on globalThis, so a hot-reloaded copy of this
+ * module finds it too) lets the run, the review and the save result survive.
+ * @type {Map<string, Bundle>}
+ */
+const bundles = (/** @type {any} */ (globalThis).__AGUI_GENERATOR_SESSIONS__ ??= new Map());
+
+/** @param {string} key @param {string} transport @param {string} agentUrl @returns {Bundle} */
+function createBundle(key, transport, agentUrl) {
+  const threadId = `thread_${uid()}`;
+  const agent = transport === 'http' ? new HttpAgent({ url: agentUrl, threadId }) : new DesignAgent({ threadId });
+  /** @type {Bundle} */
+  const bundle = /** @type {any} */ ({ key, transport, agentUrl, agent, threadId, sessionId: uid(), lastPrompt: '', reports: [], agentTheme: null, autoRan: false });
+  bundle.session = createSession({
+    agent,
+    catalog: harbor,
+    tools: [saveStoryTool(harbor)],
+    handlers: { save_story: createSaveStoryHandler({ prompt: () => bundle.lastPrompt }) },
+  });
+  // Every validation report of the current run, so a contract error the agent
+  // caught and repaired stays visible after the clean report replaces it.
+  let lastValidation = null;
+  const stopReports = bundle.session.subscribe(() => {
+    const v = bundle.session.snapshot.validation;
+    if (v && v !== lastValidation) bundle.reports = [...bundle.reports, v];
+    lastValidation = v;
+  });
+  // Standalone iframe.html has no manager to relay to, and the channel would
+  // buffer every message waiting for one.
+  const label = TRANSPORTS.find((t) => t.value === transport)?.short ?? transport;
+  const stopRelay = window.parent !== window ? relaySession(bundle.session, addons.getChannel(), { sessionId: bundle.sessionId, transport: label, threadId }) : () => {};
+  bundle.dispose = () => {
+    stopReports();
+    stopRelay();
+    bundle.session.abort();
+  };
+  return bundle;
+}
+
+/** The live bundle for a story, replaced when the transport changes or a new thread is asked for. */
+function useBundle(/** @type {string} */ key, /** @type {string} */ transport, /** @type {string} */ agentUrl) {
+  const [, rerender] = useState(0);
+  let bundle = bundles.get(key);
+  if (!bundle || bundle.transport !== transport || bundle.agentUrl !== agentUrl) {
+    bundle?.dispose();
+    bundle = createBundle(key, transport, agentUrl);
+    bundles.set(key, bundle);
+  }
+  const reset = useCallback(() => {
+    bundles.get(key)?.dispose();
+    bundles.set(key, createBundle(key, transport, agentUrl));
+    rerender((n) => n + 1);
+  }, [key, transport, agentUrl]);
+  return /** @type {[Bundle, () => void]} */ ([bundle, reset]);
+}
+
+/**
  * @param {{
+ *   sessionKey?: string,
  *   prompt?: string,
  *   mode?: 'state' | 'tool' | 'activity' | 'a2ui',
  *   transport?: 'browser' | 'http',
@@ -36,9 +114,10 @@ const uid = () => crypto.randomUUID().slice(0, 8);
  *   theme?: { mode?: string, density?: string },
  *   onArgsChange?: (patch: Record<string, any>) => void,
  *   onThemeChange?: (patch: { harborMode?: string, harborDensity?: string }) => void,
- * }} props
+ * }} props `sessionKey` identifies the story instance (Storybook's story id).
  */
 export function Generator({
+  sessionKey = 'default',
   prompt = '',
   mode = 'state',
   transport = 'browser',
@@ -51,85 +130,50 @@ export function Generator({
   onThemeChange,
 }) {
   const view = { mode: theme.mode ?? 'light', density: theme.density ?? 'comfortable' };
-  const [text, setText] = useState(prompt);
+  const [bundle, newThread] = useBundle(sessionKey, transport, agentUrl);
+  const [text, setText] = useState(bundle.lastPrompt || prompt);
   useEffect(() => setText(prompt), [prompt]);
-  const [thread, setThread] = useState(0);
-  const lastPrompt = useRef(prompt);
-
-  // One session per transport and thread. Mode and the planted mistake are
-  // per-run forwardedProps, so switching them keeps the conversation.
-  const bundle = useMemo(() => {
-    const threadId = `thread_${uid()}`;
-    const agent = transport === 'http' ? new HttpAgent({ url: agentUrl, threadId }) : new DesignAgent({ threadId });
-    const session = createSession({
-      agent,
-      catalog: harbor,
-      tools: [saveStoryTool(harbor)],
-      handlers: { save_story: createSaveStoryHandler({ prompt: () => lastPrompt.current }) },
-    });
-    return { agent, session, threadId, sessionId: uid() };
-  }, [transport, agentUrl, thread]);
-
-  useEffect(() => () => bundle.session.abort(), [bundle]);
-  useEffect(() => {
-    // Standalone iframe.html has no manager to relay to, and the channel would
-    // buffer every message waiting for one.
-    if (window.parent === window) return undefined;
-    const label = TRANSPORTS.find((t) => t.value === transport)?.short ?? transport;
-    return relaySession(bundle.session, addons.getChannel(), { sessionId: bundle.sessionId, transport: label, threadId: bundle.threadId });
-  }, [bundle, transport]);
 
   const snap = useSession(bundle.session);
-
-  // Every validation report of the current run, so a contract error the agent
-  // caught and repaired stays visible after the final, clean report replaces it.
-  const [reports, setReports] = useState(/** @type {any[]} */ ([]));
-  useEffect(() => {
-    if (snap.validation) setReports((r) => (r.includes(snap.validation) ? r : [...r, snap.validation]));
-  }, [snap.validation]);
 
   // Theme: the toolbar is what the canvas shows. The agent reads it from shared
   // state (seeded before each run) and, when it changes the theme itself
   // ("make it dark"), the change is pushed back to the toolbar.
-  const agentTheme = useRef(/** @type {{ mode: string, density: string } | null} */ (null));
-  useEffect(() => {
-    agentTheme.current = null;
-  }, [bundle]);
   useEffect(() => {
     const next = { mode: snap.theme.mode, density: snap.theme.density };
-    const last = agentTheme.current;
-    agentTheme.current = next;
+    const last = bundle.agentTheme;
+    bundle.agentTheme = next;
     if (!last) return;
     /** @type {{ harborMode?: string, harborDensity?: string }} */
     const patch = {};
     if (next.mode !== last.mode) patch.harborMode = next.mode;
     if (next.density !== last.density) patch.harborDensity = next.density;
     if (Object.keys(patch).length) onThemeChange?.(patch);
-  }, [snap.theme.mode, snap.theme.density]);
+  }, [bundle, snap.theme.mode, snap.theme.density]);
 
   const generate = useCallback(
     async (/** @type {string} */ value) => {
       const p = value.trim();
       if (!p || bundle.session.snapshot.running) return;
-      lastPrompt.current = p;
-      setReports([]);
+      bundle.lastPrompt = p;
+      bundle.reports = [];
       const { agent } = bundle;
       agent.setState({ ...(agent.state ?? {}), theme: { ...(agent.state?.theme ?? {}), ...view } });
-      agentTheme.current = { ...view };
+      bundle.agentTheme = { ...view };
       if (p !== prompt) onArgsChange?.({ prompt: p });
       await bundle.session.send(p, { mode, simulateMistake: plantMistake, delayMs });
     },
     [bundle, mode, plantMistake, delayMs, prompt, view.mode, view.density],
   );
 
-  const autoRan = useRef(false);
   useEffect(() => {
-    if (autoRun && !autoRan.current && prompt.trim()) {
-      autoRan.current = true;
+    if (autoRun && !bundle.autoRan && prompt.trim()) {
+      bundle.autoRan = true;
       void generate(prompt);
     }
-  }, [autoRun, generate]);
+  }, [autoRun, bundle, generate]);
 
+  const reports = bundle.reports;
   const review = snap.interrupt && bundle.session.isReview(snap.interrupt) ? snap.interrupt : null;
   const tree = snap.tree;
   const [hovered, setHovered] = useState(/** @type {string | null} */ (null));
@@ -220,14 +264,14 @@ export function Generator({
             onApprove={() => bundle.session.resume({ approved: true })}
             onRequestChanges={(notes) => {
               void bundle.session.resume({ approved: false, notes });
-              if (notes) setText(`${lastPrompt.current}. ${notes}`);
+              if (notes) setText(`${bundle.lastPrompt}. ${notes}`);
             }}
           />
         ) : null}
 
         <Findings reports={reports} onHover={setHovered} />
 
-        {saves.length ? <SavedStory entry={saves.at(-1)} prompt={lastPrompt.current} /> : null}
+        {saves.length ? <SavedStory entry={saves.at(-1)} prompt={bundle.lastPrompt} /> : null}
 
         <Conversation messages={snap.messages} />
 
@@ -235,7 +279,7 @@ export function Generator({
           <span>
             thread <code>{bundle.threadId}</code>
           </span>
-          <button type="button" className="agui-link" onClick={() => setThread((n) => n + 1)} disabled={snap.running}>
+          <button type="button" className="agui-link" onClick={newThread} disabled={snap.running}>
             New thread
           </button>
         </footer>
