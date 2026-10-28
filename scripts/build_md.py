@@ -1304,8 +1304,7 @@ def ai_content():
                 {"type": "configs", "items": configs},
                 {
                     "type": "prose",
-                    "text": "Expect the tool list to change as the report is maintained. This is a way to "
-                    "read the study, not a versioned API.",
+                    "text": "Tools evolve and methods to connect the MCP may differ from above.",
                 },
             ],
         },
