@@ -354,7 +354,10 @@ h3 { font-family: var(--font-display); font-size: 16px; font-weight: 650; letter
    table, not to the cell, so it stays behind while a sticky row or column slides
    away from it. Each edge is declared in one direction only (rows carry
    border-bottom, the frozen column carries border-right), so nothing doubles. */
-.scroller { position: relative; overflow-x: auto; }
+/* overflow-y is stated because overflow-x: auto alone computes it to auto too:
+   a pixel of rounding in a phone's row heights would make the scroller draggable
+   vertically, and the rows would slide under the header. */
+.scroller { position: relative; overflow-x: auto; overflow-y: hidden; }
 .scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 table.mx { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 12px; }
 table.mx th, table.mx td { padding: 8px 6px; text-align: center; }
@@ -363,9 +366,11 @@ table.mx th, table.mx td { padding: 8px 6px; text-align: center; }
 table.mx td { white-space: nowrap; }
 /* The header is a line of labels over a rule, not a slab. --bg is a paint job,
    not a fill: the row is sticky and has to be opaque, so it paints the page's own
-   ground and the rule underneath is the only mark it makes. */
+   ground and the rule underneath is the only mark it makes. The stickiness itself
+   is in the 1060px query below, the only width where the header has anything to
+   stick to. */
 table.mx thead th {
-  background: var(--bg); position: sticky; top: 0; z-index: 3;
+  background: var(--bg); z-index: 3;
   white-space: normal; line-height: 1.15; vertical-align: bottom;
   padding-bottom: 10px; color: var(--ink-2); font-weight: 600;
   border-bottom: 1px solid var(--line-strong);
@@ -556,9 +561,16 @@ table.mx tr.mx-group th .gn {
 }
 .mxwrap[data-at-end="false"] .fade { opacity: 1; }
 /* The table fits the content column here, so the scroller stops being a scroll
-   context and the sticky header finally resolves against the viewport. */
+   context and the sticky header finally resolves against the viewport.
+   Narrower, the header stays static. Inside the scroller, top: 0 resolved
+   against a box that never scrolls vertically, so it pinned nothing, but it made
+   the corner cell sticky on both axes inside a sticky row inside a horizontal
+   scroller. Mobile compositors get that combination wrong: in an Android
+   in-app browser the frozen name column drifted about two rows up from the marks
+   it labels. */
 @media (min-width: 1060px) {
   .scroller { overflow: visible; }
+  table.mx thead th { position: sticky; top: 0; }
   .mxwrap .fade { display: none; }
 }
 /* The key reads as one line of specimens rather than four floating pairs: each
