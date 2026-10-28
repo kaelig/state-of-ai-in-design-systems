@@ -611,12 +611,13 @@ const aiHtml = read('ai.html');
 if (!aiHtml.includes('Use this report with AI tools'))
   die('/ai.html is missing its h1');
 if (!aiHtml.includes('data-copy=')) die('/ai.html has no copy buttons');
-// The install configs become a tab strip in the browser and stay six stacked
+// The install configs become a tab strip in the browser and stay stacked
 // sections in this file, which is the copy every crawler and every reader
 // without JS gets. Nothing else checks that: dashboard/ is out of eslint,
 // prettier and the dead-code pass, so an enhancement that started hiding panels
-// server-side would ship five missing configs quietly. Count against the
-// payload, never against a typed 6 — the client list is data and grows.
+// server-side would ship every config but the first missing, quietly. Count
+// against the payload, never against a typed number — the client list is data
+// and grows.
 // Scoped to the rendered view, not to the file: every page carries the whole
 // app script inline, and the source of the branch that emits these panels is a
 // template literal that reads as one more panel to a substring count.
@@ -631,7 +632,7 @@ if (!aiView.includes('<div class="configs" data-configs>'))
 if (!aiView.includes('data-copy='))
   die('/ai.html renders no copy buttons in its view body');
 // Count whole opening tags, not the `id=` prefix: inserting hidden after the id
-// left the prefix count at six, which is exactly the server-side hiding this is
+// left the prefix count unchanged, which is exactly the server-side hiding this is
 // meant to catch. A new attribute here should fail and be re-approved, not pass.
 const nConfigPanels = [
   ...aiView.matchAll(
