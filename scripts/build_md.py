@@ -1104,6 +1104,7 @@ def ai_content():
     )
     # claude-desktop leads: it is the client the designers this page is written
     # for actually have, and the tab strip opens on whatever comes first here.
+    # The other chat apps follow it, ahead of the coding tools, for the same reason.
     configs = [
         {
             "id": "claude-desktop",
@@ -1111,6 +1112,24 @@ def ai_content():
             "lang": "text",
             "note": "No config file and no link to click. In the desktop app or on claude.ai:",
             "code": f"Customize → Connectors → Add custom connector → paste {MCP_URL} → Add",
+        },
+        {
+            "id": "chatgpt",
+            "label": "ChatGPT",
+            "lang": "text",
+            "note": "No config file and no link to click. The web and the desktop app take different "
+            "paths:",
+            "code": f"Web: Plugins → + → Add custom MCP server → paste {MCP_URL} → No authentication "
+            f"→ Create as a plugin\n"
+            f"Desktop: Settings → MCP servers → Add server → Streamable HTTP → paste {MCP_URL} → "
+            f"Save → Restart",
+        },
+        {
+            "id": "gemini",
+            "label": "Gemini",
+            "lang": "text",
+            "note": "No config file and no link to click. On the web:",
+            "code": f"Settings → Connected Apps → Add a custom app → paste {MCP_URL}",
         },
         {
             "id": "claude-code",
@@ -1283,21 +1302,6 @@ def ai_content():
                     f"site. Pick your client:",
                 },
                 {"type": "configs", "items": configs},
-                {
-                    "type": "prose",
-                    "text": "ChatGPT, on the web: Plugins → + → Add custom MCP server → paste the "
-                    "endpoint → No authentication → Create as a plugin.",
-                },
-                {
-                    "type": "prose",
-                    "text": f"ChatGPT, in the desktop app: Settings → MCP servers → Add server → name it "
-                    f"{MCP_NAME} → Streamable HTTP → paste the endpoint → Save → Restart.",
-                },
-                {
-                    "type": "prose",
-                    "text": "Gemini, on the web: Settings → Connected Apps → Add a custom app → paste "
-                    "the endpoint.",
-                },
                 {
                     "type": "prose",
                     "text": "Expect the tool list to change as the report is maintained. This is a way to "
