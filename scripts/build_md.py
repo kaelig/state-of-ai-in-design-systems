@@ -1109,9 +1109,7 @@ def ai_content():
             "id": "claude-desktop",
             "label": "Claude Desktop and claude.ai",
             "lang": "text",
-            "note": "No config file and no link to click. The same path in the desktop app and on "
-            "claude.ai. On a Team or Enterprise plan an Owner adds it first, under Organization "
-            "settings → Connectors, and you connect it from Customize → Connectors.",
+            "note": "No config file and no link to click. In the desktop app or on claude.ai:",
             "code": f"Customize → Connectors → Add custom connector → paste {MCP_URL} → Add",
         },
         {
@@ -1125,8 +1123,8 @@ def ai_content():
             "id": "codex",
             "label": "Codex",
             "lang": "bash",
-            "note": "Comes with every ChatGPT plan, Free and Plus included. The CLI, the IDE "
-            "extension and the ChatGPT desktop app share one config, so this covers all three.",
+            "note": "Covers the CLI, the IDE extension and the ChatGPT desktop app, which share "
+            "one config.",
             "code": f"codex mcp add {MCP_NAME} --url {MCP_URL}",
         },
         {
@@ -1287,26 +1285,13 @@ def ai_content():
                 {"type": "configs", "items": configs},
                 {
                     "type": "prose",
-                    "text": "ChatGPT connects too, but your plan decides whether it can. It has to be "
-                    "the web app, on Pro or on a Business, Enterprise or Edu workspace. Pro gets "
-                    "read-only tools, which is all this server has. On Business only an admin or "
-                    "owner can add a server, and on Enterprise and Edu an admin has to give you the "
-                    "permission first. Plus and Free can’t add one. If yours can, open Plugins, "
-                    "click +, choose Add custom MCP server, paste the address, set authentication to "
-                    "No authentication, and create it as a plugin. You no longer need developer "
-                    "mode for this.",
+                    "text": "ChatGPT, on the web: Plugins → + → Add custom MCP server → paste the "
+                    "endpoint → No authentication → Create as a plugin.",
                 },
                 {
                     "type": "prose",
-                    "text": "On any ChatGPT plan, Codex takes the server in one command; it has a tab "
-                    "above. Step 1 works in ChatGPT as it is, and every page on this site carries an "
-                    "open-in-ChatGPT link.",
-                },
-                {
-                    "type": "prose",
-                    "text": "Gemini’s web app can add one as well, under Settings → Connected Apps → "
-                    "Add a custom app, if you sign in with a personal Google account, are in the US, "
-                    "use it in English and have Keep Activity on. Work and school accounts can’t.",
+                    "text": "Gemini, on the web: Settings → Connected Apps → Add a custom app → paste "
+                    "the endpoint.",
                 },
                 {
                     "type": "prose",
