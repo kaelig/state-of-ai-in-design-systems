@@ -10,6 +10,7 @@ import {
   readdirSync,
   rmSync,
 } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -963,6 +964,22 @@ if (!existsSync(join(OUT, ogCard)))
       'Run scripts/build_og.mjs before build_dashboard.py --final.',
   );
 
+// data.js is addressed by the hash of its bytes too, against browser caches
+// rather than social ones: at a fixed URL a fresh page could load the payload
+// cached from the deploy before it, and route() redraws every view from that.
+// Every page has to ask for the file that is on disk.
+const dataVersion = createHash('sha256')
+  .update(readFileSync(join(OUT, 'data.js')))
+  .digest('hex')
+  .slice(0, 12);
+const dataScript = `<script src="/data.js?v=${dataVersion}"></script>`;
+for (const f of allHtml(OUT))
+  if (
+    !f.endsWith('artifact.html') &&
+    !readFileSync(f, 'utf8').includes(dataScript)
+  )
+    die(`${f} does not load ${dataScript}`);
+
 console.log(`prerendered ${written.length} files`);
 console.log(`  nav: ${navItems.length} items (${navItems.join(', ')})`);
 console.log(`  webmcp tools registered and executed: ${names.join(', ')}`);
@@ -983,3 +1000,4 @@ console.log(
     : '  stale sweep: nothing to remove',
 );
 console.log(`  og:image: ${ogCard}, present in dashboard/`);
+console.log(`  data.js: ?v=${dataVersion}, matched by every page`);

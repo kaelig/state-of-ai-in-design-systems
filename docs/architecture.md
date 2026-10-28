@@ -32,7 +32,11 @@ miss.
 ## The payload is external
 
 `dashboard/data.js` sets `window.DATA`, so 27 prerendered pages share one copy
-of the records instead of inlining roughly 700KB each. `artifact.html` keeps the
+of the records instead of inlining roughly 700KB each. Pages load it as
+`/data.js?v=<hash of its bytes>`, because the browser views are redrawn from it:
+at a fixed URL, a page from one deploy could pick up the payload cached from the
+deploy before and show its content. `prerender.mjs` fails the build if any page
+names a version that is not the file on disk. `artifact.html` keeps the
 payload inline, because being a single file is the point of that variant.
 
 ## Markdown twins, compiled
