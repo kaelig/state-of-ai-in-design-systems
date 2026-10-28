@@ -1290,6 +1290,11 @@ def ai_content():
                 },
                 {
                     "type": "prose",
+                    "text": f"ChatGPT, in the desktop app: Settings → MCP servers → Add server → name it "
+                    f"{MCP_NAME} → Streamable HTTP → paste the endpoint → Save → Restart.",
+                },
+                {
+                    "type": "prose",
                     "text": "Gemini, on the web: Settings → Connected Apps → Add a custom app → paste "
                     "the endpoint.",
                 },
