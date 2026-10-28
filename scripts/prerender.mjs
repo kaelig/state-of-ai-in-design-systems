@@ -10,6 +10,7 @@ import {
   readdirSync,
   rmSync,
 } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -611,12 +612,13 @@ const aiHtml = read('ai.html');
 if (!aiHtml.includes('Use this report with AI tools'))
   die('/ai.html is missing its h1');
 if (!aiHtml.includes('data-copy=')) die('/ai.html has no copy buttons');
-// The install configs become a tab strip in the browser and stay six stacked
+// The install configs become a tab strip in the browser and stay stacked
 // sections in this file, which is the copy every crawler and every reader
 // without JS gets. Nothing else checks that: dashboard/ is out of eslint,
 // prettier and the dead-code pass, so an enhancement that started hiding panels
-// server-side would ship five missing configs quietly. Count against the
-// payload, never against a typed 6 — the client list is data and grows.
+// server-side would ship every config but the first missing, quietly. Count
+// against the payload, never against a typed number — the client list is data
+// and grows.
 // Scoped to the rendered view, not to the file: every page carries the whole
 // app script inline, and the source of the branch that emits these panels is a
 // template literal that reads as one more panel to a substring count.
@@ -631,7 +633,7 @@ if (!aiView.includes('<div class="configs" data-configs>'))
 if (!aiView.includes('data-copy='))
   die('/ai.html renders no copy buttons in its view body');
 // Count whole opening tags, not the `id=` prefix: inserting hidden after the id
-// left the prefix count at six, which is exactly the server-side hiding this is
+// left the prefix count unchanged, which is exactly the server-side hiding this is
 // meant to catch. A new attribute here should fail and be re-approved, not pass.
 const nConfigPanels = [
   ...aiView.matchAll(
@@ -962,6 +964,22 @@ if (!existsSync(join(OUT, ogCard)))
       'Run scripts/build_og.mjs before build_dashboard.py --final.',
   );
 
+// data.js is addressed by the hash of its bytes too, against browser caches
+// rather than social ones: at a fixed URL a fresh page could load the payload
+// cached from the deploy before it, and route() redraws every view from that.
+// Every page has to ask for the file that is on disk.
+const dataVersion = createHash('sha256')
+  .update(readFileSync(join(OUT, 'data.js')))
+  .digest('hex')
+  .slice(0, 12);
+const dataScript = `<script src="/data.js?v=${dataVersion}"></script>`;
+for (const f of allHtml(OUT))
+  if (
+    !f.endsWith('artifact.html') &&
+    !readFileSync(f, 'utf8').includes(dataScript)
+  )
+    die(`${f} does not load ${dataScript}`);
+
 console.log(`prerendered ${written.length} files`);
 console.log(`  nav: ${navItems.length} items (${navItems.join(', ')})`);
 console.log(`  webmcp tools registered and executed: ${names.join(', ')}`);
@@ -982,3 +1000,4 @@ console.log(
     : '  stale sweep: nothing to remove',
 );
 console.log(`  og:image: ${ogCard}, present in dashboard/`);
+console.log(`  data.js: ?v=${dataVersion}, matched by every page`);

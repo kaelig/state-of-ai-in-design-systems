@@ -1034,18 +1034,21 @@ table.mx tr.mx-group th .gn {
 .ai-links li:last-child { border-bottom: 1px solid var(--line); }
 .ai-links a { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 .ai-links .note { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
-/* The one tab strip on the site: /ai's six client install configs, one at a
+/* The one tab strip on the site: /ai's client install configs, one at a
    time. The strip ships empty and setupConfigTabs() fills it after render, so
-   :empty is the no-JS state — nothing drawn, all six panels stacked under their
-   own h3s. A control, not a chip: the 3px instrument chamfer and the
+   :empty is the no-JS state — nothing drawn, every panel stacked under its
+   own h3. A control, not a chip: the 3px instrument chamfer and the
    --control-line edge that clears 3:1 on every ground, never the 999px pill
    this site keeps for metadata. min-height 44px meets the tap floor outright,
    which is also what frees ::after to draw the selected marker.
    The marker is an edge rule in --accent along the bottom, the same grammar as
    the current nav item's right rule and the correction callout's left one — not
-   a fill, and not a shadow. Nothing here transitions. */
+   a fill, and not a shadow. Nothing here transitions.
+   Above the phone breakpoint the strip wraps. Beside the 224px rail the client
+   names outgrow the column until about 1280px, and a strip that neither wrapped
+   nor scrolled pushed the whole page sideways. */
 .tabwrap { position: relative; }
-.tabstrip { display: flex; gap: 4px; margin: 16px 0 8px; }
+.tabstrip { display: flex; flex-wrap: wrap; gap: 4px; margin: 16px 0 8px; }
 .tabstrip:empty { display: none; }
 .tabstrip [role="tab"] {
   font: inherit; font-family: var(--font-display); font-size: 13px; font-weight: 600;
@@ -1154,7 +1157,7 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
   .twocol { grid-template-columns: 1fr; }
   .cta-pair { grid-template-columns: 1fr; }
   .jump li a { padding: 9px 10px; }
-  /* Six client names do not fit one phone-width row, and a strip that wrapped
+  /* The client names do not fit one phone-width row, and a strip that wrapped
      would put a second row of 44px controls under the first — so it stays one
      row and scrolls, exactly the way the flattened rail's nav does. Same
      treatment throughout: bleed past the 16px gutters so a tab can scroll to
@@ -1227,9 +1230,9 @@ kbd.badge { font-family: var(--mono); font-size: 11px; background: var(--bg-sunk
      every external href as visible text — so leaving the wrapper would put two
      paragraphs of URL at the top of all 27 pages. */
   .rail, .theme-toggle, .skip, .md-dl, .pageacts, .tabstrip { display: none; }
-  /* A row of six tab buttons controls nothing on paper, so it goes; but five of
-     the six configs are hidden behind it, and a printed page missing five
-     install snippets is missing content. Put every panel back, each under the
+  /* A row of tab buttons controls nothing on paper, so it goes; but it hides
+     every config except the first, and a printed page missing those install
+     snippets is missing content. Put every panel back, each under the
      heading the strip was standing in for. */
   .configs .config[hidden] { display: block; }
   .configs[data-tabs="on"] .config > h3 { display: block; }
@@ -2193,9 +2196,9 @@ const VIEWS = {
          emitted, now each in a box of its own with an id and its label repeated
          as data. setupConfigTabs() reads those two and builds a tab strip into
          the empty .tabstrip below; without it the strip stays empty (and
-         :empty-hidden) and all six configs render stacked under their own h3s,
+         :empty-hidden) and every config renders stacked under its own h3,
          which is what the prerendered file — the one every crawler reads — says.
-         The markdown twin has no tabs and renders the same six as h3 sections;
+         The markdown twin has no tabs and renders the same configs as h3 sections;
          that is scripts/build_md.py's business and stays byte-identical. */
       if (b.type === 'configs') return `<div class="configs" data-configs>
         <div class="tabwrap"><div class="tabstrip"></div></div>
@@ -2346,15 +2349,15 @@ function setupMatrixFades() {
 /* The /ai page's install configs, one client at a time behind a tab strip. The
    panels ship stacked and visible; everything here is added after render, so a
    reader with no JS — and every crawler, which reads the prerendered file —
-   still gets all six with their own headings, notes and code.
+   still gets every one with its own heading, note and code.
 
    Called from route(), not once at boot: route() reassigns #view-root.innerHTML
    on every navigation, so a strip wired at boot is thrown away the second time
    somebody arrives at /ai. Called after pruneSnippetTabStops() for the same
    reason the capture-phase `toggle` listener above re-runs it: that prune skips
    any pre whose clientWidth is 0, which is exactly what a hidden panel holds, so
-   hiding first would strand tabindex="0" and role="group" on five of six
-   snippets forever.
+   hiding first would strand tabindex="0" and role="group" on every snippet but
+   the first, forever.
 
    Activation is automatic — an arrow key moves focus and swaps the panel in one
    step — because the panels are prerendered text with nothing to load. No

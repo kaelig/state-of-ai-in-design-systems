@@ -7,6 +7,7 @@ variant loads (data.js), sitemap.xml, robots.txt, and two build intermediates
 consumed by scripts/prerender.mjs (build/payload.json, build/routes.json).
 """
 
+import hashlib
 import json
 import os
 import re
@@ -36,7 +37,7 @@ HEAD_START = "<!-- netlify-head:start -->"
 HEAD_END = "<!-- netlify-head:end -->"
 
 DATA_SCRIPT = '<script id="ds-data" type="application/json">__DATA__</script>'
-EXTERNAL_DATA_SCRIPT = '<script src="/data.js"></script>'
+EXTERNAL_DATA_SCRIPT = '<script src="/data.js?v={}"></script>'
 
 # One entry per top-level view: view name -> (path, title, description).
 # Adding a view to the site means adding a line here and nothing else: the route
@@ -729,13 +730,20 @@ def main():
 
     # Site variant: the payload lives in a shared /data.js, so the 26 prerendered
     # pages stay small and agents reading the HTML don't wade through 700KB of JSON.
-    site = template.replace(DATA_SCRIPT, EXTERNAL_DATA_SCRIPT).replace("__ROUTING__", "path")
-    site_path = OUT / "index.html"
-    site_path.write_text(site, encoding="utf-8")
-
+    # Its URL carries the hash of its bytes. Pages and payload both cache for an
+    # hour, and route() redraws every view from the payload, so at a fixed URL a
+    # browser could pair a fresh page with the payload of the deploy before it and
+    # show the old content under the new markup. prerender.mjs checks the match.
     data_js = "window.DATA=" + blob + ";\n"
     data_path = OUT / "data.js"
     data_path.write_text(data_js, encoding="utf-8")
+    data_version = hashlib.sha256(data_js.encode("utf-8")).hexdigest()[:12]
+
+    site = template.replace(DATA_SCRIPT, EXTERNAL_DATA_SCRIPT.format(data_version)).replace(
+        "__ROUTING__", "path"
+    )
+    site_path = OUT / "index.html"
+    site_path.write_text(site, encoding="utf-8")
 
     # Artifact variant: single file, payload stays inline.
     artifact = strip_artifact_wrapper(

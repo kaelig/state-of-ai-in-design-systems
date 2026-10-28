@@ -1104,13 +1104,32 @@ def ai_content():
     )
     # claude-desktop leads: it is the client the designers this page is written
     # for actually have, and the tab strip opens on whatever comes first here.
+    # The other chat apps follow it, ahead of the coding tools, for the same reason.
     configs = [
         {
             "id": "claude-desktop",
             "label": "Claude Desktop and claude.ai",
             "lang": "text",
-            "note": "No config file and no link to click. Four steps in the settings window:",
-            "code": f"Settings → Connectors → Add custom connector → paste {MCP_URL}",
+            "note": "No config file and no link to click. In the desktop app or on claude.ai:",
+            "code": f"Customize → Connectors → Add custom connector → paste {MCP_URL} → Add",
+        },
+        {
+            "id": "chatgpt",
+            "label": "ChatGPT",
+            "lang": "text",
+            "note": "No config file and no link to click. The web and the desktop app take different "
+            "paths:",
+            "code": f"Web: Plugins → + → Add custom MCP server → paste {MCP_URL} → No authentication "
+            f"→ Create as a plugin\n"
+            f"Desktop: Settings → MCP servers → Add server → Streamable HTTP → paste {MCP_URL} → "
+            f"Save → Restart",
+        },
+        {
+            "id": "gemini",
+            "label": "Gemini",
+            "lang": "text",
+            "note": "No config file and no link to click. On the web:",
+            "code": f"Settings → Connected Apps → Add a custom app → paste {MCP_URL}",
         },
         {
             "id": "claude-code",
@@ -1118,6 +1137,14 @@ def ai_content():
             "lang": "bash",
             "note": "Installs it for every project on this machine.",
             "code": f"claude mcp add --transport http --scope user {MCP_NAME} {MCP_URL}",
+        },
+        {
+            "id": "codex",
+            "label": "Codex",
+            "lang": "bash",
+            "note": "Covers the CLI, the IDE extension and the ChatGPT desktop app, which share "
+            "one config.",
+            "code": f"codex mcp add {MCP_NAME} --url {MCP_URL}",
         },
         {
             "id": "cursor",
@@ -1277,15 +1304,7 @@ def ai_content():
                 {"type": "configs", "items": configs},
                 {
                     "type": "prose",
-                    "text": "ChatGPT is the exception. It can reach an MCP server, but only in developer "
-                    "mode on a paid plan, and on a business account only after an admin allows it. "
-                    "Step 1 works there today, and every page on this site carries an "
-                    "open-in-ChatGPT link.",
-                },
-                {
-                    "type": "prose",
-                    "text": "Expect the tool list to change as the report is maintained. This is a way to "
-                    "read the study, not a versioned API.",
+                    "text": "Tools evolve and methods to connect the MCP may differ from above.",
                 },
             ],
         },
